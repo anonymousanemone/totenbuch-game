@@ -1,0 +1,295 @@
+{
+ "width": 4509,
+ "height": 2994,
+ "scale": 1.8,
+ "sprites": {
+  "avatar": {
+   "x": 1057,
+   "y": 1445,
+   "w": 163,
+   "h": 350
+  },
+  "plough": {
+   "x": 3615,
+   "y": 1420,
+   "w": 550,
+   "h": 377
+  },
+  "seed": {
+   "x": 3315,
+   "y": 1468,
+   "w": 127,
+   "h": 326
+  },
+  "sower": {
+   "x": 3442,
+   "y": 1445,
+   "w": 121,
+   "h": 350
+  },
+  "reaper1": {
+   "x": 2672,
+   "y": 1462,
+   "w": 216,
+   "h": 330
+  },
+  "reaper2": {
+   "x": 2905,
+   "y": 1462,
+   "w": 229,
+   "h": 331
+  },
+  "grain": {
+   "x": 2598,
+   "y": 1225,
+   "w": 477,
+   "h": 567
+  },
+  "thresher": {
+   "x": 1915,
+   "y": 1303,
+   "w": 683,
+   "h": 444
+  },
+  "heap1": {
+   "x": 1280,
+   "y": 1657,
+   "w": 302,
+   "h": 135
+  },
+  "heap2": {
+   "x": 1600,
+   "y": 1677,
+   "w": 258,
+   "h": 114
+  },
+  "food": {
+   "x": 3322,
+   "y": 775,
+   "w": 160,
+   "h": 153
+  },
+  "boat": {
+   "x": 2075,
+   "y": 680,
+   "w": 978,
+   "h": 386
+  },
+  "boat_stairs": {
+   "x": 643,
+   "y": 2210,
+   "w": 771,
+   "h": 218
+  },
+  "boat_oars": {
+   "x": 1515,
+   "y": 2149,
+   "w": 1124,
+   "h": 329
+  }
+ },
+ "hotspots": [
+  {
+   "x": 725,
+   "y": 645,
+   "w": 130,
+   "h": 421,
+   "region": "top",
+   "label": "Mummiform god",
+   "note": "A god wrapped like a mummy stands at the far end of the field."
+  },
+  {
+   "x": 942,
+   "y": 755,
+   "w": 170,
+   "h": 311,
+   "region": "top",
+   "label": "Offering stand",
+   "note": "A stand heaped with offerings."
+  },
+  {
+   "x": 1208,
+   "y": 668,
+   "w": 210,
+   "h": 398,
+   "region": "top",
+   "label": "Falcon on a pedestal",
+   "note": "A falcon on a pedestal."
+  },
+  {
+   "x": 1512,
+   "y": 718,
+   "w": 240,
+   "h": 348,
+   "region": "top",
+   "label": "Ba",
+   "note": "The human-headed bird: the deceased's ba, free to come and go."
+  },
+  {
+   "x": 1952,
+   "y": 738,
+   "w": 123,
+   "h": 328,
+   "region": "top",
+   "label": "Deceased with a cup",
+   "note": "The deceased holds out a cup."
+  },
+  {
+   "x": 2182,
+   "y": 462,
+   "w": 436,
+   "h": 136,
+   "region": "top",
+   "label": "Three loaves",
+   "note": "Three round loaves hang above the boat."
+  },
+  {
+   "x": 2998,
+   "y": 708,
+   "w": 294,
+   "h": 358,
+   "region": "top",
+   "label": "Gods of the Field",
+   "note": "Three gods sit side by side, waiting to be fed."
+  },
+  {
+   "x": 3312,
+   "y": 768,
+   "w": 176,
+   "h": 298,
+   "region": "top",
+   "label": "Offering table",
+   "note": "The gods' offering table."
+  },
+  {
+   "x": 3442,
+   "y": 712,
+   "w": 206,
+   "h": 354,
+   "region": "top",
+   "label": "Offerer",
+   "note": "The deceased offers before the gods."
+  },
+  {
+   "x": 3650,
+   "y": 712,
+   "w": 508,
+   "h": 354,
+   "region": "top",
+   "label": "Procession",
+   "note": "The deceased and companions arrive in the field."
+  },
+  {
+   "x": 352,
+   "y": 1380,
+   "w": 210,
+   "h": 417,
+   "region": "middle",
+   "label": "Hetep",
+   "note": "Hetep, lord of the Field of Offerings, sits on his throne."
+  },
+  {
+   "x": 562,
+   "y": 1528,
+   "w": 88,
+   "h": 269,
+   "region": "middle",
+   "label": "Offering stand",
+   "note": "A stand heaped with bread before Hetep."
+  },
+  {
+   "x": 650,
+   "y": 1455,
+   "w": 142,
+   "h": 342,
+   "region": "middle",
+   "label": "Adorer",
+   "note": "A man raises his hands to Hetep."
+  },
+  {
+   "x": 792,
+   "y": 1572,
+   "w": 126,
+   "h": 225,
+   "region": "middle",
+   "label": "Kneeling figure",
+   "note": "A figure kneels on the ground."
+  },
+  {
+   "x": 872,
+   "y": 1362,
+   "w": 176,
+   "h": 168,
+   "region": "middle",
+   "label": "Heron",
+   "note": "A heron on a stand."
+  },
+  {
+   "x": 3148,
+   "y": 1340,
+   "w": 164,
+   "h": 457,
+   "region": "middle",
+   "label": "Tree",
+   "note": "A tree in the field."
+  },
+  {
+   "x": 362,
+   "y": 2252,
+   "w": 246,
+   "h": 356,
+   "region": "bottom",
+   "label": "Island with a bird",
+   "note": "An oval island with a bird standing on it, ringed by water."
+  },
+  {
+   "x": 3050,
+   "y": 2330,
+   "w": 400,
+   "h": 276,
+   "region": "bottom",
+   "label": "Island of the gods",
+   "note": "Three small gods sit on an island in the channels."
+  },
+  {
+   "x": 3600,
+   "y": 2480,
+   "w": 160,
+   "h": 126,
+   "region": "bottom",
+   "label": "The landing stairs",
+   "note": "Stairs rise out of the water at the end of the field."
+  }
+ ],
+ "walls": {
+  "boat": 3060,
+  "channel": 2900
+ },
+ "plates": {},
+ "registers": {
+  "top": {
+   "y0": 430,
+   "y1": 1100,
+   "ground": 1066,
+   "x0": 380,
+   "x1": 4140,
+   "door": 4100
+  },
+  "middle": {
+   "y0": 1200,
+   "y1": 1830,
+   "ground": 1797,
+   "x0": 380,
+   "x1": 4140,
+   "door": 4100
+  },
+  "bottom": {
+   "y0": 1935,
+   "y1": 2640,
+   "ground": 2606,
+   "x0": 380,
+   "x1": 4140,
+   "door": 430
+  }
+ }
+}

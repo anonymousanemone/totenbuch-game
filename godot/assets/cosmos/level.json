@@ -1,0 +1,449 @@
+{
+ "width": 12100,
+ "height": 806,
+ "view_height": 699,
+ "ground": 524,
+ "scale": 1.5,
+ "plates": {
+  "XI": {
+   "x": 53,
+   "w": 1148
+  },
+  "X": {
+   "x": 1266,
+   "w": 2640
+  },
+  "IX": {
+   "x": 3888,
+   "w": 2696
+  },
+  "VIII": {
+   "x": 6586,
+   "w": 2756
+  },
+  "VII": {
+   "x": 9336,
+   "w": 2574
+  }
+ },
+ "sprites": {
+  "horizon": {
+   "x": 9268,
+   "y": 290,
+   "w": 179,
+   "h": 108
+  },
+  "lion_l": {
+   "x": 9140,
+   "y": 310,
+   "w": 204,
+   "h": 218
+  },
+  "lion_r": {
+   "x": 9372,
+   "y": 306,
+   "w": 196,
+   "h": 222
+  },
+  "sun": {
+   "x": 2228,
+   "y": 198,
+   "w": 108,
+   "h": 64
+  },
+  "ba": {
+   "x": 8145,
+   "y": 338,
+   "w": 195,
+   "h": 190
+  },
+  "cat": {
+   "x": 5005,
+   "y": 353,
+   "w": 157,
+   "h": 175
+  },
+  "snake": {
+   "x": 4905,
+   "y": 457,
+   "w": 100,
+   "h": 70
+  },
+  "baboons": {
+   "x": 1715,
+   "y": 284,
+   "w": 285,
+   "h": 244
+  },
+  "deceased": {
+   "x": 11775,
+   "y": 236,
+   "w": 145,
+   "h": 292
+  }
+ },
+ "slots": {
+  "ra_head": {
+   "x": 2222,
+   "y": 195,
+   "w": 118,
+   "h": 71
+  },
+  "bier": {
+   "x": 8145,
+   "y": 330,
+   "w": 195,
+   "h": 194
+  }
+ },
+ "walls": {
+  "horizon": 9130,
+  "snake": 4895,
+  "boat": 1980
+ },
+ "start_x": 11780,
+ "hotspots": [
+  {
+   "x": 11470,
+   "y": 225,
+   "w": 290,
+   "h": 299,
+   "label": "The booth",
+   "note": "The deceased sits in a booth at a game table, playing senet: the game that decides the passage.",
+   "plate": "VII"
+  },
+  {
+   "x": 11280,
+   "y": 220,
+   "w": 150,
+   "h": 304,
+   "label": "Falcon on a perch",
+   "note": "A falcon on its perch.",
+   "plate": "VII"
+  },
+  {
+   "x": 11040,
+   "y": 255,
+   "w": 220,
+   "h": 269,
+   "label": "Figure with a fan",
+   "note": "A long-haired figure bending forward with a fan of feathers.",
+   "plate": "VII"
+  },
+  {
+   "x": 10720,
+   "y": 230,
+   "w": 310,
+   "h": 294,
+   "label": "Two adorers",
+   "note": "Two figures raise their hands in praise.",
+   "plate": "VII"
+  },
+  {
+   "x": 10080,
+   "y": 190,
+   "w": 630,
+   "h": 334,
+   "label": "Ra's boat",
+   "note": "Ra's boat with a crew of gods holding spears.",
+   "plate": "VII"
+  },
+  {
+   "x": 9580,
+   "y": 190,
+   "w": 500,
+   "h": 334,
+   "label": "Ra's boat",
+   "note": "Ra's boat with a crew of gods holding spears.",
+   "plate": "VII"
+  },
+  {
+   "x": 9140,
+   "y": 290,
+   "w": 440,
+   "h": 234,
+   "label": "The horizon",
+   "note": "Two lions sit back to back with the horizon between them: Aker, yesterday and tomorrow.",
+   "plate": "VII"
+  },
+  {
+   "x": 8960,
+   "y": 360,
+   "w": 180,
+   "h": 164,
+   "label": "Benu heron",
+   "note": "The heron, the bird of renewal.",
+   "plate": "VIII"
+  },
+  {
+   "x": 8825,
+   "y": 310,
+   "w": 135,
+   "h": 214,
+   "label": "Falcon",
+   "note": "A falcon with a crown.",
+   "plate": "VIII"
+  },
+  {
+   "x": 8370,
+   "y": 340,
+   "w": 410,
+   "h": 184,
+   "label": "The mummy on the lion bier",
+   "note": "The mummy lies on a bier shaped like a lion, with vessels beneath it.",
+   "plate": "VIII"
+  },
+  {
+   "x": 7675,
+   "y": 255,
+   "w": 470,
+   "h": 269,
+   "label": "Isis and Nephthys",
+   "note": "Two women kneel facing the bier, mourning.",
+   "plate": "VIII"
+  },
+  {
+   "x": 7430,
+   "y": 185,
+   "w": 135,
+   "h": 339,
+   "label": "Shrine with a snake",
+   "note": "A shrine with a rearing snake and three plumes on top.",
+   "plate": "VIII"
+  },
+  {
+   "x": 7295,
+   "y": 330,
+   "w": 125,
+   "h": 194,
+   "label": "Snake-headed figure",
+   "note": "A figure with a snake's head.",
+   "plate": "VIII"
+  },
+  {
+   "x": 7120,
+   "y": 240,
+   "w": 150,
+   "h": 284,
+   "label": "Wedjat eye on a shrine",
+   "note": "The eye of Horus on a shrine.",
+   "plate": "VIII"
+  },
+  {
+   "x": 6960,
+   "y": 270,
+   "w": 160,
+   "h": 254,
+   "label": "Adorer",
+   "note": "A figure raises an arm.",
+   "plate": "VIII"
+  },
+  {
+   "x": 6670,
+   "y": 195,
+   "w": 265,
+   "h": 329,
+   "label": "Cow on a shrine",
+   "note": "The great cow of the sky lies on a shrine.",
+   "plate": "VIII"
+  },
+  {
+   "x": 6170,
+   "y": 185,
+   "w": 495,
+   "h": 339,
+   "label": "Sons of Horus",
+   "note": "Mummiform figures with human, baboon, jackal and falcon heads around a tall shrine.",
+   "plate": "IX"
+  },
+  {
+   "x": 5975,
+   "y": 195,
+   "w": 185,
+   "h": 329,
+   "label": "Two eyes",
+   "note": "A figure with two eyes above its head.",
+   "plate": "IX"
+  },
+  {
+   "x": 5730,
+   "y": 330,
+   "w": 250,
+   "h": 194,
+   "label": "Offering basins",
+   "note": "Two basins heaped with offerings.",
+   "plate": "IX"
+  },
+  {
+   "x": 5390,
+   "y": 280,
+   "w": 290,
+   "h": 244,
+   "label": "Two seated gods",
+   "note": "Two gods sit on thrones.",
+   "plate": "IX"
+  },
+  {
+   "x": 5270,
+   "y": 380,
+   "w": 100,
+   "h": 144,
+   "label": "Small seated figure",
+   "note": "A small seated figure with a falcon's head.",
+   "plate": "IX"
+  },
+  {
+   "x": 5170,
+   "y": 200,
+   "w": 110,
+   "h": 324,
+   "label": "Persea tree",
+   "note": "The sacred persea tree at Heliopolis.",
+   "plate": "IX"
+  },
+  {
+   "x": 4790,
+   "y": 240,
+   "w": 115,
+   "h": 284,
+   "label": "Falcon on a standard",
+   "note": "A falcon on a standard.",
+   "plate": "IX"
+  },
+  {
+   "x": 4535,
+   "y": 340,
+   "w": 230,
+   "h": 184,
+   "label": "Two crouching figures",
+   "note": "Two lion-headed figures crouch side by side.",
+   "plate": "IX"
+  },
+  {
+   "x": 4340,
+   "y": 300,
+   "w": 165,
+   "h": 224,
+   "label": "Adorer",
+   "note": "The deceased kneels in praise.",
+   "plate": "IX"
+  },
+  {
+   "x": 3690,
+   "y": 220,
+   "w": 650,
+   "h": 304,
+   "label": "Boat of the horned god",
+   "note": "A boat carries a god with tall horns.",
+   "plate": "IX"
+  },
+  {
+   "x": 3400,
+   "y": 300,
+   "w": 290,
+   "h": 224,
+   "label": "Seated baboons",
+   "note": "Two baboons sit facing the boat.",
+   "plate": "X"
+  },
+  {
+   "x": 3160,
+   "y": 190,
+   "w": 220,
+   "h": 334,
+   "label": "Isis and Nephthys",
+   "note": "The two sisters stand with signs on their heads.",
+   "plate": "X"
+  },
+  {
+   "x": 2850,
+   "y": 280,
+   "w": 310,
+   "h": 244,
+   "label": "Baboons",
+   "note": "Two baboons stand with raised hands.",
+   "plate": "X"
+  },
+  {
+   "x": 2030,
+   "y": 195,
+   "w": 670,
+   "h": 329,
+   "label": "Ra's boat of the day",
+   "note": "The sun god sits in his boat.",
+   "plate": "X"
+  },
+  {
+   "x": 1490,
+   "y": 190,
+   "w": 230,
+   "h": 334,
+   "label": "Isis and Nephthys",
+   "note": "The sisters again, raising their hands.",
+   "plate": "X"
+  },
+  {
+   "x": 1255,
+   "y": 180,
+   "w": 205,
+   "h": 344,
+   "label": "Bearer of the chest",
+   "note": "The deceased carries a chest on his head.",
+   "plate": "X"
+  },
+  {
+   "x": 1040,
+   "y": 240,
+   "w": 160,
+   "h": 284,
+   "label": "Anubis",
+   "note": "The jackal-headed god.",
+   "plate": "XI"
+  },
+  {
+   "x": 895,
+   "y": 250,
+   "w": 135,
+   "h": 274,
+   "label": "Adorer",
+   "note": "The deceased raises his hands.",
+   "plate": "XI"
+  },
+  {
+   "x": 780,
+   "y": 260,
+   "w": 100,
+   "h": 264,
+   "label": "Offering stand",
+   "note": "A stand with a vessel and a lotus.",
+   "plate": "XI"
+  },
+  {
+   "x": 560,
+   "y": 190,
+   "w": 200,
+   "h": 334,
+   "label": "Osiris enthroned",
+   "note": "Osiris sits on his throne.",
+   "plate": "XI"
+  },
+  {
+   "x": 240,
+   "y": 250,
+   "w": 320,
+   "h": 274,
+   "label": "The sky over the scarab",
+   "note": "A great goddess bends over a scarab and a lying figure: the sun reborn.",
+   "plate": "XI"
+  },
+  {
+   "x": 50,
+   "y": 280,
+   "w": 190,
+   "h": 244,
+   "label": "Two kneeling women",
+   "note": "Two women kneel with signs on their heads.",
+   "plate": "XI"
+  }
+ ]
+}

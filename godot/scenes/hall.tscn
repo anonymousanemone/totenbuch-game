@@ -1,0 +1,44 @@
+[gd_scene format=3 uid="uid://b7r5ynf03mad5"]
+
+[ext_resource type="Script" uid="uid://bmkawijni3unq" path="res://scripts/hall.gd" id="1_proc"]
+[ext_resource type="Texture2D" uid="uid://blx8r3q3thscf" path="res://assets/hall/strip.png" id="2_strip"]
+[ext_resource type="Script" uid="uid://cfiivvydggr46" path="res://scripts/avatar.gd" id="3_avatar"]
+[ext_resource type="Texture2D" uid="uid://dnwjuqn3lmp1n" path="res://assets/hall/avatar.png" id="4_avatar_tex"]
+[ext_resource type="Script" uid="uid://c8ayee7wdepte" path="res://scripts/hud.gd" id="5_hud"]
+[ext_resource type="Shader" uid="uid://cuel7upwgpsc3" path="res://scripts/papyrus.gdshader" id="6_papyrus"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_papyrus"]
+shader = ExtResource("6_papyrus")
+shader_parameter/base = Color(0.906, 0.839, 0.682, 1)
+shader_parameter/fibre = Color(0.47, 0.35, 0.16, 1)
+
+[node name="Hall" type="Node2D" unique_id=1231196182]
+script = ExtResource("1_proc")
+
+[node name="Papyrus" type="ColorRect" parent="." unique_id=1955156442]
+material = SubResource("ShaderMaterial_papyrus")
+offset_left = -2000.0
+offset_top = -600.0
+offset_right = 9000.0
+offset_bottom = 1000.0
+mouse_filter = 2
+color = Color(0.906, 0.839, 0.682, 1)
+
+[node name="Strip" type="Sprite2D" parent="." unique_id=1299046712]
+texture = ExtResource("2_strip")
+centered = false
+
+[node name="Pieces" type="Node2D" parent="." unique_id=1640515945]
+
+[node name="Overlay" type="Node2D" parent="." unique_id=1641614960]
+
+[node name="Avatar" type="Node2D" parent="." unique_id=607641766]
+script = ExtResource("3_avatar")
+
+[node name="Sprite" type="Sprite2D" parent="Avatar" unique_id=465663833]
+texture = ExtResource("4_avatar_tex")
+
+[node name="Camera" type="Camera2D" parent="." unique_id=161252960]
+
+[node name="HUD" type="CanvasLayer" parent="." unique_id=121244096]
+script = ExtResource("5_hud")

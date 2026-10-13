@@ -1,0 +1,42 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://scripts/dangers.gd" id="1_lvl"]
+[ext_resource type="Texture2D" path="res://assets/dangers/strip.png" id="2_strip"]
+[ext_resource type="Script" path="res://scripts/avatar.gd" id="3_avatar"]
+[ext_resource type="Texture2D" path="res://assets/dangers/avatar.png" id="4_avatar_tex"]
+[ext_resource type="Script" path="res://scripts/hud.gd" id="5_hud"]
+[ext_resource type="Shader" path="res://scripts/papyrus.gdshader" id="6_papyrus"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_papyrus"]
+shader = ExtResource("6_papyrus")
+
+[node name="Dangers" type="Node2D"]
+script = ExtResource("1_lvl")
+
+[node name="Papyrus" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_papyrus")
+offset_left = -2000.0
+offset_top = -600.0
+offset_right = 8800.0
+offset_bottom = 1600.0
+mouse_filter = 2
+color = Color(0.906, 0.839, 0.682, 1)
+
+[node name="Strip" type="Sprite2D" parent="."]
+texture = ExtResource("2_strip")
+centered = false
+
+[node name="Actors" type="Node2D" parent="."]
+
+[node name="Overlay" type="Node2D" parent="."]
+
+[node name="Avatar" type="Node2D" parent="."]
+script = ExtResource("3_avatar")
+
+[node name="Sprite" type="Sprite2D" parent="Avatar"]
+texture = ExtResource("4_avatar_tex")
+
+[node name="Camera" type="Camera2D" parent="."]
+
+[node name="HUD" type="CanvasLayer" parent="."]
+script = ExtResource("5_hud")

@@ -1,0 +1,44 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/field.gd" id="1_proc"]
+[ext_resource type="Texture2D" path="res://assets/field/strip.png" id="2_strip"]
+[ext_resource type="Script" path="res://scripts/avatar.gd" id="3_avatar"]
+[ext_resource type="Texture2D" path="res://assets/field/avatar.png" id="4_avatar_tex"]
+[ext_resource type="Script" path="res://scripts/hud.gd" id="5_hud"]
+[ext_resource type="Shader" path="res://scripts/papyrus.gdshader" id="6_papyrus"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_papyrus"]
+shader = ExtResource("6_papyrus")
+shader_parameter/base = Color(0.906, 0.839, 0.682, 1)
+shader_parameter/fibre = Color(0.47, 0.35, 0.16, 1)
+
+[node name="Field" type="Node2D"]
+script = ExtResource("1_proc")
+
+[node name="Papyrus" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_papyrus")
+offset_left = -2000.0
+offset_top = -600.0
+offset_right = 9000.0
+offset_bottom = 1000.0
+mouse_filter = 2
+color = Color(0.906, 0.839, 0.682, 1)
+
+[node name="Strip" type="Sprite2D" parent="."]
+texture = ExtResource("2_strip")
+centered = false
+
+[node name="Pieces" type="Node2D" parent="."]
+
+[node name="Overlay" type="Node2D" parent="."]
+
+[node name="Avatar" type="Node2D" parent="."]
+script = ExtResource("3_avatar")
+
+[node name="Sprite" type="Sprite2D" parent="Avatar"]
+texture = ExtResource("4_avatar_tex")
+
+[node name="Camera" type="Camera2D" parent="."]
+
+[node name="HUD" type="CanvasLayer" parent="."]
+script = ExtResource("5_hud")

@@ -17,22 +17,17 @@ var _target = null          ## float or null
 var _on_arrive := Callable()
 var _walk_time := 0.0
 
-## The figure is drawn opaque, filled with the papyrus (figure.gdshader), with a faint halo.
-var glow_width := 0.02      ## halo width, as a fraction of the figure's height
-var glow_alpha := 0.35      ## halo opacity at the outline
+## The figure is drawn opaque, filled with the papyrus (figure.gdshader).
 const FIGURE_SHADER := preload("res://scripts/figure.gdshader")
 
 @onready var sprite: Sprite2D = $Sprite
 
 
 func _ready() -> void:
-	var glow_px := glow_width * sprite.texture.get_height()
-	var pad := int(ceil(glow_px)) + 2
+	var pad := 2
 	sprite.texture = _figure_texture(sprite.texture, pad)
 	var mat := ShaderMaterial.new()
 	mat.shader = FIGURE_SHADER
-	mat.set_shader_parameter("glow_width", glow_px)
-	mat.set_shader_parameter("glow_alpha", glow_alpha)
 	sprite.material = mat
 	# origin at the feet, so flipping and bobbing pivot on the ground line
 	sprite.centered = true

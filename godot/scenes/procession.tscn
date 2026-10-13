@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://ctrghjxuc25c0"]
 
 [ext_resource type="Script" uid="uid://b7xar400h48no" path="res://scripts/procession.gd" id="1_proc"]
-[ext_resource type="Texture2D" uid="uid://dcqvveb8fce70" path="res://assets/strip.png" id="2_strip"]
+[ext_resource type="Texture2D" uid="uid://dcqvveb8fce70" path="res://assets/procession/strip.png" id="2_strip"]
 [ext_resource type="Script" uid="uid://cfiivvydggr46" path="res://scripts/avatar.gd" id="3_avatar"]
-[ext_resource type="Texture2D" uid="uid://cy81wwbdiwrck" path="res://assets/avatar.png" id="4_avatar_tex"]
+[ext_resource type="Texture2D" uid="uid://cy81wwbdiwrck" path="res://assets/procession/avatar.png" id="4_avatar_tex"]
 [ext_resource type="Script" uid="uid://c8ayee7wdepte" path="res://scripts/hud.gd" id="5_hud"]
 [ext_resource type="Shader" uid="uid://cuel7upwgpsc3" path="res://scripts/papyrus.gdshader" id="6_papyrus"]
 

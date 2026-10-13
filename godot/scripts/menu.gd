@@ -2,7 +2,7 @@
 extends Control
 
 const LEVELS := [
-	["procession", "The Funeral Procession", "Spells 1–14 · pl. I–IV", "Haul the sledge, restore the standards, bring the foreleg."],
+	["procession", "The Funeral Procession", "Spells 1–15 · pl. I–VI", "Haul the sledge, restore the standards, rebuild the offering table."],
 	["cosmos", "The Night Journey", "Spell 17 · pl. VII–XI", "The lions of the horizon, the ba, the cat and the snake, the sun in Ra's boat."],
 	["field", "The Field of Offerings", "Spell 110 · pl. XLI", "Plough, sow, reap and thresh; feed the gods; sail to the landing."],
 	["hall", "The Weighing of the Heart", "Spell 125 · pl. L", "Ma'at, the balance, the 42 judges, Thoth and Osiris."],

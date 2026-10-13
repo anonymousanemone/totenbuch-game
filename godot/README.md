@@ -7,14 +7,15 @@ Open `project.godot` in Godot 4.7+ and press **Play** (F5). A level menu opens f
 
 The scroll reads right to left. Click the papyrus (or use ← →) to walk.
 
-## The Funeral Procession (spells 1–14, pl. I–IV)
+## The Funeral Procession (spells 1–15, pl. I–VI)
 Click figures to record them in the journal; click a movable piece to pick it up and click
 where it belongs to set it down (clicking a filled place swaps the two). **Esc** puts it back.
+The whole scroll can be walked from the start.
 
 1. **Hitch the right beast**: the calf is yoked to the mummy's sledge and the ox stands behind the plumed ox. Swap them.
-2. **Return the standards**: the eight standard-bearers (four in plate III, four in plate II) carry the wrong gods; the two falcons are interchangeable. An empty pole shows a faint outline of its own standard.
-3. **The foreleg**: plate IV stays closed until 1 and 2 are done. Take the foreleg from the sacrifice and give it to the bearer with empty arms.
-4. **The offering table**: reaching it ends the level.
+2. **Return the standards**: the eight standard-bearers (four in plate III, four in plate II) carry the wrong gods; the two falcons are interchangeable. An empty pole shows a faint outline of its own standard. The lector with two plumes on his head (plate V, past the offering table) reads out the order when clicked: the eight signs appear one after another in the space above his sheet, jackal first at the far end, falcon last in front of his plumes (`RECITE_*` in `procession.gd`; the line's place is `recital` in `level.json`).
+3. **Rebuild the offering table** (`scripts/offering_table.gd`): the heap in plate IV has collapsed. Its loose pieces lie on the floor between the two pairs of bouquets as physics bodies, at any angle, each with a faint papyrus fill inside its outline; the palm frond lies in the empty band above, a little to the right. Click a piece to pick it up (it comes to the front; its place shows faintly) and click near its place to set it in. It only goes in once everything it rests on is there (`rests_on` in `level.json`, worked out by the cutter); otherwise it topples back down. The frond goes on last. Clicking the lector beside the table shows, in front of him, a piece that can go on now (again for the next one).
+4. **Give the goose back**: the man beside the lector holds a loaf from the heap instead of his goose, which lies among the fallen offerings. Take the loaf from him, then give him the goose. With all four done the level ends.
 
 ## The Night Journey (spell 17, pl. VII–XI)
 The cleaned 300-dpi strip bod17-21, used as drawn; the movable pieces are lifted out by
@@ -50,19 +51,20 @@ band crosses over (the lowest band is entered at its left end).
 `--declared=N`, `--skip=N`. Both levels are cut from the 300-dpi panel sheets by `../tools/cut_sheets300.py`.
 
 ## Dangers on the Road (spells 31–42, pl. XVI–XIX)
-You can walk through every vignette. Standing in one with a creature, press Shift to become
-its spear-bearer and start the fight; once it is overcome the vignette is put back as drawn.
+You can walk through every vignette. Click a creature (it glows under the pointer) to walk into
+its vignette, become its spear-bearer and start the fight; in the fights that open out, Space
+thrusts and holding Shift lends the thrust heka; once it is overcome the vignette is put back as drawn.
 Spell 38 (the breath of life) cannot be entered until spells 31–37 are overcome, and spell 42
 at the end waits until every danger before it is overcome.
 
 | Spell | Rule |
 |---|---|
-| 31 | The vignette opens out to the left (the double line behind you stays; the caption banner stays; the text below drops away). You are the spear-bearer: ↑ ↓ / W S move you, Shift thrusts; only the spear tip strikes. Wave 1 is the lesson (a thrust, a move, one slow crocodile, two more). Then a break: the heka word in the banner starts flashing red (click it for the hold-H hint). Wave 2 has red crocodiles (`red_order`), turned back only by a thrust while holding H. Bites redden the body; heka on an ordinary crocodile, or one slipping past you once the word glows, loses: the word is taken or eaten and the fight starts again from wave 2. Tuned in `ENCOUNTERS` (`waves`, `break`) |
-| 32 | The same, faster, two at a time and from both sides: you stand in the middle, ← → turn you, ↑ ↓ move you. Some crocodiles come red (`red` chance): hold H (heka; the spear turns red) as you thrust to turn those back. A plain thrust does nothing to a red one; heka on an ordinary one loses: it seizes the heka word from the banner, makes off with it, and the fight starts over. Bites redden the body, heka reddens the spear |
-| 33 | A snake rears; strike only at full height |
+| 31 | The vignette opens out to the left (the double line behind you stays; the caption banner stays; the text below drops away). You are the spear-bearer: ↑ ↓ / W S move you, Space thrusts; only the spear point strikes, anywhere on a crocodile (or right by its snout) before it reaches you. Crocodiles never come with their front halves on top of each other, nor one right after another at the same spot. Wave 1 is the lesson (a thrust, a move, one slow crocodile, two more). Then a break: the heka word in the banner starts flashing red (click it for the hold-Shift hint). Wave 2 has red crocodiles (`red_order`), turned back only by a thrust while holding Shift. Bites redden the body; heka on an ordinary crocodile, or one slipping past you once the word glows, loses: the word is taken or eaten, he crumbles the moment it lands, and the fight starts again from wave 2. Tuned in `ENCOUNTERS` (`waves`, `break`) |
+| 32 | The same, faster, two at a time and from both sides: you stand in the middle, ← → turn you, ↑ ↓ move you. Some crocodiles come red (`red` chance): hold Shift (heka; the spear turns red) as you thrust to turn those back. A plain thrust does nothing to a red one; heka on an ordinary one loses: it seizes the heka word from the banner, makes off with it, and the fight starts over. Bites redden the body, heka reddens the spear |
+| 33 | Close up (caption to ground). He stays where he is drawn, spear raised; Space thrusts. The snake coils just out of reach, breathing; its tail waves (the warning, `snake_tail.gdshader` bends the drawing), it squashes, and snaps to his front leg (its body passes behind his skirt, its head in front). Thrust as it springs: the point must come down on the red mark, at the spot where it is drawn (about an 80 ms window). Too early, the spear is already rising again. Three strikes; three bites and he crumbles. Tuned in its `ENCOUNTERS` entry |
 | 35 | A snake slides in and out of reach; strike when it reaches the spear tip (twice) |
-| 36 | The vignette opens out; you stand still in the middle: ← → turn you, Shift thrusts. The roach darts about very fast; every couple of darts it stops by the point of your spear for 0.35–0.75 s (some stops just out of reach). Only the spear point at the full thrust pins it (its body, or with `dot` only a red dot on its back); a catch holds everything for 0.5 s. `need` catches (1 for now) |
-| 37 | Two coiled snakes, quicker than 33; strike twice at full height |
+| 36 | The vignette opens out; you stand still in the middle: ← → turn you, Space thrusts. The roach darts about very fast; every couple of darts it stops by the point of your spear for 0.35–0.75 s (some stops just out of reach). Only the spear point at the full thrust pins it (its body, or with `dot` only a red dot on its back); a catch holds everything for 0.5 s. `need` catches (1 for now) |
+| 37 | Two coiled snakes rear; strike twice at full height |
 | 38 | Take the ankh and sail, the breath of life |
 | 39 | Apep's coils rise one at a time; strike only the risen coil (a wrong strike frees a pinned one) |
 | 40 | Strike the snake on the donkey's back three times; hitting the donkey costs a hit |
@@ -73,7 +75,7 @@ at the end waits until every danger before it is overcome.
 | Path | What |
 |---|---|
 | `scenes/menu.tscn`, `scripts/menu.gd` | Level select |
-| `scenes/procession.tscn`, `scripts/procession.gd` | Spells 1–14 |
+| `scenes/procession.tscn`, `scripts/procession.gd` | Spells 1–15 |
 | `scenes/cosmos.tscn`, `scripts/cosmos.gd` | Spell 17 |
 | `scenes/field.tscn`, `scripts/field.gd` | Spell 110 |
 | `scenes/hall.tscn`, `scripts/hall.gd` | Spell 125 |
@@ -81,10 +83,11 @@ at the end waits until every danger before it is overcome.
 | `scripts/avatar.gd` | Walking (click target or keyboard), facing, bobbing |
 | `scripts/hud.gd` | Title bar, minimap, scribe text, hand, checklist, journal, intro/outro; each level passes its own texts |
 | `scripts/papyrus.gdshader` | Procedural papyrus fibres behind the ink |
-| `assets/`, `assets/dangers/` | Stitched plate strips, one PNG per piece, `level.json` with positions |
+| `assets/<level>/` | Stitched plate strips, one PNG per piece, `level.json` with positions |
 
-The procession uses the cleaned 300-dpi strip (bod1-15.mdp, `bod_300dpi` folder), cut by
-`../tools/cut_procession300.py`; world units are strip pixels and `level.json` carries `"scale": 1.5`
+The procession is `../art/procession1-15.mdp` whole and as drawn (the `bod_300dpi` plates I–VI, the
+frame lines, which the .mdp shows black through clipping layers, and the `text_below` folder), cut by
+`../tools/cut_procession300.py`, which reads the .mdp directly. The offering table's loose pieces are the layers of its `table` folder (the layer `table` itself, the table and what stays standing, stays in the picture; the widest piece is the frond; `t long` is the loaf the goose-bearer holds, or any layer named with "held"); world units are strip pixels and `level.json` carries `"scale": 1.5`
 so distances written for the 200-dpi plates still work. The dangers level is exported from the
 hand-made 300-dpi strip bod31-42.mdp (one layer per character, text below added) by
 `../tools/cut_dangers300.py`; the old 200-dpi cutter `../tools/cut_dangers.py` is kept for reference. See `../tools/strips/NOTES.md` for the strips.
@@ -99,7 +102,7 @@ slower one) fight the next crocodile vignette and prints how many tries it neede
 In `bod31-42.mdp`, move the caption hieroglyphs you choose onto their own layers inside a folder
 named `heka`, and run `../tools/cut_dangers300.py` again. Each layer in that folder is lifted out of
 the strip as its own sprite: during a crocodile fight it flashes red, and clicking it tells the
-player to hold H against the red crocodiles.
+player to hold Shift against the red crocodiles.
 
 ## Command-line checks
 ```bash
@@ -112,4 +115,4 @@ step. `--level=procession --autotest` does the same for the procession.
 godot --path . -- --level=dangers --skip=8 --at=2950 --wait --screenshot=/tmp/apep.png
 ```
 Marks the first 8 encounters solved, starts the avatar at x=2950 (inside Apep's vignette),
-saves a frame and quits. The procession takes `--at=` and `--take=slot` instead of `--skip=`, and `--show-hits` outlines every click region.
+saves a frame and quits. The procession takes `--at=` and `--take=slot` instead of `--skip=`, `--recite` shows the plumed lector's whole line at once, `--speak` has the lector beside the table show a piece, `--wait` lets the fallen offerings settle first, and `--show-hits` outlines every click region.

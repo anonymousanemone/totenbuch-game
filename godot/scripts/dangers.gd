@@ -1566,7 +1566,7 @@ const TWIN_BUSY := ["warn", "turn", "away", "whip", "snap", "back", "pinned", "u
 func _twin_start(e: Dictionary) -> void:
 	var cap: Array = level.get("caption", [50.0, 180.0])
 	var bearer: Node2D = actors[e.spear]
-	_arena_setup(e, true, [e.foe], {"y0": float(cap[0]) - 12.0 * unit, "y1": ground + 24.0 * unit, "x": bearer.get_meta("home").x})
+	_arena_setup(e, true, [e.foe] + e.signs, {"y0": float(cap[0]) - 12.0 * unit, "y1": ground + 24.0 * unit, "x": bearer.get_meta("home").x})
 	fight.stand = bearer.get_meta("home")          # he stays where he is drawn: his point is on the snake
 	fight.pos = fight.stand
 	fight.health = CROC_HEALTH
@@ -1581,63 +1581,11 @@ func _twin_start(e: Dictionary) -> void:
 	right.position = right.get_meta("home")
 	fight.copies = [right]
 	fight.snakes = []
-	var signs := _twin_signs(e)
 	for i in 2:
-		var s := {"node": [left, right][i], "side": [-1, 1][i], "glyph": signs[i], "hits": 0,
-			"phase": "face", "t": 0.0, "for": 0.0, "face": 1.0, "lunge": 0.0, "sy": 1.0, "w": 0.0}
-		fight.snakes.append(s)
-		fight.copies.append(signs[i])
+		fight.snakes.append({"node": [left, right][i], "side": [-1, 1][i], "glyph": actors[e.signs[i]], "hits": 0,
+			"phase": "face", "t": 0.0, "for": 0.0, "face": 1.0, "lunge": 0.0, "sy": 1.0, "w": 0.0})
 	_twin_place()
 	_arena_open()
-
-
-var _strip_img: Image           ## the strip's pixels, for cutting the snake signs out of the caption
-
-
-## The two snake signs of the caption, each a copy of its ink over itself (it can then be tinted
-## red): flooded out from a point on each (`signs`), split down the middle if they touch.
-func _twin_signs(e: Dictionary) -> Array:
-	if _strip_img == null:
-		_strip_img = ($Strip.texture as Texture2D).get_image()
-		if _strip_img.is_compressed():
-			_strip_img.decompress()
-	var seeds: Array = e.signs
-	var a := Vector2i(int(seeds[0][0]), int(seeds[0][1]))
-	var b := Vector2i(int(seeds[1][0]), int(seeds[1][1]))
-	var box := Rect2i(mini(a.x, b.x) - 60, mini(a.y, b.y) - 20, absi(a.x - b.x) + 120, 130)
-	var masks := [_ink_flood(box, a), _ink_flood(box, b)]
-	var mid := (a.x + b.x) / 2
-	var merged: bool = masks[0].has(b - box.position)
-	var out := []
-	for i in 2:
-		var img := Image.create(box.size.x, box.size.y, false, Image.FORMAT_RGBA8)
-		for q in masks[i]:
-			if merged and ((box.position.x + q.x < mid) != (i == 0)):
-				continue
-			img.set_pixelv(q, _strip_img.get_pixelv(box.position + q))
-		var used := img.get_used_rect()
-		var sp := Sprite2D.new()
-		sp.centered = false
-		sp.texture = ImageTexture.create_from_image(img.get_region(used))
-		sp.position = Vector2(box.position + used.position)
-		$Actors.add_child(sp)
-		out.append(sp)
-	return out
-
-
-## The ink joined to `seed` (4-neighbours, alpha over a half) inside `box`, as points in it.
-func _ink_flood(box: Rect2i, seed: Vector2i) -> Dictionary:
-	var got := {}
-	var todo: Array[Vector2i] = [seed - box.position]
-	while not todo.is_empty():
-		var q: Vector2i = todo.pop_back()
-		if got.has(q) or q.x < 0 or q.y < 0 or q.x >= box.size.x or q.y >= box.size.y:
-			continue
-		if _strip_img.get_pixelv(box.position + q).a < 0.5:
-			continue
-		got[q] = true
-		todo.append_array([q + Vector2i.LEFT, q + Vector2i.RIGHT, q + Vector2i.UP, q + Vector2i.DOWN])
-	return got
 
 
 ## Each snake as it is now (facing him or away, its head forward, sinking); as the vignette opens
@@ -1652,7 +1600,7 @@ func _twin_place() -> void:
 		a.scale = Vector2(lerpf(-1.0, s.face, k) * s.side * (1.0 + s.w), lerpf(1.0, s.sy, k) * (1.0 - s.w))
 		if s.side > 0:
 			a.modulate.a = k
-		var glyph: Sprite2D = s.glyph
+		var glyph: Node2D = s.glyph
 		match s.phase:
 			"warn": glyph.modulate = Color.WHITE.lerp(RED_CROC, pulse)
 			"turn", "away", "whip", "snap": glyph.modulate = RED_CROC
@@ -3418,7 +3366,7 @@ func _autotest() -> void:
 				var R: Dictionary = fight.snakes[1]
 				var need := int(e.need)
 				expect.call(absf((L.node.position.x - fight.pos.x) + (R.node.position.x - fight.pos.x)) < 1.0, e.id + " a snake on either side of him, mirrored")
-				expect.call(L.glyph.position.x < R.glyph.position.x and L.glyph.texture.get_width() < 60 and R.glyph.texture.get_width() < 60, e.id + " the two snake signs cut apart from the caption")
+				expect.call(L.glyph.position.x < R.glyph.position.x and L.glyph.modulate.a == 1.0 and R.glyph.modulate.a == 1.0, e.id + " the two snake signs, left and right, stay in view as the vignette opens")
 				_twin(0.0)
 				expect.call(L.node.scale.x < 0.0 and R.node.scale.x > 0.0, e.id + " both turned to face him (the drawn one flipped)")
 				# a thrust at a snake that faces him: its head comes forward and bites

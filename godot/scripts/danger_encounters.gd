@@ -68,13 +68,13 @@ const ENCOUNTERS := [
 		"won": "The beetles are pinned.",
 		"label": "The Apshai beetle", "note": "Spell 36. Pinned with the point of the spear."},
 	# the two Merti snakes: the drawn one on his left and a mirrored copy on his right, both facing him.
-	# Every `idle` s one of the two snake signs in the caption (`signs`: a point on each, strip px; left
-	# sign, left snake) flashes red for `warn` s; that snake turns its back on him for `window` s, then
+	# Every `idle` s one of the two snake signs in the caption (`signs`, cut as sprites; left sign,
+	# left snake) flashes red for `warn` s; that snake turns its back on him for `window` s, then
 	# whips round and bites. Each must be struck `need` times while its back is turned. `warn` and
 	# `window` go from the first value to the second over the strikes.
 	{"id": "e37", "boxes": ["e37"], "kind": "twin", "spear": "spear37", "task": 1,
 		"foe": "snake37", "need": 2, "idle": [0.8, 1.8], "warn": [1.0, 0.5], "window": [1.1, 0.6],
-		"signs": [[2830, 61], [2865, 60]],
+		"signs": ["glyph37_left", "glyph37_right"],
 		"intro": "Spell 37: the two Merti snakes, one on either side of you, coiled and facing you. The vignette opens out. ← → turn you; Space thrusts. When one of the two snake signs above flashes red, that snake turns its back on you: turn to it and strike before it turns round to bite. Never strike a snake that faces you.",
 		"hint": "Watch the two snake signs in the caption: the left one is the snake on your left, the right one the snake on your right. Turn to the one that flashes and thrust while its back is turned.",
 		"won": "The two Merti snakes fall.",

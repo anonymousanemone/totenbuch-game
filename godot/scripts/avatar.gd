@@ -4,7 +4,7 @@ extends Node2D
 
 signal bumped  ## pushed against the left limit with the keyboard
 
-var speed := 300.0          ## world px per second
+var speed := 330.0          ## world px per second
 var bob_height := 5.0
 const BOB_RATE := 9.0
 

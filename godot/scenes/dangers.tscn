@@ -1,19 +1,21 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene format=3 uid="uid://bcpjnomldmxc6"]
 
-[ext_resource type="Script" path="res://scripts/dangers.gd" id="1_lvl"]
-[ext_resource type="Texture2D" path="res://assets/dangers/strip.png" id="2_strip"]
-[ext_resource type="Script" path="res://scripts/avatar.gd" id="3_avatar"]
-[ext_resource type="Texture2D" path="res://assets/dangers/avatar.png" id="4_avatar_tex"]
-[ext_resource type="Script" path="res://scripts/hud.gd" id="5_hud"]
-[ext_resource type="Shader" path="res://scripts/papyrus.gdshader" id="6_papyrus"]
+[ext_resource type="Script" uid="uid://c6712v4413yr7" path="res://scripts/dangers.gd" id="1_lvl"]
+[ext_resource type="Texture2D" uid="uid://buxa3g3iif0p5" path="res://assets/dangers/strip.png" id="2_strip"]
+[ext_resource type="Script" uid="uid://cfiivvydggr46" path="res://scripts/avatar.gd" id="3_avatar"]
+[ext_resource type="Texture2D" uid="uid://bv78ls3gtqi7w" path="res://assets/dangers/avatar.png" id="4_avatar_tex"]
+[ext_resource type="Script" uid="uid://c8ayee7wdepte" path="res://scripts/hud.gd" id="5_hud"]
+[ext_resource type="Shader" uid="uid://cuel7upwgpsc3" path="res://scripts/papyrus.gdshader" id="6_papyrus"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_papyrus"]
 shader = ExtResource("6_papyrus")
+shader_parameter/base = Color(0.906, 0.839, 0.682, 1)
+shader_parameter/fibre = Color(0.47, 0.35, 0.16, 1)
 
-[node name="Dangers" type="Node2D"]
+[node name="Dangers" type="Node2D" unique_id=1241147454]
 script = ExtResource("1_lvl")
 
-[node name="Papyrus" type="ColorRect" parent="."]
+[node name="Papyrus" type="ColorRect" parent="." unique_id=382409895]
 material = SubResource("ShaderMaterial_papyrus")
 offset_left = -2000.0
 offset_top = -600.0
@@ -22,21 +24,21 @@ offset_bottom = 1600.0
 mouse_filter = 2
 color = Color(0.906, 0.839, 0.682, 1)
 
-[node name="Strip" type="Sprite2D" parent="."]
+[node name="Strip" type="Sprite2D" parent="." unique_id=1124235670]
 texture = ExtResource("2_strip")
 centered = false
 
-[node name="Actors" type="Node2D" parent="."]
+[node name="Actors" type="Node2D" parent="." unique_id=1532077110]
 
-[node name="Overlay" type="Node2D" parent="."]
+[node name="Overlay" type="Node2D" parent="." unique_id=759531365]
 
-[node name="Avatar" type="Node2D" parent="."]
+[node name="Avatar" type="Node2D" parent="." unique_id=1686742080]
 script = ExtResource("3_avatar")
 
-[node name="Sprite" type="Sprite2D" parent="Avatar"]
+[node name="Sprite" type="Sprite2D" parent="Avatar" unique_id=1033025849]
 texture = ExtResource("4_avatar_tex")
 
-[node name="Camera" type="Camera2D" parent="."]
+[node name="Camera" type="Camera2D" parent="." unique_id=1184860775]
 
-[node name="HUD" type="CanvasLayer" parent="."]
+[node name="HUD" type="CanvasLayer" parent="." unique_id=948880668]
 script = ExtResource("5_hud")

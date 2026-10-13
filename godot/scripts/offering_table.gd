@@ -3,9 +3,11 @@
 ## The loose pieces lie on the floor between the two pairs of bouquets as physics bodies, at any
 ## angle. A piece snaps back into its place, upright, only when everything it rests on is already
 ## there (`rests_on`, worked out by tools/cut_procession300.py); set down too early it topples
-## and falls back to the floor. The palm frond lies in the empty band above and goes on last.
+## and falls back to the floor. The palm frond lies in the empty band above the picture and goes
+## on last; any piece can be laid in that band too, out of the way, and taken up again.
 ## The goose-bearer beside the lector holds a loaf from the heap; his goose lies among the
-## fallen offerings. With neither in his arms, the clothes they cover show. Positions are strip pixels; the pieces come from level.json `table`.
+## fallen offerings. With neither in his arms, the clothes they cover show. Positions are strip
+## pixels; the pieces come from level.json `table`.
 class_name OfferingTable
 extends Node2D
 
@@ -23,22 +25,25 @@ var pieces := {}             ## id -> {rect, kind, name, rests_on, hull}
 var placed := {}             ## id -> true
 var bearer := ""             ## what the goose-bearer holds: a table piece id, "goose" or ""
 var floor_x := Vector2.ZERO  ## the floor between the bouquets (x from, x to)
+var view := Vector2.ZERO     ## the table scene (x from, x to)
+var header := Vector2(50.0, 178.0)  ## the empty band above the picture (rows), where pieces can lie
 var ground := 526.0
 
 var _held := ""              ## what the player carries: a table piece id, "goose" or ""
-var _held_from := ""         ## "floor", "frond" or "bearer"
+var _held_from := ""         ## "floor", "parked" or "bearer"
+var _parked := {}            ## id -> Sprite2D: pieces lying in the band above
+var _last_park := {}         ## id -> where it last lay there (centre)
 var _tex := {}               ## id -> Texture2D (and "goose")
 var _img := {}               ## id -> Image, for clicking on the ink only
 var _goose_rect: Rect2
 var _clothes_rect: Rect2
-var _frond_rest := Vector2.ZERO
 var _speech: Rect2
 var _speak_i := 0
 var _speak_tween: Tween
 
 var _placed_layer: Node2D
 var _bodies: Node2D
-var _frond: Sprite2D
+var _parked_layer: Node2D
 var _bearer_sprite: Sprite2D
 var _clothes: Sprite2D
 var _held_sprite: Sprite2D
@@ -53,6 +58,9 @@ func setup(table: Dictionary, goose: Rect2, clothes: Rect2, ground_y: float, art
 	_clothes_rect = clothes
 	var s: Dictionary = table.speech
 	_speech = Rect2(s.x, s.y, s.w, s.h)
+	view = Vector2(table.view[0], table.view[1]) if table.has("view") else floor_x
+	if table.has("header"):
+		header = Vector2(table.header[0], table.header[1])
 	for id in table.pieces:
 		var p: Dictionary = table.pieces[id]
 		var hull := PackedVector2Array()
@@ -65,8 +73,9 @@ func setup(table: Dictionary, goose: Rect2, clothes: Rect2, ground_y: float, art
 	_tex.clothes = load(art % "clothes")
 	for id in _tex:
 		_img[id] = _tex[id].get_image()
-	if table.has("frond_rest"):
-		_frond_rest = Vector2(table.frond_rest.x, table.frond_rest.y)
+	for id in pieces:   # the frond lies in the band above at first
+		if pieces[id].kind == "frond" and table.has("frond_rest"):
+			_last_park[id] = Vector2(table.frond_rest.x, table.frond_rest.y) + _tex[id].get_size() / 2.0
 
 	_placed_layer = Node2D.new()
 	add_child(_placed_layer)
@@ -75,7 +84,8 @@ func setup(table: Dictionary, goose: Rect2, clothes: Rect2, ground_y: float, art
 	_build_floor()
 	_ghost = _sprite("", false)
 	_ghost.modulate.a = GHOST_ALPHA
-	_frond = _sprite("", false)
+	_parked_layer = Node2D.new()
+	add_child(_parked_layer)
 	_clothes = _sprite("clothes", false)
 	_clothes.position = _clothes_rect.position
 	_bearer_sprite = _sprite("", true)
@@ -89,6 +99,9 @@ func reset() -> void:
 		c.queue_free()
 	for b in _bodies.get_children():
 		b.queue_free()
+	for c in _parked_layer.get_children():
+		c.queue_free()
+	_parked.clear()
 	placed.clear()
 	_held = ""
 	_held_from = ""
@@ -109,7 +122,9 @@ func reset() -> void:
 		var x := lerpf(floor_x.x + 50.0, floor_x.y - 50.0, (float(i % per_row) + rng.randf_range(0.1, 0.9)) / per_row)
 		var y := ground - 60.0 - 110.0 * floorf(i / float(per_row))
 		_spawn(loose[i], Vector2(x, y), rng.randf_range(-PI, PI))
-	_show_frond()
+	for id in pieces:
+		if pieces[id].kind == "frond":
+			_park(id, _last_park.get(id, Vector2(lerpf(view.x, view.y, 0.5), header.y)))
 	_show_bearer()
 	changed.emit()
 
@@ -139,9 +154,29 @@ func stackable() -> Array:
 	return out
 
 
+## The drawing of a loose piece (or the frond) as it lies now, for the hover glow.
+func sprite_of(id: String) -> Sprite2D:
+	for b in _bodies.get_children():
+		if b.get_meta("id") == id and not b.is_queued_for_deletion():
+			return b.get_child(0)
+	if _parked.has(id) and not _parked[id].is_queued_for_deletion():
+		return _parked[id]
+	return null
+
+
+## What the goose-bearer has in his arms (or the clothes they leave bare), for the hover glow.
+func bearer_sprites() -> Array:
+	return [_bearer_sprite, _clothes].filter(func(s): return s.visible)
+
+
 ## His clothes show only with nothing in his arms.
 func clothes_showing() -> bool:
 	return _clothes.visible
+
+
+## Where the piece in hand was taken from: "floor", "parked" or "bearer".
+func held_from() -> String:
+	return _held_from
 
 
 func holding() -> String:
@@ -183,8 +218,11 @@ func pick(p: Vector2) -> String:
 			continue
 		if _ink_at(b.get_meta("id"), b.to_local(p) + _tex[b.get_meta("id")].get_size() / 2.0):
 			return b.get_meta("id")
-	if _frond.visible and _ink_at(_frond.get_meta("id"), p - _frond.position):
-		return _frond.get_meta("id")
+	var lying := _parked_layer.get_children()
+	for i in range(lying.size() - 1, -1, -1):
+		var s: Sprite2D = lying[i]
+		if not s.is_queued_for_deletion() and _ink_at(s.get_meta("id"), p - s.position + s.texture.get_size() / 2.0):
+			return s.get_meta("id")
 	return ""
 
 
@@ -194,9 +232,25 @@ func take(id: String) -> void:
 			b.queue_free()
 			_hold(id, "floor")
 			return
-	if _frond.visible and _frond.get_meta("id") == id:
-		_frond.visible = false
-		_hold(id, "frond")
+	if _parked.has(id):
+		_parked[id].queue_free()
+		_parked.erase(id)
+		_hold(id, "parked")
+
+
+## In the empty band above the picture, over the table scene: a piece can be laid there.
+func in_header(p: Vector2) -> bool:
+	return p.y >= header.x and p.y <= header.y and p.x >= view.x and p.x <= view.y
+
+
+## Lay the carried piece in the band above, upright where it is let go, out of the way.
+func park(p: Vector2) -> void:
+	var id := _held
+	if id == "":
+		return
+	_let_go()
+	_park(id, p)
+	changed.emit()
 
 
 ## Set the carried piece down at p: into its place, toppling off, or onto the floor.
@@ -225,6 +279,8 @@ func put_back() -> void:
 	if from == "bearer" and bearer == "":
 		bearer = id
 		_show_bearer()
+	elif from == "parked":
+		_park(id, _last_park[id])
 	else:
 		_fall(id, Vector2(lerpf(floor_x.x, floor_x.y, 0.5), ground - 200.0), false)
 	changed.emit()
@@ -324,8 +380,8 @@ func _place(id: String) -> void:
 
 ## Into the physics: the frond goes back to its place above, everything else falls.
 func _fall(id: String, at: Vector2, topple: bool) -> void:
-	if id != "goose" and pieces[id].kind == "frond":
-		_show_frond()
+	if id != "goose" and pieces[id].kind == "frond":   # too big to lie on the floor: back above
+		_park(id, _last_park[id])
 		changed.emit()
 		return
 	var half: float = _tex[id].get_size().x / 2.0
@@ -387,15 +443,16 @@ func _build_floor() -> void:
 		body.add_child(c)
 
 
-func _show_frond() -> void:
-	for id in pieces:
-		if pieces[id].kind == "frond" and not placed.has(id):
-			_frond.texture = _tex[id]
-			_frond.position = _frond_rest
-			_frond.set_meta("id", id)
-			_frond.visible = true
-			return
-	_frond.visible = false
+func _park(id: String, at: Vector2) -> void:
+	var half: Vector2 = _tex[id].get_size() / 2.0
+	var c := at
+	c.x = clampf(c.x, view.x + half.x, maxf(view.x + half.x, view.y - half.x))
+	c.y = clampf(c.y, header.x + half.y, maxf(header.x + half.y, header.y - half.y))
+	var s := _sprite(id, true, _parked_layer)
+	s.position = c
+	s.set_meta("id", id)
+	_parked[id] = s
+	_last_park[id] = c
 
 
 func _show_bearer() -> void:

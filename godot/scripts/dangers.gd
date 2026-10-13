@@ -10,11 +10,13 @@
 extends Node2D
 
 const DATA_PATH := "res://assets/dangers/level.json"
+const SHEET_PATH := "res://assets/dangers/spearers.json"   ## the spear-bearers' thrust (tools/spearer_sheet.py)
+const SHEET_TEX := "res://assets/dangers/spearers.png"
 const ASSET := "res://assets/dangers/%s.png"
 const BESIDE := 50.0
 const APEP_SLICES := 5
-const FIGHTS := ["crocs", "lunge", "rear", "slither", "roach", "apep", "donkey", "pop"]
-const ARENA_FIGHTS := ["crocs", "roach", "lunge"]   ## the vignette opens out across the screen
+const FIGHTS := ["crocs", "lunge", "twin", "creep", "roach", "apep", "donkey", "pop"]
+const ARENA_FIGHTS := ["crocs", "roach", "lunge", "creep", "twin"]   ## the vignette opens out across the screen
 const CLICK_TO_FIGHT := "Click the creature to take up the spear."
 
 ## Encounters in play order. `boxes` are vignette frames from level.json; `spear` is the
@@ -27,11 +29,11 @@ const ENCOUNTERS := [
 	{"id": "e31", "boxes": ["e31"], "kind": "crocs", "spear": "spear31", "task": 0, "tutorial": true,
 		"foes": ["c31a", "c31b", "c31c", "c31d"], "first_speed": 120.0, "break": 6.0,
 		# `waves` instead of one count: the lesson, a break while the heka word starts to flash, then
-		# a wave with red ones (`red_order`: which launches come red, in order). Losing (heka on an
-		# ordinary crocodile) starts again from the wave after the last break.
+		# a wave with red ones (`red_order`: which launches come red, in order); each crocodile of a
+		# wave `ramp` faster than the one before. A lost fight starts again from the first wave.
 		"waves": [
-			{"count": 3, "speed": 160.0, "interval": 3.0, "at_once": 1},
-			{"count": 6, "speed": 190.0, "interval": 2.2, "at_once": 2, "red_order": [false, true, false, true, true, false]},
+			{"count": 3, "speed": 180.0, "ramp": 0.01, "interval": 3.0, "at_once": 1},
+			{"count": 6, "speed": 200.0, "ramp": 0.01, "interval": 2.2, "at_once": 2, "red_order": [false, true, false, true, true, false]},
 		],
 		"intro": "Spell 31: crocodiles come to take your magic. The vignette opens out, and you are its spear-bearer; Space then thrusts the spear.",
 		"hint": "Move up or down (↑ ↓ or W S) until the spear tip is level with the coming snout, and press Space as they touch.",
@@ -41,7 +43,7 @@ const ENCOUNTERS := [
 		"foes": ["c32a", "c32b", "c32c", "c32d"], "both_sides": true,
 		# harder than 31 and losable, but always possible: each crocodile is `ramp` faster than the
 		# one before (210 -> about 420), and none reaches him within `min_gap` s of the one before
-		"waves": [{"count": 14, "speed": 210.0, "ramp": 0.077, "interval": 0.8, "at_once": 2, "red": 0.35, "min_gap": 0.9}],
+		"waves": [{"count": 14, "speed": 180.0, "ramp": 0.01, "interval": 0.8, "at_once": 2, "red": 0.35, "min_gap": 0.9}],
 		"intro": "Spell 32: crocodiles from the four quarters of the sky, from both sides now, faster and two at a time. ← → turn you to face either way; ↑ ↓ move you.",
 		"hint": "Turn to face the nearer crocodile (← →), bring the spear tip level with its snout (↑ ↓), then Space.",
 		"won": "The crocodiles of the four quarters are turned back.",
@@ -50,35 +52,51 @@ const ENCOUNTERS := [
 	# waves its tail (`wave` s, `tail` rad, `wave_hz`), squashes down (`crouch` s) and springs
 	# (`snap` s) to his front leg. `head_tip`, `head_rect`, `tail_base`: in its picture's pixels.
 	{"id": "e33", "boxes": ["e33"], "kind": "lunge", "spear": "spear33", "task": 1,
-		"foe": "snake33", "need": 3, "rest": 33.0, "idle": [1.2, 2.4], "wave": 1.4, "tail": 0.26, "wave_hz": 2.2,
+		# `marks`: the red mark's radius (plate px) for each strike in turn, smaller each time
+		"foe": "snake33", "need": 3, "marks": [11.0, 8.0, 5.0], "rest": 33.0, "idle": [1.2, 2.4], "wave": 1.4, "tail": 0.26, "wave_hz": 2.2,
 		"crouch": 0.35, "snap": 0.16, "head_tip": [122, 218], "head_rect": [68, 205, 58, 25], "tail_base": [28, 172],
-		"intro": "Spell 33: a snake coils just out of reach of your spear. When its tail waves, it is about to spring. Press Space as it springs, so the spear point comes down on the red mark. Three times.",
+		"intro": "Spell 33: a snake coils just out of reach of your spear. When its tail waves, it is about to spring. Press Space as it springs, so the spear point comes down on the red mark. Each strike, the mark grows smaller.",
 		"hint": "Watch the tail wave, then the squash: thrust (Space) the moment it springs. Too early and your spear is already coming back up.",
 		"won": "The snake falls.",
 		"label": "The lunging snake", "note": "Spell 33, against a snake. Struck three times as it sprang."},
-	{"id": "e35", "boxes": ["e35"], "kind": "slither", "spear": "spear35", "task": 1,
-		"foe": "snake35", "need": 2,
-		"intro": "Spell 35: a snake slides along the ground, in and out of the spear's reach.",
-		"hint": "Click the snake when it slides up to the spear tip.",
+	# the snake on the ground, its back to him: red light, green light. It lies near the far (left)
+	# edge of the opened vignette; he creeps up on it, forward only, at `creep` plate px/s. Every `away`
+	# s it lifts its head (`tell` s, shorter with each strike; after the first strike a `fake` share of
+	# lifts settle again), turns to look at him for `watch` s, and turns away again. Moving or thrusting
+	# while it looks: it strikes. Struck, it slides `flee` plate px on toward the edge.
+	# `head_rect`, `head_pivot` (it turns round on this spot), `eye`: in its picture's pixels.
+	{"id": "e35", "boxes": ["e35"], "kind": "creep", "spear": "spear35", "task": 1,
+		"foe": "snake35", "need": 3, "flee": 70.0, "creep": 90.0, "away": [1.2, 2.6], "tell": [0.6, 0.35],
+		"watch": [1.0, 2.0], "fake": 0.3, "head_rect": [104, 42, 38, 23], "head_pivot": [123, 55], "eye": [114, 52],
+		"intro": "Spell 35: a snake lies on the ground with its back to you. The vignette opens out. Creep up on it (←) and thrust (Space) when the ring under your spear point turns red. When it lifts its head, freeze: if it turns and sees you move, it strikes.",
+		"hint": "Move only while its head lies flat and turned away. When the head lifts, let go of the keys and wait until it looks away again. Struck three times, it lies still.",
 		"won": "The snake on the ground lies still.",
-		"label": "The snake on the ground", "note": "Spell 35. Struck twice when it came within reach."},
-	# the roach: caught `need` times by the spear point; it darts at `dart` (plate px/s), rests
-	# `rest` s, and every `bait_every` darts stops by the spear point for `bait_rest` s (a `fake`
-	# share of those just out of reach), within `range` either side of him; `dot`: only a red dot
-	# on its back counts
+		"label": "The snake on the ground", "note": "Spell 35. Crept up on from behind and struck three times."},
+	# the roach: `count` beetles (the drawn one and copies), each to be pinned once by the spear
+	# point. Each darts at `dart` (plate px/s), rests `rest` s, and every `bait_every` darts stops
+	# by the spear point on his left or right for `bait_rest` s (a `fake` share of those just out
+	# of reach), within `range` either side of him. Each may stop at the spear point and get away
+	# `passes` times (it reddens each time); one more and they multiply over the screen: lost.
+	# `dot`: only a red dot on its back counts
 	{"id": "e36", "boxes": ["e36"], "kind": "roach", "spear": "spear36", "task": 1,
-		"foe": "beetle36", "need": 1, "dart": 1100.0, "rest": [0.15, 0.5], "bait_every": 2,
+		"foe": "beetle36", "count": 3, "passes": 3, "dart": 1100.0, "rest": [0.15, 0.5], "bait_every": 2,
 		"bait_rest": [0.35, 0.75], "fake": 0.3, "range": 480.0, "dot": false,
-		"intro": "Spell 36: the Apshai beetle, quicker than the eye. The vignette opens out. You cannot step: ← → turn you, and Space thrusts. Only the point of the spear, thrust out, catches it.",
-		"hint": "Watch where it stops. When it pauses at the point of your spear, turn to it and thrust.",
-		"won": "The beetle is pinned.",
+		"intro": "Spell 36: the Apshai beetles, quicker than the eye. The vignette opens out. You cannot step: ← → turn you, and Space thrusts. Spear all three with the point. Each may stop by your spear and get away only three times; it reddens each time.",
+		"hint": "Watch where they stop. When one pauses at the point of your spear, turn to it and thrust. The redder a beetle, the fewer chances are left.",
+		"won": "The beetles are pinned.",
 		"label": "The Apshai beetle", "note": "Spell 36. Pinned with the point of the spear."},
-	{"id": "e37", "boxes": ["e37"], "kind": "rear", "spear": "spear37", "task": 1,
-		"foe": "snake37", "need": 2, "coil": 0.9, "rise": 0.35, "window": 0.55,
-		"intro": "Spell 37: the two Merti snakes, coiled together. They rear up and strike. Hit them twice while they stand at full height.",
-		"hint": "Click the moment they stand fully upright.",
+	# the two Merti snakes: the drawn one on his left and a mirrored copy on his right, both facing him.
+	# Every `idle` s one of the two snake signs in the caption (`signs`: a point on each, strip px; left
+	# sign, left snake) flashes red for `warn` s; that snake turns its back on him for `window` s, then
+	# whips round and bites. Each must be struck `need` times while its back is turned. `warn` and
+	# `window` go from the first value to the second over the strikes.
+	{"id": "e37", "boxes": ["e37"], "kind": "twin", "spear": "spear37", "task": 1,
+		"foe": "snake37", "need": 2, "idle": [0.8, 1.8], "warn": [1.0, 0.5], "window": [1.1, 0.6],
+		"signs": [[2830, 61], [2865, 60]],
+		"intro": "Spell 37: the two Merti snakes, one on either side of you, coiled and facing you. The vignette opens out. ← → turn you; Space thrusts. When one of the two snake signs above flashes red, that snake turns its back on you: turn to it and strike before it turns round to bite. Never strike a snake that faces you.",
+		"hint": "Watch the two snake signs in the caption: the left one is the snake on your left, the right one the snake on your right. Turn to the one that flashes and thrust while its back is turned.",
 		"won": "The two Merti snakes fall.",
-		"label": "The two Merti snakes", "note": "Spell 37. They rear quicker; struck twice at full height."},
+		"label": "The two Merti snakes", "note": "Spell 37. Each struck twice while its back was turned."},
 	{"id": "e38", "boxes": ["e38"], "kind": "take", "item": "breath38", "task": 2, "gate": true,
 		"intro": "Spell 38, for living on air. He holds out the ankh and the sail, the signs of life and breath.",
 		"hint": "Click the ankh and sail he holds out.",
@@ -120,6 +138,9 @@ var level: Dictionary
 var unit := 1.0          ## strip px per plate px at 200 dpi (level.json `scale`)
 var ground := 248.0      ## the line the figures stand on (level.json `ground`)
 var rects := {}          ## sprite name -> Rect2 as drawn on the plate
+var sheet: Dictionary    ## spearers.json: cell size, poses, and per bearer its row, place in the cell, tip and dir
+var _sheet_tex: Texture2D
+var _filled := {}        ## bearer -> his poses filled with papyrus (spell 33), made once
 var actors := {}         ## sprite name -> Node2D pivot at the sprite's bottom centre
 var boxes := {}          ## encounter id -> Vector2(x0, x1)
 
@@ -134,7 +155,7 @@ var fight := {}          ## state of the running fight, empty when walking
 var rng := RandomNumberGenerator.new()
 
 var _time := 0.0
-var _roach_need := -1     ## dev: overrides the roach's `need` when set (ROACH_NEED)
+var _roach_need := -1     ## dev: overrides the number of beetles when set (ROACH_NEED)
 var _instant := false     ## the autotest skips the crocodile vignette's opening and closing
 var _arena: Node2D        ## the opened-out crocodile vignette, between the strip and the actors
 var _arena_cover: ColorRect
@@ -145,9 +166,8 @@ var _text_drop: Sprite2D       ## the text below, widening and dropping away
 var heka_known := false        ## the player has clicked a flashing heka sign
 const FLESH_PATH := "res://assets/dangers/flesh.png"   ## the flesh sign that counts his health (supplied, not cut)
 var _flesh_tex: Texture2D = _ink_from(load(FLESH_PATH)) if ResourceLoader.exists(FLESH_PATH) else null
-var _croc_checkpoint := {}     ## crocodile encounter id -> the wave a lost fight starts again from
 var _told_unsolved := -10.0   ## when the end of the scroll last said what is still undone
-var gate := {}           ## a "gate" encounter (spell 38) not to be entered while one before it is undone
+var gate := {}           ## a "gate" encounter (spell 38): the way on past it stays shut while it or one before it is undone
 var _bump_time := -10.0
 var _hover := []                ## the actors glowing under the pointer
 
@@ -172,6 +192,24 @@ func _ready() -> void:
 		if n == "avatar" or n == "apep":
 			continue
 		actors[n] = _make_actor(load(ASSET % n), rects[n])
+	# the spear-bearers come from one sprite sheet: the man as drawn with his spear in a pose, and over
+	# him the spear alone in the same pose, shown only when it is tinted red for heka
+	sheet = JSON.parse_string(FileAccess.get_file_as_string(SHEET_PATH))
+	_sheet_tex = load(SHEET_TEX)
+	if absf(float(sheet.reach) - CROC_THRUST * unit) > 0.5 or absf(float(sheet.back) - CROC_PREP * unit) > 0.5:
+		push_warning("spearers.json reach/back do not match CROC_THRUST/CROC_PREP")
+	for nm in sheet.bearers:
+		var pole: String = nm + "_pole"
+		if not actors.has(pole):
+			actors[pole] = _make_actor(_sheet_tex, rects[nm])
+		$Actors.move_child(actors[pole], actors[nm].get_index() + 1)
+		for a in [actors[nm], actors[pole]]:
+			var sp: Sprite2D = a.get_node("Sprite")
+			var at := AtlasTexture.new()
+			at.atlas = _sheet_tex
+			sp.texture = at
+			sp.position = -Vector2(rects[nm].size.x / 2.0 + float(sheet.bearers[nm].ox), rects[nm].size.y + float(sheet.bearers[nm].oy))
+		_bearer_pose(nm, 0.0)
 	# Apep is cut into coils so one can rise at a time
 	var apep_tex: Texture2D = load(ASSET % "apep")
 	var r: Rect2 = rects.apep
@@ -252,7 +290,6 @@ func reset() -> void:
 	if not fight.is_empty() and fight.kind in ARENA_FIGHTS:
 		_crocs_cleanup()
 	heka_known = false
-	_croc_checkpoint.clear()
 	solved.clear()
 	seen.clear()
 	items.clear()
@@ -285,11 +322,11 @@ func _refresh() -> void:
 		if not solved.has(e.id):
 			current = e
 			break
-	# he walks through every vignette (a fight starts only on clicking its creature), except into a gate vignette
-	# while one before it is still undone
+	# he walks through every vignette (a fight starts only on clicking its creature) and into a gate
+	# vignette, but not on past it while it or one before it is still undone. The barrier is not drawn.
 	gate = {}
 	for e in ENCOUNTERS:
-		if e.get("gate", false) and not current.is_empty() and ENCOUNTERS.find(current) < ENCOUNTERS.find(e):
+		if e.get("gate", false) and not current.is_empty() and ENCOUNTERS.find(current) <= ENCOUNTERS.find(e):
 			gate = e
 			break
 	avatar.min_x = gate_x() + 20.0 * unit if not gate.is_empty() else 40.0 * unit
@@ -329,14 +366,14 @@ func here(kinds: Array = FIGHTS) -> Dictionary:
 ## The unsolved "take" encounter whose item is at `p`, or {}.
 func _take_at(p: Vector2) -> Dictionary:
 	for e in ENCOUNTERS:
-		if e.kind == "take" and not solved.has(e.id) and e != gate and actor_rect(e.item).grow(12 * unit).has_point(p):
+		if e.kind == "take" and not solved.has(e.id) and actor_rect(e.item).grow(12 * unit).has_point(p):
 			return e
 	return {}
 
 
-## The right-hand edge of the gate vignette, which he cannot pass into yet (0 when open).
+## The far (left-hand) edge of the gate vignette, which he cannot pass yet (0 when open).
 func gate_x() -> float:
-	return span(gate).y if not gate.is_empty() else 0.0
+	return span(gate).x if not gate.is_empty() else 0.0
 
 
 func walk_then(x: float, then := Callable()) -> void:
@@ -356,11 +393,15 @@ func _blocked() -> void:
 	if gate.is_empty() or _time - _bump_time < 2.5:
 		return
 	_bump_time = _time
-	say("Scribe", "The breath of life is given only once every danger before it is overcome. Still to do: spell %s." % current.id.trim_prefix("e"))
+	say("Scribe", "The way on opens only once every danger up to the breath of life is overcome. Still to do: spell %s." % current.id.trim_prefix("e"))
 
 
 func _unhandled_input(event: InputEvent) -> void:
 	if hud.is_blocking() or finished:
+		return
+	if event.is_action_pressed("ui_cancel") and not fight.is_empty():   # Esc always steps out of a fight
+		leave_fight()
+		get_viewport().set_input_as_handled()
 		return
 	# Space thrusts in the fights that open out (holding Shift lends the thrust heka)
 	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_SPACE:
@@ -372,11 +413,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		_set_hover(_hover_at(get_global_mouse_position()))
 	elif event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		var p := get_global_mouse_position()
-		for nm in _all_heka():
-			if actors[nm].modulate.a > 0.5 and actor_rect(nm).grow(6 * unit).has_point(p):
-				heka_known = true
-				say("Scribe", HEKA_TEXT)
-				return
+		if _heka_at(p) != "":
+			heka_known = true
+			say("Scribe", HEKA_TEXT)
+			return
 		if not fight.is_empty():
 			fight_click(p)
 			return
@@ -401,6 +441,9 @@ func _unhandled_input(event: InputEvent) -> void:
 ## (all of its encounter's) or an item to take.
 func _hover_at(p: Vector2) -> Array:
 	if not fight.is_empty():
+		var h := _heka_at(p)          # in a fight the heka signs glow too (on the scroll they only flash)
+		if h != "":
+			return [h]
 		for n in _targets():
 			if actor_rect(n).grow(8 * unit).has_point(p):
 				return [n]
@@ -470,7 +513,7 @@ func _fight_at(p: Vector2) -> Dictionary:
 
 func _targets() -> Array:
 	match fight.kind:
-		"crocs", "roach", "lunge": return []
+		"crocs", "roach", "lunge", "creep", "twin": return []
 		"apep": return range(APEP_SLICES).map(func(i): return "apep%d" % i)
 		"donkey": return [fight.foe, fight.donkey]
 		"pop": return [fight.foe, fight.bundle]
@@ -484,10 +527,14 @@ func _process(delta: float) -> void:
 	if not fight.is_empty():
 		_update_fight(delta)
 	_update_camera(delta)
-	hud.update_minimap(avatar.position.x, _visible_rect(), gate_x(), not gate.is_empty())
+	hud.update_minimap(avatar.position.x, _visible_rect(), gate_x(), false)   # the barrier is not shown
 	overlay.queue_redraw()
-	if not fight.is_empty() and fight.kind == "crocs":
-		var pulse := 0.5 + 0.5 * sin(_time * 5.0)
+	var pulse := 0.5 + 0.5 * sin(_time * 5.0)
+	if fight.is_empty():
+		# on the scroll the heka signs always flash red; clicking one tells what they are for
+		for nm in _all_heka():
+			actors[nm].modulate = Color(Color.WHITE.lerp(RED_CROC, pulse), actors[nm].modulate.a)
+	elif fight.kind == "crocs":
 		if not fight.lost:
 			for nm in _heka_words(fight.e.id):
 				actors[nm].modulate = Color.WHITE.lerp(RED_CROC, pulse * fight.open) if fight.get("heka_on", false) else Color.WHITE
@@ -586,22 +633,20 @@ func start_fight(e: Dictionary) -> void:
 	avatar.set_process(false)
 	actors[e.spear].visible = true
 	_set_hover([])
+	if not e.kind in ARENA_FIGHTS:
+		_bearer_pose(e.spear, -CROC_PREP)      # in a fight the spear rests drawn back
 	fight = {"kind": e.kind, "e": e, "t": 0.0, "hits": 0}
 	match e.kind:
 		"crocs":
 			_crocs_start(e)
-		"rear":
-			fight.foe = e.foe
-			fight.phase = "coiled"
+		"twin":
+			_twin_start(e)
 		"roach":
 			_roach_start(e)
 		"lunge":
 			_lunge_start(e)
-		"slither":
-			fight.foe = e.foe
-			fight.spot = 0
-			fight.step = 0
-			fight.planted = -1
+		"creep":
+			_creep_start(e)
 		"apep":
 			fight.foe = "apep"
 			fight.raised = -1
@@ -639,6 +684,31 @@ func end_fight() -> void:
 	_solve(e)
 
 
+## Esc: step back out of the fight, not won. The vignette closes (as when a fight is lost), the
+## creature and the bearer stand as drawn, and clicking the creature takes it up again.
+func leave_fight() -> void:
+	if fight.is_empty() or fight.get("closing", false):
+		return
+	var e: Dictionary = fight.e
+	var out := func():
+		if fight.kind in ARENA_FIGHTS:
+			_crocs_cleanup()
+		for n in _box_actors(e):
+			_restore(n)
+		for n in [e.spear, e.spear + "_pole"]:
+			if actors.has(n):
+				actors[n].visible = false
+		fight = {}
+		avatar.position.x = rects[e.spear].get_center().x
+		avatar.visible = true
+		avatar.set_process(true)
+		say("Scribe", "You step back out of the vignette. Click the creature to take it up again.")
+	if fight.kind in ARENA_FIGHTS and not _instant:
+		_crocs_close(out)
+	else:
+		out.call()
+
+
 func _box_actors(e: Dictionary) -> Array:
 	var s := span(e)
 	return actors.keys().filter(func(n): return actors[n].get_meta("home").x > s.x and actors[n].get_meta("home").x < s.y)
@@ -651,14 +721,16 @@ func _restore(n: String) -> void:
 	a.scale = Vector2.ONE
 	a.modulate = Color.WHITE
 	(a.get_node("Sprite") as Sprite2D).flip_h = false
+	if sheet.bearers.has(n.trim_suffix("_pole")):
+		_bearer_pose(n.trim_suffix("_pole"), 0.0)
 
 
 func _update_fight(dt: float) -> void:
 	fight.t += dt
 	match fight.kind:
 		"crocs": _crocs(dt)
-		"rear": _rear(dt)
-		"slither": _slither(dt)
+		"twin": _twin(dt)
+		"creep": _creep(dt)
 		"roach": _roach(dt)
 		"lunge": _lunge(dt)
 		"apep": _apep(dt)
@@ -671,8 +743,8 @@ func fight_click(p: Vector2) -> void:
 		_thrust()
 	match fight.kind:
 		"crocs": _crocs_click(p)
-		"rear": _rear_click(p)
-		"slither": _slither_click(p)
+		"twin": _twin_click(p)
+		"creep": _creep_click(p)
 		"roach": _roach_click(p)
 		"lunge": _lunge_click(p)
 		"apep": _apep_click(p)
@@ -701,8 +773,8 @@ func _won_if(done: bool) -> void:
 # vignette opens out to the left only, and he moves only up and down. In spell 32 (`both_sides`)
 # they come from both sides, he stands in the middle and ← → turn him.
 const CROC_OPEN := 0.8          ## seconds for the vignette to open out / close again
-const CROC_PREP := 16.0         ## the spear rests drawn back (raised) this far along its line
-const CROC_THRUST := 10.0       ## a thrust reaches this far past the spear's drawn position
+const CROC_PREP := 14.0 / 1.5   ## in a fight the spear rests drawn back (up its line) this far (spearers.json back)
+const CROC_THRUST := 10.0       ## and then runs it out this far past where it is drawn (spearers.json reach)
 const CROC_REACH := 20.0        ## the point also counts this close to the snout (plate px)
 const CROC_SAME_SPOT := 1.0     ## two from one side at nearly one height reach him at least this far apart (s)
 const CROC_FRONT_OVERLAP := 0.15   ## how far (of their height) two front halves may overlap above and below
@@ -711,7 +783,7 @@ const CROC_LANE := 70.0         ## spacing of the heights the crocodiles come at
 const BEARER_SPEED := 260.0     ## how fast the bearer moves
 const CROC_HEALTH := 3           ## bites he can take; the last one and he crumbles (the fight starts over)
 const CROC_FORWARD := 30.0      ## in one-sided fights he stands this far in front of where he is drawn
-const THRUST_TIME := [0.07, 0.18]   ## out, back
+const THRUST_TIME := [0.07, 0.18]   ## from drawn back to the full strike, and back to drawn back
 ## Red is #B55B3C. The sprites are drawn in ink (46, 29, 16), so the modulate that turns ink into
 ## that red is the ratio of the two.
 const RED_CROC := Color(181.0 / 46.0, 91.0 / 29.0, 60.0 / 16.0)   ## red crocodiles, heka word and spear
@@ -770,7 +842,7 @@ func _arena_setup(e: Dictionary, both: bool, keep: Array, view := {}) -> void:
 	fight.x_range = Vector2(fight.stand.x, fight.stand.x)
 	fight.pos = fight.stand                                       # bearer pivot, open
 	fight.y_range = Vector2(band_top + size.y + 4.0 * unit, full.end.y - 26.0 * unit)
-	var sp: Dictionary = level.spears[e.spear]
+	var sp: Dictionary = sheet.bearers[e.spear]
 	fight.tip = Vector2(sp.tip[0], sp.tip[1]) - home              # tip from the bearer's pivot, as drawn
 	fight.dir = Vector2(sp.dir[0], sp.dir[1])
 	# everything else on screen steps out of the way
@@ -813,7 +885,7 @@ func _crocs_start(e: Dictionary) -> void:
 		fight.waves = e.waves
 	else:
 		fight.waves = [{"count": e.count, "speed": e.speed, "interval": e.interval, "at_once": e.at_once, "red": e.get("red", 0.0)}]
-	fight.wave = _croc_checkpoint.get(e.id, 0)
+	fight.wave = 0                  # a lost fight always starts again from the first wave
 	fight.wave_killed = 0
 	fight.wave_launched = 0
 	fight.phase = ""
@@ -954,10 +1026,21 @@ func _croc_open(k: float) -> void:
 	for c in fight.get("crocs", []):
 		if c.s == "wait":
 			c.node.position = c.home.lerp(c.start, k)
-	if fight.kind == "roach" and not fight.roach.darting:
-		_roach_place(fight.roach.home_c.lerp(fight.roach.c0, k))
+	if fight.kind == "roach":
+		var r0: Dictionary = fight.roach      # the drawn one runs out from (and back to) where it is drawn
+		if not r0.darting:
+			_roach_place(r0, r0.home_c.lerp(r0.c0, k))
+		if fight.get("closing", false) and r0.gone:
+			r0.node.modulate = Color(1, 1, 1, 1.0 - k)
+		for a in fight.copies:                # the others (and a swarm) fade in and out
+			if is_instance_valid(a):
+				a.modulate.a = k * float(a.get_meta("alpha", 1.0))
 	if fight.kind == "lunge":         # it draws back from where it is drawn to where it waits
 		_lunge_place()
+	if fight.kind == "creep":         # it slides off ahead of him
+		_creep_place()
+	if fight.kind == "twin":          # they turn to face him; the copy on his right fades in
+		_twin_place()
 	for nm in fight.hidden:
 		actors[nm].modulate.a = 1.0 - k
 	_text_drop.position = fight.text_home + Vector2(0.0, TEXT_DROP * unit * k * k)
@@ -974,12 +1057,13 @@ func _place_bearer() -> void:
 		var a: Node2D = actors[nm]
 		a.position = a.get_meta("home").lerp(fight.pos, fight.open)
 		(a.get_node("Sprite") as Sprite2D).flip_h = fight.facing > 0
-	# the spear rests drawn back; a thrust runs it out past its drawn position and back
-	var o := _spear_out()
-	actors[e.spear + "_pole"].position += _spear_dir() * o * unit * fight.open
+	# the spear rests drawn back; a thrust runs it out past where it is drawn and draws it back again
+	_bearer_pose(e.spear, _spear_out())
 	# bitten: the body flushes red; heka: the spear is red (each on its own)
 	actors[e.spear].modulate = Color.WHITE.lerp(HURT, clampf(fight.red / 0.8, 0.0, 1.0))
-	actors[e.spear + "_pole"].modulate = RED_CROC if Input.is_key_pressed(KEY_SHIFT) and fight.open >= 1.0 else Color.WHITE
+	var heka: bool = Input.is_key_pressed(KEY_SHIFT) and fight.open >= 1.0
+	actors[e.spear + "_pole"].modulate = RED_CROC if heka else Color.WHITE
+	actors[e.spear + "_pole"].get_node("Sprite").visible = heka
 
 
 func _crocs(dt: float) -> void:
@@ -1128,7 +1212,6 @@ func _croc_break() -> void:
 	fight.phase = "break"
 	fight.timer = e.get("break", 5.0)
 	fight.heka_on = true
-	_croc_checkpoint[e.id] = fight.wave + 1
 	say("Scribe", "The crocodiles draw back. Above, signs begin to glow red.")
 
 
@@ -1161,6 +1244,14 @@ func _heka_words(id: String) -> Array:
 	return h.get(id, []) if h is Dictionary else h
 
 
+## The heka sign showing at `p`, or "".
+func _heka_at(p: Vector2) -> String:
+	for nm in _all_heka():
+		if actors[nm].visible and actors[nm].modulate.a > 0.5 and actor_rect(nm).grow(6 * unit).has_point(p):
+			return nm
+	return ""
+
+
 func _all_heka() -> Array:
 	var out := []
 	var h = level.get("heka", {})
@@ -1176,75 +1267,57 @@ func _croc_total() -> int:
 	return n
 
 
-## Heka thrust at an ordinary crocodile: it takes the word of heka from the banner and runs.
+## Heka thrust at an ordinary crocodile: it takes the word of heka and runs.
 func _croc_steals(c: Dictionary) -> void:
-	fight.lost = true
-	var e: Dictionary = fight.e
-	say("Scribe", "Heka spent on an ordinary crocodile! It seizes the word of power and makes off with it. The crocodiles are not turned back: begin again.")
-	c.s = "thief"
-	var a: Node2D = c.node
-	a.rotation = 0.0
-	c.dir = -c.dir
-	(a.get_node("Sprite") as Sprite2D).flip_h = c.dir < 0
-	var away: float = (fight.full.position.x - 200.0 * unit) if c.dir < 0 else (fight.full.end.x + 200.0 * unit)
-	var dx := away - a.position.x
-	var t := create_tween()
-	for nm in _heka_words(e.id):        # the word flies down into its jaws
-		var w: Node2D = actors[nm]
-		t.parallel().tween_property(w, "position", _snout(c) + Vector2(0.0, actor_rect(nm).size.y), 0.5)
-		w.modulate = RED_CROC
-	t.tween_callback(func(): _disintegrate(e))     # the moment the word is in its jaws, he crumbles
-	t.tween_interval(0.2)
-	t.tween_property(a, "position:x", a.position.x + dx, 1.4)
-	for nm in _heka_words(e.id):
-		t.parallel().tween_property(actors[nm], "position:x", _snout(c).x + dx, 1.4)
-	t.tween_callback(func():
-		if not fight.is_empty() and fight.kind == "crocs" and fight.e.id == e.id and fight.lost:
-			_crocs_close(func(): _crocs_restart(e)))
+	_croc_takes_word(c, "Heka spent on an ordinary crocodile! It laughs, seizes the word of power and makes off with it.")
 
 
-## A crocodile got past the bearer to the wall: it laughs (squashes up and down), the heka word
-## tumbles down from the banner onto its back, it turns round and leaves with it, and the
-## spear-bearer crumbles away. Lost.
+## A crocodile got past the bearer, once the heka word glows: it goes off with the word.
 func _croc_eats_word(c: Dictionary) -> void:
+	_croc_takes_word(c, "A crocodile slipped past you. It laughs, and the word of heka falls into its jaws.")
+
+
+## Lost: the crocodile laughs (squashes up and down) and turns round, the heka word spins down from
+## the banner into its jaws, the spear-bearer crumbles the moment it lands, and the crocodile carries
+## the word off. Then the vignette closes and he is back on the scroll.
+func _croc_takes_word(c: Dictionary, why: String) -> void:
 	fight.lost = true
 	var e: Dictionary = fight.e
-	say("Scribe", "A crocodile slipped past you to the wall. It laughs, and the word of heka falls to it. Begin again.")
+	say("Scribe", why)
 	c.s = "thief"
 	var a: Node2D = c.node
 	a.rotation = 0.0
 	var size: Vector2 = a.get_meta("size")
 	var words: Array = _heka_words(e.id)
+	var dir: int = -c.dir                       # the way it leaves
+	var mouth := a.position + _croc_head(a, dir)
 	var t := create_tween()
 	# it laughs
 	for i in 4:
 		t.tween_property(a, "scale", Vector2(1.06, 0.78), 0.1)
 		t.tween_property(a, "scale", Vector2(0.96, 1.12), 0.1)
 	t.tween_property(a, "scale", Vector2.ONE, 0.08)
-	# the word tumbles down onto its back
-	var back := a.position + Vector2(0.0, -size.y * 0.8)
+	# it turns round
+	t.tween_callback(func():
+		c.dir = dir
+		(a.get_node("Sprite") as Sprite2D).flip_h = dir < 0)
+	# the word spins down into its jaws
 	for nm in words:
 		var w: Node2D = actors[nm]
 		w.modulate = RED_CROC
-		t.parallel().tween_property(w, "position", back, 0.7).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
-		t.parallel().tween_property(w, "rotation", TAU * 1.5, 0.7)
-	for nm in words:      # a little bounce as it lands
-		t.parallel().tween_property(actors[nm], "position:y", back.y - 14.0 * unit, 0.1).set_delay(0.7)
-		t.parallel().tween_property(actors[nm], "position:y", back.y, 0.1).set_delay(0.8)
-	t.tween_callback(func(): _disintegrate(e))     # the moment the word lands, he crumbles
-	t.tween_interval(0.3)
-	# it turns round and leaves with it
-	t.tween_callback(func():
-		c.dir = -c.dir
-		(a.get_node("Sprite") as Sprite2D).flip_h = c.dir < 0)
-	var away: float = (fight.full.position.x - size.x) if c.dir > 0 else (fight.full.end.x + size.x)
+		t.parallel().tween_property(w, "position", mouth + Vector2(0.0, actor_rect(nm).size.y), 0.7).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+		t.parallel().tween_property(w, "rotation", TAU * 2.0, 0.7)
+	t.tween_callback(func(): _disintegrate(e))     # the moment the word is in its jaws, he crumbles
+	t.tween_interval(0.2)
+	# and carries it off
+	var away: float = (fight.full.position.x - size.x) if dir < 0 else (fight.full.end.x + size.x)
 	var dx := away - a.position.x
-	t.tween_property(a, "position:x", a.position.x + dx, 2.0)
+	t.tween_property(a, "position:x", a.position.x + dx, 1.6)
 	for nm in words:
-		t.parallel().tween_property(actors[nm], "position:x", back.x + dx, 2.0)
+		t.parallel().tween_property(actors[nm], "position:x", mouth.x + dx, 1.6)
 	t.tween_callback(func():
 		if not fight.is_empty() and fight.kind == "crocs" and fight.e.id == e.id and fight.lost:
-			_crocs_close(func(): _crocs_restart(e)))
+			_arena_lost(e))
 
 
 ## Dev (`--croc-bot`): a stand-in player with a human's limits (sees a crocodile only REACT s after
@@ -1281,18 +1354,18 @@ func _bot_move() -> Vector2:
 	return mv
 
 
-## The last bite: he crumbles away and the fight starts over.
+## The last bite: he crumbles away, and he is back on the scroll.
 func _croc_dies(c: Dictionary) -> void:
 	fight.lost = true
 	var e: Dictionary = fight.e
-	say("Scribe", "One bite too many: the spear-bearer crumbles to dust. Begin again.")
+	say("Scribe", "One bite too many: the spear-bearer crumbles to dust.")
 	c.s = "thief"
 	_disintegrate(e)
 	var t := create_tween()
 	t.tween_interval(2.0)
 	t.tween_callback(func():
 		if not fight.is_empty() and fight.kind == "crocs" and fight.e.id == e.id and fight.lost:
-			_crocs_close(func(): _crocs_restart(e)))
+			_arena_lost(e))
 
 
 ## The spear-bearer crumbles away (scripts/dissolve.gdshader).
@@ -1305,13 +1378,18 @@ func _disintegrate(e: Dictionary) -> void:
 	create_tween().tween_method(func(v: float): mat.set_shader_parameter("amount", v), 0.0, 1.05, 1.6)
 
 
-func _crocs_restart(e: Dictionary) -> void:
-	_crocs_cleanup()
-	for n in _box_actors(e):
-		_restore(n)
-	fight = {}
-	start_fight(e)
-	say("Scribe", "Begin again from where the crocodiles came back. The red signs above still glow.")
+## A lost arena fight: the vignette closes and he stands in it again on the scroll, the fight not
+## won. Clicking the creature takes it up again, from the first wave.
+func _arena_lost(e: Dictionary) -> void:
+	_crocs_close(func():
+		_crocs_cleanup()
+		for n in _box_actors(e):
+			_restore(n)
+		fight = {}
+		avatar.position.x = rects[e.spear].get_center().x
+		avatar.visible = true
+		avatar.set_process(true)
+		say("Scribe", "The fight is lost. Click the creature to take up the spear again."))
 
 
 func _croc_bites(c: Dictionary) -> void:
@@ -1351,8 +1429,8 @@ func _croc_send_back(c: Dictionary) -> void:
 			c.s = "crawl")
 
 
-## Send the next crocodile: one of the drawn ones still waiting, else a copy of one of the four
-## (from either side when the fight has crocodiles on both sides).
+## Send the next crocodile: one of the drawn ones still waiting (the last of a wave always is), else
+## a copy of one of the four (from either side when the fight has crocodiles on both sides).
 func _croc_launch(speed: float) -> bool:
 	var e: Dictionary = fight.e
 	var w: Dictionary = fight.waves[fight.wave]
@@ -1361,8 +1439,19 @@ func _croc_launch(speed: float) -> bool:
 	var order: Array = w.get("red_order", [])
 	var red: bool = order[fight.wave_launched] if fight.wave_launched < order.size() else rng.randf() < w.get("red", 0.0)
 	var waiting: Array = fight.crocs.filter(func(c): return c.s == "wait")
+	# the last of each wave is always one of the drawn crocodiles squatting on screen (so one is
+	# kept back for each wave still to end); the others go first (never red). The very last of the
+	# fight is the last crocodile there: every other drawn one has come before it, and it waits
+	# until the rest are gone, so once it is turned back the screen is clear.
+	var last: bool = fight.wave_launched == int(w.count) - 1
+	var final: bool = fight.wave == fight.waves.size() - 1
+	var keep_back: int = fight.waves.size() - fight.wave
+	if last and final and fight.crocs.any(func(x): return x.s == "crawl" or x.s == "back"):
+		return false
+	if (last or (final and int(w.count) - fight.wave_launched <= waiting.size())) and not waiting.is_empty():
+		red = false
 	var c: Dictionary
-	if not waiting.is_empty() and not red:       # the drawn crocodiles first (never red)
+	if not waiting.is_empty() and not red and (last or waiting.size() > keep_back):
 		c = waiting[rng.randi() % waiting.size()]
 	else:
 		var from: Node2D = actors[e.foes[rng.randi() % e.foes.size()]]
@@ -1426,19 +1515,24 @@ func _croc_launch(speed: float) -> bool:
 
 ## Would crocodile `c`, setting off now at `speed`, keep clear of those already crawling? Their front
 ## halves (snout to middle) may never touch on the way in (a little overlap above and below is
-## allowed), and two from the same side at nearly the same height reach him CROC_SAME_SPOT s apart.
+## allowed), and two at nearly the same height reach him CROC_SAME_SPOT s apart. One coming from
+## the other side counts as if it came from this side (mirrored about the bearer), so the two sides
+## are kept as far apart as one.
 func _croc_clear(c: Dictionary, speed: float) -> bool:
 	var t_c := absf(fight.pos.x - _snout(c).x) / (speed * unit)
 	for o in fight.crocs:
 		if o == c or o.s != "crawl":
 			continue
 		var t_o: float = absf(fight.pos.x - _snout(o).x) / (o.speed * unit)
-		if o.dir == c.dir and absf(_snout(o).y - _snout(c).y) < CROC_LANE * unit * 1.5 and absf(t_c - t_o) < CROC_SAME_SPOT:
+		if absf(_snout(o).y - _snout(c).y) < CROC_LANE * unit * 1.5 and absf(t_c - t_o) < CROC_SAME_SPOT:
 			return false
+		var o_pos: Vector2 = o.node.position
+		if o.dir != c.dir:
+			o_pos.x = 2.0 * fight.pos.x - o_pos.x
 		var t := 0.0
 		while t <= minf(t_c, t_o):
 			var a := _croc_front(c, c.node.position + Vector2(c.dir * speed * unit * t, 0.0))
-			var b := _croc_front(o, o.node.position + Vector2(o.dir * o.speed * unit * t, 0.0))
+			var b := _croc_front(o, o_pos + Vector2(c.dir * o.speed * unit * t, 0.0), c.dir)
 			if a.intersects(b):
 				return false
 			t += 0.1
@@ -1446,11 +1540,13 @@ func _croc_clear(c: Dictionary, speed: float) -> bool:
 
 
 ## The front half of crocodile `c` (snout to middle) with its pivot at `pos`, trimmed a little above
-## and below.
-func _croc_front(c: Dictionary, pos: Vector2) -> Rect2:
+## and below; `dir` the way it faces (0: its own).
+func _croc_front(c: Dictionary, pos: Vector2, dir: int = 0) -> Rect2:
+	if dir == 0:
+		dir = c.dir
 	var size: Vector2 = c.node.get_meta("size")
 	var trim := size.y * CROC_FRONT_OVERLAP
-	return Rect2(pos.x if c.dir > 0 else pos.x - size.x / 2.0, pos.y - size.y + trim, size.x / 2.0, size.y - 2.0 * trim)
+	return Rect2(pos.x if dir > 0 else pos.x - size.x / 2.0, pos.y - size.y + trim, size.x / 2.0, size.y - 2.0 * trim)
 
 
 func _croc_thrust() -> void:
@@ -1476,9 +1572,12 @@ func _crocs_close(then := Callable()) -> void:
 	for c in fight.get("crocs", []):
 		if c.s != "thief":
 			c.s = "gone"
-	if fight.kind == "roach":       # it runs back to where it is drawn as the vignette closes
+	if fight.kind == "roach":       # the drawn one runs back to where it is drawn as the vignette closes
 		fight.roach.darting = false
 		fight.roach.c0 = fight.roach.c
+		for a in fight.copies:
+			if is_instance_valid(a):
+				a.set_meta("alpha", a.modulate.a)
 	fight.pos = fight.stand
 	fight.facing = -1
 	var t := create_tween()
@@ -1494,6 +1593,8 @@ func _crocs_close(then := Callable()) -> void:
 func _crocs_cleanup() -> void:
 	if fight.kind == "lunge":
 		_lunge_undress()
+	if fight.kind == "creep":
+		_creep_undress()
 	for nm in _all_heka():
 		_restore(nm)
 	for a in fight.get("copies", []):
@@ -1534,83 +1635,611 @@ func _draw_arena_lines() -> void:
 		_arena_lines.draw_rect(Rect2(x, t0, lw, r.end.y - t0), ink)
 
 
-# rearing snakes: strike only at full height
-func _rear(dt: float) -> void:
+# the two Merti snakes (spell 37). The vignette opens out, close up; he stands where he is drawn, the
+# drawn snake at his spear point on his left and a mirrored copy of it on his right, and as it opens
+# both turn to face him. He cannot step: ← → turn him, Space thrusts at the snake on the side he
+# faces. When neither is about to strike, after `idle` s one of the two snake signs in the caption
+# flashes red (`warn` s; the left sign for the snake on his left): that snake turns its back on him
+# for `window` s, then whips round and bites. A thrust while its back is turned strikes it; a thrust
+# at a snake that faces him: its head shoots forward and bites. Struck `need` times, a snake falls;
+# both fallen, the fight is won. `warn` and `window` grow shorter with each strike. Bitten
+# CROC_HEALTH times, he crumbles and is back on the scroll.
+const TWIN_TURN := 0.15         ## a snake turns its back on him, or round again (s)
+const TWIN_SNAP := 0.12         ## its head shooting forward (s)
+const TWIN_LUNGE := 30.0        ## how far its head comes forward (plate px)
+const TWIN_FALL := 0.6          ## a snake struck for the last time sinks down (s)
+const TWIN_SPREAD := 17.0       ## each snake moves this far out from him as the vignette opens (plate px; the point still lands on it)
+const TWIN_BUSY := ["warn", "turn", "away", "whip", "snap", "back", "pinned", "unturn", "fall"]
+
+
+func _twin_start(e: Dictionary) -> void:
+	var cap: Array = level.get("caption", [50.0, 180.0])
+	var bearer: Node2D = actors[e.spear]
+	_arena_setup(e, true, [e.foe], {"y0": float(cap[0]) - 12.0 * unit, "y1": ground + 24.0 * unit, "x": bearer.get_meta("home").x})
+	fight.stand = bearer.get_meta("home")          # he stays where he is drawn: his point is on the snake
+	fight.pos = fight.stand
+	fight.health = CROC_HEALTH
+	fight.clock = 0.0
+	fight.last_thrust = -INF
+	fight.pinned = false
+	fight.idle = rng.randf_range(float(e.idle[0]), float(e.idle[1])) + 0.6
+	var left: Node2D = actors[e.foe]
+	var home: Vector2 = left.get_meta("home")
+	var right := _make_actor((left.get_node("Sprite") as Sprite2D).texture, rects[e.foe])
+	right.set_meta("home", Vector2(2.0 * fight.stand.x - home.x, home.y))   # mirrored about him
+	right.position = right.get_meta("home")
+	fight.copies = [right]
+	fight.snakes = []
+	var signs := _twin_signs(e)
+	for i in 2:
+		var s := {"node": [left, right][i], "side": [-1, 1][i], "glyph": signs[i], "hits": 0,
+			"phase": "face", "t": 0.0, "for": 0.0, "face": 1.0, "lunge": 0.0, "sy": 1.0, "w": 0.0}
+		fight.snakes.append(s)
+		fight.copies.append(signs[i])
+	_twin_place()
+	_arena_open()
+
+
+var _strip_img: Image           ## the strip's pixels, for cutting the snake signs out of the caption
+
+
+## The two snake signs of the caption, each a copy of its ink over itself (it can then be tinted
+## red): flooded out from a point on each (`signs`), split down the middle if they touch.
+func _twin_signs(e: Dictionary) -> Array:
+	if _strip_img == null:
+		_strip_img = ($Strip.texture as Texture2D).get_image()
+		if _strip_img.is_compressed():
+			_strip_img.decompress()
+	var seeds: Array = e.signs
+	var a := Vector2i(int(seeds[0][0]), int(seeds[0][1]))
+	var b := Vector2i(int(seeds[1][0]), int(seeds[1][1]))
+	var box := Rect2i(mini(a.x, b.x) - 60, mini(a.y, b.y) - 20, absi(a.x - b.x) + 120, 130)
+	var masks := [_ink_flood(box, a), _ink_flood(box, b)]
+	var mid := (a.x + b.x) / 2
+	var merged: bool = masks[0].has(b - box.position)
+	var out := []
+	for i in 2:
+		var img := Image.create(box.size.x, box.size.y, false, Image.FORMAT_RGBA8)
+		for q in masks[i]:
+			if merged and ((box.position.x + q.x < mid) != (i == 0)):
+				continue
+			img.set_pixelv(q, _strip_img.get_pixelv(box.position + q))
+		var used := img.get_used_rect()
+		var sp := Sprite2D.new()
+		sp.centered = false
+		sp.texture = ImageTexture.create_from_image(img.get_region(used))
+		sp.position = Vector2(box.position + used.position)
+		$Actors.add_child(sp)
+		out.append(sp)
+	return out
+
+
+## The ink joined to `seed` (4-neighbours, alpha over a half) inside `box`, as points in it.
+func _ink_flood(box: Rect2i, seed: Vector2i) -> Dictionary:
+	var got := {}
+	var todo: Array[Vector2i] = [seed - box.position]
+	while not todo.is_empty():
+		var q: Vector2i = todo.pop_back()
+		if got.has(q) or q.x < 0 or q.y < 0 or q.x >= box.size.x or q.y >= box.size.y:
+			continue
+		if _strip_img.get_pixelv(box.position + q).a < 0.5:
+			continue
+		got[q] = true
+		todo.append_array([q + Vector2i.LEFT, q + Vector2i.RIGHT, q + Vector2i.UP, q + Vector2i.DOWN])
+	return got
+
+
+## Each snake as it is now (facing him or away, its head forward, sinking); as the vignette opens
+## they turn from as drawn to face him, and the copy fades in. The sign of the one about to strike
+## flashes red, and stays red until it has struck (or been struck).
+func _twin_place() -> void:
+	var k: float = fight.open
+	var pulse := 0.5 + 0.5 * sin(_time * 10.0)
+	for s in fight.snakes:
+		var a: Node2D = s.node
+		a.position = a.get_meta("home") + Vector2(s.side * (TWIN_SPREAD * unit * k - s.lunge), 0.0)
+		a.scale = Vector2(lerpf(-1.0, s.face, k) * s.side * (1.0 + s.w), lerpf(1.0, s.sy, k) * (1.0 - s.w))
+		if s.side > 0:
+			a.modulate.a = k
+		var glyph: Sprite2D = s.glyph
+		match s.phase:
+			"warn": glyph.modulate = Color.WHITE.lerp(RED_CROC, pulse)
+			"turn", "away", "whip", "snap": glyph.modulate = RED_CROC
+			_: glyph.modulate = Color.WHITE
+
+
+func _twin_phase(s: Dictionary, p: String) -> void:
+	s.phase = p
+	s.t = 0.0
+
+
+## How far along the fight is (0 at the first strike, 1 at the last), for the shrinking times.
+func _twin_k() -> float:
+	return clampf(float(fight.hits) / maxf(1.0, 2.0 * float(fight.e.need) - 1.0), 0.0, 1.0)
+
+
+func _twin(dt: float) -> void:
 	var e: Dictionary = fight.e
-	var a: Node2D = actors[fight.foe]
-	var dur := {"coiled": e.coil, "rising": e.rise, "reared": e.window, "strike": 0.3, "down": 0.6}
-	if fight.t >= dur[fight.phase]:
-		fight.t = 0.0
-		if fight.phase == "strike":
-			_bite("The snake strikes and draws back. Hit it while it stands upright.")
-		fight.phase = {"coiled": "rising", "rising": "reared", "reared": "strike", "strike": "coiled", "down": "coiled"}[fight.phase]
-	var k: float = fight.t / dur[fight.phase]
-	a.position.x = a.get_meta("home").x
-	a.rotation = 0.0
-	match fight.phase:
-		"coiled", "down": a.scale.y = 0.45
-		"rising": a.scale.y = lerpf(0.45, 1.0, k)
-		"reared":
-			a.scale.y = 1.0
-			a.rotation = sin(fight.t * 9.0) * 0.04
-		"strike":
-			a.scale.y = 1.0
-			a.position.x += 28.0 * unit * sin(k * PI)
-
-
-func _rear_click(p: Vector2) -> void:
-	if not actor_rect(fight.foe).grow(14 * unit).has_point(p):
+	if fight.open < 1.0 or fight.get("closing", false) or fight.lost:
 		return
-	if fight.phase == "reared":
-		fight.hits += 1
-		_flash(actors[fight.foe])
-		var need: int = fight.e.need
-		if fight.hits >= need:
-			fight.phase = "down"
-			_won_if(true)
-		else:
-			say("Scribe", "A hit. Once more when it rears again.")
-			fight.phase = "down"
-		fight.t = 0.0
-	elif fight.phase in ["coiled", "rising"]:
-		say("Scribe", "Too early: it is still coiled. Wait until it stands at full height.")
-		fight.phase = "coiled"
-		fight.t = 0.0
+	fight.clock += dt
+	var turn := Input.get_axis("ui_left", "ui_right") + float(Input.is_key_pressed(KEY_D)) - float(Input.is_key_pressed(KEY_A))
+	if fight.get("bot", false):
+		turn = _twin_bot()
+	if turn != 0.0 and not fight.pinned:
+		fight.facing = 1 if turn > 0.0 else -1
+	if fight.thrust >= 0.0 and not fight.pinned:
+		fight.thrust += dt
+		if not fight.struck and fight.thrust >= THRUST_TIME[0]:
+			fight.struck = true
+			_twin_strike()
+		if fight.thrust >= THRUST_TIME[0] + THRUST_TIME[1]:
+			fight.thrust = -1.0
+	fight.red = maxf(0.0, fight.red - dt)
+	# when neither is busy, after a while one of them (still standing) is about to strike
+	if not fight.snakes.any(func(x): return x.phase in TWIN_BUSY):
+		fight.idle -= dt
+		if fight.idle <= 0.0:
+			var up: Array = fight.snakes.filter(func(x): return x.phase == "face")
+			if not up.is_empty():
+				var s: Dictionary = up[rng.randi() % up.size()]
+				_twin_phase(s, "warn")
+			fight.idle = rng.randf_range(float(e.idle[0]), float(e.idle[1]))
+	for s in fight.snakes:
+		s.t += dt
+		s.w = 0.0
+		match s.phase:
+			"face":
+				s.face = 1.0
+				s.lunge = 0.0
+			"warn":            # its sign flashes; it still faces him
+				if s.t >= lerpf(float(e.warn[0]), float(e.warn[1]), _twin_k()):
+					_twin_phase(s, "turn")
+					_dev_shot("SHOT_ON_TURN")
+			"turn":            # it turns its back on him
+				var u := minf(s.t / TWIN_TURN, 1.0)
+				s.face = lerpf(1.0, -1.0, u)
+				if u >= 1.0:
+					_twin_phase(s, "away")
+					s.for = lerpf(float(e.window[0]), float(e.window[1]), _twin_k())
+			"away":
+				s.face = -1.0
+				if s.t >= s.for:
+					s.why = "It turned round and bit you. When its sign flashes, turn to it (← →) and strike while its back is turned."
+					_twin_phase(s, "whip")
+			"whip":            # it whips round...
+				var u := minf(s.t / TWIN_SNAP, 1.0)
+				s.face = lerpf(-1.0, 1.0, u)
+				if u >= 1.0:
+					_twin_phase(s, "snap")
+			"snap":            # ...and its head shoots forward
+				s.face = 1.0
+				var u := minf(s.t / TWIN_SNAP, 1.0)
+				s.lunge = TWIN_LUNGE * unit * (1.0 - (1.0 - u) * (1.0 - u))
+				if u >= 1.0:
+					_twin_phase(s, "back")
+					_twin_bites(s)
+					if fight.lost:
+						break
+			"back":
+				var u := minf(s.t / 0.3, 1.0)
+				s.lunge = TWIN_LUNGE * unit * (1.0 - u)
+				if u >= 1.0:
+					_twin_phase(s, "face")
+			"pinned":          # held on the spear point, writhing
+				s.w = 0.05 * sin(fight.clock * 40.0)
+				if s.t >= ROACH_FREEZE:
+					fight.pinned = false
+					fight.struck = true
+					fight.thrust = THRUST_TIME[0] + 0.001          # the spear draws back up
+					_twin_phase(s, "fall" if s.hits >= int(e.need) else "unturn")
+			"unturn":          # it turns to face him again
+				var u := minf(s.t / TWIN_TURN, 1.0)
+				s.face = lerpf(-1.0, 1.0, u)
+				if u >= 1.0:
+					_twin_phase(s, "face")
+			"fall":            # it sinks down, lying still
+				var u := minf(s.t / TWIN_FALL, 1.0)
+				s.sy = lerpf(1.0, 0.35, u)
+				if u >= 1.0:
+					_twin_phase(s, "fallen")
+					if fight.snakes.all(func(x): return x.phase == "fallen"):
+						end_fight()
+						return
+	_twin_place()
+	_place_bearer()
 
 
-# snake on the ground: strike when it slides up to the spear tip
-func _slither_off() -> float:
-	return (-85.0 + 85.0 * sin(fight.t * (1.5 + 0.4 * fight.hits))) * unit
-
-
-func _slither(_dt: float) -> void:
-	var a: Node2D = actors[fight.foe]
-	a.position.x = a.get_meta("home").x + _slither_off()
-
-
-func _slither_click(p: Vector2) -> void:
-	if not actor_rect(fight.foe).grow(10 * unit).has_point(p):
+## The spear point comes down on the snake on the side he faces.
+func _twin_strike() -> void:
+	var s: Dictionary = fight.snakes[0 if fight.facing < 0 else 1]
+	if s.phase in ["fall", "fallen", "pinned"]:
 		return
-	if _slither_off() > -30.0 * unit:
+	if s.face < 0.0 and s.phase in ["turn", "away", "whip"]:      # its back is turned
+		s.hits += 1
 		fight.hits += 1
-		_flash(actors[fight.foe])
-		fight.t = -PI / 2.0 / 1.5  # thrown back to the far end of its slide
-		var need: int = fight.e.need
-		if fight.hits < need:
-			say("Scribe", "A hit. It slides away; wait for it to come back.")
-		_won_if(fight.hits >= need)
-	else:
-		say("Scribe", "Out of reach. Wait until it slides up to the spear tip.")
+		fight.pinned = true
+		_hurt(s.node)
+		_twin_phase(s, "pinned")
+		_dev_shot("SHOT_ON_CATCH")
+		say("Scribe", "Struck!" + (" It falls." if s.hits >= int(fight.e.need) else " Once more when it turns its back again."))
+		return
+	if s.phase in ["snap", "back", "unturn"]:
+		return
+	s.why = "It was facing you: its head shot forward. Strike only a snake whose back is turned."
+	s.face = 1.0
+	_twin_phase(s, "snap")
+
+
+func _twin_bites(s: Dictionary) -> void:
+	_dev_shot("SHOT_ON_BITE")
+	fight.red = 0.8
+	fight.health -= 1
+	bites += 1
+	if fight.health <= 0:
+		fight.lost = true
+		var e: Dictionary = fight.e
+		say("Scribe", "One bite too many: the spear-bearer crumbles to dust.")
+		_disintegrate(e)
+		var t := create_tween()
+		t.tween_interval(2.0)
+		t.tween_callback(func():
+			if not fight.is_empty() and fight.kind == "twin" and fight.e.id == e.id and fight.lost:
+				_arena_lost(e))
+		return
+	say("Scribe", str(s.why) + " Bitten.")
+
+
+func _twin_click(_p: Vector2) -> void:
+	if _time - fight.nag > 4.0:
+		fight.nag = _time
+		say("Scribe", "← → (or A D) turn you; Space thrusts. Strike a snake only while its back is turned.")
+
+
+## Dev (`--croc-bot`): turns to the snake whose sign flashes and thrusts once its back is turned
+## (with BOT_MISS it never thrusts, to see them bite).
+func _twin_bot() -> float:
+	for s in fight.snakes:
+		if s.phase in ["warn", "turn", "away"]:
+			if fight.facing != s.side:
+				return float(s.side)
+			if s.phase == "away" and s.t > 0.15 and not OS.has_environment("BOT_MISS"):
+				_croc_thrust()
+	return 0.0
+
+
+# the snake on the ground (spell 35): red light, green light. The vignette opens out (close up, as for
+# spell 33) to the left; the snake slides off ahead of him and lies with its back to him. He creeps
+# up along the ground (← or A; forward only, and no further than where his point is over its head),
+# and a thrust (Space) whose point comes down on its head strikes it. A ring on the ground shows
+# where the point will land (red when on its head). Now and then it lifts
+# its head (the warning), turns it round to look at him, and turns away again. Moving or thrusting
+# while it looks (after CREEP_GRACE): it lashes back at his foot. A thrust that lands short or past
+# its head strikes the ground, and it turns to look. Struck, it slides `flee` on; struck
+# `need` times, it lies still; bitten CROC_HEALTH times, he crumbles and is back on the scroll.
+const CREEP_REACH := 10.0       ## the point counts this close (along the ground) to its head (plate px)
+const CREEP_GRACE := 0.12       ## once it has turned to look, a move this soon is not seen (s)
+const CREEP_TURN := 0.15        ## it turns its head round (s)
+const CREEP_LIFT := 0.4         ## how far it lifts its head to look back (rad; the warning, under half that)
+const CREEP_EYE := 2.5          ## its red eye while it looks at him (plate px)
+const CREEP_SNAP := 0.18        ## its lash back at his foot (s)
+const CREEP_SLIDE := 0.6        ## sliding back off ahead of him (s)
+
+
+func _creep_start(e: Dictionary) -> void:
+	# close up, from the caption banner to just under the ground; he stands near the right-hand
+	# edge, the snake lies near the left-hand one
+	var cap: Array = level.get("caption", [50.0, 180.0])
+	var y0: float = float(cap[0]) - 12.0 * unit
+	var y1: float = ground + 24.0 * unit
+	var vp := get_viewport_rect().size
+	var z: float = (vp.y - hud.top_height() - hud.bottom_height() - 10.0) / (y1 - y0)
+	var right: float = rects[e.spear].end.x + 40.0 * unit
+	_arena_setup(e, false, [e.foe], {"y0": y0, "y1": y1, "x": right - vp.x / z / 2.0})
+	fight.stand = actors[e.spear].get_meta("home")
+	fight.pos = fight.stand
+	fight.health = CROC_HEALTH
+	fight.clock = 0.0
+	fight.last_thrust = -INF
+	fight.pinned = false
+	var a: Node2D = actors[e.foe]
+	# where the point comes down at the full thrust with both as drawn: on its head (from its pivot)
+	fight.mark = _creep_point() - a.get_meta("home")
+	_creep_dress(e)
+	fight.snake = {"node": a, "phase": "away", "t": 0.0, "for": 1.6, "off": 0.0, "lift": 0.0, "sx": 1.0, "w": 0.0, "fake": false}
+	fight.snake.off = _creep_edge_off() + float(e.flee) * unit * (int(e.need) - 1)   # room to slide on
+	_creep_place()
+	_arena_open()
+
+
+## For this fight only: its head cut from its body, on a pivot of its own, so it can lift and turn.
+func _creep_dress(e: Dictionary) -> void:
+	var a: Node2D = actors[e.foe]
+	var sp: Sprite2D = a.get_node("Sprite")
+	fight.snake_plain = sp.texture
+	var img := sp.texture.get_image()
+	if img.is_compressed():
+		img.decompress()
+	img.convert(Image.FORMAT_RGBA8)
+	var hr: Array = e.head_rect
+	var r := Rect2i(int(hr[0]), int(hr[1]), int(hr[2]), int(hr[3]))
+	img.fill_rect(r, Color(0, 0, 0, 0))
+	sp.texture = ImageTexture.create_from_image(img)
+	var neck := Vector2(float(e.head_pivot[0]), float(e.head_pivot[1]))
+	fight.neck_at = sp.position + neck
+	fight.eye = Vector2(float(e.eye[0]), float(e.eye[1])) - neck
+	var pivot := Node2D.new()
+	pivot.name = "Head"
+	pivot.position = fight.neck_at
+	var hs := Sprite2D.new()
+	hs.texture = fight.snake_plain
+	hs.centered = false
+	hs.region_enabled = true
+	hs.region_rect = Rect2(r)
+	hs.position = Vector2(r.position) - neck
+	pivot.add_child(hs)
+	a.add_child(pivot)
+
+
+## Undo _creep_dress.
+func _creep_undress() -> void:
+	if not fight.has("snake_plain"):
+		return
+	var a: Node2D = actors[fight.e.foe]
+	(a.get_node("Sprite") as Sprite2D).texture = fight.snake_plain
+	var head := a.get_node_or_null("Head")
+	if head:
+		a.remove_child(head)
+		head.queue_free()
+
+
+## Where the spear point comes down at the full thrust, and where its head is now.
+func _creep_point() -> Vector2:
+	return fight.pos + _tip_offset() + _spear_dir() * CROC_THRUST * unit
+
+
+func _creep_head() -> Vector2:
+	return fight.snake.node.position + fight.mark
+
+
+func _creep_in_reach() -> bool:
+	return absf(_creep_point().x - _creep_head().x) <= CREEP_REACH * unit
+
+
+## Its offset from where it is drawn with its tail at the left-hand edge of the opened vignette.
+func _creep_edge_off() -> float:
+	var a: Node2D = actors[fight.e.foe]
+	return fight.full.position.x + 40.0 * unit + a.get_meta("size").x / 2.0 - a.get_meta("home").x
+
+
+func _creep_place() -> void:
+	var sn: Dictionary = fight.snake
+	var a: Node2D = sn.node
+	a.position = a.get_meta("home") + Vector2(sn.off * fight.open, 0.0)
+	a.scale = Vector2(1.0 + sn.w, 1.0 - sn.w)
+	var head: Node2D = a.get_node_or_null("Head")
+	if head:
+		head.scale.x = sn.sx
+		head.rotation = sn.lift * sn.sx
+		head.position = fight.neck_at + Vector2(0.0, -sn.lift * 16.0 * unit)
+
+
+func _creep_phase(p: String) -> void:
+	fight.snake.phase = p
+	fight.snake.t = 0.0
+
+
+func _creep(dt: float) -> void:
+	var e: Dictionary = fight.e
+	if fight.open < 1.0 or fight.get("closing", false) or fight.lost:
+		return
+	fight.clock += dt
+	var mv := -float(Input.is_action_pressed("ui_left") or Input.is_key_pressed(KEY_A))
+	if fight.get("bot", false):
+		mv = _creep_bot()
+	_creep_move(mv, dt)
+	if fight.thrust >= 0.0 and not fight.pinned:
+		fight.thrust += dt
+		if not fight.struck and fight.thrust >= THRUST_TIME[0]:
+			fight.struck = true
+			_creep_strike()
+		if fight.thrust >= THRUST_TIME[0] + THRUST_TIME[1]:
+			fight.thrust = -1.0
+	fight.red = maxf(0.0, fight.red - dt)
+	var sn: Dictionary = fight.snake
+	sn.t += dt
+	sn.w = 0.0
+	match sn.phase:
+		"away":            # its head down and turned away: he may move
+			sn.lift = maxf(0.0, sn.lift - dt * 4.0)
+			sn.sx = 1.0
+			if sn.t >= sn.for:
+				sn.fake = fight.hits > 0 and rng.randf() < float(e.fake)
+				_creep_phase("tell")
+		"tell":            # the warning: it lifts its head, trembling
+			var dur := _creep_tell()
+			sn.lift = CREEP_LIFT * 0.45 * minf(sn.t / dur, 1.0) + 0.04 * sin(fight.clock * 50.0)
+			if sn.t >= dur:
+				if sn.fake:            # ...and lays it down again
+					_creep_phase("away")
+					sn.for = rng.randf_range(float(e.away[0]), float(e.away[1]))
+				else:
+					_creep_phase("turn")
+		"turn":            # and turns it round to look at him
+			var u := minf(sn.t / CREEP_TURN, 1.0)
+			sn.sx = lerpf(1.0, -1.0, u)
+			sn.lift = lerpf(CREEP_LIFT * 0.45, CREEP_LIFT, u)
+			if u >= 1.0:
+				_creep_phase("watch")
+				_dev_shot("SHOT_ON_WATCH")
+				sn.for = rng.randf_range(float(e.watch[0]), float(e.watch[1]))
+		"watch":
+			sn.sx = -1.0
+			sn.lift = CREEP_LIFT + 0.05 * sin(fight.clock * 3.0)
+			if sn.t >= sn.for:
+				_creep_phase("unturn")
+		"unturn":          # it looks away again
+			var u := minf(sn.t / CREEP_TURN, 1.0)
+			sn.sx = lerpf(-1.0, 1.0, u)
+			sn.lift = lerpf(CREEP_LIFT, 0.0, u)
+			if u >= 1.0:
+				_creep_phase("away")
+				sn.for = rng.randf_range(float(e.away[0]), float(e.away[1]))
+		"strike":          # it lashes back at his foot
+			var u := minf(sn.t / CREEP_SNAP, 1.0)
+			sn.off = sn.from + (sn.to - sn.from) * (1.0 - (1.0 - u) * (1.0 - u))
+			if u >= 1.0:
+				_creep_bites()
+		"bitten":
+			if sn.t >= 0.4:
+				_creep_slide(sn.lay)          # back to where it lay
+		"slide":           # it slides off, its head turned away again
+			var u := minf(sn.t / CREEP_SLIDE, 1.0)
+			var k := u * u * (3.0 - 2.0 * u)
+			sn.off = sn.from + (sn.to - sn.from) * k
+			sn.sx = lerpf(sn.sx0, 1.0, k)
+			sn.lift = lerpf(sn.lift0, 0.0, k)
+			if u >= 1.0:
+				_creep_phase("away")
+				sn.for = rng.randf_range(float(e.away[0]), float(e.away[1]))
+		"pinned":          # held on the spear point, writhing
+			sn.w = 0.05 * sin(fight.clock * 40.0)
+			if sn.t >= ROACH_FREEZE:
+				fight.pinned = false
+				fight.struck = true
+				fight.thrust = THRUST_TIME[0] + 0.001          # the spear draws back up
+				if fight.hits >= int(e.need):
+					end_fight()
+					return
+				_creep_slide(maxf(_creep_edge_off(), sn.off - float(e.flee) * unit))   # on toward the edge
+	_creep_place()
+	_place_bearer()
+
+
+## He creeps forward along the ground (`mv` < 0), never past where the point lands on its head.
+## Seen moving: it lashes back.
+func _creep_move(mv: float, dt: float) -> void:
+	var sn: Dictionary = fight.snake
+	if mv >= 0.0 or sn.phase in ["strike", "bitten", "pinned"]:
+		return
+	var lo: float = _creep_head().x - (_creep_point().x - fight.pos.x)
+	var x: float = maxf(fight.pos.x - float(fight.e.creep) * unit * dt, minf(lo, fight.pos.x))
+	if absf(x - fight.pos.x) < 0.01:
+		return
+	fight.pos.x = x
+	if sn.phase == "watch" and sn.t >= CREEP_GRACE:
+		_creep_lash("It turned and saw you move.")
+
+
+## The warning grows shorter with each strike.
+func _creep_tell() -> float:
+	var tell: Array = fight.e.tell
+	var k := clampf(float(fight.hits) / maxf(1.0, float(fight.e.need) - 1.0), 0.0, 1.0)
+	return lerpf(float(tell[0]), float(tell[1]), k)
+
+
+## The spear point comes down.
+func _creep_strike() -> void:
+	var sn: Dictionary = fight.snake
+	if sn.phase in ["strike", "bitten", "pinned", "slide"]:
+		return
+	if sn.phase == "watch" and sn.t >= CREEP_GRACE:
+		_creep_lash("It saw the spear coming.")
+		return
+	if _creep_in_reach():
+		fight.hits += 1
+		fight.pinned = true
+		_hurt(sn.node)
+		_creep_phase("pinned")
+		_dev_shot("SHOT_ON_CATCH")
+		var left: int = int(fight.e.need) - fight.hits
+		say("Scribe", "Struck!" + (" It pulls free and slides off ahead of you. %d more." % left if left > 0 else ""))
+		return
+	# short of its head: the spear strikes the ground, and it turns to look
+	say("Scribe", "Short of its head: the spear strikes the ground, and it hears.")
+	if sn.phase in ["away", "tell"]:
+		sn.lift = maxf(sn.lift, CREEP_LIFT * 0.45)
+		_creep_phase("turn")
+
+
+## It lashes round at his front foot.
+func _creep_lash(why: String) -> void:
+	var sn: Dictionary = fight.snake
+	sn.lay = sn.off
+	sn.from = sn.off
+	sn.to = fight.pos.x - fight.stand.x + 4.0 * unit      # its head, turned round, at his foot
+	sn.sx = -1.0
+	sn.lift = CREEP_LIFT * 0.4
+	sn.why = why
+	_creep_phase("strike")
+
+
+func _creep_bites() -> void:
+	var sn: Dictionary = fight.snake
+	_creep_phase("bitten")
+	_dev_shot("SHOT_ON_BITE")
+	fight.red = 0.8
+	fight.health -= 1
+	bites += 1
+	if fight.health <= 0:
+		_creep_dies()
+		return
+	say("Scribe", sn.why + " Bitten. When its head lifts, let go of the keys and wait until it looks away again.")
+
+
+## It slides to `to` (its offset from where it is drawn), its head turned away again.
+func _creep_slide(to: float) -> void:
+	var sn: Dictionary = fight.snake
+	sn.from = sn.off
+	sn.to = to
+	sn.sx0 = sn.sx
+	sn.lift0 = sn.lift
+	_creep_phase("slide")
+
+
+## The last bite: he crumbles away, and he is back on the scroll.
+func _creep_dies() -> void:
+	fight.lost = true
+	var e: Dictionary = fight.e
+	say("Scribe", "One bite too many: the spear-bearer crumbles to dust.")
+	_disintegrate(e)
+	var t := create_tween()
+	t.tween_interval(2.0)
+	t.tween_callback(func():
+		if not fight.is_empty() and fight.kind == "creep" and fight.e.id == e.id and fight.lost:
+			_arena_lost(e))
+
+
+func _creep_click(_p: Vector2) -> void:
+	if _time - fight.nag > 4.0:
+		fight.nag = _time
+		say("Scribe", "← (or A) creeps toward it; Space thrusts. Hold still while it looks back.")
+
+
+## Dev (`--croc-bot`): creeps while its head is down, stops when it lifts, thrusts when in reach
+## (with BOT_MISS it never stops, to see it look back and bite).
+func _creep_bot() -> float:
+	var sn: Dictionary = fight.snake
+	if sn.phase != "away" and not (OS.has_environment("BOT_MISS") and sn.phase in ["tell", "turn", "watch"]):
+		return 0.0
+	if _creep_in_reach():
+		_croc_thrust()
+		return 0.0
+	return -1.0
 
 
 # the roach (spell 36). The vignette opens out as for the crocodiles. The bearer stands still in the
-# middle: ← → turn him, Space thrusts. The roach darts about very fast between resting spots; every
-# `bait_every` darts it stops where the spear point can reach it (sometimes, `fake`, just out of
-# reach). Only the spear point at the full thrust catches it: on its body, or with `dot` only on a
-# red dot on its back. A catch holds everything still for ROACH_FREEZE s, then it runs again until
-# it has been caught `need` times.
+# middle: ← → turn him, Space thrusts. `count` beetles (the drawn one and copies) dart about very
+# fast between resting spots; every `bait_every` darts each stops where the spear point can reach
+# it on his left or right (sometimes, `fake`, just out of reach). Only the spear point at the full
+# thrust catches one: on its body, or with `dot` only on a red dot on its back. A catch holds
+# everything still for ROACH_FREEZE s; the pinned beetle is gone, and all of them pinned wins. A
+# beetle that stops within reach and gets away again has passed the point: it reddens, and one that
+# has passed `passes` times and gets away again is too many. They multiply until they fill the
+# screen, the bearer crumbles, and he is back on the scroll.
 const ROACH_FREEZE := 0.5      ## the pause after a catch, to show it
 const ROACH_DOT := 8.0         ## radius of the red dot on its back (plate px), when `dot` is set
+const ROACH_SWARM := 120       ## how many beetles fill the screen when the fight is lost
 
 
 func _roach_start(e: Dictionary) -> void:
@@ -1620,28 +2249,42 @@ func _roach_start(e: Dictionary) -> void:
 	fight.stand = Vector2(full.get_center().x, full.get_center().y - fight.tip.y)
 	fight.pos = fight.stand
 	fight.hits = 0
-	fight.need = e.need if _roach_need < 0 else _roach_need
+	fight.need = int(e.count) if _roach_need < 0 else _roach_need
 	fight.freeze = 0.0
 	fight.clock = 0.0
+	fight.copies = []
+	fight.roaches = []
 	var a: Node2D = actors[e.foe]
 	var size: Vector2 = a.get_meta("size")
 	var home_c: Vector2 = a.get_meta("home") + Vector2(0.0, -size.y / 2.0)
-	# it waits a little way off to the left while the vignette opens
-	var c0: Vector2 = fight.stand + Vector2(-260.0 * unit, fight.tip.y)
-	fight.roach = {"node": a, "size": size, "home_c": home_c, "c0": c0, "c": home_c, "target": c0,
-		"wait": 0.9, "rest_from": 0.0, "leg": 0, "darting": false}
-	if e.get("dot", false):
-		var dot := Node2D.new()
-		dot.position = Vector2(0.0, -size.y / 2.0)
-		dot.draw.connect(func(): dot.draw_circle(Vector2.ZERO, ROACH_DOT * unit, Color(181 / 255.0, 91 / 255.0, 60 / 255.0)))
-		a.add_child(dot)
-		fight.dot = dot
+	# the drawn one waits a little way off to the left while the vignette opens; the others
+	# (copies) fade in at other spots around him
+	var spots := [Vector2(-260.0, 0.0), Vector2(300.0, -150.0), Vector2(220.0, 170.0), Vector2(-200.0, -180.0), Vector2(-320.0, 160.0)]
+	for i in fight.need:
+		var c0: Vector2 = fight.stand + Vector2(0.0, fight.tip.y) + spots[i % spots.size()] * unit
+		var node := a
+		if i > 0:
+			node = _make_actor((a.get_node("Sprite") as Sprite2D).texture, Rect2(Vector2.ZERO, size))
+			node.modulate.a = 0.0
+			fight.copies.append(node)
+		var r := {"node": node, "size": size, "home_c": home_c if i == 0 else c0, "c0": c0, "c": c0, "target": c0,
+			"wait": 0.9 + 0.35 * i, "rest_from": 0.0, "leg": i, "darting": false, "rest": 0.0,
+			"at_point": false, "passes": 0, "gone": false}
+		fight.roaches.append(r)
+		_roach_place(r, home_c if i == 0 else c0)
+		if e.get("dot", false):
+			var dot := Node2D.new()
+			dot.position = Vector2(0.0, -size.y / 2.0)
+			dot.draw.connect(func(): dot.draw_circle(Vector2.ZERO, ROACH_DOT * unit, Color(181 / 255.0, 91 / 255.0, 60 / 255.0)))
+			node.add_child(dot)
+			if i == 0:
+				fight.dot = dot
+	fight.roach = fight.roaches[0]
 	_arena_open()
 
 
-## Put the roach's body centre at `c` (its pivot is at the bottom centre, and it turns as it runs).
-func _roach_place(c: Vector2) -> void:
-	var r: Dictionary = fight.roach
+## Put beetle `r`'s body centre at `c` (its pivot is at the bottom centre, and it turns as it runs).
+func _roach_place(r: Dictionary, c: Vector2) -> void:
 	r.c = c
 	r.node.position = c + Vector2(0.0, r.size.y / 2.0).rotated(r.node.rotation)
 
@@ -1651,9 +2294,8 @@ func _roach_spear_point(side: int) -> Vector2:
 	return fight.pos + Vector2(fight.tip.x * -side, fight.tip.y) + Vector2(fight.dir.x * -side, fight.dir.y) * CROC_THRUST * unit
 
 
-## Does a spear point at `p` touch the roach (its body, or the dot when there is one)?
-func _roach_touches(p: Vector2) -> bool:
-	var r: Dictionary = fight.roach
+## Does a spear point at `p` touch beetle `r` (its body, or the dot when there is one)?
+func _roach_touches(r: Dictionary, p: Vector2) -> bool:
 	if fight.e.get("dot", false):
 		return p.distance_to(r.c) <= ROACH_DOT * unit
 	var q: Vector2 = (p - r.c).rotated(-r.node.rotation)
@@ -1662,11 +2304,24 @@ func _roach_touches(p: Vector2) -> bool:
 	return (q.x * q.x) / (ax * ax) + (q.y * q.y) / (ay * ay) <= 1.0
 
 
-## The next place it runs to: every `bait_every` darts, by the spear point of one side or the other
-## (a `fake` one stops just out of reach); otherwise anywhere around him.
-func _roach_next() -> void:
+## The beetles still running.
+func _roaches() -> Array:
+	return fight.roaches.filter(func(r): return not r.gone)
+
+
+## The next place beetle `r` runs to: every `bait_every` darts, by the spear point of one side or
+## the other (a `fake` one stops just out of reach); otherwise anywhere around him. A beetle that
+## leaves the spear point has passed it once more; past `passes` times, the fight is lost.
+func _roach_next(r: Dictionary) -> void:
 	var e: Dictionary = fight.e
-	var r: Dictionary = fight.roach
+	if r.at_point:
+		r.at_point = false
+		r.passes += 1
+		var most: int = int(e.get("passes", 3))
+		r.node.modulate = Color(Color.WHITE.lerp(RED_CROC, minf(1.0, float(r.passes) / most)), r.node.modulate.a)
+		if r.passes > most:
+			_roach_swarm(r)
+			return
 	r.leg += 1
 	var full: Rect2 = fight.full
 	var reach: float = ROACH_DOT * unit if e.get("dot", false) else r.size.y * 0.3
@@ -1678,6 +2333,7 @@ func _roach_next() -> void:
 			off *= reach * 2.2 + r.size.y * 0.5       # just out of reach
 		else:
 			off *= reach * rng.randf() * 0.6
+			r.at_point = true
 		r.target = p + off
 		r.rest = rng.randf_range(e.bait_rest[0], e.bait_rest[1])
 	else:
@@ -1691,29 +2347,28 @@ func _roach_next() -> void:
 
 func _roach(dt: float) -> void:
 	var e: Dictionary = fight.e
-	if fight.open < 1.0 or fight.get("closing", false):
+	if fight.open < 1.0 or fight.get("closing", false) or fight.lost:
 		return
 	fight.clock += dt
-	var r: Dictionary = fight.roach
 	# turn
 	var turn := Input.get_axis("ui_left", "ui_right") + float(Input.is_key_pressed(KEY_D)) - float(Input.is_key_pressed(KEY_A))
 	if fight.get("bot", false):
 		turn = _roach_bot()
 	if turn != 0.0:
 		fight.facing = 1 if turn > 0.0 else -1
-	# a catch: everything holds still, the spear thrust home, then it runs again (or it is over)
+	# a catch: everything holds still, the spear thrust home, then the rest run again (or it is over)
 	if fight.freeze > 0.0:
 		fight.freeze -= dt
-		r.node.rotation = sin(fight.clock * 40.0) * 0.08     # it wriggles on the spear
-		_roach_place(r.c)
+		var pinned: Dictionary = fight.pinned_roach
+		pinned.node.rotation = sin(fight.clock * 40.0) * 0.08     # it wriggles on the spear
+		_roach_place(pinned, pinned.c)
 		if fight.freeze <= 0.0:
 			fight.thrust = THRUST_TIME[0] + 0.001             # the spear draws back
+			pinned.gone = true                                # and the pinned one is done for
+			pinned.node.create_tween().tween_property(pinned.node, "modulate:a", 0.0, 0.3)
 			if fight.hits >= fight.need:
 				end_fight()
 				return
-			r.node.modulate = Color.WHITE
-			r.wait = 0.0
-			r.leg = 0                                         # it runs off somewhere else first
 		_place_bearer()
 		return
 	if fight.thrust >= 0.0:
@@ -1728,30 +2383,38 @@ func _roach(dt: float) -> void:
 		if fight.thrust >= THRUST_TIME[0] + THRUST_TIME[1]:
 			fight.thrust = -1.0
 	_place_bearer()
-	# run, rest, run
-	if r.darting:
-		var d: Vector2 = r.target - r.c
-		var step: float = e.dart * unit * dt
-		if d.length() > 1.0:
-			r.node.rotation = lerp_angle(r.node.rotation, d.angle(), minf(1.0, dt * 30.0))
-		if d.length() <= step:
-			_roach_place(r.target)
-			r.darting = false
-			r.wait = r.rest
-			r.rest_from = fight.clock
+	# each runs, rests, runs
+	for r in _roaches():
+		if r.darting:
+			var d: Vector2 = r.target - r.c
+			var step: float = e.dart * unit * dt
+			if d.length() > 1.0:
+				r.node.rotation = lerp_angle(r.node.rotation, d.angle(), minf(1.0, dt * 30.0))
+			if d.length() <= step:
+				_roach_place(r, r.target)
+				r.darting = false
+				r.wait = r.rest
+				r.rest_from = fight.clock
+			else:
+				_roach_place(r, r.c + d.normalized() * step)
 		else:
-			_roach_place(r.c + d.normalized() * step)
-	else:
-		r.wait -= dt
-		r.node.rotation += sin(fight.clock * 23.0) * 0.004     # feelers twitching
-		_roach_place(r.c)
-		if r.wait <= 0.0:
-			_roach_next()
+			r.wait -= dt
+			r.node.rotation += sin(fight.clock * 23.0 + r.leg) * 0.004     # feelers twitching
+			_roach_place(r, r.c)
+			if r.wait <= 0.0:
+				_roach_next(r)
+				if fight.lost:
+					return
 
 
 func _roach_strike() -> void:
-	var e: Dictionary = fight.e
-	if not _roach_touches(_roach_spear_point(fight.facing)):
+	var p := _roach_spear_point(fight.facing)
+	var hit = null
+	for r in _roaches():
+		if _roach_touches(r, p):
+			hit = r
+			break
+	if hit == null:
 		return
 	fight.hits += 1
 	if fight.get("bot", false):
@@ -1760,10 +2423,46 @@ func _roach_strike() -> void:
 			get_tree().create_timer(0.1).timeout.connect(func():
 				get_viewport().get_texture().get_image().save_png(OS.get_environment("SHOT_ON_CATCH")))
 	fight.freeze = ROACH_FREEZE
-	fight.roach.darting = false
-	fight.roach.node.modulate = RED_CROC
+	fight.pinned_roach = hit
+	hit.darting = false
+	hit.at_point = false
+	hit.node.modulate = Color(RED_CROC, hit.node.modulate.a)
 	var left: int = fight.need - fight.hits
-	say("Scribe", "Pinned!" + (" It wriggles free. %d more." % left if left > 0 else ""))
+	say("Scribe", "Pinned!" + (" %d more." % left if left > 0 else ""))
+
+
+## Lost: beetle `r` got away from the spear point once too often. Beetles multiply from the ones
+## still running until they fill the screen; the bearer crumbles; back on the scroll.
+func _roach_swarm(r: Dictionary) -> void:
+	var e: Dictionary = fight.e
+	fight.lost = true
+	say("Scribe", "A beetle got away from your spear once too often. They multiply until they fill the vignette.")
+	var from: Array = _roaches().map(func(x): return x.c)
+	var tex: Texture2D = (r.node.get_node("Sprite") as Sprite2D).texture
+	var size: Vector2 = r.size
+	var full: Rect2 = fight.full
+	for i in ROACH_SWARM:
+		var b := _make_actor(tex, Rect2(Vector2.ZERO, size))
+		var c: Vector2 = from[i % from.size()]
+		b.position = c + Vector2(0.0, size.y / 2.0)
+		b.rotation = rng.randf() * TAU
+		b.modulate = Color(Color.WHITE.lerp(RED_CROC, rng.randf_range(0.3, 1.0)), 0.0)
+		fight.copies.append(b)
+		var to := Vector2(rng.randf_range(full.position.x + 40.0 * unit, full.end.x - 40.0 * unit),
+			rng.randf_range(full.position.y + 40.0 * unit, full.end.y - 20.0 * unit))
+		var t := b.create_tween()
+		t.tween_interval(i * 0.015)
+		t.tween_property(b, "modulate:a", 1.0, 0.1)
+		t.parallel().tween_property(b, "position", to, 0.35).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	var t := create_tween()
+	t.tween_interval(ROACH_SWARM * 0.015 + 0.2)
+	t.tween_callback(func():
+		if not fight.is_empty() and fight.kind == "roach" and fight.e.id == e.id and fight.lost:
+			_disintegrate(e))
+	t.tween_interval(2.0)
+	t.tween_callback(func():
+		if not fight.is_empty() and fight.kind == "roach" and fight.e.id == e.id and fight.lost:
+			_arena_lost(e))
 
 
 func _roach_click(_p: Vector2) -> void:
@@ -1772,14 +2471,19 @@ func _roach_click(_p: Vector2) -> void:
 		say("Scribe", "Press Space to thrust the spear; ← → turn you. You cannot step.")
 
 
-## Dev (`--croc-bot`): turns toward the roach and thrusts once it has rested REACT s within reach.
+## Dev (`--croc-bot`): turns toward a beetle that has rested REACT s within reach, and thrusts.
 func _roach_bot() -> float:
-	var r: Dictionary = fight.roach
 	var react: float = float(OS.get_environment("BOT_REACT")) if OS.has_environment("BOT_REACT") else REACT
-	var side := 1 if r.c.x > fight.pos.x else -1
-	if not r.darting and fight.clock - r.rest_from >= react and side == fight.facing and _roach_touches(_roach_spear_point(side)):
-		_croc_thrust()
-	return float(side) if side != fight.facing else 0.0
+	for r in _roaches():
+		if r.darting or fight.clock - r.rest_from < react:
+			continue
+		var side := 1 if r.c.x > fight.pos.x else -1
+		if _roach_touches(r, _roach_spear_point(side)):
+			if side == fight.facing:
+				_croc_thrust()
+				return 0.0
+			return float(side)
+	return 0.0
 
 
 # Apep: strike only the coil that rises
@@ -1791,7 +2495,7 @@ func _roach_bot() -> float:
 # at his front leg (its body behind his skirt): bitten. Too early and the spear is already coming
 # back up when it springs; too late and it is past. Struck `need` times, it is overcome; bitten
 # CROC_HEALTH times, he crumbles and the fight starts over.
-const SNAKE_MARK := 7.0         ## radius of the red mark on its body (plate px)
+const SNAKE_MARK := 7.0         ## radius of the red mark on its body (plate px), when `marks` does not say
 const SNAKE_GRACE := 3.0        ## the spear point counts this close outside the mark (plate px)
 const SNAKE_PAD := 40           ## room around the snake's picture for the tail to wave into (px)
 const SNAKE_FIGURE := preload("res://scripts/figure.gdshader")
@@ -1833,8 +2537,7 @@ func _lunge_start(e: Dictionary) -> void:
 ## The leftmost ink of the bearer's body at height `y` (strip px): his front leg.
 func _front_leg_x(bearer: Node2D, y: float) -> float:
 	var img: Image = fight.bearer_plain.get_image()
-	var size: Vector2 = bearer.get_meta("size")
-	var top_left: Vector2 = bearer.get_meta("home") - Vector2(size.x / 2.0, size.y)
+	var top_left: Vector2 = bearer.get_meta("home") + fight.bearer_at
 	var row := clampi(int(y - top_left.y), 0, img.get_height() - 1)
 	for x in img.get_width():
 		if img.get_pixel(x, row).a > 0.35:
@@ -1848,8 +2551,14 @@ func _lunge_dress(e: Dictionary) -> void:
 	var bs: Sprite2D = actors[e.spear].get_node("Sprite")
 	fight.bearer_plain = bs.texture
 	fight.bearer_at = bs.position
-	bs.texture = avatar.call("_figure_texture", bs.texture, 2)
+	if not _filled.has(e.spear):          # each pose of his, filled (the spear's ends move)
+		var frames := []
+		for i in sheet.poses.size():
+			frames.append(avatar.call("_figure_texture", _sheet_frame(e.spear, i, false), 2))
+		_filled[e.spear] = frames
+	bs.set_meta("filled", _filled[e.spear])
 	bs.position -= Vector2(2, 2)
+	_bearer_pose(e.spear, _spear_out())
 	var fm := ShaderMaterial.new()
 	fm.shader = SNAKE_FIGURE
 	bs.material = fm
@@ -1880,8 +2589,11 @@ func _lunge_dress(e: Dictionary) -> void:
 					best_d = d
 					best = Vector2i(x, y)
 	fight.snake_mark = Vector2(best) + sp.position             # from its pivot
-	_paint_mark(img, best + Vector2i(P, P), SNAKE_MARK * unit)
+	fight.snake_img = img                                      # unmarked: the mark is painted per strike
+	fight.snake_mark_px = best + Vector2i(P, P)
 	sp.texture = ImageTexture.create_from_image(img)
+	fight.snake_tex = sp.texture
+	_lunge_mark()
 	sp.position -= Vector2(P, P)
 	var mat := ShaderMaterial.new()
 	mat.shader = SNAKE_TAIL
@@ -1900,6 +2612,19 @@ func _lunge_dress(e: Dictionary) -> void:
 	head.position = fight.snake_at + Vector2(float(hr[0]), float(hr[1]))
 	head.z_index = 1
 	a.add_child(head)
+
+
+## The red mark's radius now (plate px): smaller with every strike (`marks`).
+func _lunge_mark_r() -> float:
+	var marks: Array = fight.e.get("marks", [SNAKE_MARK])
+	return float(marks[mini(fight.hits, marks.size() - 1)])
+
+
+## Paint the red mark onto the snake at its present size (its head shares the texture).
+func _lunge_mark() -> void:
+	var img: Image = fight.snake_img.duplicate()
+	_paint_mark(img, fight.snake_mark_px, _lunge_mark_r() * unit)
+	(fight.snake_tex as ImageTexture).update(img)
 
 
 ## The red mark: the body there (both outlines and between them) in red.
@@ -1949,9 +2674,11 @@ func _lunge_undress() -> void:
 	var e: Dictionary = fight.e
 	if fight.has("bearer_plain"):
 		var bs: Sprite2D = actors[e.spear].get_node("Sprite")
+		bs.remove_meta("filled")
 		bs.texture = fight.bearer_plain
 		bs.position = fight.bearer_at
 		bs.material = null
+		_bearer_pose(e.spear, 0.0)
 	if fight.has("snake_plain"):
 		var a: Node2D = actors[e.foe]
 		var sp: Sprite2D = a.get_node("Sprite")
@@ -1977,16 +2704,55 @@ func _lunge_place() -> void:
 		mat.set_shader_parameter("phase", fight.clock * TAU * float(fight.e.wave_hz))
 
 
-## How far along its line the spear point is now: -CROC_PREP raised (at rest) .. CROC_THRUST.
+## How far along its line the spear point is now (plate px; 0 as drawn): held out while pinned;
+## at rest drawn back, drawn back as the vignette opens out (and put back as drawn as it closes).
 func _spear_out() -> float:
 	if fight.get("pinned", false):
 		return CROC_THRUST
 	if fight.thrust < 0.0:
+		return -CROC_PREP * float(fight.get("open", 1.0))
+	return _spear_at(fight.thrust)
+
+
+## The spear point `t` s into a thrust. In a fight it rests drawn back (up its line); a thrust only
+## runs it out, to CROC_THRUST past where it is drawn at THRUST_TIME[0], then draws it back again.
+static func _spear_at(t: float) -> float:
+	if t < 0.0:
 		return -CROC_PREP
-	var t: float = fight.thrust
 	if t < THRUST_TIME[0]:
 		return lerpf(-CROC_PREP, CROC_THRUST, t / THRUST_TIME[0])
 	return lerpf(CROC_THRUST, -CROC_PREP, minf((t - THRUST_TIME[0]) / THRUST_TIME[1], 1.0))
+
+
+## One cell of the sprite sheet: bearer `nm` in pose `i`, the figure or (`spear`) his spear alone.
+func _sheet_frame(nm: String, i: int, spear: bool) -> AtlasTexture:
+	var at := AtlasTexture.new()
+	at.atlas = _sheet_tex
+	var cw: float = sheet.cell[0]
+	var ch: float = sheet.cell[1]
+	at.region = Rect2((i + (sheet.poses.size() if spear else 0)) * cw, float(sheet.bearers[nm].row) * ch, cw, ch)
+	return at
+
+
+## Show bearer `nm` with his spear point `o` plate px along its line from where it is drawn: the
+## nearest pose in the sheet (drawn back is sheet.back, the full strike sheet.reach, in strip px).
+func _bearer_pose(nm: String, o: float) -> void:
+	var s := o * unit
+	var p: float = s / float(sheet.back) if s < 0.0 else s / float(sheet.reach)
+	var i := 0
+	for k in sheet.poses.size():
+		if absf(float(sheet.poses[k]) - p) < absf(float(sheet.poses[i]) - p):
+			i = k
+	var cw: float = sheet.cell[0]
+	var ch: float = sheet.cell[1]
+	var row: float = float(sheet.bearers[nm].row) * ch
+	var bs: Sprite2D = actors[nm].get_node("Sprite")
+	if bs.has_meta("filled"):
+		bs.texture = bs.get_meta("filled")[i]
+	else:
+		(bs.texture as AtlasTexture).region = Rect2(i * cw, row, cw, ch)
+	var ps: Sprite2D = actors[nm + "_pole"].get_node("Sprite")
+	(ps.texture as AtlasTexture).region = Rect2((i + sheet.poses.size()) * cw, row, cw, ch)
 
 
 func _lunge(dt: float) -> void:
@@ -2078,13 +2844,16 @@ func _lunge_on_mark() -> bool:
 	var sn: Dictionary = fight.snake
 	var point: Vector2 = fight.pos + _tip_offset() + _spear_dir() * o * unit
 	var mark: Vector2 = sn.node.position + fight.snake_mark * Vector2(sn.sx, sn.sy)
-	return point.distance_to(mark) <= (SNAKE_MARK + SNAKE_GRACE) * unit
+	return point.distance_to(mark) <= (_lunge_mark_r() + SNAKE_GRACE) * unit
 
 
 func _lunge_caught() -> void:
 	var e: Dictionary = fight.e
 	fight.hits += 1
 	fight.pinned = true
+	_hurt(fight.snake.node)
+	if fight.hits < int(e.need):
+		_lunge_mark()                 # a smaller mark for the next strike
 	_lunge_phase("pinned")
 	_dev_shot("SHOT_ON_CATCH")
 	var left: int = int(e.need) - fight.hits
@@ -2116,24 +2885,18 @@ func _lunge_bites() -> void:
 		say("Scribe", "It bit you. When its tail waves and it squashes down, it is about to spring: thrust as it springs.")
 
 
-## The last bite: he crumbles away and the fight starts over.
+## The last bite: he crumbles away, and he is back on the scroll.
 func _lunge_dies() -> void:
 	fight.lost = true
 	var e: Dictionary = fight.e
-	say("Scribe", "One bite too many: the spear-bearer crumbles to dust. Begin again.")
+	say("Scribe", "One bite too many: the spear-bearer crumbles to dust.")
 	_lunge_undress()
 	_disintegrate(e)
 	var t := create_tween()
 	t.tween_interval(2.0)
 	t.tween_callback(func():
 		if not fight.is_empty() and fight.kind == "lunge" and fight.e.id == e.id and fight.lost:
-			_crocs_close(func():
-				_crocs_cleanup()
-				for n in _box_actors(e):
-					_restore(n)
-				fight = {}
-				start_fight(e)
-				say("Scribe", "Begin again.")))
+			_arena_lost(e))
 
 
 ## (autotest) From the squash, press Space at `tau` s from the start of the snap; true = struck.
@@ -2265,7 +3028,7 @@ func _donkey_click(p: Vector2) -> void:
 	if actor_rect(fight.foe).grow(7 * unit).has_point(p):
 		fight.hits += 1
 		fight.speed += 0.7
-		_flash(actors[fight.foe])
+		_hurt(actors[fight.foe])
 		var need: int = fight.e.need
 		if fight.hits < need:
 			say("Scribe", "A hit. It slides faster now.")
@@ -2319,12 +3082,11 @@ func _bite(text: String) -> void:
 	t.tween_property(camera, "offset", Vector2.ZERO, 0.05)
 
 
+## A thrust where he stands as drawn (the fights where the creature is clicked): his spear only.
 func _thrust() -> void:
-	var a: Node2D = actors[fight.e.spear]
-	var home: Vector2 = a.get_meta("home")
-	var t := create_tween()
-	t.tween_property(a, "position", home + Vector2(-14, 5) * unit, 0.07)
-	t.tween_property(a, "position", home, 0.12)
+	var nm: String = fight.e.spear
+	var total: float = THRUST_TIME[0] + THRUST_TIME[1]
+	create_tween().tween_method(func(t: float): _bearer_pose(nm, _spear_at(t)), 0.0, total, total)
 
 
 # ---------------------------------------------------------------- helpers
@@ -2333,6 +3095,11 @@ func actor_rect(n: String) -> Rect2:
 	var a: Node2D = actors[n]
 	var size: Vector2 = a.get_meta("size") * a.scale.abs()
 	return Rect2(a.position.x - size.x / 2.0, a.position.y - size.y, size.x, size.y)
+
+
+## Struck: it flushes red and fades back, as the bearer does when bitten.
+func _hurt(n: CanvasItem) -> void:
+	create_tween().tween_method(func(v: float): n.modulate = Color(Color.WHITE.lerp(HURT, v), n.modulate.a), 1.0, 0.0, 0.8)
 
 
 func _flash(n: CanvasItem) -> void:
@@ -2385,21 +3152,23 @@ func _visible_rect() -> Rect2:
 
 func _draw_overlay() -> void:
 	var ink := Color(0.18, 0.11, 0.06)
-	if not gate.is_empty() and fight.is_empty():
-		var x := gate_x()
-		var y: float = level.get("frame_top", 0.0)
-		while y < ground:
-			overlay.draw_line(Vector2(x, y), Vector2(x, y + 8.0 * unit), Color(ink, 0.55), 6.0 * unit)
-			y += 16.0 * unit
 	if fight.is_empty():
 		return
 	match fight.kind:
-		"slither":
-			if _slither_off() > -30.0 * unit:
-				var r := actor_rect(fight.foe)
-				overlay.draw_set_transform(Vector2(r.end.x - 20.0 * unit, ground + 4.0 * unit), 0.0, Vector2(1.0, 0.35))
-				overlay.draw_arc(Vector2.ZERO, 26.0 * unit, 0.0, TAU, 32, Color(0.64, 0.2, 0.12, 0.6), 2.0 * unit)
+		"creep":
+			# where the spear point will come down: a ring on the ground, red when over its head
+			if fight.open >= 1.0 and not fight.lost and not fight.pinned:
+				var at := Vector2(_creep_point().x, ground + 4.0 * unit)
+				var c := Color(0.64, 0.2, 0.12, 0.8) if _creep_in_reach() else Color(ink, 0.45)
+				overlay.draw_set_transform(at, 0.0, Vector2(1.0, 0.35))
+				overlay.draw_arc(Vector2.ZERO, CREEP_REACH * 1.6 * unit, 0.0, TAU, 32, c, 2.0 * unit)
 				overlay.draw_set_transform(Vector2.ZERO)
+			# its eye, red while it looks back at him
+			var sn: Dictionary = fight.get("snake", {})
+			if not sn.is_empty() and sn.sx < 0.0 and sn.phase in ["turn", "watch", "unturn", "strike", "bitten"]:
+				var head: Node2D = sn.node.get_node_or_null("Head")
+				if head:
+					overlay.draw_circle(head.global_transform * fight.eye, CREEP_EYE * unit, Color(181 / 255.0, 91 / 255.0, 60 / 255.0))
 	# progress pips above the vignette
 	var total := 0
 	var got := 0
@@ -2416,7 +3185,7 @@ func _draw_overlay() -> void:
 	var sp := span(fight.e)
 	if fight.kind in ARENA_FIGHTS:
 		sp.y = _arena_rect().end.x
-	if fight.kind in ["crocs", "lunge"]:
+	if fight.kind in ["crocs", "lunge", "creep", "twin"]:
 		# his health: flesh signs in red, top left inside the opened vignette; a lost one stays faint
 		var ar := _arena_rect()
 		var fs := Vector2(55.0, 68.0)       # on screen, about the size of a caption sign
@@ -2431,9 +3200,11 @@ func _draw_overlay() -> void:
 				overlay.draw_texture_rect(_flesh_tex, Rect2(at, fs), false, Color(red, a))
 			else:
 				overlay.draw_circle(at + fs / 2.0, 14.0, Color(red, a))
+	if fight.kind in ["lunge", "creep", "twin", "donkey"]:
+		total = 0                      # the snakes show no count
 	for i in total:
 		var c := Vector2(sp.y - (20.0 + i * 16.0) * unit, 14.0 * unit)
-		if fight.kind == "lunge":      # close up: the top of the scroll is off screen; inside the vignette
+		if fight.kind in ["lunge", "creep"]:      # close up: the top of the scroll is off screen; inside the vignette
 			c.y = _arena_rect().position.y + 20.0 * unit
 		if i < got:
 			overlay.draw_circle(c, 5.0 * unit, Color(0.64, 0.2, 0.12))
@@ -2488,6 +3259,8 @@ func _maybe_run_cli() -> void:
 		watch.wait_time = 0.5
 		add_child(watch)
 		watch.timeout.connect(func():
+			if fight.is_empty() and tries[1] != "" and not solved.has(tries[1]) and not here().is_empty():
+				start_fight(here())       # lost: click the creature again, as a player would
 			if not fight.is_empty() and fight.kind in ARENA_FIGHTS and not fight.get("bot", false):
 				fight.bot = true          # a (re)started fight: play it
 				fight.tut = ""
@@ -2531,22 +3304,33 @@ func _autotest() -> void:
 	avatar.position.x = span(ENCOUNTERS[0]).y - 100.0 * unit
 	_check_position()
 	expect.call(fight.is_empty(), "walking into a vignette does not start its fight")
+	# on the scroll the heka signs flash red, and clicking one explains them
+	if not _all_heka().is_empty():
+		var hw: String = _all_heka()[0]
+		_time = PI / 10.0           # the top of the pulse
+		_process(0.0)
+		expect.call(actors[hw].modulate.r > 1.5, "the heka signs flash red on the scroll")
+		expect.call(_heka_at(actor_rect(hw).get_center()) == hw, "a heka sign on the scroll can be clicked")
 	var e38: Dictionary = ENCOUNTERS.filter(func(x): return x.id == "e38")[0]
-	expect.call(avatar.min_x < span(ENCOUNTERS[0]).x and avatar.min_x > span(e38).y, "the way is open past unsolved vignettes, up to spell 38")
+	expect.call(avatar.min_x < span(ENCOUNTERS[0]).x and avatar.min_x > span(e38).x and avatar.min_x < span(e38).y, "the way is open past unsolved vignettes and into spell 38, not past it")
 	for e in ENCOUNTERS:     # all but spell 37 done: 38 is still shut
 		if e.id == "e37":
 			break
 		solved[e.id] = true
 	_refresh()
-	expect.call(avatar.min_x > span(e38).y, "spell 38 shut while spell 37 is undone")
+	expect.call(avatar.min_x > span(e38).x, "the way past spell 38 shut while spell 37 is undone")
+	solved["e37"] = true
+	_refresh()
+	expect.call(avatar.min_x > span(e38).x, "... and while the breath of life is not taken")
+	expect.call(_take_at(actor_rect(e38.item).get_center()) == e38, "the breath of life can be taken before the way on opens")
 	solved.clear()
 	_refresh()
 
 	for e in ENCOUNTERS:
 		if e.kind == "take":
-			expect.call(avatar.min_x < span(e).y, e.id + " open once the dangers before it are overcome")
 			take(e)
 			expect.call(solved.has(e.id), e.id + " item taken")
+			expect.call(avatar.min_x < span(e).x, e.id + ": the way on opens once it and the dangers before it are done")
 			continue
 		if not e.kind in FIGHTS:
 			continue
@@ -2554,6 +3338,9 @@ func _autotest() -> void:
 		_check_position()
 		start_fight(e)
 		expect.call(fight.get("e", {}).get("id", "") == e.id, e.id + " fight starts on clicking the creature")
+		leave_fight()
+		expect.call(fight.is_empty() and not solved.has(e.id) and avatar.visible, e.id + " Esc steps out of the fight, not won")
+		start_fight(e)
 		match e.kind:
 			"crocs":
 				var at_tip := func(c: Dictionary) -> void:   # put a snout at the spear tip
@@ -2652,8 +3439,6 @@ func _autotest() -> void:
 				_croc_strike()
 				expect.call(fight.lost and r.s == "thief", e.id + " heka on an ordinary crocodile loses the fight")
 				fight.force_heka = false
-				if fight.waves.size() > 1:
-					expect.call(_croc_checkpoint.get(e.id, 0) == fight.waves.size() - 1, e.id + " a lost fight starts again from the last wave")
 				# three bites and he crumbles
 				fight.lost = false
 				fight.tut = ""
@@ -2662,22 +3447,174 @@ func _autotest() -> void:
 					r.s = "crawl"
 					_croc_bites(r)
 				expect.call(fight.lost and fight.health <= 0, e.id + " the third bite ends the fight")
-				if e.waves[0].has("ramp"):
-					var w0: Dictionary = e.waves[0]
-					expect.call(w0.speed * (1.0 + w0.ramp * (w0.count - 1)) > e.waves[0].speed * 1.5, e.id + " the crocodiles get faster")
-			"rear":
-				fight.phase = "coiled"
-				fight_click(centre.call(e.foe))
-				expect.call(fight.hits == 0, e.id + " a coiled snake can't be struck")
-				for i in e.need:
-					fight.phase = "reared"
-					fight.t = 0.0
-					fight_click(centre.call(e.foe))
-			"slither":
-				for i in e.need:
-					fight.t = PI / 2.0 / (1.5 + 0.4 * fight.hits)
-					_slither(0.0)
-					fight_click(centre.call(e.foe))
+				for w in e.waves:
+					expect.call(w.get("ramp", 0.0) > 0.0 and w.speed * (1.0 + w.ramp * (w.count - 1)) > w.speed, e.id + " the crocodiles get faster")
+				if fight.both:
+					# one from the right as close behind one from the left as one from the same side
+					# would be: not clear (the other side counts as this side)
+					var l: Dictionary = fight.crocs[0]
+					var rr: Dictionary = fight.crocs[1]
+					for c in fight.crocs:
+						c.s = "gone"
+					l.s = "crawl"
+					l.dir = 1
+					l.speed = 300.0
+					var lane: float = fight.lanes[0]
+					l.node.position = Vector2(fight.pos.x - 600.0 * unit, lane - _croc_head(l.node, 1).y)
+					rr.dir = -1
+					rr.node.position = Vector2(fight.pos.x + 600.0 * unit, lane - _croc_head(rr.node, -1).y)
+					expect.call(not _croc_clear(rr, 300.0), e.id + " the other side counts as this side when spacing them")
+					rr.node.position.x = fight.pos.x + 600.0 * unit + 2.0 * rr.node.get_meta("size").x
+					expect.call(_croc_clear(rr, 300.0), e.id + " ...and one well behind is clear")
+				# the last of a wave is one of the drawn crocodiles squatting on screen; before it, the
+				# last one squatting is kept back for it
+				_crocs_cleanup()
+				for n in _box_actors(e):
+					_restore(n)
+				fight = {}
+				start_fight(e)
+				expect.call(fight.wave == 0 and fight.killed == 0, e.id + " a fight taken up again starts from the first wave")
+				fight.tut = ""
+				fight.wave = fight.waves.size() - 1
+				var lw: Dictionary = fight.waves[fight.wave]
+				var squat: Array = fight.crocs.filter(func(x): return x.s == "wait")
+				for i in range(1, squat.size()):
+					squat[i].s = "gone"
+				fight.wave_launched = 0
+				_croc_launch(lw.speed)
+				expect.call(squat[0].s == "wait", e.id + " the last drawn crocodile waits while others come")
+				fight.wave_launched = int(lw.count) - 1
+				_croc_launch(lw.speed)
+				expect.call(squat[0].s == "wait", e.id + " the last of the fight waits until the others are gone")
+				for c in fight.crocs:
+					if c != squat[0]:
+						c.s = "gone"
+				_croc_launch(lw.speed)
+				expect.call(squat[0].s == "crawl" and not squat[0].red, e.id + " the last of the fight is the drawn one squatting")
+				# with as many drawn ones squatting as crocodiles still to come, they all come
+				for c in fight.crocs:
+					c.s = "gone"
+				for c in squat:
+					c.s = "wait"
+				fight.wave_launched = int(lw.count) - squat.size()
+				for i in squat.size():
+					for c in fight.crocs:
+						if c.s == "crawl":
+							c.s = "gone"
+					_croc_launch(lw.speed)
+				expect.call(squat.all(func(c): return c.s == "crawl" or c.s == "gone"), e.id + " every drawn crocodile has come by the end of the fight")
+			"twin":
+				var L: Dictionary = fight.snakes[0]
+				var R: Dictionary = fight.snakes[1]
+				var need := int(e.need)
+				expect.call(absf((L.node.position.x - fight.pos.x) + (R.node.position.x - fight.pos.x)) < 1.0, e.id + " a snake on either side of him, mirrored")
+				expect.call(L.glyph.position.x < R.glyph.position.x and L.glyph.texture.get_width() < 60 and R.glyph.texture.get_width() < 60, e.id + " the two snake signs cut apart from the caption")
+				_twin(0.0)
+				expect.call(L.node.scale.x < 0.0 and R.node.scale.x > 0.0, e.id + " both turned to face him (the drawn one flipped)")
+				# a thrust at a snake that faces him: its head comes forward and bites
+				fight.facing = -1
+				_twin_strike()
+				expect.call(L.phase == "snap", e.id + " a thrust at a snake facing him: its head comes forward")
+				_twin(TWIN_SNAP + 0.01)
+				expect.call(fight.health == CROC_HEALTH - 1 and L.hits == 0, e.id + " ...and bites")
+				_twin_phase(L, "face")
+				# the one about to strike: its sign flashes red, it turns its back, and only it can be struck
+				fight.idle = 99.0
+				_twin_phase(R, "warn")
+				_time = PI / 20.0           # the top of the flash
+				_twin_place()
+				expect.call(R.glyph.modulate.r > 1.5 and L.glyph.modulate == Color.WHITE, e.id + " the sign of the snake about to strike flashes red")
+				_twin(lerpf(float(e.warn[0]), float(e.warn[1]), 0.0) + 0.01)
+				_twin(TWIN_TURN + 0.01)
+				expect.call(R.phase == "away" and R.node.scale.x < 0.0, e.id + " ...and that snake turns its back on him")
+				_twin_strike()
+				expect.call(L.phase == "snap" and R.hits == 0, e.id + " a thrust the other way strikes nothing, and the snake there bites")
+				_twin_phase(L, "face")
+				fight.health = CROC_HEALTH
+				fight.facing = 1
+				_twin_strike()
+				expect.call(R.hits == 1 and R.phase == "pinned", e.id + " a thrust while its back is turned strikes it")
+				_twin(ROACH_FREEZE + 0.01)
+				_twin(TWIN_TURN + 0.01)
+				expect.call(R.phase == "face", e.id + " struck, it turns to face him again")
+				# not struck in time: it whips round and bites
+				_twin_phase(L, "away")
+				L.face = -1.0
+				L.for = 0.0
+				_twin(0.001)
+				_twin(TWIN_SNAP + 0.01)
+				_twin(TWIN_SNAP + 0.01)
+				expect.call(fight.health == CROC_HEALTH - 1, e.id + " one not struck in time whips round and bites")
+				_twin(0.31)
+				# struck `need` times, a snake falls, and the other is the only one left to strike
+				for i in need:
+					fight.health = CROC_HEALTH
+					fight.facing = -1
+					_twin_phase(L, "away")
+					L.face = -1.0
+					L.for = 99.0
+					_twin_strike()
+					_twin(ROACH_FREEZE + 0.01)
+					_twin(TWIN_TURN + 0.01)
+				_twin(TWIN_FALL + 0.01)
+				expect.call(L.phase == "fallen" and not fight.is_empty(), e.id + " struck %d times, a snake falls" % need)
+				fight.idle = 0.0
+				_twin(0.0)
+				expect.call(R.phase == "warn", e.id + " only the snake still standing strikes")
+				_twin_phase(R, "face")
+				fight.health = 1
+				fight.facing = 1
+				_twin_strike()
+				_twin(TWIN_SNAP + 0.01)
+				expect.call(fight.lost, e.id + " the third bite and he crumbles")
+				fight.lost = false
+			"creep":
+				var sn: Dictionary = fight.snake
+				var x0: float = fight.pos.x
+				expect.call(not _creep_in_reach(), e.id + " the snake lies out of reach")
+				_creep_move(1.0, 0.5)
+				expect.call(fight.pos.x == x0, e.id + " he cannot step back")
+				_creep_strike()
+				expect.call(fight.hits == 0 and sn.phase == "turn", e.id + " a thrust short of its head strikes the ground, and it turns")
+				_creep_phase("away")
+				_creep_move(-1.0, 0.2)
+				expect.call(fight.pos.x < x0 and sn.phase == "away", e.id + " he creeps up while it looks away")
+				_creep_move(-1.0, 60.0)
+				expect.call(_creep_in_reach(), e.id + " he stops with the point over its head")
+				# moving while it looks: it lashes back and bites
+				_creep_phase("watch")
+				sn.t = CREEP_GRACE + 0.01
+				sn.for = 99.0
+				fight.pos.x += 5.0 * unit
+				var b0 := bites
+				_creep_move(-1.0, 0.05)
+				expect.call(sn.phase == "strike", e.id + " moving while it looks: it lashes back")
+				_creep(CREEP_SNAP + 0.01)
+				expect.call(bites == b0 + 1 and fight.health == CROC_HEALTH - 1, e.id + " ...and bites")
+				# a thrust while it looks: it lashes back too
+				_creep_phase("watch")
+				sn.t = CREEP_GRACE + 0.01
+				_creep_strike()
+				expect.call(sn.phase == "strike" and fight.hits == 0, e.id + " a thrust while it looks: it lashes back")
+				sn.off = _creep_edge_off() + float(e.flee) * unit * (int(e.need) - 1)
+				for i in int(e.need) - 1:
+					fight.health = CROC_HEALTH
+					_creep_phase("away")
+					sn.for = 99.0
+					_creep_move(-1.0, 60.0)
+					_creep_strike()
+					expect.call(fight.hits == i + 1 and sn.phase == "pinned", e.id + " the point on its head strikes it (%d)" % (i + 1))
+					_creep(ROACH_FREEZE + 0.01)
+					_creep(CREEP_SLIDE + 0.01)
+					expect.call(sn.phase == "away" and not _creep_in_reach(), e.id + " struck, it slides on out of reach (%d)" % (i + 1))
+				expect.call(sn.off >= _creep_edge_off() - 0.01, e.id + " it stays inside the vignette")
+				fight.health = 1
+				_creep_phase("watch")
+				sn.t = CREEP_GRACE + 0.01
+				_creep_strike()
+				_creep(CREEP_SNAP + 0.01)
+				expect.call(fight.lost, e.id + " the third bite and he crumbles")
+				fight.lost = false
 			"lunge":
 				var sn: Dictionary = fight.snake
 				fight.thrust = THRUST_TIME[0]
@@ -2695,33 +3632,60 @@ func _autotest() -> void:
 					expect.call(_lunge_try((good[0] + good[1]) / 2.0), e.id + " struck in the middle of the window (%d)" % (i + 1))
 					_lunge(ROACH_FREEZE + 0.01)
 				expect.call(fight.hits == int(e.need) - 1 and fight.is_empty() == false, e.id + " each strike counts; it coils again")
+				var last: Array = _lunge_window()
+				print("spell 33 last window: %.0f ms" % ((last[1] - last[0]) * 1000.0))
+				expect.call(_lunge_mark_r() < float(e.marks[0]) and last[1] - last[0] < good[1] - good[0], e.id + " the mark (and the moment to strike) grows smaller each strike")
+				expect.call(last[1] - last[0] >= 0.03, e.id + " the last mark can still be struck")
 				fight.health = 1
 				_lunge_try(-0.3)
 				expect.call(fight.lost, e.id + " the third bite and he crumbles")
 				fight.lost = false
 			"roach":
+				expect.call(fight.roaches.size() == int(e.count), e.id + " %d beetles" % int(e.count))
 				var r: Dictionary = fight.roach
-				# a point that misses does nothing; a point on the roach pins it
-				r.darting = false
-				_roach_place(_roach_spear_point(fight.facing) + Vector2(0.0, r.size.y * 2.0))
+				# a point that misses does nothing; a point on a beetle pins it
+				for x in fight.roaches:
+					x.darting = false
+					_roach_place(x, fight.full.position + Vector2(10.0, 10.0) * unit)
+				_roach_place(r, _roach_spear_point(fight.facing) + Vector2(0.0, r.size.y * 2.0))
 				_roach_strike()
-				expect.call(fight.hits == 0, e.id + " a thrust that misses the roach does nothing")
-				for i in e.need:
+				expect.call(fight.hits == 0, e.id + " a thrust that misses the beetles does nothing")
+				for i in fight.roaches.size():
+					var b: Dictionary = fight.roaches[i]
 					fight.freeze = 0.0
 					fight.facing = 1
-					_roach_place(_roach_spear_point(-1))
+					_roach_place(b, _roach_spear_point(-1))
 					_roach_strike()
 					expect.call(fight.hits == i, e.id + " only the side he faces counts")
 					fight.facing = -1
 					_roach_strike()
-					expect.call(fight.hits == i + 1 and fight.freeze > 0.0, e.id + " the spear point pins it, and all holds still")
-				# its darts stop by the spear point every few runs
+					expect.call(fight.hits == i + 1 and fight.freeze > 0.0 and fight.pinned_roach == b, e.id + " the spear point pins one, and all holds still")
+					b.gone = true
+					_roach_place(b, fight.full.position)
+				expect.call(fight.hits == fight.need, e.id + " every beetle must be pinned")
+				# their darts stop by the spear point every few runs
+				for x in fight.roaches:
+					x.gone = false
+					x.passes = -100          # (no losing here)
 				var near := 0
 				for i in 12:
-					_roach_next()
-					if _roach_touches(_roach_spear_point(-1)) or _roach_touches(_roach_spear_point(1)) or r.target.distance_to(_roach_spear_point(-1)) < r.size.y or r.target.distance_to(_roach_spear_point(1)) < r.size.y:
+					r.at_point = false
+					_roach_next(r)
+					if _roach_touches(r, _roach_spear_point(-1)) or _roach_touches(r, _roach_spear_point(1)) or r.target.distance_to(_roach_spear_point(-1)) < r.size.y or r.target.distance_to(_roach_spear_point(1)) < r.size.y:
 						near += 1
 				expect.call(near >= 3, e.id + " it often stops by the spear point")
+				# one that gets away from the spear point reddens; past `passes` times, the fight is lost
+				r.passes = 0
+				r.node.modulate = Color.WHITE
+				r.at_point = true
+				_roach_next(r)
+				expect.call(r.passes == 1 and r.node.modulate.r > 1.5 and not fight.lost, e.id + " a beetle that gets away reddens")
+				r.passes = int(e.passes)
+				r.at_point = true
+				_roach_next(r)
+				expect.call(fight.lost and fight.copies.size() >= ROACH_SWARM, e.id + " away once too often: they swarm, lost")
+				fight.lost = false
+				fight.hits = fight.need
 			"apep":
 				for i in APEP_SLICES:
 					fight.raised = i

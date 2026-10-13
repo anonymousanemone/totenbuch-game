@@ -22,11 +22,8 @@ const NAMES := {
 ## Standards that are the same god: either may stand on either pole.
 const SAME := {"emb_e8": "emb_e3"}
 
-## Places a piece can go. `home` is the piece that belongs there; `kind` stops the
-## player putting an ox on a pole.
+## Places a piece can go: the standard-bearers' poles. `home` is the standard that belongs there.
 const SLOTS := {
-	"yoke":  {"kind": "beast", "home": "ox",      "label": "the sledge yoke"},
-	"pen":   {"kind": "beast", "home": "calf",    "label": "the place behind the plumed ox"},
 	"pole1": {"kind": "std",   "home": "emb_e1",  "label": "the first standard-bearer"},
 	"pole2": {"kind": "std",   "home": "emb_e2",  "label": "the second standard-bearer"},
 	"pole3": {"kind": "std",   "home": "emb_e3",  "label": "the third standard-bearer"},
@@ -37,14 +34,17 @@ const SLOTS := {
 	"pole8": {"kind": "std",   "home": "emb_e8",  "label": "the eighth standard-bearer"},
 }
 
-## The disorder the player finds: calf and ox swapped, standards deranged (and the offering
-## table collapsed, with the goose-bearer holding a loaf: see offering_table.gd).
+## The disorder the player finds: the mummy's sledge stalled (see haul.gd), standards deranged,
+## and the offering table collapsed, with the goose-bearer holding a loaf (see offering_table.gd).
 const START := {
-	"yoke": "calf", "pen": "ox",
 	"pole1": "emb_e6", "pole2": "emb_e1", "pole3": "emb_e7", "pole4": "emb_e5",
 	"pole5": "emb_e3", "pole6": "emb_e8", "pole7": "emb_e4", "pole8": "emb_e2",
 }
 const POLES := ["pole1", "pole2", "pole3", "pole4", "pole5", "pole6", "pole7", "pole8"]
+## Pieces that stay where they are drawn (the ox walks with the hauling, see haul.gd).
+const FIXED := ["ox", "calf"]
+## The figures of the hauling; clicking one takes up the rope.
+const HAUL_FIGURES := ["Hauler", "Ox-driver", "Priest with censer", "The mummy on its sledge"]
 
 ## The plumed lector's recital: each sign fades in after the one before, the line stays a
 ## while, then fades away.
@@ -56,7 +56,16 @@ const RECITE_FADE_OUT := 0.8
 const INK := Color(0.18, 0.11, 0.06)
 const HOVER := Color(0.64, 0.2, 0.12, 0.55)  ## only for the `--show-hits` dev outlines
 const HOVER_SLOT := Color(0.3, 0.42, 0.16, 0.7)
-const REACH := 260.0         ## at the table you can reach this far without walking (strip px)
+const DRAG := 8.0            ## screen px: let go further than this from where you took it and it is set down there
+const SCENE_MARGIN := 40.0   ## strip px of papyrus kept either side of the table scene
+const GLOW := preload("res://scripts/glow.gdshader")
+const GLOW_FADE := 0.15      ## s for the hover glow to come and go
+const CAPTION_LINE := 187.0  ## first row below the frame line over the figures: glows start here
+## Journal figures that are sprites of the hauling now: they glow as those drawings.
+const HAUL_GLOW := {
+	"Hauler": ["haul_hauler"], "Ox-driver": ["haul_driver", "haul_whip"],
+	"Priest with censer": ["haul_sledge"], "The mummy on its sledge": ["haul_sledge"],
+}
 
 var level: Dictionary
 var ground := 248.0          ## feet line inside the strip (from level.json)
@@ -77,6 +86,11 @@ var journal: Array[String] = []
 var _pieces := {}            ## piece -> Sprite2D
 var _base := {}              ## piece -> resting position (set in _render)
 var _hover := {}
+var _glows: Array = []       ## the glows behind what is under the pointer
+var _hauling := false        ## you hold the rope in the hauler's place
+var in_table := false        ## at the offering table: the camera holds on it, you work with the pieces
+var _drag_from := Vector2.INF  ## where (screen px) the piece in hand was taken up, while the button is down
+var _table_told := false
 var _dust: Array = []
 var _time := 0.0
 var _table := {}
@@ -84,6 +98,8 @@ var _reader := {}            ## the lector beside the table, who shows what can 
 var _lector := {}            ## the plumed lector in plate V, who recites the standards
 var _bearer_rect: Rect2      ## the goose-bearer beside the lector
 var offerings: OfferingTable
+var haul: HaulSledge
+var _strip_img: Image        ## the strip, for journal pictures of figures that are sprites now
 var _recital: Node2D
 var _recital_tween: Tween
 var _show_hits := false
@@ -127,6 +143,11 @@ func _ready() -> void:
 	$Pieces.add_child(offerings)
 	offerings.setup(level.table, sprite_rects.goose, sprite_rects.clothes, ground, "res://assets/procession/%s.png")
 	offerings.changed.connect(_on_offerings_changed)
+	haul = HaulSledge.new()
+	$Pieces.add_child(haul)
+	haul.setup(level.sprites, "res://assets/procession/%s.png", _pieces.ox, $Papyrus.material, self, $Strip.get_index() + 1)
+	haul.said.connect(say)
+	haul.finished.connect(_check)
 
 	overlay.draw.connect(_draw_overlay)
 	hud.setup(self, {
@@ -134,14 +155,14 @@ func _ready() -> void:
 		"subtitle": "Spells 1–15 · Lepsius, Todtenbuch, pl. I–VI",
 		"rites_heading": "RITES OF THE PROCESSION",
 		"tasks": [
-			"Set the right beast to haul the sledge",
+			"Haul the mummy's sledge to the driver's beat",
 			"Return each standard to its bearer",
 			"Rebuild the offering table",
 			"Give the goose back to its bearer",
 		],
 		"journal_hint": "Click figures in the scroll to record them here.",
 		"intro_title": "Spells 1–15: The Funeral Procession",
-		"intro_body": "The mummy must be dragged to the tomb. But the procession has fallen into disorder: the wrong beast is yoked to the sledge, the gods' standards are on the wrong poles, and the great offering table has collapsed.\n\n"
+		"intro_body": "The mummy must be dragged to the tomb. But the procession has fallen into disorder: the mummy's sledge has stalled, the gods' standards are on the wrong poles, and the great offering table has collapsed.\n\n"
 			+ "The scroll reads [b]right to left[/b]. Click the papyrus to walk, or use ← →. Click figures to record them in your journal. Click movable pieces to pick them up, and click where they belong to set them down. Clicking a filled place swaps the two. Esc puts a piece back.\n\n"
 			+ "[i]Every figure is cut directly from Lepsius's 1842 plates; nothing is redrawn.[/i]",
 		"outro_title": "The procession reaches the tomb",
@@ -163,6 +184,14 @@ func reset() -> void:
 	journal.clear()
 	_clear_recital()
 	offerings.reset()
+	haul.reset()
+	_set_hover({})
+	in_table = false
+	_drag_from = Vector2.INF
+	_hauling = false
+	avatar.rotation = 0.0
+	avatar.visible = true
+	avatar.set_process(true)
 	avatar.stop()
 	avatar.position = Vector2(start_x, ground)
 	avatar.facing = -1
@@ -177,31 +206,38 @@ func reset() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if hud.is_blocking():
 		return
-	if event.is_action_pressed("ui_cancel"):
-		if offerings.holding() != "":
-			offerings.put_back()
+	if haul.active:     # holding the rope: Space, Shift or a click pulls; Esc lets go
+		if event.is_action_pressed("ui_cancel"):
+			haul.quit()
+		elif event is InputEventKey and event.pressed and not event.echo and event.keycode in [KEY_SPACE, KEY_SHIFT]:
+			haul.press()
+		elif event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+			haul.press()
+		get_viewport().set_input_as_handled()
+		return
+	if in_table:        # at the offering table: Esc (or walking off with the arrow keys) steps away
+		if event.is_action_pressed("ui_cancel"):
+			leave_table()
+			get_viewport().set_input_as_handled()
 		else:
-			put_back()
+			_table_input(event)
+		return
+	if event.is_action_pressed("ui_cancel"):
+		put_back()
 	elif event is InputEventMouseMotion:
-		var h := _pick(get_global_mouse_position())
-		if h != _hover:
-			_hover = h
-			overlay.queue_redraw()
-			Input.set_default_cursor_shape(Input.CURSOR_POINTING_HAND if h else Input.CURSOR_ARROW)
+		_set_hover(_pick(get_global_mouse_position()))
 	elif event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		var p := get_global_mouse_position()
 		var h := _pick(p)
-		if offerings.holding() != "" and h.get("type") != "bearer" and offerings.in_zone(p):
-			_at_table(p.x, func(): _drop_offering(p))
-		elif h.is_empty():
+		if h.is_empty():
 			walk_then(p.x)
-		elif h.type == "piece":
-			_at_table(p.x, _take_offering.bind(h.id))
-		elif h.type == "bearer":
-			walk_then(_bearer_rect.get_center().x + BESIDE * unit, _act_bearer)
+		elif h.type in ["piece", "bearer"] or (h.type == "hot" and (h.spot == _table or h.spot == _reader)):
+			enter_table(h.get("spot", {}) == _reader)
 		elif h.type == "slot":
 			var home: Rect2 = sprite_rects[SLOTS[h.id].home]
 			walk_then(home.get_center().x + BESIDE * unit, act_slot.bind(h.id))
+		elif h.spot.label in HAUL_FIGURES and not haul.done:
+			walk_then(h.spot.rect.get_center().x + BESIDE * unit, take_rope.bind(h.spot))
 		else:
 			walk_then(h.spot.rect.get_center().x + BESIDE * unit, record.bind(h.spot))
 
@@ -223,9 +259,85 @@ func _pick(p: Vector2) -> Dictionary:
 		if r.has_point(p):
 			return {"type": "slot", "id": id, "rect": r}
 	for h in hotspots:
+		if h.label == "Hauler" and not haul.hauler_shown():   # nobody there until the sledge is home
+			continue
 		if h.rect.has_point(p):
 			return {"type": "hot", "spot": h, "rect": h.rect}
 	return {}
+
+
+# ---------------------------------------------------------------- hover glow
+
+## What is under the pointer glows (glow.gdshader), and the pointer becomes a hand.
+func _set_hover(h: Dictionary) -> void:
+	if h == _hover:
+		return
+	_hover = h
+	for g in _glows:
+		if is_instance_valid(g):
+			var t := (g as Node).create_tween()
+			t.tween_method(_glow_strength.bind(g), (g.material as ShaderMaterial).get_shader_parameter("strength"), 0.0, GLOW_FADE)
+			t.tween_callback(g.queue_free)
+	_glows.clear()
+	for target in _glow_targets(h):
+		_glows.append(_glow(target))
+	overlay.queue_redraw()
+	Input.set_default_cursor_shape(Input.CURSOR_POINTING_HAND if h else Input.CURSOR_ARROW)
+
+
+## What glows for a pick: drawings that are sprites, or the strip under a figure's rect.
+func _glow_targets(h: Dictionary) -> Array:
+	match h.get("type", ""):
+		"piece":
+			var sp := offerings.sprite_of(h.id)
+			return [sp] if sp else []
+		"bearer":
+			return [_bearer_rect] + offerings.bearer_sprites()
+		"slot":   # a standard-bearer glows whole: the man and the standard on his pole
+			var out: Array = [_slot_hit_rect(h.id)] if SLOTS[h.id].kind == "std" else []
+			var piece: String = slot[h.id]
+			if piece != "" and _pieces[piece].visible:
+				out.append(_pieces[piece])
+			return out
+		"hot":
+			if HAUL_GLOW.has(h.spot.label):
+				return HAUL_GLOW[h.spot.label].map(func(nm): return haul.sprite_of(nm)).filter(func(sp): return sp != null and sp.is_visible_in_tree())
+			return [h.spot.rect]
+	return []
+
+
+## A glow behind a sprite's drawing, or behind the strip's drawing inside a rect.
+func _glow(target) -> Sprite2D:
+	var g := Sprite2D.new()
+	var mat := ShaderMaterial.new()
+	mat.shader = GLOW
+	mat.set_shader_parameter("strength", 0.0)
+	g.show_behind_parent = true
+	if target is Rect2:
+		var top := maxf(target.position.y, CAPTION_LINE)   # not the frame line above the figure
+		target = Rect2(target.position.x, top, target.size.x, target.end.y - top)
+		var tex := AtlasTexture.new()
+		tex.atlas = $Strip.texture
+		tex.region = target
+		var whole: Vector2 = $Strip.texture.get_size()
+		mat.set_shader_parameter("region", Vector4(target.position.x / whole.x, target.position.y / whole.y, target.size.x / whole.x, target.size.y / whole.y))
+		g.texture = tex
+		g.centered = false
+		g.position = target.position
+		$Strip.add_child(g)
+	else:
+		var sp := target as Sprite2D
+		g.texture = sp.texture
+		g.centered = sp.centered
+		g.offset = sp.offset
+		sp.add_child(g)
+	g.material = mat
+	g.create_tween().tween_method(_glow_strength.bind(g), 0.0, 1.0, GLOW_FADE)
+	return g
+
+
+func _glow_strength(v: float, g: Sprite2D) -> void:
+	(g.material as ShaderMaterial).set_shader_parameter("strength", v)
 
 
 func _slot_hit_rect(id: String) -> Rect2:
@@ -264,13 +376,77 @@ func walk_then(x: float, then := Callable()) -> void:
 			then.call())
 
 
-## At the table you reach what you click; from further off you walk there first.
-func _at_table(x: float, then: Callable) -> void:
-	if absf(avatar.position.x - x) <= REACH * 1.0:
-		avatar.stop()
-		then.call()
+# ---------------------------------------------------------------- the offering table scene
+
+## Step up to the offering table: you stand just behind the lector and the camera holds on the
+## table, from the man with the jar to the goose-bearer. `ask` has the lector show a piece at once.
+func enter_table(ask := false) -> void:
+	if in_table:
+		return
+	_set_hover({})
+	walk_then(level.table.stand, func():
+		_table_now()
+		if ask:
+			record(_reader))
+
+
+func _table_now() -> void:
+	in_table = true
+	avatar.stop()
+	avatar.facing = -1
+	if not _table_told:
+		_table_told = true
+		say("Scribe", "Drag each offering to its place, lowest first, or lay it in the band above. The lector shows what can go on now. Esc steps away.")
+
+
+## Step away from the table (Esc, or walking off): what you hold goes back; nothing is lost.
+func leave_table() -> void:
+	if not in_table:
+		return
+	if offerings.holding() != "":
+		offerings.put_back()
+	_drag_from = Vector2.INF
+	in_table = false
+	_set_hover({})
+
+
+## At the table: press on a piece to take it up; it follows the pointer. Let go after dragging,
+## or click again, and it is set down there: in its place, in the band above, back to the
+## goose-bearer, or onto the floor.
+func _table_input(event: InputEvent) -> void:
+	var p := get_global_mouse_position()
+	if event is InputEventMouseMotion:
+		_set_hover(_pick(p))
+	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+		if event.pressed:
+			if offerings.holding() != "":
+				_table_drop(p)
+				return
+			var h := _pick(p)
+			match h.get("type", ""):
+				"piece":
+					_take_offering(h.id)
+				"bearer":
+					_act_bearer()
+				"hot":
+					record(h.spot)
+			if offerings.holding() != "":
+				_drag_from = event.position
+				_set_hover({})
+		else:
+			if _drag_from != Vector2.INF and offerings.holding() != "" and event.position.distance_to(_drag_from) > DRAG:
+				_table_drop(p)
+			_drag_from = Vector2.INF
+
+
+func _table_drop(p: Vector2) -> void:
+	_drag_from = Vector2.INF
+	if _bearer_rect.has_point(p):
+		_act_bearer()
+	elif offerings.in_header(p):
+		offerings.park(p)
 	else:
-		walk_then(x + BESIDE * unit, then)
+		_drop_offering(p)
 
 
 # ---------------------------------------------------------------- puzzle rules
@@ -307,7 +483,11 @@ func _act_bearer() -> void:
 		"swapped":
 			say("Goose-bearer", "He takes his goose and hands you the loaf. It belongs on the offering table.")
 		"wrong":
-			say("Scribe", "He has no use for that. It belongs on the offering table.")
+			if offerings.bearer == "" and offerings.held_from() == "bearer":
+				offerings.put_back()
+				say("Goose-bearer", "He takes the loaf back.")
+			else:
+				say("Scribe", "He has no use for that. It belongs on the offering table.")
 		"empty":
 			say("Scribe", "His arms are empty. He carried a goose; it must be among the fallen offerings.")
 		"has_goose":
@@ -352,10 +532,22 @@ func _god(piece: String) -> String:
 	return SAME.get(piece, piece)
 
 
-func kind_of(piece: String) -> String:
-	if piece == "ox" or piece == "calf":
-		return "beast"
+func kind_of(_piece: String) -> String:
 	return "std"
+
+
+## At the hauling: take up the rope (and record the figure clicked).
+func take_rope(h: Dictionary) -> void:
+	_add_journal(h)
+	if held != "" or offerings.holding() != "":
+		say("Scribe", "Your hands are full: put down what you carry to take up the rope.")
+		return
+	_set_hover({})
+	avatar.stop()
+	avatar.set_process(false)   # you stand on the rope in the hauler's place (see _process)
+	avatar.facing = -1
+	_hauling = true
+	haul.start()
 
 
 func put_back() -> void:
@@ -374,13 +566,18 @@ func put_back() -> void:
 
 func _check() -> void:
 	var was := solved.duplicate()
-	solved.t1 = slot.yoke == "ox" and slot.pen == "calf"
+	solved.t1 = haul.done
 	solved.t2 = POLES.all(func(p): return _god(slot[p]) == _god(SLOTS[p].home))
 	solved.t3 = offerings.complete()
 	solved.t4 = offerings.goose_returned()
 	if solved.t1 and not was.t1:
-		say("Ox-driver", "Now the sledge moves! The ox leans into the rope and the calf trots behind the plumed ox.")
-		_kick_dust(sprite_rects.ox)
+		say("Ox-driver", "The sledge stands where it should. The mummy goes on toward the tomb.")
+		var o: Dictionary = level.sprites.ox
+		var sl: Dictionary = level.sprites.haul_sledge
+		_kick_dust(Rect2(o.x, 0, sl.x + sl.w - o.x, 0))
+		avatar.position.x = level.sprites.haul_hauler.x + level.sprites.haul_hauler.w + BESIDE * unit
+		avatar.visible = true
+		avatar.set_process(true)
 	if solved.t2 and not was.t2:
 		say("Standard-bearers", "Each god rides again on its own pole: jackal, ibis, falcon, bull, vulture, placenta, plumes and falcon. The way ahead is clear.")
 	if procession_moving() and not (was.t1 and was.t2):
@@ -415,10 +612,36 @@ func _add_journal(h: Dictionary) -> void:
 	if h.label in journal:
 		return
 	journal.append(h.label)
-	var tex := AtlasTexture.new()
-	tex.atlas = $Strip.texture
-	tex.region = h.rect
-	hud.add_journal_entry(h.label, h.note, tex, journal.size(), hotspots.size())
+	hud.add_journal_entry(h.label, h.note, _journal_picture(h.rect), journal.size(), hotspots.size())
+
+
+## The strip under `r`, with the figures that are sprites now (the hauling) drawn in as drawn.
+func _journal_picture(r: Rect2) -> Texture2D:
+	var cut := false
+	for nm in HaulSledge.PIECES + ["ox"]:
+		var s: Dictionary = level.sprites[nm]
+		if r.intersects(Rect2(s.x, s.y, s.w, s.h)):
+			cut = true
+	if not cut:
+		var tex := AtlasTexture.new()
+		tex.atlas = $Strip.texture
+		tex.region = r
+		return tex
+	if _strip_img == null:
+		_strip_img = $Strip.texture.get_image()
+		if _strip_img.is_compressed():
+			_strip_img.decompress()
+		_strip_img.convert(Image.FORMAT_RGBA8)
+	var ri := Rect2i(r)
+	var img := _strip_img.get_region(ri)
+	for nm in HaulSledge.PIECES + ["ox"]:
+		var s: Dictionary = level.sprites[nm]
+		var src: Image = load("res://assets/procession/%s.png" % nm).get_image()
+		if src.is_compressed():
+			src.decompress()
+		src.convert(Image.FORMAT_RGBA8)
+		img.blend_rect(src, Rect2i(0, 0, src.get_width(), src.get_height()), Vector2i(int(s.x) - ri.position.x, int(s.y) - ri.position.y))
+	return ImageTexture.create_from_image(img)
 
 
 func finish() -> void:
@@ -435,14 +658,14 @@ func finish() -> void:
 
 func hint() -> void:
 	if not solved.t1:
-		if avatar.position.x > sprite_rects.ox.end.x + 400.0 * unit:
-			say("Hint", "Walk left to the mummy's sledge. Look at the animal hauling it: is it big enough?")
+		if haul.active:
+			say("Hint", "Watch the ox-driver's whip. It swings back, then comes down: press Space (or Shift, or click) just as it comes down. Too early or too late and the sledge slips back.")
 		else:
-			say("Hint", "The sledge needs a full-grown ox. Pick up the calf, then find where a calf belongs: further left, behind the plumed ox. Pick up an animal and its proper place shows faintly.")
+			say("Hint", "Walk left to the mummy's sledge and click the hauler on its rope to take it up. Then heave each time the ox-driver's whip comes down.")
 	elif not solved.t2:
 		say("Hint", "The eight bearers with gods on their heads have the wrong standards. The lector with two plumes on his head, beyond the offering table, reads out their order. Take a standard off and the empty pole shows a faint outline of the one that belongs there.")
 	elif not solved.t3:
-		say("Hint", "The offering table has collapsed. Pick up an offering and set it down where it belongs (its place shows faintly while you carry it). The lowest go first: anything set on a missing piece falls off. Click the lector beside the table and he shows one that can go on now.")
+		say("Hint", "The offering table has collapsed. Click it to step up to it, then drag an offering to where it belongs (its place shows faintly while you carry it). The lowest go first: anything set on a missing piece falls off. Lay pieces in the band above to get them out of the way. Click the lector beside the table and he shows one that can go on now. Esc steps away.")
 	else:
 		say("Hint", "The man beside the lector holds a loaf instead of his goose. Take the loaf, and find his goose among the fallen offerings.")
 
@@ -461,7 +684,17 @@ func _process(delta: float) -> void:
 	_time += delta
 	avatar.min_x = min_x()
 	avatar.max_x = max_x()
-	_animate_struggle(delta)
+	if in_table and Input.get_axis("ui_left", "ui_right") != 0.0:   # walking off steps away
+		leave_table()
+	if haul.active:     # you hold the rope where the hauler is drawn, leaning on the beat
+		var h: Dictionary = level.sprites.haul_hauler
+		var l := haul.lean()
+		avatar.position.x = h.x + h.w / 2.0 + haul.offset + l.x
+		avatar.rotation = l.y
+	elif _hauling:      # let go, or the sledge is home: walk again
+		_hauling = false
+		avatar.rotation = 0.0
+		avatar.set_process(true)
 
 	for d in _dust:
 		d.pos += d.vel * delta
@@ -480,12 +713,18 @@ func _update_camera(delta: float) -> void:
 	var vp := get_viewport_rect().size
 	var top: float = hud.top_height()
 	var bottom: float = hud.bottom_height()
-	var z := clampf(minf((vp.y - top - bottom - 10.0) / _view_height(), vp.x / (1000.0 * unit)), 0.4 / unit, 2.4 / unit)
+	var fit := (vp.y - top - bottom - 10.0) / _view_height()
+	var z := clampf(minf(fit, vp.x / (1000.0 * unit)), 0.4 / unit, 2.4 / unit)
+	var target_x := avatar.position.x - vp.x / z * 0.05
+	if in_table:        # hold on the whole table scene
+		var v: Array = level.table.view
+		z = clampf(minf(fit, vp.x / (v[1] - v[0] + 2.0 * SCENE_MARGIN)), 0.2 / unit, 2.4 / unit)
+		target_x = (v[0] + v[1]) / 2.0
+	var k := 1.0 if delta >= 1.0 else 1.0 - pow(0.001, delta)
+	z = lerpf(camera.zoom.x, z, k)
 	camera.zoom = Vector2(z, z)
 	var vis_w := vp.x / z
-	var target_x := avatar.position.x - vis_w * 0.05
 	target_x = clampf(target_x, vis_w / 2.0, maxf(vis_w / 2.0, level.width - vis_w / 2.0))
-	var k := 1.0 if delta >= 1.0 else 1.0 - pow(0.001, delta)
 	camera.position.x = lerpf(camera.position.x, target_x, k)
 	camera.position.y = _view_height() / 2.0 + (bottom - top) / 2.0 / z
 
@@ -505,6 +744,12 @@ func _visible_rect() -> Rect2:
 func _render() -> void:
 	for p in _pieces.values():
 		p.visible = false
+	for piece in FIXED:
+		_pieces[piece].visible = true
+		if piece == "ox":
+			haul.set_ox_home(sprite_rects.ox.position)
+		else:
+			_pieces[piece].position = sprite_rects[piece].position
 	for id in SLOTS:
 		var piece: String = slot[id]
 		if piece == "":
@@ -512,8 +757,6 @@ func _render() -> void:
 		var home: Rect2 = sprite_rects[SLOTS[id].home]
 		var size: Vector2 = sprite_rects[piece].size
 		var x := home.get_center().x - size.x / 2.0
-		if id == "pen":
-			x = maxf(wall_x + 8.0 * unit, x)  # the big ox must not spill into plate IV
 		var base := home.end.y if SLOTS[id].kind == "std" else ground
 		_pieces[piece].position = Vector2(x, base - size.y)
 		_pieces[piece].visible = true
@@ -533,35 +776,6 @@ func _draw_overlay() -> void:
 			overlay.draw_rect(h.rect, HOVER, false, 3.0)
 	for d in _dust:
 		overlay.draw_circle(d.pos, 3.0 * unit, Color(0.79, 0.66, 0.41, clampf(d.life, 0.0, 1.0)))
-
-
-## The calf in the ox's place strains at the rope, gains a little, and slips back: it is too
-## small to move the sledge.
-func _animate_struggle(delta: float) -> void:
-	var calf: Sprite2D = _pieces.calf
-	if slot.yoke != "calf" or not _base.has("calf") or held == "calf":
-		calf.rotation = 0.0
-		return
-	var period := 2.4
-	var p := fmod(_time, period) / period
-	var pull := 0.0   # 0..1, how far it has strained forward
-	if p < 0.65:
-		pull = ease(p / 0.65, 0.4)                  # slow heave forward
-	elif p < 0.78:
-		pull = 1.0 - ease((p - 0.65) / 0.13, 2.4)   # slips back
-	var scrabble := sin(_time * 38.0) * 1.5 * unit * pull   # hooves scrabbling
-	calf.position = _base.calf + Vector2(-9.0 * unit * pull + scrabble, absf(scrabble) * 0.6)
-	# lean into the rope: tilt about the front hooves (the calf faces left)
-	calf.rotation = -0.05 * pull
-	calf.position += Vector2(0, sprite_rects.calf.size.y * 0.05 * pull)
-	if p >= 0.65 and p - delta / period < 0.65:   # dust where it slips
-		var r := Rect2(calf.position, sprite_rects.calf.size)
-		for i in 6:
-			_dust.append({
-				"pos": Vector2(r.position.x + randf() * r.size.x, ground - 4.0 * unit),
-				"vel": Vector2(randf_range(5.0, 30.0), randf_range(-25.0, -10.0)) * unit,
-				"life": randf_range(0.4, 0.7),
-			})
 
 
 func _kick_dust(r: Rect2) -> void:
@@ -633,12 +847,12 @@ func _make_sprite(piece: String) -> Sprite2D:
 ## `-- --autotest` solves the level through the same rules the player uses and prints the
 ## result. `-- --screenshot=path.png` saves a frame after start-up and quits; `--recite` shows
 ## the plumed lector's whole line of signs at once, `--speak` has the lector beside the table show
-## a piece, and `--wait` lets the fallen offerings settle (about 5 s) before the screenshot.
+## a piece, `--table` stands you at the offering table, `--hover=x,y` hovers there (strip px), and `--wait` lets the fallen offerings settle (about 5 s) before the screenshot.
 func _maybe_run_cli() -> void:
 	var args := OS.get_cmdline_user_args()
 	if "--autotest" in args:
 		_autotest()
-	for a in args:  # dev helpers: `--at=4300` starts the avatar there, `--take=yoke` lifts that slot's piece
+	for a in args:  # dev helpers: `--at=4300` starts the avatar there, `--take=pole1` lifts that slot's piece
 		if a.begins_with("--at="):
 			avatar.position.x = a.trim_prefix("--at=").to_float()
 			_update_camera(1.0)
@@ -651,6 +865,46 @@ func _maybe_run_cli() -> void:
 			_recital_tween.custom_step(RECITE_STEP * POLES.size())
 		elif a == "--speak":
 			offerings.speak()
+		elif a == "--table":   # dev: stand at the offering table, in its scene
+			avatar.position.x = level.table.stand
+			_table_now()
+			_update_camera(1.0)
+		elif a.begins_with("--hover="):   # dev: hover there (strip px "x,y") for a screenshot of the glow
+			var xy := a.trim_prefix("--hover=").split(",")
+			_set_hover(_pick(Vector2(xy[0].to_float(), xy[1].to_float())))
+	if "--haul" in args or "--haul-bot" in args:   # dev: take up the rope at once (and with --haul-bot, pull on the beats)
+		hud.dismiss_intro()
+		avatar.position.x = level.sprites.haul_hauler.x
+		take_rope(hotspots.filter(func(h): return h.label == "Hauler")[0])
+		if "--haul-bot" in args:
+			var bot := Timer.new()
+			bot.wait_time = 1.0 / 60.0
+			add_child(bot)
+			var n := [0, -1]      # pulls, the last beat pulled on
+			bot.timeout.connect(func():
+				var k := roundi(haul.clock / HaulSledge.BEAT)
+				if haul.phase == "play" and k >= HaulSledge.COUNT_IN and k > n[1] and absf(haul.clock - k * HaulSledge.BEAT) < 0.04:
+					n[1] = k
+					n[0] += 1
+					if n[0] == 4:       # one off the beat, to show the rope going slack
+						get_tree().create_timer(HaulSledge.BEAT * 0.45).timeout.connect(haul.press)
+					else:
+						haul.press())
+			bot.start()
+	for a in args:   # dev: save every 3rd frame as <dir>/fNNNN.png for N seconds (`--record=dir --seconds=N`)
+		if a.begins_with("--record="):
+			var secs := 12.0
+			for b in args:
+				if b.begins_with("--seconds="):
+					secs = b.trim_prefix("--seconds=").to_float()
+			var dir := a.trim_prefix("--record=")
+			var k := 0
+			for i in int(secs * 60.0):
+				await get_tree().process_frame
+				if i % 3 == 0:
+					get_viewport().get_texture().get_image().save_png("%s/f%04d.png" % [dir, k])
+					k += 1
+			get_tree().quit()
 	for a in args:
 		if a.begins_with("--screenshot="):
 			hud.dismiss_intro()
@@ -685,13 +939,18 @@ func _autotest() -> void:
 			missed.append(id)
 	for spot in hotspots:
 		var h := _pick(spot.rect.get_center())
-		if h.get("type") == "piece":
+		if h.get("type") == "piece" or (spot.label == "Hauler" and not haul.hauler_shown()):
 			continue
 		if h.get("type") != "hot" or h.spot != spot:
 			missed.append(spot.label)
 	expect.call(missed.is_empty(), "every region picked by a click at its centre %s" % [missed])
-	act_slot("yoke"); act_slot("pen"); act_slot("yoke")
-	expect.call(solved.t1, "ox hitched, calf behind the plumed ox")
+	_set_hover(_pick(_slot_hit_rect("pole1").get_center()))
+	expect.call(_glows.size() == 2 and _glows[1].get_parent() == _pieces[slot.pole1], "a standard-bearer glows whole under the pointer: the man and his standard")
+	_set_hover(_pick(hotspots[0].rect.get_center()))
+	expect.call(_glows.size() == 1 and _glows[0].get_parent() == $Strip, "a journal figure glows under the pointer")
+	_set_hover({})
+	expect.call(_glows.is_empty(), "nothing glows when the pointer leaves")
+	_autotest_haul(expect)
 	for p in POLES:  # lift a wrong standard, carry each one home, until the first pole is filled
 		if _god(slot[p]) == _god(SLOTS[p].home):
 			continue
@@ -705,17 +964,65 @@ func _autotest() -> void:
 					break
 	expect.call(solved.t2, "all eight standards on their own poles")
 	expect.call(held == "", "hand empty after sorting the standards")
-	act_slot("yoke")
-	act_slot("pole1")
-	expect.call(held == "ox", "can't put an ox on a pole")
-	put_back()
 	_autotest_table(expect)
 	print("AUTOTEST ", "OK" if fails.is_empty() else "FAILED")
 	get_tree().quit(0 if fails.is_empty() else 1)
 
 
+## Haul the sledge through the same calls the keys make, stepping the beat clock by hand.
+func _autotest_haul(expect: Callable) -> void:
+	var step := func(t: float):
+		while t > 0.0:
+			var d := minf(t, 1.0 / 60.0)
+			haul._process(d)
+			t -= d
+	haul.instant = true
+	expect.call(not haul.hauler_shown(), "nobody hauls the sledge until you take up the rope")
+	var hauler: Dictionary = hotspots.filter(func(h): return h.label == "Hauler")[0]
+	take_rope(hauler)
+	expect.call(haul.active and is_equal_approx(haul.offset, HaulSledge.BACK), "taking up the rope sets the sledge back and opens the vignette")
+	expect.call(avatar.visible and not haul.hauler_shown(), "you hold the rope in the hauler's place; he is not there yet")
+	step.call(haul.to_next_beat())
+	haul.press()
+	expect.call(is_equal_approx(haul.target, HaulSledge.BACK - HaulSledge.BACK / HaulSledge.PULLS), "a pull on the beat gains a step")
+	var before := haul.target
+	step.call(HaulSledge.BEAT * 0.5)
+	haul.press()
+	expect.call(haul.target > before, "a pull off the beat lets the sledge slip back")
+	before = haul.target
+	step.call(HaulSledge.BEAT * 2.0)
+	expect.call(is_equal_approx(haul.target, before), "a beat let pass: the bier stops")
+	var guard := 0
+	while haul.active and guard < 40:
+		guard += 1
+		step.call(haul.to_next_beat())
+		haul.press()
+		step.call(0.05)
+	step.call(2.0)
+	expect.call(haul.done and solved.t1, "the sledge hauled home on the beat")
+	expect.call(not haul.active and haul.offset == 0.0 and avatar.visible, "the vignette closes, the train stands as drawn, you walk again")
+	expect.call(haul.hauler_shown(), "the hauler appears on the rope once the sledge is home")
+	haul.instant = false
+
+
 func _autotest_table(expect: Callable) -> void:
 	expect.call(not offerings.pieces.is_empty(), "the offering table has loose pieces (%d)" % offerings.pieces.size())
+	_table_now()
+	expect.call(in_table, "clicking the table steps up to it")
+	var some := ""
+	for id in offerings.pieces:
+		if offerings.pieces[id].kind == "loose":
+			some = id
+			break
+	var above := Vector2(lerpf(offerings.view.x, offerings.view.y, 0.7), (offerings.header.x + offerings.header.y) / 2.0)
+	offerings.take(some)
+	_table_drop(above)
+	var lying := offerings.sprite_of(some)
+	expect.call(offerings.holding() == "" and lying != null and offerings.pick(lying.position) == some, "a piece laid in the band above stays there and can be taken up again")
+	offerings.take(some)
+	leave_table()
+	expect.call(not in_table and offerings.holding() == "" and offerings.sprite_of(some) != null, "Esc steps away from the table; what you held goes back")
+	_table_now()
 	expect.call(not offerings.stackable().is_empty(), "something can be stacked at the start")
 	var high := ""
 	for id in offerings.pieces:
@@ -757,3 +1064,4 @@ func _autotest_table(expect: Callable) -> void:
 	expect.call(solved.t4, "the goose is back with its bearer")
 	expect.call(not offerings.clothes_showing(), "the goose covers his clothes again")
 	expect.call(solved.values().all(func(v): return v), "all four rites done")
+	leave_table()

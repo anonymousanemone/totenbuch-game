@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cjvhgc2tlffb6"
-path="res://.godot/imported/spearers_slide.png-17d8667a29ce25b395828bb2c9effb59.ctex"
+uid="uid://4um0uyqvog28"
+path="res://.godot/imported/haul_whip.png-b3258051b62df936a4fe115e962c323c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/dangers/spearers_slide.png"
-dest_files=["res://.godot/imported/spearers_slide.png-17d8667a29ce25b395828bb2c9effb59.ctex"]
+source_file="res://assets/procession/haul_whip.png"
+dest_files=["res://.godot/imported/haul_whip.png-b3258051b62df936a4fe115e962c323c.ctex"]
 
 [params]
 

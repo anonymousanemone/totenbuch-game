@@ -729,8 +729,10 @@ func _autotest_table(expect: Callable) -> void:
 	record(_reader)
 	var shown := offerings.speaking()
 	expect.call(shown != "" and offerings.can_place(shown), "the lector beside the table shows a piece that can go on now")
+	expect.call(not offerings.clothes_showing(), "the loaf in his arms covers his clothes")
 	_act_bearer()
 	expect.call(offerings.holding() != "" and offerings.pieces[offerings.holding()].kind == "held", "the goose-bearer hands over his loaf")
+	expect.call(offerings.clothes_showing(), "with his arms empty his clothes show")
 	offerings.put_back()
 	expect.call(offerings.bearer != "" and offerings.holding() == "", "Esc gives the loaf back to him")
 	var frond_early := false
@@ -753,4 +755,5 @@ func _autotest_table(expect: Callable) -> void:
 	offerings.take("goose")
 	_act_bearer()
 	expect.call(solved.t4, "the goose is back with its bearer")
+	expect.call(not offerings.clothes_showing(), "the goose covers his clothes again")
 	expect.call(solved.values().all(func(v): return v), "all four rites done")

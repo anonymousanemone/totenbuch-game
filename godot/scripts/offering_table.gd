@@ -139,6 +139,11 @@ func stackable() -> Array:
 	return out
 
 
+## His clothes show only with nothing in his arms.
+func clothes_showing() -> bool:
+	return _clothes.visible
+
+
 func holding() -> String:
 	return _held
 
@@ -399,6 +404,9 @@ func _show_bearer() -> void:
 	if bearer != "":
 		_bearer_sprite.texture = _tex[bearer]
 		_bearer_sprite.position = _goose_rect.get_center()
+		if bearer != "goose":  # a loaf sits in his hands, where the goose's body is (not its neck)
+			var w: float = _tex[bearer].get_size().x
+			_bearer_sprite.position.x = _goose_rect.end.x - w / 2.0 - 10.0
 
 
 func _stop_speaking() -> void:

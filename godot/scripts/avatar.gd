@@ -8,6 +8,7 @@ var speed := 330.0          ## world px per second
 var bob_height := 5.0
 const BOB_RATE := 9.0
 
+var keys := true            ## ← → walk; off while the level walks you somewhere itself
 var min_x := 0.0
 var max_x := 1.0e9
 var facing := -1            ## -1 = left (direction of the procession), 1 = right
@@ -51,7 +52,7 @@ func is_walking() -> bool:
 
 func _process(delta: float) -> void:
 	var moving := false
-	var axis := Input.get_axis("ui_left", "ui_right")
+	var axis := Input.get_axis("ui_left", "ui_right") if keys else 0.0
 	if axis != 0.0:
 		stop()
 		position.x = clampf(position.x + axis * speed * delta, min_x, max_x)

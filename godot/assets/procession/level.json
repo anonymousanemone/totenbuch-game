@@ -132,6 +132,30 @@
    "y": 368,
    "w": 46,
    "h": 48
+  },
+  "stand": {
+   "x": 572,
+   "y": 343,
+   "w": 74,
+   "h": 189
+  },
+  "lotus": {
+   "x": 565,
+   "y": 224,
+   "w": 94,
+   "h": 193
+  },
+  "sun": {
+   "x": 579,
+   "y": 303,
+   "w": 55,
+   "h": 42
+  },
+  "kneeler": {
+   "x": 790,
+   "y": 248,
+   "w": 207,
+   "h": 278
   }
  },
  "slots": {
@@ -352,6 +376,33 @@
    "label": "Lector with plumes",
    "note": "A lector priest in a two-feather headdress holds up a sheet: he reads out the order of the gods' standards.",
    "plate": "V"
+  },
+  {
+   "x": 1501,
+   "y": 191,
+   "w": 259,
+   "h": 335,
+   "label": "Stela",
+   "note": "A round-topped stela under the winged sun. Faint on its face: a stand, the sun disc on it, a lotus bending over it.",
+   "plate": "VI"
+  },
+  {
+   "x": 1120,
+   "y": 195,
+   "w": 308,
+   "h": 331,
+   "label": "Tomb chapel",
+   "note": "The tomb: a chapel with a cornice, crowned by a small pyramid.",
+   "plate": "VI"
+  },
+  {
+   "x": 120,
+   "y": 186,
+   "w": 355,
+   "h": 340,
+   "label": "Ra enthroned",
+   "note": "Ra sits on his throne with the sun disc on his head and a staff in his hand. Spell 15 adores him as he rises and sets.",
+   "plate": "VI"
   }
  ],
  "recital": {
@@ -1249,5 +1300,40 @@
    "x": 5412,
    "y": 84
   }
+ },
+ "ending": {
+  "hide": {
+   "stand": {
+    "x": 13558,
+    "y": 302
+   },
+   "sun": {
+    "on": "haul_sledge",
+    "x": 658,
+    "y": 150
+   },
+   "lotus": {
+    "cx": 2980,
+    "bottom": 256,
+    "rot": 90,
+    "scale": 0.7
+   }
+  },
+  "place": {
+   "x": 552,
+   "y": 215,
+   "w": 120,
+   "h": 311
+  },
+  "stela": {
+   "cx": 1627,
+   "top": 262,
+   "scale": 0.75
+  },
+  "ra_disc": [
+   213,
+   236
+  ],
+  "kneel": 897
  }
 }

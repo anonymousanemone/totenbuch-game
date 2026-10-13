@@ -36,7 +36,8 @@ const SLOTS := {
 }
 
 ## The disorder the player finds: the mummy's sledge stalled (see haul.gd), standards deranged,
-## and the offering table collapsed, with the goose-bearer holding a loaf (see offering_table.gd).
+## the offering table collapsed, with the goose-bearer holding a loaf (see offering_table.gd), and
+## the offering stand before Ra gone, its pieces hidden along the scroll (see ending.gd).
 const START := {
 	"pole1": "emb_e6", "pole2": "emb_e1", "pole3": "emb_e7", "pole4": "emb_e5",
 	"pole5": "emb_e3", "pole6": "emb_e8", "pole7": "emb_e4", "pole8": "emb_e2",
@@ -80,7 +81,7 @@ var start_x := 0.0
 var slot := {}               ## slot id -> piece ("" = empty)
 var held := ""
 var held_from := ""
-var solved := {"t1": false, "t2": false, "t3": false, "t4": false}
+var solved := {"t1": false, "t2": false, "t3": false, "t4": false, "t5": false}
 var finished := false
 var journal: Array[String] = []
 
@@ -100,6 +101,8 @@ var _lector := {}            ## the plumed lector in plate V, who recites the st
 var _bearer_rect: Rect2      ## the goose-bearer beside the lector
 var offerings: OfferingTable
 var haul: HaulSledge
+var ending: EndingStand
+var _testing := false        ## the autotest: the ending does not leave the scene
 var _strip_img: Image        ## the strip, for journal pictures of figures that are sprites now
 var _recital: Node2D
 var _recital_tween: Tween
@@ -149,6 +152,14 @@ func _ready() -> void:
 	haul.setup(level.sprites, "res://assets/procession/%s.png", _pieces.ox, $Papyrus.material, self, $Strip.get_index() + 1)
 	haul.said.connect(say)
 	haul.finished.connect(_check)
+	ending = EndingStand.new()
+	$Pieces.add_child(ending)
+	ending.setup(level, "res://assets/procession/%s.png", haul.sprite_of("haul_sledge"))
+	ending.said.connect(say)
+	ending.changed.connect(func():
+		_check()
+		_render())
+	ending.ended.connect(_ended)
 
 	overlay.draw.connect(_draw_overlay)
 	hud.setup(self, {
@@ -160,10 +171,11 @@ func _ready() -> void:
 			"Return each standard to its bearer",
 			"Rebuild the offering table",
 			"Give the goose back to its bearer",
+			"Set up the offering stand before Ra",
 		],
 		"journal_hint": "Click figures in the scroll to record them here.",
 		"intro_title": "Spells 1–15: The Funeral Procession",
-		"intro_body": "The mummy must be dragged to the tomb. But the procession has fallen into disorder: the mummy's sledge has stalled, the gods' standards are on the wrong poles, and the great offering table has collapsed.\n\n"
+		"intro_body": "The mummy must be dragged to the tomb. But the procession has fallen into disorder: the mummy's sledge has stalled, the gods' standards are on the wrong poles, the great offering table has collapsed, and the offering stand before Ra at the tomb is gone.\n\n"
 			+ "The scroll reads [b]right to left[/b]. Click the papyrus to walk, or use ← →. Click figures to record them in your journal. Click movable pieces to pick them up, and click where they belong to set them down. Clicking a filled place swaps the two. Esc puts a piece back.\n\n"
 			+ "[i]Every figure is cut directly from Lepsius's 1842 plates; nothing is redrawn.[/i]",
 		"outro_title": "The procession reaches the tomb",
@@ -180,18 +192,21 @@ func reset() -> void:
 	slot = START.duplicate()
 	held = ""
 	held_from = ""
-	solved = {"t1": false, "t2": false, "t3": false, "t4": false}
+	solved = {"t1": false, "t2": false, "t3": false, "t4": false, "t5": false}
 	finished = false
 	journal.clear()
 	_clear_recital()
 	offerings.reset()
 	haul.reset()
+	ending.reset()
 	_set_hover({})
 	in_table = false
 	_drag_from = Vector2.INF
 	_hauling = false
 	avatar.rotation = 0.0
 	avatar.visible = true
+	avatar.modulate = Color.WHITE
+	avatar.keys = true
 	avatar.set_process(true)
 	avatar.stop()
 	avatar.position = Vector2(start_x, ground)
@@ -205,7 +220,7 @@ func reset() -> void:
 # ---------------------------------------------------------------- input
 
 func _unhandled_input(event: InputEvent) -> void:
-	if hud.is_blocking():
+	if hud.is_blocking() or finished:
 		return
 	if haul.active:     # holding the rope: Space, Shift or a click pulls; Esc lets go
 		if event.is_action_pressed("ui_cancel"):
@@ -232,6 +247,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		var h := _pick(p)
 		if h.is_empty():
 			walk_then(p.x)
+		elif h.type == "ending":
+			walk_then(ending.where(h.id).x + BESIDE * unit, act_ending.bind(h.id))
 		elif h.type in ["piece", "bearer"] or (h.type == "hot" and (h.spot == _table or h.spot == _reader)):
 			enter_table(h.get("spot", {}) == _reader)
 		elif h.type == "slot":
@@ -243,12 +260,15 @@ func _unhandled_input(event: InputEvent) -> void:
 			walk_then(h.spot.rect.get_center().x + BESIDE * unit, record.bind(h.spot))
 
 
-## What is under the pointer: a loose offering, the goose-bearer, a placed piece or slot, then
-## a journal hotspot.
+## What is under the pointer: a loose offering, a hidden piece of the offering stand or its place,
+## the goose-bearer, a placed piece or slot, then a journal hotspot.
 func _pick(p: Vector2) -> Dictionary:
 	var off := offerings.pick(p)
 	if off != "":
 		return {"type": "piece", "id": off}
+	var e := ending.pick(p)
+	if e != "":
+		return {"type": "ending", "id": e}
 	if _bearer_rect.has_point(p):
 		return {"type": "bearer", "rect": _bearer_rect}
 	for id in slot:
@@ -292,6 +312,10 @@ func _glow_targets(h: Dictionary) -> Array:
 		"piece":
 			var sp := offerings.sprite_of(h.id)
 			return [sp] if sp else []
+		"ending":   # a hidden piece glows; the empty place glows with what already stands there
+			if h.id != "place":
+				return [ending.sprite_of(h.id)]
+			return [ending.place_rect()] + ending.placed.keys().map(func(nm): return ending.sprite_of(nm))
 		"bearer":
 			return [_bearer_rect] + offerings.bearer_sprites()
 		"slot":   # a standard-bearer glows whole: the man and the standard on his pole
@@ -551,6 +575,16 @@ func take_rope(h: Dictionary) -> void:
 	haul.start()
 
 
+## A piece of the offering stand: take it from where it lies hidden, or set what you carry at
+## its place before Ra.
+func act_ending(id: String) -> void:
+	if id == "place":
+		ending.set_down()
+	else:
+		ending.take(id)
+	_set_hover({})
+
+
 func put_back() -> void:
 	if held == "":
 		return
@@ -571,6 +605,9 @@ func _check() -> void:
 	solved.t2 = POLES.all(func(p): return _god(slot[p]) == _god(SLOTS[p].home))
 	solved.t3 = offerings.complete()
 	solved.t4 = offerings.goose_returned()
+	solved.t5 = ending.complete()
+	var rites: bool = solved.t1 and solved.t2 and solved.t3 and solved.t4
+	var were: bool = was.t1 and was.t2 and was.t3 and was.t4
 	if solved.t1 and not was.t1:
 		say("Ox-driver", "The sledge stands where it should. The mummy goes on toward the tomb.")
 		var o: Dictionary = level.sprites.ox
@@ -586,6 +623,12 @@ func _check() -> void:
 			say("Scribe", "The procession lurches forward."))
 	if solved.t3 and not was.t3:
 		say("Scribe", "The offerings are heaped again under the palm frond, as they are drawn.")
+	if rites and not were and not solved.t5:
+		get_tree().create_timer(1.6).timeout.connect(func():
+			say("Scribe", "The procession is in order. But before Ra, at the tomb, the offering stand is gone: the stela beside the tomb shows how it stood."))
+	elif solved.t5 and not was.t5 and not rites:
+		get_tree().create_timer(2.2).timeout.connect(func():
+			say("Scribe", "When the procession is in order, come back and kneel before Ra."))
 	if solved.values().all(func(v): return v) and not was.values().all(func(v): return v):
 		get_tree().create_timer(1.2).timeout.connect(finish)
 
@@ -645,16 +688,25 @@ func _journal_picture(r: Rect2) -> Texture2D:
 	return ImageTexture.create_from_image(img)
 
 
+## Everything is in order: you walk to the adorer's place before Ra and kneel there, and the light
+## takes the scene (see ending.gd). For now the level then goes back to the menu.
 func finish() -> void:
 	if finished:
 		return
 	finished = true
+	_set_hover({})
 	_render()
-	say("Lector priest", "The procession has arrived. Let the mouth be opened.")
-	var body := "The sledge is hauled, the standards are raised, the offerings are heaped again and the goose-bearer has his goose.\n\n" \
-		+ "Next scene: [b]Spell 15, arrival at the tomb[/b].\n\n" \
-		+ "[i]Journal: %d of %d figures recorded.[/i]" % [journal.size(), hotspots.size()]
-	get_tree().create_timer(0.9).timeout.connect(func(): hud.show_outro(body))
+	say("Lector priest", "The procession has arrived. Kneel before Ra as he sets.")
+	avatar.keys = false
+	avatar.set_process(true)
+	walk_then(ending.kneel_x(), func():
+		avatar.facing = -1
+		ending.kneel(avatar))
+
+
+func _ended() -> void:
+	if not _testing:
+		get_tree().change_scene_to_file("res://scenes/menu.tscn")
 
 
 func hint() -> void:
@@ -667,8 +719,10 @@ func hint() -> void:
 		say("Hint", "The eight bearers with gods on their heads have the wrong standards. The lector with two plumes on his head, beyond the offering table, reads out their order. Take a standard off and the empty pole shows a faint outline of the one that belongs there.")
 	elif not solved.t3:
 		say("Hint", "The offering table has collapsed. Click it to step up to it, then drag an offering to where it belongs (its place shows faintly while you carry it). The lowest go first: anything set on a missing piece falls off. Lay pieces in the band above to get them out of the way. Click the lector beside the table and he shows one that can go on now. Esc steps away.")
-	else:
+	elif not solved.t4:
 		say("Hint", "The man beside the lector holds a loaf instead of his goose. Take the loaf, and find his goose among the fallen offerings.")
+	else:
+		say("Hint", "The stela beside the tomb shows a stand, a sun disc on it and a lotus over it. All three are hidden along the scroll: in something carried behind the women mourners, on the mummy's bier, and on top of an offering pile. Set them up before Ra, the stand first.")
 
 
 func _cap(s: String) -> String:
@@ -761,9 +815,11 @@ func _render() -> void:
 		_pieces[piece].position = Vector2(x, base - size.y)
 		_pieces[piece].visible = true
 		_base[piece] = _pieces[piece].position
-	hud.update_tasks([solved.t1, solved.t2, solved.t3, solved.t4])
+	hud.update_tasks([solved.t1, solved.t2, solved.t3, solved.t4, solved.t5])
 	if offerings.holding() != "":
 		hud.update_hand(offerings.holding(), offerings.held_name(), offerings.held_texture())
+	elif held == "" and not ending.carried.is_empty():
+		hud.update_hand("stand", ending.carried_name(), ending.carried_texture(), "Set them up before Ra.")
 	else:
 		hud.update_hand(held, NAMES.get(held, ""), _pieces[held].texture if held != "" else null)
 
@@ -865,6 +921,18 @@ func _maybe_run_cli() -> void:
 			_recital_tween.custom_step(RECITE_STEP * POLES.size())
 		elif a == "--speak":
 			offerings.speak()
+		elif a == "--ending" or a == "--finale":   # dev: carry the stand's pieces, before Ra (and with --finale, set them up and kneel)
+			hud.dismiss_intro()
+			for nm in EndingStand.PIECES:
+				ending.take(nm)
+			avatar.position.x = ending.place_rect().end.x + BESIDE * unit
+			_update_camera(1.0)
+			if a == "--finale":
+				for i in 3:
+					ending.set_down()
+				finished = true
+				avatar.keys = false
+				walk_then(ending.kneel_x(), ending.kneel.bind(avatar))
 		elif a == "--table":   # dev: stand at the offering table, in its scene
 			avatar.position.x = level.table.stand
 			_table_now()
@@ -915,6 +983,7 @@ func _maybe_run_cli() -> void:
 
 
 func _autotest() -> void:
+	_testing = true
 	var fails: Array[String] = []   # lambdas capture locals by value, so collect into an array
 	var expect := func(cond: bool, what: String):
 		print(("PASS " if cond else "FAIL ") + what)
@@ -931,7 +1000,7 @@ func _autotest() -> void:
 	sorted.sort()
 	expect.call(xs == sorted and xs[-1] < level.recital.right, "his line runs left to right and ends in front of him")
 	# a click in the middle of every slot and journal region picks exactly that region (unless a
-	# fallen offering lies over it)
+	# fallen offering or a hidden piece of the offering stand lies over it)
 	var missed: Array[String] = []
 	for id in SLOTS:
 		var h := _pick(_slot_hit_rect(id).get_center())
@@ -939,7 +1008,7 @@ func _autotest() -> void:
 			missed.append(id)
 	for spot in hotspots:
 		var h := _pick(spot.rect.get_center())
-		if h.get("type") == "piece" or (spot.label == "Hauler" and not haul.hauler_shown()):
+		if h.get("type") in ["piece", "ending"] or (spot.label == "Hauler" and not haul.hauler_shown()):
 			continue
 		if h.get("type") != "hot" or h.spot != spot:
 			missed.append(spot.label)
@@ -1005,6 +1074,41 @@ func _autotest_haul(expect: Callable) -> void:
 	haul.instant = false
 
 
+## Find the three pieces of the offering stand, set them up before Ra, and kneel.
+func _autotest_ending(expect: Callable) -> void:
+	ending.instant = true
+	expect.call(not ending._kneeler.visible, "the adorer before Ra is not there at the start")
+	var at := {}
+	for nm in EndingStand.PIECES:
+		at[nm] = ending.where(nm)
+	var women: Rect2 = hotspots.filter(func(h): return h.label == "Women mourners")[0].rect
+	var bier: Dictionary = level.sprites.haul_sledge
+	expect.call(at.stand.x < women.position.x and at.stand.x > women.position.x - 200.0, "the stand is hidden right behind the women mourners")
+	expect.call(at.sun.x > bier.x and at.sun.x < bier.x + bier.w and ending.sprite_of("sun").get_parent() == haul.sprite_of("haul_sledge"), "the sun disc rides on the mummy's bier")
+	expect.call(at.lotus.x > level.plates.V.x and at.lotus.x < level.plates.V.x + level.plates.V.w, "the lotus lies on the offering pile of plate V")
+	for nm in EndingStand.PIECES:
+		var h := _pick(at[nm])
+		expect.call(h.get("type") == "ending" and h.id == nm, "%s can be clicked where it lies" % nm)
+	act_ending("sun")
+	var r := ending.set_down()
+	expect.call(r == "unsupported" and not ending.placed.has("sun"), "the sun disc cannot go on before the stand")
+	act_ending("lotus")
+	act_ending("stand")
+	expect.call(ending.carried.size() == 3, "all three carried")
+	var h := _pick(ending.place_rect().get_center())
+	expect.call(h.get("type") == "ending" and h.id == "place", "the stand's place before Ra can be clicked")
+	for i in 3:
+		act_ending("place")
+	expect.call(ending.complete() and solved.t5, "stand, sun disc and lotus set up before Ra")
+	for nm in EndingStand.PIECES:
+		expect.call(ending.sprite_of(nm).position == ending._rects[nm].get_center(), "%s stands where it is drawn" % nm)
+	expect.call(solved.values().all(func(v): return v), "all five rites done")
+	finish()
+	avatar.position.x = ending.kneel_x()
+	ending.kneel(avatar)
+	expect.call(finished and ending.kneeling and ending._kneeler.visible and not avatar.visible, "you kneel in the adorer's place before Ra")
+
+
 func _autotest_table(expect: Callable) -> void:
 	expect.call(not offerings.pieces.is_empty(), "the offering table has loose pieces (%d)" % offerings.pieces.size())
 	_table_now()
@@ -1063,8 +1167,9 @@ func _autotest_table(expect: Callable) -> void:
 	_act_bearer()
 	expect.call(solved.t4, "the goose is back with its bearer")
 	expect.call(not offerings.clothes_showing(), "the goose covers his clothes again")
-	expect.call(solved.values().all(func(v): return v), "all four rites done")
+	expect.call(solved.t1 and solved.t2 and solved.t3 and solved.t4 and not finished, "all four rites done; the level waits for the offering stand")
 	leave_table()
+	_autotest_ending(expect)
 
 	# Restart must clear both the carried piece and its visible preview.
 	reset()

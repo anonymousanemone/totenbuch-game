@@ -105,12 +105,12 @@ func update_tasks(done: Array) -> void:
 		_tasks[i].text = "[color=#%s][s]%s[/s][/color]" % [OK.to_html(false), line] if done[i] else line
 
 
-func update_hand(piece: String, label: String, tex: Texture2D) -> void:
+func update_hand(piece: String, label: String, tex: Texture2D, note := "Esc puts it back.") -> void:
 	_hand_icon.texture = tex
 	if piece == "":
 		_hand_label.text = "[i]Nothing in hand.[/i]"
 	else:
-		_hand_label.text = "Holding [b]%s[/b]. Esc puts it back." % label
+		_hand_label.text = "Holding [b]%s[/b]. %s" % [label, note]
 
 
 ## The piece follows the pointer at roughly its on-screen size.

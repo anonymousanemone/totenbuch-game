@@ -103,8 +103,7 @@ func reset() -> void:
 		c.queue_free()
 	_parked.clear()
 	placed.clear()
-	_held = ""
-	_held_from = ""
+	_let_go()
 	_speak_i = 0
 	_stop_speaking()
 	bearer = ""

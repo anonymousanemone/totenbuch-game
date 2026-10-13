@@ -12,6 +12,7 @@
 ## Then come before Osiris.
 extends Node2D
 
+const SCROLL_CAMERA := preload("res://scripts/scroll_camera.gd")
 const DATA_PATH := "res://assets/cosmos/level.json"
 const ART := "res://assets/cosmos/%s.png"
 const BESIDE := 70.0          ## stand just behind (right of) what you interact with
@@ -531,19 +532,18 @@ func _update_camera(delta: float) -> void:
 	var vp := get_viewport_rect().size
 	var top: float = hud.top_height()
 	var bottom: float = hud.bottom_height()
-	var z := clampf(minf((vp.y - top - bottom - 10.0) / _view_height(), vp.x / (1000.0 * unit)), 0.4 / unit, 2.4 / unit)
+	var z := SCROLL_CAMERA.fit_zoom(vp, top, bottom, _view_height(), unit, 0.4 / unit, 2.4 / unit)
 	camera.zoom = Vector2(z, z)
 	var vis_w := vp.x / z
 	var target_x := avatar.position.x - vis_w * 0.05
-	target_x = clampf(target_x, vis_w / 2.0, maxf(vis_w / 2.0, level.width - vis_w / 2.0))
-	var k := 1.0 if delta >= 1.0 else 1.0 - pow(0.001, delta)
+	target_x = SCROLL_CAMERA.clamp_horizontal(target_x, vis_w, level.width)
+	var k := SCROLL_CAMERA.smoothing(delta)
 	camera.position.x = lerpf(camera.position.x, target_x, k)
-	camera.position.y = _view_height() / 2.0 + (bottom - top) / 2.0 / z
+	camera.position.y = SCROLL_CAMERA.vertical_center(_view_height(), top, bottom, z)
 
 
 func _visible_rect() -> Rect2:
-	var size := get_viewport_rect().size / camera.zoom
-	return Rect2(camera.position - size / 2.0, size)
+	return SCROLL_CAMERA.visible_rect(camera, get_viewport_rect().size)
 
 
 func _render() -> void:

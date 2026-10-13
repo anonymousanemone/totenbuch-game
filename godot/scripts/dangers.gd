@@ -9,8 +9,11 @@
 ## multiplied by `unit` (level.json `scale`).
 extends Node2D
 
+const SCROLL_CAMERA := preload("res://scripts/scroll_camera.gd")
 const DATA_PATH := "res://assets/dangers/level.json"
 const SHEET_PATH := "res://assets/dangers/spearers.json"   ## the spear-bearers' thrust (tools/spearer_sheet.py)
+const CREEPING_SNAKE_STATE := preload("res://scripts/creeping_snake_state.gd")
+const FIGURE_MASK := preload("res://scripts/figure_mask.gd")
 const SHEET_TEX := "res://assets/dangers/spearers.png"
 const ASSET := "res://assets/dangers/%s.png"
 const BESIDE := 50.0
@@ -19,110 +22,7 @@ const FIGHTS := ["crocs", "lunge", "twin", "creep", "roach", "apep", "donkey", "
 const ARENA_FIGHTS := ["crocs", "roach", "lunge", "creep", "twin"]   ## the vignette opens out across the screen
 const CLICK_TO_FIGHT := "Click the creature to take up the spear."
 
-## Encounters in play order. `boxes` are vignette frames from level.json; `spear` is the
-## vignette's spear-bearer, who stands in for the player during the fight.
-const ENCOUNTERS := [
-	# crocodiles: `count` is how many must be turned back in all (the four drawn ones, then copies
-	# of them); `speed` in plate px per second; `at_once` how many crawl at the same time; `red` the
-	# chance that a crocodile comes red (only a thrust made while holding Shift turns those back; heka on
-	# an ordinary one loses the fight); `both_sides` they come from left and right, and he turns
-	{"id": "e31", "boxes": ["e31"], "kind": "crocs", "spear": "spear31", "task": 0, "tutorial": true,
-		"foes": ["c31a", "c31b", "c31c", "c31d"], "first_speed": 120.0, "break": 6.0,
-		# `waves` instead of one count: the lesson, a break while the heka word starts to flash, then
-		# a wave with red ones (`red_order`: which launches come red, in order); each crocodile of a
-		# wave `ramp` faster than the one before. A lost fight starts again from the first wave.
-		"waves": [
-			{"count": 3, "speed": 180.0, "ramp": 0.01, "interval": 3.0, "at_once": 1},
-			{"count": 6, "speed": 200.0, "ramp": 0.01, "interval": 2.2, "at_once": 2, "red_order": [false, true, false, true, true, false]},
-		],
-		"intro": "Spell 31: crocodiles come to take your magic. The vignette opens out, and you are its spear-bearer; Space then thrusts the spear.",
-		"hint": "Move up or down (↑ ↓ or W S) until the spear tip is level with the coming snout, and press Space as they touch.",
-		"won": "The crocodiles turn away.",
-		"label": "Crocodiles of spell 31", "note": "They come to take the magic of the deceased. Turned back with the spear."},
-	{"id": "e32", "boxes": ["e32"], "kind": "crocs", "spear": "spear32", "task": 0,
-		"foes": ["c32a", "c32b", "c32c", "c32d"], "both_sides": true,
-		# harder than 31 and losable, but always possible: each crocodile is `ramp` faster than the
-		# one before (210 -> about 420), and none reaches him within `min_gap` s of the one before
-		"waves": [{"count": 14, "speed": 180.0, "ramp": 0.01, "interval": 0.8, "at_once": 2, "red": 0.35, "min_gap": 0.9}],
-		"intro": "Spell 32: crocodiles from the four quarters of the sky, from both sides now, faster and two at a time. ← → turn you to face either way; ↑ ↓ move you.",
-		"hint": "Turn to face the nearer crocodile (← →), bring the spear tip level with its snout (↑ ↓), then Space.",
-		"won": "The crocodiles of the four quarters are turned back.",
-		"label": "Crocodiles of spell 32", "note": "One for each quarter of the sky. Turned back two at a time."},
-	# the lunging snake: it waits `rest` back from where it is drawn (out of reach) for `idle` s,
-	# waves its tail (`wave` s, `tail` rad, `wave_hz`), squashes down (`crouch` s) and springs
-	# (`snap` s) to his front leg. `head_tip`, `head_rect`, `tail_base`: in its picture's pixels.
-	{"id": "e33", "boxes": ["e33"], "kind": "lunge", "spear": "spear33", "task": 1,
-		# `marks`: the red mark's radius (plate px) for each strike in turn, smaller each time
-		"foe": "snake33", "need": 3, "marks": [11.0, 8.0, 5.0], "rest": 33.0, "idle": [1.2, 2.4], "wave": 1.4, "tail": 0.26, "wave_hz": 2.2,
-		"crouch": 0.35, "snap": 0.16, "head_tip": [122, 218], "head_rect": [68, 205, 58, 25], "tail_base": [28, 172],
-		"intro": "Spell 33: a snake coils just out of reach of your spear. When its tail waves, it is about to spring. Press Space as it springs, so the spear point comes down on the red mark. Each strike, the mark grows smaller.",
-		"hint": "Watch the tail wave, then the squash: thrust (Space) the moment it springs. Too early and your spear is already coming back up.",
-		"won": "The snake falls.",
-		"label": "The lunging snake", "note": "Spell 33, against a snake. Struck three times as it sprang."},
-	# the snake on the ground, its back to him: red light, green light. It lies near the far (left)
-	# edge of the opened vignette; he creeps up on it, forward only, at `creep` plate px/s. Every `away`
-	# s it lifts its head (`tell` s, shorter with each strike; after the first strike a `fake` share of
-	# lifts settle again), turns to look at him for `watch` s, and turns away again. Moving or thrusting
-	# while it looks: it strikes. Struck, it slides `flee` plate px on toward the edge.
-	# `head_rect`, `head_pivot` (it turns round on this spot), `eye`: in its picture's pixels.
-	{"id": "e35", "boxes": ["e35"], "kind": "creep", "spear": "spear35", "task": 1,
-		"foe": "snake35", "need": 3, "flee": 70.0, "creep": 90.0, "away": [1.2, 2.6], "tell": [0.6, 0.35],
-		"watch": [1.0, 2.0], "fake": 0.3, "head_rect": [104, 42, 38, 23], "head_pivot": [123, 55], "eye": [114, 52],
-		"intro": "Spell 35: a snake lies on the ground with its back to you. The vignette opens out. Creep up on it (←) and thrust (Space) when the ring under your spear point turns red. When it lifts its head, freeze: if it turns and sees you move, it strikes.",
-		"hint": "Move only while its head lies flat and turned away. When the head lifts, let go of the keys and wait until it looks away again. Struck three times, it lies still.",
-		"won": "The snake on the ground lies still.",
-		"label": "The snake on the ground", "note": "Spell 35. Crept up on from behind and struck three times."},
-	# the roach: `count` beetles (the drawn one and copies), each to be pinned once by the spear
-	# point. Each darts at `dart` (plate px/s), rests `rest` s, and every `bait_every` darts stops
-	# by the spear point on his left or right for `bait_rest` s (a `fake` share of those just out
-	# of reach), within `range` either side of him. Each may stop at the spear point and get away
-	# `passes` times (it reddens each time); one more and they multiply over the screen: lost.
-	# `dot`: only a red dot on its back counts
-	{"id": "e36", "boxes": ["e36"], "kind": "roach", "spear": "spear36", "task": 1,
-		"foe": "beetle36", "count": 3, "passes": 3, "dart": 1100.0, "rest": [0.15, 0.5], "bait_every": 2,
-		"bait_rest": [0.35, 0.75], "fake": 0.3, "range": 480.0, "dot": false,
-		"intro": "Spell 36: the Apshai beetles, quicker than the eye. The vignette opens out. You cannot step: ← → turn you, and Space thrusts. Spear all three with the point. Each may stop by your spear and get away only three times; it reddens each time.",
-		"hint": "Watch where they stop. When one pauses at the point of your spear, turn to it and thrust. The redder a beetle, the fewer chances are left.",
-		"won": "The beetles are pinned.",
-		"label": "The Apshai beetle", "note": "Spell 36. Pinned with the point of the spear."},
-	# the two Merti snakes: the drawn one on his left and a mirrored copy on his right, both facing him.
-	# Every `idle` s one of the two snake signs in the caption (`signs`: a point on each, strip px; left
-	# sign, left snake) flashes red for `warn` s; that snake turns its back on him for `window` s, then
-	# whips round and bites. Each must be struck `need` times while its back is turned. `warn` and
-	# `window` go from the first value to the second over the strikes.
-	{"id": "e37", "boxes": ["e37"], "kind": "twin", "spear": "spear37", "task": 1,
-		"foe": "snake37", "need": 2, "idle": [0.8, 1.8], "warn": [1.0, 0.5], "window": [1.1, 0.6],
-		"signs": [[2830, 61], [2865, 60]],
-		"intro": "Spell 37: the two Merti snakes, one on either side of you, coiled and facing you. The vignette opens out. ← → turn you; Space thrusts. When one of the two snake signs above flashes red, that snake turns its back on you: turn to it and strike before it turns round to bite. Never strike a snake that faces you.",
-		"hint": "Watch the two snake signs in the caption: the left one is the snake on your left, the right one the snake on your right. Turn to the one that flashes and thrust while its back is turned.",
-		"won": "The two Merti snakes fall.",
-		"label": "The two Merti snakes", "note": "Spell 37. Each struck twice while its back was turned."},
-	{"id": "e38", "boxes": ["e38"], "kind": "take", "item": "breath38", "task": 2, "gate": true,
-		"intro": "Spell 38, for living on air. He holds out the ankh and the sail, the signs of life and breath.",
-		"hint": "Click the ankh and sail he holds out.",
-		"won": "You take the breath of life. The sail sign returns in later scenes.",
-		"label": "The breath of life", "note": "Spell 38, for living on air. The ankh and sail taken from his hand."},
-	{"id": "e39", "boxes": ["e39"], "kind": "apep", "spear": "spear39", "task": 3,
-		"foe": "apep", "raise": 1.0,
-		"intro": "Spell 39: Apep, the great serpent, stretches across the ground. One coil at a time rises. Strike the coil that rises, and only that one.",
-		"hint": "Wait for a coil to lift, then click it. Striking a coil that lies flat lets a wounded coil heal.",
-		"won": "Apep is pinned to the ground.",
-		"label": "Apep", "note": "Spell 39, repelling Apep. Each coil struck as it rose."},
-	{"id": "e40", "boxes": ["e40"], "kind": "donkey", "spear": "spear40", "task": 4,
-		"foe": "snake40", "donkey": "donkey40", "need": 3,
-		"intro": "Spell 40: the Eater of the Ass, a snake on the donkey's back. Strike the snake three times. Do not strike the donkey.",
-		"hint": "The snake slides along the donkey's back. Click the snake itself; a miss hits the donkey.",
-		"won": "The snake falls from the donkey's back.",
-		"label": "The Eater of the Ass", "note": "Spell 40. Struck three times; the donkey spared."},
-	{"id": "e41", "boxes": ["e41"], "kind": "pop", "spear": "spear41", "task": 5,
-		"foe": "heads41", "bundle": "bundle41", "need": 3,
-		"intro": "Spell 41: heads rise from the bundle of reeds and sink again. Strike them while they are up.",
-		"hint": "Click the heads while they show above the reeds.",
-		"won": "Nothing rises from the reeds any more.",
-		"label": "The heads in the reeds", "note": "Spell 41. Struck three times as they rose."},
-	{"id": "e42", "boxes": ["e42"], "kind": "end",
-		"intro": "Spell 42 is a list, not a picture: each part of the body is given to a god."},
-]
+const ENCOUNTERS := preload("res://scripts/danger_encounters.gd").ENCOUNTERS
 
 const TASKS := [
 	"Turn back the crocodiles (31–32)",
@@ -169,6 +69,7 @@ var _flesh_tex: Texture2D = _ink_from(load(FLESH_PATH)) if ResourceLoader.exists
 var _told_unsolved := -10.0   ## when the end of the scroll last said what is still undone
 var gate := {}           ## a "gate" encounter (spell 38): the way on past it stays shut while it or one before it is undone
 var _bump_time := -10.0
+var _heka_signs: Array = []      ## flattened once from level.heka
 var _hover := []                ## the actors glowing under the pointer
 
 @onready var avatar: Node2D = $Avatar
@@ -179,6 +80,10 @@ var _hover := []                ## the actors glowing under the pointer
 
 func _ready() -> void:
 	level = JSON.parse_string(FileAccess.get_file_as_string(DATA_PATH))
+	var heka = level.get("heka", {})
+	if heka is Dictionary:
+		for words in heka.values():
+			_heka_signs.append_array(words)
 	unit = level.get("scale", 1.0)
 	ground = level.ground
 	avatar.speed *= unit
@@ -487,10 +392,20 @@ func _glow(n: String, on: bool) -> void:
 			mat.set_shader_parameter("region", Vector4(reg.position.x / whole.x, reg.position.y / whole.y, reg.size.x / whole.x, reg.size.y / whole.y))
 		mat.set_shader_parameter("strength", 0.0)
 		g.material = mat
+		g.visible = false
 		sp.add_child(g)
+	# Re-entering during a fade replaces the previous tween instead of racing it.
+	var previous: Tween = g.get_meta("fade") if g.has_meta("fade") else null
+	if previous and previous.is_valid():
+		previous.kill()
+	if on:
+		g.visible = true
 	var t := create_tween()
+	g.set_meta("fade", t)
 	t.tween_method(func(v: float): (g.material as ShaderMaterial).set_shader_parameter("strength", v),
 		(g.material as ShaderMaterial).get_shader_parameter("strength"), 1.0 if on else 0.0, 0.15)
+	if not on:
+		t.tween_callback(g.hide)
 
 
 ## The creatures you click to take up the spear against encounter `e`.
@@ -1253,11 +1168,7 @@ func _heka_at(p: Vector2) -> String:
 
 
 func _all_heka() -> Array:
-	var out := []
-	var h = level.get("heka", {})
-	for id in (h if h is Dictionary else {}):
-		out.append_array(h[id])
-	return out
+	return _heka_signs
 
 
 func _croc_total() -> int:
@@ -1946,8 +1857,8 @@ func _creep_start(e: Dictionary) -> void:
 	# where the point comes down at the full thrust with both as drawn: on its head (from its pivot)
 	fight.mark = _creep_point() - a.get_meta("home")
 	_creep_dress(e)
-	fight.snake = {"node": a, "phase": "away", "t": 0.0, "for": 1.6, "off": 0.0, "lift": 0.0, "sx": 1.0, "w": 0.0, "fake": false}
-	fight.snake.off = _creep_edge_off() + float(e.flee) * unit * (int(e.need) - 1)   # room to slide on
+	fight.snake = CREEPING_SNAKE_STATE.new(a)
+	fight.snake.offset = _creep_edge_off() + float(e.flee) * unit * (int(e.need) - 1)   # room to slide on
 	_creep_place()
 	_arena_open()
 
@@ -2013,20 +1924,20 @@ func _creep_edge_off() -> float:
 
 
 func _creep_place() -> void:
-	var sn: Dictionary = fight.snake
-	var a: Node2D = sn.node
-	a.position = a.get_meta("home") + Vector2(sn.off * fight.open, 0.0)
-	a.scale = Vector2(1.0 + sn.w, 1.0 - sn.w)
+	var snake: CREEPING_SNAKE_STATE = fight.snake
+	var a: Node2D = snake.node
+	a.position = a.get_meta("home") + Vector2(snake.offset * fight.open, 0.0)
+	a.scale = Vector2(1.0 + snake.wobble, 1.0 - snake.wobble)
 	var head: Node2D = a.get_node_or_null("Head")
 	if head:
-		head.scale.x = sn.sx
-		head.rotation = sn.lift * sn.sx
-		head.position = fight.neck_at + Vector2(0.0, -sn.lift * 16.0 * unit)
+		head.scale.x = snake.horizontal_scale
+		head.rotation = snake.lift * snake.horizontal_scale
+		head.position = fight.neck_at + Vector2(0.0, -snake.lift * 16.0 * unit)
 
 
 func _creep_phase(p: String) -> void:
 	fight.snake.phase = p
-	fight.snake.t = 0.0
+	fight.snake.elapsed = 0.0
 
 
 func _creep(dt: float) -> void:
@@ -2046,72 +1957,72 @@ func _creep(dt: float) -> void:
 		if fight.thrust >= THRUST_TIME[0] + THRUST_TIME[1]:
 			fight.thrust = -1.0
 	fight.red = maxf(0.0, fight.red - dt)
-	var sn: Dictionary = fight.snake
-	sn.t += dt
-	sn.w = 0.0
-	match sn.phase:
+	var snake: CREEPING_SNAKE_STATE = fight.snake
+	snake.elapsed += dt
+	snake.wobble = 0.0
+	match snake.phase:
 		"away":            # its head down and turned away: he may move
-			sn.lift = maxf(0.0, sn.lift - dt * 4.0)
-			sn.sx = 1.0
-			if sn.t >= sn.for:
-				sn.fake = fight.hits > 0 and rng.randf() < float(e.fake)
+			snake.lift = maxf(0.0, snake.lift - dt * 4.0)
+			snake.horizontal_scale = 1.0
+			if snake.elapsed >= snake.duration:
+				snake.fake_warning = fight.hits > 0 and rng.randf() < float(e.fake)
 				_creep_phase("tell")
 		"tell":            # the warning: it lifts its head, trembling
 			var dur := _creep_tell()
-			sn.lift = CREEP_LIFT * 0.45 * minf(sn.t / dur, 1.0) + 0.04 * sin(fight.clock * 50.0)
-			if sn.t >= dur:
-				if sn.fake:            # ...and lays it down again
+			snake.lift = CREEP_LIFT * 0.45 * minf(snake.elapsed / dur, 1.0) + 0.04 * sin(fight.clock * 50.0)
+			if snake.elapsed >= dur:
+				if snake.fake_warning:            # ...and lays it down again
 					_creep_phase("away")
-					sn.for = rng.randf_range(float(e.away[0]), float(e.away[1]))
+					snake.duration = rng.randf_range(float(e.away[0]), float(e.away[1]))
 				else:
 					_creep_phase("turn")
 		"turn":            # and turns it round to look at him
-			var u := minf(sn.t / CREEP_TURN, 1.0)
-			sn.sx = lerpf(1.0, -1.0, u)
-			sn.lift = lerpf(CREEP_LIFT * 0.45, CREEP_LIFT, u)
+			var u := minf(snake.elapsed / CREEP_TURN, 1.0)
+			snake.horizontal_scale = lerpf(1.0, -1.0, u)
+			snake.lift = lerpf(CREEP_LIFT * 0.45, CREEP_LIFT, u)
 			if u >= 1.0:
 				_creep_phase("watch")
 				_dev_shot("SHOT_ON_WATCH")
-				sn.for = rng.randf_range(float(e.watch[0]), float(e.watch[1]))
+				snake.duration = rng.randf_range(float(e.watch[0]), float(e.watch[1]))
 		"watch":
-			sn.sx = -1.0
-			sn.lift = CREEP_LIFT + 0.05 * sin(fight.clock * 3.0)
-			if sn.t >= sn.for:
+			snake.horizontal_scale = -1.0
+			snake.lift = CREEP_LIFT + 0.05 * sin(fight.clock * 3.0)
+			if snake.elapsed >= snake.duration:
 				_creep_phase("unturn")
 		"unturn":          # it looks away again
-			var u := minf(sn.t / CREEP_TURN, 1.0)
-			sn.sx = lerpf(-1.0, 1.0, u)
-			sn.lift = lerpf(CREEP_LIFT, 0.0, u)
+			var u := minf(snake.elapsed / CREEP_TURN, 1.0)
+			snake.horizontal_scale = lerpf(-1.0, 1.0, u)
+			snake.lift = lerpf(CREEP_LIFT, 0.0, u)
 			if u >= 1.0:
 				_creep_phase("away")
-				sn.for = rng.randf_range(float(e.away[0]), float(e.away[1]))
+				snake.duration = rng.randf_range(float(e.away[0]), float(e.away[1]))
 		"strike":          # it lashes back at his foot
-			var u := minf(sn.t / CREEP_SNAP, 1.0)
-			sn.off = sn.from + (sn.to - sn.from) * (1.0 - (1.0 - u) * (1.0 - u))
+			var u := minf(snake.elapsed / CREEP_SNAP, 1.0)
+			snake.offset = snake.slide_from + (snake.slide_to - snake.slide_from) * (1.0 - (1.0 - u) * (1.0 - u))
 			if u >= 1.0:
 				_creep_bites()
 		"bitten":
-			if sn.t >= 0.4:
-				_creep_slide(sn.lay)          # back to where it lay
+			if snake.elapsed >= 0.4:
+				_creep_slide(snake.return_offset)          # back to where it lay
 		"slide":           # it slides off, its head turned away again
-			var u := minf(sn.t / CREEP_SLIDE, 1.0)
+			var u := minf(snake.elapsed / CREEP_SLIDE, 1.0)
 			var k := u * u * (3.0 - 2.0 * u)
-			sn.off = sn.from + (sn.to - sn.from) * k
-			sn.sx = lerpf(sn.sx0, 1.0, k)
-			sn.lift = lerpf(sn.lift0, 0.0, k)
+			snake.offset = snake.slide_from + (snake.slide_to - snake.slide_from) * k
+			snake.horizontal_scale = lerpf(snake.previous_scale, 1.0, k)
+			snake.lift = lerpf(snake.previous_lift, 0.0, k)
 			if u >= 1.0:
 				_creep_phase("away")
-				sn.for = rng.randf_range(float(e.away[0]), float(e.away[1]))
+				snake.duration = rng.randf_range(float(e.away[0]), float(e.away[1]))
 		"pinned":          # held on the spear point, writhing
-			sn.w = 0.05 * sin(fight.clock * 40.0)
-			if sn.t >= ROACH_FREEZE:
+			snake.wobble = 0.05 * sin(fight.clock * 40.0)
+			if snake.elapsed >= ROACH_FREEZE:
 				fight.pinned = false
 				fight.struck = true
 				fight.thrust = THRUST_TIME[0] + 0.001          # the spear draws back up
 				if fight.hits >= int(e.need):
 					end_fight()
 					return
-				_creep_slide(maxf(_creep_edge_off(), sn.off - float(e.flee) * unit))   # on toward the edge
+				_creep_slide(maxf(_creep_edge_off(), snake.offset - float(e.flee) * unit))   # on toward the edge
 	_creep_place()
 	_place_bearer()
 
@@ -2119,15 +2030,15 @@ func _creep(dt: float) -> void:
 ## He creeps forward along the ground (`mv` < 0), never past where the point lands on its head.
 ## Seen moving: it lashes back.
 func _creep_move(mv: float, dt: float) -> void:
-	var sn: Dictionary = fight.snake
-	if mv >= 0.0 or sn.phase in ["strike", "bitten", "pinned"]:
+	var snake: CREEPING_SNAKE_STATE = fight.snake
+	if mv >= 0.0 or snake.phase in ["strike", "bitten", "pinned"]:
 		return
 	var lo: float = _creep_head().x - (_creep_point().x - fight.pos.x)
 	var x: float = maxf(fight.pos.x - float(fight.e.creep) * unit * dt, minf(lo, fight.pos.x))
 	if absf(x - fight.pos.x) < 0.01:
 		return
 	fight.pos.x = x
-	if sn.phase == "watch" and sn.t >= CREEP_GRACE:
+	if snake.phase == "watch" and snake.elapsed >= CREEP_GRACE:
 		_creep_lash("It turned and saw you move.")
 
 
@@ -2140,16 +2051,16 @@ func _creep_tell() -> float:
 
 ## The spear point comes down.
 func _creep_strike() -> void:
-	var sn: Dictionary = fight.snake
-	if sn.phase in ["strike", "bitten", "pinned", "slide"]:
+	var snake: CREEPING_SNAKE_STATE = fight.snake
+	if snake.phase in ["strike", "bitten", "pinned", "slide"]:
 		return
-	if sn.phase == "watch" and sn.t >= CREEP_GRACE:
+	if snake.phase == "watch" and snake.elapsed >= CREEP_GRACE:
 		_creep_lash("It saw the spear coming.")
 		return
 	if _creep_in_reach():
 		fight.hits += 1
 		fight.pinned = true
-		_hurt(sn.node)
+		_hurt(snake.node)
 		_creep_phase("pinned")
 		_dev_shot("SHOT_ON_CATCH")
 		var left: int = int(fight.e.need) - fight.hits
@@ -2157,25 +2068,25 @@ func _creep_strike() -> void:
 		return
 	# short of its head: the spear strikes the ground, and it turns to look
 	say("Scribe", "Short of its head: the spear strikes the ground, and it hears.")
-	if sn.phase in ["away", "tell"]:
-		sn.lift = maxf(sn.lift, CREEP_LIFT * 0.45)
+	if snake.phase in ["away", "tell"]:
+		snake.lift = maxf(snake.lift, CREEP_LIFT * 0.45)
 		_creep_phase("turn")
 
 
 ## It lashes round at his front foot.
 func _creep_lash(why: String) -> void:
-	var sn: Dictionary = fight.snake
-	sn.lay = sn.off
-	sn.from = sn.off
-	sn.to = fight.pos.x - fight.stand.x + 4.0 * unit      # its head, turned round, at his foot
-	sn.sx = -1.0
-	sn.lift = CREEP_LIFT * 0.4
-	sn.why = why
+	var snake: CREEPING_SNAKE_STATE = fight.snake
+	snake.return_offset = snake.offset
+	snake.slide_from = snake.offset
+	snake.slide_to = fight.pos.x - fight.stand.x + 4.0 * unit      # its head, turned round, at his foot
+	snake.horizontal_scale = -1.0
+	snake.lift = CREEP_LIFT * 0.4
+	snake.bite_reason = why
 	_creep_phase("strike")
 
 
 func _creep_bites() -> void:
-	var sn: Dictionary = fight.snake
+	var snake: CREEPING_SNAKE_STATE = fight.snake
 	_creep_phase("bitten")
 	_dev_shot("SHOT_ON_BITE")
 	fight.red = 0.8
@@ -2184,16 +2095,16 @@ func _creep_bites() -> void:
 	if fight.health <= 0:
 		_creep_dies()
 		return
-	say("Scribe", sn.why + " Bitten. When its head lifts, let go of the keys and wait until it looks away again.")
+	say("Scribe", snake.bite_reason + " Bitten. When its head lifts, let go of the keys and wait until it looks away again.")
 
 
 ## It slides to `to` (its offset from where it is drawn), its head turned away again.
 func _creep_slide(to: float) -> void:
-	var sn: Dictionary = fight.snake
-	sn.from = sn.off
-	sn.to = to
-	sn.sx0 = sn.sx
-	sn.lift0 = sn.lift
+	var snake: CREEPING_SNAKE_STATE = fight.snake
+	snake.slide_from = snake.offset
+	snake.slide_to = to
+	snake.previous_scale = snake.horizontal_scale
+	snake.previous_lift = snake.lift
 	_creep_phase("slide")
 
 
@@ -2219,8 +2130,8 @@ func _creep_click(_p: Vector2) -> void:
 ## Dev (`--croc-bot`): creeps while its head is down, stops when it lifts, thrusts when in reach
 ## (with BOT_MISS it never stops, to see it look back and bite).
 func _creep_bot() -> float:
-	var sn: Dictionary = fight.snake
-	if sn.phase != "away" and not (OS.has_environment("BOT_MISS") and sn.phase in ["tell", "turn", "watch"]):
+	var snake: CREEPING_SNAKE_STATE = fight.snake
+	if snake.phase != "away" and not (OS.has_environment("BOT_MISS") and snake.phase in ["tell", "turn", "watch"]):
 		return 0.0
 	if _creep_in_reach():
 		_croc_thrust()
@@ -2554,7 +2465,7 @@ func _lunge_dress(e: Dictionary) -> void:
 	if not _filled.has(e.spear):          # each pose of his, filled (the spear's ends move)
 		var frames := []
 		for i in sheet.poses.size():
-			frames.append(avatar.call("_figure_texture", _sheet_frame(e.spear, i, false), 2))
+			frames.append(FIGURE_MASK.create_texture(_sheet_frame(e.spear, i, false), 2))
 		_filled[e.spear] = frames
 	bs.set_meta("filled", _filled[e.spear])
 	bs.position -= Vector2(2, 2)
@@ -3119,16 +3030,16 @@ func _update_camera(delta: float) -> void:
 	var vp := get_viewport_rect().size
 	var top: float = hud.top_height()
 	var bottom: float = hud.bottom_height()
-	var z := clampf(minf((vp.y - top - bottom - 10.0) / _view_height(), vp.x / (1000.0 * unit)), 0.4 / unit, 2.4 / unit)
+	var z := SCROLL_CAMERA.fit_zoom(vp, top, bottom, _view_height(), unit, 0.4 / unit, 2.4 / unit)
 	camera.zoom = Vector2(z, z)
 	var vis_w: float = vp.x / z
 	var focus := avatar.position.x - vis_w * 0.05
 	if not fight.is_empty():
 		var s := span(fight.e)
 		focus = (s.x + s.y) / 2.0
-	focus = clampf(focus, vis_w / 2.0, maxf(vis_w / 2.0, level.width - vis_w / 2.0))
-	var k := 1.0 if delta >= 1.0 else 1.0 - pow(0.002, delta)
-	var y := _view_height() / 2.0 + (bottom - top) / 2.0 / z
+	focus = SCROLL_CAMERA.clamp_horizontal(focus, vis_w, level.width)
+	var k := SCROLL_CAMERA.smoothing(delta, 0.002)
+	var y := SCROLL_CAMERA.vertical_center(_view_height(), top, bottom, z)
 	if not fight.is_empty() and fight.kind in ARENA_FIGHTS:
 		# the opened-out vignette: zoom out to the whole height of the scroll
 		var o: float = fight.open
@@ -3146,8 +3057,7 @@ func _view_height() -> float:
 
 
 func _visible_rect() -> Rect2:
-	var size := get_viewport_rect().size / camera.zoom
-	return Rect2(camera.position - size / 2.0, size)
+	return SCROLL_CAMERA.visible_rect(camera, get_viewport_rect().size)
 
 
 func _draw_overlay() -> void:
@@ -3164,9 +3074,9 @@ func _draw_overlay() -> void:
 				overlay.draw_arc(Vector2.ZERO, CREEP_REACH * 1.6 * unit, 0.0, TAU, 32, c, 2.0 * unit)
 				overlay.draw_set_transform(Vector2.ZERO)
 			# its eye, red while it looks back at him
-			var sn: Dictionary = fight.get("snake", {})
-			if not sn.is_empty() and sn.sx < 0.0 and sn.phase in ["turn", "watch", "unturn", "strike", "bitten"]:
-				var head: Node2D = sn.node.get_node_or_null("Head")
+			var snake: CREEPING_SNAKE_STATE = fight.get("snake")
+			if snake != null and snake.horizontal_scale < 0.0 and snake.phase in ["turn", "watch", "unturn", "strike", "bitten"]:
+				var head: Node2D = snake.node.get_node_or_null("Head")
 				if head:
 					overlay.draw_circle(head.global_transform * fight.eye, CREEP_EYE * unit, Color(181 / 255.0, 91 / 255.0, 60 / 255.0))
 	# progress pips above the vignette
@@ -3569,48 +3479,48 @@ func _autotest() -> void:
 				expect.call(fight.lost, e.id + " the third bite and he crumbles")
 				fight.lost = false
 			"creep":
-				var sn: Dictionary = fight.snake
+				var snake: CREEPING_SNAKE_STATE = fight.snake
 				var x0: float = fight.pos.x
 				expect.call(not _creep_in_reach(), e.id + " the snake lies out of reach")
 				_creep_move(1.0, 0.5)
 				expect.call(fight.pos.x == x0, e.id + " he cannot step back")
 				_creep_strike()
-				expect.call(fight.hits == 0 and sn.phase == "turn", e.id + " a thrust short of its head strikes the ground, and it turns")
+				expect.call(fight.hits == 0 and snake.phase == "turn", e.id + " a thrust short of its head strikes the ground, and it turns")
 				_creep_phase("away")
 				_creep_move(-1.0, 0.2)
-				expect.call(fight.pos.x < x0 and sn.phase == "away", e.id + " he creeps up while it looks away")
+				expect.call(fight.pos.x < x0 and snake.phase == "away", e.id + " he creeps up while it looks away")
 				_creep_move(-1.0, 60.0)
 				expect.call(_creep_in_reach(), e.id + " he stops with the point over its head")
 				# moving while it looks: it lashes back and bites
 				_creep_phase("watch")
-				sn.t = CREEP_GRACE + 0.01
-				sn.for = 99.0
+				snake.elapsed = CREEP_GRACE + 0.01
+				snake.duration = 99.0
 				fight.pos.x += 5.0 * unit
 				var b0 := bites
 				_creep_move(-1.0, 0.05)
-				expect.call(sn.phase == "strike", e.id + " moving while it looks: it lashes back")
+				expect.call(snake.phase == "strike", e.id + " moving while it looks: it lashes back")
 				_creep(CREEP_SNAP + 0.01)
 				expect.call(bites == b0 + 1 and fight.health == CROC_HEALTH - 1, e.id + " ...and bites")
 				# a thrust while it looks: it lashes back too
 				_creep_phase("watch")
-				sn.t = CREEP_GRACE + 0.01
+				snake.elapsed = CREEP_GRACE + 0.01
 				_creep_strike()
-				expect.call(sn.phase == "strike" and fight.hits == 0, e.id + " a thrust while it looks: it lashes back")
-				sn.off = _creep_edge_off() + float(e.flee) * unit * (int(e.need) - 1)
+				expect.call(snake.phase == "strike" and fight.hits == 0, e.id + " a thrust while it looks: it lashes back")
+				snake.offset = _creep_edge_off() + float(e.flee) * unit * (int(e.need) - 1)
 				for i in int(e.need) - 1:
 					fight.health = CROC_HEALTH
 					_creep_phase("away")
-					sn.for = 99.0
+					snake.duration = 99.0
 					_creep_move(-1.0, 60.0)
 					_creep_strike()
-					expect.call(fight.hits == i + 1 and sn.phase == "pinned", e.id + " the point on its head strikes it (%d)" % (i + 1))
+					expect.call(fight.hits == i + 1 and snake.phase == "pinned", e.id + " the point on its head strikes it (%d)" % (i + 1))
 					_creep(ROACH_FREEZE + 0.01)
 					_creep(CREEP_SLIDE + 0.01)
-					expect.call(sn.phase == "away" and not _creep_in_reach(), e.id + " struck, it slides on out of reach (%d)" % (i + 1))
-				expect.call(sn.off >= _creep_edge_off() - 0.01, e.id + " it stays inside the vignette")
+					expect.call(snake.phase == "away" and not _creep_in_reach(), e.id + " struck, it slides on out of reach (%d)" % (i + 1))
+				expect.call(snake.offset >= _creep_edge_off() - 0.01, e.id + " it stays inside the vignette")
 				fight.health = 1
 				_creep_phase("watch")
-				sn.t = CREEP_GRACE + 0.01
+				snake.elapsed = CREEP_GRACE + 0.01
 				_creep_strike()
 				_creep(CREEP_SNAP + 0.01)
 				expect.call(fight.lost, e.id + " the third bite and he crumbles")

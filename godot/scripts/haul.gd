@@ -18,6 +18,8 @@ extends Node2D
 signal said(who: String, text: String)
 signal finished
 
+enum Phase { IDLE, OPENING, PLAYING, CLOSING }
+
 const BEAT := 0.9             ## s between beats
 const WINDOW := 0.17          ## s either side of a beat that a press still counts
 const COUNT_IN := 2           ## beats the driver calls before the first pull counts
@@ -36,7 +38,7 @@ const RATE := 22050
 var active := false           ## the rope is taken up
 var instant := false          ## the autotest: open and close at once
 var done := false             ## the sledge stands where it is drawn
-var phase := ""               ## "open", "play", "close"
+var phase := Phase.IDLE
 var offset := 0.0             ## how far behind its drawn place the train is now (strip px)
 var target := 0.0             ## ... and where the pulls so far have brought it
 var clock := 0.0              ## s since the first beat
@@ -94,7 +96,7 @@ func reset() -> void:
 		_tween.kill()
 	active = false
 	done = false
-	phase = ""
+	phase = Phase.IDLE
 	offset = 0.0
 	target = 0.0
 	_cover.visible = false
@@ -128,7 +130,7 @@ func start() -> void:
 	if active or done:
 		return
 	active = true
-	phase = "open"
+	phase = Phase.OPENING
 	good = 0
 	_pulled = -1
 	_judged = COUNT_IN - 1
@@ -148,7 +150,7 @@ func start() -> void:
 
 ## Let go of the rope: the train stands where it stalled, and you can take it up again.
 func quit() -> void:
-	if not active or phase == "close":
+	if not active or phase == Phase.CLOSING:
 		return
 	_close(false)
 	_say("Scribe", "You let go of the rope. Take it up again when you are ready.")
@@ -156,7 +158,7 @@ func quit() -> void:
 
 ## A press: on the beat it is a pull, off it the rope goes slack.
 func press() -> void:
-	if phase != "play":
+	if phase != Phase.PLAYING:
 		return
 	var k := roundi(clock / BEAT)
 	var off := clock - k * BEAT
@@ -180,7 +182,7 @@ func to_next_beat() -> float:
 func _process(delta: float) -> void:
 	if not active:
 		return
-	if phase == "play":
+	if phase == Phase.PLAYING:
 		var before := clock
 		clock += delta
 		# the driver's call on every beat
@@ -202,14 +204,14 @@ func _process(delta: float) -> void:
 	_heave = maxf(0.0, _heave - delta * 2.5)
 	_slack = maxf(0.0, _slack - delta * 2.0)
 	offset = lerpf(offset, target, 1.0 - exp(-FOLLOW * delta))
-	if phase == "play" and target <= 0.0 and offset < 0.5:
+	if phase == Phase.PLAYING and target <= 0.0 and offset < 0.5:
 		offset = 0.0
 		_close(true)
 	_place()
 
 
 func _begin() -> void:
-	phase = "play"
+	phase = Phase.PLAYING
 	clock = -0.001
 
 
@@ -221,7 +223,7 @@ func _open(k: float) -> void:
 
 
 func _close(won: bool) -> void:
-	phase = "close"
+	phase = Phase.CLOSING
 	if _tween and _tween.is_valid():
 		_tween.kill()
 	if instant:
@@ -242,7 +244,7 @@ func _close(won: bool) -> void:
 func _closed(won: bool) -> void:
 	_cover.visible = false
 	active = false
-	phase = ""
+	phase = Phase.IDLE
 	offset = 0.0
 	target = 0.0
 	_place()
@@ -286,7 +288,7 @@ func _place() -> void:
 	var h: Node2D = _nodes.haul_hauler
 	h.position.x += 7.0 * _heave - 5.0 * _slack     # leans back on the rope / lurches forward
 	h.rotation = 0.045 * _heave - 0.03 * _slack
-	_nodes.haul_whip.rotation = _whip_angle() if active and phase == "play" else 0.0
+	_nodes.haul_whip.rotation = _whip_angle() if active and phase == Phase.PLAYING else 0.0
 	if _ox:
 		_ox.position = _ox_home + d + Vector2(-6.0 * _heave, 0.0)
 

@@ -6,6 +6,7 @@
 ## tools/cut_procession300.py.
 extends Node2D
 
+const SCROLL_CAMERA := preload("res://scripts/scroll_camera.gd")
 const DATA_PATH := "res://assets/procession/level.json"
 const BESIDE := 70.0         ## stand just behind (right of) what you interact with, not on top of it
 const HIT_PAD := 20.0
@@ -720,13 +721,13 @@ func _update_camera(delta: float) -> void:
 		var v: Array = level.table.view
 		z = clampf(minf(fit, vp.x / (v[1] - v[0] + 2.0 * SCENE_MARGIN)), 0.2 / unit, 2.4 / unit)
 		target_x = (v[0] + v[1]) / 2.0
-	var k := 1.0 if delta >= 1.0 else 1.0 - pow(0.001, delta)
+	var k := SCROLL_CAMERA.smoothing(delta)
 	z = lerpf(camera.zoom.x, z, k)
 	camera.zoom = Vector2(z, z)
 	var vis_w := vp.x / z
-	target_x = clampf(target_x, vis_w / 2.0, maxf(vis_w / 2.0, level.width - vis_w / 2.0))
+	target_x = SCROLL_CAMERA.clamp_horizontal(target_x, vis_w, level.width)
 	camera.position.x = lerpf(camera.position.x, target_x, k)
-	camera.position.y = _view_height() / 2.0 + (bottom - top) / 2.0 / z
+	camera.position.y = SCROLL_CAMERA.vertical_center(_view_height(), top, bottom, z)
 
 
 ## Rows the camera fits on screen: the strip plus the visible part of the faded text below.
@@ -735,8 +736,7 @@ func _view_height() -> float:
 
 
 func _visible_rect() -> Rect2:
-	var size := get_viewport_rect().size / camera.zoom
-	return Rect2(camera.position - size / 2.0, size)
+	return SCROLL_CAMERA.visible_rect(camera, get_viewport_rect().size)
 
 
 # ---------------------------------------------------------------- drawing
@@ -883,7 +883,7 @@ func _maybe_run_cli() -> void:
 			var n := [0, -1]      # pulls, the last beat pulled on
 			bot.timeout.connect(func():
 				var k := roundi(haul.clock / HaulSledge.BEAT)
-				if haul.phase == "play" and k >= HaulSledge.COUNT_IN and k > n[1] and absf(haul.clock - k * HaulSledge.BEAT) < 0.04:
+				if haul.phase == HaulSledge.Phase.PLAYING and k >= HaulSledge.COUNT_IN and k > n[1] and absf(haul.clock - k * HaulSledge.BEAT) < 0.04:
 					n[1] = k
 					n[0] += 1
 					if n[0] == 4:       # one off the beat, to show the rope going slack
@@ -1065,3 +1065,10 @@ func _autotest_table(expect: Callable) -> void:
 	expect.call(not offerings.clothes_showing(), "the goose covers his clothes again")
 	expect.call(solved.values().all(func(v): return v), "all four rites done")
 	leave_table()
+
+	# Restart must clear both the carried piece and its visible preview.
+	reset()
+	offerings.take(some)
+	expect.call(offerings._held_sprite.visible, "a carried offering is visible before restarting")
+	reset()
+	expect.call(offerings.holding() == "" and not offerings._held_sprite.visible and not offerings._ghost.visible, "restarting clears the carried offering and its placement outline")

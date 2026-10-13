@@ -11,6 +11,7 @@
 ##   bottom: of the two snake boats only the one with oars sails, to the landing stairs.
 extends Node2D
 
+const SCROLL_CAMERA := preload("res://scripts/scroll_camera.gd")
 const DATA_PATH := "res://assets/field/level.json"
 const ART := "res://assets/field/%s.png"
 const BESIDE := 70.0
@@ -575,12 +576,12 @@ func _update_camera(delta: float) -> void:
 	var top: float = hud.top_height()
 	var bottom: float = hud.bottom_height()
 	var view_h: float = r.y1 - r.y0
-	var z := clampf(minf((vp.y - top - bottom - 10.0) / view_h, vp.x / (1000.0 * unit)), 0.1, 3.0)
+	var z := SCROLL_CAMERA.fit_zoom(vp, top, bottom, view_h, unit, 0.1, 3.0)
 	camera.zoom = Vector2(z, z)
 	var vis_w := vp.x / z
 	var target_x := avatar.position.x - vis_w * 0.05
-	target_x = clampf(target_x, vis_w / 2.0, maxf(vis_w / 2.0, level.width - vis_w / 2.0))
-	var k := 1.0 if delta >= 1.0 else 1.0 - pow(0.001, delta)
+	target_x = SCROLL_CAMERA.clamp_horizontal(target_x, vis_w, level.width)
+	var k := SCROLL_CAMERA.smoothing(delta)
 	camera.position.x = lerpf(camera.position.x, target_x, k)
 	var ty: float = (r.y0 + r.y1) / 2.0 + (bottom - top) / 2.0 / z
 	camera.position.y = ty if delta >= 1.0 else lerpf(camera.position.y, ty, k)
@@ -588,8 +589,7 @@ func _update_camera(delta: float) -> void:
 
 
 func _visible_rect() -> Rect2:
-	var size := get_viewport_rect().size / camera.zoom
-	return Rect2(camera.position - size / 2.0, size)
+	return SCROLL_CAMERA.visible_rect(camera, get_viewport_rect().size)
 
 
 func _render() -> void:

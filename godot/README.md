@@ -107,6 +107,21 @@ a crocodile fight once red crocodiles can come); in a fight it also glows under 
 player to hold Shift against the red crocodiles.
 
 ## Command-line checks
+Run all five gameplay suites and the camera, figure-mask and hover regressions from the
+repository root:
+```bash
+python3 godot/tests/run_tests.py
+```
+The runner finds `godot`, `godot4`, or the macOS Godot app; pass `--godot=/path/to/godot`
+to choose an executable. It checks exit codes, suite completion and unexpected script or
+engine errors. It reports the existing headless glow-shader diagnostic, macOS certificate
+diagnostic and exit-time object leak warning separately.
+
+Shared camera arithmetic lives in `scripts/scroll_camera.gd`; figure ink/interior masks
+live in `scripts/figure_mask.gd`. Dangers encounter descriptions and tuning live in
+`scripts/danger_encounters.gd`, and spell 35 uses `scripts/creeping_snake_state.gd` for its
+typed animation state. Hauling phases use `HaulSledge.Phase`.
+
 ```bash
 godot --headless --path . -- --level=dangers --autotest
 ```

@@ -18,8 +18,8 @@ const FIGURE_MASK := preload("res://scripts/figure_mask.gd")
 const SHEET_TEX := "res://assets/dangers/spearers.png"
 const ASSET := "res://assets/dangers/%s.png"
 const BESIDE := 50.0
-const FIGHTS := ["crocs", "lunge", "twin", "creep", "roach", "apep", "donkey", "pop"]
-const ARENA_FIGHTS := ["crocs", "roach", "lunge", "creep", "twin", "apep"]   ## the vignette opens out across the screen
+const FIGHTS := ["crocs", "lunge", "twin", "creep", "roach", "apep", "donkey", "sheaf"]
+const ARENA_FIGHTS := ["crocs", "roach", "lunge", "creep", "twin", "apep", "sheaf"]   ## the vignette opens out across the screen
 const CLICK_TO_FIGHT := "Click the creature to take up the spear."
 
 const ENCOUNTERS := preload("res://scripts/danger_encounters.gd").ENCOUNTERS
@@ -30,7 +30,7 @@ const TASKS := [
 	"Take the breath of life (38)",
 	"Overcome Apep (39)",
 	"Save the donkey from the snake (40)",
-	"Strike the heads in the reeds (41)",
+	"Bind the snake in the sheaf (41)",
 	"Reach spell 42",
 ]
 
@@ -195,7 +195,7 @@ func reset() -> void:
 	rng.seed = 30
 	for n in actors:
 		_restore(n)
-		actors[n].visible = not n.begins_with("spear")
+		actors[n].visible = not n.begins_with("spear") and not n.begins_with("sheaf41_")   # the sheaf's pieces show only in its fight
 	avatar.visible = true
 	avatar.set_process(true)
 	avatar.stop()
@@ -220,10 +220,11 @@ func _refresh() -> void:
 	# he walks through every vignette (a fight starts only on clicking its creature) and into a gate
 	# vignette, but not on past it while it or one before it is still undone. The barrier is not drawn.
 	gate = {}
-	for e in ENCOUNTERS:
-		if e.get("gate", false) and not current.is_empty() and ENCOUNTERS.find(current) <= ENCOUNTERS.find(e):
-			gate = e
-			break
+	# TEMP (testing Apep): the gate at spell 38 is off, so the way on is always open
+	#for e in ENCOUNTERS:
+	#	if e.get("gate", false) and not current.is_empty() and ENCOUNTERS.find(current) <= ENCOUNTERS.find(e):
+	#		gate = e
+	#		break
 	avatar.min_x = gate_x() + 20.0 * unit if not gate.is_empty() else 40.0 * unit
 	avatar.max_x = level.width - 40.0 * unit
 	var done := []
@@ -300,7 +301,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	# Space thrusts in the fights that open out (holding Shift lends the thrust heka)
 	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_SPACE:
-		if not fight.is_empty() and fight.kind in ARENA_FIGHTS:
+		if not fight.is_empty() and fight.kind == "sheaf":
+			_sheaf_act()                # ties the next band, or (once it is out) thrusts
+		elif not fight.is_empty() and fight.kind in ARENA_FIGHTS:
 			_croc_thrust()
 		get_viewport().set_input_as_handled()
 		return
@@ -418,7 +421,7 @@ func _targets() -> Array:
 	match fight.kind:
 		"crocs", "roach", "lunge", "creep", "twin", "apep": return []
 		"donkey": return [fight.foe, fight.donkey]
-		"pop": return [fight.foe, fight.bundle]
+		"sheaf": return [SHEAF_STALKS] if fight.get("phase", "") == "bind" else []
 	return [fight.foe]
 
 
@@ -555,12 +558,8 @@ func start_fight(e: Dictionary) -> void:
 			fight.foe = e.foe
 			fight.donkey = e.donkey
 			fight.speed = 1.4
-		"pop":
-			fight.foe = e.foe
-			fight.bundle = e.bundle
-			fight.up = false
-			fight.wait = 0.9
-			actors[e.foe].modulate.a = 0.0
+		"sheaf":
+			_sheaf_start(e)
 	say("Scribe", e.intro)
 
 
@@ -633,7 +632,7 @@ func _update_fight(dt: float) -> void:
 		"lunge": _lunge(dt)
 		"apep": _apep(dt)
 		"donkey": _donkey(dt)
-		"pop": _pop(dt)
+		"sheaf": _sheaf(dt)
 
 
 func fight_click(p: Vector2) -> void:
@@ -647,7 +646,7 @@ func fight_click(p: Vector2) -> void:
 		"lunge": _lunge_click(p)
 		"apep": _apep_click(p)
 		"donkey": _donkey_click(p)
-		"pop": _pop_click(p)
+		"sheaf": _sheaf_click(p)
 
 
 ## End the fight after a short beat, unless it already ended (the autotest ends it at once).
@@ -682,6 +681,7 @@ const BEARER_SPEED := 260.0     ## how fast the bearer moves
 const CROC_HEALTH := 3           ## bites he can take; the last one and he crumbles (the fight starts over)
 const CROC_FORWARD := 30.0      ## in one-sided fights he stands this far in front of where he is drawn
 const THRUST_TIME := [0.07, 0.18]   ## from drawn back to the full strike, and back to drawn back
+const THRUST_DOWN := 0.5        ## (Apep, the Merti snakes) the point strikes once this far into the full thrust
 ## Red is #B55B3C. The sprites are drawn in ink (46, 29, 16), so the modulate that turns ink into
 ## that red is the ratio of the two.
 const RED_CROC := Color(181.0 / 46.0, 91.0 / 29.0, 60.0 / 16.0)   ## red crocodiles, heka word and spear
@@ -943,6 +943,8 @@ func _croc_open(k: float) -> void:
 		_twin_place()
 	if fight.kind == "apep":
 		_apep_place()
+	if fight.kind == "sheaf":
+		_sheaf_place()
 	for nm in fight.hidden:
 		actors[nm].modulate.a = 1.0 - k
 	_text_drop.position = fight.text_home + Vector2(0.0, TEXT_DROP * unit * k * k)
@@ -1283,6 +1285,9 @@ func _arena_lost(e: Dictionary) -> void:
 		_crocs_cleanup()
 		for n in _box_actors(e):
 			_restore(n)
+		for n in [e.spear, e.spear + "_pole"]:    # he appears as drawn only once it is won
+			if actors.has(n):
+				actors[n].visible = false
 		fight = {}
 		avatar.position.x = rects[e.spear].get_center().x
 		avatar.visible = true
@@ -1495,6 +1500,8 @@ func _crocs_cleanup() -> void:
 		_creep_undress()
 	if fight.kind == "apep":
 		_apep_undress()
+	if fight.kind == "sheaf":
+		_sheaf_undress()
 	for nm in _all_heka():
 		_restore(nm)
 	for a in fight.get("copies", []):
@@ -1536,20 +1543,21 @@ func _draw_arena_lines() -> void:
 
 
 # the two Merti snakes (spell 37). The vignette opens out, close up; he stands where he is drawn, the
-# drawn snake at his spear point on his left and a mirrored copy of it on his right, and as it opens
-# both turn to face him. He cannot step: ← → turn him, Space thrusts at the snake on the side he
-# faces. When neither is about to strike, after `idle` s one of the two snake signs in the caption
-# flashes red (`warn` s; the left sign for the snake on his left): that snake turns its back on him
-# for `window` s, then whips round and bites. A thrust while its back is turned strikes it; a thrust
-# at a snake that faces him: its head shoots forward and bites. Struck `need` times, a snake falls;
-# both fallen, the fight is won. `warn` and `window` grow shorter with each strike. Bitten
-# CROC_HEALTH times, he crumbles and is back on the scroll.
-const TWIN_TURN := 0.15         ## a snake turns its back on him, or round again (s)
-const TWIN_SNAP := 0.12         ## its head shooting forward (s)
-const TWIN_LUNGE := 30.0        ## how far its head comes forward (plate px)
+# drawn snake on his left and a mirrored copy of it on his right, both facing him and coiled `rest`
+# plate px further out than where they are drawn, out of reach, breathing. He cannot step: ← → turn
+# him, Space thrusts on the side he faces. When neither is about to strike, after `idle` s one of the
+# two snake signs in the caption flashes red (`warn` s; the left sign for the snake on his left):
+# that snake squashes down (`crouch` s) and springs (`snap` s) at his foot, passing the spot where
+# it is drawn, where his spear point comes down. A thrust facing it, its point down as the snake
+# passes that spot (within `reach` plate px), strikes it; too early and the spear is already
+# rising, too late and it is past and bites. A thrust at a snake still coiled: it sees the spear
+# and springs at once. Struck `need` times, a snake falls where it is drawn; both fallen, the fight
+# is won. `warn`, `crouch`, `snap` and `reach` go from the first value to the second over the
+# strikes. Bitten CROC_HEALTH times, he crumbles and is back on the scroll.
 const TWIN_FALL := 0.6          ## a snake struck for the last time sinks down (s)
-const TWIN_SPREAD := 17.0       ## each snake moves this far out from him as the vignette opens (plate px; the point still lands on it)
-const TWIN_BUSY := ["warn", "turn", "away", "whip", "snap", "back", "pinned", "unturn", "fall"]
+const TWIN_BACK := 0.5          ## after biting or being struck, it slides back to where it waits (s)
+const TWIN_BUSY := ["warn", "crouch", "snap", "bitten", "back", "pinned", "fall"]
+const TWIN_BOT_AIM := 0.0       ## (--croc-bot) thrusts this long after the moment the autotest measures as best (s)
 
 
 func _twin_start(e: Dictionary) -> void:
@@ -1572,27 +1580,27 @@ func _twin_start(e: Dictionary) -> void:
 	fight.snakes = []
 	for i in 2:
 		fight.snakes.append({"node": [left, right][i], "side": [-1, 1][i], "glyph": actors[e.signs[i]], "hits": 0,
-			"phase": "face", "t": 0.0, "for": 0.0, "face": 1.0, "lunge": 0.0, "sy": 1.0, "w": 0.0})
+			"phase": "rest", "t": 0.0, "off": float(e.rest) * unit, "from": 0.0, "sx": 1.0, "sy": 1.0, "w": 0.0})
 	_twin_place()
 	_arena_open()
 
 
-## Each snake as it is now (facing him or away, its head forward, sinking); as the vignette opens
-## they turn from as drawn to face him, and the copy fades in. The sign of the one about to strike
-## flashes red, and stays red until it has struck (or been struck).
+## Each snake as it is now: `off` px out from where it is drawn (as the vignette opens it draws back
+## there and turns to face him; the copy fades in), squashed or writhing. The sign of the one about
+## to strike flashes red, and stays red until it has struck (or been struck).
 func _twin_place() -> void:
 	var k: float = fight.open
 	var pulse := 0.5 + 0.5 * sin(_time * 10.0)
 	for s in fight.snakes:
 		var a: Node2D = s.node
-		a.position = a.get_meta("home") + Vector2(s.side * (TWIN_SPREAD * unit * k - s.lunge), 0.0)
-		a.scale = Vector2(lerpf(-1.0, s.face, k) * s.side * (1.0 + s.w), lerpf(1.0, s.sy, k) * (1.0 - s.w))
+		a.position = a.get_meta("home") + Vector2(s.side * s.off * k, 0.0)
+		a.scale = Vector2(lerpf(-1.0, 1.0, k) * s.side * s.sx * (1.0 + s.w), lerpf(1.0, s.sy, k) * (1.0 - s.w))
 		if s.side > 0:
 			a.modulate.a = k
 		var glyph: Node2D = s.glyph
 		match s.phase:
 			"warn": glyph.modulate = Color.WHITE.lerp(RED_CROC, pulse)
-			"turn", "away", "whip", "snap": glyph.modulate = RED_CROC
+			"crouch", "snap": glyph.modulate = RED_CROC
 			_: glyph.modulate = Color.WHITE
 
 
@@ -1606,6 +1614,12 @@ func _twin_k() -> float:
 	return clampf(float(fight.hits) / maxf(1.0, 2.0 * float(fight.e.need) - 1.0), 0.0, 1.0)
 
 
+## One of `e[key]`'s two values, as far along as the fight is.
+func _twin_tune(key: String) -> float:
+	var v: Array = fight.e[key]
+	return lerpf(float(v[0]), float(v[1]), _twin_k())
+
+
 func _twin(dt: float) -> void:
 	var e: Dictionary = fight.e
 	if fight.open < 1.0 or fight.get("closing", false) or fight.lost:
@@ -1616,78 +1630,89 @@ func _twin(dt: float) -> void:
 		turn = _twin_bot()
 	if turn != 0.0 and not fight.pinned:
 		fight.facing = 1 if turn > 0.0 else -1
+	# was the point down at any time during this frame (a slow frame may step right over it)?
+	var down := false
 	if fight.thrust >= 0.0 and not fight.pinned:
+		var span := _thrust_down_span()
+		down = fight.thrust <= span.y and fight.thrust + dt >= span.x
 		fight.thrust += dt
 		if not fight.struck and fight.thrust >= THRUST_TIME[0]:
 			fight.struck = true
-			_twin_strike()
+			_twin_provoke()
 		if fight.thrust >= THRUST_TIME[0] + THRUST_TIME[1]:
 			fight.thrust = -1.0
 	fight.red = maxf(0.0, fight.red - dt)
-	# when neither is busy, after a while one of them (still standing) is about to strike
+	# when neither is busy, after a while one of them (still coiled) is about to strike
 	if not fight.snakes.any(func(x): return x.phase in TWIN_BUSY):
 		fight.idle -= dt
 		if fight.idle <= 0.0:
-			var up: Array = fight.snakes.filter(func(x): return x.phase == "face")
+			var up: Array = fight.snakes.filter(func(x): return x.phase == "rest")
 			if not up.is_empty():
-				var s: Dictionary = up[rng.randi() % up.size()]
-				_twin_phase(s, "warn")
+				_twin_phase(up[rng.randi() % up.size()], "warn")
 			fight.idle = rng.randf_range(float(e.idle[0]), float(e.idle[1]))
+	var rest := float(e.rest) * unit
+	var reach := _twin_tune("reach") * unit
+	var bite := float(e.bite) * unit
+	var breathe := 1.0 + 0.018 * sin(fight.clock * TAU / 1.6)
 	for s in fight.snakes:
 		s.t += dt
 		s.w = 0.0
 		match s.phase:
-			"face":
-				s.face = 1.0
-				s.lunge = 0.0
-			"warn":            # its sign flashes; it still faces him
-				if s.t >= lerpf(float(e.warn[0]), float(e.warn[1]), _twin_k()):
-					_twin_phase(s, "turn")
-					_dev_shot("SHOT_ON_TURN")
-			"turn":            # it turns its back on him
-				var u := minf(s.t / TWIN_TURN, 1.0)
-				s.face = lerpf(1.0, -1.0, u)
-				if u >= 1.0:
-					_twin_phase(s, "away")
-					s.for = lerpf(float(e.window[0]), float(e.window[1]), _twin_k())
-			"away":
-				s.face = -1.0
-				if s.t >= s.for:
-					s.why = "It turned round and bit you. When its sign flashes, turn to it ([←] [→]) and strike while its back is turned."
-					_twin_phase(s, "whip")
-			"whip":            # it whips round...
-				var u := minf(s.t / TWIN_SNAP, 1.0)
-				s.face = lerpf(-1.0, 1.0, u)
-				if u >= 1.0:
+			"rest", "warn":    # coiled out of reach, breathing; its sign flashes: it is about to strike
+				s.off = rest
+				s.sx = 2.0 - breathe
+				s.sy = breathe
+				if s.phase == "warn" and s.t >= _twin_tune("warn"):
+					_twin_phase(s, "crouch")
+					s.for = _twin_tune("crouch")
+			"crouch":          # it squashes down
+				var u := minf(s.t / float(s.for), 1.0)
+				var k := u * u * (3.0 - 2.0 * u)
+				s.sx = 1.0 + 0.10 * k
+				s.sy = 1.0 - 0.18 * k
+				if s.t >= float(s.for) + 0.1:
 					_twin_phase(s, "snap")
-			"snap":            # ...and its head shoots forward
-				s.face = 1.0
-				var u := minf(s.t / TWIN_SNAP, 1.0)
-				s.lunge = TWIN_LUNGE * unit * (1.0 - (1.0 - u) * (1.0 - u))
-				if u >= 1.0:
-					_twin_phase(s, "back")
+					s.for = _twin_tune("snap")
+					s.from = s.off
+			"snap":            # and springs at his foot, past the spot where it is drawn
+				var u := minf(s.t / float(s.for), 1.0)
+				var was: float = s.off
+				s.off = s.from + (-bite - s.from) * (1.0 - (1.0 - u) * (1.0 - u))
+				s.sx = 1.10 + 0.06 * u
+				s.sy = 0.82 + 0.12 * u
+				if down and fight.facing == s.side and was >= -reach and s.off <= reach:
+					_twin_caught(s)
+				elif u >= 1.0:
+					_twin_phase(s, "bitten")
 					_twin_bites(s)
 					if fight.lost:
 						break
-			"back":
-				var u := minf(s.t / 0.3, 1.0)
-				s.lunge = TWIN_LUNGE * unit * (1.0 - u)
+			"bitten":          # its head at his foot a moment
+				if s.t >= 0.4:
+					_twin_back(s)
+			"back":            # back to where it waits
+				var u := minf(s.t / TWIN_BACK, 1.0)
+				var k := u * u * (3.0 - 2.0 * u)
+				s.off = lerpf(s.from, rest, k)
+				s.sx = lerpf(1.1, 1.0, k)
+				s.sy = lerpf(0.94, 1.0, k)
 				if u >= 1.0:
-					_twin_phase(s, "face")
+					_twin_phase(s, "rest")
 			"pinned":          # held on the spear point, writhing
 				s.w = 0.05 * sin(fight.clock * 40.0)
 				if s.t >= ROACH_FREEZE:
 					fight.pinned = false
 					fight.struck = true
 					fight.thrust = THRUST_TIME[0] + 0.001          # the spear draws back up
-					_twin_phase(s, "fall" if s.hits >= int(e.need) else "unturn")
-			"unturn":          # it turns to face him again
-				var u := minf(s.t / TWIN_TURN, 1.0)
-				s.face = lerpf(-1.0, 1.0, u)
-				if u >= 1.0:
-					_twin_phase(s, "face")
-			"fall":            # it sinks down, lying still
+					if s.hits >= int(e.need):
+						_twin_phase(s, "fall")
+						s.from = s.off
+					else:
+						_twin_back(s)
+			"fall":            # it sinks down where it is drawn, lying still
 				var u := minf(s.t / TWIN_FALL, 1.0)
+				s.off = lerpf(s.from, 0.0, u)
+				s.sx = 1.0
 				s.sy = lerpf(1.0, 0.35, u)
 				if u >= 1.0:
 					_twin_phase(s, "fallen")
@@ -1698,25 +1723,31 @@ func _twin(dt: float) -> void:
 	_place_bearer()
 
 
-## The spear point comes down on the snake on the side he faces.
-func _twin_strike() -> void:
+func _twin_back(s: Dictionary) -> void:
+	s.from = s.off
+	_twin_phase(s, "back")
+
+
+func _twin_caught(s: Dictionary) -> void:
+	s.hits += 1
+	fight.hits += 1
+	fight.pinned = true
+	_hurt(s.node)
+	_twin_phase(s, "pinned")
+	_dev_shot("SHOT_ON_CATCH")
+	say("Scribe", "Struck!" + (" It falls." if s.hits >= int(fight.e.need) else " It pulls free and coils again."))
+
+
+## The spear at full thrust on the side he faces, with the snake there still coiled: it sees it and
+## springs at once.
+func _twin_provoke() -> void:
 	var s: Dictionary = fight.snakes[0 if fight.facing < 0 else 1]
-	if s.phase in ["fall", "fallen", "pinned"]:
+	if not s.phase in ["rest", "warn"]:
 		return
-	if s.face < 0.0 and s.phase in ["turn", "away", "whip"]:      # its back is turned
-		s.hits += 1
-		fight.hits += 1
-		fight.pinned = true
-		_hurt(s.node)
-		_twin_phase(s, "pinned")
-		_dev_shot("SHOT_ON_CATCH")
-		say("Scribe", "Struck!" + (" It falls." if s.hits >= int(fight.e.need) else " Once more when it turns its back again."))
-		return
-	if s.phase in ["snap", "back", "unturn"]:
-		return
-	s.why = "It was facing you: its head shot forward. Strike only a snake whose back is turned."
-	s.face = 1.0
+	s.why = "It saw the spear and sprang. Wait for its sign to flash and for it to squash down; thrust as it springs."
 	_twin_phase(s, "snap")
+	s.for = _twin_tune("snap")
+	s.from = s.off
 
 
 func _twin_bites(s: Dictionary) -> void:
@@ -1735,41 +1766,114 @@ func _twin_bites(s: Dictionary) -> void:
 			if not fight.is_empty() and fight.kind == "twin" and fight.e.id == e.id and fight.lost:
 				_arena_lost(e))
 		return
-	say("Scribe", str(s.why) + " Bitten.")
+	var why: String = s.get("why", "")
+	s.erase("why")
+	if why == "":
+		if fight.facing != s.side:
+			why = "It sprang from your other side. Turn to the snake whose sign flashes ([←] [→])."
+		elif fight.clock - fight.last_thrust < float(s.for) + 0.4:
+			why = "Too early or too late: thrust just as it springs past your spear point."
+		else:
+			why = "It sprang at you. When it squashes down, thrust as it springs."
+	say("Scribe", why + " Bitten.")
 
 
 func _twin_click(_p: Vector2) -> void:
 	if _time - fight.nag > 4.0:
 		fight.nag = _time
-		say("Scribe", "[←] [→] (or [a] [d]) turn you; [space] thrusts. Strike a snake only while its back is turned.")
+		say("Scribe", "[←] [→] (or [a] [d]) turn you; [space] thrusts. Thrust as a snake springs at you.")
 
 
-## Dev (`--croc-bot`): turns to the snake whose sign flashes and thrusts once its back is turned
-## (with BOT_MISS it never thrusts, to see them bite).
+## Dev (`--croc-bot`): turns to the snake whose sign flashes and thrusts TWIN_BOT_AIM s after the
+## middle of the window the autotest measures (with BOT_MISS it never thrusts, to see them bite).
 func _twin_bot() -> float:
 	for s in fight.snakes:
-		if s.phase in ["warn", "turn", "away"]:
+		if s.phase in ["warn", "crouch", "snap"]:
 			if fight.facing != s.side:
 				return float(s.side)
-			if s.phase == "away" and s.t > 0.15 and not OS.has_environment("BOT_MISS"):
+			if s.phase == "crouch" and not s.has("bot_at") and not OS.has_environment("BOT_MISS"):
+				s.bot_at = fight.clock + float(s.for) + 0.1 + _twin_aim() + TWIN_BOT_AIM
+			if s.has("bot_at") and fight.clock >= s.bot_at:
+				s.erase("bot_at")
 				_croc_thrust()
 	return 0.0
 
 
+## When to press Space (s from the start of the snap) to strike a springing snake: as it passes
+## the spot where it is drawn, less the time the point takes to come down.
+func _twin_aim() -> float:
+	var rest := float(fight.e.rest)
+	var bite := float(fight.e.bite)
+	var u := 1.0 - sqrt(maxf(0.0, 1.0 - rest / (rest + bite)))      # the snap's ease-out reaches 0 here
+	var span := _thrust_down_span()
+	return u * _twin_tune("snap") - (span.x + span.y) / 2.0
+
+
+## (autotest) The snake on side `side` squashing, Space pressed `tau` s from the start of its snap
+## (facing it); true = struck. The other is kept quiet.
+func _twin_try(side: int, tau: float) -> bool:
+	var s: Dictionary = fight.snakes[0 if side < 0 else 1]
+	var other: Dictionary = fight.snakes[1 if side < 0 else 0]
+	var hits: int = s.hits
+	fight.facing = side
+	fight.thrust = -1.0
+	fight.pinned = false
+	fight.idle = 99.0
+	if not other.phase in ["fall", "fallen"]:
+		_twin_phase(other, "rest")
+	s.off = float(fight.e.rest) * unit
+	_twin_phase(s, "crouch")
+	s.for = _twin_tune("crouch")
+	var dt := 1.0 / 240.0
+	var t: float = -(float(s.for) + 0.1)
+	var pressed := false
+	while t < 0.6:
+		if not pressed and t >= tau:
+			pressed = true
+			_croc_thrust()
+		_twin(dt)
+		t += dt
+		if s.hits > hits or s.phase == "bitten" or fight.lost:
+			break
+	return s.hits > hits
+
+
+## (autotest) The span of press times (from the start of the snap) that strike; leaves no hit counted.
+func _twin_window(side: int) -> Array:
+	var s: Dictionary = fight.snakes[0 if side < 0 else 1]
+	var lo := INF
+	var hi := -INF
+	var tau := -0.4
+	while tau <= 0.4:
+		fight.health = 99
+		var hits: int = s.hits
+		var all: int = fight.hits
+		if _twin_try(side, tau):
+			lo = minf(lo, tau)
+			hi = maxf(hi, tau)
+		s.hits = hits
+		fight.hits = all
+		fight.pinned = false
+		tau += 0.005
+	fight.health = CROC_HEALTH
+	_twin_phase(s, "rest")
+	return [lo, hi]
+
+
 # the snake on the ground (spell 35): red light, green light. The vignette opens out (close up, as for
 # spell 33) to the left; the snake slides off ahead of him and lies with its back to him. He creeps
-# up along the ground (← or A; forward only, and no further than where his point is over its head),
-# and a thrust (Space) whose point comes down on its head strikes it. A ring on the ground shows
-# where the point will land (red when on its head). Now and then it lifts
+# up along the ground (← or A; forward only, and no further than where his point is over its eye),
+# and a thrust (Space) whose point comes down on its eye strikes it. A small red dot shows where the
+# point will land. Now and then it lifts
 # its head (the warning), turns it round to look at him, and turns away again. Moving or thrusting
-# while it looks (after CREEP_GRACE): it lashes back at his foot. A thrust that lands short or past
-# its head strikes the ground, and it turns to look. Struck, it slides `flee` on; struck
+# while it looks (after CREEP_GRACE): it lashes back at his foot. A thrust that lands off its eye
+# (on the rest of its head, or short on the ground) strikes nothing, and it turns to look. Struck, it slides `flee` on; struck
 # `need` times, it lies still; bitten CROC_HEALTH times, he crumbles and is back on the scroll.
-const CREEP_REACH := 10.0       ## the point counts this close (along the ground) to its head (plate px)
+const CREEP_REACH := 10.0       ## the point counts this close (along the ground) to its eye (plate px)
 const CREEP_GRACE := 0.12       ## once it has turned to look, a move this soon is not seen (s)
 const CREEP_TURN := 0.15        ## it turns its head round (s)
 const CREEP_LIFT := 0.4         ## how far it lifts its head to look back (rad; the warning, under half that)
-const CREEP_EYE := 2.5          ## its red eye while it looks at him (plate px)
+const CREEP_DOT := 1.5          ## the red dot where the spear point will come down (plate px)
 const CREEP_SNAP := 0.18        ## its lash back at his foot (s)
 const CREEP_SLIDE := 0.6        ## sliding back off ahead of him (s)
 
@@ -1797,8 +1901,9 @@ func _creep_start(e: Dictionary) -> void:
 	fight.last_thrust = -INF
 	fight.pinned = false
 	var a: Node2D = actors[e.foe]
-	# where the point comes down at the full thrust with both as drawn: on its head (from its pivot)
-	fight.mark = _creep_point() - a.get_meta("home")
+	# the point must come down on its eye (from its pivot)
+	var size: Vector2 = a.get_meta("size")
+	fight.mark = Vector2(-size.x / 2.0, -size.y) + Vector2(float(e.eye[0]), float(e.eye[1]))
 	_creep_dress(e)
 	fight.snake = CREEPING_SNAKE_STATE.new(a)
 	fight.snake.offset = _creep_edge_off() + float(e.flee) * unit * (int(e.need) - 1)   # room to slide on
@@ -1821,7 +1926,6 @@ func _creep_dress(e: Dictionary) -> void:
 	sp.texture = ImageTexture.create_from_image(img)
 	var neck := Vector2(float(e.head_pivot[0]), float(e.head_pivot[1]))
 	fight.neck_at = sp.position + neck
-	fight.eye = Vector2(float(e.eye[0]), float(e.eye[1])) - neck
 	var pivot := Node2D.new()
 	pivot.name = "Head"
 	pivot.position = fight.neck_at
@@ -1854,6 +1958,15 @@ func _creep_point() -> Vector2:
 
 func _creep_head() -> Vector2:
 	return fight.snake.node.position + fight.mark
+
+
+## Is the spear point over its head (anywhere on it, not only the eye)?
+func _creep_on_head() -> bool:
+	var a: Node2D = fight.snake.node
+	var hr: Array = fight.e.head_rect
+	var x0: float = a.position.x - a.get_meta("size").x / 2.0 + float(hr[0])
+	var x: float = _creep_point().x
+	return x >= x0 and x <= x0 + float(hr[2])
 
 
 func _creep_in_reach() -> bool:
@@ -2009,8 +2122,11 @@ func _creep_strike() -> void:
 		var left: int = int(fight.e.need) - fight.hits
 		say("Scribe", "Struck!" + (" It pulls free and slides off ahead of you. %d more." % left if left > 0 else ""))
 		return
-	# short of its head: the spear strikes the ground, and it turns to look
-	say("Scribe", "Short of its head: the spear strikes the ground, and it hears.")
+	# off its eye: on its head, or short of it on the ground; either way it turns to look
+	if _creep_on_head():
+		say("Scribe", "That hit its head, but not the eye. Bring the red dot onto its eye before you thrust.")
+	else:
+		say("Scribe", "Short of its eye: the spear strikes the ground, and it hears.")
 	if snake.phase in ["away", "tell"]:
 		snake.lift = maxf(snake.lift, CREEP_LIFT * 0.45)
 		_creep_phase("turn")
@@ -2846,7 +2962,6 @@ const APEP_WAVES := 4           ## waves the shader can show at once
 const APEP_PAD := 40            ## room above his picture for the waves and his head to rise into (px)
 const APEP_FIRST := 1.4         ## the first wave comes this long after the vignette opens (s)
 const APEP_FEINT := 0.7         ## a feint's height, of a real wave's
-const APEP_DOWN := 0.5          ## the point presses a wave down once this far into the full thrust
 const APEP_PRESS := 0.12        ## a wave pressed down flattens out (s)
 const APEP_HOLD := 0.3          ## the spear stays down on a wave pressed flat (s)
 const APEP_EARLY := 0.35        ## a thrust this long (or less) before a wave would arrive is only early (s)
@@ -3021,7 +3136,7 @@ func _apep(dt: float) -> void:
 				end_fight()
 				return
 	elif fight.thrust >= 0.0:
-		var span := _apep_down_span()
+		var span := _thrust_down_span()
 		fight.down = fight.thrust <= span.y and fight.thrust + dt >= span.x
 		fight.thrust += dt
 		if fight.thrust >= THRUST_TIME[0] + THRUST_TIME[1]:
@@ -3044,9 +3159,9 @@ func _apep_reach() -> float:
 
 
 ## The time into a thrust (s) from which, and until which, its point presses a wave down.
-func _apep_down_span() -> Vector2:
+func _thrust_down_span() -> Vector2:
 	var rest := _spear_rest()
-	var deep := CROC_THRUST * APEP_DOWN
+	var deep := CROC_THRUST * THRUST_DOWN
 	return Vector2(THRUST_TIME[0] * (deep - rest) / (CROC_THRUST - rest),
 		THRUST_TIME[0] + THRUST_TIME[1] * (CROC_THRUST - deep) / (CROC_THRUST - rest))
 
@@ -3279,38 +3394,464 @@ func _donkey_click(p: Vector2) -> void:
 		say("Scribe", "The donkey brays. Strike the snake, not the donkey.")
 
 
-# heads in the reeds: strike while they show
-func _pop(_dt: float) -> void:
-	var a: Node2D = actors[fight.foe]
-	var home: Vector2 = a.get_meta("home")
-	if fight.t >= fight.wait:
-		fight.t = 0.0
-		fight.up = not fight.up
-		var need: int = fight.e.need
-		fight.wait = (1.1 - 0.15 * fight.hits) if fight.up else rng.randf_range(0.7, 1.6)
-		var t := create_tween()
-		t.tween_property(a, "position:y", home.y if fight.up else home.y + 18.0 * unit, 0.12)
-		t.parallel().tween_property(a, "modulate:a", 1.0 if fight.up else 0.0, 0.12)
-		if fight.hits >= need:
-			fight.wait = 999.0
+# the snake in the sheaf (spell 41). The vignette opens out close up; the bearer stands where he is
+# drawn, his spear point resting by the top of the sheaf. The sheaf's four bands are undone (they
+# show faintly) and its stalks splay apart; the snake has slipped inside. Where it is, the stalks
+# stir (rustle.gdshader). Space, or a click on the sheaf, ties the lowest band still loose; tying
+# takes `tie` s, and if the snake is at that band meanwhile it bites through the stalks at his hand
+# and the band springs loose. A band tied pulls the stalks together below it, and the snake can
+# never come below it again: each band leaves it less room, and it moves faster. Its head shows
+# above the sheaf when it is at the top. Once the fourth band is tied it is forced out onto the top
+# of the sheaf, coiled as drawn, its head at the point of his spear; it coils a moment, then strikes
+# at his hand: a thrust before then pins it. Bitten CROC_HEALTH times, he crumbles.
+const SHEAF_BANDS := ["sheaf41_band4", "sheaf41_band3", "sheaf41_band2", "sheaf41_band1"]   ## bottom to top: the order they are tied
+const SHEAF_STALKS := "sheaf41_stalks"
+const SHEAF_TOP := 4            ## the height above the top band: its head out over the sheaf
+const SHEAF_LOOSE := 0.22       ## a band not yet tied shows this faint
+const SHEAF_NEAR := 0.75        ## the snake is at a band while it is within this many heights of it
+const SHEAF_PEEK := 0.55        ## at the top, this share of its coils shows above the sheaf
+const SHEAF_PEEK_X := 0.55      ## the part of its picture that peeks out: from this share of its width
+const SHEAF_RISE := 0.5         ## it comes out onto the top (s)
+const SHEAF_SNAP := 0.14        ## its strike at his hand (s)
+const SHEAF_LUNGE := 14.0       ## how far its head comes at him (plate px)
+const SHEAF_DART := 0.35        ## a bite through the stalks: its head out at the band (s)
+const SHEAF_LOCK := 0.5         ## after a bite, a band cannot be tied for this long (s)
+const SHEAF_STIR := 3.0         ## the stalks' push where it rests (texture px) ...
+const SHEAF_STIR_MOVING := 6.0  ## ... and where it is moving
+const SHEAF_BOT_REACT := 0.25   ## (--croc-bot) ties this long after the stir settles above the band (s)
+const RUSTLE := preload("res://scripts/rustle.gdshader")
 
 
-func _pop_click(p: Vector2) -> void:
-	var r := actor_rect(fight.foe).grow(10 * unit)
-	if fight.up and r.has_point(p):
-		fight.hits += 1
-		fight.up = false
-		fight.t = 0.0
-		var a: Node2D = actors[fight.foe]
-		var t := create_tween()
-		t.tween_property(a, "modulate:a", 0.0, 0.12)
-		t.parallel().tween_property(a, "position:y", a.get_meta("home").y + 18.0 * unit, 0.12)
-		var need: int = fight.e.need
-		if fight.hits < need:
-			say("Scribe", "A hit. They sink back.")
-		_won_if(fight.hits >= need)
-	elif r.has_point(p) or actor_rect(fight.bundle).has_point(p):
-		say("Scribe", "Nothing shows yet. Wait for them to rise.")
+func _sheaf_start(e: Dictionary) -> void:
+	var cap: Array = level.get("caption", [50.0, 180.0])
+	var mid_x: float = (actors[e.spear].get_meta("home").x + actors[e.bundle].get_meta("home").x) / 2.0
+	_arena_setup(e, false, [e.foe] + SHEAF_BANDS + [SHEAF_STALKS], {"y0": float(cap[0]) - 12.0 * unit, "y1": ground + 24.0 * unit, "x": mid_x})
+	fight.stand = actors[e.spear].get_meta("home")
+	fight.pos = fight.stand
+	fight.health = CROC_HEALTH
+	fight.clock = 0.0
+	fight.pinned = false
+	fight.last_thrust = -INF
+	fight.tied = 0
+	fight.tie = -1.0              # s into tying the next band; -1 = not tying
+	fight.lock = 0.0
+	fight.phase = "bind"          # bind, rise, out, snap, bitten, pinned
+	fight.pt = 0.0                # s in this phase
+	fight.splay = 1.0 + float(e.splay)
+	fight.dart = -1.0             # s into a bite through the stalks; -1 = none
+	fight.dart_at = 0
+	fight.told = {}
+	# it starts at the lowest band, so a band tied at once is bitten: watch the stir first
+	fight.sn = {"at": 0.0, "from": 0.0, "to": 0.0, "t": 0.0, "dur": 1.0, "moving": false, "feint": false, "settled": 0.0}
+	_sheaf_dress(e)
+	_sheaf_place()
+	_arena_open()
+
+
+## For this fight only: the pieces of the sheaf show instead of the bundle, the stalks can stir, and
+## the snake can show part of itself (its head over the top, or rising out).
+func _sheaf_dress(e: Dictionary) -> void:
+	for n in SHEAF_BANDS + [SHEAF_STALKS]:
+		actors[n].visible = true
+	var mat := ShaderMaterial.new()
+	mat.shader = RUSTLE
+	(actors[SHEAF_STALKS].get_node("Sprite") as Sprite2D).material = mat
+	var a: Node2D = actors[e.foe]
+	var sp: Sprite2D = a.get_node("Sprite")
+	fight.snake_at = sp.position
+	var peek := Sprite2D.new()
+	peek.name = "Peek"
+	peek.texture = sp.texture
+	peek.centered = false
+	peek.region_enabled = true
+	a.add_child(peek)
+
+
+func _sheaf_undress() -> void:
+	var e: Dictionary = fight.e
+	for n in SHEAF_BANDS + [SHEAF_STALKS]:
+		_restore(n)
+		actors[n].visible = false
+	(actors[SHEAF_STALKS].get_node("Sprite") as Sprite2D).material = null
+	var a: Node2D = actors[e.foe]
+	var sp: Sprite2D = a.get_node("Sprite")
+	sp.region_enabled = false
+	sp.visible = true
+	if fight.has("snake_at"):
+		sp.position = fight.snake_at
+	if a.has_node("Peek"):
+		var peek := a.get_node("Peek")
+		a.remove_child(peek)
+		peek.queue_free()
+
+
+## Tuning value `key` for the bands tied so far: from its first value (no band) to its last (three).
+func _sheaf_tune(key: String) -> float:
+	var v: Array = fight.e[key]
+	return lerpf(float(v[0]), float(v[1]), clampf(float(fight.tied) / 3.0, 0.0, 1.0))
+
+
+## How long it stays at a height before moving on.
+func _sheaf_dwell(at: float) -> float:
+	var d: Array = fight.e.dwell
+	var k := clampf(float(fight.tied) / 3.0, 0.0, 1.0)
+	var lo := lerpf(float(d[0][0]), float(d[1][0]), k)
+	var hi := lerpf(float(d[0][1]), float(d[1][1]), k)
+	var t := rng.randf_range(lo, hi)
+	if is_equal_approx(at, float(fight.tied)):
+		t *= 1.0 + float(fight.e.linger)      # it lingers at the lowest it may go
+	elif at >= SHEAF_TOP:
+		t *= 0.7                              # its head is out only a moment
+	return t
+
+
+## Is the snake at band `j` (bottom band 0)?
+func _sheaf_near(j: int) -> bool:
+	return absf(fight.sn.at - float(j)) < SHEAF_NEAR
+
+
+func _sheaf(dt: float) -> void:
+	var e: Dictionary = fight.e
+	if fight.open < 1.0 or fight.get("closing", false) or fight.lost:
+		return
+	fight.clock += dt
+	fight.pt += dt
+	if fight.get("bot", false):
+		_sheaf_bot()
+	if fight.thrust >= 0.0 and not fight.pinned:
+		fight.thrust += dt
+		if fight.thrust >= THRUST_TIME[0] + THRUST_TIME[1]:
+			fight.thrust = -1.0
+	fight.red = maxf(0.0, fight.red - dt)
+	fight.lock = maxf(0.0, fight.lock - dt)
+	var want := 1.0 + float(e.splay) * float(SHEAF_BANDS.size() - fight.tied) / float(SHEAF_BANDS.size())
+	fight.splay = lerpf(fight.splay, want, 1.0 - exp(-8.0 * dt))
+	if fight.dart >= 0.0:
+		fight.dart += dt
+		if fight.dart >= SHEAF_DART:
+			fight.dart = -1.0
+	match fight.phase:
+		"bind":
+			_sheaf_move(dt)
+			if fight.tie >= 0.0:
+				fight.tie += dt
+				if _sheaf_near(fight.tied):
+					_sheaf_bitten()
+				elif fight.tie >= float(e.tie):
+					_sheaf_tied()
+		"rise":
+			if fight.pt >= SHEAF_RISE:
+				_sheaf_phase("out")
+		"out":             # coiled on top, its head at the spear point; then it strikes
+			if _sheaf_struck():
+				return
+			var coil: float = lerpf(float(e.coil[0]), float(e.coil[1]), float(CROC_HEALTH - fight.health) / float(CROC_HEALTH - 1))
+			if fight.pt >= coil:
+				_sheaf_phase("snap")
+		"snap":
+			if _sheaf_struck():
+				return
+			if fight.pt >= SHEAF_SNAP:
+				_sheaf_bites()
+		"bitten":
+			if fight.pt >= 0.4:
+				_sheaf_phase("out")
+		"pinned":
+			if fight.pt >= ROACH_FREEZE:
+				fight.pinned = false
+				fight.thrust = THRUST_TIME[0] + 0.001
+				end_fight()
+				return
+	_sheaf_place()
+	_place_bearer()
+
+
+func _sheaf_phase(p: String) -> void:
+	fight.phase = p
+	fight.pt = 0.0
+
+
+## The snake moves inside the sheaf: it stays at a height a while, then goes one up or down (never
+## below the bands tied; up out of its head over the top). A feint goes halfway up and comes back.
+func _sheaf_move(dt: float) -> void:
+	var sn: Dictionary = fight.sn
+	sn.t += dt
+	if sn.moving:
+		var u := minf(sn.t / sn.dur, 1.0)
+		var k := u * u * (3.0 - 2.0 * u)
+		if sn.feint:
+			sn.at = sn.from + (sn.to - sn.from) * 0.5 * sin(PI * u)
+		else:
+			sn.at = lerpf(sn.from, sn.to, k)
+		if u >= 1.0:
+			sn.at = sn.from if sn.feint else sn.to
+			sn.moving = false
+			sn.t = 0.0
+			sn.settled = 0.0
+			sn.dur = _sheaf_dwell(sn.at)
+		return
+	sn.settled += dt
+	if sn.t < sn.dur:
+		return
+	var lo := float(fight.tied)
+	var hi := float(SHEAF_TOP)
+	var to: float
+	if sn.at <= lo:
+		to = sn.at + 1.0
+	elif sn.at >= hi:
+		to = sn.at - 1.0
+	else:
+		to = sn.at - 1.0 if rng.randf() < 0.55 else sn.at + 1.0    # it keeps low when it can
+	_sheaf_go(to, to > sn.at and fight.tied >= 1 and rng.randf() < float(fight.e.feint))
+
+
+func _sheaf_go(to: float, feint := false) -> void:
+	var sn: Dictionary = fight.sn
+	sn.from = sn.at
+	sn.to = clampf(to, float(fight.tied), float(SHEAF_TOP))
+	sn.feint = feint
+	sn.moving = true
+	sn.t = 0.0
+	sn.dur = _sheaf_tune("move")
+
+
+## Space, or a click on the sheaf: tie the next band; once the snake is out, thrust.
+func _sheaf_act() -> void:
+	if fight.open < 1.0 or fight.lost or fight.get("closing", false):
+		return
+	if fight.phase == "bind":
+		if fight.tie >= 0.0 or fight.lock > 0.0:
+			return
+		fight.tie = 0.0
+	else:
+		_croc_thrust()
+
+
+## A band tied: the stalks below it pull together, and the snake can never come below it again.
+func _sheaf_tied() -> void:
+	fight.tie = -1.0
+	fight.tied += 1
+	_flash(actors[SHEAF_BANDS[fight.tied - 1]])
+	var sn: Dictionary = fight.sn
+	if sn.moving and sn.to < float(fight.tied):     # on its way down past the new band: it turns back
+		_sheaf_go(float(fight.tied))
+	if fight.tied >= SHEAF_BANDS.size():
+		fight.sn.moving = false
+		fight.sn.at = float(SHEAF_TOP)
+		_sheaf_phase("rise")
+		say("Scribe", "Bound tight, the sheaf forces the snake out on top.")
+	elif not fight.told.has("tied"):
+		fight.told.tied = true
+		say("Scribe", "Tied. Below that band it has no room now.")
+
+
+## Tied on the snake: it bites through the stalks at his hand, and the band springs loose.
+func _sheaf_bitten() -> void:
+	fight.tie = -1.0
+	fight.lock = SHEAF_LOCK
+	fight.dart = 0.0
+	fight.dart_at = fight.tied
+	_sheaf_hurt()
+	if fight.lost:
+		return
+	if not fight.told.has("bitten"):
+		fight.told.bitten = true
+		say("Scribe", "It was at that band: it bites through the stalks, and the band springs loose. Tie only once the stir has settled above it.")
+	if fight.sn.at < float(SHEAF_TOP) and not fight.sn.moving:
+		fight.sn.t = fight.sn.dur - 0.3          # it draws back up soon after
+
+
+## His spear point is out and the snake is on top (its head is at the point there): pinned.
+func _sheaf_struck() -> bool:
+	if fight.thrust < 0.0 or _spear_out() < 0.0:
+		return false
+	fight.hits = 1
+	fight.pinned = true
+	_hurt(actors[fight.e.foe])
+	_sheaf_phase("pinned")
+	say("Scribe", "Struck!")
+	return true
+
+
+## Its strike at his hand, out on top.
+func _sheaf_bites() -> void:
+	_sheaf_hurt()
+	if fight.lost:
+		return
+	_sheaf_phase("bitten")
+	say("Scribe", "It struck first. Thrust ([space]) as soon as it comes out, before it strikes.")
+
+
+func _sheaf_hurt() -> void:
+	fight.red = 0.8
+	fight.health -= 1
+	bites += 1
+	var t := create_tween()
+	for i in 6:
+		t.tween_property(camera, "offset", Vector2(randf_range(-6, 6), randf_range(-4, 4)) * unit, 0.04)
+	t.tween_property(camera, "offset", Vector2.ZERO, 0.05)
+	if fight.health <= 0:
+		_sheaf_dies()
+
+
+func _sheaf_dies() -> void:
+	fight.lost = true
+	fight.tie = -1.0
+	var e: Dictionary = fight.e
+	say("Scribe", "One bite too many: the spear-bearer crumbles to dust.")
+	_disintegrate(e)
+	var t := create_tween()
+	t.tween_interval(2.0)
+	t.tween_callback(func():
+		if not fight.is_empty() and fight.kind == "sheaf" and fight.e.id == e.id and fight.lost:
+			_arena_lost(e))
+
+
+## The height of band `at` (fractional between bands; SHEAF_TOP is the top of the stalks), strip px.
+func _sheaf_y(at: float) -> float:
+	var ys: Array = SHEAF_BANDS.map(func(n): return rects[n].get_center().y)
+	ys.append(rects[SHEAF_STALKS].position.y)
+	var i := clampi(floori(at), 0, ys.size() - 2)
+	return lerpf(ys[i], ys[i + 1], clampf(at - i, 0.0, 1.0))
+
+
+## Put the sheaf (splayed about its bottom tip, the bands tied or faint, the stalks stirring where
+## the snake is) and the snake (hidden inside, its head over the top, rising out, or out) as they are.
+func _sheaf_place() -> void:
+	var e: Dictionary = fight.e
+	var k: float = fight.open
+	var st: Rect2 = rects[SHEAF_STALKS]
+	var tip := Vector2(st.get_center().x, st.end.y)
+	var sx: float = lerpf(1.0, fight.splay, k)
+	var sn: Dictionary = fight.sn
+	var binding: bool = fight.phase == "bind" and not fight.lost
+	for i in SHEAF_BANDS.size() + 1:
+		var n: String = SHEAF_BANDS[i] if i < SHEAF_BANDS.size() else SHEAF_STALKS
+		var a: Node2D = actors[n]
+		var home: Vector2 = a.get_meta("home")
+		a.position = Vector2(tip.x + (home.x - tip.x) * sx, home.y)
+		a.scale = Vector2(sx, 1.0)
+		var shown := 1.0
+		if i < SHEAF_BANDS.size() and i >= fight.tied:
+			shown = SHEAF_LOOSE
+			if i == fight.tied and fight.tie >= 0.0:
+				shown = lerpf(SHEAF_LOOSE, 1.0, fight.tie / float(e.tie))
+			if binding and absf(sn.at - float(i)) < 0.6:     # a loose band shivers with the stalks
+				a.position.x += sin(fight.clock * 31.0) * 1.2 * unit
+		a.modulate.a = shown * k
+	var mat := (actors[SHEAF_STALKS].get_node("Sprite") as Sprite2D).material as ShaderMaterial
+	if mat:
+		mat.set_shader_parameter("at", clampf((_sheaf_y(sn.at) - st.position.y) / st.size.y, 0.0, 1.0))
+		mat.set_shader_parameter("amp", ((SHEAF_STIR_MOVING if sn.moving else SHEAF_STIR) * k) if binding else 0.0)
+		mat.set_shader_parameter("phase", fight.clock * 23.0)
+	# the snake: on the scroll (k = 0) as drawn; inside the sheaf only its head over the top shows
+	var a: Node2D = actors[e.foe]
+	var sp: Sprite2D = a.get_node("Sprite")
+	var peek: Sprite2D = a.get_node_or_null("Peek")
+	var size: Vector2 = a.get_meta("size")
+	var top: float = float(e.top)
+	a.position = a.get_meta("home")
+	a.scale = Vector2.ONE
+	sp.region_enabled = true
+	match fight.phase:
+		"bind":
+			sp.visible = k < 1.0
+			sp.region_rect = Rect2(0.0, 0.0, size.x, size.y)
+			sp.position = fight.snake_at
+			a.modulate.a = 1.0 - k if k < 1.0 else 1.0
+			var r := clampf(sn.at - float(SHEAF_TOP - 1), 0.0, 1.0) * SHEAF_PEEK * top
+			var y_base := top                                  # its coils rise out of the top of the sheaf ...
+			if fight.dart >= 0.0:                              # ... or its head comes out at a band, at his hand
+				r = sin(PI * fight.dart / SHEAF_DART) * 0.5 * top
+				y_base = top + _sheaf_y(float(fight.dart_at)) - _sheaf_y(float(SHEAF_TOP))
+			if peek:
+				var x0 := SHEAF_PEEK_X * size.x
+				peek.visible = r > 0.5 and k >= 1.0
+				peek.region_rect = Rect2(x0, 0.0, size.x - x0, r)
+				peek.position = fight.snake_at + Vector2(x0, y_base - r)
+		"rise":
+			if peek:
+				peek.visible = false
+			sp.visible = true
+			a.modulate.a = 1.0
+			var r := clampf(fight.pt / SHEAF_RISE, 0.0, 1.0) * size.y
+			sp.region_rect = Rect2(0.0, 0.0, size.x, r)
+			sp.position = fight.snake_at + Vector2(0.0, maxf(0.0, top - r))
+		_:
+			if peek:
+				peek.visible = false
+			sp.visible = true
+			a.modulate.a = 1.0
+			sp.region_rect = Rect2(0.0, 0.0, size.x, size.y)
+			sp.position = fight.snake_at
+			var lunge := 0.0
+			match fight.phase:
+				"snap":
+					lunge = minf(fight.pt / SHEAF_SNAP, 1.0)
+				"bitten":
+					lunge = 1.0 - minf(fight.pt / 0.4, 1.0)
+				"out":
+					a.scale = Vector2(1.0, 1.0 + 0.02 * sin(fight.clock * TAU / 1.2))   # breathing
+				"pinned":
+					a.scale = Vector2(1.0 + 0.04 * sin(fight.clock * 40.0), 1.0 - 0.04 * sin(fight.clock * 40.0))
+			a.position.x += SHEAF_LUNGE * unit * lunge
+
+
+func _sheaf_click(p: Vector2) -> void:
+	var on_sheaf := false
+	for n in SHEAF_BANDS + [SHEAF_STALKS]:
+		on_sheaf = on_sheaf or actor_rect(n).grow(10.0 * unit).has_point(p)
+	if on_sheaf or fight.phase != "bind":
+		_sheaf_act()
+
+
+## Dev (`--croc-bot`, and the autotest's trials): ties SHEAF_BOT_REACT s (or BOT_REACT) after the
+## stir has settled above the next band; out on top, thrusts that long after it comes out. With
+## `careless`, it ties as soon as it can, wherever the snake is.
+func _sheaf_bot() -> void:
+	var react: float = fight.get("bot_react", float(OS.get_environment("BOT_REACT")) if OS.has_environment("BOT_REACT") else SHEAF_BOT_REACT)
+	var sn: Dictionary = fight.sn
+	match fight.phase:
+		"bind":
+			if fight.tie >= 0.0 or fight.lock > 0.0:
+				return
+			if fight.get("careless", false):
+				if fight.pt - fight.get("bot_last", -1.0) >= 0.5:
+					fight.bot_last = fight.pt
+					_sheaf_act()
+			elif not sn.moving and sn.at > float(fight.tied) + SHEAF_NEAR and sn.settled >= react:
+				_sheaf_act()
+		"out", "snap":
+			if fight.pt >= react or fight.phase == "snap":
+				_sheaf_act()
+
+
+## (autotest) One whole fight against spell 41 played by the bot at reaction `react` (or careless),
+## from random seed `seed`; true = won. Leaves the fight stepped out of.
+func _sheaf_trial(e: Dictionary, react: float, careless: bool, seed: int) -> bool:
+	var b0 := bites
+	rng.seed = seed
+	start_fight(e)
+	fight.bot = true
+	fight.bot_react = react
+	fight.careless = careless
+	var won := false
+	var t := 0.0
+	while t < 180.0:
+		_sheaf(1.0 / 60.0)
+		t += 1.0 / 60.0
+		if fight.is_empty() or fight.lost:
+			won = fight.is_empty()
+			break
+		if fight.pinned:
+			won = true
+			break
+	if not fight.is_empty():
+		leave_fight()
+	solved.erase(e.id)
+	journal.clear()
+	bites = b0
+	return won
 
 
 func _bite(text: String) -> void:
@@ -3395,19 +3936,9 @@ func _draw_overlay() -> void:
 		return
 	match fight.kind:
 		"creep":
-			# where the spear point will come down: a ring on the ground, red when over its head
+			# where the spear point will come down: a small red dot
 			if fight.open >= 1.0 and not fight.lost and not fight.pinned:
-				var at := Vector2(_creep_point().x, ground + 4.0 * unit)
-				var c := Color(0.64, 0.2, 0.12, 0.8) if _creep_in_reach() else Color(ink, 0.45)
-				overlay.draw_set_transform(at, 0.0, Vector2(1.0, 0.35))
-				overlay.draw_arc(Vector2.ZERO, CREEP_REACH * 1.6 * unit, 0.0, TAU, 32, c, 2.0 * unit)
-				overlay.draw_set_transform(Vector2.ZERO)
-			# its eye, red while it looks back at him
-			var snake: CREEPING_SNAKE_STATE = fight.get("snake")
-			if snake != null and snake.horizontal_scale < 0.0 and snake.phase in ["turn", "watch", "unturn", "strike", "bitten"]:
-				var head: Node2D = snake.node.get_node_or_null("Head")
-				if head:
-					overlay.draw_circle(head.global_transform * fight.eye, CREEP_EYE * unit, Color(181 / 255.0, 91 / 255.0, 60 / 255.0))
+				overlay.draw_circle(_creep_point(), CREEP_DOT * unit, Color(181 / 255.0, 91 / 255.0, 60 / 255.0))
 	# progress pips above the vignette
 	var total := 0
 	var got := 0
@@ -3421,7 +3952,7 @@ func _draw_overlay() -> void:
 	var sp := span(fight.e)
 	if fight.kind in ARENA_FIGHTS:
 		sp.y = _arena_rect().end.x
-	if fight.kind in ["crocs", "lunge", "creep", "twin", "apep"]:
+	if fight.kind in ["crocs", "lunge", "creep", "twin", "apep", "sheaf"]:
 		# his health: flesh signs in red, top left inside the opened vignette; a lost one stays faint
 		var ar := _arena_rect()
 		var fs := Vector2(55.0, 68.0)       # on screen, about the size of a caption sign
@@ -3436,7 +3967,7 @@ func _draw_overlay() -> void:
 				overlay.draw_texture_rect(_flesh_tex, Rect2(at, fs), false, Color(red, a))
 			else:
 				overlay.draw_circle(at + fs / 2.0, 14.0, Color(red, a))
-	if fight.kind in ["lunge", "creep", "twin", "apep", "donkey"]:
+	if fight.kind in ["lunge", "creep", "twin", "apep", "donkey", "sheaf"]:
 		total = 0                      # the snakes show no count (Apep's is the barb going in)
 	for i in total:
 		var c := Vector2(sp.y - (20.0 + i * 16.0) * unit, 14.0 * unit)
@@ -3747,61 +4278,75 @@ func _autotest() -> void:
 				expect.call(L.glyph.position.x < R.glyph.position.x and L.glyph.modulate.a == 1.0 and R.glyph.modulate.a == 1.0, e.id + " the two snake signs, left and right, stay in view as the vignette opens")
 				_twin(0.0)
 				expect.call(L.node.scale.x < 0.0 and R.node.scale.x > 0.0, e.id + " both turned to face him (the drawn one flipped)")
-				# a thrust at a snake that faces him: its head comes forward and bites
-				fight.facing = -1
-				_twin_strike()
-				expect.call(L.phase == "snap", e.id + " a thrust at a snake facing him: its head comes forward")
-				_twin(TWIN_SNAP + 0.01)
-				expect.call(fight.health == CROC_HEALTH - 1 and L.hits == 0, e.id + " ...and bites")
-				_twin_phase(L, "face")
-				# the one about to strike: its sign flashes red, it turns its back, and only it can be struck
+				expect.call(L.off >= float(e.rest) * unit and absf(L.node.position.x - L.node.get_meta("home").x) >= float(e.rest) * unit - 0.5, e.id + " they wait well out from where they are drawn")
+				# the one about to strike: its sign flashes red, it squashes and springs
 				fight.idle = 99.0
 				_twin_phase(R, "warn")
 				_time = PI / 20.0           # the top of the flash
 				_twin_place()
 				expect.call(R.glyph.modulate.r > 1.5 and L.glyph.modulate == Color.WHITE, e.id + " the sign of the snake about to strike flashes red")
-				_twin(lerpf(float(e.warn[0]), float(e.warn[1]), 0.0) + 0.01)
-				_twin(TWIN_TURN + 0.01)
-				expect.call(R.phase == "away" and R.node.scale.x < 0.0, e.id + " ...and that snake turns its back on him")
-				_twin_strike()
-				expect.call(L.phase == "snap" and R.hits == 0, e.id + " a thrust the other way strikes nothing, and the snake there bites")
-				_twin_phase(L, "face")
+				_twin(_twin_tune("warn") + 0.01)
+				expect.call(R.phase == "crouch", e.id + " ...then that snake squashes down")
+				_twin_phase(R, "rest")
+				# the window: Space at `tau` s from the start of the snap, facing it (sim at 240 fps)
+				var good: Array = _twin_window(1)
+				print("spell 37 window: %.3f .. %.3f s from the start of the snap (%.0f ms; bot aims at %.3f)" % [good[0], good[1], (good[1] - good[0]) * 1000.0, _twin_aim()])
+				expect.call(good[1] - good[0] >= 0.06, e.id + " a window of at least 60 ms to strike in")
+				expect.call(_twin_aim() >= good[0] and _twin_aim() <= good[1], e.id + " the bot's aim is inside the window")
+				fight.health = 99
+				expect.call(not _twin_try(1, -0.35), e.id + " a thrust well before it springs is too early")
+				expect.call(not _twin_try(1, 0.3), e.id + " a thrust after it is past is too late")
+				expect.call(R.phase == "bitten" and R.off < 0.0, e.id + " at the end of its spring it is past where it is drawn, at his foot")
+				_twin(0.41)
+				_twin(TWIN_BACK + 0.01)
+				expect.call(R.phase == "rest", e.id + " it slides back to where it waits")
+				# facing the other way, the thrust strikes nothing and it bites
 				fight.health = CROC_HEALTH
-				fight.facing = 1
-				_twin_strike()
-				expect.call(R.hits == 1 and R.phase == "pinned", e.id + " a thrust while its back is turned strikes it")
-				_twin(ROACH_FREEZE + 0.01)
-				_twin(TWIN_TURN + 0.01)
-				expect.call(R.phase == "face", e.id + " struck, it turns to face him again")
-				# not struck in time: it whips round and bites
-				_twin_phase(L, "away")
-				L.face = -1.0
-				L.for = 0.0
-				_twin(0.001)
-				_twin(TWIN_SNAP + 0.01)
-				_twin(TWIN_SNAP + 0.01)
-				expect.call(fight.health == CROC_HEALTH - 1, e.id + " one not struck in time whips round and bites")
-				_twin(0.31)
-				# struck `need` times, a snake falls, and the other is the only one left to strike
+				var mid: float = (good[0] + good[1]) / 2.0
+				fight.facing = -1
+				_twin_phase(R, "crouch")
+				R.for = 0.0
+				_twin(0.11)
+				var t := 0.0
+				while R.phase == "snap" and t < 1.0:
+					if t >= mid and fight.thrust < 0.0 and not fight.struck:
+						_croc_thrust()
+					_twin(1.0 / 240.0)
+					t += 1.0 / 240.0
+				expect.call(R.hits == 0 and fight.health == CROC_HEALTH - 1, e.id + " a thrust the other way strikes nothing, and the snake bites")
+				_twin_phase(R, "rest")
+				R.off = float(e.rest) * unit
+				# a thrust at a snake still coiled: it springs at once
+				fight.facing = -1
+				fight.thrust = -1.0
+				_twin_phase(L, "rest")
+				_croc_thrust()
+				while fight.thrust >= 0.0 and fight.thrust < THRUST_TIME[0]:
+					_twin(1.0 / 240.0)
+				expect.call(L.phase == "snap", e.id + " a thrust at a coiled snake: it sees the spear and springs")
+				for i in 240:
+					_twin(1.0 / 240.0)
+				expect.call(L.hits == 0, e.id + " ...out of the spear's way, and bites")
+				_twin(0.41)
+				_twin(TWIN_BACK + 0.01)
+				fight.thrust = -1.0
+				# struck `need` times, a snake falls where it is drawn, and only the other strikes after
 				for i in need:
 					fight.health = CROC_HEALTH
-					fight.facing = -1
-					_twin_phase(L, "away")
-					L.face = -1.0
-					L.for = 99.0
-					_twin_strike()
+					expect.call(_twin_try(-1, (_twin_window(-1)[0] + _twin_window(-1)[1]) / 2.0), e.id + " struck as it springs (%d)" % (i + 1))
 					_twin(ROACH_FREEZE + 0.01)
-					_twin(TWIN_TURN + 0.01)
+					if i < need - 1:
+						_twin(TWIN_BACK + 0.01)
 				_twin(TWIN_FALL + 0.01)
-				expect.call(L.phase == "fallen" and not fight.is_empty(), e.id + " struck %d times, a snake falls" % need)
+				expect.call(L.phase == "fallen" and absf(L.node.position.x - L.node.get_meta("home").x) < 1.0 and not fight.is_empty(), e.id + " struck %d times, a snake falls where it is drawn" % need)
+				var last: Array = _twin_window(1)
+				print("spell 37 last window: %.0f ms" % ((last[1] - last[0]) * 1000.0))
+				expect.call(last[1] - last[0] < good[1] - good[0] and last[1] - last[0] >= 0.04, e.id + " the window grows shorter with each strike, and can still be struck")
 				fight.idle = 0.0
 				_twin(0.0)
-				expect.call(R.phase == "warn", e.id + " only the snake still standing strikes")
-				_twin_phase(R, "face")
+				expect.call(R.phase == "warn", e.id + " only the snake still coiled strikes")
 				fight.health = 1
-				fight.facing = 1
-				_twin_strike()
-				_twin(TWIN_SNAP + 0.01)
+				_twin_try(1, -0.35)
 				expect.call(fight.lost, e.id + " the third bite and he crumbles")
 				fight.lost = false
 			"creep":
@@ -3816,7 +4361,17 @@ func _autotest() -> void:
 				_creep_move(-1.0, 0.2)
 				expect.call(fight.pos.x < x0 and snake.phase == "away", e.id + " he creeps up while it looks away")
 				_creep_move(-1.0, 60.0)
-				expect.call(_creep_in_reach(), e.id + " he stops with the point over its head")
+				expect.call(_creep_in_reach(), e.id + " he stops with the point over its eye")
+				# on its head but off the eye: nothing
+				var at_eye: float = fight.pos.x
+				fight.pos.x = at_eye + (float(e.head_rect[0]) + float(e.head_rect[2]) - float(e.eye[0]) - 2.0)
+				expect.call(_creep_on_head() and not _creep_in_reach(), e.id + " the back of its head is on its head, off the eye")
+				_creep_phase("away")
+				snake.duration = 99.0
+				_creep_strike()
+				expect.call(fight.hits == 0, e.id + " a thrust on its head but off the eye strikes nothing")
+				fight.pos.x = at_eye
+				_creep_phase("away")
 				# moving while it looks: it lashes back and bites
 				_creep_phase("watch")
 				snake.elapsed = CREEP_GRACE + 0.01
@@ -4018,10 +4573,106 @@ func _autotest() -> void:
 				for i in e.need:
 					_donkey(0.0)
 					fight_click(centre.call(e.foe))
-			"pop":
-				for i in e.need:
-					fight.up = true
-					fight_click(centre.call(e.foe))
+			"sheaf":
+				var sn: Dictionary = fight.sn
+				var band := func(i: int) -> Node2D: return actors[SHEAF_BANDS[i]]
+				expect.call(actors[SHEAF_STALKS].visible and actors[e.bundle].modulate.a < 0.01, e.id + " the sheaf comes apart into stalks and bands; the bundle steps aside")
+				expect.call(SHEAF_BANDS.all(func(n): return actors[n].modulate.a < 0.3) and actors[SHEAF_STALKS].scale.x > 1.2, e.id + " its bands are undone (faint) and its stalks splay")
+				expect.call(not (actors[e.foe].get_node("Sprite") as Sprite2D).visible, e.id + " the snake is hidden inside")
+				_sheaf(0.0)
+				var mat := (actors[SHEAF_STALKS].get_node("Sprite") as Sprite2D).material as ShaderMaterial
+				var low: float = (_sheaf_y(0.0) - rects[SHEAF_STALKS].position.y) / rects[SHEAF_STALKS].size.y
+				expect.call(mat.get_shader_parameter("amp") > 0.0 and is_equal_approx(mat.get_shader_parameter("at"), low), e.id + " the stalks stir at the bottom band, where it starts")
+				# tied on the snake: it bites, the band springs loose
+				sn.dur = 99.0
+				_sheaf_act()
+				_sheaf(0.05)
+				expect.call(fight.health == CROC_HEALTH - 1 and fight.tied == 0 and fight.tie < 0.0 and fight.lock > 0.0, e.id + " a band tied on the snake: bitten, and the band springs loose")
+				_sheaf_act()
+				expect.call(fight.tie < 0.0, e.id + " ...and cannot be tied again at once")
+				_sheaf(SHEAF_LOCK + 0.01)
+				# tied with the snake above it: it holds, and it can never come below it again
+				sn.moving = false
+				sn.at = 2.0
+				sn.t = 0.0
+				sn.dur = 99.0
+				_sheaf_act()
+				_sheaf(float(e.tie) + 0.02)
+				expect.call(fight.tied == 1 and band.call(0).modulate.a > 0.99, e.id + " a band tied above the snake holds")
+				_sheaf_go(0.0)
+				expect.call(sn.to == 1.0, e.id + " it cannot go below a band tied")
+				# a snake coming down onto the band while it is tied bites too
+				sn.moving = false
+				sn.at = 2.0
+				sn.t = 0.0
+				sn.dur = 0.05
+				var h0: int = fight.health
+				_sheaf_act()
+				for i in 30:
+					_sheaf(0.01)
+					if fight.health < h0:
+						break
+					if not sn.moving and sn.at > 1.5:   # make sure it heads down onto band 1
+						sn.t = 99.0
+						rng.seed = 2
+				expect.call(fight.health < h0 or fight.tied == 2, e.id + " a tie is safe only if it stays above the band throughout")
+				fight.health = CROC_HEALTH
+				# its head peeks out at the top
+				sn.moving = false
+				sn.at = float(SHEAF_TOP)
+				_sheaf_place()
+				expect.call((actors[e.foe].get_node("Peek") as Sprite2D).visible, e.id + " at the top its coils show over the sheaf")
+				# bind the rest with the snake at the top: forced out, onto the spear
+				while fight.tied < SHEAF_BANDS.size():
+					sn.moving = false
+					sn.at = float(SHEAF_TOP)
+					sn.t = 0.0
+					sn.dur = 99.0
+					fight.lock = 0.0
+					_sheaf_act()
+					_sheaf(float(e.tie) + 0.02)
+				expect.call(fight.phase == "rise" and SHEAF_BANDS.all(func(n): return actors[n].modulate.a > 0.99), e.id + " four bands tied: the snake is forced out on top")
+				_sheaf(SHEAF_RISE + 0.01)
+				expect.call(fight.phase == "out" and actors[e.foe].position == actors[e.foe].get_meta("home"), e.id + " out on top, coiled as drawn")
+				expect.call(absf(actors[SHEAF_STALKS].scale.x - 1.0) < 0.05, e.id + " bound, the stalks stand as drawn")
+				# too slow: it strikes his hand
+				h0 = fight.health
+				for i in int((float(e.coil[0]) + SHEAF_SNAP + 0.05) * 60.0):
+					_sheaf(1.0 / 60.0)
+				expect.call(fight.health == h0 - 1 and fight.phase == "bitten", e.id + " too slow: it strikes his hand")
+				_sheaf(0.41)
+				_croc_thrust()
+				_sheaf(THRUST_TIME[0] + 0.01)
+				expect.call(fight.pinned and fight.hits == 1, e.id + " a thrust while it is out pins it")
+				# the third bite and he crumbles
+				leave_fight()
+				start_fight(e)
+				fight.health = 1
+				fight.sn.dur = 99.0
+				_sheaf_act()
+				_sheaf(0.05)
+				expect.call(fight.lost, e.id + " the third bite and he crumbles")
+				fight.lost = false
+				leave_fight()
+				# the difficulty: whole fights played by a stand-in player
+				var rate := func(react: float, careless: bool) -> float:
+					var won := 0
+					for i in 40:
+						if _sheaf_trial(e, react, careless, 1000 + i):
+							won += 1
+					return won / 40.0
+				if OS.has_environment("SHEAF_CURVE"):      # dev: the whole curve
+					for r in [0.25, 0.35, 0.45, 0.55, 0.65]:
+						print("spell 41 curve: react %.2f s -> %d%% won" % [r, rate.call(r, false) * 100])
+				var quick: float = rate.call(0.35, false)
+				var slow: float = rate.call(0.6, false)
+				var careless: float = rate.call(0.0, true)
+				print("spell 41 wins: tying 0.35 s after the stir settles %d%%, 0.6 s after %d%%, blindly %d%%" % [quick * 100, slow * 100, careless * 100])
+				expect.call(quick >= 0.9, e.id + " an attentive player (0.35 s) wins nearly every fight")
+				expect.call(slow <= 0.5, e.id + " a slow one (0.6 s) loses at least half")
+				expect.call(careless <= 0.1, e.id + " tying blindly loses")
+				start_fight(e)
+				fight.pinned = true
 		end_fight()  # the real game waits half a second first
 		expect.call(solved.has(e.id), e.id + " overcome")
 

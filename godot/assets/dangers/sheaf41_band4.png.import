@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dnth6rhf2jgcy"
-path="res://.godot/imported/heads41.png-2c56772c42c7e9bd104e2dffe0ae9e37.ctex"
+uid="uid://drefhujtidcxn"
+path="res://.godot/imported/sheaf41_band4.png-665f8601a087cf481fe638c588420a9c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/dangers/heads41.png"
-dest_files=["res://.godot/imported/heads41.png-2c56772c42c7e9bd104e2dffe0ae9e37.ctex"]
+source_file="res://assets/dangers/sheaf41_band4.png"
+dest_files=["res://.godot/imported/sheaf41_band4.png-665f8601a087cf481fe638c588420a9c.ctex"]
 
 [params]
 

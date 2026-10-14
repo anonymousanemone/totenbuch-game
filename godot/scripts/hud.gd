@@ -428,6 +428,7 @@ func _labelled_button(icon: String, word: String, tip: String, on_press: Callabl
 	v.add_theme_constant_override("separation", 4)
 	var b := UI.icon_button(icon, tip, on_press)
 	b.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	b.size_flags_vertical = Control.SIZE_EXPAND | Control.SIZE_SHRINK_CENTER   # signs centre on one line, the words sit below
 	var l := Label.new()
 	l.text = word
 	l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER

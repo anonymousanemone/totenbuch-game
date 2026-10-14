@@ -84,12 +84,22 @@ const ENCOUNTERS := [
 		"hint": "Click the ankh and sail he holds out.",
 		"won": "You take the breath of life. The sail sign returns in later scenes.",
 		"label": "The breath of life", "note": "Spell 38, for living on air. The ankh and sail taken from his hand."},
+	# Apep: his tail lashes (`lash` s) and a wave runs the length of him to the fold where the spear
+	# point rests, at `speed` plate px/s (first to second value as the barb goes in); a new one every
+	# `gap` s, none reaching the point within `min_gap` s of the one before. Each wave pressed down
+	# as its crest reaches the point (`reach` plate px either side, first to second value as the barb
+	# goes in) drives the barb a step in; `need`
+	# steps and he lies as drawn. After the first `teach` waves, a `feint` share are smaller and die
+	# out in the drawn hump (`hump`). Crest `height` and `width` (half) in plate px. `head_rect`,
+	# `head_pivot` (it turns on its neck here), `fold`: in his picture's pixels.
 	{"id": "e39", "boxes": ["e39"], "kind": "apep", "spear": "spear39", "task": 3,
-		"foe": "apep", "raise": 1.0,
-		"intro": "Spell 39: Apep, the great serpent, stretches across the ground. One coil at a time rises. Strike the coil that rises, and only that one.",
-		"hint": "Wait for a coil to lift, then click it. Striking a coil that lies flat lets a wounded coil heal.",
-		"won": "Apep is pinned to the ground.",
-		"label": "Apep", "note": "Spell 39, repelling Apep. Each coil struck as it rose."},
+		"foe": "apep", "need": 6, "speed": [150.0, 270.0], "gap": [2.6, 1.1], "min_gap": 0.8, "lash": 0.35,
+		"reach": [10.0, 5.0], "height": 12.0, "width": 30.0, "teach": 2, "feint": 0.35, "hump": [190, 320],
+		"head_rect": [398, 23, 44, 18], "head_pivot": [440, 33], "fold": 492,
+		"intro": "Spell 39: Apep, the great serpent, lies the whole length of the vignette, your spear point at his neck. Each time a wave runs up his body from the tail, press it down with [space] as it reaches the point.",
+		"hint": "Watch the tail: when it lashes, follow the wave along him and thrust as it reaches your spear point. A small wave that dies in the hump needs no thrust; a thrust on a still neck works the barb loose.",
+		"won": "Apep lies still, pinned at the neck.",
+		"label": "Apep", "note": "Spell 39, repelling Apep. Every wave of him pressed down at the spear point."},
 	{"id": "e40", "boxes": ["e40"], "kind": "donkey", "spear": "spear40", "task": 4,
 		"foe": "snake40", "donkey": "donkey40", "need": 3,
 		"intro": "Spell 40: the Eater of the Ass, a snake on the donkey's back. Strike the snake three times. Do not strike the donkey.",

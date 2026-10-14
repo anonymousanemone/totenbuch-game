@@ -15,6 +15,10 @@ config/description="The Book of the Dead (Lepsius, 1842) as a point-and-click ga
 run/main_scene="res://scenes/menu.tscn"
 config/features=PackedStringArray("4.7")
 
+[autoload]
+
+Scroll="*res://scripts/scroll.gd"
+
 [display]
 
 window/size/viewport_width=1280

@@ -72,7 +72,7 @@ at the end waits until every danger before it is overcome.
 | 36 | The vignette opens out; you stand still in the middle: ← → turn you, Space thrusts. Three beetles (`count`: the drawn one and two copies) dart about very fast; every couple of darts each stops by the point of your spear on your left or right for 0.35–0.75 s (some stops just out of reach). Only the spear point at the full thrust pins one (its body, or with `dot` only a red dot on its back); a catch holds everything for 0.5 s and that beetle is gone. Pin all three to win. A beetle that stops within reach and gets away has passed the point: it reddens a step each time, and once it has passed `passes` (3) times, the next time it gets away they multiply until they fill the vignette, the bearer crumbles, and you are back on the scroll. Set `passes` to 5 for an easier fight |
 | 37 | Two coiled snakes rear; strike twice at full height |
 | 38 | Take the ankh and sail, the breath of life |
-| 39 | Apep's coils rise one at a time; strike only the risen coil (a wrong strike frees a pinned one) |
+| 39 | Close up, the whole vignette across. He stays where he is drawn, the barb resting a little way up its line from Apep's neck (where the body folds back); Space thrusts. Now and then the tail lashes and a wave runs the length of Apep to the fold (`apep_wave.gdshader` lifts the drawing column by column); his head strains up as it comes. Thrust as the crest reaches the point: the wave is pressed flat, Apep flushes red, and the barb rests a step further in (`need` 6 steps; at the last the spear is as drawn). A wave that gets past rears his head out from under the barb, round to bite the bearer's foot. After the first two (`teach`), a share of waves (`feint`) are smaller and die out in the drawn hump; a thrust on a still neck works the barb loose a step. The waves come faster (`speed` 150 → 270 plate px/s), closer together (`gap`, never two at the point within `min_gap`), and the crest must be nearer the point (`reach` 10 → 5 plate px: a window of about 195 ms down to 145 ms). No count is shown; three bites and he crumbles. Tuned in its `ENCOUNTERS` entry |
 | 40 | Strike the snake on the donkey's back three times; hitting the donkey costs a hit |
 | 41 | Heads rise from the reeds; strike them while they show (three times) |
 | 42 | End of the level. Spell 42 is text only (each body part given to a god) and is not a puzzle yet |
@@ -80,14 +80,17 @@ at the end waits until every danger before it is overcome.
 ## Layout
 | Path | What |
 |---|---|
-| `scenes/menu.tscn`, `scripts/menu.gd` | Level select |
+| `scenes/menu.tscn`, `scripts/menu.gd` | The title page (Continue, The scroll, Settings, Quit), the map of the scroll (every scene act by act, reading right to left), Settings (sound, fullscreen, controls, beginning again) |
+| `scripts/scroll.gd` | Autoload `Scroll`: the scenes in playing order (Lepsius's spell order, the weighing of the heart last), which are restored, and the settings, kept in `user://scroll.cfg`. A scene counts as built once `scenes/<key>.tscn` exists; finishing one opens the next built scene |
+| `scripts/ui.gd` | The shared look (`UI`): palette, Old Fax, square panels, the frame band, pixel icon buttons |
 | `scenes/procession.tscn`, `scripts/procession.gd` | Spells 1–15 |
 | `scenes/cosmos.tscn`, `scripts/cosmos.gd` | Spell 17 |
 | `scenes/field.tscn`, `scripts/field.gd` | Spell 110 |
 | `scenes/hall.tscn`, `scripts/hall.gd` | Spell 125 |
 | `scenes/dangers.tscn`, `scripts/dangers.gd` | Spells 31–42: encounter list, gates, one rule set per creature |
 | `scripts/avatar.gd` | Walking (click target or keyboard), facing, bobbing |
-| `scripts/hud.gd` | Title bar (Restart, Levels), the scribe's strip under the scene (the line said with its speaker's tag, what you carry, Journal and Hint), the Journal page ([j]), intro/outro; each level passes its own texts |
+| `scripts/hud.gd` | Title bar (Restart, Menu), the scribe's strip under the scene (the line said with its speaker's tag, what you carry, Journal and Hint), the Journal page ([j]), intro/outro; each level passes its own texts |
+| `assets/menu/` | A picture per scene for the map (frames of the built levels, crops of the plates for the rest) and the title page's frontispiece, made by `../tools/menu_images.py` |
 | `assets/ui/`, `assets/fonts/OldFax.ttf` | The scroll's frame band as tiles (`band_top`, and `band_bottom`/`band_left`/`band_right` for the screen's edges), icons (Journal is 𓏞, the scribe's kit; Hint is 𓂜; Restart and Levels are placeholders), and the pixel font (16 px is one font pixel, 32 px two) |
 | `scripts/papyrus.gdshader` | Procedural papyrus fibres behind the ink |
 | `assets/<level>/` | Stitched plate strips, one PNG per piece, `level.json` with positions |
@@ -130,7 +133,7 @@ takes that rule's place above the lower one; field and hall keep their own frami
 screen: the scene shows what is still wrong (the levels still report the rites to `update_tasks`).
 Keys in player text are written in brackets (`[space]`, `[shift]`, `[esc]`, `[←] [→]`); the HUD
 shows them as written. A scribe line that won't fit the strip at 32 px drops to 16 px.
-`-- --journal` opens the Journal for a screenshot.
+`-- --journal` opens the Journal for a screenshot. The menu takes `-- --screen=map` (or `settings`, `controls`) with `--screenshot=path.png`. A level's outro leads on to the next scene of the scroll.
 
 Shared camera arithmetic lives in `scripts/scroll_camera.gd`; figure ink/interior masks
 live in `scripts/figure_mask.gd`. Dangers encounter descriptions and tuning live in

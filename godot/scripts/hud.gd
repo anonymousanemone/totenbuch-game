@@ -2,7 +2,7 @@
 ## and each set off from the scene by the scroll's own frame band. The strip holds the last line said (its speaker as a tag on the
 ## band), what you carry, and the Journal and Hint buttons; the Journal opens as a page over the
 ## scene. Built in code so the level scenes stay small. Each level passes its own titles and texts
-## to setup(). The text is Old Fax, a pixel font: 16 px is one font pixel to a screen pixel, 32 px two.
+## to setup(). Its look (palette, font, band, icons) is in ui.gd.
 extends CanvasLayer
 
 signal hint_pressed
@@ -12,24 +12,11 @@ signal menu_pressed
 
 const TOP_BAR := 46.0         ## the title bar, without its band
 const STRIP := 120.0          ## the scribe's strip, its band included
-const BAND := 16.0            ## the band between the scene and each bar
 const BOXED := false          ## the band also down the screen's sides and along its bottom, round the strip
 const EDGE := 12.0            ## that band, which has ink only on the strip's side
 const MINIMAP_H := 30.0
 const SHOW_MINIMAP := false   ## the overview strip of the whole scroll under the title bar
-const BIG := 32               ## font sizes: two screen pixels to a font pixel ...
-const SMALL := 16             ## ... and one
 
-const FONT := preload("res://assets/fonts/OldFax.ttf")
-const UI := "res://assets/ui/%s.png"
-
-const PAPYRUS := Color("e2d0a6")     ## the scene's papyrus: the pages
-const DEEP := Color("cbb07c")        ## deep papyrus: the title bar and the strip
-const INK := Color("2e1d10")
-const RULE := Color("8f7142")
-const OCHRE := Color("6e3e10")
-const TAG := Color("963e28")         ## the speaker's tag
-const CREAM := Color("f1e7cd")
 ## Keys are written in brackets ("hold [shift]"); these are shown as written, not read as BBCode
 ## tags ("[s]" would otherwise start a strikethrough).
 const KEY_NAMES := ["space", "shift", "esc", "←", "→", "↑", "↓", "w", "a", "s", "d"]
@@ -66,7 +53,7 @@ func setup(level: Node, cfg: Dictionary) -> void:
 	_root = Control.new()
 	_root.set_anchors_preset(Control.PRESET_FULL_RECT)
 	_root.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_root.theme = _make_theme()
+	_root.theme = UI.theme()
 	add_child(_root)
 	_build_top_bar()
 	if SHOW_MINIMAP:
@@ -82,7 +69,7 @@ func setup(level: Node, cfg: Dictionary) -> void:
 	_root.add_child(_held)
 	_intro = _build_overlay(cfg.intro_title, cfg.intro_body, "Begin", dismiss_intro)
 	_intro.visible = true
-	_outro = _build_overlay(cfg.outro_title, "", "Play again", func(): restart_pressed.emit())
+	_outro = _build_overlay(cfg.outro_title, "", "Go on", func(): Scroll.finish(level.scene_file_path.get_file().get_basename()))
 	_outro_text = _outro.find_child("Body", true, false)
 	if "--journal" in OS.get_cmdline_user_args():   # dev: open the Journal (for a screenshot)
 		toggle_journal.call_deferred(true)
@@ -91,7 +78,7 @@ func setup(level: Node, cfg: Dictionary) -> void:
 # ---------------------------------------------------------------- API used by the level
 
 func top_height() -> float:
-	return TOP_BAR + BAND + (MINIMAP_H if SHOW_MINIMAP else 0.0)
+	return TOP_BAR + UI.BAND + (MINIMAP_H if SHOW_MINIMAP else 0.0)
 
 
 func bottom_height() -> float:
@@ -121,7 +108,7 @@ func say(who: String, text: String) -> void:
 	_text = text
 	_tag_label.text = who
 	_tag.visible = who != ""
-	_set_say_size(BIG)
+	_set_say_size(UI.BIG)
 	_say.text = _keys(text)
 	_fit_say()
 
@@ -134,8 +121,8 @@ func _fit_say() -> void:
 	await get_tree().process_frame
 	if text != _text:
 		return
-	if _say.get_content_height() > STRIP - BAND - (EDGE if BOXED else 0.0) - 8.0:
-		_set_say_size(SMALL)
+	if _say.get_content_height() > STRIP - UI.BAND - (EDGE if BOXED else 0.0) - 8.0:
+		_set_say_size(UI.SMALL)
 	_say.modulate.a = 1.0
 
 
@@ -185,7 +172,7 @@ func add_journal_entry(label: String, note: String, tex: Texture2D, count: int, 
 	entry.mouse_filter = Control.MOUSE_FILTER_STOP
 	entry.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	var frame := PanelContainer.new()
-	frame.add_theme_stylebox_override("panel", _box(DEEP, RULE, 2, 4, 4))
+	frame.add_theme_stylebox_override("panel", UI.box(UI.DEEP, UI.RULE, 2, 4, 4))
 	frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var pic := TextureRect.new()
 	pic.texture = tex
@@ -236,11 +223,11 @@ func _input(event: InputEvent) -> void:
 
 func _build_top_bar() -> void:
 	var bar := ColorRect.new()
-	bar.color = DEEP
+	bar.color = UI.DEEP
 	bar.set_anchors_preset(Control.PRESET_TOP_WIDE)
 	bar.offset_bottom = TOP_BAR
 	_root.add_child(bar)
-	_band(bar, "band_top", Control.PRESET_BOTTOM_WIDE, Rect2(0, 0, 0, BAND))
+	UI.band(bar, "band_top", Control.PRESET_BOTTOM_WIDE, Rect2(0, 0, 0, UI.BAND))
 	var row := HBoxContainer.new()
 	row.set_anchors_preset(Control.PRESET_FULL_RECT)
 	row.offset_left = 16
@@ -249,14 +236,14 @@ func _build_top_bar() -> void:
 	bar.add_child(row)
 	var title := Label.new()
 	title.text = _cfg.title
-	title.add_theme_font_size_override("font_size", BIG)
+	title.add_theme_font_size_override("font_size", UI.BIG)
 	title.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	var spacer := Control.new()
 	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	row.add_child(title)
 	row.add_child(spacer)
-	row.add_child(_icon_button("restart", "Restart", func(): restart_pressed.emit()))
-	row.add_child(_icon_button("menu", "Levels", func(): menu_pressed.emit()))
+	row.add_child(UI.icon_button("restart", "Restart", func(): restart_pressed.emit()))
+	row.add_child(UI.icon_button("menu", "Menu", func(): menu_pressed.emit()))
 
 
 func _build_minimap() -> void:
@@ -265,8 +252,8 @@ func _build_minimap() -> void:
 	_minimap.level_width = _level.level.width
 	_minimap.plates = _level.level.plates
 	_minimap.set_anchors_preset(Control.PRESET_TOP_WIDE)
-	_minimap.offset_top = TOP_BAR + BAND
-	_minimap.offset_bottom = TOP_BAR + BAND + MINIMAP_H
+	_minimap.offset_top = TOP_BAR + UI.BAND
+	_minimap.offset_bottom = TOP_BAR + UI.BAND + MINIMAP_H
 	_minimap.clicked.connect(func(x): minimap_clicked.emit(x))
 	_root.add_child(_minimap)
 
@@ -275,22 +262,22 @@ func _build_minimap() -> void:
 ## line said with its speaker's tag on the band, what you carry, Journal and Hint.
 func _build_strip() -> void:
 	var strip := ColorRect.new()
-	strip.color = DEEP
+	strip.color = UI.DEEP
 	strip.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
 	strip.offset_top = -STRIP
 	_root.add_child(strip)
-	_band(strip, "band_top", Control.PRESET_TOP_WIDE, Rect2(0, 0, 0, BAND))
+	UI.band(strip, "band_top", Control.PRESET_TOP_WIDE, Rect2(0, 0, 0, UI.BAND))
 	var edge := EDGE if BOXED else 0.0
 	if BOXED:
-		_band(strip, "band_bottom", Control.PRESET_BOTTOM_WIDE, Rect2(0, -EDGE, 0, 0))
-		_band(strip, "band_left", Control.PRESET_LEFT_WIDE, Rect2(0, BAND, EDGE, -EDGE))
-		_band(strip, "band_right", Control.PRESET_RIGHT_WIDE, Rect2(-EDGE, BAND, 0, -EDGE))
+		UI.band(strip, "band_bottom", Control.PRESET_BOTTOM_WIDE, Rect2(0, -EDGE, 0, 0))
+		UI.band(strip, "band_left", Control.PRESET_LEFT_WIDE, Rect2(0, UI.BAND, EDGE, -EDGE))
+		UI.band(strip, "band_right", Control.PRESET_RIGHT_WIDE, Rect2(-EDGE, UI.BAND, 0, -EDGE))
 
 	var row := HBoxContainer.new()
 	row.set_anchors_preset(Control.PRESET_FULL_RECT)
 	row.offset_left = edge + 28
 	row.offset_right = -edge - 24
-	row.offset_top = BAND + 8
+	row.offset_top = UI.BAND + 8
 	row.offset_bottom = -edge
 	row.add_theme_constant_override("separation", 24)
 	strip.add_child(row)
@@ -301,7 +288,7 @@ func _build_strip() -> void:
 	_hand.visible = false
 	_hand.mouse_filter = Control.MOUSE_FILTER_PASS
 	var frame := PanelContainer.new()
-	frame.add_theme_stylebox_override("panel", _box(PAPYRUS, INK, 4, 4, 4))
+	frame.add_theme_stylebox_override("panel", UI.box(UI.PAPYRUS, UI.INK, 4, 4, 4))
 	frame.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	_hand_icon = TextureRect.new()
 	_hand_icon.custom_minimum_size = Vector2(56, 52)
@@ -312,12 +299,12 @@ func _build_strip() -> void:
 	_hand_label.custom_minimum_size.x = 120
 	_hand_label.autowrap_mode = TextServer.AUTOWRAP_WORD
 	_hand_label.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	_hand_label.add_theme_color_override("font_color", OCHRE)
+	_hand_label.add_theme_color_override("font_color", UI.OCHRE)
 	_hand.add_child(frame)
 	_hand.add_child(_hand_label)
 	row.add_child(_hand)
 
-	_say = _rich(BIG)
+	_say = _rich(UI.BIG)
 	_say.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_say.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	row.add_child(_say)
@@ -333,12 +320,12 @@ func _build_strip() -> void:
 
 	# the speaker's tag sits on the band
 	_tag = PanelContainer.new()
-	_tag.add_theme_stylebox_override("panel", _box(TAG, INK, 4, 12, 2))
+	_tag.add_theme_stylebox_override("panel", UI.box(UI.TAG, UI.INK, 4, 12, 2))
 	_tag.position = Vector2(edge + 24, -14)
 	_tag.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_tag.visible = false
 	_tag_label = Label.new()
-	_tag_label.add_theme_color_override("font_color", CREAM)
+	_tag_label.add_theme_color_override("font_color", UI.CREAM)
 	_tag.add_child(_tag_label)
 	strip.add_child(_tag)
 
@@ -361,7 +348,7 @@ func _build_journal_page() -> void:
 	center.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_journal_page.add_child(center)
 	var sheet := PanelContainer.new()
-	sheet.add_theme_stylebox_override("panel", _box(PAPYRUS, INK, 4, 28, 20))
+	sheet.add_theme_stylebox_override("panel", UI.box(UI.PAPYRUS, UI.INK, 4, 28, 20))
 	center.add_child(sheet)
 	var v := VBoxContainer.new()
 	v.add_theme_constant_override("separation", 12)
@@ -369,25 +356,25 @@ func _build_journal_page() -> void:
 	var head := HBoxContainer.new()
 	_journal_title = Label.new()
 	_journal_title.text = "JOURNAL"
-	_journal_title.add_theme_font_size_override("font_size", BIG)
-	_journal_title.add_theme_color_override("font_color", TAG)
+	_journal_title.add_theme_font_size_override("font_size", UI.BIG)
+	_journal_title.add_theme_color_override("font_color", UI.TAG)
 	var spacer := Control.new()
 	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var close := Label.new()
 	close.text = "[j] or [esc] closes"
-	close.add_theme_color_override("font_color", RULE)
+	close.add_theme_color_override("font_color", UI.RULE)
 	close.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	head.add_child(_journal_title)
 	head.add_child(spacer)
 	head.add_child(close)
 	v.add_child(head)
 	var rule := ColorRect.new()
-	rule.color = INK
+	rule.color = UI.INK
 	rule.custom_minimum_size.y = 4
 	v.add_child(rule)
 	_journal_empty = Label.new()
 	_journal_empty.text = _cfg.get("journal_hint", "")
-	_journal_empty.add_theme_color_override("font_color", RULE)
+	_journal_empty.add_theme_color_override("font_color", UI.RULE)
 	v.add_child(_journal_empty)
 	var scroll := ScrollContainer.new()
 	scroll.custom_minimum_size = Vector2(960, 380)
@@ -411,17 +398,17 @@ func _build_overlay(title: String, body: String, button: String, on_press: Calla
 	center.set_anchors_preset(Control.PRESET_FULL_RECT)
 	dim.add_child(center)
 	var panel := PanelContainer.new()
-	panel.add_theme_stylebox_override("panel", _box(PAPYRUS, INK, 4, 28, 22))
+	panel.add_theme_stylebox_override("panel", UI.box(UI.PAPYRUS, UI.INK, 4, 28, 22))
 	center.add_child(panel)
 	var v := VBoxContainer.new()
 	v.add_theme_constant_override("separation", 14)
 	panel.add_child(v)
 	var t := Label.new()
 	t.text = title
-	t.add_theme_font_size_override("font_size", BIG)
-	t.add_theme_color_override("font_color", TAG)
+	t.add_theme_font_size_override("font_size", UI.BIG)
+	t.add_theme_color_override("font_color", UI.TAG)
 	v.add_child(t)
-	var b := _rich(SMALL)
+	var b := _rich(UI.SMALL)
 	b.name = "Body"
 	b.custom_minimum_size.x = 640
 	b.text = _keys(body)
@@ -429,52 +416,22 @@ func _build_overlay(title: String, body: String, button: String, on_press: Calla
 	var btn := Button.new()
 	btn.text = button
 	btn.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
-	btn.add_theme_font_size_override("font_size", BIG)
+	btn.add_theme_font_size_override("font_size", UI.BIG)
 	btn.pressed.connect(on_press)
 	v.add_child(btn)
 	return dim
-
-
-## A tiled run of the frame band, laid along one side of `parent`.
-func _band(parent: Control, image: String, preset: int, offsets: Rect2) -> void:
-	var t := TextureRect.new()
-	t.texture = load(UI % image)
-	t.stretch_mode = TextureRect.STRETCH_TILE
-	t.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-	t.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	t.set_anchors_preset(preset)
-	t.offset_left = offsets.position.x
-	t.offset_top = offsets.position.y
-	t.offset_right = offsets.size.x
-	t.offset_bottom = offsets.size.y
-	parent.add_child(t)
-
-
-## A bare pixel icon that acts as a button.
-func _icon_button(icon: String, tip: String, on_press: Callable) -> TextureButton:
-	var b := TextureButton.new()
-	b.texture_normal = load(UI % ("icon_" + icon))
-	b.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-	b.tooltip_text = tip
-	b.focus_mode = Control.FOCUS_NONE     # keep the arrow keys for walking
-	b.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	b.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
-	b.pressed.connect(on_press)
-	b.mouse_entered.connect(func(): b.modulate.a = 0.6)
-	b.mouse_exited.connect(func(): b.modulate.a = 1.0)
-	return b
 
 
 ## An icon button with a small word under it (the Journal's count, "hint").
 func _labelled_button(icon: String, word: String, tip: String, on_press: Callable) -> VBoxContainer:
 	var v := VBoxContainer.new()
 	v.add_theme_constant_override("separation", 4)
-	var b := _icon_button(icon, tip, on_press)
+	var b := UI.icon_button(icon, tip, on_press)
 	b.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	var l := Label.new()
 	l.text = word
 	l.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	l.add_theme_color_override("font_color", OCHRE)
+	l.add_theme_color_override("font_color", UI.OCHRE)
 	v.add_child(b)
 	v.add_child(l)
 	return v
@@ -498,37 +455,6 @@ func _rich(size: int) -> RichTextLabel:
 	r.add_theme_font_size_override("italics_font_size", size)
 	r.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	return r
-
-
-## A square-cornered panel: fill, border, and padding.
-func _box(bg: Color, border: Color, border_w: int, pad_x := 8, pad_y := 6) -> StyleBoxFlat:
-	var s := StyleBoxFlat.new()
-	s.bg_color = bg
-	s.border_color = border
-	s.set_border_width_all(border_w)
-	s.content_margin_left = pad_x
-	s.content_margin_right = pad_x
-	s.content_margin_top = pad_y
-	s.content_margin_bottom = pad_y
-	return s
-
-
-func _make_theme() -> Theme:
-	var th := Theme.new()
-	th.default_font = FONT
-	th.default_font_size = SMALL
-	th.set_color("font_color", "Label", INK)
-	th.set_color("default_color", "RichTextLabel", INK)
-	th.set_color("font_color", "Button", INK)
-	th.set_color("font_hover_color", "Button", INK)
-	th.set_color("font_pressed_color", "Button", INK)
-	th.set_stylebox("normal", "Button", _box(PAPYRUS, INK, 4, 16, 2))
-	th.set_stylebox("hover", "Button", _box(Color("efe0bb"), INK, 4, 16, 2))
-	th.set_stylebox("pressed", "Button", _box(DEEP, INK, 4, 16, 2))
-	th.set_stylebox("focus", "Button", StyleBoxEmpty.new())
-	th.set_stylebox("panel", "TooltipPanel", _box(PAPYRUS, INK, 2, 8, 4))
-	th.set_color("font_color", "TooltipLabel", INK)
-	return th
 
 
 ## The whole scroll in one thin band: where you are, what is on screen, and the barrier.

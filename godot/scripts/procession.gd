@@ -856,7 +856,7 @@ func finish() -> void:
 
 func _ended() -> void:
 	if not _testing:
-		get_tree().change_scene_to_file("res://scenes/menu.tscn")
+		Scroll.finish("procession")
 
 
 func hint() -> void:

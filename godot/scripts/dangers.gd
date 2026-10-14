@@ -18,9 +18,8 @@ const FIGURE_MASK := preload("res://scripts/figure_mask.gd")
 const SHEET_TEX := "res://assets/dangers/spearers.png"
 const ASSET := "res://assets/dangers/%s.png"
 const BESIDE := 50.0
-const APEP_SLICES := 5
 const FIGHTS := ["crocs", "lunge", "twin", "creep", "roach", "apep", "donkey", "pop"]
-const ARENA_FIGHTS := ["crocs", "roach", "lunge", "creep", "twin"]   ## the vignette opens out across the screen
+const ARENA_FIGHTS := ["crocs", "roach", "lunge", "creep", "twin", "apep"]   ## the vignette opens out across the screen
 const CLICK_TO_FIGHT := "Click the creature to take up the spear."
 
 const ENCOUNTERS := preload("res://scripts/danger_encounters.gd").ENCOUNTERS
@@ -95,7 +94,7 @@ func _ready() -> void:
 	for b in level.boxes:
 		boxes[b] = Vector2(level.boxes[b][0], level.boxes[b][1])
 	for n in rects:
-		if n == "avatar" or n == "apep":
+		if n == "avatar":
 			continue
 		actors[n] = _make_actor(load(ASSET % n), rects[n])
 	# the spear-bearers come from one sprite sheet: the man as drawn with his spear in a pose, and over
@@ -116,16 +115,6 @@ func _ready() -> void:
 			sp.texture = at
 			sp.position = -Vector2(rects[nm].size.x / 2.0 + float(sheet.bearers[nm].ox), rects[nm].size.y + float(sheet.bearers[nm].oy))
 		_bearer_pose(nm, 0.0)
-	# Apep is cut into coils so one can rise at a time
-	var apep_tex: Texture2D = load(ASSET % "apep")
-	var r: Rect2 = rects.apep
-	var w := r.size.x / APEP_SLICES
-	for i in APEP_SLICES:
-		var at := AtlasTexture.new()
-		at.atlas = apep_tex
-		at.region = Rect2(i * w, 0, w, r.size.y)
-		actors["apep%d" % i] = _make_actor(at, Rect2(r.position.x + i * w, r.position.y, w, r.size.y))
-
 	overlay.draw.connect(_draw_overlay)
 	_arena = Node2D.new()
 	add_child(_arena)
@@ -411,8 +400,6 @@ func _glow(n: String, on: bool) -> void:
 
 ## The creatures you click to take up the spear against encounter `e`.
 func _creatures(e: Dictionary) -> Array:
-	if e.kind == "apep":
-		return range(APEP_SLICES).map(func(i): return "apep%d" % i)
 	return e.foes if e.has("foes") else [e.foe]
 
 
@@ -429,8 +416,7 @@ func _fight_at(p: Vector2) -> Dictionary:
 
 func _targets() -> Array:
 	match fight.kind:
-		"crocs", "roach", "lunge", "creep", "twin": return []
-		"apep": return range(APEP_SLICES).map(func(i): return "apep%d" % i)
+		"crocs", "roach", "lunge", "creep", "twin", "apep": return []
 		"donkey": return [fight.foe, fight.donkey]
 		"pop": return [fight.foe, fight.bundle]
 	return [fight.foe]
@@ -564,11 +550,7 @@ func start_fight(e: Dictionary) -> void:
 		"creep":
 			_creep_start(e)
 		"apep":
-			fight.foe = "apep"
-			fight.raised = -1
-			fight.pinned = []
-			for i in APEP_SLICES:
-				fight.pinned.append(false)
+			_apep_start(e)
 		"donkey":
 			fight.foe = e.foe
 			fight.donkey = e.donkey
@@ -959,6 +941,8 @@ func _croc_open(k: float) -> void:
 		_creep_place()
 	if fight.kind == "twin":          # they turn to face him; the copy on his right fades in
 		_twin_place()
+	if fight.kind == "apep":
+		_apep_place()
 	for nm in fight.hidden:
 		actors[nm].modulate.a = 1.0 - k
 	_text_drop.position = fight.text_home + Vector2(0.0, TEXT_DROP * unit * k * k)
@@ -1509,6 +1493,8 @@ func _crocs_cleanup() -> void:
 		_lunge_undress()
 	if fight.kind == "creep":
 		_creep_undress()
+	if fight.kind == "apep":
+		_apep_undress()
 	for nm in _all_heka():
 		_restore(nm)
 	for a in fight.get("copies", []):
@@ -2354,7 +2340,6 @@ func _roach_bot() -> float:
 	return 0.0
 
 
-# Apep: strike only the coil that rises
 # the lunging snake (spell 33). The vignette opens out as for the crocodiles; the bearer stays where
 # he is drawn, his spear raised, and cannot move. The snake coils a little way off, out of reach,
 # breathing (a faint squash up and down). Its tail waves: the warning. It squashes down, then
@@ -2577,19 +2562,29 @@ func _lunge_place() -> void:
 func _spear_out() -> float:
 	if fight.get("pinned", false):
 		return CROC_THRUST
+	var rest := _spear_rest()
 	if fight.thrust < 0.0:
-		return -CROC_PREP * float(fight.get("open", 1.0))
-	return _spear_at(fight.thrust)
+		return rest * float(fight.get("open", 1.0))
+	return _spear_at(fight.thrust, rest)
 
 
-## The spear point `t` s into a thrust. In a fight it rests drawn back (up its line); a thrust only
-## runs it out, to CROC_THRUST past where it is drawn at THRUST_TIME[0], then draws it back again.
-static func _spear_at(t: float) -> float:
+## Where the spear point rests in a fight (plate px along its line): drawn back; against Apep, a step
+## further in with every wave pressed down, as drawn once he lies still.
+func _spear_rest() -> float:
+	if fight.get("kind", "") == "apep":
+		return -CROC_PREP * (1.0 - float(fight.hits) / float(fight.e.need))
+	return -CROC_PREP
+
+
+## The spear point `t` s into a thrust. In a fight it rests drawn back (up its line, or `rest`); a
+## thrust only runs it out, to CROC_THRUST past where it is drawn at THRUST_TIME[0], then draws it
+## back again.
+static func _spear_at(t: float, rest := -CROC_PREP) -> float:
 	if t < 0.0:
-		return -CROC_PREP
+		return rest
 	if t < THRUST_TIME[0]:
-		return lerpf(-CROC_PREP, CROC_THRUST, t / THRUST_TIME[0])
-	return lerpf(CROC_THRUST, -CROC_PREP, minf((t - THRUST_TIME[0]) / THRUST_TIME[1], 1.0))
+		return lerpf(rest, CROC_THRUST, t / THRUST_TIME[0])
+	return lerpf(CROC_THRUST, rest, minf((t - THRUST_TIME[0]) / THRUST_TIME[1], 1.0))
 
 
 ## One cell of the sprite sheet: bearer `nm` in pose `i`, the figure or (`spear`) his spear alone.
@@ -2836,47 +2831,424 @@ func _lunge_bot() -> void:
 const LUNGE_BOT_AIM := -0.01    ## the middle of the window the autotest measures (s from the snap)
 
 
-# apep
-func _apep(dt: float) -> void:
-	if fight.t >= fight.e.raise or fight.raised == -1:
-		fight.t = 0.0
-		var free := range(APEP_SLICES).filter(func(i): return not fight.pinned[i] and i != fight.raised)
-		fight.raised = free[rng.randi() % free.size()] if not free.is_empty() else -1
-	for i in APEP_SLICES:
-		var a: Node2D = actors["apep%d" % i]
-		var home: Vector2 = a.get_meta("home")
-		a.position.y = home.y + (0.0 if fight.pinned[i] else sin(_time * 4.0 + i * 0.9) * 2.0 * unit)
-		if i == fight.raised:
-			a.position.y -= 12.0 * unit
-			a.rotation = sin(_time * 10.0) * 0.05
-		else:
-			a.rotation = 0.0
+# Apep (spell 39). The vignette opens out, close up; the bearer stands where he is drawn, the point
+# of his spear resting a little way up its line from Apep's neck, where the body folds back. Apep
+# lies the whole width of the vignette. Now and then his tail lashes and a wave runs the length of
+# him toward the fold (apep_wave.gdshader lifts the drawing); his head strains up as it comes. A
+# thrust (Space) whose point is down on the fold as the crest reaches it presses the wave flat, and
+# the barb rests a step further in; `need` waves and he lies still, the spear as drawn. A wave that
+# gets past the point lifts his head out from under it: it rears, turns and bites the bearer's foot.
+# Some waves (after the first `teach`) are feints: smaller, they die out in the drawn hump. A thrust
+# on a still neck (nothing coming) works the barb loose a step. Bitten CROC_HEALTH times, he
+# crumbles and is back on the scroll.
+const APEP_WAVE := preload("res://scripts/apep_wave.gdshader")
+const APEP_WAVES := 4           ## waves the shader can show at once
+const APEP_PAD := 40            ## room above his picture for the waves and his head to rise into (px)
+const APEP_FIRST := 1.4         ## the first wave comes this long after the vignette opens (s)
+const APEP_FEINT := 0.7         ## a feint's height, of a real wave's
+const APEP_DOWN := 0.5          ## the point presses a wave down once this far into the full thrust
+const APEP_PRESS := 0.12        ## a wave pressed down flattens out (s)
+const APEP_HOLD := 0.3          ## the spear stays down on a wave pressed flat (s)
+const APEP_EARLY := 0.35        ## a thrust this long (or less) before a wave would arrive is only early (s)
+const APEP_STRAIN := 0.3        ## his head lifts up to this much as a crest comes under it (rad)
+const APEP_LIFT := 0.7          ## a wave got past: his head rears this far (rad)
+const APEP_REAR := 0.12         ## ...in this long (s)
+const APEP_TURN := 0.1          ## turns round to the bearer's foot (s)
+const APEP_SNAP := 35.0         ## and comes this far toward it (plate px)
+const APEP_BACK := 0.35         ## and lies down again (s)
+const APEP_BOT_LEAD := 0.05     ## (--croc-bot) thrusts this long before a crest reaches the point (s)
 
 
-func _apep_click(p: Vector2) -> void:
-	for i in APEP_SLICES:
-		var r := actor_rect("apep%d" % i)
-		if not Rect2(r.position.x, r.position.y - 16.0 * unit, r.size.x, r.size.y + 30.0 * unit).has_point(p):
-			continue
-		if i == fight.raised:
-			fight.pinned[i] = true
-			fight.raised = -1
-			actors["apep%d" % i].modulate = Color(0.75, 0.55, 0.45)
-			var left: int = fight.pinned.count(false)
-			say("Scribe", "The coil is pinned." + (" %d left." % left if left else ""))
-			_won_if(left == 0)
-		elif fight.pinned[i]:
-			say("Scribe", "That coil is already pinned.")
-		else:
-			var hurt := range(APEP_SLICES).filter(func(j): return fight.pinned[j])
-			if not hurt.is_empty():
-				var j: int = hurt[rng.randi() % hurt.size()]
-				fight.pinned[j] = false
-				actors["apep%d" % j].modulate = Color.WHITE
-				say("Scribe", "That coil lay flat. Apep twists, and a pinned coil works free.")
-			else:
-				say("Scribe", "That coil lies flat. Strike the one that rises.")
+func _apep_start(e: Dictionary) -> void:
+	# close up: from the caption banner to just under the ground, the whole vignette across
+	var cap: Array = level.get("caption", [50.0, 180.0])
+	var s := span(e)
+	_arena_setup(e, false, [e.foe], {"y0": float(cap[0]) - 12.0 * unit, "y1": ground + 24.0 * unit, "x": (s.x + s.y) / 2.0})
+	fight.stand = actors[e.spear].get_meta("home")
+	fight.pos = fight.stand
+	fight.health = CROC_HEALTH
+	fight.clock = 0.0
+	fight.pinned = false
+	fight.hold = 0.0
+	fight.last_thrust = -INF
+	fight.waves = []
+	fight.launched = 0
+	fight.next = APEP_FIRST
+	fight.last_arrival = -INF
+	fight.last_feint = false
+	fight.head = {"phase": "rest", "t": 0.0, "rot": 0.0, "rot0": 0.0, "sx": 1.0, "dx": 0.0}
+	_apep_dress(e)
+	# where the spear point comes down as drawn, in his picture's pixels
+	var a: Node2D = actors[e.foe]
+	var left: float = a.get_meta("home").x - a.get_meta("size").x / 2.0
+	fight.point_x = (fight.pos + _tip_offset()).x - left
+	_apep_place()
+	_arena_open()
+
+
+## For this fight only: room above him for the waves, the wave shader, and his head cut loose so it
+## can rear (drawn again on its own, turning on its neck).
+func _apep_dress(e: Dictionary) -> void:
+	var a: Node2D = actors[e.foe]
+	var sp: Sprite2D = a.get_node("Sprite")
+	fight.apep_plain = sp.texture
+	fight.apep_at = sp.position
+	var src := sp.texture.get_image()
+	if src.is_compressed():
+		src.decompress()
+	src.convert(Image.FORMAT_RGBA8)
+	var P := APEP_PAD
+	var whole := Image.create(src.get_width(), src.get_height() + P, false, Image.FORMAT_RGBA8)
+	whole.blit_rect(src, Rect2i(Vector2i.ZERO, src.get_size()), Vector2i(0, P))
+	var hr: Array = e.head_rect
+	var head_r := Rect2i(int(hr[0]), int(hr[1]) + P, int(hr[2]), int(hr[3]))
+	var body := whole.duplicate()
+	body.fill_rect(head_r, Color(0, 0, 0, 0))
+	sp.texture = ImageTexture.create_from_image(body)
+	sp.position -= Vector2(0, P)
+	var mat := ShaderMaterial.new()
+	mat.shader = APEP_WAVE
+	sp.material = mat
+	var pv: Array = e.head_pivot
+	var pivot := Node2D.new()
+	pivot.name = "HeadPivot"
+	var head := Sprite2D.new()
+	head.texture = ImageTexture.create_from_image(whole)
+	head.centered = false
+	head.region_enabled = true
+	head.region_rect = Rect2(head_r)
+	head.position = Vector2(float(hr[0]) - float(pv[0]), float(hr[1]) - float(pv[1]))
+	pivot.add_child(head)
+	a.add_child(pivot)
+
+
+## Undo _apep_dress.
+func _apep_undress() -> void:
+	if not fight.has("apep_plain"):
 		return
+	var a: Node2D = actors[fight.e.foe]
+	var sp: Sprite2D = a.get_node("Sprite")
+	sp.texture = fight.apep_plain
+	sp.position = fight.apep_at
+	sp.material = null
+	if a.has_node("HeadPivot"):
+		var pivot := a.get_node("HeadPivot")
+		a.remove_child(pivot)
+		pivot.queue_free()
+	fight.erase("apep_plain")
+
+
+## How far the waves lift his body at `x` (his picture's pixels), as apep_wave.gdshader does.
+func _apep_lift(x: float) -> float:
+	var half := float(fight.e.width) * unit
+	var h := 0.0
+	for w in fight.waves:
+		var d: float = (x - w.x) / half
+		if absf(d) < 1.0:
+			h += w.h * w.amp * 0.5 * (1.0 + cos(PI * d))
+	return h
+
+
+## Show the waves on him and his head where it is.
+func _apep_place() -> void:
+	if not fight.has("apep_plain"):
+		return
+	var e: Dictionary = fight.e
+	var a: Node2D = actors[e.foe]
+	var half := float(e.width) * unit
+	var arr := PackedVector4Array()
+	for i in APEP_WAVES:
+		if i < fight.waves.size():
+			var w: Dictionary = fight.waves[i]
+			arr.append(Vector4(w.x, w.h * w.amp, half, 0.0))
+		else:
+			arr.append(Vector4.ZERO)
+	((a.get_node("Sprite") as Sprite2D).material as ShaderMaterial).set_shader_parameter("waves", arr)
+	var h: Dictionary = fight.head
+	var pv := Vector2(float(e.head_pivot[0]), float(e.head_pivot[1]))
+	var pivot: Node2D = a.get_node("HeadPivot")
+	pivot.position = fight.apep_at + pv + Vector2(h.dx, -_apep_lift(pv.x))
+	pivot.scale = Vector2(h.sx, 1.0)
+	pivot.rotation = h.rot * (1.0 if h.sx >= 0.0 else -1.0)      # its snout up, whichever way it faces
+
+
+## Send a wave off from his tail at `v` px/s (a feint dies out in the hump).
+func _apep_launch(feint: bool, v: float) -> Dictionary:
+	var w := {"x": 0.0, "v": v, "t": 0.0, "s": "lash", "feint": feint, "amp": 0.0,
+		"h": float(fight.e.height) * unit * (APEP_FEINT if feint else 1.0)}
+	fight.waves.append(w)
+	return w
+
+
+## The next wave, once it is due: faster and closer together as the barb goes in; never reaching the
+## point within `min_gap` s of the one before.
+func _apep_launch_due() -> void:
+	if fight.clock < fight.next or fight.waves.size() >= APEP_WAVES:
+		return
+	var e: Dictionary = fight.e
+	var k := clampf(float(fight.hits) / maxf(1.0, float(e.need) - 1.0), 0.0, 1.0)
+	var v := lerpf(float(e.speed[0]), float(e.speed[1]), k) * unit
+	var feint: bool = fight.launched >= int(e.teach) and not fight.last_feint and rng.randf() < float(e.feint)
+	if not feint:
+		var arrive: float = fight.clock + float(e.lash) + fight.point_x / v
+		var wait: float = fight.last_arrival + float(e.min_gap) - arrive
+		if wait > 0.0:
+			fight.next = fight.clock + wait
+			return
+		fight.last_arrival = arrive
+	_apep_launch(feint, v)
+	fight.last_feint = feint
+	fight.launched += 1
+	fight.next = fight.clock + lerpf(float(e.gap[0]), float(e.gap[1]), k)
+
+
+func _apep(dt: float) -> void:
+	if fight.open < 1.0 or fight.get("closing", false) or fight.lost:
+		return
+	var e: Dictionary = fight.e
+	fight.clock += dt
+	if fight.get("bot", false):
+		_apep_bot()
+	fight.red = maxf(0.0, fight.red - dt)
+	# was the point down at any time during this frame (a slow frame may step right over it)?
+	fight.down = fight.pinned
+	if fight.pinned:
+		fight.hold -= dt
+		if fight.hold <= 0.0:
+			fight.pinned = false
+			fight.thrust = THRUST_TIME[0] + 0.001          # the spear draws back up, to its new rest
+			if fight.hits >= int(e.need):
+				end_fight()
+				return
+	elif fight.thrust >= 0.0:
+		var span := _apep_down_span()
+		fight.down = fight.thrust <= span.y and fight.thrust + dt >= span.x
+		fight.thrust += dt
+		if fight.thrust >= THRUST_TIME[0] + THRUST_TIME[1]:
+			fight.thrust = -1.0
+			if not fight.struck:
+				_apep_jab()
+	if fight.hits < int(e.need):
+		_apep_launch_due()
+	_apep_waves(dt)
+	_apep_head(dt)
+	_apep_place()
+	_place_bearer()
+
+
+## How close to the point a crest is pressed down (px): closer as the barb goes in.
+func _apep_reach() -> float:
+	var e: Dictionary = fight.e
+	var k := clampf(float(fight.hits) / maxf(1.0, float(e.need) - 1.0), 0.0, 1.0)
+	return lerpf(float(e.reach[0]), float(e.reach[1]), k) * unit
+
+
+## The time into a thrust (s) from which, and until which, its point presses a wave down.
+func _apep_down_span() -> Vector2:
+	var rest := _spear_rest()
+	var deep := CROC_THRUST * APEP_DOWN
+	return Vector2(THRUST_TIME[0] * (deep - rest) / (CROC_THRUST - rest),
+		THRUST_TIME[0] + THRUST_TIME[1] * (CROC_THRUST - deep) / (CROC_THRUST - rest))
+
+
+func _apep_waves(dt: float) -> void:
+	var e: Dictionary = fight.e
+	var reach := _apep_reach()
+	var px: float = fight.point_x
+	var down: bool = fight.get("down", false)
+	for w in fight.waves.duplicate():
+		w.t += dt
+		match w.s:
+			"lash":            # the tail lashes
+				w.amp = minf(w.t / float(e.lash), 1.0)
+				if w.t >= float(e.lash):
+					w.s = "run"
+			"run", "past":
+				var x0: float = w.x
+				w.x += w.v * dt
+				if w.feint:      # dies out in the hump
+					w.amp = 1.0 - smoothstep(float(e.hump[0]), float(e.hump[1]), w.x)
+					if w.x >= float(e.hump[1]):
+						fight.waves.erase(w)
+				elif w.s == "past":   # runs out round the fold
+					w.amp = clampf(1.0 - (w.x - px - reach) / maxf(1.0, float(e.fold) - px - reach), 0.0, 1.0)
+					if w.amp <= 0.0:
+						fight.waves.erase(w)
+				elif down and x0 <= px + reach and w.x >= px - reach:   # its crest passed under the point
+					_apep_pressed(w)
+				elif w.x > px + reach:
+					w.s = "past"
+					_apep_slip(w)
+			"pressed":         # flattens under the spear
+				w.amp -= dt / APEP_PRESS
+				if w.amp <= 0.0:
+					fight.waves.erase(w)
+
+
+func _apep_pressed(w: Dictionary) -> void:
+	var e: Dictionary = fight.e
+	w.s = "pressed"
+	fight.struck = true
+	fight.hits += 1
+	fight.pinned = true
+	fight.hold = APEP_HOLD
+	_hurt(actors[e.foe])
+	_dev_shot("SHOT_ON_CATCH")
+	if fight.hits >= int(e.need):
+		for o in fight.waves:
+			o.s = "pressed"
+		say("Scribe", "Pressed down. Apep lies still.")
+	else:
+		say("Scribe", "Pressed down: the barb goes in a step.")
+
+
+## A thrust that pressed nothing down: early for a wave on its way, or else on a still neck.
+func _apep_jab() -> void:
+	var px: float = fight.point_x
+	var coming: bool = fight.waves.any(func(w): return not w.feint and w.s in ["lash", "run"] and px - w.x < w.v * APEP_EARLY)
+	if coming:
+		say("Scribe", "Too early: wait until the wave reaches your spear point.")
+	elif fight.hits > 0:
+		fight.hits -= 1
+		say("Scribe", "The barb jars on a still neck and works loose a step. Thrust only as a wave reaches the point.")
+	else:
+		say("Scribe", "Nothing there to press down. Thrust only as a wave reaches the point.")
+
+
+## A wave got past the point: his head rears out from under it, turns and bites.
+func _apep_slip(w: Dictionary) -> void:
+	_apep_head_phase("rear")
+	var since: float = fight.clock - fight.last_thrust
+	if since < APEP_EARLY + 2.0 * _apep_reach() / w.v:
+		say("Scribe", "Too early: your spear came and went before the wave reached it.")
+	else:
+		say("Scribe", "The wave lifted his head from under your spear. When it reaches the point, thrust.")
+	fight.next = maxf(fight.next, fight.clock + 0.6)
+
+
+func _apep_head_phase(p: String) -> void:
+	var h: Dictionary = fight.head
+	h.phase = p
+	h.t = 0.0
+	h.rot0 = h.rot
+
+
+func _apep_head(dt: float) -> void:
+	var h: Dictionary = fight.head
+	h.t += dt
+	match h.phase:
+		"rest":          # strains up as a crest comes under it
+			var lift := _apep_lift(float(fight.e.head_pivot[0])) / (float(fight.e.height) * unit)
+			h.rot = APEP_STRAIN * clampf(lift, 0.0, 1.0)
+			h.sx = 1.0
+			h.dx = 0.0
+		"rear":
+			var u := minf(h.t / APEP_REAR, 1.0)
+			h.rot = lerpf(h.rot0, APEP_LIFT, u)
+			if u >= 1.0:
+				_apep_head_phase("turn")
+		"turn":          # round to his foot
+			var u := minf(h.t / APEP_TURN, 1.0)
+			h.sx = lerpf(1.0, -1.0, u)
+			h.dx = APEP_SNAP * unit * u
+			if u >= 1.0:
+				_apep_head_phase("bitten")
+				_apep_bites()
+		"bitten":
+			if h.t >= 0.3:
+				_apep_head_phase("back")
+		"back":
+			var u := minf(h.t / APEP_BACK, 1.0)
+			var k := u * u * (3.0 - 2.0 * u)
+			h.rot = lerpf(APEP_LIFT, 0.0, k)
+			h.sx = lerpf(-1.0, 1.0, k)
+			h.dx = lerpf(APEP_SNAP * unit, 0.0, k)
+			if u >= 1.0:
+				_apep_head_phase("rest")
+
+
+func _apep_bites() -> void:
+	_dev_shot("SHOT_ON_BITE")
+	fight.red = 0.8
+	fight.health -= 1
+	bites += 1
+	if fight.health <= 0:
+		_apep_dies()
+
+
+## The last bite: he crumbles away, and he is back on the scroll.
+func _apep_dies() -> void:
+	fight.lost = true
+	var e: Dictionary = fight.e
+	say("Scribe", "One bite too many: the spear-bearer crumbles to dust.")
+	_disintegrate(e)
+	var t := create_tween()
+	t.tween_interval(2.0)
+	t.tween_callback(func():
+		if not fight.is_empty() and fight.kind == "apep" and fight.e.id == e.id and fight.lost:
+			_arena_lost(e))
+
+
+func _apep_click(_p: Vector2) -> void:
+	if _time - fight.nag > 4.0:
+		fight.nag = _time
+		say("Scribe", "Press [space] to thrust the spear as a wave reaches its point. You cannot step.")
+
+
+## Dev (`--croc-bot`): thrusts APEP_BOT_LEAD s before each real crest reaches the point.
+func _apep_bot() -> void:
+	if OS.has_environment("BOT_MISS") or fight.thrust >= 0.0 or fight.pinned:
+		return
+	for w in fight.waves:
+		if not w.feint and w.s == "run" and (fight.point_x - w.x) / w.v <= APEP_BOT_LEAD:
+			_croc_thrust()
+			return
+
+
+## (autotest) A wave at `v` px/s from the tail, Space pressed `tau` s from when its crest would reach
+## the point (none if `tau` is INF); true = pressed down. Other waves are held back.
+func _apep_try(tau: float, v: float, dt := 1.0 / 240.0) -> bool:
+	fight.waves = []
+	fight.next = INF
+	fight.thrust = -1.0
+	fight.pinned = false
+	fight.struck = true
+	_apep_head_phase("rest")
+	var hits: int = fight.hits
+	var w := _apep_launch(false, v)
+	var arrive: float = float(fight.e.lash) + fight.point_x / v
+	var t := 0.0
+	var pressed := false
+	while t < arrive + 0.5:
+		if not pressed and t >= arrive + tau:
+			pressed = true
+			_croc_thrust()
+		_apep(dt)
+		t += dt
+		if fight.hits > hits or w.s == "past" or fight.lost:
+			break
+	return fight.hits > hits
+
+
+## (autotest) The span of press times (from the crest reaching the point) that press a wave at `v`
+## down; leaves no hit counted.
+func _apep_window(v: float) -> Array:
+	var lo := INF
+	var hi := -INF
+	var tau := -0.4
+	while tau <= 0.3:
+		fight.health = 99
+		var hits: int = fight.hits
+		if _apep_try(tau, v):
+			lo = minf(lo, tau)
+			hi = maxf(hi, tau)
+		fight.hits = hits
+		tau += 0.005
+	fight.health = CROC_HEALTH
+	fight.waves = []
+	fight.pinned = false
+	_apep_head_phase("rest")
+	return [lo, hi]
 
 
 # the snake on the donkey: hit the snake, never the donkey
@@ -3043,16 +3415,13 @@ func _draw_overlay() -> void:
 		"crocs":
 			total = _croc_total()
 			got = fight.killed
-		"apep":
-			total = APEP_SLICES
-			got = fight.pinned.count(true)
 		_:
 			total = fight.get("need", fight.e.get("need", 0))
 			got = fight.hits
 	var sp := span(fight.e)
 	if fight.kind in ARENA_FIGHTS:
 		sp.y = _arena_rect().end.x
-	if fight.kind in ["crocs", "lunge", "creep", "twin"]:
+	if fight.kind in ["crocs", "lunge", "creep", "twin", "apep"]:
 		# his health: flesh signs in red, top left inside the opened vignette; a lost one stays faint
 		var ar := _arena_rect()
 		var fs := Vector2(55.0, 68.0)       # on screen, about the size of a caption sign
@@ -3067,8 +3436,8 @@ func _draw_overlay() -> void:
 				overlay.draw_texture_rect(_flesh_tex, Rect2(at, fs), false, Color(red, a))
 			else:
 				overlay.draw_circle(at + fs / 2.0, 14.0, Color(red, a))
-	if fight.kind in ["lunge", "creep", "twin", "donkey"]:
-		total = 0                      # the snakes show no count
+	if fight.kind in ["lunge", "creep", "twin", "apep", "donkey"]:
+		total = 0                      # the snakes show no count (Apep's is the barb going in)
 	for i in total:
 		var c := Vector2(sp.y - (20.0 + i * 16.0) * unit, 14.0 * unit)
 		if fight.kind in ["lunge", "creep"]:      # close up: the top of the scroll is off screen; inside the vignette
@@ -3554,11 +3923,95 @@ func _autotest() -> void:
 				fight.lost = false
 				fight.hits = fight.need
 			"apep":
-				for i in APEP_SLICES:
-					fight.raised = i
-					_apep(0.0)
-					fight.raised = i
-					fight_click(centre.call("apep%d" % i))
+				var need := int(e.need)
+				var slow: float = float(e.speed[0]) * unit
+				var fast: float = float(e.speed[1]) * unit
+				expect.call(fight.waves.is_empty() and _spear_out() < 0.0, e.id + " the barb rests drawn back from his neck")
+				expect.call(fight.point_x > float(e.hump[1]) and fight.point_x < float(e.fold), e.id + " the spear point is on the fold, past the hump")
+				# the window: press Space at `tau` s from the crest reaching the point (sim at 240 fps)
+				var good: Array = _apep_window(slow)
+				print("spell 39 window: %.3f .. %.3f s from the crest reaching the point (%.0f ms)" % [good[0], good[1], (good[1] - good[0]) * 1000.0])
+				expect.call(good[1] - good[0] >= 0.08, e.id + " a window of at least 80 ms for the first waves")
+				fight.health = 99
+				expect.call(not _apep_try(-0.4, slow), e.id + " a thrust well before the wave arrives misses it")
+				expect.call(not _apep_try(0.25, slow), e.id + " a thrust after the wave is past misses it")
+				# a wave that gets past: his head rears, turns and bites
+				fight.health = CROC_HEALTH
+				var b0 := bites
+				_apep_try(INF, slow)
+				expect.call(fight.head.phase == "rear", e.id + " a wave past the point lifts his head out from under it")
+				for i in 15:
+					_apep(0.02)
+				expect.call(bites == b0 + 1 and fight.health == CROC_HEALTH - 1 and fight.red > 0.0, e.id + " ...and he bites the bearer")
+				for i in 45:
+					_apep(0.02)
+				expect.call(fight.head.phase == "rest", e.id + " ...and lies down again")
+				# his head strains up as a crest comes under it
+				fight.waves = []
+				var hw := _apep_launch(false, slow)
+				hw.s = "run"
+				hw.amp = 1.0
+				hw.x = float(e.head_pivot[0])
+				_apep_head(0.0)
+				expect.call(fight.head.rot > APEP_STRAIN * 0.9, e.id + " his head lifts as a wave comes under it")
+				# a feint dies out in the hump, short of the point: no bite
+				fight.waves = []
+				var h0: int = fight.health
+				var fw := _apep_launch(true, slow)
+				for i in 600:
+					_apep(1.0 / 120.0)
+					if not fw in fight.waves:
+						break
+				expect.call(not fw in fight.waves and fw.x < fight.point_x and fight.health == h0, e.id + " a feint dies out in the hump, short of the point")
+				# a thrust on a still neck works the barb loose a step
+				fight.waves = []
+				fight.hits = 2
+				_croc_thrust()
+				_apep(THRUST_TIME[0] + THRUST_TIME[1] + 0.01)
+				expect.call(fight.hits == 1, e.id + " a thrust on a still neck works the barb loose a step")
+				fight.hits = 0
+				# each wave pressed down drives the barb a step in, the waves coming faster
+				var mid: float = (good[0] + good[1]) / 2.0
+				var rest0 := _spear_rest()
+				for i in need - 1:
+					fight.health = CROC_HEALTH
+					var v := lerpf(slow, fast, float(i) / float(need - 1))
+					expect.call(_apep_try(mid, v), e.id + " a wave pressed down (%d)" % (i + 1))
+					_apep(APEP_HOLD + 0.01)
+				expect.call(fight.hits == need - 1 and not fight.is_empty(), e.id + " each wave pressed counts")
+				expect.call(_spear_rest() > rest0 and _spear_rest() < 0.0, e.id + " the barb rests further in with each")
+				expect.call(_apep_try(mid, slow, 1.0 / 15.0), e.id + " a thrust in time presses the wave down even at 15 frames a second")
+				fight.hits -= 1
+				_apep(APEP_HOLD + 0.01)
+				var last: Array = _apep_window(fast)
+				print("spell 39 fastest window: %.0f ms" % ((last[1] - last[0]) * 1000.0))
+				expect.call(last[1] - last[0] >= 0.05 and last[1] - last[0] < good[1] - good[0], e.id + " the last wave is the hardest, and can still be pressed down")
+				# the waves come by themselves, faster and closer together, never two at the point at once
+				fight.waves = []
+				fight.last_arrival = -INF
+				var arrivals := []
+				for i in 40:           # asked for a wave every 0.1 s
+					var before: int = fight.launched
+					fight.last_feint = true
+					fight.waves = []
+					fight.next = fight.clock
+					_apep_launch_due()
+					if fight.launched > before:
+						arrivals.append(fight.last_arrival)
+					fight.clock += 0.1
+				var gaps_ok := true
+				for i in range(1, arrivals.size()):
+					gaps_ok = gaps_ok and arrivals[i] - arrivals[i - 1] >= float(e.min_gap) - 0.001
+				expect.call(gaps_ok and arrivals.size() >= 3, e.id + " waves reach the point at least min_gap apart")
+				fight.waves = []
+				fight.next = INF
+				# the third bite and he crumbles
+				fight.health = 1
+				_apep_try(INF, slow)
+				for i in 30:
+					_apep(0.02)
+				expect.call(fight.lost, e.id + " the third bite and he crumbles")
+				fight.lost = false
 			"donkey":
 				fight_click(Vector2(actor_rect(e.donkey).position.x + 20.0 * unit, actor_rect(e.donkey).end.y - 20.0 * unit))
 				expect.call(fight.hits == 0, e.id + " striking the donkey scores nothing")

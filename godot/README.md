@@ -87,7 +87,8 @@ at the end waits until every danger before it is overcome.
 | `scenes/hall.tscn`, `scripts/hall.gd` | Spell 125 |
 | `scenes/dangers.tscn`, `scripts/dangers.gd` | Spells 31–42: encounter list, gates, one rule set per creature |
 | `scripts/avatar.gd` | Walking (click target or keyboard), facing, bobbing |
-| `scripts/hud.gd` | Title bar, minimap, scribe text, hand, checklist, journal, intro/outro; each level passes its own texts |
+| `scripts/hud.gd` | Title bar (Restart, Levels), the scribe's strip under the scene (the line said with its speaker's tag, what you carry, Journal and Hint), the Journal page ([j]), intro/outro; each level passes its own texts |
+| `assets/ui/`, `assets/fonts/OldFax.ttf` | The scroll's frame band as tiles (`band_top`, and `band_bottom`/`band_left`/`band_right` for the screen's edges), icons (Journal is 𓏞, the scribe's kit; Hint is 𓂜; Restart and Levels are placeholders), and the pixel font (16 px is one font pixel, 32 px two) |
 | `scripts/papyrus.gdshader` | Procedural papyrus fibres behind the ink |
 | `assets/<level>/` | Stitched plate strips, one PNG per piece, `level.json` with positions |
 
@@ -121,6 +122,15 @@ The runner finds `godot`, `godot4`, or the macOS Godot app; pass `--godot=/path/
 to choose an executable. It checks exit codes, suite completion and unexpected script or
 engine errors. It reports the existing headless glow-shader diagnostic, macOS certificate
 diagnostic and exit-time object leak warning separately.
+
+The HUD is a deep-papyrus title bar and a 120 px strip, each set off from the scene by the band
+(`BOXED` in `hud.gd` also runs it round the strip). The scroll levels (procession, dangers, cosmos)
+start their view just under the top register's upper rule (`VIEW_TOP`), so the title bar's band
+takes that rule's place above the lower one; field and hall keep their own framing under the band. There is no list of rites on
+screen: the scene shows what is still wrong (the levels still report the rites to `update_tasks`).
+Keys in player text are written in brackets (`[space]`, `[shift]`, `[esc]`, `[←] [→]`); the HUD
+shows them as written. A scribe line that won't fit the strip at 32 px drops to 16 px.
+`-- --journal` opens the Journal for a screenshot.
 
 Shared camera arithmetic lives in `scripts/scroll_camera.gd`; figure ink/interior masks
 live in `scripts/figure_mask.gd`. Dangers encounter descriptions and tuning live in

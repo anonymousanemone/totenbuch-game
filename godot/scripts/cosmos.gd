@@ -13,6 +13,7 @@
 extends Node2D
 
 const SCROLL_CAMERA := preload("res://scripts/scroll_camera.gd")
+const VIEW_TOP := 34.0   ## the row under the top register's upper rule: the title bar's band takes its place
 const DATA_PATH := "res://assets/cosmos/level.json"
 const ART := "res://assets/cosmos/%s.png"
 const BESIDE := 70.0          ## stand just behind (right of) what you interact with
@@ -532,14 +533,14 @@ func _update_camera(delta: float) -> void:
 	var vp := get_viewport_rect().size
 	var top: float = hud.top_height()
 	var bottom: float = hud.bottom_height()
-	var z := SCROLL_CAMERA.fit_zoom(vp, top, bottom, _view_height(), unit, 0.4 / unit, 2.4 / unit)
+	var z := SCROLL_CAMERA.fit_zoom(vp, top, bottom, _view_height(), unit, 0.4 / unit, 2.4 / unit, VIEW_TOP)
 	camera.zoom = Vector2(z, z)
 	var vis_w := vp.x / z
 	var target_x := avatar.position.x - vis_w * 0.05
 	target_x = SCROLL_CAMERA.clamp_horizontal(target_x, vis_w, level.width)
 	var k := SCROLL_CAMERA.smoothing(delta)
 	camera.position.x = lerpf(camera.position.x, target_x, k)
-	camera.position.y = SCROLL_CAMERA.vertical_center(_view_height(), top, bottom, z)
+	camera.position.y = SCROLL_CAMERA.vertical_center(_view_height(), top, bottom, z, VIEW_TOP)
 
 
 func _visible_rect() -> Rect2:

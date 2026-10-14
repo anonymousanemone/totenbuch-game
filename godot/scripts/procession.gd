@@ -7,6 +7,7 @@
 extends Node2D
 
 const SCROLL_CAMERA := preload("res://scripts/scroll_camera.gd")
+const VIEW_TOP := 36.0   ## the row under the top register's upper rule: the title bar's band takes its place
 const DATA_PATH := "res://assets/procession/level.json"
 const BESIDE := 70.0         ## stand just behind (right of) what you interact with, not on top of it
 const HIT_PAD := 20.0
@@ -936,7 +937,7 @@ func _update_camera(delta: float) -> void:
 	var vp := get_viewport_rect().size
 	var top: float = hud.top_height()
 	var bottom: float = hud.bottom_height()
-	var fit := (vp.y - top - bottom - 10.0) / _view_height()
+	var fit := (vp.y - top - bottom - 10.0) / (_view_height() - VIEW_TOP)
 	var z := clampf(minf(fit, vp.x / (1000.0 * unit)), 0.4 / unit, 2.4 / unit)
 	var target_x := avatar.position.x - vp.x / z * 0.05
 	if in_table or water.active:   # hold on the whole scene: the table, or the water
@@ -949,7 +950,7 @@ func _update_camera(delta: float) -> void:
 	var vis_w := vp.x / z
 	target_x = SCROLL_CAMERA.clamp_horizontal(target_x, vis_w, level.width)
 	camera.position.x = lerpf(camera.position.x, target_x, k)
-	camera.position.y = SCROLL_CAMERA.vertical_center(_view_height(), top, bottom, z)
+	camera.position.y = SCROLL_CAMERA.vertical_center(_view_height(), top, bottom, z, VIEW_TOP)
 
 
 ## Rows the camera fits on screen: the strip plus the visible part of the faded text below.

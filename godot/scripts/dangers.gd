@@ -10,6 +10,7 @@
 extends Node2D
 
 const SCROLL_CAMERA := preload("res://scripts/scroll_camera.gd")
+const VIEW_TOP := 36.0   ## the row under the top register's upper rule: the title bar's band takes its place
 const DATA_PATH := "res://assets/dangers/level.json"
 const SHEET_PATH := "res://assets/dangers/spearers.json"   ## the spear-bearers' thrust (tools/spearer_sheet.py)
 const CREEPING_SNAKE_STATE := preload("res://scripts/creeping_snake_state.gd")
@@ -724,6 +725,8 @@ func _arena_setup(e: Dictionary, both: bool, keep: Array, view := {}) -> void:
 	var bottom: float = hud.bottom_height()
 	var shown: float = view.y1 - view.y0 if not view.is_empty() else level.height
 	var z: float = (vp.y - top - bottom - 10.0) / shown           # the whole height of the scroll, or `view`
+	if view.has("z"):        # no closer than this, so the fight keeps its width
+		z = minf(z, view.z)
 	var vis_w: float = vp.x / z
 	var cx := (s.x + s.y) / 2.0
 	fight.panel = Rect2(s.x, band_top, s.y - s.x, ground - band_top)
@@ -1794,7 +1797,13 @@ func _creep_start(e: Dictionary) -> void:
 	var vp := get_viewport_rect().size
 	var z: float = (vp.y - hud.top_height() - hud.bottom_height() - 10.0) / (y1 - y0)
 	var right: float = rects[e.spear].end.x + 40.0 * unit
-	_arena_setup(e, false, [e.foe], {"y0": y0, "y1": y1, "x": right - vp.x / z / 2.0})
+	# wide enough that the snake starts left of where it is drawn, with room to slide on as it is
+	# struck (however tall the HUD leaves the picture)
+	var foe: Node2D = actors[e.foe]
+	var w: float = right - foe.get_meta("home").x + foe.get_meta("size").x / 2.0 + 40.0 * unit \
+		+ float(e.flee) * unit * int(e.need)
+	z = minf(z, vp.x / w)
+	_arena_setup(e, false, [e.foe], {"y0": y0, "y1": y1, "x": right - vp.x / z / 2.0, "z": z})
 	fight.stand = actors[e.spear].get_meta("home")
 	fight.pos = fight.stand
 	fight.health = CROC_HEALTH
@@ -2978,7 +2987,7 @@ func _update_camera(delta: float) -> void:
 	var vp := get_viewport_rect().size
 	var top: float = hud.top_height()
 	var bottom: float = hud.bottom_height()
-	var z := SCROLL_CAMERA.fit_zoom(vp, top, bottom, _view_height(), unit, 0.4 / unit, 2.4 / unit)
+	var z := SCROLL_CAMERA.fit_zoom(vp, top, bottom, _view_height(), unit, 0.4 / unit, 2.4 / unit, VIEW_TOP)
 	camera.zoom = Vector2(z, z)
 	var vis_w: float = vp.x / z
 	var focus := avatar.position.x - vis_w * 0.05
@@ -2987,7 +2996,7 @@ func _update_camera(delta: float) -> void:
 		focus = (s.x + s.y) / 2.0
 	focus = SCROLL_CAMERA.clamp_horizontal(focus, vis_w, level.width)
 	var k := SCROLL_CAMERA.smoothing(delta, 0.002)
-	var y := SCROLL_CAMERA.vertical_center(_view_height(), top, bottom, z)
+	var y := SCROLL_CAMERA.vertical_center(_view_height(), top, bottom, z, VIEW_TOP)
 	if not fight.is_empty() and fight.kind in ARENA_FIGHTS:
 		# the opened-out vignette: zoom out to the whole height of the scroll
 		var o: float = fight.open

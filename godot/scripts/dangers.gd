@@ -19,7 +19,7 @@ const SHEET_TEX := "res://assets/dangers/spearers.png"
 const ASSET := "res://assets/dangers/%s.png"
 const BESIDE := 50.0
 const FIGHTS := ["crocs", "lunge", "twin", "creep", "roach", "apep", "donkey", "sheaf"]
-const ARENA_FIGHTS := ["crocs", "roach", "lunge", "creep", "twin", "apep", "sheaf"]   ## the vignette opens out across the screen
+const ARENA_FIGHTS := ["crocs", "roach", "lunge", "creep", "twin", "apep", "donkey", "sheaf"]   ## the vignette opens out across the screen
 const CLICK_TO_FIGHT := "Click the creature to take up the spear."
 
 const ENCOUNTERS := preload("res://scripts/danger_encounters.gd").ENCOUNTERS
@@ -276,7 +276,13 @@ func _unhandled_input(event: InputEvent) -> void:
 	# Space thrusts in the fights that open out (holding Shift lends the thrust heka)
 	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_SPACE:
 		if not fight.is_empty():
+			var beginning: bool = fight.get("awaiting_start", false)
 			fight.awaiting_start = false
+			if beginning and fight.kind in ["donkey", "sheaf"]:
+				# here the press that begins only begins: a thrust at once would go into the donkey,
+				# a band tied at once onto the snake
+				get_viewport().set_input_as_handled()
+				return
 		if not fight.is_empty() and fight.kind == "sheaf":
 			_sheaf_act()                # ties the next band, or (once it is out) thrusts
 		elif not fight.is_empty() and fight.kind in ARENA_FIGHTS:
@@ -391,7 +397,6 @@ func _fight_at(p: Vector2) -> Dictionary:
 func _targets() -> Array:
 	match fight.kind:
 		"crocs", "roach", "lunge", "creep", "twin", "apep": return []
-		"donkey": return [fight.foe, fight.donkey]
 		"sheaf": return [SHEAF_STALKS] if fight.get("phase", "") == "bind" else []
 	return [fight.foe]
 
@@ -547,9 +552,7 @@ func start_fight(e: Dictionary) -> void:
 		"apep":
 			_apep_start(e)
 		"donkey":
-			fight.foe = e.foe
-			fight.donkey = e.donkey
-			fight.speed = 1.4
+			_donkey_start(e)
 		"sheaf":
 			_sheaf_start(e)
 	fight.awaiting_start = not _instant
@@ -644,7 +647,7 @@ func _update_fight_context() -> void:
 			controls = "[↑] [↓] aim · " + ("[←] [→] turn · " if fight.both else "") + controls
 		"creep": controls = "[←] creep · " + controls
 		"twin", "roach": controls = "[←] [→] turn · " + controls
-		"donkey": controls = "Point at snake · " + controls
+		"donkey": controls = "[space] strike · " + controls
 		"sheaf": controls = "[space] tie / attack · [esc] explore"
 	if fight.get("awaiting_start", false):
 		controls = "[space] begin · [esc] explore"
@@ -984,6 +987,8 @@ func _croc_open(k: float) -> void:
 		_apep_place()
 	if fight.kind == "sheaf":
 		_sheaf_place()
+	if fight.kind == "donkey":
+		_donkey_place()
 	for nm in fight.hidden:
 		actors[nm].modulate.a = 1.0 - k
 	_text_drop.position = fight.text_home + Vector2(0.0, TEXT_DROP * unit * k * k)
@@ -1543,6 +1548,8 @@ func _crocs_cleanup() -> void:
 		_apep_undress()
 	if fight.kind == "sheaf":
 		_sheaf_undress()
+	if fight.kind == "donkey":
+		_donkey_undress()
 	for nm in _all_heka():
 		_restore(nm)
 	for a in fight.get("copies", []):
@@ -3391,32 +3398,333 @@ func _apep_window(v: float) -> Array:
 	return [lo, hi]
 
 
-# the snake on the donkey: hit the snake, never the donkey
-func _donkey_off() -> float:
-	return (-50.0 + 50.0 * sin(fight.t * fight.speed)) * unit
+# the Eater of the Ass (spell 40). The vignette opens out close up; the bearer stands where he is
+# drawn, his spear point resting just up its line from the snake's front, which lies on the
+# donkey's back with its head in it. A thrust while its head is down goes into the donkey: he
+# crumbles at once. Now and then the donkey swishes its tail (tail40 turns about its root), and the
+# snake lifts its front up the spear's line to snap at it (lift_end.gdshader): a thrust while it is
+# up meets its head. After the first strike some swishes are only flicks, and it does not look up.
+# Left alone, its coils tighten and it bites the donkey (the flesh signs count the donkey's health);
+# the third bite and the donkey is eaten, and he is back on the scroll. Struck `need` times, it falls.
+const DONKEY_UP_MIN := 0.6       ## its head is clear of the back once lifted this far (of `lift`)
+const DONKEY_RISE := 0.1         ## its front lifts (s) ...
+const DONKEY_FALL := 0.15        ## ... and comes down again (s)
+const DONKEY_SWISH := [0.25, 0.35]   ## the tail goes up, and down again (s)
+const DONKEY_SWISH_ANGLE := -1.0     ## how far it goes up (rad)
+const DONKEY_FLICK_ANGLE := -0.35    ## a flick
+const DONKEY_SNAP_AFTER := 0.12  ## the snake looks up this long after the swish begins (s)
+const DONKEY_BITE := 0.14        ## its bite into the donkey's back (s)
+const DONKEY_PAD := 24           ## room round the snake's picture for its front to lift into (px)
+const DONKEY_BOT_REACT := 0.25   ## (--croc-bot) thrusts this long after its head is clear (s)
+const DONKEY_UP_JITTER := [0.8, 1.25]   ## each look up lasts `up` s times a share in this range
+const DONKEY_FAIR := 1.3         ## a bite this close and no look up since the last: the donkey swishes now (s)
+const LIFT_END := preload("res://scripts/lift_end.gdshader")
 
 
-func _donkey(_dt: float) -> void:
-	var s: Node2D = actors[fight.foe]
-	var off := _donkey_off()
-	s.position = s.get_meta("home") + Vector2(off, off * 0.15)
-	s.rotation = sin(_time * 6.0) * 0.08
-	actors[fight.donkey].rotation = sin(_time * 1.7) * 0.012
+func _donkey_start(e: Dictionary) -> void:
+	var cap: Array = level.get("caption", [50.0, 180.0])
+	var mid_x: float = (actors[e.spear].get_meta("home").x + actors[e.donkey].get_meta("home").x) / 2.0
+	_arena_setup(e, false, [e.foe, e.donkey, e.tail], {"y0": float(cap[0]) - 12.0 * unit, "y1": ground + 40.0 * unit, "x": mid_x})
+	fight.stand = actors[e.spear].get_meta("home")
+	fight.pos = fight.stand
+	fight.clock = 0.0
+	fight.pinned = false
+	fight.last_thrust = -INF
+	fight.donkey_health = CROC_HEALTH
+	fight.phase = "latched"      # latched, up, warn, bite, pinned
+	fight.pt = 0.0
+	fight.lift = 0.0             # 0 = its head down in the donkey, 1 = lifted the whole `lift`
+	fight.bite_in = _donkey_tune("bite_every")
+	fight.offered = false        # it has looked up since the last strike or bite (each bite gets a chance first)
+	fight.up_k = 1.0
+	fight.swish = {"t": -1.0, "angle": 0.0, "real": false, "next": rng.randf_range(float(e.swish_gap[0]), float(e.swish_gap[1]))}
+	fight.told = {}
+	_donkey_dress(e)
+	_donkey_place()
+	_arena_open()
 
 
-func _donkey_click(p: Vector2) -> void:
-	if actor_rect(fight.foe).grow(7 * unit).has_point(p):
-		fight.hits += 1
-		fight.speed += 0.7
-		_hurt(actors[fight.foe])
-		var need: int = fight.e.need
-		if fight.hits < need:
-			say("Scribe", "It moves faster now.")
-		_won_if(fight.hits >= need)
-	elif actor_rect(fight.donkey).has_point(p):
-		fight.hits = maxi(0, fight.hits - 1)
-		_shake(actors[fight.donkey])
-		say("Scribe", "The donkey brays. Strike the snake, not the donkey.")
+## Tuning value `key` for the strikes so far: from its first value (none) to its last.
+func _donkey_tune(key: String) -> float:
+	var v: Array = fight.e[key]
+	return lerpf(float(v[0]), float(v[1]), clampf(float(fight.hits) / float(int(fight.e.need) - 1), 0.0, 1.0))
+
+
+## For this fight only: the snake gets room round its picture and the shader that lifts its front.
+func _donkey_dress(e: Dictionary) -> void:
+	var sp: Sprite2D = actors[e.foe].get_node("Sprite")
+	fight.snake_plain = sp.texture
+	fight.snake_at = sp.position
+	var src := sp.texture.get_image()
+	if src.is_compressed():
+		src.decompress()
+	src.convert(Image.FORMAT_RGBA8)
+	var P := DONKEY_PAD
+	var img := Image.create(src.get_width() + 2 * P, src.get_height() + 2 * P, false, Image.FORMAT_RGBA8)
+	img.blit_rect(src, Rect2i(0, 0, src.get_width(), src.get_height()), Vector2i(P, P))
+	sp.texture = ImageTexture.create_from_image(img)
+	sp.position -= Vector2(P, P)
+	var mat := ShaderMaterial.new()
+	mat.shader = LIFT_END
+	mat.set_shader_parameter("from_x", float(e.lift_from) + P)
+	mat.set_shader_parameter("to_x", float(e.lift_to) + P)
+	sp.material = mat
+
+
+func _donkey_undress() -> void:
+	var e: Dictionary = fight.e
+	if fight.has("snake_plain"):
+		var sp: Sprite2D = actors[e.foe].get_node("Sprite")
+		sp.texture = fight.snake_plain
+		sp.position = fight.snake_at
+		sp.material = null
+	for n in [e.donkey, e.tail]:       # crumbled if it was eaten
+		(actors[n].get_node("Sprite") as Sprite2D).material = null
+
+
+## Where its head is, up the spear's line from where the point rests on it as drawn (plate px).
+func _donkey_head_o() -> float:
+	return -float(fight.e.lift) * fight.lift
+
+
+func _donkey(dt: float) -> void:
+	var e: Dictionary = fight.e
+	if fight.open < 1.0 or fight.get("closing", false) or fight.lost:
+		return
+	fight.clock += dt
+	fight.pt += dt
+	if fight.get("bot", false):
+		_donkey_bot()
+	if fight.thrust >= 0.0 and not fight.pinned:
+		fight.thrust += dt
+		if not fight.struck:
+			_donkey_point()
+			if fight.lost:
+				return
+		if fight.thrust >= THRUST_TIME[0] + THRUST_TIME[1]:
+			fight.thrust = -1.0
+	_donkey_tail(dt)
+	match fight.phase:
+		"latched":         # its head in the donkey's back; the bite comes nearer
+			fight.lift = maxf(0.0, fight.lift - dt / DONKEY_FALL)
+			fight.bite_in -= dt
+			if fight.bite_in <= 0.0:
+				_donkey_phase("warn")
+		"up":              # snapping at the tail
+			fight.lift = minf(1.0, fight.lift + dt / DONKEY_RISE)
+			if fight.pt >= DONKEY_RISE + _donkey_tune("up") * fight.up_k:
+				_donkey_phase("latched")
+		"warn":            # its coils tighten
+			if fight.pt >= float(e.warn):
+				_donkey_phase("bite")
+		"bite":            # and it bites the donkey
+			if fight.pt >= DONKEY_BITE:
+				_donkey_bitten()
+				if fight.lost:
+					return
+		"pinned":
+			if fight.pt >= ROACH_FREEZE:
+				fight.pinned = false
+				fight.thrust = THRUST_TIME[0] + 0.001
+				if fight.hits >= int(e.need):
+					end_fight()
+					return
+				fight.lift = 1.0
+				_donkey_phase("latched")
+	_donkey_place()
+	_place_bearer()
+
+
+func _donkey_phase(p: String) -> void:
+	fight.phase = p
+	fight.pt = 0.0
+
+
+## The donkey's tail: now and then it swishes up and down again (sometimes, after the first
+## strike, only a flick); the snake looks up at a real swish, if its head is down and not biting.
+func _donkey_tail(dt: float) -> void:
+	var sw: Dictionary = fight.swish
+	var e: Dictionary = fight.e
+	if sw.t < 0.0:
+		sw.next -= dt
+		# never a bite without a chance first: a bite near and no look up since the last, it swishes now
+		var owed: bool = fight.phase == "latched" and not fight.offered and fight.bite_in < DONKEY_FAIR
+		if sw.next <= 0.0 or owed:
+			sw.t = 0.0
+			sw.real = owed or fight.hits == 0 or rng.randf() >= float(e.flick)
+			sw.angle = DONKEY_SWISH_ANGLE if sw.real else DONKEY_FLICK_ANGLE
+			sw.looked = false
+		return
+	sw.t += dt
+	if sw.real and not sw.looked and sw.t >= DONKEY_SNAP_AFTER:
+		sw.looked = true
+		if fight.phase == "latched":
+			_donkey_phase("up")
+			fight.offered = true
+			fight.up_k = rng.randf_range(DONKEY_UP_JITTER[0], DONKEY_UP_JITTER[1])
+	if sw.t >= DONKEY_SWISH[0] + DONKEY_SWISH[1]:
+		sw.t = -1.0
+		sw.next = rng.randf_range(float(e.swish_gap[0]), float(e.swish_gap[1]))
+
+
+## How far up the tail is now (rad).
+func _donkey_tail_angle() -> float:
+	var sw: Dictionary = fight.swish
+	if sw.t < 0.0:
+		return 0.0
+	var up: float = DONKEY_SWISH[0]
+	var u: float = sw.t / up if sw.t < up else 1.0 - (sw.t - up) / DONKEY_SWISH[1]
+	return sw.angle * sin(PI / 2.0 * clampf(u, 0.0, 1.0))
+
+
+## The thrust running out: it meets the snake's head if that is up off the back, else it goes on
+## into the donkey.
+func _donkey_point() -> void:
+	var o := _spear_out()
+	if fight.lift >= DONKEY_UP_MIN and o >= _donkey_head_o() - 1.0:
+		fight.struck = true
+		_donkey_struck()
+	elif o >= -1.0:
+		fight.struck = true
+		_donkey_speared()
+
+
+func _donkey_struck() -> void:
+	var e: Dictionary = fight.e
+	fight.hits += 1
+	fight.pinned = true
+	fight.bite_in = _donkey_tune("bite_every")        # struck, it lets go of the donkey a while
+	fight.offered = false
+	_hurt(actors[e.foe])
+	_donkey_phase("pinned")
+	_dev_shot("SHOT_ON_CATCH")
+	var left: int = int(e.need) - fight.hits
+	say("Scribe", "Struck!" + (" It sinks its head into the donkey again. %d more." % left if left > 0 else ""))
+
+
+## The point went into the donkey: he crumbles at once.
+func _donkey_speared() -> void:
+	var e: Dictionary = fight.e
+	fight.lost = true
+	_shake(actors[e.donkey])
+	_hurt(actors[e.donkey])
+	say("Scribe", "The spear goes into the donkey! The spear-bearer crumbles to dust. Strike only while the snake's head is up.")
+	_disintegrate(e)
+	_donkey_lost_later(e)
+
+
+## The snake bites the donkey: a flesh sign lost; the third and it is eaten.
+func _donkey_bitten() -> void:
+	var e: Dictionary = fight.e
+	fight.donkey_health -= 1
+	_shake(actors[e.donkey])
+	_hurt(actors[e.donkey])
+	fight.bite_in = _donkey_tune("bite_every")
+	fight.offered = false
+	_donkey_phase("latched")
+	if fight.donkey_health <= 0:
+		fight.lost = true
+		say("Scribe", "The snake has eaten the donkey.")
+		var mat := ShaderMaterial.new()
+		mat.shader = DISSOLVE
+		mat.set_shader_parameter("grain", 3.0 * unit)
+		for n in [e.donkey, e.tail, e.foe]:
+			(actors[n].get_node("Sprite") as Sprite2D).material = mat
+		create_tween().tween_method(func(v: float): mat.set_shader_parameter("amount", v), 0.0, 1.05, 1.6)
+		_donkey_lost_later(e)
+		return
+	if not fight.told.has("bite"):
+		fight.told.bite = true
+		say("Scribe", "It bites the donkey. Strike it before it bites again: thrust as it lifts its head to the swishing tail.")
+
+
+func _donkey_lost_later(e: Dictionary) -> void:
+	var t := create_tween()
+	t.tween_interval(2.0)
+	t.tween_callback(func():
+		if not fight.is_empty() and fight.kind == "donkey" and fight.e.id == e.id and fight.lost:
+			_arena_lost(e))
+
+
+func _donkey_place() -> void:
+	var e: Dictionary = fight.e
+	var k: float = fight.open
+	# the tail turns about its root
+	var tail: Node2D = actors[e.tail]
+	var root := Vector2(float(e.tail_root[0]), float(e.tail_root[1]))
+	var ang := _donkey_tail_angle() * k
+	tail.rotation = ang
+	tail.position = root + (tail.get_meta("home") - root).rotated(ang)
+	# the snake's front lifts up the spear's line, or dips into the back as it bites
+	var sp: Sprite2D = actors[e.foe].get_node("Sprite")
+	var mat := sp.material as ShaderMaterial
+	var up: float = fight.lift
+	if fight.phase == "bite":
+		up = -0.25 * sin(PI * minf(fight.pt / DONKEY_BITE, 1.0))
+	if mat:
+		mat.set_shader_parameter("lift", -Vector2(fight.dir.x, fight.dir.y) * float(e.lift) * unit * up * k)
+	var sn: Node2D = actors[e.foe]
+	sn.scale = Vector2.ONE
+	if fight.phase == "warn":       # its coils tighten
+		var u := minf(fight.pt / float(e.warn), 1.0)
+		sn.scale = Vector2(1.0 + 0.04 * u, 1.0 - 0.1 * u)
+	elif fight.phase == "pinned":
+		sn.scale = Vector2(1.0 + 0.04 * sin(fight.clock * 40.0), 1.0 - 0.04 * sin(fight.clock * 40.0))
+
+
+func _donkey_click(_p: Vector2) -> void:
+	if _time - fight.nag > 4.0:
+		fight.nag = _time
+		say("Scribe", "Press [space] to thrust the spear, while the snake's head is up off the donkey's back.")
+
+
+## Dev (`--croc-bot`, and the autotest's trials): thrusts DONKEY_BOT_REACT s (or BOT_REACT) after
+## its head is clear of the back. With `tail_watcher`, it thrusts that long after any swish begins,
+## whatever the snake does.
+func _donkey_bot() -> void:
+	var react: float = fight.get("bot_react", float(OS.get_environment("BOT_REACT")) if OS.has_environment("BOT_REACT") else DONKEY_BOT_REACT)
+	if fight.thrust >= 0.0:
+		return
+	if fight.get("tail_watcher", false):
+		var sw: Dictionary = fight.swish
+		if sw.t >= react and sw.t - react < 0.02:
+			_croc_thrust()
+		return
+	if fight.phase == "up" and fight.lift >= DONKEY_UP_MIN:
+		if not fight.has("bot_seen"):
+			fight.bot_seen = fight.clock
+		if fight.clock - fight.bot_seen >= react:
+			fight.erase("bot_seen")
+			_croc_thrust()
+	else:
+		fight.erase("bot_seen")
+
+
+## (autotest) One whole fight against spell 40 played by the bot; true = won.
+func _donkey_trial(e: Dictionary, react: float, tail_watcher: bool, seed: int) -> bool:
+	rng.seed = seed
+	start_fight(e)
+	fight.bot = true
+	fight.bot_react = react
+	fight.tail_watcher = tail_watcher
+	var won := false
+	var t := 0.0
+	while t < 120.0:
+		_donkey(1.0 / 60.0)
+		t += 1.0 / 60.0
+		if fight.is_empty():
+			won = true
+			break
+		if fight.lost:
+			break
+		if fight.pinned and fight.hits >= int(e.need):
+			won = true
+			break
+	if not fight.is_empty():
+		leave_fight()
+	solved.erase(e.id)
+	journal.clear()
+	return won
 
 
 # the snake in the sheaf (spell 41). The vignette opens out close up; the bearer stands where he is
@@ -3985,7 +4293,7 @@ func _draw_overlay() -> void:
 				for i in roach.passes:
 					var at: Vector2 = roach.c + Vector2((i - 1) * 7.0 * pixel, -16.0 * pixel)
 					overlay.draw_line(at, at + Vector2(0, 5.0 * pixel), UI.INK, 2.0 * pixel)
-	if fight.kind in ["crocs", "lunge", "creep", "twin", "apep", "sheaf"]:
+	if fight.kind in ["crocs", "lunge", "creep", "twin", "apep", "sheaf", "donkey"]:
 		_draw_flesh_health()
 
 
@@ -4028,6 +4336,7 @@ func _maybe_run_cli() -> void:
 				start_fight(here()))
 		var on_start := func():
 			if not fight.is_empty() and fight.kind in ARENA_FIGHTS:
+				fight.awaiting_start = false      # it presses Space to begin
 				fight.bot = true
 				fight.tut = ""
 		get_tree().create_timer(3.0).timeout.connect(on_start)
@@ -4039,6 +4348,7 @@ func _maybe_run_cli() -> void:
 			if fight.is_empty() and tries[1] != "" and not solved.has(tries[1]) and not here().is_empty():
 				start_fight(here())       # lost: click the creature again, as a player would
 			if not fight.is_empty() and fight.kind in ARENA_FIGHTS and not fight.get("bot", false):
+				fight.awaiting_start = false
 				fight.bot = true          # a (re)started fight: play it
 				fight.tut = ""
 				tries[0] += 1
@@ -4070,7 +4380,9 @@ func _maybe_run_cli() -> void:
 
 
 func _draw_flesh_health() -> void:
-	# his health: flesh signs in red, top left inside the opened vignette; a lost one stays faint
+	# his health (against the Eater of the Ass, the donkey's): flesh signs in red, top left inside
+	# the opened vignette; a lost one stays faint
+	var health: int = int(fight.get("donkey_health", fight.get("health", 0)))
 	var ar := _arena_rect()
 	var pixel := 1.0 / camera.zoom.x
 	var fs := Vector2(26.0, 32.0) * pixel       # on screen, about the size of a caption sign
@@ -4079,13 +4391,13 @@ func _draw_flesh_health() -> void:
 	var red := UI.DANGER
 	for i in CROC_HEALTH:
 		var at := Vector2(ar.position.x + 24.0 * pixel + i * (fs.x + 5.0 * pixel), ar.position.y + 14.0 * pixel)
-		var a: float = (1.0 if i < fight.health else 0.22) * fight.open
+		var a: float = (1.0 if i < health else 0.22) * fight.open
 		if _flesh_tex:
 			# the picture as given, its dark ink turned red: shown through a red silhouette
 			overlay.draw_texture_rect(_flesh_tex, Rect2(at, fs), false, Color(red, a))
 		else:
 			overlay.draw_circle(at + fs / 2.0, 12.0 * pixel, Color(red, a))
-		if i >= fight.health:
+		if i >= health:
 			overlay.draw_line(at, at + fs, Color(UI.INK, fight.open), 2.0 * pixel)
 			overlay.draw_line(at + Vector2(fs.x, 0), at + Vector2(0, fs.y), Color(UI.INK, fight.open), 2.0 * pixel)
 
@@ -4605,11 +4917,82 @@ func _autotest() -> void:
 				expect.call(fight.lost, e.id + " the third bite and he crumbles")
 				fight.lost = false
 			"donkey":
-				fight_click(Vector2(actor_rect(e.donkey).position.x + 20.0 * unit, actor_rect(e.donkey).end.y - 20.0 * unit))
-				expect.call(fight.hits == 0, e.id + " striking the donkey scores nothing")
-				for i in e.need:
-					_donkey(0.0)
-					fight_click(centre.call(e.foe))
+				var step := func(t: float) -> void:
+					while t > 0.0 and not fight.is_empty() and not fight.lost:
+						_donkey(minf(t, 1.0 / 60.0))
+						t -= 1.0 / 60.0
+				var swish := func(real: bool) -> void:      # the donkey swishes (or flicks) its tail now
+					fight.swish.next = 0.0
+					fight.swish.t = -1.0
+					_donkey_tail(0.0)
+					fight.swish.real = real
+					fight.swish.angle = DONKEY_SWISH_ANGLE if real else DONKEY_FLICK_ANGLE
+				expect.call(fight.phase == "latched" and fight.lift == 0.0 and fight.donkey_health == CROC_HEALTH, e.id + " its head is down in the donkey's back; the donkey has three flesh signs")
+				# a thrust while its head is down goes into the donkey: he crumbles at once
+				_croc_thrust()
+				step.call(THRUST_TIME[0] + 0.02)
+				expect.call(fight.lost and fight.hits == 0, e.id + " a thrust while its head is down strikes the donkey: lost at once")
+				fight.lost = false
+				leave_fight()
+				start_fight(e)
+				fight.bite_in = 99.0
+				# a swish: the tail goes up, and the snake lifts its head to it
+				swish.call(true)
+				step.call(DONKEY_SWISH[0])
+				expect.call(actors[e.tail].rotation < -0.5, e.id + " the donkey swishes its tail")
+				expect.call(fight.phase == "up" and fight.lift >= DONKEY_UP_MIN, e.id + " the snake lifts its head to snap at the tail")
+				_croc_thrust()
+				step.call(THRUST_TIME[0] + 0.02)
+				expect.call(fight.hits == 1 and not fight.lost, e.id + " a thrust while its head is up strikes it")
+				step.call(ROACH_FREEZE + 0.5)
+				# after the first strike, a flick: it does not look up
+				swish.call(false)
+				step.call(DONKEY_SWISH[0] + DONKEY_SWISH[1])
+				expect.call(fight.phase == "latched" and fight.lift < DONKEY_UP_MIN, e.id + " a flick of the tail: it does not look up")
+				# left alone, it bites the donkey; the third bite and the donkey is eaten
+				fight.swish.next = 99.0
+				fight.bite_in = 0.01
+				step.call(float(e.warn) + DONKEY_BITE + 0.05)
+				expect.call(fight.donkey_health == CROC_HEALTH - 1 and not fight.lost, e.id + " left alone, it bites the donkey: a flesh sign lost")
+				expect.call(fight.bite_in > 3.0, e.id + " ...and the next bite is a while off")
+				for i in 2:
+					fight.bite_in = 0.01
+					step.call(float(e.warn) + DONKEY_BITE + 0.05)
+				expect.call(fight.lost and fight.donkey_health == 0, e.id + " the third bite and the donkey is eaten: lost")
+				fight.lost = false
+				leave_fight()
+				# three strikes, each as it looks up at the tail
+				start_fight(e)
+				fight.bite_in = 99.0
+				for i in int(e.need):
+					fight.swish.next = 99.0
+					swish.call(true)
+					step.call(DONKEY_SWISH[0])
+					_croc_thrust()
+					step.call(THRUST_TIME[0] + 0.02)
+					if i < int(e.need) - 1:
+						step.call(ROACH_FREEZE + 0.5)
+						fight.bite_in = 99.0
+				expect.call(fight.hits == int(e.need), e.id + " struck three times as it looked up")
+				leave_fight()
+				var rate := func(react: float, watcher: bool) -> float:
+					var won := 0
+					for i in 40:
+						if _donkey_trial(e, react, watcher, 2000 + i):
+							won += 1
+					return won / 40.0
+				if OS.has_environment("DONKEY_CURVE"):     # dev: the whole curve
+					for r in [0.2, 0.3, 0.4, 0.5, 0.6]:
+						print("spell 40 curve: react %.2f s -> %d%% won" % [r, rate.call(r, false) * 100])
+				var keen: float = rate.call(0.3, false)
+				var slow: float = rate.call(0.55, false)
+				var watcher: float = rate.call(0.25, true)
+				print("spell 40 wins: striking 0.3 s after its head is up %d%%, 0.55 s after %d%%, on every swish of the tail %d%%" % [keen * 100, slow * 100, watcher * 100])
+				expect.call(keen >= 0.9, e.id + " an attentive player (0.3 s) wins nearly every fight")
+				expect.call(slow <= 0.5, e.id + " a slow one (0.55 s) loses at least half")
+				expect.call(watcher <= 0.35, e.id + " striking at every swish (not watching the head) mostly loses")
+				start_fight(e)
+				fight.hits = int(e.need)
 			"sheaf":
 				var sn: Dictionary = fight.sn
 				var band := func(i: int) -> Node2D: return actors[SHEAF_BANDS[i]]

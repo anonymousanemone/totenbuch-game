@@ -112,13 +112,24 @@ const ENCOUNTERS := [
 		"hint": "Strike as a wave reaches the point. Small waves fade before reaching you; striking a still neck loosens the barb.",
 		"won": "Apep lies still, pinned at the neck.",
 		"label": "Apep", "note": "Spell 39, repelling Apep. Every wave of him pressed down at the spear point."},
+	# the Eater of the Ass (spell 40): the vignette opens out close up; the bearer stands where he is
+	# drawn, his spear point resting just up its line from where the snake's front lies on the
+	# donkey's back. Its head is down in the donkey: a thrust then goes into the donkey, and he
+	# crumbles at once. The donkey swishes its tail now and then (`swish_gap` s apart); the snake
+	# lifts its front off the back to snap at it (`lift` plate px up the spear's line), up for `up` s:
+	# a thrust then meets its head. After the first strike a `flick` share of swishes are small, and
+	# it does not look up. Left alone it bites the donkey every `bite_every` s (its coils tighten for
+	# `warn` s first; it always looks up at least once before each bite, so each bite can be stopped); three bites (the flesh signs count the donkey's) and the donkey is eaten. A
+	# strike sets the bite back. `need` strikes and it falls; each tuple goes from the first strike
+	# to the last. `lift_from`, `lift_to`: where the lift begins and is whole, in its picture's px.
 	{"id": "e40", "boxes": ["e40"], "kind": "donkey", "spear": "spear40", "task": 4,
-		"foe": "snake40", "donkey": "donkey40", "need": 3,
-		"arrival": "A snake slides along the donkey’s back.",
-		"intro": "Strike the snake three times. Point at it and press [space], or click it. Hitting the donkey costs a hit.",
-		"hint": "Aim at the snake, then [space] or click. Clicking the donkey costs a hit; empty space does not.",
+		"foe": "snake40", "donkey": "donkey40", "tail": "tail40", "need": 3,
+		"swish_gap": [1.0, 2.6], "flick": 0.45, "up": [0.6, 0.38], "bite_every": [4.5, 3.6], "warn": 0.45,
+		"lift": 9.0, "lift_from": 70.0, "lift_to": 96.0, "tail_root": [1200, 532],
+		"intro": "Spell 40: the Eater of the Ass. The snake's head is in the donkey's back: strike now and you strike the donkey. When the donkey swishes its tail, the snake lifts its head to snap at it: thrust ([space]) then. Strike it three times before it has bitten the donkey three times.",
+		"hint": "Watch the snake's head, not only the tail: thrust ([space]) only while its head is up off the donkey's back.",
 		"won": "The snake falls from the donkey's back.",
-		"label": "The Eater of the Ass", "note": "Spell 40. Struck three times; the donkey spared."},
+		"label": "The Eater of the Ass", "note": "Spell 40. Struck three times as it snapped at the donkey's tail; the donkey spared."},
 	# the snake in the sheaf (spell 41): the vignette opens out close up; the sheaf's four bands are
 	# undone (faint) and its stalks splay; the snake is hidden inside, and the stalks stir at its
 	# height. Space (or a click on the sheaf) ties the lowest band still loose, taking `tie` s; if the

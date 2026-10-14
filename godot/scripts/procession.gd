@@ -98,6 +98,8 @@ var _pieces := {}            ## piece -> Sprite2D
 var _base := {}              ## piece -> resting position (set in _render)
 var _hover := {}
 var _glows: Array = []       ## the glows behind what is under the pointer
+var in_standards := false
+var _standards_view := Vector2.ZERO
 var _hauling := false        ## you hold the rope in the hauler's place
 var in_table := false        ## at the offering table: the camera holds on it, you work with the pieces
 var _drag_from := Vector2.INF  ## where (screen px) the piece in hand was taken up, while the button is down
@@ -233,6 +235,7 @@ func reset() -> void:
 	in_table = false
 	_drag_from = Vector2.INF
 	_hauling = false
+	in_standards = false
 	avatar.rotation = 0.0
 	avatar.visible = true
 	avatar.modulate = Color.WHITE
@@ -252,8 +255,11 @@ func reset() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if hud.is_blocking() or finished:
 		return
+	if in_standards and event.is_action_pressed("ui_cancel"):
+		leave_standards()
+		return
 	if haul.active:     # holding the rope: Space, Shift or a click pulls; Esc lets go
-		if event.is_action_pressed("ui_cancel"):
+		if event.is_action_pressed("ui_cancel") or (event is InputEventKey and event.pressed and event.keycode in [KEY_LEFT, KEY_RIGHT, KEY_UP, KEY_DOWN]):
 			haul.quit()
 		elif event is InputEventKey and event.pressed and not event.echo and event.keycode in [KEY_SPACE, KEY_SHIFT]:
 			haul.press()
@@ -294,9 +300,15 @@ func _unhandled_input(event: InputEvent) -> void:
 			enter_water(h.get("spot", {}))
 		elif h.type == "slot":
 			var home: Rect2 = sprite_rects[SLOTS[h.id].home]
-			walk_then(home.get_center().x + BESIDE * unit, act_slot.bind(h.id))
+			if in_standards:
+				act_slot(h.id)
+			else:
+				enter_standards()
 		elif h.spot.label in HAUL_FIGURES and not haul.done:
-			walk_then(h.spot.rect.get_center().x + BESIDE * unit, take_rope.bind(h.spot))
+			if h.spot.label == "Ox-driver":
+				walk_then(h.spot.rect.get_center().x + BESIDE * unit, take_rope.bind(h.spot))
+			else:
+				say("Scribe", "The bier boat needs hauling. Speak with the ox-driver to learn how to take up the rope.")
 		else:
 			walk_then(h.spot.rect.get_center().x + BESIDE * unit, record.bind(h.spot))
 
@@ -330,6 +342,10 @@ func _pick(p: Vector2) -> Dictionary:
 			continue
 		if h.rect.has_point(p):
 			return {"type": "hot", "spot": h, "rect": h.rect}
+	var boat: Dictionary = level.sprites.haul_sledge
+	if Rect2(boat.x + haul.offset, boat.y, boat.w, boat.h).has_point(p):
+		var spot: Dictionary = hotspots.filter(func(h): return h.label == "The mummy on its sledge")[0]
+		return {"type": "hot", "spot": spot, "rect": Rect2(boat.x + haul.offset, boat.y, boat.w, boat.h)}
 	return {}
 
 
@@ -368,15 +384,16 @@ func _glow_targets(h: Dictionary) -> Array:
 			return [water.arm_sprite()]
 		"mouth":
 			return [mouth.glow_target(h.id)]
-		"slot":   # a standard-bearer glows whole: the man and the standard on his pole
-			var out: Array = [_slot_hit_rect(h.id)] if SLOTS[h.id].kind == "std" else []
-			var piece: String = slot[h.id]
-			if piece != "" and _pieces[piece].visible:
-				out.append(_pieces[piece])
+		"slot":
+			var out: Array = []
+			for id in POLES:
+				out.append(_slot_hit_rect(id))
+				if slot[id] != "" and _pieces[slot[id]].visible:
+					out.append(_pieces[slot[id]])
 			return out
 		"hot":
 			if HAUL_GLOW.has(h.spot.label):
-				return HAUL_GLOW[h.spot.label].map(func(nm): return haul.sprite_of(nm)).filter(func(sp): return sp != null and sp.is_visible_in_tree())
+				return ([h.spot.rect, haul.sprite_of("haul_sledge")] if h.spot.label == "The mummy on its sledge" else HAUL_GLOW[h.spot.label].map(func(nm): return haul.sprite_of(nm)).filter(func(sp): return sp != null and sp.is_visible_in_tree()))
 			if h.spot.label == "Priest with jar":   # his forearm and jar are a sprite now
 				return [h.spot.rect, water.arm_sprite()]
 			return [h.spot.rect]
@@ -625,6 +642,27 @@ func _on_offerings_changed() -> void:
 	_render()
 
 
+func enter_standards() -> void:
+	var bounds := _slot_hit_rect(POLES[0])
+	for id in POLES:
+		bounds = bounds.merge(_slot_hit_rect(id))
+	var left := bounds.position.x - 80.0 * unit
+	var right := bounds.end.x + 80.0 * unit
+	var stand := left if absf(avatar.position.x - left) < absf(avatar.position.x - right) else right
+	walk_then(stand, func():
+		avatar.stop()
+		avatar.facing = 1 if stand == left else -1
+		_standards_view = Vector2(left - 60.0 * unit, right + 60.0 * unit)
+		in_standards = true
+		say("Standard-bearers", "Put all eight standard-bearers back in order. Click a standard to take it, then click its proper bearer to place or swap it. [esc] or arrow keys to keep exploring."))
+
+
+func leave_standards() -> void:
+	put_back()
+	in_standards = false
+	_set_hover({})
+
+
 func act_slot(id: String) -> void:
 	var s: Dictionary = SLOTS[id]
 	var here: String = slot[id]
@@ -676,6 +714,7 @@ func take_rope(h: Dictionary) -> void:
 	avatar.set_process(false)   # you stand on the rope in the hauler's place (see _process)
 	avatar.facing = -1
 	_hauling = true
+	avatar.visible = false
 	haul.start()
 
 
@@ -906,6 +945,8 @@ func _process(delta: float) -> void:
 	_time += delta
 	avatar.min_x = min_x()
 	avatar.max_x = max_x()
+	if in_standards and (Input.get_axis("ui_left", "ui_right") != 0.0 or Input.get_axis("ui_up", "ui_down") != 0.0):
+		leave_standards()
 	if in_table and Input.get_axis("ui_left", "ui_right") != 0.0:   # walking off steps away
 		leave_table()
 	if water.active and Input.get_axis("ui_left", "ui_right") != 0.0:
@@ -915,8 +956,10 @@ func _process(delta: float) -> void:
 		var l := haul.lean()
 		avatar.position.x = h.x + h.w / 2.0 + haul.offset + l.x
 		avatar.rotation = l.y
+		avatar.visible = false
 	elif _hauling:      # let go, or the sledge is home: walk again
 		_hauling = false
+		avatar.visible = true
 		avatar.rotation = 0.0
 		avatar.set_process(true)
 
@@ -940,8 +983,8 @@ func _update_camera(delta: float) -> void:
 	var fit := (vp.y - top - bottom - 10.0) / (_view_height() - VIEW_TOP)
 	var z := clampf(minf(fit, vp.x / (1000.0 * unit)), 0.4 / unit, 2.4 / unit)
 	var target_x := avatar.position.x - vp.x / z * 0.05
-	if in_table or water.active:   # hold on the whole scene: the table, or the water
-		var v: Vector2 = water.view() if water.active else Vector2(level.table.view[0], level.table.view[1])
+	if in_table or water.active or in_standards:   # hold on the whole scene: the table, or the water
+		var v: Vector2 = _standards_view if in_standards else (water.view() if water.active else Vector2(level.table.view[0], level.table.view[1]))
 		z = clampf(minf(fit, vp.x / (v.y - v.x + 2.0 * SCENE_MARGIN)), 0.2 / unit, 2.4 / unit)
 		target_x = (v.x + v.y) / 2.0
 	var k := SCROLL_CAMERA.smoothing(delta)
@@ -1200,7 +1243,7 @@ func _autotest() -> void:
 			missed.append(spot.label)
 	expect.call(missed.is_empty(), "every region picked by a click at its centre %s" % [missed])
 	_set_hover(_pick(_slot_hit_rect("pole1").get_center()))
-	expect.call(_glows.size() == 2 and _glows[1].get_parent() == _pieces[slot.pole1], "a standard-bearer glows whole under the pointer: the man and his standard")
+	expect.call(_glows.size() == 16 and _glows[1].get_parent() == _pieces[slot.pole1], "a standard-bearer glows whole under the pointer: the man and his standard")
 	_set_hover(_pick(hotspots[0].rect.get_center()))
 	expect.call(_glows.size() == 1 and _glows[0].get_parent() == $Strip, "a journal figure glows under the pointer")
 	_set_hover({})
@@ -1236,7 +1279,7 @@ func _autotest_haul(expect: Callable) -> void:
 	var hauler: Dictionary = hotspots.filter(func(h): return h.label == "Hauler")[0]
 	take_rope(hauler)
 	expect.call(haul.active and is_equal_approx(haul.offset, HaulSledge.BACK), "taking up the rope sets the sledge back and opens the vignette")
-	expect.call(avatar.visible and not haul.hauler_shown(), "you hold the rope in the hauler's place; he is not there yet")
+	expect.call(not avatar.visible and haul.hauler_shown(), "you become the original hauler while holding the rope")
 	step.call(haul.to_next_beat())
 	haul.press()
 	expect.call(is_equal_approx(haul.target, HaulSledge.BACK - HaulSledge.BACK / HaulSledge.PULLS), "a pull on the beat gains a step")
@@ -1404,7 +1447,7 @@ func _autotest_table(expect: Callable) -> void:
 	offerings.take(some)
 	_table_drop(above)
 	var lying := offerings.sprite_of(some)
-	expect.call(offerings.holding() == "" and lying != null and offerings.pick(lying.position) == some, "a piece laid in the band above stays there and can be taken up again")
+	expect.call(offerings.holding() == "" and lying != null and lying.get_parent() is RigidBody2D and offerings.pick(lying.global_position) == some, "upper-register offerings have gravity and can be taken up again")
 	offerings.take(some)
 	leave_table()
 	expect.call(not in_table and offerings.holding() == "" and offerings.sprite_of(some) != null, "Esc steps away from the table; what you held goes back")

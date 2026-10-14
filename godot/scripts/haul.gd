@@ -18,7 +18,7 @@ extends Node2D
 signal said(who: String, text: String)
 signal finished
 
-enum Phase { IDLE, OPENING, PLAYING, CLOSING }
+enum Phase { IDLE, OPENING, READY, PLAYING, CLOSING }
 
 const BEAT := 0.9             ## s between beats
 const WINDOW := 0.17          ## s either side of a beat that a press still counts
@@ -130,6 +130,7 @@ func start() -> void:
 	if active or done:
 		return
 	active = true
+	_nodes.haul_hauler.visible = true
 	phase = Phase.OPENING
 	good = 0
 	_pulled = -1
@@ -145,7 +146,7 @@ func start() -> void:
 	_tween = create_tween()
 	_tween.tween_method(_open, 0.0, 1.0, OPEN).set_trans(Tween.TRANS_SINE)
 	_tween.tween_callback(_begin)
-	_say("Ox-driver", "The sledge has slid back and the rope hangs slack. Watch my whip: when it comes down, heave! ([space], [shift] or click)")
+	_say("Ox-driver", "The bier has stalled. Take the hauler’s place on the rope. Watch my whip: when it comes down, heave! [space] to start, then [space], [shift] or click to heave. [esc] or arrow keys to leave")
 
 
 ## Let go of the rope: the train stands where it stalled, and you can take it up again.
@@ -158,6 +159,10 @@ func quit() -> void:
 
 ## A press: on the beat it is a pull, off it the rope goes slack.
 func press() -> void:
+	if phase == Phase.READY:
+		phase = Phase.PLAYING
+		clock = -0.001
+		return
 	if phase != Phase.PLAYING:
 		return
 	var k := roundi(clock / BEAT)
@@ -211,7 +216,7 @@ func _process(delta: float) -> void:
 
 
 func _begin() -> void:
-	phase = Phase.PLAYING
+	phase = Phase.PLAYING if instant else Phase.READY
 	clock = -0.001
 
 
@@ -244,6 +249,7 @@ func _close(won: bool) -> void:
 func _closed(won: bool) -> void:
 	_cover.visible = false
 	active = false
+	_nodes.haul_hauler.visible = won
 	phase = Phase.IDLE
 	offset = 0.0
 	target = 0.0

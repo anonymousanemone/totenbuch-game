@@ -227,9 +227,11 @@ func pick(p: Vector2) -> String:
 
 func take(id: String) -> void:
 	for b in _bodies.get_children():
-		if b.get_meta("id") == id:
+		if b.get_meta("id") == id and not b.is_queued_for_deletion():
+			var from: String = b.get_meta("from", "floor")
+			_last_park[id] = b.position
 			b.queue_free()
-			_hold(id, "floor")
+			_hold(id, from)
 			return
 	if _parked.has(id):
 		_parked[id].queue_free()
@@ -379,10 +381,6 @@ func _place(id: String) -> void:
 
 ## Into the physics: the frond goes back to its place above, everything else falls.
 func _fall(id: String, at: Vector2, topple: bool) -> void:
-	if id != "goose" and pieces[id].kind == "frond":   # too big to lie on the floor: back above
-		_park(id, _last_park[id])
-		changed.emit()
-		return
 	var half: float = _tex[id].get_size().x / 2.0
 	at.x = clampf(at.x, floor_x.x + minf(half, 60.0), floor_x.y - minf(half, 60.0))
 	at.y = minf(at.y, ground - 20.0)
@@ -398,7 +396,7 @@ func _spawn(id: String, at: Vector2, rot: float) -> RigidBody2D:
 	var b := RigidBody2D.new()
 	b.set_meta("id", id)
 	b.collision_layer = PIECE_LAYER
-	b.collision_mask = PIECE_LAYER
+	b.collision_mask = PIECE_LAYER | 4
 	b.position = at
 	b.rotation = rot
 	var mat := PhysicsMaterial.new()
@@ -441,16 +439,26 @@ func _build_floor() -> void:
 		c.position = r.get_center()
 		body.add_child(c)
 
+	# Only a piece in the player's hands can pass through this register.
+	var platform := StaticBody2D.new()
+	platform.collision_layer = 4
+	platform.collision_mask = 0
+	var collision := CollisionShape2D.new()
+	var shelf := RectangleShape2D.new()
+	shelf.size = Vector2(view.y - view.x, 8.0)
+	collision.shape = shelf
+	collision.position = Vector2((view.x + view.y) / 2.0, header.y + 4.0)
+	platform.add_child(collision)
+	add_child(platform)
+
 
 func _park(id: String, at: Vector2) -> void:
 	var half: Vector2 = _tex[id].get_size() / 2.0
 	var c := at
 	c.x = clampf(c.x, view.x + half.x, maxf(view.x + half.x, view.y - half.x))
 	c.y = clampf(c.y, header.x + half.y, maxf(header.x + half.y, header.y - half.y))
-	var s := _sprite(id, true, _parked_layer)
-	s.position = c
-	s.set_meta("id", id)
-	_parked[id] = s
+	var body := _spawn(id, c, 0.0)
+	body.set_meta("from", "parked")
 	_last_park[id] = c
 
 

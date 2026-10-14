@@ -301,10 +301,14 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	# Space thrusts in the fights that open out (holding Shift lends the thrust heka)
 	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_SPACE:
+		if not fight.is_empty():
+			fight.awaiting_start = false
 		if not fight.is_empty() and fight.kind == "sheaf":
 			_sheaf_act()                # ties the next band, or (once it is out) thrusts
 		elif not fight.is_empty() and fight.kind in ARENA_FIGHTS:
 			_croc_thrust()
+		elif not fight.is_empty() and fight.kind == "donkey":
+			_donkey_click(get_global_mouse_position())
 		get_viewport().set_input_as_handled()
 		return
 	if event is InputEventMouseMotion:
@@ -560,7 +564,8 @@ func start_fight(e: Dictionary) -> void:
 			fight.speed = 1.4
 		"sheaf":
 			_sheaf_start(e)
-	say("Scribe", e.intro)
+	fight.awaiting_start = not _instant
+	say("Scribe", e.intro + " " + e.get("hint", "") + (" Point at the snake and [space] to attack." if e.kind == "donkey" else "") + " [space] to start and attack; [esc] to keep exploring.")
 
 
 func end_fight() -> void:
@@ -623,6 +628,8 @@ func _restore(n: String) -> void:
 
 
 func _update_fight(dt: float) -> void:
+	if fight.get("awaiting_start", false) and not fight.get("closing", false):
+		return
 	fight.t += dt
 	match fight.kind:
 		"crocs": _crocs(dt)
@@ -636,6 +643,8 @@ func _update_fight(dt: float) -> void:
 
 
 func fight_click(p: Vector2) -> void:
+	if fight.get("awaiting_start", false):
+		return
 	if not fight.kind in ARENA_FIGHTS:
 		_thrust()
 	match fight.kind:
@@ -3954,20 +3963,7 @@ func _draw_overlay() -> void:
 	if fight.kind in ARENA_FIGHTS:
 		sp.y = _arena_rect().end.x
 	if fight.kind in ["crocs", "lunge", "creep", "twin", "apep", "sheaf"]:
-		# his health: flesh signs in red, top left inside the opened vignette; a lost one stays faint
-		var ar := _arena_rect()
-		var fs := Vector2(55.0, 68.0)       # on screen, about the size of a caption sign
-		if _flesh_tex:
-			fs = _flesh_tex.get_size() * (68.0 / _flesh_tex.get_size().y)
-		var red := Color(181 / 255.0, 91 / 255.0, 60 / 255.0)
-		for i in CROC_HEALTH:
-			var at := Vector2(ar.position.x + 40.0 + i * (fs.x + 14.0), ar.position.y + 14.0)
-			var a: float = (1.0 if i < fight.health else 0.22) * fight.open
-			if _flesh_tex:
-				# the picture as given, its dark ink turned red: shown through a red silhouette
-				overlay.draw_texture_rect(_flesh_tex, Rect2(at, fs), false, Color(red, a))
-			else:
-				overlay.draw_circle(at + fs / 2.0, 14.0, Color(red, a))
+		_draw_flesh_health()
 	if fight.kind in ["lunge", "creep", "twin", "apep", "donkey", "sheaf"]:
 		total = 0                      # the snakes show no count (Apep's is the barb going in)
 	for i in total:
@@ -4060,6 +4056,23 @@ func _maybe_run_cli() -> void:
 			get_tree().quit()
 
 
+func _draw_flesh_health() -> void:
+	# his health: flesh signs in red, top left inside the opened vignette; a lost one stays faint
+	var ar := _arena_rect()
+	var fs := Vector2(26.0, 32.0)       # on screen, about the size of a caption sign
+	if _flesh_tex:
+		fs = _flesh_tex.get_size() * (32.0 / _flesh_tex.get_size().y)
+	var red := Color(181 / 255.0, 91 / 255.0, 60 / 255.0)
+	for i in CROC_HEALTH:
+		var at := Vector2(ar.position.x + 40.0 + i * (fs.x + 5.0), ar.position.y + 14.0)
+		var a: float = (1.0 if i < fight.health else 0.22) * fight.open
+		if _flesh_tex:
+			# the picture as given, its dark ink turned red: shown through a red silhouette
+			overlay.draw_texture_rect(_flesh_tex, Rect2(at, fs), false, Color(red, a))
+		else:
+			overlay.draw_circle(at + fs / 2.0, 14.0, Color(red, a))
+
+
 func _autotest() -> void:
 	var fails: Array[String] = []   # lambdas capture locals by value, so collect into an array
 	var expect := func(cond: bool, what: String):
@@ -4109,6 +4122,11 @@ func _autotest() -> void:
 		leave_fight()
 		expect.call(fight.is_empty() and not solved.has(e.id) and avatar.visible, e.id + " Esc steps out of the fight, not won")
 		start_fight(e)
+		fight.awaiting_start = true
+		var before_start: float = fight.t
+		_update_fight(1.0)
+		expect.call(fight.t == before_start, e.id + " danger waits for the first Space press")
+		fight.awaiting_start = false
 		match e.kind:
 			"crocs":
 				var at_tip := func(c: Dictionary) -> void:   # put a snout at the spear tip

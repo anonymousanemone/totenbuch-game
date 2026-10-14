@@ -145,7 +145,7 @@ func start() -> void:
 	_tween = create_tween()
 	_tween.tween_method(_open, 0.0, 1.0, OPEN).set_trans(Tween.TRANS_SINE)
 	_tween.tween_callback(_begin)
-	_say("Ox-driver", "The sledge has slid back and the rope hangs slack. Watch my whip: when it comes down, heave! (Space, Shift or click)")
+	_say("Ox-driver", "The sledge has slid back and the rope hangs slack. Watch my whip: when it comes down, heave! ([space], [shift] or click)")
 
 
 ## Let go of the rope: the train stands where it stalled, and you can take it up again.

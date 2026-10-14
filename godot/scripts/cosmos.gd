@@ -103,7 +103,7 @@ func _ready() -> void:
 		"intro_title": "Spell 17: The Night Journey",
 		"intro_body": "Spell 17 sets out the whole night world in one long strip: the senet game, the lions of the horizon, the mummy on its bier, the cat at the persea tree, the boats of the sun, and Osiris on his throne.\n\n"
 			+ "Something is out of place in each of them, and the sun cannot rise until they are set right.\n\n"
-			+ "The scroll reads [b]right to left[/b]. Click the papyrus to walk, or use ← →. Click figures to look at them and record them in your journal. Some things can be picked up and carried. Esc puts a carried thing back.",
+			+ "The scroll reads [b]right to left[/b]. Click the papyrus to walk, or use [←] [→]. Click figures to look at them and record them in your journal. Some things can be picked up and carried. [esc] puts a carried thing back.",
 		"outro_title": "The sun is reborn",
 		"bottom": 200.0,
 		"task_size": 15,

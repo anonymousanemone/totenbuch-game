@@ -4,8 +4,9 @@
 ## folder of art/procession1-15.mdp, cut out of the picture by tools/cut_procession300.py. They lie
 ## hidden along the scroll (`ending.hide` in level.json): the stand inside the canopy frame behind
 ## the women mourners (pl. I), the sun disc between the legs of the creature on the mummy's bier
-## (pl. II; it rides with the sledge), the lotus on the second offering pile (pl. V). The stela
-## by the tomb shows a faint imprint of the three as they stand. A piece found is carried; at its
+## (pl. II; it rides with the sledge), the lotus on the second offering pile (pl. V). Once the
+## other rites are done (`show_imprint`) the stela by the tomb shows a faint imprint of the three as
+## they stand; until then its face is blank. A piece found is carried; at its
 ## place before Ra each goes on only once what it rests on is there: the stand, then the sun, then
 ## the lotus. The kneeling adorer before Ra is absent until the player kneels in his place; then
 ## light pours from Ra's disc and the new sun and floods the screen (`ended`).
@@ -29,6 +30,7 @@ const LIGHT := preload("res://scripts/light.gdshader")
 var carried: Array[String] = []   ## found, not yet at its place, in the order found
 var placed := {}                  ## piece -> true once at its place
 var kneeling := false
+var imprint_shown := false        ## the stela shows the stand (only once the other rites are done)
 var instant := false              ## the autotest: no waiting
 var _data: Dictionary
 var _rects := {}                  ## piece -> Rect2 where it is drawn
@@ -91,9 +93,10 @@ func reset() -> void:
 	carried.clear()
 	placed.clear()
 	kneeling = false
+	imprint_shown = false
 	for nm in PIECES:
 		_hide(nm)
-	_imprint.visible = true
+	_imprint.visible = false
 	_imprint.modulate = IMPRINT
 	_kneeler.visible = false
 	_kneeler.modulate.a = 1.0
@@ -129,7 +132,8 @@ func _set_at_place(nm: String) -> void:
 	sp.position = _rects[nm].get_center()
 
 
-## A hidden piece under the pointer, or "place" for the stand's place before Ra; else "".
+## A hidden piece under the pointer, or "place" for the stand's place before Ra (empty, part
+## set up, or whole); else "".
 func pick(p: Vector2) -> String:
 	for nm in PIECES:
 		if placed.has(nm) or nm in carried:
@@ -139,7 +143,7 @@ func pick(p: Vector2) -> String:
 		var r := sp.get_global_transform() * Rect2(-size / 2.0, size)
 		if r.grow(6.0).has_point(p):
 			return nm
-	if place_rect().has_point(p) and not complete():
+	if place_rect().has_point(p):
 		return "place"
 	return ""
 
@@ -171,17 +175,18 @@ func take(nm: String) -> void:
 		"lotus":
 			said.emit("Scribe", "A lotus lies on top of the offerings, its stem bent. You take it.")
 	if carried.size() + placed.size() == PIECES.size():
-		said.emit("Scribe", "You carry the stand, the sun disc and the lotus. The stela by the tomb shows how they stood before Ra.")
+		said.emit("Scribe", "You carry the stand, the sun disc and the lotus." + (" The stela by the tomb shows how they stood before Ra." if imprint_shown else ""))
 	changed.emit()
 
 
 ## At the place before Ra: set down the next carried piece that has what it rests on.
-## Returns "placed", "unsupported" (nothing carried can go on yet), "empty" or "done".
+## Returns "placed", "unsupported" (nothing carried can go on yet), "empty" or "done" (already
+## whole; the level says what is still wrong, if anything).
 func set_down() -> String:
 	if complete():
 		return "done"
 	if carried.is_empty():
-		said.emit("Scribe", "Something stood here before Ra. The stela by the tomb shows what.")
+		said.emit("Scribe", "Something stood here before Ra." + (" The stela by the tomb shows what." if imprint_shown else ""))
 		return "empty"
 	for nm in carried:
 		var under: String = RESTS_ON[nm]
@@ -190,11 +195,11 @@ func set_down() -> String:
 			placed[nm] = true
 			_set_at_place(nm)
 			if complete():
-				said.emit("Scribe", "The stand stands before Ra again, the sun disc on it and the lotus bending over it, as on the stela.")
+				said.emit("Scribe", "The stand stands before Ra again, the sun disc on it and the lotus bending over it" + (", as on the stela." if imprint_shown else "."))
 				_fade_imprint()
 			changed.emit()
 			return "placed"
-	said.emit("Scribe", "%s has nothing to rest on yet. Look at the stela: something stands beneath it." % _cap(NAMES[carried[0]]))
+	said.emit("Scribe", "%s has nothing to rest on yet." % _cap(NAMES[carried[0]]) + (" Look at the stela: something stands beneath it." if imprint_shown else ""))
 	return "unsupported"
 
 
@@ -240,7 +245,23 @@ func kneel(avatar: CanvasItem) -> void:
 	_tween.tween_callback(ended.emit)
 
 
+## The other rites are done: the imprint of the stand comes up faintly on the stela (unless the
+## stand already stands before Ra).
+func show_imprint() -> void:
+	if imprint_shown or complete():
+		return
+	imprint_shown = true
+	_imprint.visible = true
+	_imprint.modulate = IMPRINT
+	if instant:
+		return
+	_imprint.modulate.a = 0.0
+	create_tween().tween_property(_imprint, "modulate:a", IMPRINT.a, IMPRINT_FADE)
+
+
 func _fade_imprint() -> void:
+	if not _imprint.visible:
+		return
 	if instant:
 		_imprint.visible = false
 		return

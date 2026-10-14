@@ -87,7 +87,7 @@ func _ready() -> void:
 		"journal_hint": "Click figures in the field to record them here.",
 		"intro_title": "Spell 110: The Field of Offerings",
 		"intro_body": "The Field of Offerings lies inside a frame of water, in three bands. Here the dead plough, sow and reap for ever, and the gods are fed from the harvest.\n\n"
-			+ "Click the papyrus to walk, or use ← →. Click another band to cross over to it. Click figures to look at them; some things can be set going, and some carried.\n\n"
+			+ "Click the papyrus to walk, or use [←] [→]. Click another band to cross over to it. Click figures to look at them; some things can be set going, and some carried.\n\n"
 			+ "Each band reads [b]right to left[/b], like the scroll.",
 		"outro_title": "You reach the landing",
 		"bottom": 200.0,

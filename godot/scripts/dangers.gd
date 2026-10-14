@@ -160,7 +160,7 @@ func _ready() -> void:
 		"journal_hint": "Each creature you overcome is recorded here.",
 		"intro_title": "Spells 31–42: Dangers on the Road",
 		"intro_body": "Between the tomb and the hall of judgment the road is full of creatures: crocodiles that steal magic, snakes, a beetle, the serpent Apep, a snake that eats the donkey.\n\n"
-			+ "The scroll reads [b]right to left[/b]. Click the papyrus to walk, or use ← →. Click a creature to walk into its vignette and become its spear-bearer; the scribe tells you that creature's rule. Some vignettes open out across the whole scroll: there [b]Space[/b] thrusts the spear (hold [b]Shift[/b] for heka) and the arrow keys move or turn you. Elsewhere, click the creature to strike.\n\n"
+			+ "The scroll reads [b]right to left[/b]. Click the papyrus to walk, or use [←] [→]. Click a creature to walk into its vignette and become its spear-bearer; the scribe tells you that creature's rule. Some vignettes open out across the whole scroll: there [space] thrusts the spear (hold [shift] for heka) and the arrow keys move or turn you. Elsewhere, click the creature to strike.\n\n"
 			+ "[i]Every figure is cut directly from Lepsius's 1842 plates; nothing is redrawn.[/i]",
 		"outro_title": "The road is clear",
 		"bottom": 228.0,
@@ -706,7 +706,7 @@ const HURT := RED_CROC                      ## the bearer's body when bitten
 const DISSOLVE := preload("res://scripts/dissolve.gdshader")
 const GLOW := preload("res://scripts/glow.gdshader")
 const TEXT_DROP := 320.0        ## how far the text below drops while the vignette is open
-const HEKA_TEXT := "Heka: the magic of the gods; these signs name it. Hold Shift as you thrust (Space), and the spear carries heka: it turns back a red crocodile. Never use it on an ordinary one: that one would seize the word and make off with it."
+const HEKA_TEXT := "Hold [shift] while striking to fight off the red crocodiles. Don't use heka on the regular crocodiles, or they'll make off with it!"
 
 
 ## The opened-out vignette both kinds of arena fight use (crocodiles, roach): the picture band
@@ -1019,7 +1019,7 @@ func _crocs(dt: float) -> void:
 		"move":
 			if fight.moved > 60.0 * unit:
 				fight.tut = "first"
-				say("Scribe", "Here one comes. Meet its snout with the spear tip, and press Space as they touch.")
+				say("Scribe", "Here one comes. Meet its snout with the spear tip, and press [space] as they touch.")
 				_croc_launch(e.first_speed)
 		"":
 			fight.timer -= dt
@@ -1399,7 +1399,7 @@ func _croc_launch(speed: float) -> bool:
 		fight.copies.append(a)
 		if dir < 0 and not fight.told_back:
 			fight.told_back = true
-			say("Scribe", "One comes from behind! ← → turn you to face either way.")
+			say("Scribe", "One comes from behind! [←] [→] turn you to face either way.")
 	# never two front halves on top of each other, nor two at one spot one just after the other
 	if not _instant and not _croc_clear(c, speed):
 		if c.node in fight.copies:              # not yet: take the new one away again
@@ -1468,13 +1468,13 @@ func _croc_thrust() -> void:
 	fight.last_thrust = fight.get("clock", 0.0)
 	if fight.tut == "thrust":
 		fight.tut = "move"
-		say("Scribe", "Good. Now move: ↑ ↓ (or W S) take you up and down.")
+		say("Scribe", "Good. Now move: [↑] [↓] (or [w] [s]) take you up and down.")
 
 
 func _crocs_click(_p: Vector2) -> void:
 	if _time - fight.nag > 4.0:
 		fight.nag = _time
-		say("Scribe", "Press Space to thrust the spear; ↑ ↓ (or W S) move you" + ("; ← → turn you." if fight.both else "."))
+		say("Scribe", "Press [space] to thrust the spear; [↑] [↓] (or [w] [s]) move you" + ("; [←] [→] turn you." if fight.both else "."))
 
 
 ## Close the vignette again, then finish the fight (or whatever `then` does).
@@ -1664,7 +1664,7 @@ func _twin(dt: float) -> void:
 			"away":
 				s.face = -1.0
 				if s.t >= s.for:
-					s.why = "It turned round and bit you. When its sign flashes, turn to it (← →) and strike while its back is turned."
+					s.why = "It turned round and bit you. When its sign flashes, turn to it ([←] [→]) and strike while its back is turned."
 					_twin_phase(s, "whip")
 			"whip":            # it whips round...
 				var u := minf(s.t / TWIN_SNAP, 1.0)
@@ -1752,7 +1752,7 @@ func _twin_bites(s: Dictionary) -> void:
 func _twin_click(_p: Vector2) -> void:
 	if _time - fight.nag > 4.0:
 		fight.nag = _time
-		say("Scribe", "← → (or A D) turn you; Space thrusts. Strike a snake only while its back is turned.")
+		say("Scribe", "[←] [→] (or [a] [d]) turn you; [space] thrusts. Strike a snake only while its back is turned.")
 
 
 ## Dev (`--croc-bot`): turns to the snake whose sign flashes and thrusts once its back is turned
@@ -2072,7 +2072,7 @@ func _creep_dies() -> void:
 func _creep_click(_p: Vector2) -> void:
 	if _time - fight.nag > 4.0:
 		fight.nag = _time
-		say("Scribe", "← (or A) creeps toward it; Space thrusts. Hold still while it looks back.")
+		say("Scribe", "[←] (or [a]) creeps toward it; [space] thrusts. Hold still while it looks back.")
 
 
 ## Dev (`--croc-bot`): creeps while its head is down, stops when it lifts, thrusts when in reach
@@ -2327,7 +2327,7 @@ func _roach_swarm(r: Dictionary) -> void:
 func _roach_click(_p: Vector2) -> void:
 	if _time - fight.nag > 4.0:
 		fight.nag = _time
-		say("Scribe", "Press Space to thrust the spear; ← → turn you. You cannot step.")
+		say("Scribe", "Press [space] to thrust the spear; [←] [→] turn you. You cannot step.")
 
 
 ## Dev (`--croc-bot`): turns toward a beetle that has rested REACT s within reach, and thrusts.
@@ -2809,7 +2809,7 @@ func _dev_shot(env: String) -> void:
 func _lunge_click(_p: Vector2) -> void:
 	if _time - fight.nag > 4.0:
 		fight.nag = _time
-		say("Scribe", "Press Space to thrust the spear, just as the snake springs. You cannot step.")
+		say("Scribe", "Press [space] to thrust the spear, just as the snake springs. You cannot step.")
 
 
 ## Dev (`--croc-bot`): thrusts LUNGE_BOT_AIM s after the snap begins, give or take BOT_JITTER s.

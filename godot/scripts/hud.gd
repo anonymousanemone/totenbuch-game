@@ -22,6 +22,9 @@ const OCHRE := Color("9a5b1e")
 const RED := Color("a3321f")
 const OK := Color("4d6b2a")
 const CREAM := Color("ead9b0")
+## Keys are written in brackets ("hold [shift]"); these are shown as written, not read as BBCode
+## tags ("[s]" would otherwise start a strikethrough).
+const KEY_NAMES := ["space", "shift", "esc", "←", "→", "↑", "↓", "w", "a", "s", "d"]
 
 var _level: Node
 var _cfg: Dictionary
@@ -95,7 +98,7 @@ func reset_view() -> void:
 
 
 func say(who: String, text: String) -> void:
-	_say.text = "[color=#%s][b]%s:[/b][/color] %s" % [RED.to_html(false), who, text]
+	_say.text = "[color=#%s][b]%s:[/b][/color] %s" % [RED.to_html(false), who, _keys(text)]
 
 
 func update_tasks(done: Array) -> void:
@@ -105,12 +108,12 @@ func update_tasks(done: Array) -> void:
 		_tasks[i].text = "[color=#%s][s]%s[/s][/color]" % [OK.to_html(false), line] if done[i] else line
 
 
-func update_hand(piece: String, label: String, tex: Texture2D, note := "Esc puts it back.") -> void:
+func update_hand(piece: String, label: String, tex: Texture2D, note := "[esc] puts it back.") -> void:
 	_hand_icon.texture = tex
 	if piece == "":
 		_hand_label.text = "[i]Nothing in hand.[/i]"
 	else:
-		_hand_label.text = "Holding [b]%s[/b]. %s" % [label, note]
+		_hand_label.text = "Holding [b]%s[/b]. %s" % [label, _keys(note)]
 
 
 ## The piece follows the pointer at roughly its on-screen size.
@@ -168,7 +171,7 @@ func add_journal_entry(label: String, note: String, tex: Texture2D, count: int, 
 
 
 func show_outro(body: String) -> void:
-	_outro_text.text = body
+	_outro_text.text = _keys(body)
 	_outro.visible = true
 
 
@@ -317,7 +320,7 @@ func _build_overlay(title: String, body: String, button: String, on_press: Calla
 	var b := _rich(17)
 	b.name = "Body"
 	b.custom_minimum_size.x = 580
-	b.text = body
+	b.text = _keys(body)
 	v.add_child(b)
 	var btn := Button.new()
 	btn.text = button
@@ -326,6 +329,13 @@ func _build_overlay(title: String, body: String, button: String, on_press: Calla
 	btn.pressed.connect(on_press)
 	v.add_child(btn)
 	return dim
+
+
+## `text` with its bracketed key names escaped for BBCode.
+static func _keys(text: String) -> String:
+	for k in KEY_NAMES:
+		text = text.replace("[%s]" % k, "[lb]%s[rb]" % k)
+	return text
 
 
 func _rich(size: int) -> RichTextLabel:

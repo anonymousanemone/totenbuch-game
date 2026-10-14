@@ -1,20 +1,20 @@
 # Totenbuch (Godot 4)
 
 Levels of the Book of the Dead as a point-and-click game, built from Lepsius's
-*Das Todtenbuch der Ägypter* (1842). Every figure is cut from the plate scans.
+*Das Todtenbuch der Ägypter* (1842). Every figure is cut from the plate scans; nothing is redrawn.
 
 Open `project.godot` in Godot 4.7+ and press **Play** (F5). A level menu opens first.
 
 The scroll reads right to left. Click the papyrus (or use ← →) to walk.
 
 ## The Funeral Procession (spells 1–15, pl. I–VI)
-Whatever can be clicked glows under the pointer (`scripts/glow.gdshader`; a standard-bearer glows whole, man and standard). Click figures to record them in the journal; click a movable piece to pick it up and click
+Whatever can be clicked glows under the pointer (`scripts/glow.gdshader`; all eight standard-bearers glow together). Click figures to record them in the journal; click a movable piece to pick it up and click
 where it belongs to set it down (clicking a filled place swaps the two). **Esc** puts it back.
 The whole scroll can be walked from the start.
 
-1. **Haul the sledge** (plate II): nobody is on the rope at first; click the ox-driver, the censer priest or the sledge to take it up yourself, standing where the hauler is drawn. The drawn hauler only appears, on his rope, once the sledge is home. The vignette opens out over the start of plate I and the train (ox, driver, hauler, priest, sledge) stands back from its place. The driver's whip is drawn back and comes down on every beat, with a drum: press Space, Shift or click as it comes down and you lean into the rope and the train gains a step; off the beat the rope goes slack and the sledge slips back; a beat let pass and it stops. Twelve good pulls bring it to where it is drawn. Esc lets go. Tuned in `scripts/haul.gd` (`BEAT`, `WINDOW`, `BACK`, `PULLS`, `SLIP`).
-2. **Return the standards**: the eight standard-bearers (four in plate III, four in plate II) carry the wrong gods; the two falcons are interchangeable. An empty pole shows a faint outline of its own standard. The lector with two plumes on his head (plate V, past the offering table) reads out the order when clicked: the eight signs appear one after another in the space above his sheet, jackal first at the far end, falcon last in front of his plumes (`RECITE_*` in `procession.gd`; the line's place is `recital` in `level.json`).
-3. **Rebuild the offering table** (`scripts/offering_table.gd`): the heap in plate IV has collapsed. Click the table (or a piece, the lector or the goose-bearer) and you step up to it: you stand just behind the lector and the camera holds on the table, from the man with the jar to the goose-bearer (`view`, `stand` in `level.json` `table`). Esc, or walking off with the arrow keys, steps away; nothing is lost, and what you held goes back. The loose pieces lie on the floor between the two pairs of bouquets as physics bodies, at any angle, each with a faint papyrus fill (50%) inside its outline; the palm frond lies in the empty band above, a little to the right. Press on a piece to take it up (it comes to the front, follows the pointer, and its place shows faintly); let go after dragging, or click again, to set it down. Near its place it goes in, but only once everything it rests on is there (`rests_on`, worked out by the cutter); otherwise it topples back down. Set down in the band above the picture, it lies there out of the way until taken up again. The frond goes on last. Clicking the lector shows, in front of him, a piece that can go on now (again for the next one).
+1. **Haul the bier** (plate II): click the ox-driver for instructions and become the original hauler. Clicking the bier or censer priest directs you to him. Space starts the count-in. The vignette opens over plate I and the train stands back from its place. Pull with Space, Shift, or click as the whip falls; the drum and whip provide the beat. An early or late pull lets the rope slacken and the bier slip back; a missed beat stops it. The hauler leans and the train moves on accepted pulls. Twelve pulls without setbacks bring it home. Esc or arrow keys let go and restore the walking avatar. Tuned in `scripts/haul.gd` (`BEAT`, `WINDOW`, `BACK`, `PULLS`, `SLIP`).
+2. **Return the standards**: click the eight standard-bearers to stand at their nearer end and frame the group. Esc or arrows leave the scene and return any carried standard. The bearers (four in plate III, four in plate II) carry the wrong gods; the two falcons are interchangeable. An empty pole shows a faint outline of its own standard. The lector with two plumes on his head (plate V, past the offering table) reads out the order when clicked: the eight signs appear one after another in the space above his sheet, jackal first at the far end, falcon last in front of his plumes (`RECITE_*` in `procession.gd`; the line's place is `recital` in `level.json`).
+3. **Rebuild the offering table** (`scripts/offering_table.gd`): the heap in plate IV has collapsed. Click the table (or a piece, the lector or the goose-bearer) and you step up to it: you stand just behind the lector and the camera holds on the table, from the man with the jar to the goose-bearer (`view`, `stand` in `level.json` `table`). Esc, or walking off with the arrow keys, steps away; nothing is lost, and what you held goes back. The loose pieces lie on the floor between the two pairs of bouquets as physics bodies, at any angle, each with a faint papyrus fill (50%) inside its outline; the palm frond lies in the empty band above, a little to the right. Press on a piece to take it up (it comes to the front, follows the pointer, and its place shows faintly); let go after dragging, or click again, to set it down. Near its place it goes in, but only once everything it rests on is there (`rests_on`, worked out by the cutter); otherwise it topples back down. Every loose piece has gravity. Set down above the upper-register platform, a piece falls onto it; only a piece being actively dragged can cross it. The frond goes on last. Clicking the lector shows, in front of him, a piece that can go on now (again for the next one).
 4. **Give the goose back**: the man beside the lector holds a loaf from the heap instead of his goose, which lies among the fallen offerings. Take the loaf from him, then give him the goose. While nothing is in his arms, the clothes the goose and loaf cover show.
 5. **Pour the water** (`scripts/pour_water.gd`, plate V): a priest raises a round jar over a kneeling woman, and the wavy line from it, arching over Anubis holding the mummy upright and down to their base, is the stream. At the start his arm is raised further, the jar upright, and no water runs: only a faint dotted ghost of the line (`scripts/water.gdshader`). Click the priest, the woman, Anubis and the mummy, or the jar, and you step up behind him; the camera holds on the scene (`view`, `stand` in `level.json` `water`). Press on the jar and drag to turn his forearm about the elbow. Within `WINDOW` of the tilt as drawn the water runs along the line and the line draws itself in, but only while the jar is held steady (`STEADY`); too shallow and it only drips, too steep and it gushes out and splashes on the woman's raised hands. Not pouring along the line, the drawn part dries back, never below `KEEP` of the furthest it reached. Let go and the arm rises back upright. Once the whole line is drawn the jar settles where it is drawn. Esc, or walking off, steps away.
 6. **Open the mummy's mouth** (`scripts/opening_mouth.gd`, plates V–VI; no game in the touch yet): the caption over Ra, the lotus stand and the kneeler is gone, only a faint imprint of it showing. Click the adze on the offering stand by the obelisks (the hooked blade, third from the top) and it follows the pointer; click the mummy with it and the adze goes back on the stand, and the words come out of the mummy's mouth as a small ball that rises and unrolls into their line in the empty caption band above the mummy (`mouth.speak_right` in `level.json`). Click the line to take it, and click its imprint over Ra to set it there, as drawn. Esc puts the adze back on the stand, or the words back above the mummy.
@@ -74,7 +74,7 @@ at the end waits until every danger before it is overcome.
 | 38 | Take the ankh and sail, the breath of life |
 | 39 | Close up, the whole vignette across. He stays where he is drawn, the barb resting a little way up its line from Apep's neck (where the body folds back); Space thrusts. Now and then the tail lashes and a wave runs the length of Apep to the fold (`apep_wave.gdshader` lifts the drawing column by column); his head strains up as it comes. Thrust as the crest reaches the point: the wave is pressed flat, Apep flushes red, and the barb rests a step further in (`need` 6 steps; at the last the spear is as drawn). A wave that gets past rears his head out from under the barb, round to bite the bearer's foot. After the first two (`teach`), a share of waves (`feint`) are smaller and die out in the drawn hump; a thrust on a still neck works the barb loose a step. The waves come faster (`speed` 220 → 380 plate px/s), closer together (`gap`, never two at the point within `min_gap`), and the crest must be nearer the point (`reach` 10 → 5 plate px: a window of about 155 ms down to 135 ms). No count is shown; three bites and he crumbles. Tuned in its `ENCOUNTERS` entry |
 | 40 | Strike the snake on the donkey's back three times; hitting the donkey costs a hit |
-| 41 | Heads rise from the reeds; strike them while they show (three times) |
+| 41 | Tie the sheaf’s four bands while the stirring is above the next band, then spear the snake as its head emerges |
 | 42 | End of the level. Spell 42 is text only (each body part given to a god) and is not a puzzle yet |
 
 ## Layout
@@ -116,7 +116,7 @@ a crocodile fight once red crocodiles can come); in a fight it also glows under 
 player to hold Shift against the red crocodiles.
 
 ## Command-line checks
-Run all five gameplay suites and the camera, figure-mask and hover regressions from the
+Run all five gameplay suites and the camera, figure-mask, hover and UI regressions from the
 repository root:
 ```bash
 python3 godot/tests/run_tests.py
@@ -126,14 +126,37 @@ to choose an executable. It checks exit codes, suite completion and unexpected s
 engine errors. It reports the existing headless glow-shader diagnostic, macOS certificate
 diagnostic and exit-time object leak warning separately.
 
-The HUD is a deep-papyrus title bar and a 120 px strip, each set off from the scene by the band
-(`BOXED` in `hud.gd` also runs it round the strip). The scroll levels (procession, dangers, cosmos)
-start their view just under the top register's upper rule (`VIEW_TOP`), so the title bar's band
-takes that rule's place above the lower one; field and hall keep their own framing under the band. There is no list of rites on
-screen: the scene shows what is still wrong (the levels still report the rites to `update_tasks`).
-Keys in player text are written in brackets (`[space]`, `[shift]`, `[esc]`, `[←] [→]`); the HUD
-shows them as written. A scribe line that won't fit the strip at 32 px drops to 16 px.
-`-- --journal` opens the Journal for a screenshot. The menu takes `-- --screen=map` (or `settings`, `controls`) with `--screenshot=path.png`. A level's outro leads on to the next scene of the scroll.
+The HUD uses the shared palette in `scripts/ui.gd`: ink, papyrus, the red UI accent,
+terracotta danger ink, gold success flashes, and faint placement previews. Sprite ink tint
+multipliers are distinct from display colors.
+
+Dialogue stays at 32 px. Long notes are paged using the next-page button or Enter, and
+reflow when the window or held-item panel changes size. Instructions and progress remain
+on a separate, persistent line while transient feedback changes. The bottom strip is
+152 px (184 px in narrow windows); cameras reserve its actual height. Intro/outro bodies
+use 16 px with additional line and paragraph spacing; panels and the Journal adapt to
+window size. Journal entries and intro/outro bodies can scroll when needed.
+
+The Journal ([j]), intros, and outros pause movement, physics, timers, and active fights.
+Closing them resumes play; going to another scene clears pause. Arrow keys retain their
+gameplay role; menu buttons have visible keyboard focus. Enter/Space advances an intro
+or outro. Gameplay feedback favors visible actions, first-occurrence failure explanations,
+and short phase-change cues over repeated success narration. Explicit Hint remains
+repeatable and describes the active task, including fights played out of order.
+
+Click the ox-driver to become the original hauler. Space starts the count-in; pull as
+his whip falls. Click the standards to stand at the nearer end of their group and sort
+them; empty poles show the required standards. Esc or arrow keys leave these scenes.
+At the offering table, all loose pieces have gravity, including pieces on the upper
+register. The register is a platform; dragging a piece lets it cross. The obsolete task
+panel and hidden minimap have been removed. The spell-38 gate opens after the earlier
+dangers are overcome and the breath of life is taken.
+
+`-- --journal` opens the Journal for a screenshot. Menu screenshots use `--screen=map`
+(or `settings`, `controls`) with `--screenshot=path.png`. The UI regression scene checks
+1280×720, 800×600, and 640×480, pagination, carried-item layout, modal pause, active hints,
+muted feedback, and start/exit/retry controls. Run it with `--script res://tests/ui_regressions.gd`;
+add `-- --ui-images=/tmp/totenbuch-ui` with a rendering backend to capture representative screens.
 
 Shared camera arithmetic lives in `scripts/scroll_camera.gd`; figure ink/interior masks
 live in `scripts/figure_mask.gd`. Dangers encounter descriptions and tuning live in

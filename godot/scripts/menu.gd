@@ -5,8 +5,11 @@
 extends Control
 
 const CARD := Vector2(220, 140)
-const DIM := Color(0.12, 0.08, 0.04, 0.5)
+const DIM := UI.DIM
 
+var _frontispiece: TextureRect
+var _sheets: Array[PanelContainer] = []
+var _control_names: Array[Label] = []
 var _title: Control
 var _map: Control
 var _settings: Control
@@ -33,6 +36,8 @@ func _ready() -> void:
 	_settings = _build_settings()
 	_controls = _build_controls()
 	_show(_title)
+	get_viewport().size_changed.connect(_resize_menu)
+	_resize_menu()
 	for a in args:
 		if a.begins_with("--screen="):
 			match a.trim_prefix("--screen="):
@@ -57,8 +62,12 @@ func _show(page: Control) -> void:
 	_map.visible = page == _map
 	_settings.visible = page == _settings
 	_controls.visible = page == _controls
+	for button in _title.find_children("*", "BaseButton", true, false):
+		button.focus_mode = Control.FOCUS_ALL if page == _title else Control.FOCUS_NONE
 	if page == _map:
 		_refresh_map()
+	_resize_menu.call_deferred()
+	_focus_page.call_deferred(page)
 
 
 # ---------------------------------------------------------------- the title page
@@ -84,7 +93,8 @@ func _build_title() -> Control:
 	var pic := PanelContainer.new()
 	pic.add_theme_stylebox_override("panel", UI.box(UI.PAPYRUS, UI.INK, 4, 4, 4))
 	pic.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-	pic.add_child(_picture(load("res://assets/menu/frontispiece.png"), Vector2(360, 210)))
+	_frontispiece = _picture(load("res://assets/menu/frontispiece.png"), Vector2(360, 210))
+	pic.add_child(_frontispiece)
 	v.add_child(pic)
 	var title := _label("TOTENBUCH", 64, UI.TAG)
 	var spaced := FontVariation.new()
@@ -130,7 +140,7 @@ func _build_map() -> Control:
 	head.add_child(spacer)
 	_count = _label("", UI.SMALL, UI.OCHRE)
 	head.add_child(_count)
-	head.add_child(UI.icon_button("back", "Back", func(): _show(_title)))
+	head.add_child(UI.icon_button("back", "Back", func(): _show(_title), true))
 
 	var scroll := ScrollContainer.new()
 	scroll.set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -139,7 +149,7 @@ func _build_map() -> Control:
 	scroll.offset_top = 70
 	scroll.offset_bottom = -100
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_SHOW_NEVER   # the wheel scrolls it
+	scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO   # the wheel scrolls it
 	page.add_child(scroll)
 	_cards = VBoxContainer.new()
 	_cards.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -160,6 +170,8 @@ func _build_map() -> Control:
 	row.add_theme_constant_override("separation", 24)
 	strip.add_child(row)
 	_chosen_name = _label("", UI.BIG, UI.TAG)
+	_chosen_name.custom_minimum_size.x = 160
+	_chosen_name.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	_chosen_about = _label("", UI.SMALL, UI.INK)
 	_chosen_about.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_chosen_about.autowrap_mode = TextServer.AUTOWRAP_WORD
@@ -203,10 +215,15 @@ func _card(s: Dictionary) -> Control:
 	card.layout_direction = Control.LAYOUT_DIRECTION_LTR
 	card.add_theme_constant_override("separation", 2)
 	card.mouse_filter = Control.MOUSE_FILTER_STOP
+	card.focus_mode = Control.FOCUS_ALL
+	card.focus_entered.connect(func(): _choose(s.key))
 	card.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	card.gui_input.connect(func(e):
 		if e is InputEventMouseButton and e.pressed and e.button_index == MOUSE_BUTTON_LEFT:
-			_choose(s.key))
+			_choose(s.key)
+		elif e.is_action_pressed("ui_accept"):
+			_choose(s.key)
+			card.accept_event())
 	var frame := PanelContainer.new()
 	frame.name = "Frame"
 	frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -284,11 +301,12 @@ func _refresh_settings() -> void:
 
 func _build_controls() -> Control:
 	var sheet := _sheet("Controls")
-	for k in [["Walk", "[←] [→] or click"], ["Look, take", "click"], ["Put back", "[esc]"], ["Journal", "[j]"],
-			["Thrust", "[space]"], ["Heka", "hold [shift]"], ["Move (fights)", "[↑] [↓]"]]:
+	for k in [["Walk", "[←] [→] or click"], ["Look / take", "click"], ["Return / leave", "[esc]"], ["Journal", "[j]"],
+			["Begin / attack", "[space]"], ["Red crocodiles", "hold [shift]"], ["Aim / turn", "arrows (each fight explains)"], ["Read next page", "[enter]"]]:
 		var row := HBoxContainer.new()
 		var name := _label(k[0], UI.BIG, UI.INK)
-		name.custom_minimum_size.x = 280
+		name.custom_minimum_size.x = 220
+		_control_names.append(name)
 		row.add_child(name)
 		row.add_child(_label(k[1], UI.BIG, UI.OCHRE))
 		sheet.add_child(row)
@@ -306,6 +324,7 @@ func _sheet(heading: String) -> VBoxContainer:
 	var panel := PanelContainer.new()
 	panel.add_theme_stylebox_override("panel", UI.box(UI.PAPYRUS, UI.INK, 4, 30, 18))
 	panel.custom_minimum_size.x = 660
+	_sheets.append(panel)
 	center.add_child(panel)
 	var v := VBoxContainer.new()
 	v.add_theme_constant_override("separation", 4)
@@ -366,6 +385,7 @@ func _label(text: String, size: int, color: Color) -> Label:
 	l.text = text
 	l.add_theme_font_size_override("font_size", size)
 	l.add_theme_color_override("font_color", color)
+	l.set_meta("font_size", size)
 	return l
 
 
@@ -384,16 +404,17 @@ func _button(text: String, on_press: Callable, main := false) -> Button:
 	var b := Button.new()
 	b.text = text
 	b.custom_minimum_size = Vector2(240, 52)
-	b.focus_mode = Control.FOCUS_NONE
+	b.focus_mode = Control.FOCUS_ALL
 	b.add_theme_font_size_override("font_size", UI.BIG)
 	var fill := UI.TAG if main else UI.DEEP
 	var lit := UI.INK if main else UI.PAPYRUS
-	b.add_theme_stylebox_override("normal", UI.box(fill, UI.INK, 4, 16, 0))
-	b.add_theme_stylebox_override("hover", UI.box(lit, UI.INK, 4, 16, 0))
-	b.add_theme_stylebox_override("pressed", UI.box(lit, UI.INK, 4, 16, 0))
-	b.add_theme_stylebox_override("disabled", UI.box(Color(UI.DEEP, 0.5), UI.RULE, 4, 16, 0))
+	b.add_theme_stylebox_override("normal", UI.box(fill, UI.INK, 4, 16, 8))
+	b.add_theme_stylebox_override("hover", UI.box(lit, UI.INK, 4, 16, 8))
+	b.add_theme_stylebox_override("pressed", UI.box(lit, UI.INK, 4, 16, 8))
+	b.add_theme_stylebox_override("disabled", UI.box(Color(UI.DEEP, 0.5), UI.RULE, 4, 16, 8))
 	b.add_theme_color_override("font_color", UI.CREAM if main else UI.INK)
 	b.add_theme_color_override("font_hover_color", UI.CREAM if main else UI.TAG)
+	b.add_theme_color_override("font_focus_color", UI.CREAM if main else UI.INK)
 	b.add_theme_color_override("font_disabled_color", UI.RULE)
 	b.pressed.connect(on_press)
 	return b
@@ -404,12 +425,42 @@ func _flat(text: String, color: Color, on_press: Callable) -> Button:
 	var b := Button.new()
 	b.text = text
 	b.flat = true
-	b.focus_mode = Control.FOCUS_NONE
+	b.focus_mode = Control.FOCUS_ALL
 	for state in ["normal", "hover", "pressed"]:
 		b.add_theme_stylebox_override(state, StyleBoxEmpty.new())
 	b.add_theme_font_size_override("font_size", UI.BIG)
 	b.add_theme_color_override("font_color", color)
 	b.add_theme_color_override("font_hover_color", UI.TAG)
 	b.add_theme_color_override("font_pressed_color", UI.TAG)
+	b.add_theme_color_override("font_focus_color", UI.TAG)
 	b.pressed.connect(on_press)
 	return b
+
+
+func _focus_page(page: Control) -> void:
+	for button in page.find_children("*", "BaseButton", true, false):
+		if button.is_visible_in_tree() and not button.disabled:
+			button.grab_focus()
+			return
+
+
+func _resize_menu() -> void:
+	var viewport := get_viewport_rect().size
+	var compact := viewport.x < 1000.0 or viewport.y < 650.0
+	var image_height := clampf(viewport.y - 380.0, 80.0, 210.0)
+	_frontispiece.custom_minimum_size = Vector2(image_height * 360.0 / 210.0, image_height)
+	for panel in _sheets:
+		panel.custom_minimum_size.x = clampf(viewport.x - 80.0, 320.0, 660.0)
+	for label in _control_names:
+		label.custom_minimum_size.x = 140.0 if compact else 220.0
+	for label in find_children("*", "Label", true, false):
+		if label.has_meta("font_size"):
+			var original: int = label.get_meta("font_size")
+			label.add_theme_font_size_override("font_size", maxi(UI.SMALL, original / 2) if compact else original)
+	for button in find_children("*", "Button", true, false):
+		button.add_theme_font_size_override("font_size", UI.SMALL if compact else UI.BIG)
+		if button.custom_minimum_size.x > 0.0:
+			button.custom_minimum_size.x = 160.0 if compact else 240.0
+			button.custom_minimum_size.y = 40.0 if compact else 52.0
+	_chosen_name.add_theme_color_override("font_color", UI.INK if compact else UI.TAG)
+	_chosen_about.visible = viewport.x >= 1000.0

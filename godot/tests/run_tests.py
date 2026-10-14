@@ -25,6 +25,7 @@ def main():
         for level in ("procession", "cosmos", "field", "hall", "dangers")
     ]
     suites.append(("regressions", ["--script", "res://tests/script_regressions.gd"], "REGRESSIONS OK"))
+    suites.append(("ui", ["--script", "res://tests/ui_regressions.gd"], "UI REGRESSIONS OK"))
     # These also occur in the committed baseline. The sampler diagnostic is specific
     # to compiling the existing glow shader with Godot's headless dummy renderer.
     baseline_diagnostics = (

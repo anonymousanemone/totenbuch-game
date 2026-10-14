@@ -16,7 +16,7 @@ const DATA_PATH := "res://assets/field/level.json"
 const ART := "res://assets/field/%s.png"
 const BESIDE := 70.0
 const HOVER := Color(0.64, 0.2, 0.12, 0.55)   ## only for `--show-hits`
-const INK := Color(0.18, 0.11, 0.06)
+const INK := UI.INK
 
 ## Farming stages, in the order the middle register is read.
 const STAGES := ["ploughed", "sown", "grown", "reaped", "threshed"]
@@ -36,6 +36,7 @@ var sailed := false
 var held := ""
 var finished := false
 var journal: Array[String] = []
+var _generation := 0
 var _hint_step := {}
 
 var _pieces := {}
@@ -76,32 +77,20 @@ func _ready() -> void:
 	avatar.bumped.connect(_on_bumped)
 	hud.setup(self, {
 		"title": "The Field of Offerings",
-		"subtitle": "Spell 110 · Lepsius, Todtenbuch, pl. XLI",
-		"rites_heading": "IN THE FIELD",
-		"tasks": [
-			"Work the field",
-			"Feed the gods of the field",
-			"Cross by the boat",
-			"Sail to the landing",
-		],
 		"journal_hint": "Click figures in the field to record them here.",
 		"intro_title": "Spell 110: The Field of Offerings",
-		"intro_body": "The Field of Offerings lies inside a frame of water, in three bands. Here the dead plough, sow and reap for ever, and the gods are fed from the harvest.\n\n"
-			+ "Click the papyrus to walk, or use [←] [→]. Click another band to cross over to it. Click figures to look at them; some things can be set going, and some carried.\n\n"
-			+ "Each band reads [b]right to left[/b], like the scroll.",
+		"intro_body": "In the Field of Offerings, grow grain, feed the gods, and find a boat to the landing.\n\nEach band reads [b]right to left[/b]. Use [←] [→] or click to walk. Click another band to cross to it; click figures to act.",
 		"outro_title": "You reach the landing",
-		"bottom": 200.0,
-		"task_size": 15,
 	})
 	hud.menu_pressed.connect(func(): get_tree().change_scene_to_file("res://scenes/menu.tscn"))
 	hud.hint_pressed.connect(hint)
 	hud.restart_pressed.connect(reset)
-	hud.minimap_clicked.connect(func(x): walk_then(x))
 	reset()
 	_maybe_run_cli()
 
 
 func reset() -> void:
+	_generation += 1
 	stage = 0
 	fed = false
 	top_crossed = false
@@ -308,20 +297,23 @@ func work(step: int, who: String) -> void:
 		return
 	match step:
 		0:
-			say("Ploughman", "He raises his stick and the ox leans into the plough. The earth turns over behind them.")
+			say("Ploughman", "The earth is ploughed. Next, sow the seed.")
 		1:
-			say("Sower", "He swings the seed out of his bag in a long arc over the ploughed ground.")
+			say("Sower", "The seed is sown. Wait for it to grow.")
 			_grow_to("seed", 1.0, 1.4)
-			get_tree().create_timer(2.0).timeout.connect(func():
+			var generation := _generation
+			get_tree().create_timer(2.0, false).timeout.connect(func():
+				if generation != _generation:
+					return
 				stage = 3   # the grain grows by itself
 				_grow_to("grain", 1.0, 2.6)
-				say("Scribe", "The grain comes up, taller than a man.")
+				say("Scribe", "The grain is ready to reap.")
 				_render())
 		3:
-			say("Reapers", "The sickles flash. The tall grain falls in armfuls.")
+			say("Reapers", "The grain is cut. Thresh it with the ox.")
 			_grow_to("grain", 0.16, 1.2)
 		4:
-			say("Thresher", "The ox treads the cut grain on the threshing floor, round and round. The chaff blows off, and the grain is heaped up.")
+			say("Thresher", "The grain is threshed. Carry it to the gods’ table.")
 			_grow_to("heap1", 1.0, 2.0, 0.8)
 			_grow_to("heap2", 1.0, 2.0, 1.4)
 	stage = maxi(stage, step + 1) if step != 1 else 2
@@ -336,7 +328,7 @@ func _grow_to(n: String, v: float, secs: float, delay := 0.0) -> void:
 
 func take_grain() -> void:
 	if held != "":
-		say("Scribe", "Your hands are full.")
+		say("Scribe", "You carry grain. [esc] returns it.")
 		return
 	held = "grain"
 	say("Scribe", "You fill your arms with grain from the heap.")
@@ -431,9 +423,8 @@ func finish() -> void:
 	_render()
 	say("Scribe", "The boat with oars carries you through the channels to the landing stairs.")
 	var body := "The field is worked, the gods are fed, and the boat has brought you to the landing at the end of the Field of Offerings.\n\n" \
-		+ "Next: [b]the gates and portals (144–147)[/b], and then the Hall of the Two Truths.\n\n" \
 		+ "[i]Journal: %d of %d figures recorded.[/i]" % [journal.size(), _journal_total()]
-	get_tree().create_timer(1.2).timeout.connect(func(): hud.show_outro(body))
+	hud.show_outro_later(body, 1.2)
 
 
 func _add_journal(h: Dictionary) -> void:
@@ -456,7 +447,10 @@ func _journal_total() -> int:
 func hint() -> void:
 	var task := ""
 	var lines: Array = []
-	if stage < STAGES.size():
+	if held == "grain" and not fed:
+		task = "grain-held"
+		lines = ["Carry the grain to the gods' table in the top band, then click the table."]
+	elif stage < STAGES.size():
 		task = "farm"
 		lines = ["The gods need food, and food comes from the field: the middle band.",
 			"The middle band shows a year of work, right to left. Start at its right-hand end.",
@@ -492,7 +486,6 @@ func _process(delta: float) -> void:
 		avatar.max_x = b.y
 	_animate()
 	_update_camera(delta)
-	hud.update_minimap(avatar.position.x, _visible_rect(), 0.0, false)
 	hud.update_held(held, _grain_icon() if held != "" else null, camera.zoom.x)
 	overlay.queue_redraw()
 
@@ -593,7 +586,6 @@ func _visible_rect() -> Rect2:
 
 
 func _render() -> void:
-	hud.update_tasks([stage >= STAGES.size(), fed, top_crossed or sailed, sailed])
 	hud.update_hand(held, "grain" if held != "" else "", _grain_icon() if held != "" else null)
 
 
@@ -608,9 +600,7 @@ func _draw_overlay() -> void:
 
 
 func _flash(node: CanvasItem) -> void:
-	var t := create_tween()
-	node.modulate = Color(1.8, 1.4, 0.6)
-	t.tween_property(node, "modulate", Color.WHITE, 1.0)
+	UI.flash(node)
 
 
 # ---------------------------------------------------------------- command line
@@ -670,6 +660,7 @@ func _spot(label: String, region: String) -> Dictionary:
 
 
 func _autotest() -> void:
+	hud.dismiss_intro()
 	var fails: Array[String] = []   # lambdas capture locals by value, so collect into an array
 	var expect := func(cond: bool, what: String):
 		print(("PASS " if cond else "FAIL ") + what)

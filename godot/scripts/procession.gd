@@ -48,7 +48,7 @@ const START := {
 const POLES := ["pole1", "pole2", "pole3", "pole4", "pole5", "pole6", "pole7", "pole8"]
 ## Pieces that stay where they are drawn (the ox walks with the hauling, see haul.gd).
 const FIXED := ["ox", "calf"]
-## The figures of the hauling; clicking one takes up the rope.
+## Only the ox-driver starts hauling; the other figures direct the player to him.
 const HAUL_FIGURES := ["Hauler", "Ox-driver", "Priest with censer", "The mummy on its sledge"]
 ## The figures round the purifying water (plate V); clicking one steps up to the jar until the
 ## water runs as drawn.
@@ -64,12 +64,11 @@ const RECITE_FADE_OUT := 0.8
 ## What the finished stand and Ra answer while a rite is still undone (the soft lock on the finale).
 const NOT_YET := "Some things have not been set right yet."
 
-const INK := Color(0.18, 0.11, 0.06)
+const INK := UI.INK
 const HOVER := Color(0.64, 0.2, 0.12, 0.55)  ## only for the `--show-hits` dev outlines
 const HOVER_SLOT := Color(0.3, 0.42, 0.16, 0.7)
 const DRAG := 8.0            ## screen px: let go further than this from where you took it and it is set down there
 const SCENE_MARGIN := 40.0   ## strip px of papyrus kept either side of the table scene
-const GLOW := preload("res://scripts/glow.gdshader")
 const GLOW_FADE := 0.15      ## s for the hover glow to come and go
 const CAPTION_LINE := 187.0  ## first row below the frame line over the figures: glows start here
 ## Journal figures that are sprites of the hauling now: they glow as those drawings.
@@ -94,8 +93,9 @@ var solved := {"t1": false, "t2": false, "t3": false, "t4": false, "t5": false, 
 var finished := false
 var journal: Array[String] = []
 
+var _standard_guides := {}
+var _generation := 0
 var _pieces := {}            ## piece -> Sprite2D
-var _base := {}              ## piece -> resting position (set in _render)
 var _hover := {}
 var _glows: Array = []       ## the glows behind what is under the pointer
 var in_standards := false
@@ -103,6 +103,8 @@ var _standards_view := Vector2.ZERO
 var _hauling := false        ## you hold the rope in the hauler's place
 var in_table := false        ## at the offering table: the camera holds on it, you work with the pieces
 var _drag_from := Vector2.INF  ## where (screen px) the piece in hand was taken up, while the button is down
+var _hint_step := {}
+var _feedback := {}
 var _table_told := false
 var _dust: Array = []
 var _time := 0.0
@@ -153,6 +155,13 @@ func _ready() -> void:
 		var p := _make_sprite(piece)
 		$Pieces.add_child(p)
 		_pieces[piece] = p
+	for id in POLES:
+		var guide := _make_sprite(SLOTS[id].home)
+		guide.position = sprite_rects[SLOTS[id].home].position
+		guide.modulate = UI.PREVIEW
+		guide.visible = false
+		$Pieces.add_child(guide)
+		_standard_guides[id] = guide
 	_recital = Node2D.new()
 	$Pieces.add_child(_recital)
 	var b: Dictionary = level.slots.arms
@@ -190,35 +199,20 @@ func _ready() -> void:
 	overlay.draw.connect(_draw_overlay)
 	hud.setup(self, {
 		"title": "The Funeral Procession",
-		"subtitle": "Spells 1–15 · Lepsius, Todtenbuch, pl. I–VI",
-		"rites_heading": "RITES OF THE PROCESSION",
-		"bottom": 200.0,
-		"task_size": 15,
-		"tasks": [
-			"Haul the mummy's sledge to the driver's beat",
-			"Return each standard to its bearer",
-			"Rebuild the offering table",
-			"Give the goose back to its bearer",
-			"Pour the water over the mummy",
-			"Open the mummy's mouth",
-			"Set up the offering stand before Ra",
-		],
 		"journal_hint": "Click figures in the scroll to record them here.",
 		"intro_title": "Spells 1–15: The Funeral Procession",
-		"intro_body": "The mummy must be dragged to the tomb. But the procession has fallen into disorder: the mummy's sledge has stalled, the gods' standards are on the wrong poles, the great offering table has collapsed, the priest at the tomb pours no water, the mummy cannot speak, and the offering stand before Ra is gone.\n\n"
-			+ "The scroll reads [b]right to left[/b]. Click the papyrus to walk, or use [←] [→]. Click figures to record them in your journal. Click movable pieces to pick them up, and click where they belong to set them down. Clicking a filled place swaps the two. [esc] puts a piece back.\n\n"
-			+ "[i]Every figure is cut directly from Lepsius's 1842 plates; nothing is redrawn.[/i]",
+		"intro_body": "The bier has stalled on its way to the tomb. Help put the procession in order.\n\nWalk [b]right to left[/b] with [←] [→] or click the papyrus. Click a figure to look or act. Each task explains its controls; Hint offers help.",
 		"outro_title": "The procession reaches the tomb",
 	})
 	hud.menu_pressed.connect(func(): get_tree().change_scene_to_file("res://scenes/menu.tscn"))
 	hud.hint_pressed.connect(hint)
 	hud.restart_pressed.connect(reset)
-	hud.minimap_clicked.connect(func(x): walk_then(x))
 	reset()
 	_maybe_run_cli()
 
 
 func reset() -> void:
+	_generation += 1
 	slot = START.duplicate()
 	held = ""
 	held_from = ""
@@ -233,6 +227,9 @@ func reset() -> void:
 	mouth.reset()
 	_set_hover({})
 	in_table = false
+	_table_told = false
+	_hint_step.clear()
+	_feedback.clear()
 	_drag_from = Vector2.INF
 	_hauling = false
 	in_standards = false
@@ -308,7 +305,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			if h.spot.label == "Ox-driver":
 				walk_then(h.spot.rect.get_center().x + BESIDE * unit, take_rope.bind(h.spot))
 			else:
-				say("Scribe", "The bier boat needs hauling. Speak with the ox-driver to learn how to take up the rope.")
+				say("Scribe", "The bier is stalled. Ask the ox-driver how to haul it.")
 		else:
 			walk_then(h.spot.rect.get_center().x + BESIDE * unit, record.bind(h.spot))
 
@@ -338,7 +335,7 @@ func _pick(p: Vector2) -> Dictionary:
 		if r.has_point(p):
 			return {"type": "slot", "id": id, "rect": r}
 	for h in hotspots:
-		if h.label == "Hauler" and not haul.hauler_shown():   # nobody there until the sledge is home
+		if h.label == "Hauler" and not haul.hauler_shown():   # absent while exploring before the first haul
 			continue
 		if h.rect.has_point(p):
 			return {"type": "hot", "spot": h, "rect": h.rect}
@@ -403,9 +400,7 @@ func _glow_targets(h: Dictionary) -> Array:
 ## A glow behind a sprite's drawing, or behind the strip's drawing inside a rect.
 func _glow(target) -> Sprite2D:
 	var g := Sprite2D.new()
-	var mat := ShaderMaterial.new()
-	mat.shader = GLOW
-	mat.set_shader_parameter("strength", 0.0)
+	var mat := UI.glow_material(null)
 	g.show_behind_parent = true
 	if target is Rect2:
 		var top := maxf(target.position.y, CAPTION_LINE)   # not the frame line above the figure
@@ -490,7 +485,7 @@ func _table_now() -> void:
 	avatar.facing = -1
 	if not _table_told:
 		_table_told = true
-		say("Scribe", "Drag each offering to its place, lowest first, or lay it in the band above. The lector shows what can go on now. [esc] steps away.")
+		say("Scribe", "Drag offerings into place, lowest first. Use the upper shelf to clear space. Ask the lector what can go next.")
 
 
 ## Step away from the table (Esc, or walking off): what you hold goes back; nothing is lost.
@@ -551,7 +546,7 @@ func enter_water(h := {}) -> void:
 	if water.active or water.done:
 		return
 	if _hands_full():
-		say("Scribe", "Your hands are full: put down what you carry to take hold of the jar.")
+		say("Scribe", _hands_message())
 		return
 	_set_hover({})
 	walk_then(water.stand_x(), func():
@@ -596,7 +591,7 @@ func _water_input(event: InputEvent) -> void:
 
 func _take_offering(id: String) -> void:
 	if held != "" or mouth.carrying() != "":
-		say("Scribe", "Your hands are full.")
+		say("Scribe", _hands_message())
 		return
 	if offerings.holding() != "":
 		say("Scribe", "You are already carrying %s." % offerings.held_name())
@@ -608,7 +603,7 @@ func _drop_offering(p: Vector2) -> void:
 	var what := offerings.holding()
 	match offerings.drop_at(p):
 		"toppled":
-			say("Scribe", "It slides off and falls: what it rests on is not there yet.")
+			_tell_once("support", "It needs support. Place the lower offerings first.")
 		"dropped":
 			if what == "goose":
 				say("Scribe", "The goose is not an offering for this table. Its bearer is beside the lector.")
@@ -654,7 +649,7 @@ func enter_standards() -> void:
 		avatar.facing = 1 if stand == left else -1
 		_standards_view = Vector2(left - 60.0 * unit, right + 60.0 * unit)
 		in_standards = true
-		say("Standard-bearers", "Put all eight standard-bearers back in order. Click a standard to take it, then click its proper bearer to place or swap it. [esc] or arrow keys to keep exploring."))
+		say("Standard-bearers", "Return each standard to its bearer. Click to take or swap. Empty poles show what belongs there."))
 
 
 func leave_standards() -> void:
@@ -667,25 +662,20 @@ func act_slot(id: String) -> void:
 	var s: Dictionary = SLOTS[id]
 	var here: String = slot[id]
 	if mouth.carrying() != "":
-		say("Scribe", "Your hands are full.")
+		say("Scribe", _hands_message())
 		return
 	if held == "":
 		if here == "":
-			say("Scribe", "This place is empty.")
+			say("Scribe", "Take a standard from another bearer first.")
 			return
 		held = here
 		held_from = id
 		slot[id] = ""
-		say("Scribe", "You take %s from %s." % [NAMES[here], s.label])
 	else:
 		if kind_of(held) != s.kind:
 			say("Scribe", "%s doesn't belong at %s." % [_cap(NAMES[held]), s.label])
 			return
 		slot[id] = held
-		if here != "":
-			say("Scribe", "You set %s at %s and take %s." % [NAMES[held], s.label, NAMES[here]])
-		else:
-			say("Scribe", "You set %s at %s." % [NAMES[held], s.label])
 		if _god(held) == _god(s.home):
 			_flash(_pieces[held])
 		held = here
@@ -707,7 +697,7 @@ func kind_of(_piece: String) -> String:
 func take_rope(h: Dictionary) -> void:
 	_add_journal(h)
 	if _hands_full():
-		say("Scribe", "Your hands are full: put down what you carry to take up the rope.")
+		say("Scribe", _hands_message())
 		return
 	_set_hover({})
 	avatar.stop()
@@ -732,7 +722,7 @@ func act_ending(id: String) -> void:
 func put_back() -> void:
 	if mouth.carrying() != "":
 		mouth.put_back()
-		say("Scribe", "You put %s back." % ("the adze" if mouth.phase == OpeningMouth.Phase.START else "the words down"))
+		say("Scribe", "You put %s back." % ("the adze" if mouth.phase == OpeningMouth.Phase.START else "the words"))
 		return
 	if held == "":
 		return
@@ -763,7 +753,7 @@ func act_mouth(id: String) -> void:
 	match id:
 		"adze", "words":
 			if _hands_full():
-				say("Scribe", "Your hands are full.")
+				say("Scribe", _hands_message())
 				return
 			if id == "adze":
 				mouth.take_adze()
@@ -796,22 +786,20 @@ func _check() -> void:
 		avatar.visible = true
 		avatar.set_process(true)
 	if solved.t2 and not was.t2:
-		say("Standard-bearers", "Each god rides again on its own pole: jackal, ibis, falcon, bull, vulture, placenta, plumes and falcon. The way ahead is clear.")
-	if procession_moving() and not (was.t1 and was.t2):
-		get_tree().create_timer(1.6).timeout.connect(func():
-			say("Scribe", "The procession lurches forward."))
+		say("Standard-bearers", "All eight standards are in order.")
 	if solved.t3 and not was.t3:
-		say("Scribe", "The offerings are heaped again under the palm frond, as they are drawn.")
+		say("Scribe", "The offering table is whole again.")
 	if rites and not were:
 		ending.show_imprint()     # the stela only shows the stand once everything else is right
 	if rites and not were and not solved.t7:
-		get_tree().create_timer(1.6).timeout.connect(func():
-			say("Scribe", "The procession is in order. But before Ra, at the tomb, the offering stand is gone: the stela beside the tomb shows how it stood."))
+		hud.say_later("Scribe", "The procession is in order. The stela shows the missing stand before Ra.", 1.6)
 	elif solved.t7 and not was.t7 and not rites:
-		get_tree().create_timer(2.2).timeout.connect(func():
-			say("Scribe", NOT_YET + " When the procession is in order, come back and kneel before Ra."))
+		hud.say_later("Scribe", NOT_YET + " Return to Ra when the procession is ready.", 2.2)
 	if solved.values().all(func(v): return v) and not was.values().all(func(v): return v):
-		get_tree().create_timer(1.2).timeout.connect(finish)
+		var generation := _generation
+		get_tree().create_timer(1.2, false).timeout.connect(func():
+			if generation == _generation:
+				finish())
 
 
 ## Clicking a figure: record it in the journal, and run the figures that do something.
@@ -898,36 +886,63 @@ func _ended() -> void:
 		Scroll.finish("procession")
 
 
+func _tell_once(key: String, text: String) -> void:
+	if not _feedback.has(key):
+		_feedback[key] = true
+		say("Scribe", text)
+
+
+func _hands_message() -> String:
+	var item: String = NAMES.get(held, "")
+	if offerings.holding() != "":
+		item = offerings.held_name()
+	if mouth.carrying() != "":
+		item = "the adze" if mouth.carrying() == "adze" else "the words"
+	return "You carry %s. [esc] returns it." % item
+
+
+func _hint_lines(task: String, lines: Array) -> void:
+	var step: int = _hint_step.get(task, 0)
+	say("Hint", lines[mini(step, lines.size() - 1)])
+	_hint_step[task] = step + 1
+
+
 func hint() -> void:
-	if not solved.t1:
-		if haul.active:
-			say("Hint", "Watch the ox-driver's whip. It swings back, then comes down: press [space] (or [shift], or click) just as it comes down. Too early or too late and the sledge slips back.")
-		else:
-			say("Hint", "Walk left to the mummy's sledge and click the hauler on its rope to take it up. Then heave each time the ox-driver's whip comes down.")
+	if haul.active:
+		say("Hint", "Heave with [space] as the whip falls. Too early or late makes the bier slip back.")
+	elif in_standards or (held != "" and kind_of(held) == "std"):
+		_hint_lines("standards", ["Empty poles show a faint outline of the standard they need.",
+			"The priest with two plumes reads the order. He stands beyond the offering table.",
+			"Jackal, ibis, falcon, bull, vulture, placenta, plumes, falcon: follow the procession from its front."])
+	elif in_table:
+		_hint_lines("table", ["While you carry an offering, its outline shows where it belongs.",
+			"Build lowest first. An offering falls if its support is missing.",
+			"Drag pieces above the upper shelf to clear space. They fall onto it; drag them back across to use them.",
+			"Click the lector beside the table. He shows an offering you can place now."])
+	elif water.active:
+		_hint_lines("water", ["Drag the jar to tip it. Follow the faint water guide.",
+			"Too upright only drips; too far splashes short. Adjust until the stream follows the guide.",
+			"Hold the jar steady until the whole stream is drawn."])
+	elif mouth.carrying() == "adze":
+		say("Hint", "Touch the adze to the mummy that Anubis holds upright.")
+	elif mouth.carrying() == "words":
+		say("Hint", "Carry the words to their faint outline over Ra, at the far left.")
+	elif not solved.t1:
+		say("Hint", "Walk left to the stalled bier. Speak with the ox-driver beside the ox.")
 	elif not solved.t2:
-		say("Hint", "The eight bearers with gods on their heads have the wrong standards. The lector with two plumes on his head, beyond the offering table, reads out their order. Take a standard off and the empty pole shows a faint outline of the one that belongs there.")
+		say("Hint", "Click the group of eight standard-bearers to put their standards in order.")
 	elif not solved.t3:
-		say("Hint", "The offering table has collapsed. Click it to step up to it, then drag an offering to where it belongs (its place shows faintly while you carry it). The lowest go first: anything set on a missing piece falls off. Lay pieces in the band above to get them out of the way. Click the lector beside the table and he shows one that can go on now. [esc] steps away.")
+		say("Hint", "Click the collapsed offering table to begin rebuilding it.")
 	elif not solved.t4:
-		say("Hint", "The man beside the lector holds a loaf instead of his goose. Take the loaf, and find his goose among the fallen offerings.")
+		say("Hint", "The goose-bearer holds a loaf. Take it, then find his goose among the fallen offerings.")
 	elif not solved.t5:
-		if water.active:
-			say("Hint", "Press on the jar and drag to tip it. The water runs along the faint dotted line only with the jar tipped as it is drawn: too little and it drips, too far and it splashes on the woman. Hold it there, steady, until the whole line is drawn.")
-		else:
-			say("Hint", "Past the second offering table, a priest holds a jar over a kneeling woman, but no water runs. Click him to step up to the jar.")
+		say("Hint", "Find the priest with a jar above a kneeling woman. Click him to pour the water.")
 	elif not solved.t6:
-		match mouth.carrying():
-			"adze":
-				say("Hint", "Touch the adze to the mummy that Anubis holds upright.")
-			"words":
-				say("Hint", "The words belong where they show faintly: over Ra, at the far end of the scroll.")
-			_:
-				if mouth.phase == OpeningMouth.Phase.SPOKEN:
-					say("Hint", "The words the mummy spoke hang above it. Take them to where they show faintly, over Ra.")
-				else:
-					say("Hint", "The mummy cannot speak. On the offering stand by the obelisks lies a hooked adze: take it and touch it to the mummy's mouth.")
+		say("Hint", "Take the hooked adze beside the obelisks and touch the mummy's mouth." if mouth.phase == OpeningMouth.Phase.START else "Carry the words above the mummy to Ra, at the far left.")
 	else:
-		say("Hint", "The stela beside the tomb shows a stand, a sun disc on it and a lotus over it. All three are hidden along the scroll: in something carried behind the women mourners, on the mummy's bier, and on top of an offering pile. Set them up before Ra, the stand first.")
+		_hint_lines("stand", ["The stela beside Ra shows the missing offering stand.",
+			"Look behind the women mourners, on the bier, and on the offering pile for its three pieces.",
+			"Place the stand before Ra, then the sun disc, then the lotus."])
 
 
 func _cap(s: String) -> String:
@@ -941,6 +956,21 @@ func say(who: String, text: String) -> void:
 
 # ---------------------------------------------------------------- per-frame
 
+func _update_context() -> void:
+	if haul.active:
+		var action := "[space] begin" if haul.phase in [HaulSledge.Phase.OPENING, HaulSledge.Phase.READY] else "[space] heave"
+		hud.set_context(action + " · [esc] / arrows explore", "%d%% hauled" % roundi((1.0 - haul.target / HaulSledge.BACK) * 100.0))
+	elif in_standards:
+		var count := POLES.filter(func(p): return _god(slot[p]) == _god(SLOTS[p].home)).size()
+		hud.set_context("Click take / swap · [esc] / arrows explore", "%d/8 in order" % count)
+	elif in_table:
+		hud.set_context("Drag offerings · [esc] / [←] [→] explore", "%d/%d placed" % [offerings.placed.size(), offerings.pieces.size()])
+	elif water.active:
+		hud.set_context("Drag jar · [esc] / [←] [→] explore")
+	else:
+		hud.set_context("")
+
+
 func _process(delta: float) -> void:
 	_time += delta
 	avatar.min_x = min_x()
@@ -953,9 +983,7 @@ func _process(delta: float) -> void:
 		leave_water()
 	if haul.active:     # you hold the rope where the hauler is drawn, leaning on the beat
 		var h: Dictionary = level.sprites.haul_hauler
-		var l := haul.lean()
-		avatar.position.x = h.x + h.w / 2.0 + haul.offset + l.x
-		avatar.rotation = l.y
+		avatar.position.x = h.x + h.w / 2.0 + haul.offset
 		avatar.visible = false
 	elif _hauling:      # let go, or the sledge is home: walk again
 		_hauling = false
@@ -968,8 +996,8 @@ func _process(delta: float) -> void:
 		d.life -= delta
 	_dust = _dust.filter(func(d): return d.life > 0.0)
 
+	_update_context()
 	_update_camera(delta)
-	hud.update_minimap(avatar.position.x, _visible_rect(), wall_x, false)
 	hud.update_held(held, _pieces[held].texture if held != "" else null, camera.zoom.x)
 	overlay.queue_redraw()
 
@@ -1018,6 +1046,7 @@ func _render() -> void:
 			_pieces[piece].position = sprite_rects[piece].position
 	for id in SLOTS:
 		var piece: String = slot[id]
+		_standard_guides[id].visible = piece == ""
 		if piece == "":
 			continue
 		var home: Rect2 = sprite_rects[SLOTS[id].home]
@@ -1026,8 +1055,6 @@ func _render() -> void:
 		var base := home.end.y if SLOTS[id].kind == "std" else ground
 		_pieces[piece].position = Vector2(x, base - size.y)
 		_pieces[piece].visible = true
-		_base[piece] = _pieces[piece].position
-	hud.update_tasks([solved.t1, solved.t2, solved.t3, solved.t4, solved.t5, solved.t6, solved.t7])
 	if mouth.carrying() != "":
 		hud.update_hand(mouth.carrying(), mouth.carried_name(), mouth.carried_texture())
 	elif offerings.holding() != "":
@@ -1058,9 +1085,7 @@ func _kick_dust(r: Rect2) -> void:
 
 
 func _flash(node: CanvasItem) -> void:
-	var t := create_tween()
-	node.modulate = Color(1.8, 1.4, 0.6)
-	t.tween_property(node, "modulate", Color.WHITE, 1.0)
+	UI.flash(node)
 
 
 ## The plumed lector reads out the standards in the order they walk, jackal first. The signs
@@ -1211,6 +1236,7 @@ func _maybe_run_cli() -> void:
 
 
 func _autotest() -> void:
+	hud.dismiss_intro()
 	_testing = true
 	var fails: Array[String] = []   # lambdas capture locals by value, so collect into an array
 	var expect := func(cond: bool, what: String):

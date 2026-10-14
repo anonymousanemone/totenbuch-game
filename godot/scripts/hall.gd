@@ -14,7 +14,7 @@ const DATA_PATH := "res://assets/hall/level.json"
 const ART := "res://assets/hall/%s.png"
 const BESIDE := 70.0
 const HOVER := Color(0.64, 0.2, 0.12, 0.55)
-const INK := Color(0.18, 0.11, 0.06)
+const INK := UI.INK
 const PIVOT := Vector2(3782, 990)       ## top of the balance post (sheet px, after the crop)
 const BEAM_ENDS := Vector2(3055, 4212)  ## x of the hooks the pans hang from
 const MAX_TILT := 0.1                   ## radians, heart side down, before any declaration
@@ -101,27 +101,14 @@ func _ready() -> void:
 	avatar.bumped.connect(func(): _blocked())
 	hud.setup(self, {
 		"title": "The Weighing of the Heart",
-		"subtitle": "Spell 125 · Lepsius, Todtenbuch, pl. L",
-		"rites_heading": "IN THE HALL OF THE TWO TRUTHS",
-		"tasks": [
-			"Be let into the hall",
-			"Set your heart on the balance",
-			"Declare yourself before the 42 judges",
-			"Have the verdict written",
-			"Come before Osiris",
-		],
 		"journal_hint": "Click figures in the hall to record them here.",
 		"intro_title": "Spell 125: The Hall of the Two Truths",
-		"intro_body": "This is the end of the road. In the hall of Osiris your heart is weighed against Ma'at, truth and right order. Forty-two judges sit above the hall, one for each wrong you must deny. Ammit, the Devourer, waits for a heart that is heavy.\n\n"
-			+ "You carry your heart. The scroll reads [b]right to left[/b]: walk in, click figures to look at them and to act.",
+		"intro_body": "Your heart will be weighed against Ma’at, truth and right order. Speak before the forty-two judges, then hear the verdict.\n\nWalk [b]right to left[/b] with [←] [→] or click the papyrus. Click figures to speak or act.",
 		"outro_title": "True of voice",
-		"bottom": 200.0,
-		"task_size": 15,
 	})
 	hud.menu_pressed.connect(func(): get_tree().change_scene_to_file("res://scenes/menu.tscn"))
 	hud.hint_pressed.connect(hint)
 	hud.restart_pressed.connect(reset)
-	hud.minimap_clicked.connect(func(x): walk_then(x))
 	reset()
 	_maybe_run_cli()
 
@@ -202,7 +189,8 @@ func use(h: Dictionary) -> void:
 		return
 	match h.id:
 		"maat": speak_to_maat()
-		"pan_r", "pan_l": place_heart()
+		"pan_r": place_heart()
+		"pan_l": say("Scribe", "Truth rests on this pan. Set your heart on the right-hand pan.")
 		"thoth": ask_thoth()
 		"ammit": say("Ammit", "Part crocodile, part lion, part hippopotamus. She watches the balance and waits." if not verdict else "Ammit settles back on her pedestal, hungry.")
 		"baboon": say("Baboon", "The baboon of Thoth sits on the post and watches the beam." + (" It nods: the beam is level." if _level_now() else ""))
@@ -277,10 +265,10 @@ func declare(judge: String) -> void:
 	var line: String = DECLARATIONS[declared.size() % DECLARATIONS.size()]
 	declared[judge] = true
 	_nod(judge)
-	_pieces[judge].modulate = Color(1.0, 0.85, 0.55)
+	_pieces[judge].modulate = UI.SUCCESS
 	var left := NEEDED - declared.size()
 	if left > 0:
-		say("You, before judge %d" % (judges.find(judge) + 1), "\"%s\" The heart rises a little. (%d still to answer.)" % [line, left])
+		say("You, before judge %d" % (judges.find(judge) + 1), "\"%s\" (%d judges remain.)" % [line, left])
 	else:
 		say("You, before the last judge", "\"%s\" The beam comes level. On the post, the baboon of Thoth nods." % line)
 		_flash(_pieces.baboon)
@@ -343,7 +331,7 @@ func finish() -> void:
 	var body := "Your heart has been weighed against Ma'at and found level. The judges heard you, Thoth wrote the verdict, and Osiris receives you.\n\n" \
 		+ "This is the end of the journey through the Book of the Dead.\n\n" \
 		+ "[i]Journal: %d of %d figures recorded.[/i]" % [journal.size(), hotspots.size()]
-	get_tree().create_timer(1.2).timeout.connect(func(): hud.show_outro(body))
+	hud.show_outro_later(body, 1.2)
 
 
 func _add_journal(h: Dictionary) -> void:
@@ -407,7 +395,6 @@ func _process(delta: float) -> void:
 	var bb: Sprite2D = _pieces.baboon
 	bb.position = rects.baboon.position + Vector2(0, (absf(sin(_time * 3.0)) * 5.0 if _level_now() and not verdict else 0.0))
 	_update_camera(delta)
-	hud.update_minimap(avatar.position.x, _visible_rect(), min_x(), not verdict)
 	hud.update_held(held, _pieces.heart.texture if held != "" else null, camera.zoom.x)
 	overlay.queue_redraw()
 
@@ -431,8 +418,7 @@ func _visible_rect() -> Rect2:
 
 
 func _render() -> void:
-	hud.update_tasks([maat_ok, heart_placed, _level_now(), verdict, finished])
-	hud.update_hand(held, "your heart" if held != "" else "", _pieces.heart.texture if held != "" else null)
+	hud.update_hand(held, "your heart" if held != "" else "", _pieces.heart.texture if held != "" else null, "For the balance")
 
 
 func _draw_overlay() -> void:
@@ -450,9 +436,7 @@ func _draw_overlay() -> void:
 
 
 func _flash(node: CanvasItem) -> void:
-	var t := create_tween()
-	node.modulate = Color(1.8, 1.4, 0.6)
-	t.tween_property(node, "modulate", Color.WHITE, 1.0)
+	UI.flash(node)
 
 
 # ---------------------------------------------------------------- command line
@@ -501,6 +485,7 @@ func _spot(label: String) -> Dictionary:
 
 
 func _autotest() -> void:
+	hud.dismiss_intro()
 	var fails: Array[String] = []   # lambdas capture locals by value, so collect into an array
 	var expect := func(cond: bool, what: String):
 		print(("PASS " if cond else "FAIL ") + what)

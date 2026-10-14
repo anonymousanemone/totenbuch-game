@@ -18,7 +18,7 @@ const DATA_PATH := "res://assets/cosmos/level.json"
 const ART := "res://assets/cosmos/%s.png"
 const BESIDE := 70.0          ## stand just behind (right of) what you interact with
 const HOVER := Color(0.64, 0.2, 0.12, 0.55)   ## only for `--show-hits`
-const INK := Color(0.18, 0.11, 0.06)
+const INK := UI.INK
 
 ## Where a carried piece is accepted, by journal label, and how it sits there.
 const PLACE := {"ba": "The mummy on the lion bier", "sun": "Ra's boat of the day"}
@@ -91,28 +91,14 @@ func _ready() -> void:
 	avatar.bumped.connect(_on_bumped)
 	hud.setup(self, {
 		"title": "The Night Journey",
-		"subtitle": "Spell 17 · Lepsius, Todtenbuch, pl. VII–XI",
-		"rites_heading": "BEFORE THE DAWN",
-		"tasks": [
-			"Open the horizon",
-			"Return the ba to the body",
-			"Help the cat at the persea tree",
-			"Give Ra his sun",
-			"Come before Osiris",
-		],
 		"journal_hint": "Click figures in the scroll to record them here.",
 		"intro_title": "Spell 17: The Night Journey",
-		"intro_body": "Spell 17 sets out the whole night world in one long strip: the senet game, the lions of the horizon, the mummy on its bier, the cat at the persea tree, the boats of the sun, and Osiris on his throne.\n\n"
-			+ "Something is out of place in each of them, and the sun cannot rise until they are set right.\n\n"
-			+ "The scroll reads [b]right to left[/b]. Click the papyrus to walk, or use [←] [→]. Click figures to look at them and record them in your journal. Some things can be picked up and carried. [esc] puts a carried thing back.",
+		"intro_body": "Cross the night world: open the horizon, reunite the ba with its body, and bring the sun to Ra.\n\nWalk [b]right to left[/b] with [←] [→] or click the papyrus. Click figures to look or act. [esc] returns what you carry.",
 		"outro_title": "The sun is reborn",
-		"bottom": 200.0,
-		"task_size": 15,
 	})
 	hud.menu_pressed.connect(func(): get_tree().change_scene_to_file("res://scenes/menu.tscn"))
 	hud.hint_pressed.connect(hint)
 	hud.restart_pressed.connect(reset)
-	hud.minimap_clicked.connect(func(x): walk_then(x))
 	reset()
 	_maybe_run_cli()
 
@@ -294,7 +280,7 @@ func _rise_sun() -> void:
 ## 2 and 4. Carried things: the ba and the sun.
 func take(id: String) -> void:
 	if held != "":
-		say("Scribe", "Your hands are full.")
+		say("Scribe", "You carry %s. [esc] returns it." % NAMES[held])
 		return
 	held = id
 	if id == "sun":
@@ -367,9 +353,9 @@ func strike() -> void:
 			say("Cat", "The knife comes down on the snake's neck. It does not move again.")
 		else:
 			_snake_t = 0.0   # it recoils and starts again from the back
-			say("Cat", "The knife bites. The snake jerks back, then creeps in again.")
+			say("Cat", "One more strike when its head reaches the knife.")
 	else:
-		say("Cat", "The cat strikes at nothing. The snake's head was not under the knife.")
+		say("Cat", "Missed. Wait until its head is under the knife.")
 	_check()
 
 
@@ -456,16 +442,21 @@ func finish() -> void:
 	_render()
 	say("Osiris", "The night is crossed. Go out by day.")
 	var body := "The lions look to yesterday and tomorrow, the ba keeps watch by the body, the snake is cut at the persea tree, and Ra's boat carries the sun.\n\n" \
-		+ "Next: [b]the councils of spell 18[/b], where the deceased is declared true of voice before each company of gods.\n\n" \
 		+ "[i]Journal: %d of %d figures recorded.[/i]" % [journal.size(), _journal_total()]
-	get_tree().create_timer(0.9).timeout.connect(func(): hud.show_outro(body))
+	hud.show_outro_later(body, 0.9)
 
 
 ## Each press says a little more about the first unfinished task.
 func hint() -> void:
 	var task := ""
 	var lines: Array = []
-	if not horizon_open():
+	if held == "ba":
+		task = "ba-held"
+		lines = ["Carry the ba to the mummy on the lion bier. Click the mummy to reunite them."]
+	elif held == "sun":
+		task = "sun-held" if snake_cut else "sun-blocked"
+		lines = ["Give the sun to Ra in his boat. Click the boat while you carry it."] if snake_cut else ["The snake still blocks the way. [esc] returns the sun so the cat can strike.", "Click the cat when the snake's head reaches its knife. Then fetch the sun again."]
+	elif not horizon_open():
 		task = "horizon"
 		lines = ["The way stops at the horizon, between the two lions.",
 			"The two lions are yesterday and tomorrow. Which way should they look?",
@@ -519,8 +510,6 @@ func _process(delta: float) -> void:
 		if not sp.has_meta("rising"):
 			sp.position.y = _sun_risen_pos.y + sin(_time * 1.5) * 2.0 * unit
 	_update_camera(delta)
-	var w := wall_x()
-	hud.update_minimap(avatar.position.x, _visible_rect(), w, w >= 0.0)
 	hud.update_held(held, _pieces[held].texture if held != "" else null, camera.zoom.x)
 	overlay.queue_redraw()
 
@@ -558,7 +547,6 @@ func _render() -> void:
 		_pieces.ba.position = ROOF - Vector2(rects.ba.size.x / 2.0, rects.ba.size.y)
 	elif ba_state == "placed":
 		_pieces.ba.position = rects.ba.position
-	hud.update_tasks([horizon_open(), ba_state == "placed", snake_cut, sun_state == "placed", finished])
 	hud.update_hand(held, NAMES.get(held, ""), _pieces[held].texture if held != "" else null)
 
 
@@ -577,9 +565,7 @@ func _draw_overlay() -> void:
 
 
 func _flash(node: CanvasItem) -> void:
-	var t := create_tween()
-	node.modulate = Color(1.8, 1.4, 0.6)
-	t.tween_property(node, "modulate", Color.WHITE, 1.0)
+	UI.flash(node)
 
 
 # ---------------------------------------------------------------- command line
@@ -631,6 +617,7 @@ func _spot(label: String) -> Dictionary:
 
 
 func _autotest() -> void:
+	hud.dismiss_intro()
 	var fails: Array[String] = []   # lambdas capture locals by value, so collect into an array
 	var expect := func(cond: bool, what: String):
 		print(("PASS " if cond else "FAIL ") + what)

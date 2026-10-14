@@ -37,7 +37,7 @@ const RISE := 2.0             ## 1/s: let go and the arm rises back toward uprig
 const SETTLE := 0.7           ## s for the jar to settle where it is drawn once the line is whole
 const GRIP_PAD := 22.0        ## strip px round the jar and forearm that take a press
 const GRAVITY := 900.0        ## strip px/s² for falling drops
-const INK := Color(0.18, 0.11, 0.06)
+const INK := UI.INK
 const SHADER := preload("res://scripts/water.gdshader")
 
 var active := false           ## at the water: the camera holds on it and you work the jar

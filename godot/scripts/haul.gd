@@ -6,9 +6,8 @@
 ## priest and the sledge) gains a step. A press off the beat lets the rope go slack and the
 ## sledge slips back; a beat let pass, and the bier stops. Taking up the rope opens the vignette
 ## out over the start of plate I, where the train stands BACK px behind its drawn place; it is
-## done when it stands where it is drawn again. The drawn hauler is not there until then: you
-## take the rope in his place (the level leans your figure on the beat, see `lean()`), and he
-## appears once the sledge is home.
+## done when it stands where it is drawn again. The player becomes the original hauler while
+## the rope is held; the walking avatar returns when the vignette closes.
 ##
 ## The figures are the layers of the `haul` folder of art/procession1-15.mdp, cut by
 ## tools/cut_procession300.py (sprites haul_*); positions are strip pixels.
@@ -104,12 +103,7 @@ func reset() -> void:
 	_place()
 
 
-## How you lean on the rope in the hauler's place: (x shift, rotation about the feet).
-func lean() -> Vector2:
-	return Vector2(7.0 * _heave - 5.0 * _slack, 0.045 * _heave - 0.03 * _slack)
-
-
-## The drawn hauler on his rope (only once the sledge is home).
+## The original hauler is shown while hauling, and remains once the bier is home.
 func hauler_shown() -> bool:
 	return _nodes.haul_hauler.visible
 
@@ -146,7 +140,7 @@ func start() -> void:
 	_tween = create_tween()
 	_tween.tween_method(_open, 0.0, 1.0, OPEN).set_trans(Tween.TRANS_SINE)
 	_tween.tween_callback(_begin)
-	_say("Ox-driver", "The bier has stalled. Take the hauler’s place on the rope. Watch my whip: when it comes down, heave! [space] to start, then [space], [shift] or click to heave. [esc] or arrow keys to leave")
+	_say("Ox-driver", "Heave when my whip falls. Wait for the count-in, then pull on each beat.")
 
 
 ## Let go of the rope: the train stands where it stalled, and you can take it up again.
@@ -154,7 +148,7 @@ func quit() -> void:
 	if not active or phase == Phase.CLOSING:
 		return
 	_close(false)
-	_say("Scribe", "You let go of the rope. Take it up again when you are ready.")
+	_say("Scribe", "Speak with the ox-driver when you are ready to return.")
 
 
 ## A press: on the beat it is a pull, off it the rope goes slack.
@@ -168,7 +162,7 @@ func press() -> void:
 	var k := roundi(clock / BEAT)
 	var off := clock - k * BEAT
 	if k < COUNT_IN:
-		_say("Ox-driver", "Not yet: wait for my call.")
+		_once("count", "Ox-driver", "Wait for my call.")
 		return
 	if absf(off) <= WINDOW and k != _pulled:
 		_pull(k)
@@ -205,7 +199,7 @@ func _process(delta: float) -> void:
 		if last > _judged:
 			_judged = last
 			if last >= COUNT_IN and last != _pulled:
-				_once("missed", "Ox-driver", "Heave when the whip comes down! Without you the bier stops.")
+				_once("missed", "Ox-driver", "Missed a beat. Heave as the whip falls.")
 	_heave = maxf(0.0, _heave - delta * 2.5)
 	_slack = maxf(0.0, _slack - delta * 2.0)
 	offset = lerpf(offset, target, 1.0 - exp(-FOLLOW * delta))
@@ -270,16 +264,12 @@ func _pull(k: int) -> void:
 	target = maxf(0.0, target - BACK / PULLS)
 	_heave = 1.0
 	_pull_sound.play()
-	if good == 1:
-		_say("Ox-driver", "Heave! Again, on every call.")
-	elif good == PULLS / 2:
-		_say("Ox-driver", "Halfway. Keep the beat!")
 
 
 func _slip(when: String) -> void:
 	target = minf(BACK, target + SLIP)
 	_slack = 1.0
-	_once("slack_" + when, "Ox-driver", "Too %s! The rope goes slack and the sledge slips back. Heave as the whip comes down." % when)
+	_once("slack_" + when, "Ox-driver", "Too %s. Heave as the whip falls." % when)
 
 
 ## Put the train where it is: drawn place + offset, the hauler leaning into a pull (or lurching

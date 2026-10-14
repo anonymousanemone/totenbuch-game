@@ -94,20 +94,30 @@ func scene(key: String) -> Dictionary:
 
 
 func open(key: String) -> void:
+	get_tree().paused = false
 	get_tree().change_scene_to_file(_path(key))
+
+
+## The next playable scene; unfinished chapters on the map are skipped.
+func next_built(key: String) -> Dictionary:
+	var index: int = SCENES.find(scene(key))
+	for entry in SCENES.slice(index + 1):
+		if is_built(entry.key):
+			return entry
+	return {}
 
 
 ## A scene is done: it is restored, and the next built scene opens (the menu after the last).
 func finish(key: String) -> void:
+	get_tree().paused = false
 	if not key in restored:
 		restored.append(key)
 		_save()
-	var i: int = SCENES.find(scene(key))
-	for s in SCENES.slice(i + 1):
-		if is_built(s.key):
-			open(s.key)
-			return
-	get_tree().change_scene_to_file(MENU)
+	var next := next_built(key)
+	if not next.is_empty():
+		open(next.key)
+	else:
+		get_tree().change_scene_to_file(MENU)
 
 
 func set_sound(value: int) -> void:

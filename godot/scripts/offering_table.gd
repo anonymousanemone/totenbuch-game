@@ -3,8 +3,8 @@
 ## The loose pieces lie on the floor between the two pairs of bouquets as physics bodies, at any
 ## angle. A piece snaps back into its place, upright, only when everything it rests on is already
 ## there (`rests_on`, worked out by tools/cut_procession300.py); set down too early it topples
-## and falls back to the floor. The palm frond lies in the empty band above the picture and goes
-## on last; any piece can be laid in that band too, out of the way, and taken up again.
+## and falls back to the floor. The palm frond starts on the upper shelf and goes
+## on last. Loose pieces, including the frond, have gravity; only held pieces cross the shelf.
 ## The goose-bearer beside the lector holds a loaf from the heap; his goose lies among the
 ## fallen offerings. With neither in his arms, the clothes they cover show. Positions are strip
 ## pixels; the pieces come from level.json `table`.
@@ -31,7 +31,6 @@ var ground := 526.0
 
 var _held := ""              ## what the player carries: a table piece id, "goose" or ""
 var _held_from := ""         ## "floor", "parked" or "bearer"
-var _parked := {}            ## id -> Sprite2D: pieces lying in the band above
 var _last_park := {}         ## id -> where it last lay there (centre)
 var _tex := {}               ## id -> Texture2D (and "goose")
 var _img := {}               ## id -> Image, for clicking on the ink only
@@ -43,7 +42,6 @@ var _speak_tween: Tween
 
 var _placed_layer: Node2D
 var _bodies: Node2D
-var _parked_layer: Node2D
 var _bearer_sprite: Sprite2D
 var _clothes: Sprite2D
 var _held_sprite: Sprite2D
@@ -84,8 +82,6 @@ func setup(table: Dictionary, goose: Rect2, clothes: Rect2, ground_y: float, art
 	_build_floor()
 	_ghost = _sprite("", false)
 	_ghost.modulate.a = GHOST_ALPHA
-	_parked_layer = Node2D.new()
-	add_child(_parked_layer)
 	_clothes = _sprite("clothes", false)
 	_clothes.position = _clothes_rect.position
 	_bearer_sprite = _sprite("", true)
@@ -99,9 +95,6 @@ func reset() -> void:
 		c.queue_free()
 	for b in _bodies.get_children():
 		b.queue_free()
-	for c in _parked_layer.get_children():
-		c.queue_free()
-	_parked.clear()
 	placed.clear()
 	_let_go()
 	_speak_i = 0
@@ -158,8 +151,6 @@ func sprite_of(id: String) -> Sprite2D:
 	for b in _bodies.get_children():
 		if b.get_meta("id") == id and not b.is_queued_for_deletion():
 			return b.get_child(0)
-	if _parked.has(id) and not _parked[id].is_queued_for_deletion():
-		return _parked[id]
 	return null
 
 
@@ -217,11 +208,6 @@ func pick(p: Vector2) -> String:
 			continue
 		if _ink_at(b.get_meta("id"), b.to_local(p) + _tex[b.get_meta("id")].get_size() / 2.0):
 			return b.get_meta("id")
-	var lying := _parked_layer.get_children()
-	for i in range(lying.size() - 1, -1, -1):
-		var s: Sprite2D = lying[i]
-		if not s.is_queued_for_deletion() and _ink_at(s.get_meta("id"), p - s.position + s.texture.get_size() / 2.0):
-			return s.get_meta("id")
 	return ""
 
 
@@ -233,10 +219,6 @@ func take(id: String) -> void:
 			b.queue_free()
 			_hold(id, from)
 			return
-	if _parked.has(id):
-		_parked[id].queue_free()
-		_parked.erase(id)
-		_hold(id, "parked")
 
 
 ## In the empty band above the picture, over the table scene: a piece can be laid there.
@@ -244,7 +226,7 @@ func in_header(p: Vector2) -> bool:
 	return p.y >= header.x and p.y <= header.y and p.x >= view.x and p.x <= view.y
 
 
-## Lay the carried piece in the band above, upright where it is let go, out of the way.
+## Release the carried piece above the shelf; gravity settles it onto the platform.
 func park(p: Vector2) -> void:
 	var id := _held
 	if id == "":
@@ -374,12 +356,11 @@ func _place(id: String) -> void:
 	placed[id] = true
 	var s := _sprite(id, false, _placed_layer)
 	s.position = pieces[id].rect.position
-	s.modulate = Color(1.8, 1.4, 0.6)
-	create_tween().tween_property(s, "modulate", Color.WHITE, 0.8)
+	UI.flash(s)
 	changed.emit()
 
 
-## Into the physics: the frond goes back to its place above, everything else falls.
+## Every unplaced piece falls under gravity, including the frond.
 func _fall(id: String, at: Vector2, topple: bool) -> void:
 	var half: float = _tex[id].get_size().x / 2.0
 	at.x = clampf(at.x, floor_x.x + minf(half, 60.0), floor_x.y - minf(half, 60.0))

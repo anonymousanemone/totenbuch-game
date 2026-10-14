@@ -7,15 +7,27 @@ extends RefCounted
 const FONT := preload("res://assets/fonts/OldFax.ttf")
 const BIG := 32
 const SMALL := 16
+const DIALOGUE := 32
 const BAND := 16.0            ## the frame band's thickness
 
-const PAPYRUS := Color("e2d0a6")     ## the scene's papyrus: pages
+const PAPYRUS := Color(0.906, 0.839, 0.682, 1.0)     ## the scene's papyrus: pages
 const DEEP := Color("cbb07c")        ## deep papyrus: bars, strips, buttons
 const INK := Color("2e1d10")
 const RULE := Color("8f7142")
-const OCHRE := Color("6e3e10")
+const OCHRE := Color("62380e")
 const TAG := Color("963e28")         ## speakers' tags, headings, the main button
 const CREAM := Color("f1e7cd")
+
+# Display colors and ink multipliers are deliberately separate.
+const DANGER := Color("b55b3c")
+const TARGET := Color("963e28")
+const SUCCESS := Color(1.8, 1.4, 0.6)
+const PREVIEW := Color(1.9, 1.0, 0.6, 0.25)
+const HOVER := Color(0.95, 0.62, 0.22, 0.6)
+const DIM := Color(0.12, 0.08, 0.04, 0.5)
+const INK_TINT := Color(DANGER.r / INK.r, DANGER.g / INK.g, DANGER.b / INK.b)
+const DAMAGE_TINT := Color(2.2, 0.65, 0.45)
+const GLOW_SHADER := preload("res://scripts/glow.gdshader")
 
 const IMAGES := "res://assets/ui/%s.png"
 
@@ -36,17 +48,22 @@ static func band(parent: Control, image: String, preset: int, offsets: Rect2) ->
 
 
 ## A bare pixel icon (assets/ui/icon_<icon>.png) that acts as a button.
-static func icon_button(icon: String, tip: String, on_press: Callable) -> TextureButton:
+static func icon_button(icon: String, tip: String, on_press: Callable, keyboard := false) -> TextureButton:
 	var b := TextureButton.new()
 	b.texture_normal = load(IMAGES % ("icon_" + icon))
 	b.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	b.ignore_texture_size = true
+	b.stretch_mode = TextureButton.STRETCH_KEEP_ASPECT_CENTERED
+	b.custom_minimum_size = Vector2(40, 40)
 	b.tooltip_text = tip
-	b.focus_mode = Control.FOCUS_NONE     # keep the arrow keys for walking
+	b.focus_mode = Control.FOCUS_ALL if keyboard else Control.FOCUS_NONE
 	b.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	b.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	b.pressed.connect(on_press)
-	b.mouse_entered.connect(func(): b.modulate.a = 0.6)
-	b.mouse_exited.connect(func(): b.modulate.a = 1.0)
+	b.mouse_entered.connect(func(): b.modulate = SUCCESS)
+	b.mouse_exited.connect(func(): b.modulate = Color.WHITE)
+	b.focus_entered.connect(func(): b.modulate = SUCCESS)
+	b.focus_exited.connect(func(): b.modulate = Color.WHITE)
 	return b
 
 
@@ -67,15 +84,50 @@ static func theme() -> Theme:
 	var th := Theme.new()
 	th.default_font = FONT
 	th.default_font_size = SMALL
+	th.set_constant("line_spacing", "Label", 6)
+	th.set_constant("line_separation", "RichTextLabel", 6)
+	th.set_constant("paragraph_separation", "RichTextLabel", 10)
 	th.set_color("font_color", "Label", INK)
 	th.set_color("default_color", "RichTextLabel", INK)
 	th.set_color("font_color", "Button", INK)
 	th.set_color("font_hover_color", "Button", INK)
 	th.set_color("font_pressed_color", "Button", INK)
-	th.set_stylebox("normal", "Button", box(PAPYRUS, INK, 4, 16, 2))
-	th.set_stylebox("hover", "Button", box(Color("efe0bb"), INK, 4, 16, 2))
-	th.set_stylebox("pressed", "Button", box(DEEP, INK, 4, 16, 2))
-	th.set_stylebox("focus", "Button", StyleBoxEmpty.new())
+	th.set_color("font_focus_color", "Button", INK)
+	th.set_stylebox("normal", "Button", box(PAPYRUS, INK, 4, 16, 8))
+	th.set_stylebox("hover", "Button", box(Color("efe0bb"), INK, 4, 16, 8))
+	th.set_stylebox("pressed", "Button", box(DEEP, INK, 4, 16, 8))
+	var focus := box(Color.TRANSPARENT, TAG, 2, 0, 0)
+	focus.draw_center = false
+	th.set_stylebox("focus", "Button", focus)
 	th.set_stylebox("panel", "TooltipPanel", box(PAPYRUS, INK, 2, 8, 4))
 	th.set_color("font_color", "TooltipLabel", INK)
 	return th
+
+
+static func glow_material(texture: Texture2D) -> ShaderMaterial:
+	var mat := ShaderMaterial.new()
+	mat.shader = GLOW_SHADER
+	mat.set_shader_parameter("glow", HOVER)
+	mat.set_shader_parameter("strength", 0.0)
+	if texture is AtlasTexture:
+		var atlas := texture as AtlasTexture
+		var whole: Vector2 = atlas.atlas.get_size()
+		var rect: Rect2 = atlas.region
+		mat.set_shader_parameter("region", Vector4(rect.position.x / whole.x, rect.position.y / whole.y, rect.size.x / whole.x, rect.size.y / whole.y))
+	return mat
+
+
+static func flash(node: CanvasItem, duration := 0.8) -> void:
+	var previous: Tween = node.get_meta("success_flash") if node.has_meta("success_flash") else null
+	if previous and previous.is_valid():
+		previous.kill()
+	var keep: Color = node.get_meta("resting_color", node.modulate)
+	node.set_meta("resting_color", keep)
+	node.modulate = Color(SUCCESS, keep.a)
+	var tween := node.create_tween()
+	node.set_meta("success_flash", tween)
+	tween.tween_property(node, "modulate", keep, duration)
+
+
+static func plain(text: String) -> String:
+	return text.replace("[b]", "").replace("[/b]", "").replace("[i]", "").replace("[/i]", "")

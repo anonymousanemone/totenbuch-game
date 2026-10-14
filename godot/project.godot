@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Totenbuch"
-config/description="The Book of the Dead (Lepsius, 1842) as a point-and-click game: spells 1-14 and 30-42."
+config/description="The Book of the Dead (Lepsius, 1842) as a point-and-click game: the funeral procession, night journey, dangers, Field of Offerings, and weighing of the heart."
 run/main_scene="res://scenes/menu.tscn"
 config/features=PackedStringArray("4.7")
 

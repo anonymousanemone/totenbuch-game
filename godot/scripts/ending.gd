@@ -20,7 +20,7 @@ signal ended
 const PIECES := ["stand", "sun", "lotus"]
 const RESTS_ON := {"stand": "", "sun": "stand", "lotus": "sun"}
 const NAMES := {"stand": "the offering stand", "sun": "the sun disc", "lotus": "the lotus"}
-const IMPRINT := Color(1.9, 1.0, 0.6, 0.2)   ## the imprint on the stela: faint and reddish
+const IMPRINT := UI.PREVIEW   ## the imprint on the stela: faint and reddish
 const IMPRINT_FADE := 1.5    ## s for the imprint to go once the stand stands
 const KNEEL := 0.8           ## s for you to sink into the adorer's place
 const RAYS := 1.6            ## s for the light to spread from the two suns ...

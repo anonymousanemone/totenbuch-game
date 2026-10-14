@@ -3669,6 +3669,7 @@ func _sheaf_struck() -> bool:
 	fight.pinned = true
 	_hurt(actors[fight.e.foe])
 	_sheaf_phase("pinned")
+	_dev_shot("SHOT_ON_CATCH")
 	say("Scribe", "Struck!")
 	return true
 

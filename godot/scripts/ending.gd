@@ -34,8 +34,8 @@ var imprint_shown := false        ## the stela shows the stand (only once the ot
 var instant := false              ## the autotest: no waiting
 var _data: Dictionary
 var _rects := {}                  ## piece -> Rect2 where it is drawn
+var _hidden_homes := {}       ## authored starting parent and transform
 var _nodes := {}                  ## piece -> Sprite2D (centred)
-var _sledge: Node2D               ## the bier the sun disc rides on while hidden
 var _imprint: Node2D
 var _kneeler: Sprite2D
 var _light: ColorRect
@@ -44,37 +44,16 @@ var _turn := 0.0
 var _tween: Tween
 
 
-func setup(level: Dictionary, art: String, sledge: Node2D) -> void:
+func setup(level: Dictionary, nodes: Dictionary) -> void:
 	_data = level.ending
-	_sledge = sledge
 	for nm in PIECES:
-		var s: Dictionary = level.sprites[nm]
-		_rects[nm] = Rect2(s.x, s.y, s.w, s.h)
-		var sp := Sprite2D.new()
-		sp.texture = load(art % nm)
+		var sp: Sprite2D = nodes[nm]
 		_nodes[nm] = sp
-		add_child(sp)
-	# the imprint: the three as they stand, smaller, on the stela's face
-	var st: Dictionary = _data.stela
-	var whole: Rect2 = _rects.stand.merge(_rects.sun).merge(_rects.lotus)
-	_imprint = Node2D.new()
-	_imprint.scale = Vector2.ONE * st.scale
-	_imprint.position = Vector2(st.cx - whole.size.x * st.scale / 2.0, st.top) - whole.position * st.scale
-	_imprint.modulate = IMPRINT
-	add_child(_imprint)
-	move_child(_imprint, 0)
-	for nm in PIECES:
-		var ghost := Sprite2D.new()
-		ghost.texture = _nodes[nm].texture
-		ghost.centered = false
-		ghost.position = _rects[nm].position
-		_imprint.add_child(ghost)
-	var k: Dictionary = level.sprites.kneeler
-	_kneeler = Sprite2D.new()
-	_kneeler.texture = load(art % "kneeler")
-	_kneeler.centered = false
-	_kneeler.position = Vector2(k.x, k.y)
-	add_child(_kneeler)
+		_hidden_homes[nm] = {"parent": sp.get_parent(), "transform": sp.transform}
+		var target: Sprite2D = nodes[nm + "_place"]
+		_rects[nm] = Rect2(target.position, target.texture.get_size())
+	_imprint = nodes.stela_imprint
+	_kneeler = nodes.kneeler
 	_light_layer = CanvasLayer.new()
 	_light_layer.layer = 100      # over the HUD too
 	add_child(_light_layer)
@@ -107,19 +86,11 @@ func reset() -> void:
 ## Where a piece lies hidden: on the scroll, or (the sun disc) on the bier.
 func _hide(nm: String) -> void:
 	var sp: Sprite2D = _nodes[nm]
-	var h: Dictionary = _data.hide[nm]
-	var size: Vector2 = _rects[nm].size
-	var parent: Node = _sledge if h.has("on") else self
-	if sp.get_parent() != parent:
-		sp.reparent(parent, false)
+	var home: Dictionary = _hidden_homes[nm]
+	if sp.get_parent() != home.parent:
+		sp.reparent(home.parent, false)
+	sp.transform = home.transform
 	sp.visible = true
-	sp.rotation_degrees = h.get("rot", 0.0)
-	sp.scale = Vector2.ONE * h.get("scale", 1.0)
-	if h.has("cx"):    # lying turned, centred on cx, resting on `bottom`
-		var turned := (Transform2D(sp.rotation, Vector2.ZERO) * Rect2(-size / 2.0, size)).size * sp.scale
-		sp.position = Vector2(h.cx, h.bottom - turned.y / 2.0)
-	else:
-		sp.position = Vector2(h.x, h.y) + size / 2.0
 
 
 func _set_at_place(nm: String) -> void:

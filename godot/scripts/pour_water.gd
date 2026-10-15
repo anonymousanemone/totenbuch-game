@@ -71,35 +71,24 @@ var _stand := 0.0
 var _tween: Tween
 
 
-func setup(level: Dictionary, art: String) -> void:
+func setup(level: Dictionary, art: String, nodes: Dictionary) -> void:
 	var w: Dictionary = level.water
 	_elbow = Vector2(w.elbow[0], w.elbow[1])
 	_spout = Vector2(w.spout[0], w.spout[1])
 	_hands = Vector2(w.hands[0], w.hands[1])
 	_view = Vector2(w.view[0], w.view[1])
 	_stand = w.stand
-	var s: Dictionary = level.sprites.water_stream
-	_stream = Sprite2D.new()
-	_stream.texture = load(art % "water_stream")
-	_stream.centered = false
-	_stream.position = Vector2(s.x, s.y)
+	_stream = nodes.water_stream
 	var mat := ShaderMaterial.new()
 	mat.shader = SHADER
 	var path_tex: Texture2D = load(art % "water_path")
 	mat.set_shader_parameter("path", path_tex)
 	_stream.material = mat
-	add_child(_stream)
 	for p in w.line:
 		_along.append(Vector2(p[0], p[1]))
-	var a: Dictionary = level.sprites.water_arm
-	_arm = Node2D.new()
-	_arm.position = _elbow
-	_arm_sprite = Sprite2D.new()
-	_arm_sprite.texture = load(art % "water_arm")
-	_arm_sprite.centered = false
-	_arm_sprite.position = Vector2(a.x, a.y) - _elbow
-	_arm.add_child(_arm_sprite)
-	add_child(_arm)
+	_arm = nodes.jug_arm
+	_elbow = _arm.position
+	_arm_sprite = nodes.water_arm
 
 
 func reset() -> void:

@@ -43,6 +43,7 @@ var _speech: Rect2
 var _speak_i := 0
 var _speak_tween: Tween
 
+var _authored := {}           ## saved placement sprites, hidden until restored in play
 var _placed_layer: Node2D
 var _bodies: Node2D
 var _bearer_sprite: Sprite2D
@@ -52,11 +53,11 @@ var _ghost: Sprite2D
 var _speak: Sprite2D
 
 
-func setup(table: Dictionary, goose: Rect2, clothes: Rect2, ground_y: float, art: String) -> void:
+func setup(table: Dictionary, goose: Rect2, ground_y: float, nodes: Dictionary) -> void:
 	ground = ground_y
 	floor_x = Vector2(table.floor[0], table.floor[1])
 	_goose_rect = goose
-	_clothes_rect = clothes
+	_clothes_rect = Rect2(nodes.clothes.position, nodes.clothes.texture.get_size())
 	var s: Dictionary = table.speech
 	_speech = Rect2(s.x, s.y, s.w, s.h)
 	view = Vector2(table.view[0], table.view[1]) if table.has("view") else floor_x
@@ -67,36 +68,43 @@ func setup(table: Dictionary, goose: Rect2, clothes: Rect2, ground_y: float, art
 		var hull := PackedVector2Array()
 		for i in range(0, p.hull.size(), 2):
 			hull.append(Vector2(p.hull[i], p.hull[i + 1]))
-		pieces[id] = {"rect": Rect2(p.x, p.y, p.w, p.h), "kind": p.kind, "name": p.name,
+		var authored: Sprite2D = nodes[id]
+		_authored[id] = authored
+		var target: Vector2 = nodes.frond_place.position if p.kind == "frond" else authored.position
+		pieces[id] = {"rect": Rect2(target, authored.texture.get_size()), "kind": p.kind, "name": p.name,
 			"rests_on": p.rests_on, "hull": hull}
-		_tex[id] = load(art % id)
-	_tex.goose = load(art % "goose")
-	_tex.clothes = load(art % "clothes")
+		_tex[id] = authored.texture
+	_tex.goose = nodes.goose.texture
+	_tex.clothes = nodes.clothes.texture
 	for id in _tex:
 		_img[id] = _tex[id].get_image()
 	_goose_hull = _outline(_img.goose)
 	for id in pieces:   # the frond lies in the band above at first
 		if pieces[id].kind == "frond" and table.has("frond_rest"):
-			_last_park[id] = Vector2(table.frond_rest.x, table.frond_rest.y) + _tex[id].get_size() / 2.0
+			_last_park[id] = nodes[id].position + _tex[id].get_size() / 2.0
 
-	_placed_layer = Node2D.new()
-	add_child(_placed_layer)
-	_bodies = Node2D.new()
-	add_child(_bodies)
+	_placed_layer = $layout
+	_bodies = $bodies
 	_build_floor()
-	_ghost = _sprite("", false)
+	_ghost = nodes.table_ghost
 	_ghost.modulate.a = GHOST_ALPHA
-	_clothes = _sprite("clothes", false)
-	_clothes.position = _clothes_rect.position
-	_bearer_sprite = _sprite("", true)
-	_speak = _sprite("", true)
-	_held_sprite = _sprite("", true)
-	_held_sprite.z_index = 10   # what you pick up comes to the front of everything
+	_clothes = nodes.clothes
+	_bearer_sprite = nodes.held_loaf
+	_speak = nodes.table_speech
+	_held_sprite = nodes.table_held
+	_held_sprite.z_index = 10
+	nodes.goose.visible = false   # its loose physics body is spawned by reset()
 
 
 func reset() -> void:
 	for c in _placed_layer.get_children():
-		c.queue_free()
+		if c.has_meta("success_flash"):
+			var flash: Tween = c.get_meta("success_flash")
+			if flash and flash.is_valid():
+				flash.kill()
+			c.remove_meta("success_flash")
+		c.modulate = Color.WHITE
+		c.visible = false
 	for b in _bodies.get_children():
 		b.queue_free()
 	placed.clear()
@@ -275,7 +283,7 @@ func put_back() -> void:
 
 ## The pieces set back in place, as drawn (with the `table` layer of the picture: the table whole).
 func placed_sprites() -> Array:
-	return _placed_layer.get_children()
+	return _placed_layer.get_children().filter(func(s): return s.visible)
 
 
 ## The goose-bearer: take the loaf from him, or give him back his goose (taking the loaf).
@@ -368,7 +376,8 @@ func _let_go() -> void:
 
 func _place(id: String) -> void:
 	placed[id] = true
-	var s := _sprite(id, false, _placed_layer)
+	var s: Sprite2D = _authored[id]
+	s.visible = true
 	s.position = pieces[id].rect.position
 	UI.flash(s)
 	changed.emit()
@@ -476,16 +485,6 @@ func _stop_speaking() -> void:
 		_speak_tween.kill()
 	if _speak:
 		_speak.visible = false
-
-
-func _sprite(id: String, centred: bool, parent: Node = self) -> Sprite2D:
-	var s := Sprite2D.new()
-	if id != "":
-		s.texture = _tex[id]
-	s.centered = centred
-	s.visible = id != ""
-	parent.add_child(s)
-	return s
 
 
 ## The convex outline of a picture's ink, in its own top-left frame.

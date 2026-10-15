@@ -2,8 +2,8 @@
 ##
 ## World coordinates are pixels of the strip (assets/procession/strip.png), which reads right
 ## to left: the player starts at the head of plate I (far right) and walks left. The strip is
-## art/procession1-15.mdp as drawn; positions come from assets/procession/level.json, written by
-## tools/cut_procession300.py.
+## art/procession1-15.mdp as drawn. Saved nodes own piece placement; level.json, exported by
+## tools/cut_procession300.py, retains source-art data, descriptions and interaction geometry.
 extends Node2D
 
 const SCROLL_CAMERA := preload("res://scripts/scroll_camera.gd")
@@ -110,6 +110,7 @@ var finished := false
 var journal: Array[String] = []
 
 var _generation := 0
+var _authored := {}          ## stable piece ID -> saved scene node
 var _pieces := {}            ## piece -> Sprite2D
 var _hover := {}
 var _seats := {}             ## standard -> where it sits on its pole (sprite px): see _seat()
@@ -154,7 +155,11 @@ func _ready() -> void:
 	unit = level.get("scale", 1.0)
 	avatar.speed *= unit
 	avatar.bob_height *= unit
-	$Papyrus.size = Vector2(level.width + 4000.0, level.height + 1600.0)
+	for node in $pieces.find_children("*", "Node2D", true, false):
+		if node.has_meta("piece_id"):
+			var id: String = node.get_meta("piece_id")
+			assert(not _authored.has(id), "Duplicate Procession piece ID: " + id)
+			_authored[id] = node
 	for piece in level.sprites:
 		var s: Dictionary = level.sprites[piece]
 		sprite_rects[piece] = Rect2(s.x, s.y, s.w, s.h)
@@ -171,41 +176,35 @@ func _ready() -> void:
 	var parts := hotspots.filter(func(h): return hotspots.any(func(o): return o != h and o.rect.encloses(h.rect)))
 	hotspots = parts + hotspots.filter(func(h): return not h in parts)
 	wall_x = level.plates.III.x + 6.0 * unit
-	start_x = sprite_rects.avatar.get_center().x
+	start_x = avatar.position.x
 
 	for piece in NAMES:
-		var p := _make_sprite(piece)
-		$Pieces.add_child(p)
+		var p: Sprite2D = _authored[piece]
 		_pieces[piece] = p
-	_recital = Node2D.new()
-	$Pieces.add_child(_recital)
+		sprite_rects[piece] = Rect2(p.position, p.texture.get_size())
+	_recital = $pieces/recital
 	var b: Dictionary = level.slots.arms
 	_bearer_rect = Rect2(b.x, b.y, b.w, b.h)
-	offerings = OfferingTable.new()
-	$Pieces.add_child(offerings)
-	offerings.setup(level.table, sprite_rects.goose, sprite_rects.clothes, ground, "res://assets/procession/%s.png")
+	offerings = $pieces/offering_table
+	offerings.setup(level.table, sprite_rects.goose, ground, _authored)
 	offerings.changed.connect(_on_offerings_changed)
-	haul = HaulSledge.new()
-	$Pieces.add_child(haul)
-	haul.setup(level.sprites, "res://assets/procession/%s.png", _pieces.ox, $Papyrus.material, self, $Strip.get_index() + 1)
+	haul = $pieces/hauling
+	haul.setup(_pieces.ox, $Papyrus.material, self, $Strip.get_index() + 1, _authored)
 	haul.said.connect(say)
 	haul.finished.connect(_check)
-	ending = EndingStand.new()
-	$Pieces.add_child(ending)
-	ending.setup(level, "res://assets/procession/%s.png", haul.sprite_of("haul_sledge"))
+	ending = $pieces/ending
+	ending.setup(level, _authored)
 	ending.said.connect(say)
 	ending.changed.connect(func():
 		_check()
 		_render())
 	ending.ended.connect(_ended)
-	water = PourWater.new()
-	$Pieces.add_child(water)
-	water.setup(level, "res://assets/procession/%s.png")
+	water = $pieces/water
+	water.setup(level, "res://assets/procession/%s.png", _authored)
 	water.said.connect(say)
 	water.finished.connect(_check)
-	mouth = OpeningMouth.new()
-	$Pieces.add_child(mouth)
-	mouth.setup(level, "res://assets/procession/%s.png")
+	mouth = $pieces/opening_mouth
+	mouth.setup(level, _authored)
 	mouth.said.connect(say)
 	mouth.changed.connect(func():
 		_check()
@@ -1251,13 +1250,6 @@ func _clear_recital() -> void:
 	for c in _recital.get_children():
 		c.queue_free()
 	_recital.modulate.a = 1.0
-
-
-func _make_sprite(piece: String) -> Sprite2D:
-	var s := Sprite2D.new()
-	s.texture = load("res://assets/procession/%s.png" % piece)
-	s.centered = false
-	return s
 
 
 # ---------------------------------------------------------------- command line

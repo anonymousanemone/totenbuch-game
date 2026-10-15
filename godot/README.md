@@ -74,6 +74,54 @@ so distances written for the 200-dpi plates still work. The dangers level is exp
 hand-made 300-dpi strip bod31-42.mdp (one layer per character, text below added) by
 `../tools/cut_dangers300.py`; the old 200-dpi cutter `../tools/cut_dangers.py` is kept for reference. Pieces cut apart for a fight have their own folders in the .mdp, copies of ink still in the drawing (the cutter keeps them out of the strip): `sheaf41` (`stalks`, `band1`..`band4`, the sheaf of spell 41) and `tail40` (`tail`, the donkey's tail in spell 40). Redraw a piece in its layer and run the cutter again (or only `--sheaf` / `--tail`). See `../tools/strips/NOTES.md` for the strips.
 
+### Editing the Procession pieces
+
+`scenes/procession.tscn` contains saved figures under `pieces/standards`, `hauling`,
+`offering_table`, `water`, `opening_mouth`, and `ending`. Each piece has a stable `piece_id`
+in Inspector > Metadata; keep these IDs intact when renaming nodes. The avatar and camera
+are positioned at the beginning of the scroll, and the background strip is locked.
+
+The editor deliberately shows a mixed arrangement: standards correctly seated, offerings on
+the table, the loaf in the bearer's arms, the goose on the floor, and the frond above the table.
+The stand, sun and lotus are at their hidden starting locations; the sun is a child of the
+sledge artwork so it travels with it. Water is drawn in full, and the stela imprint, kneeler
+and words above Ra are visible. Runtime reset applies the existing puzzle start: shuffled
+standards, loose offerings, the raised jar, and the appropriate hidden figures.
+
+Scripts reuse these saved sprites and pivots. Table layout sprites provide restoration targets;
+`frond_place` marks the frond's restored top-left position, while its sprite marks its start.
+The stela imprint's children retain the stand/sun/lotus restoration coordinates before the
+imprint parent's scale and translation. Loose physics bodies, collision geometry and temporary
+effects are still created during play. Move a hauling pivot rather than its `sprite` child.
+
+JSON and code still define hotspots, camera ranges, water paths, and several animation targets.
+Moving an entire puzzle group, changing pivots or scaling figures needs corresponding updates
+to that geometry. Exporting artwork does not overwrite saved scene placement.
+
+### Editing the Dangers figures
+
+`scenes/dangers.tscn` contains the authored figures under `actors`, organized into named spell
+folders such as `spell31_crocs`, with readable names such as `croc31a` and
+`spear_bearer`. These folders are plain `Node` organizers so they do not introduce transforms. The editor shows the
+papyrus arrangement, including the nine spear-bearers and the held breath/ankh. Separate
+spear tint overlays and the dismantled sheaf parts are hidden alternatives. Gameplay reset
+hides the spear-bearers and sheaf parts according to the existing rules.
+
+Each actor has a stable `actor_id` in Inspector > Metadata, matching its data key. Move the
+named actor: startup derives its home and interaction bounds from its position. Single-picture
+actors are `Sprite2D` nodes with drawing offsets that preserve their foot pivots. The lunging
+snake, creeping snake, Apep and sheaf snake retain a parent and `sprite` child for independently
+animated heads or partial drawings. Their children are grouped for selection; the background
+strip is locked. `size` metadata describes the original drawing bounds, independently of
+sprite-sheet padding. Keep IDs and sprite offsets intact when changing placement.
+
+JSON still holds source-art coordinates, encounter boundaries, and other level data; startup
+does not overwrite authored actor positions with its sprite coordinates. Encounter boundaries,
+caption regions, and several animation targets still use JSON or code coordinates, so moving
+an entire vignette or changing pivots/scale requires corresponding gameplay adjustments.
+Temporary fight effects and spawned copies remain generated at runtime. Art exports do not
+automatically replace the saved scene layout.
+
 Both crocodile fights: three bites and the bearer crumbles and you are back on the scroll (never an automatic restart); the flesh
 sign (your picture at `assets/dangers/flesh.png`; red dots until it is there) counts his health in red at the
 top left. Spell 32 speeds up with every crocodile (`ramp`) but keeps arrivals `min_gap` apart so it

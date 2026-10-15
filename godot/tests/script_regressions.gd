@@ -20,6 +20,8 @@ func _expect(condition: bool, description: String) -> void:
 func _run() -> void:
 	_test_camera_bounds()
 	_test_figure_mask()
+	_test_procession_scene_pieces()
+	_test_dangers_scene_actors()
 	_test_hover_glow()
 	print("REGRESSIONS ", "OK" if _failures.is_empty() else "FAILED")
 	quit(0 if _failures.is_empty() else 1)
@@ -60,6 +62,129 @@ func _test_figure_mask() -> void:
 	_expect(repaired.get_pixel(12, 12).g == 1.0, "a small gap in the outline does not leak the fill")
 
 
+## The editor arrangement intentionally mixes restored rites with hidden-piece starts.
+func _test_procession_scene_pieces() -> void:
+	var scene = load("res://scenes/procession.tscn").instantiate()
+	var data = JSON.parse_string(FileAccess.get_file_as_string("res://assets/procession/level.json"))
+	var nodes := {}
+	var unique := true
+	for node in scene.get_node("pieces").find_children("*", "Node2D", true, false):
+		if node.has_meta("piece_id"):
+			var id: String = node.get_meta("piece_id")
+			unique = unique and not nodes.has(id)
+			nodes[id] = node
+	for id in data.sprites:
+		unique = unique and (id == "avatar" or nodes.has(id))
+	_expect(unique, "Procession scene contains every extracted piece with unique stable IDs")
+	var standards := true
+	for i in range(1, 9):
+		var id := "emb_e%d" % i
+		standards = standards and nodes[id].visible and nodes[id].position == Vector2(data.sprites[id].x, data.sprites[id].y)
+	_expect(standards and nodes.calf.visible, "editor shows the correct standards and calf")
+	var table := true
+	for id in data.table.pieces:
+		var source: Dictionary = data.table.pieces[id]
+		if source.kind == "loose":
+			table = table and nodes[id].visible and nodes[id].position == Vector2(source.x, source.y)
+	_expect(table and not nodes.t08.visible and nodes.held_loaf.visible and nodes.goose.visible,
+		"editor arranges offerings on the table with the loaf held and goose on the floor")
+	_expect(nodes.t25.position == Vector2(data.table.frond_rest.x, data.table.frond_rest.y)
+		and nodes.frond_place.position == Vector2(data.table.pieces.t25.x, data.table.pieces.t25.y),
+		"frond starts on the upper register with a separate table placement marker")
+	_expect(nodes.jug_arm.rotation == 0.0 and nodes.water_stream.visible and nodes.stela_imprint.visible
+		and nodes.kneeler.visible and nodes.mouth_words.visible,
+		"editor displays restored water, stela imprint, kneeler and words above Ra")
+	_expect(nodes.stand.position == Vector2(data.ending.hide.stand.x, data.ending.hide.stand.y) + nodes.stand.texture.get_size() / 2.0
+		and nodes.sun.get_parent() == nodes.haul_sledge.get_child(0)
+		and is_equal_approx(nodes.lotus.rotation_degrees, 90.0)
+		and is_equal_approx(nodes.lotus.position.x, data.ending.hide.lotus.cx),
+		"editor puts stand, sun and turned lotus in their hidden starting locations")
+	var start: Vector2 = scene.get_node("Avatar").position
+	_expect(start == Vector2(data.sprites.avatar.x + data.sprites.avatar.w / 2.0, data.ground)
+		and absf(scene.get_node("Camera").position.x - start.x) < 1000.0,
+		"avatar and camera are authored at the beginning of the scroll")
+	nodes.calf.position.x += 12.0
+	nodes.t03.position.x += 6.0
+	nodes.sun.position.x += 5.0
+	nodes.mouth_adze.position.x += 3.0
+	var sun_home: Transform2D = nodes.sun.transform
+	root.add_child(scene)
+	scene.process_mode = Node.PROCESS_MODE_DISABLED
+	_expect(scene._pieces.calf == nodes.calf and scene.sprite_rects.calf.position == nodes.calf.position
+		and scene.offerings.pieces.t03.rect.position == nodes.t03.position,
+		"runtime reuses authored pieces and reads moved calf and offering positions")
+	_expect(scene.haul._nodes.haul_sledge == nodes.haul_sledge and scene.water.arm_sprite() == nodes.water_arm
+		and scene.mouth._adze == nodes.mouth_adze and scene.ending._nodes.sun == nodes.sun,
+		"all Procession puzzle components reuse their saved scene figures")
+	_expect(not nodes.kneeler.visible and not nodes.stela_imprint.visible and not nodes.mouth_words.visible
+		and scene.water.tilt == scene.water.START_TILT and scene.slot == scene.START,
+		"startup restores the existing hidden figures, raised jug and shuffled standards")
+	scene.ending._set_at_place("sun")
+	scene.ending.reset()
+	_expect(nodes.sun.transform == sun_home and nodes.sun.get_parent() == scene.haul.sprite_of("haul_sledge"),
+		"ending reset restores the authored sun position on the moving sledge")
+	scene.offerings._place("t03")
+	_expect(nodes.t03.visible and scene.offerings.placed_sprites() == [nodes.t03],
+		"restoring an offering reveals its saved sprite without duplicating table pieces")
+	scene.offerings.reset()
+	_expect(not nodes.t03.visible and scene.offerings.placed_sprites().is_empty(),
+		"offering reset hides authored table pieces before scattering loose bodies")
+	scene.free()
+
+
+## Authored actors must be inspectable before _ready(), then retain scene placement in play.
+func _test_dangers_scene_actors() -> void:
+	var scene = load("res://scenes/dangers.tscn").instantiate()
+	var data = JSON.parse_string(FileAccess.get_file_as_string("res://assets/dangers/level.json"))
+	var sheet_data = JSON.parse_string(FileAccess.get_file_as_string("res://assets/dangers/spearers.json"))
+	var ids := {}
+	var aligned := true
+	for actor in scene.get_node("actors").find_children("*", "Node2D", true, false):
+		if not actor.has_meta("actor_id"):
+			continue
+		var id: String = actor.get_meta("actor_id")
+		aligned = aligned and not ids.has(id)
+		ids[id] = actor
+		var source: Dictionary = data.sprites[id.trim_suffix("_pole")] if id.ends_with("_pole") else data.sprites[id]
+		aligned = aligned and actor.position.is_equal_approx(Vector2(source.x + source.w / 2.0, source.y + source.h))
+	for id in data.sprites:
+		aligned = aligned and (id == "avatar" or ids.has(id))
+	_expect(aligned, "Dangers scene contains unique IDs and source-art placements for every actor")
+	_expect(scene.get_node("actors/spell31_crocs/croc31a") == ids.c31a
+		and scene.get_node("actors/spell31_crocs/spear_bearer") == ids.spear31,
+		"actors have readable names and are organized beneath their spell")
+	var simple := true
+	for id in ids:
+		if id in ["snake33", "snake35", "apep", "snake41"]:
+			simple = simple and not ids[id] is Sprite2D and ids[id].has_node("sprite")
+		else:
+			simple = simple and ids[id] is Sprite2D and not ids[id].has_node("sprite")
+	_expect(simple, "single-picture actors are Sprite2D nodes; multipart snakes retain their drawing child")
+	var drawn: bool = ids.breath38.visible
+	for id in sheet_data.bearers:
+		var actor = ids[id]
+		var picture: Sprite2D = actor if actor is Sprite2D else actor.get_node("sprite")
+		var frame: AtlasTexture = picture.texture
+		drawn = drawn and actor.visible and frame.region.position == Vector2(sheet_data.rest * sheet_data.cell[0], sheet_data.bearers[id].row * sheet_data.cell[1])
+	_expect(drawn, "editor shows held breath and all spear-bearers in their drawn poses")
+	var moved = ids.c31a
+	moved.position += Vector2(12, -3)
+	var home: Vector2 = moved.position
+	root.add_child(scene)
+	scene.process_mode = Node.PROCESS_MODE_DISABLED
+	_expect(scene.actors.c31a == moved and moved.get_meta("home") == home and scene.rects.c31a.get_center().x == home.x,
+		"runtime reuses authored actors and derives homes and bounds from scene placement")
+	var hidden := true
+	for id in scene.actors:
+		if id.begins_with("spear") or id.begins_with("sheaf41_"):
+			hidden = hidden and not scene.actors[id].visible
+	_expect(hidden and scene.actors.breath38.visible, "startup hides fight-only actors while retaining the held breath")
+	moved.position += Vector2(20, 10)
+	scene.reset()
+	_expect(moved.position == home, "reset returns actors to their authored starting positions")
+	scene.free()
+
+
 func _test_hover_glow() -> void:
 	var level = load("res://scenes/dangers.tscn").instantiate()
 	root.add_child(level)
@@ -70,11 +195,12 @@ func _test_hover_glow() -> void:
 	_expect(level._all_heka() == expected_signs, "cached heka signs retain their scroll order")
 	var actor: String = level.ENCOUNTERS[0].foes[0]
 	level._glow(actor, true)
-	var glow: Sprite2D = level.actors[actor].get_node("Sprite/Glow")
+	var glow: Sprite2D = level.actors[actor].get_node("Glow")
 	var fade: Tween = glow.get_meta("fade")
 	fade.custom_step(0.2)
 	_expect(glow.visible and is_equal_approx(glow.material.get_shader_parameter("strength"), 1.0),
 		"hovered drawings finish fading into view")
+	_expect(glow.offset == level.actors[actor].offset, "hover glow preserves the flattened sprite drawing offset")
 	level._glow(actor, false)
 	fade = glow.get_meta("fade")
 	fade.custom_step(0.2)

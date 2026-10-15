@@ -87,15 +87,20 @@ func _ready() -> void:
 	ground = level.ground
 	avatar.speed *= unit
 	avatar.bob_height *= unit
-	for n in level.sprites:
-		var s: Dictionary = level.sprites[n]
-		rects[n] = Rect2(s.x, s.y, s.w, s.h)
+	# Scene transforms own placement; JSON retains descriptions and source-art data.
+	for actor in $actors.find_children("*", "Node2D", true, false):
+		if not actor.has_meta("actor_id"):
+			continue
+		var id: String = actor.get_meta("actor_id")
+		assert(not actors.has(id), "Duplicate Dangers actor ID: " + id)
+		actors[id] = actor
+		actor.set_meta("home", actor.position)
+		var size: Vector2 = actor.get_meta("size")
+		rects[id] = Rect2(actor.position - Vector2(size.x / 2.0, size.y), size)
+	var avatar_size: Vector2 = avatar.get_meta("size")
+	rects.avatar = Rect2(avatar.position - Vector2(avatar_size.x / 2.0, avatar_size.y), avatar_size)
 	for b in level.boxes:
 		boxes[b] = Vector2(level.boxes[b][0], level.boxes[b][1])
-	for n in rects:
-		if n == "avatar":
-			continue
-		actors[n] = _make_actor(load(ASSET % n), rects[n])
 	# the spear-bearers come from one sprite sheet: the man as drawn with his spear in a pose, and over
 	# him the spear alone in the same pose, shown only when it is tinted red for heka
 	sheet = JSON.parse_string(FileAccess.get_file_as_string(SHEET_PATH))
@@ -104,20 +109,17 @@ func _ready() -> void:
 		push_warning("spearers.json reach/back do not match CROC_THRUST/CROC_PREP")
 	for nm in sheet.bearers:
 		var pole: String = nm + "_pole"
-		if not actors.has(pole):
-			actors[pole] = _make_actor(_sheet_tex, rects[nm])
-		$Actors.move_child(actors[pole], actors[nm].get_index() + 1)
+		actors[nm].get_parent().move_child(actors[pole], actors[nm].get_index() + 1)
 		for a in [actors[nm], actors[pole]]:
-			var sp: Sprite2D = a.get_node("Sprite")
+			var sp: Sprite2D = _picture(a)
 			var at := AtlasTexture.new()
 			at.atlas = _sheet_tex
 			sp.texture = at
-			sp.position = -Vector2(rects[nm].size.x / 2.0 + float(sheet.bearers[nm].ox), rects[nm].size.y + float(sheet.bearers[nm].oy))
 		_bearer_pose(nm, 0.0)
 	overlay.draw.connect(_draw_overlay)
 	_arena = Node2D.new()
 	add_child(_arena)
-	move_child(_arena, $Actors.get_index())
+	move_child(_arena, $actors.get_index())
 	_arena_cover = ColorRect.new()
 	_arena_cover.material = $Papyrus.material
 	_arena_cover.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -155,19 +157,22 @@ func _ready() -> void:
 	_maybe_run_cli()
 
 
-func _make_actor(tex: Texture2D, r: Rect2) -> Node2D:
-	var pivot := Node2D.new()
-	pivot.position = Vector2(r.get_center().x, r.end.y)
-	pivot.set_meta("home", pivot.position)
-	pivot.set_meta("size", r.size)
-	var s := Sprite2D.new()
-	s.name = "Sprite"
-	s.texture = tex
-	s.centered = false
-	s.position = Vector2(-r.size.x / 2.0, -r.size.y)
-	pivot.add_child(s)
-	$Actors.add_child(pivot)
-	return pivot
+## Temporary copies spawned during fights; permanent actors live in the scene.
+func _make_actor(tex: Texture2D, r: Rect2) -> Sprite2D:
+	var sprite := Sprite2D.new()
+	sprite.position = Vector2(r.get_center().x, r.end.y)
+	sprite.set_meta("home", sprite.position)
+	sprite.set_meta("size", r.size)
+	sprite.texture = tex
+	sprite.centered = false
+	sprite.offset = Vector2(-r.size.x / 2.0, -r.size.y)
+	$actors.add_child(sprite)
+	return sprite
+
+
+## Multipart creatures keep a separate drawing so heads can move or hide independently.
+func _picture(actor: Node2D) -> Sprite2D:
+	return actor as Sprite2D if actor is Sprite2D else actor.get_node("sprite") as Sprite2D
 
 
 func reset() -> void:
@@ -406,7 +411,7 @@ func _caption_signs(e: Dictionary) -> Array:
 
 ## A soft glow behind actor `n`'s drawing (made the first time it is wanted).
 func _glow(n: String, on: bool) -> void:
-	var sp := actors[n].get_node("Sprite") as Sprite2D
+	var sp := _picture(actors[n])
 	var g := sp.get_node_or_null("Glow") as Sprite2D
 	if g == null:
 		if not on:
@@ -414,7 +419,9 @@ func _glow(n: String, on: bool) -> void:
 		g = Sprite2D.new()
 		g.name = "Glow"
 		g.texture = sp.texture
-		g.centered = false
+		g.centered = sp.centered
+		g.offset = sp.offset
+		g.flip_h = sp.flip_h
 		g.show_behind_parent = true
 		var mat := UI.glow_material(sp.texture, GLOW)
 		g.material = mat
@@ -682,7 +689,7 @@ func _restore(n: String) -> void:
 	a.rotation = 0.0
 	a.scale = Vector2.ONE
 	a.modulate = Color.WHITE
-	(a.get_node("Sprite") as Sprite2D).flip_h = false
+	_picture(a).flip_h = false
 	if sheet.bearers.has(n.trim_suffix("_pole")):
 		_bearer_pose(n.trim_suffix("_pole"), 0.0)
 
@@ -916,9 +923,9 @@ var _solids := {}        ## crocodile texture -> its outline filled in (Image, a
 
 ## Does the point `p` lie on crocodile `c`: inside its drawn outline (filled), or within CROC_GRACE?
 func _on_croc(c: Dictionary, p: Vector2) -> bool:
-	var sp: Sprite2D = c.node.get_node("Sprite")
+	var sp: Sprite2D = _picture(c.node)
 	var solid := _solid_of(sp.texture)
-	var q := sp.to_local(p)
+	var q := sp.to_local(p) - sp.offset
 	var w := solid.get_width()
 	var h := solid.get_height()
 	var g := CROC_GRACE * unit
@@ -1042,14 +1049,14 @@ func _place_bearer() -> void:
 	for nm in [e.spear, e.spear + "_pole"]:
 		var a: Node2D = actors[nm]
 		a.position = a.get_meta("home").lerp(fight.pos, fight.open)
-		(a.get_node("Sprite") as Sprite2D).flip_h = fight.facing > 0
+		_picture(a).flip_h = fight.facing > 0
 	# the spear rests drawn back; a thrust runs it out past where it is drawn and draws it back again
 	_bearer_pose(e.spear, _spear_out())
 	# bitten: the body flushes red; heka: the spear is red (each on its own)
 	actors[e.spear].modulate = Color.WHITE.lerp(HURT, clampf(fight.red / 0.8, 0.0, 1.0))
 	var heka: bool = Input.is_key_pressed(KEY_SHIFT) and fight.open >= 1.0
 	actors[e.spear + "_pole"].modulate = RED_CROC if heka else Color.WHITE
-	actors[e.spear + "_pole"].get_node("Sprite").visible = heka
+	_picture(actors[e.spear + "_pole"]).visible = heka
 
 
 func _crocs(dt: float) -> void:
@@ -1173,7 +1180,7 @@ func _croc_strike() -> void:
 	fight.wave_killed += 1
 	var a: Node2D = best.node
 	a.rotation = 0.0
-	(a.get_node("Sprite") as Sprite2D).flip_h = best.dir > 0    # it turns round
+	_picture(a).flip_h = best.dir > 0    # it turns round
 	var t := _fight_tween(a)
 	t.tween_property(a, "position:x", a.position.x - 60.0 * unit * best.dir, 0.5)
 	t.parallel().tween_property(a, "modulate:a", 0.0, 0.5)
@@ -1284,7 +1291,7 @@ func _croc_takes_word(c: Dictionary, why: String) -> void:
 	# it turns round
 	t.tween_callback(func():
 		c.dir = dir
-		(a.get_node("Sprite") as Sprite2D).flip_h = dir < 0)
+		_picture(a).flip_h = dir < 0)
 	# the word spins down into its jaws
 	for nm in words:
 		var w: Node2D = actors[nm]
@@ -1358,7 +1365,7 @@ func _disintegrate(e: Dictionary) -> void:
 	mat.shader = DISSOLVE
 	mat.set_shader_parameter("grain", 3.0 * unit)
 	for nm in [e.spear, e.spear + "_pole"]:
-		(actors[nm].get_node("Sprite") as Sprite2D).material = mat
+		_picture(actors[nm]).material = mat
 	_fight_tween().tween_method(func(v: float): mat.set_shader_parameter("amount", v), 0.0, 1.05, 1.6)
 
 
@@ -1444,9 +1451,9 @@ func _croc_launch(speed: float) -> bool:
 	else:
 		var from: Node2D = actors[e.foes[rng.randi() % e.foes.size()]]
 		var size: Vector2 = from.get_meta("size")
-		var a := _make_actor((from.get_node("Sprite") as Sprite2D).texture, Rect2(Vector2.ZERO, size))
+		var a := _make_actor(_picture(from).texture, Rect2(Vector2.ZERO, size))
 		var dir := -1 if fight.both and rng.randf() < 0.5 else 1
-		(a.get_node("Sprite") as Sprite2D).flip_h = dir < 0
+		_picture(a).flip_h = dir < 0
 		var busy: Array = fight.crocs.filter(func(x): return x.s == "crawl" and x.dir == dir).map(func(x): return _snout(x).y)
 		var free: Array = fight.lanes.filter(func(y): return busy.all(func(b): return absf(b - y) > CROC_LANE * unit * 0.9))
 		if free.is_empty():
@@ -1597,8 +1604,8 @@ func _crocs_cleanup() -> void:
 	for nm in fight.hidden:
 		actors[nm].modulate.a = 1.0
 	for nm in [fight.e.spear, fight.e.spear + "_pole"]:
-		(actors[nm].get_node("Sprite") as Sprite2D).flip_h = false
-		(actors[nm].get_node("Sprite") as Sprite2D).material = null
+		_picture(actors[nm]).flip_h = false
+		_picture(actors[nm]).material = null
 	_arena.visible = false
 
 
@@ -1659,7 +1666,7 @@ func _twin_start(e: Dictionary) -> void:
 	fight.idle = rng.randf_range(float(e.idle[0]), float(e.idle[1])) + 0.6
 	var left: Node2D = actors[e.foe]
 	var home: Vector2 = left.get_meta("home")
-	var right := _make_actor((left.get_node("Sprite") as Sprite2D).texture, rects[e.foe])
+	var right := _make_actor(_picture(left).texture, rects[e.foe])
 	right.set_meta("home", Vector2(2.0 * fight.stand.x - home.x, home.y))   # mirrored about him
 	right.position = right.get_meta("home")
 	fight.copies = [right]
@@ -1998,7 +2005,7 @@ func _creep_start(e: Dictionary) -> void:
 ## For this fight only: its head cut from its body, on a pivot of its own, so it can lift and turn.
 func _creep_dress(e: Dictionary) -> void:
 	var a: Node2D = actors[e.foe]
-	var sp: Sprite2D = a.get_node("Sprite")
+	var sp: Sprite2D = _picture(a)
 	fight.snake_plain = sp.texture
 	var img := sp.texture.get_image()
 	if img.is_compressed():
@@ -2009,7 +2016,7 @@ func _creep_dress(e: Dictionary) -> void:
 	img.fill_rect(r, Color(0, 0, 0, 0))
 	sp.texture = ImageTexture.create_from_image(img)
 	var neck := Vector2(float(e.head_pivot[0]), float(e.head_pivot[1]))
-	fight.neck_at = sp.position + neck
+	fight.neck_at = sp.offset + neck
 	var pivot := Node2D.new()
 	pivot.name = "Head"
 	pivot.position = fight.neck_at
@@ -2028,7 +2035,7 @@ func _creep_undress() -> void:
 	if not fight.has("snake_plain"):
 		return
 	var a: Node2D = actors[fight.e.foe]
-	(a.get_node("Sprite") as Sprite2D).texture = fight.snake_plain
+	_picture(a).texture = fight.snake_plain
 	var head := a.get_node_or_null("Head")
 	if head:
 		a.remove_child(head)
@@ -2315,7 +2322,7 @@ func _roach_start(e: Dictionary) -> void:
 		var c0: Vector2 = fight.stand + Vector2(0.0, fight.tip.y) + spots[i % spots.size()] * unit
 		var node := a
 		if i > 0:
-			node = _make_actor((a.get_node("Sprite") as Sprite2D).texture, Rect2(Vector2.ZERO, size))
+			node = _make_actor(_picture(a).texture, Rect2(Vector2.ZERO, size))
 			node.modulate.a = 0.0
 			fight.copies.append(node)
 		var r := {"node": node, "size": size, "home_c": home_c if i == 0 else c0, "c0": c0, "c": c0, "target": c0,
@@ -2488,7 +2495,7 @@ func _roach_swarm(r: Dictionary) -> void:
 	fight.lost = true
 	say("Scribe", "A beetle escaped too often. Click it to try again.")
 	var from: Array = _roaches().map(func(x): return x.c)
-	var tex: Texture2D = (r.node.get_node("Sprite") as Sprite2D).texture
+	var tex: Texture2D = _picture(r.node).texture
 	var size: Vector2 = r.size
 	var full: Rect2 = fight.full
 	for i in ROACH_SWARM:
@@ -2595,24 +2602,24 @@ func _front_leg_x(bearer: Node2D, y: float) -> float:
 ## For this fight only: the bearer is filled with papyrus (the snake's body passes behind his
 ## skirt), the snake gets room for its tail to wave, the red mark, and its head drawn in front of him.
 func _lunge_dress(e: Dictionary) -> void:
-	var bs: Sprite2D = actors[e.spear].get_node("Sprite")
+	var bs: Sprite2D = _picture(actors[e.spear])
 	fight.bearer_plain = bs.texture
-	fight.bearer_at = bs.position
+	fight.bearer_at = bs.offset
 	if not _filled.has(e.spear):          # each pose of his, filled (the spear's ends move)
 		var frames := []
 		for i in sheet.poses.size():
 			frames.append(FIGURE_MASK.create_texture(_sheet_frame(e.spear, i, false), 2))
 		_filled[e.spear] = frames
 	bs.set_meta("filled", _filled[e.spear])
-	bs.position -= Vector2(2, 2)
+	bs.offset -= Vector2(2, 2)
 	_bearer_pose(e.spear, _spear_out())
 	var fm := ShaderMaterial.new()
 	fm.shader = SNAKE_FIGURE
 	bs.material = fm
 	var a: Node2D = actors[e.foe]
-	var sp: Sprite2D = a.get_node("Sprite")
+	var sp: Sprite2D = _picture(a)
 	fight.snake_plain = sp.texture
-	fight.snake_at = sp.position
+	fight.snake_at = sp.offset
 	var src := sp.texture.get_image()
 	if src.is_compressed():
 		src.decompress()
@@ -2625,7 +2632,7 @@ func _lunge_dress(e: Dictionary) -> void:
 	# the mark: where the spear point lands with the snake as drawn, on the nearest bit of body
 	var home: Vector2 = a.get_meta("home")
 	var point: Vector2 = fight.pos + _tip_offset() + _spear_dir() * CROC_THRUST * unit
-	var q := point - (home + sp.position)            # in the picture's pixels
+	var q := point - (home + sp.offset)            # in the picture's pixels
 	var best := Vector2i(int(q.x), int(q.y))
 	var best_d := INF
 	for y in range(maxi(0, int(q.y) - 40), mini(h, int(q.y) + 41)):
@@ -2635,13 +2642,13 @@ func _lunge_dress(e: Dictionary) -> void:
 				if d < best_d:
 					best_d = d
 					best = Vector2i(x, y)
-	fight.snake_mark = Vector2(best) + sp.position             # from its pivot
+	fight.snake_mark = Vector2(best) + sp.offset             # from its pivot
 	fight.snake_img = img                                      # unmarked: the mark is painted per strike
 	fight.snake_mark_px = best + Vector2i(P, P)
 	sp.texture = ImageTexture.create_from_image(img)
 	fight.snake_tex = sp.texture
 	_lunge_mark()
-	sp.position -= Vector2(P, P)
+	sp.offset -= Vector2(P, P)
 	var mat := ShaderMaterial.new()
 	mat.shader = SNAKE_TAIL
 	var base: Array = e.tail_base
@@ -2720,17 +2727,17 @@ static func _paint_mark(img: Image, c: Vector2i, r: float) -> void:
 func _lunge_undress() -> void:
 	var e: Dictionary = fight.e
 	if fight.has("bearer_plain"):
-		var bs: Sprite2D = actors[e.spear].get_node("Sprite")
+		var bs: Sprite2D = _picture(actors[e.spear])
 		bs.remove_meta("filled")
 		bs.texture = fight.bearer_plain
-		bs.position = fight.bearer_at
+		bs.offset = fight.bearer_at
 		bs.material = null
 		_bearer_pose(e.spear, 0.0)
 	if fight.has("snake_plain"):
 		var a: Node2D = actors[e.foe]
-		var sp: Sprite2D = a.get_node("Sprite")
+		var sp: Sprite2D = _picture(a)
 		sp.texture = fight.snake_plain
-		sp.position = fight.snake_at
+		sp.offset = fight.snake_at
 		sp.material = null
 		if a.has_node("Head"):
 			var head := a.get_node("Head")
@@ -2745,7 +2752,7 @@ func _lunge_place() -> void:
 	var home: Vector2 = a.get_meta("home")
 	a.position = home + Vector2(sn.off * fight.open, 0.0)
 	a.scale = Vector2(sn.sx, sn.sy)
-	var mat := (a.get_node("Sprite") as Sprite2D).material as ShaderMaterial
+	var mat := _picture(a).material as ShaderMaterial
 	if mat:
 		mat.set_shader_parameter("amp", sn.amp)
 		mat.set_shader_parameter("phase", fight.clock * TAU * float(fight.e.wave_hz))
@@ -2805,12 +2812,12 @@ func _bearer_pose(nm: String, o: float) -> void:
 	var cw: float = sheet.cell[0]
 	var ch: float = sheet.cell[1]
 	var row: float = float(sheet.bearers[nm].row) * ch
-	var bs: Sprite2D = actors[nm].get_node("Sprite")
+	var bs: Sprite2D = _picture(actors[nm])
 	if bs.has_meta("filled"):
 		bs.texture = bs.get_meta("filled")[i]
 	else:
 		(bs.texture as AtlasTexture).region = Rect2(i * cw, row, cw, ch)
-	var ps: Sprite2D = actors[nm + "_pole"].get_node("Sprite")
+	var ps: Sprite2D = _picture(actors[nm + "_pole"])
 	(ps.texture as AtlasTexture).region = Rect2((i + sheet.poses.size()) * cw, row, cw, ch)
 
 
@@ -3082,9 +3089,9 @@ func _apep_start(e: Dictionary) -> void:
 ## can rear (drawn again on its own, turning on its neck).
 func _apep_dress(e: Dictionary) -> void:
 	var a: Node2D = actors[e.foe]
-	var sp: Sprite2D = a.get_node("Sprite")
+	var sp: Sprite2D = _picture(a)
 	fight.apep_plain = sp.texture
-	fight.apep_at = sp.position
+	fight.apep_at = sp.offset
 	var src := sp.texture.get_image()
 	if src.is_compressed():
 		src.decompress()
@@ -3097,7 +3104,7 @@ func _apep_dress(e: Dictionary) -> void:
 	var body := whole.duplicate()
 	body.fill_rect(head_r, Color(0, 0, 0, 0))
 	sp.texture = ImageTexture.create_from_image(body)
-	sp.position -= Vector2(0, P)
+	sp.offset -= Vector2(0, P)
 	var mat := ShaderMaterial.new()
 	mat.shader = APEP_WAVE
 	sp.material = mat
@@ -3119,9 +3126,9 @@ func _apep_undress() -> void:
 	if not fight.has("apep_plain"):
 		return
 	var a: Node2D = actors[fight.e.foe]
-	var sp: Sprite2D = a.get_node("Sprite")
+	var sp: Sprite2D = _picture(a)
 	sp.texture = fight.apep_plain
-	sp.position = fight.apep_at
+	sp.offset = fight.apep_at
 	sp.material = null
 	if a.has_node("HeadPivot"):
 		var pivot := a.get_node("HeadPivot")
@@ -3155,7 +3162,7 @@ func _apep_place() -> void:
 			arr.append(Vector4(w.x, w.h * w.amp, half, 0.0))
 		else:
 			arr.append(Vector4.ZERO)
-	((a.get_node("Sprite") as Sprite2D).material as ShaderMaterial).set_shader_parameter("waves", arr)
+	(_picture(a).material as ShaderMaterial).set_shader_parameter("waves", arr)
 	var h: Dictionary = fight.head
 	var pv := Vector2(float(e.head_pivot[0]), float(e.head_pivot[1]))
 	var pivot: Node2D = a.get_node("HeadPivot")
@@ -3492,9 +3499,9 @@ func _donkey_tune(key: String) -> float:
 
 ## For this fight only: the snake gets room round its picture and the shader that lifts its front.
 func _donkey_dress(e: Dictionary) -> void:
-	var sp: Sprite2D = actors[e.foe].get_node("Sprite")
+	var sp: Sprite2D = _picture(actors[e.foe])
 	fight.snake_plain = sp.texture
-	fight.snake_at = sp.position
+	fight.snake_at = sp.offset
 	var src := sp.texture.get_image()
 	if src.is_compressed():
 		src.decompress()
@@ -3503,7 +3510,7 @@ func _donkey_dress(e: Dictionary) -> void:
 	var img := Image.create(src.get_width() + 2 * P, src.get_height() + 2 * P, false, Image.FORMAT_RGBA8)
 	img.blit_rect(src, Rect2i(0, 0, src.get_width(), src.get_height()), Vector2i(P, P))
 	sp.texture = ImageTexture.create_from_image(img)
-	sp.position -= Vector2(P, P)
+	sp.offset -= Vector2(P, P)
 	var mat := ShaderMaterial.new()
 	mat.shader = LIFT_END
 	mat.set_shader_parameter("from_x", float(e.lift_from) + P)
@@ -3514,12 +3521,12 @@ func _donkey_dress(e: Dictionary) -> void:
 func _donkey_undress() -> void:
 	var e: Dictionary = fight.e
 	if fight.has("snake_plain"):
-		var sp: Sprite2D = actors[e.foe].get_node("Sprite")
+		var sp: Sprite2D = _picture(actors[e.foe])
 		sp.texture = fight.snake_plain
-		sp.position = fight.snake_at
+		sp.offset = fight.snake_at
 		sp.material = null
 	for n in [e.donkey, e.tail]:       # crumbled if it was eaten
-		(actors[n].get_node("Sprite") as Sprite2D).material = null
+		_picture(actors[n]).material = null
 
 
 ## Where its head is, up the spear's line from where the point rests on it as drawn (plate px).
@@ -3669,7 +3676,7 @@ func _donkey_bitten() -> void:
 		mat.shader = DISSOLVE
 		mat.set_shader_parameter("grain", 3.0 * unit)
 		for n in [e.donkey, e.tail, e.foe]:
-			(actors[n].get_node("Sprite") as Sprite2D).material = mat
+			_picture(actors[n]).material = mat
 		create_tween().tween_method(func(v: float): mat.set_shader_parameter("amount", v), 0.0, 1.05, 1.6)
 		_donkey_lost_later(e)
 		return
@@ -3696,7 +3703,7 @@ func _donkey_place() -> void:
 	tail.rotation = ang
 	tail.position = root + (tail.get_meta("home") - root).rotated(ang)
 	# the snake's front lifts up the spear's line, or dips into the back as it bites
-	var sp: Sprite2D = actors[e.foe].get_node("Sprite")
+	var sp: Sprite2D = _picture(actors[e.foe])
 	var mat := sp.material as ShaderMaterial
 	var up: float = fight.lift
 	if fight.phase == "bite":
@@ -3828,10 +3835,10 @@ func _sheaf_dress(e: Dictionary) -> void:
 		actors[n].visible = true
 	var mat := ShaderMaterial.new()
 	mat.shader = RUSTLE
-	(actors[SHEAF_STALKS].get_node("Sprite") as Sprite2D).material = mat
+	_picture(actors[SHEAF_STALKS]).material = mat
 	var a: Node2D = actors[e.foe]
-	var sp: Sprite2D = a.get_node("Sprite")
-	fight.snake_at = sp.position
+	var sp: Sprite2D = _picture(a)
+	fight.snake_at = sp.offset
 	var peek := Sprite2D.new()
 	peek.name = "Peek"
 	peek.texture = sp.texture
@@ -3845,13 +3852,13 @@ func _sheaf_undress() -> void:
 	for n in SHEAF_BANDS + [SHEAF_STALKS]:
 		_restore(n)
 		actors[n].visible = false
-	(actors[SHEAF_STALKS].get_node("Sprite") as Sprite2D).material = null
+	_picture(actors[SHEAF_STALKS]).material = null
 	var a: Node2D = actors[e.foe]
-	var sp: Sprite2D = a.get_node("Sprite")
+	var sp: Sprite2D = _picture(a)
 	sp.region_enabled = false
 	sp.visible = true
 	if fight.has("snake_at"):
-		sp.position = fight.snake_at
+		sp.offset = fight.snake_at
 	if a.has_node("Peek"):
 		var peek := a.get_node("Peek")
 		a.remove_child(peek)
@@ -4113,14 +4120,14 @@ func _sheaf_place() -> void:
 			if binding and absf(sn.at - float(i)) < 0.6:     # a loose band shivers with the stalks
 				a.position.x += sin(fight.clock * 31.0) * 1.2 * unit
 		a.modulate.a = shown * k
-	var mat := (actors[SHEAF_STALKS].get_node("Sprite") as Sprite2D).material as ShaderMaterial
+	var mat := _picture(actors[SHEAF_STALKS]).material as ShaderMaterial
 	if mat:
 		mat.set_shader_parameter("at", clampf((_sheaf_y(sn.at) - st.position.y) / st.size.y, 0.0, 1.0))
 		mat.set_shader_parameter("amp", ((SHEAF_STIR_MOVING if sn.moving else SHEAF_STIR) * k) if binding else 0.0)
 		mat.set_shader_parameter("phase", fight.clock * 23.0)
 	# the snake: on the scroll (k = 0) as drawn; inside the sheaf only its head over the top shows
 	var a: Node2D = actors[e.foe]
-	var sp: Sprite2D = a.get_node("Sprite")
+	var sp: Sprite2D = _picture(a)
 	var peek: Sprite2D = a.get_node_or_null("Peek")
 	var size: Vector2 = a.get_meta("size")
 	var top: float = float(e.top)
@@ -4131,7 +4138,7 @@ func _sheaf_place() -> void:
 		"bind":
 			sp.visible = k < 1.0
 			sp.region_rect = Rect2(0.0, 0.0, size.x, size.y)
-			sp.position = fight.snake_at
+			sp.offset = fight.snake_at
 			a.modulate.a = 1.0 - k if k < 1.0 else 1.0
 			var r := clampf(sn.at - float(SHEAF_TOP - 1), 0.0, 1.0) * SHEAF_PEEK * top
 			var y_base := top                                  # its coils rise out of the top of the sheaf ...
@@ -4150,14 +4157,14 @@ func _sheaf_place() -> void:
 			a.modulate.a = 1.0
 			var r := clampf(fight.pt / SHEAF_RISE, 0.0, 1.0) * size.y
 			sp.region_rect = Rect2(0.0, 0.0, size.x, r)
-			sp.position = fight.snake_at + Vector2(0.0, maxf(0.0, top - r))
+			sp.offset = fight.snake_at + Vector2(0.0, maxf(0.0, top - r))
 		_:
 			if peek:
 				peek.visible = false
 			sp.visible = true
 			a.modulate.a = 1.0
 			sp.region_rect = Rect2(0.0, 0.0, size.x, size.y)
-			sp.position = fight.snake_at
+			sp.offset = fight.snake_at
 			var lunge := 0.0
 			match fight.phase:
 				"snap":
@@ -4552,7 +4559,7 @@ func _autotest() -> void:
 					expect.call(breaks == fight.waves.size() - 1, e.id + " a break between the waves")
 					expect.call(fight.crocs.any(func(x): return x.red), e.id + " red crocodiles in the second wave")
 				var r: Dictionary = fight.crocs[-1]
-				(r.node.get_node("Sprite") as Sprite2D).flip_h = r.dir < 0   # (turned round when it was struck)
+				_picture(r.node).flip_h = r.dir < 0   # (turned round when it was struck)
 				fight.facing = -r.dir
 				r.red = true
 				at_tip.call(r)
@@ -4591,7 +4598,7 @@ func _autotest() -> void:
 				fight.force_heka = true
 				fight.facing = -r.dir
 				r.s = "crawl"
-				(r.node.get_node("Sprite") as Sprite2D).flip_h = r.dir < 0
+				_picture(r.node).flip_h = r.dir < 0
 				at_tip.call(r)
 				_croc_strike()
 				expect.call(fight.lost and r.s == "thief", e.id + " heka on an ordinary crocodile loses the fight")
@@ -5039,9 +5046,9 @@ func _autotest() -> void:
 				var band := func(i: int) -> Node2D: return actors[SHEAF_BANDS[i]]
 				expect.call(actors[SHEAF_STALKS].visible and actors[e.bundle].modulate.a < 0.01, e.id + " the sheaf comes apart into stalks and bands; the bundle steps aside")
 				expect.call(SHEAF_BANDS.all(func(n): return actors[n].modulate.a < 0.3) and actors[SHEAF_STALKS].scale.x > 1.2, e.id + " its bands are undone (faint) and its stalks splay")
-				expect.call(not (actors[e.foe].get_node("Sprite") as Sprite2D).visible, e.id + " the snake is hidden inside")
+				expect.call(not _picture(actors[e.foe]).visible, e.id + " the snake is hidden inside")
 				_sheaf(0.0)
-				var mat := (actors[SHEAF_STALKS].get_node("Sprite") as Sprite2D).material as ShaderMaterial
+				var mat := _picture(actors[SHEAF_STALKS]).material as ShaderMaterial
 				var low: float = (_sheaf_y(0.0) - rects[SHEAF_STALKS].position.y) / rects[SHEAF_STALKS].size.y
 				expect.call(mat.get_shader_parameter("amp") > 0.0 and is_equal_approx(mat.get_shader_parameter("at"), low), e.id + " the stalks stir at the bottom band, where it starts")
 				# tied on the snake: it bites, the band springs loose

@@ -57,24 +57,9 @@ var _beat_sound: AudioStreamPlayer
 var _pull_sound: AudioStreamPlayer
 
 
-func setup(sprites: Dictionary, art: String, ox: Node2D, papyrus: Material, cover_parent: Node, cover_index: int) -> void:
+func setup(ox: Node2D, papyrus: Material, cover_parent: Node, cover_index: int, nodes: Dictionary) -> void:
 	for nm in PIECES:
-		var s: Dictionary = sprites[nm]
-		var r := Rect2(s.x, s.y, s.w, s.h)
-		var pivot := Node2D.new()
-		var sp := Sprite2D.new()
-		sp.texture = load(art % nm)
-		sp.centered = false
-		match nm:
-			"haul_whip":            # swings about the elbow
-				pivot.position = ELBOW
-			"haul_hauler":          # leans about his feet
-				pivot.position = Vector2(r.get_center().x, r.end.y)
-			_:
-				pivot.position = r.position
-		sp.position = r.position - pivot.position
-		pivot.add_child(sp)
-		add_child(pivot)
+		var pivot: Node2D = nodes[nm]
 		_nodes[nm] = pivot
 		_home[nm] = pivot.position
 	_ox = ox

@@ -39,27 +39,16 @@ var _mummy := Rect2()
 var _tween: Tween
 
 
-func setup(level: Dictionary, art: String) -> void:
+func setup(level: Dictionary, nodes: Dictionary) -> void:
 	var m: Dictionary = level.mouth
 	_mouth = Vector2(m.mouth[0], m.mouth[1])
 	_mummy = Rect2(m.mummy.x, m.mummy.y, m.mummy.w, m.mummy.h)
-	var a: Dictionary = level.sprites.mouth_adze
-	var w: Dictionary = level.sprites.mouth_words
-	_adze_home = Rect2(a.x, a.y, a.w, a.h)
-	_words_home = Rect2(w.x, w.y, w.w, w.h)
-	_spoken = Vector2(m.speak_right - w.w / 2.0, _words_home.get_center().y)
-	_imprint = Sprite2D.new()
-	_imprint.texture = load(art % "mouth_words")
-	_imprint.position = _words_home.get_center()
-	_imprint.modulate = IMPRINT
-	add_child(_imprint)
-	_words = Sprite2D.new()
-	_words.texture = _imprint.texture
-	add_child(_words)
-	_adze = Sprite2D.new()
-	_adze.texture = load(art % "mouth_adze")
-	_adze.centered = false
-	add_child(_adze)
+	_adze = nodes.mouth_adze
+	_words = nodes.mouth_words
+	_imprint = nodes.words_imprint
+	_adze_home = Rect2(_adze.position, _adze.texture.get_size())
+	_words_home = Rect2(_words.position - _words.texture.get_size() / 2.0, _words.texture.get_size())
+	_spoken = Vector2(m.speak_right - _words_home.size.x / 2.0, _words_home.get_center().y)
 
 
 func reset() -> void:

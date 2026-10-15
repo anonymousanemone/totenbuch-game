@@ -166,16 +166,7 @@ func take(nm: String) -> void:
 	if nm in carried or placed.has(nm):
 		return
 	carried.append(nm)
-	_nodes[nm].visible = false
-	match nm:
-		"stand":
-			said.emit("Scribe", "Inside the canopy frame stands an offering stand, on its own. It does not belong here.")
-		"sun":
-			said.emit("Scribe", "A sun disc sits between the creature's legs on the bier. You take it.")
-		"lotus":
-			said.emit("Scribe", "A lotus lies on top of the offerings, its stem bent. You take it.")
-	if carried.size() + placed.size() == PIECES.size():
-		said.emit("Scribe", "You carry the stand, the sun disc and the lotus." + (" The stela by the tomb shows how they stood before Ra." if imprint_shown else ""))
+	_nodes[nm].visible = false   # a carried piece has no words of its own
 	changed.emit()
 
 

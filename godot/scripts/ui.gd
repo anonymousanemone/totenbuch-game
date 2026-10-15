@@ -21,8 +21,10 @@ const CREAM := Color("f1e7cd")
 # Display colors and ink multipliers are deliberately separate.
 const DANGER := Color("b55b3c")
 const SUCCESS := Color(1.8, 1.4, 0.6)
+const FLASH := Color(1.25, 1.12, 0.88)   ## what was set right lights up, softly, and fades (flash())
 const PREVIEW := Color(1.9, 1.0, 0.6, 0.2)
-const HOVER := Color(0.95, 0.62, 0.22, 0.6)
+const HOVER := Color(1.0, 0.97, 0.88, 0.95)       ## the hover glow: pale cream, by default (a level may set its own)
+const HOVER_WARM := Color(0.95, 0.62, 0.22, 0.6)  ## the old warm red-orange glow (the dangers)
 const DIM := Color(0.12, 0.08, 0.04, 0.5)
 const INK_TINT := Color(DANGER.r / INK.r, DANGER.g / INK.g, DANGER.b / INK.b)
 const GLOW_SHADER := preload("res://scripts/glow.gdshader")
@@ -97,10 +99,10 @@ static func theme() -> Theme:
 	return th
 
 
-static func glow_material(texture: Texture2D) -> ShaderMaterial:
+static func glow_material(texture: Texture2D, color := HOVER) -> ShaderMaterial:
 	var mat := ShaderMaterial.new()
 	mat.shader = GLOW_SHADER
-	mat.set_shader_parameter("glow", HOVER)
+	mat.set_shader_parameter("glow", color)
 	mat.set_shader_parameter("strength", 0.0)
 	if texture is AtlasTexture:
 		var atlas := texture as AtlasTexture
@@ -110,29 +112,30 @@ static func glow_material(texture: Texture2D) -> ShaderMaterial:
 	return mat
 
 
-## A glow behind the strip's own drawing inside `rect` (a figure or a caption that is part of the
-## picture, not a sprite), added under `strip`; its strength starts at 0.
-static func strip_glow(strip: Sprite2D, rect: Rect2) -> Sprite2D:
+## A glow behind part of a sprite's drawing: `region` in the sprite's texture px (the sprite not
+## centred). Part for whole: a figure in the strip, or one figure of a sprite that holds several.
+## Added under `sprite`, so it moves with it; its strength starts at 0.
+static func part_glow(sprite: Sprite2D, region: Rect2, color := HOVER) -> Sprite2D:
 	var tex := AtlasTexture.new()
-	tex.atlas = strip.texture
-	tex.region = rect
+	tex.atlas = sprite.texture
+	tex.region = region
 	var g := Sprite2D.new()
 	g.texture = tex
 	g.centered = false
-	g.position = rect.position
+	g.position = region.position
 	g.show_behind_parent = true
-	g.material = glow_material(tex)
-	strip.add_child(g)
+	g.material = glow_material(tex, color)
+	sprite.add_child(g)
 	return g
 
 
-static func flash(node: CanvasItem, duration := 0.8) -> void:
+static func flash(node: CanvasItem, duration := 0.6) -> void:
 	var previous: Tween = node.get_meta("success_flash") if node.has_meta("success_flash") else null
 	if previous and previous.is_valid():
 		previous.kill()
 	var keep: Color = node.get_meta("resting_color", node.modulate)
 	node.set_meta("resting_color", keep)
-	node.modulate = Color(SUCCESS, keep.a)
+	node.modulate = Color(FLASH, keep.a)
 	var tween := node.create_tween()
 	node.set_meta("success_flash", tween)
 	tween.tween_property(node, "modulate", keep, duration)

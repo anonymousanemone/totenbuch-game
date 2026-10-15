@@ -193,7 +193,6 @@ func _test_feedback() -> void:
 		level._check_position()
 		expect(level.hud._text.begins_with(e31.get("arrival", e31.intro)), "walking into spell 31 says its line (visit %d)" % (visit + 1))
 	level.take(level.ENCOUNTERS.filter(func(e): return e.id == "e38")[0])
-	expect(not level.hud._hand_label.text.contains("esc"), "breath of life does not advertise an unavailable return action")
 	var volume := AudioServer.get_bus_volume_db(0)
 	AudioServer.set_bus_volume_db(0, -80.0)
 	for encounter in level.ENCOUNTERS:

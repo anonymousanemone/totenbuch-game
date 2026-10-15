@@ -273,6 +273,11 @@ func put_back() -> void:
 	changed.emit()
 
 
+## The pieces set back in place, as drawn (with the `table` layer of the picture: the table whole).
+func placed_sprites() -> Array:
+	return _placed_layer.get_children()
+
+
 ## The goose-bearer: take the loaf from him, or give him back his goose (taking the loaf).
 ## Returns what happened: "took", "gave", "swapped", "full", "wrong", "empty", "has_goose".
 func bearer_act() -> String:

@@ -22,8 +22,12 @@ const FIGHTS := ["crocs", "lunge", "twin", "creep", "roach", "apep", "donkey", "
 const ARENA_FIGHTS := ["crocs", "roach", "lunge", "creep", "twin", "apep", "donkey", "sheaf"]   ## the vignette opens out across the screen
 const CLICK_TO_FIGHT := "Click the creature to take up the spear."
 const ATTACK := "Press [space] to attack."   ## said with a fight's rule; nothing moves until then
+## Debug: true opens the road, so you can walk past spell 38 with dangers still undone (also
+## `-- --open-road` on the command line). Keep it false for play.
+const DEBUG_OPEN_ROAD := true
 
 const ENCOUNTERS := preload("res://scripts/danger_encounters.gd").ENCOUNTERS
+const GLOW := UI.HOVER_WARM   ## the hover glow here: the warm red
 
 var level: Dictionary
 var unit := 1.0          ## strip px per plate px at 200 dpi (level.json `scale`)
@@ -207,8 +211,10 @@ func _refresh() -> void:
 	# he walks through every vignette (a fight starts only on clicking its creature) and into a gate
 	# vignette, but not on past it while it or one before it is still undone. The barrier is not drawn.
 	gate = {}
+	var args := OS.get_cmdline_user_args()
+	var open_road := (DEBUG_OPEN_ROAD or "--open-road" in args) and not "--autotest" in args   # the tests check the real road
 	for e in ENCOUNTERS:
-		if e.get("gate", false) and not current.is_empty() and ENCOUNTERS.find(current) <= ENCOUNTERS.find(e):
+		if e.get("gate", false) and not open_road and not current.is_empty() and ENCOUNTERS.find(current) <= ENCOUNTERS.find(e):
 			gate = e
 			break
 	avatar.min_x = gate_x() + 20.0 * unit if not gate.is_empty() else 40.0 * unit
@@ -386,7 +392,7 @@ func _set_caption_hover(e: Dictionary) -> void:
 			_glow(n, false)
 	_caption = e
 	if not e.is_empty():
-		var g := UI.strip_glow($Strip, _caption_rect(e))
+		var g := UI.part_glow($Strip, _caption_rect(e), GLOW)
 		_caption_glow = g
 		create_tween().tween_method(func(v: float): (g.material as ShaderMaterial).set_shader_parameter("strength", v), 0.0, 1.0, 0.15)
 		for n in _caption_signs(e):
@@ -410,7 +416,7 @@ func _glow(n: String, on: bool) -> void:
 		g.texture = sp.texture
 		g.centered = false
 		g.show_behind_parent = true
-		var mat := UI.glow_material(sp.texture)
+		var mat := UI.glow_material(sp.texture, GLOW)
 		g.material = mat
 		g.visible = false
 		sp.add_child(g)
@@ -558,7 +564,7 @@ func _update_hand() -> void:
 		return
 	var names := {"breath38": "the breath of life"}
 	var label := " and ".join(items.map(func(i): return names[i]))
-	hud.update_hand(items[-1], label, load(ASSET % items[-1]), "Life and breath")
+	hud.update_hand(items[-1], label, load(ASSET % items[-1]))
 	hud.update_held("", null, 1.0)
 
 

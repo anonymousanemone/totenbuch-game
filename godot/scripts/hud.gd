@@ -14,6 +14,7 @@ const STRIP := 130.0          ## the scribe's strip, its band included
 const BOXED := false          ## the band also down the screen's sides and along its bottom, round the strip
 const EDGE := 12.0            ## that band, which has ink only on the strip's side
 const TAG_H := 32.0           ## the speaker's tag, centred on the band
+const OVERLAY_W := 900.0      ## the intro and outro cards' text, at most this wide (at the dialogue size)
 
 ## Keys are written in brackets ("hold [shift]"); these are shown as written, not read as BBCode
 ## tags ("[s]" would otherwise start a strikethrough).
@@ -27,7 +28,6 @@ var _tag: PanelContainer
 var _tag_label: Label
 var _hand: Control
 var _hand_icon: TextureRect
-var _hand_label: Label
 var _journal_count: Label
 var _journal_page: Control
 var _journal_grid: GridContainer
@@ -137,12 +137,11 @@ func show_outro_later(body: String, seconds: float) -> void:
 		show_outro(body)
 
 
-func update_hand(piece: String, label: String, tex: Texture2D, note := "") -> void:
+## What you carry: its picture only (a carried object has no text).
+func update_hand(piece: String, label: String, tex: Texture2D) -> void:
 	_hand.visible = piece != ""
 	_hand_icon.texture = tex
 	_hand.tooltip_text = "Holding %s." % label if piece != "" else ""
-	_hand_label.text = note
-	_hand_label.visible = note != ""
 
 
 ## The piece follows the pointer at roughly its on-screen size.
@@ -299,13 +298,7 @@ func _build_strip() -> void:
 	_hand_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
 	_hand_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
 	frame.add_child(_hand_icon)
-	_hand_label = Label.new()
-	_hand_label.custom_minimum_size.x = 64
-	_hand_label.autowrap_mode = TextServer.AUTOWRAP_WORD
-	_hand_label.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	_hand_label.add_theme_color_override("font_color", UI.OCHRE)
 	_hand.add_child(frame)
-	_hand.add_child(_hand_label)
 	row.add_child(_hand)
 
 	# what is said, centred in the strip
@@ -422,10 +415,10 @@ func _build_overlay(title: String, body: String, button: String, on_press: Calla
 	var scroll := ScrollContainer.new()
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	v.add_child(scroll)
-	var b := _rich(UI.SMALL)
+	var b := _rich(UI.DIALOGUE)
 	b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	b.name = "Body"
-	b.custom_minimum_size.x = 580
+	b.custom_minimum_size.x = OVERLAY_W
 	b.text = _keys(body)
 	scroll.add_child(b)
 	_overlay_layouts.append({"scroll": scroll, "body": b, "title": t})
@@ -489,7 +482,7 @@ func _resize_hud() -> void:
 	_journal_scroll.custom_minimum_size = Vector2(journal_width, clampf(viewport.y - top_height() - STRIP - 150.0, 80.0, 380.0))
 	_journal_grid.columns = maxi(1, floori((journal_width + 22.0) / 134.0))
 	for layout in _overlay_layouts:
-		var width := clampf(viewport.x - 120.0, 200.0, 580.0)
+		var width := clampf(viewport.x - 120.0, 200.0, OVERLAY_W)
 		layout.body.custom_minimum_size.x = width
 		layout.title.custom_minimum_size.x = width
 		var available: float = viewport.y - 142.0 - layout.title.get_combined_minimum_size().y - layout.button.get_combined_minimum_size().y

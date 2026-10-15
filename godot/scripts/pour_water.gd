@@ -4,12 +4,12 @@
 ## The priest raises a round jar over a kneeling woman; the wavy line from its spout, arching
 ## over Anubis holding the mummy upright and down to their base, is the stream. At the start his
 ## arm is raised further, the jar upright, and there is no stream: only a faint dotted ghost of
-## the line. Press on the jar and drag to turn his forearm about the elbow. Within WINDOW of the
-## tilt as drawn the water runs along the line and the line draws itself in, but only while the
-## jar is held steady. Too shallow and it only drips; too steep and it gushes out, falls short
-## and splashes on the woman's raised hands. Not pouring along the line, the drawn part dries
-## back a little, never below KEEP of the furthest it reached. Let go and the arm rises back to
-## upright. Once the whole line is drawn the jar settles where it is drawn: the plate as drawn.
+## the line. Once you stand at the water his tired arm droops, tipping the jar further, at a rate
+## that changes at random (sometimes more, sometimes less); holding Space lifts it. Within WINDOW
+## of the tilt as drawn the water runs along the line and the line draws itself in. Too high and
+## it only drips; drooped too far and it gushes out, falls short and splashes on the woman's
+## raised hands. Not pouring along the line, the drawn part dries back a little, never below KEEP
+## of the furthest it reached. Once the whole line is drawn the jar settles where it is drawn.
 ##
 ## The arm (forearm, hand and jar) and the stream are the sprites water_arm and water_stream,
 ## with the stream's path beside it (water_path), cut by tools/cut_procession300.py; positions
@@ -27,15 +27,15 @@ const LOW := -0.55            ## the furthest the jar can be tipped (rad from as
 const HIGH := 0.6             ## ... and raised
 const WINDOW := 0.12          ## rad either side of the drawn tilt in which the water runs along the line
 const DRIP_FROM := 0.32       ## above the window and below this the jar only drips
-const FLOW_RATE := 0.16       ## share of the line drawn per second while pouring steadily
-const STEADY := 1.2           ## rad/s: turned faster than this, the water slops and the line doesn't grow
-const TURN := 4.0             ## rad/s the arm follows your drag at most (the jar is heavy)
-const TREMBLE := 0.03         ## rad: the full jar trembles in your hand while you hold it
+const FLOW_RATE := 0.16       ## share of the line drawn per second while pouring along it
+const DROOP := Vector2(0.06, 0.4)       ## rad/s the arm droops: a new rate, at random between these, ...
+const DROOP_EVERY := Vector2(0.6, 1.6)  ## ... every so many s (also at random)
+const LIFT := 0.6             ## rad/s holding Space lifts the arm (against the droop)
+const TURN := 4.0             ## rad/s the arm turns at most to a held tilt (hold_at)
 const DRY := 0.06             ## share of the line that dries back per second while not pouring along it
 const KEEP := 0.6             ## ... never below this share of the furthest it reached
-const RISE := 2.0             ## 1/s: let go and the arm rises back toward upright
 const SETTLE := 0.7           ## s for the jar to settle where it is drawn once the line is whole
-const GRIP_PAD := 22.0        ## strip px round the jar and forearm that take a press
+const JAR_PAD := 22.0         ## strip px round the jar and forearm that take a click
 const GRAVITY := 900.0        ## strip px/s² for falling drops
 const INK := UI.INK
 const SHADER := preload("res://scripts/water.gdshader")
@@ -47,12 +47,12 @@ var tilt := START_TILT        ## the arm's turn from where it is drawn (rad, + r
 var progress := 0.0           ## share of the line drawn, from the spout
 var best := 0.0               ## the furthest it has reached
 var flow := Flow.NONE
-var gripping := false
-var steady := true            ## the jar held still enough for the line to grow
-var _want := START_TILT       ## where your drag puts the arm (before the tremble and the TURN limit)
-var _grip_angle := 0.0        ## the pointer's angle about the elbow when gripped ...
-var _grip_tilt := 0.0         ## ... and the arm's turn then
-var _fixed := false           ## held at a turn by hold_at(), not by the pointer
+var raising := false          ## Space is held: the arm lifts
+var rng := RandomNumberGenerator.new()   ## the droop (randomize()d each time you step up)
+var _droop := 0.0             ## rad/s the arm droops now ...
+var _droop_left := 0.0        ## ... for this many s more
+var _want := START_TILT       ## the tilt held by hold_at()
+var _fixed := false           ## held at a turn by hold_at() (the autotest), not by the droop
 var _time := 0.0
 var _drip_clock := 0.0
 var _gush_clock := 0.0
@@ -112,9 +112,9 @@ func reset() -> void:
 	progress = 0.0
 	best = 0.0
 	flow = Flow.NONE
-	gripping = false
+	raising = false
 	_fixed = false
-	steady = true
+	_droop_left = 0.0
 	_drops.clear()
 	_runs.clear()
 	_told.clear()
@@ -127,12 +127,15 @@ func enter() -> void:
 	if done:
 		return
 	active = true
-	_once("enter", "Scribe", "The priest's jar is upright and no water runs. Press on the jar and drag to tip it, and hold it where the water runs along the line.")
+	rng.randomize()
+	_droop_left = 0.0
+	_once("enter", "Scribe", "The priest's arms are tired, and his jar droops. Hold [space] to lift it, and keep the water running along the line.")
 
 
-## Step away: let go of the jar; what is drawn of the line dries back a little, no further.
+## Step away: what is drawn of the line dries back a little, no further.
 func leave() -> void:
-	release()
+	raising = false
+	_fixed = false
 	active = false
 
 
@@ -145,9 +148,9 @@ func stand_x() -> float:
 	return _stand
 
 
-## A press here takes hold of the jar.
-func can_grip(p: Vector2) -> bool:
-	return not done and arm_rect().grow(GRIP_PAD).has_point(p)
+## The jar is here (a click on it steps up to the water).
+func on_jar(p: Vector2) -> bool:
+	return not done and arm_rect().grow(JAR_PAD).has_point(p)
 
 
 ## The jar and forearm where they are now (world px).
@@ -164,32 +167,8 @@ func stream_sprite() -> Sprite2D:
 	return _stream
 
 
-func grip(p: Vector2) -> bool:
-	if not active or done or not can_grip(p):
-		return false
-	gripping = true
-	_fixed = false
-	_grip_angle = (p - _elbow).angle()
-	_grip_tilt = tilt
-	_want = tilt
-	return true
-
-
-## The pointer moves while you hold the jar: the arm turns as far as it has gone round the elbow.
-func drag(p: Vector2) -> void:
-	if not gripping or _fixed:
-		return
-	_want = clampf(_grip_tilt + wrapf((p - _elbow).angle() - _grip_angle, -PI, PI), LOW, HIGH)
-
-
-func release() -> void:
-	gripping = false
-	_fixed = false
-
-
-## Hold the arm at a turn, as a steady drag would (the autotest).
+## Hold the arm at a turn, whatever the droop (the autotest, and `--pour`).
 func hold_at(t: float) -> void:
-	gripping = true
 	_fixed = true
 	_want = clampf(t, LOW, HIGH)
 
@@ -213,15 +192,14 @@ static func flow_at(t: float) -> Flow:
 func _process(delta: float) -> void:
 	_time += delta
 	if active and not done:
-		var target := _want
-		if gripping:
-			target += TREMBLE * sin(_time * 4.3) * (0.6 + 0.4 * sin(_time * 1.7))
+		if _fixed:
+			tilt = clampf(move_toward(tilt, _want, TURN * delta), LOW, HIGH)
 		else:
-			target = lerpf(tilt, START_TILT, 1.0 - exp(-RISE * delta))
-			_want = target
-		var before := tilt
-		tilt = clampf(move_toward(tilt, target, TURN * delta), LOW, HIGH)
-		steady = absf(tilt - before) / maxf(delta, 1e-4) <= STEADY
+			_droop_left -= delta
+			if _droop_left <= 0.0:   # his arm tires again: a new droop, at random
+				_droop = rng.randf_range(DROOP.x, DROOP.y)
+				_droop_left = rng.randf_range(DROOP_EVERY.x, DROOP_EVERY.y)
+			tilt = clampf(tilt + ((LIFT if raising else 0.0) - _droop) * delta, LOW, HIGH)
 		_flow(delta)
 	elif not done:
 		flow = Flow.NONE
@@ -235,26 +213,22 @@ func _flow(delta: float) -> void:
 	flow = flow_at(tilt)
 	match flow:
 		Flow.POUR:
-			if steady:
-				progress = minf(1.0, progress + FLOW_RATE * delta)
-				best = maxf(best, progress)
-				if _runs.size() < 6 and randf() < delta * 5.0:
-					_runs.append(0.0)
-				if progress >= 1.0:
-					_complete()
-					return
-				if progress > 0.15:
-					_once("pour", "Scribe", "The water runs along the line. Hold the jar steady.")
-			else:
-				_dry(delta)
-				_once("slop", "Scribe", "The water slops over the rim. Hold the jar still.")
+			progress = minf(1.0, progress + FLOW_RATE * delta)
+			best = maxf(best, progress)
+			if _runs.size() < 6 and randf() < delta * 5.0:
+				_runs.append(0.0)
+			if progress >= 1.0:
+				_complete()
+				return
+			if progress > 0.15:
+				_once("pour", "Scribe", "The water runs along the line. Keep it there.")
 		Flow.DRIP:
 			_dry(delta)
 			_drip_clock -= delta
 			if _drip_clock <= 0.0:
 				_drip_clock = 0.35
 				_drops.append({"pos": spout(), "vel": Vector2(randf_range(-10.0, 0.0), 0.0), "life": 2.0, "kind": "fall"})
-			_once("drip", "Scribe", "Too shallow: the jar only drips. Tip it further.")
+			_once("drip", "Scribe", "Too high: the jar only drips. Let it sink a little.")
 		Flow.GUSH:
 			_dry(delta)
 			_gush_clock -= delta
@@ -264,7 +238,7 @@ func _flow(delta: float) -> void:
 				var t := 0.5    # s to fall onto her hands
 				var v := Vector2((_hands.x - sp.x) / t, (_hands.y - sp.y - 0.5 * GRAVITY * t * t) / t)
 				_drops.append({"pos": sp, "vel": v + Vector2(randf_range(-25.0, 25.0), randf_range(-25.0, 25.0)), "life": 1.5, "kind": "fall"})
-			_once("gush", "Scribe", "Too steep: the water gushes out and falls short, onto the woman's raised hands.")
+			_once("gush", "Scribe", "His arm droops too far: the water gushes out onto the woman's raised hands. Hold [space] to lift the jar.")
 		_:
 			_dry(delta)
 
@@ -276,7 +250,7 @@ func _dry(delta: float) -> void:
 func _complete() -> void:
 	done = true
 	active = false
-	gripping = false
+	raising = false
 	flow = Flow.NONE
 	progress = 1.0
 	best = 1.0
@@ -308,7 +282,7 @@ func _move_drops(delta: float) -> void:
 				for i in 3:
 					fresh.append({"pos": Vector2(pos.x, floor_y), "vel": Vector2(randf_range(-60.0, 60.0), randf_range(-140.0, -60.0)), "life": 0.35, "kind": "splash"})
 	_drops = _drops.filter(func(d): return d.life > 0.0) + fresh
-	if flow == Flow.POUR and steady:
+	if flow == Flow.POUR:
 		for i in _runs.size():
 			_runs[i] += delta * 0.9
 	_runs = _runs.filter(func(r): return r < progress)

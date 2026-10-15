@@ -8,8 +8,13 @@ extends Node2D
 
 const SCROLL_CAMERA := preload("res://scripts/scroll_camera.gd")
 const VIEW_TOP := 36.0   ## the row under the top register's upper rule: the title bar's band takes its place
+## Zoomed out (at the table, the standards, the water), the top guideline stays flush under the
+## title bar and more of the text below shows. false: the scene stays centred between the bars.
+## (At the usual zoom the two are the same.)
+const FRAME_FROM_TOP := true
 const DATA_PATH := "res://assets/procession/level.json"
 const BESIDE := 70.0         ## stand just behind (right of) what you interact with, not on top of it
+const STAND_GAP := 6.0       ## plate px between you and a figure you walk up to (never overlapping it)
 const HIT_PAD := 20.0
 
 ## Movable pieces and how the scribe names them.
@@ -49,20 +54,17 @@ const POLES := ["pole1", "pole2", "pole3", "pole4", "pole5", "pole6", "pole7", "
 ## Pieces that stay where they are drawn (the ox walks with the hauling, see haul.gd).
 const FIXED := ["ox", "calf"]
 ## Only the ox-driver starts hauling; the other figures direct the player to him.
-const HAUL_FIGURES := ["Hauler", "Ox-driver", "Priest with censer", "The mummy on its sledge"]
+const HAUL_FIGURES := ["Hauler", "Ox-driver", "The funerary bier"]
 ## The figures round the purifying water (plate V); clicking one steps up to the jar until the
 ## water runs as drawn.
 const WATER_FIGURES := ["Priest with jar", "Kneeling woman", "Anubis and the mummy"]
 
-## The plumed lector's recital: each sign fades in after the one before, the line stays a
-## while, then fades away.
-const RECITE_STEP := 0.55
-const RECITE_FADE_IN := 0.3
-const RECITE_HOLD := 4.0
-const RECITE_FADE_OUT := 0.8
+## The plumed lector's recital: one sign at a time in front of his plumes, each fading in, held,
+## and fading as the next comes.
+const RECITE_STEP := 1.1     ## s from one sign to the next
+const RECITE_FADE_IN := 0.25
+const RECITE_FADE_OUT := 0.25
 
-## What the finished stand and Ra answer while a rite is still undone (the soft lock on the finale).
-const NOT_YET := "Some things have not been set right yet."
 
 const INK := UI.INK
 const HOVER := Color(0.64, 0.2, 0.12, 0.55)  ## only for the `--show-hits` dev outlines
@@ -70,6 +72,11 @@ const HOVER_SLOT := Color(0.3, 0.42, 0.16, 0.7)
 const DRAG := 8.0            ## screen px: let go further than this from where you took it and it is set down there
 const SCENE_MARGIN := 40.0   ## strip px of papyrus kept either side of the table scene
 const GLOW_FADE := 0.15      ## s for the hover glow to come and go
+const GLOW := UI.HOVER       ## the hover glow's colour here (pale cream)
+## The flash over the scene when all eight standards are in order: its colour (alpha = how strong at
+## its height). Change freely.
+const STANDARDS_DONE_FLASH := Color(1.0, 0.85, 0.45, 0.22)
+const REFOCUS := 0.8         ## s for the camera to ease to a new focus (the table, the standards, the water, the rope)
 const CAPTION_LINE := 187.0  ## first row below the frame line over the figures: glows start here
 ## The captions in the top register, between its frame lines (rows): the titles of the spells, from
 ## C. H. S. Davis, The Egyptian Book of the Dead (1894), which translates this papyrus. Clicking one
@@ -81,10 +88,10 @@ const CAPTIONS := [
 	{"spell": 15, "x": [2166, 2752], "title": "Adoration to the sun when it sets in the Land of Life."},
 ]
 ## Journal figures that are sprites of the hauling now: they glow as those drawings.
-const HAUL_GLOW := {
-	"Hauler": ["haul_hauler"], "Ox-driver": ["haul_driver", "haul_whip"],
-	"Priest with censer": ["haul_sledge"], "The mummy on its sledge": ["haul_sledge"],
-}
+const HAUL_GLOW := {"Hauler": ["haul_hauler"], "Ox-driver": ["haul_driver", "haul_whip"]}
+## Figures drawn inside the sledge sprite (with its rope and the censer priest): each glows as its
+## own part of that drawing, and moves with it.
+const SLEDGE_PARTS := ["The funerary bier", "Priest with censer"]
 
 var level: Dictionary
 var ground := 248.0          ## feet line inside the strip (from level.json)
@@ -105,6 +112,7 @@ var journal: Array[String] = []
 var _generation := 0
 var _pieces := {}            ## piece -> Sprite2D
 var _hover := {}
+var _seats := {}             ## standard -> where it sits on its pole (sprite px): see _seat()
 var _glows: Array = []       ## the glows behind what is under the pointer
 var in_standards := false
 var _standards_view := Vector2.ZERO
@@ -114,6 +122,8 @@ var _drag_from := Vector2.INF  ## where (screen px) the piece in hand was taken 
 var _hint_step := {}
 var _feedback := {}
 var _table_told := false
+var _focus := ""             ## what the camera holds on: "" (you), "table", "water", "standards" or "haul"
+var _refocus := {}           ## an ease to a new focus under way: its start (zoom, x) and time
 var _dust: Array = []
 var _time := 0.0
 var _table := {}
@@ -156,6 +166,10 @@ func _ready() -> void:
 			_table = hotspots[-1]
 		elif h.label == "Lector with plumes":
 			_lector = hotspots[-1]
+	# part for whole: a figure lying inside another is picked first, so it glows alone; anywhere
+	# else on the whole, the whole glows (the part with it)
+	var parts := hotspots.filter(func(h): return hotspots.any(func(o): return o != h and o.rect.encloses(h.rect)))
+	hotspots = parts + hotspots.filter(func(h): return not h in parts)
 	wall_x = level.plates.III.x + 6.0 * unit
 	start_x = sprite_rects.avatar.get_center().x
 
@@ -256,6 +270,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	if in_standards and event.is_action_pressed("ui_cancel"):
 		leave_standards()
 		return
+	if in_standards:    # with the standard-bearers: drag the standards; a click never walks you off
+		_standards_input(event)
+		return
 	if haul.active:     # holding the rope: Space, Shift or a click pulls; Esc lets go
 		if event.is_action_pressed("ui_cancel") or (event is InputEventKey and event.pressed and event.keycode in [KEY_LEFT, KEY_RIGHT, KEY_UP, KEY_DOWN]):
 			haul.quit()
@@ -288,7 +305,10 @@ func _unhandled_input(event: InputEvent) -> void:
 			walk_then(p.x)
 		elif h.type == "ending":
 			walk_then(ending.where(h.id).x + BESIDE * unit, act_ending.bind(h.id))
-		elif h.type in ["piece", "bearer"] or (h.type == "hot" and (h.spot == _table or h.spot == _reader)):
+		elif h.type == "bearer":   # the scene starts from the lector or the heap, not from him
+			if offerings.bearer != "goose":
+				say("Scribe", "Odd that he's holding a loaf of bread.")
+		elif h.type == "piece" or (h.type == "hot" and (h.spot == _table or h.spot == _reader)):
 			enter_table(h.get("spot", {}) == _reader)
 		elif h.type == "mouth":
 			act_mouth(h.id)
@@ -297,18 +317,19 @@ func _unhandled_input(event: InputEvent) -> void:
 		elif h.type == "caption":
 			say("Spell %d" % h.spell, h.title)
 		elif h.type == "slot":
-			var home: Rect2 = sprite_rects[SLOTS[h.id].home]
-			if in_standards:
-				act_slot(h.id)
+			if solved.t2:
+				say("Standard-bearers", "All eight standards are in order.")
 			else:
 				enter_standards()
 		elif h.spot.label in HAUL_FIGURES and not haul.done:
 			if h.spot.label == "Ox-driver":
-				walk_then(h.spot.rect.get_center().x + BESIDE * unit, take_rope.bind(h.spot))
+				walk_then(_beside(h.spot.rect), take_rope.bind(h.spot))
 			else:
-				say("Scribe", "The bier is stalled. Ask the ox-driver how to haul it.")
+				say(h.spot.label, h.spot.note + " The bier is stalled. Ask the ox-driver how to haul it.")
+		elif h.spot == _lector:   # stand in front of him (he faces left), to hear him
+			walk_then(h.spot.rect.position.x - STAND_GAP * unit - sprite_rects.avatar.size.x / 2.0, record.bind(h.spot))
 		else:
-			walk_then(h.spot.rect.get_center().x + BESIDE * unit, record.bind(h.spot))
+			walk_then(_beside(h.spot.rect), record.bind(h.spot))
 
 
 ## What is under the pointer: a loose offering, a hidden piece of the offering stand or its place,
@@ -323,7 +344,7 @@ func _pick(p: Vector2) -> Dictionary:
 	var m := mouth.pick(p)
 	if m != "":
 		return {"type": "mouth", "id": m}
-	if water.can_grip(p):
+	if not water.active and water.on_jar(p):   # from along the scroll: step up to the water
 		return {"type": "water"}
 	if _bearer_rect.has_point(p):
 		return {"type": "bearer", "rect": _bearer_rect}
@@ -342,7 +363,7 @@ func _pick(p: Vector2) -> Dictionary:
 			return {"type": "hot", "spot": h, "rect": h.rect}
 	var boat: Dictionary = level.sprites.haul_sledge
 	if Rect2(boat.x + haul.offset, boat.y, boat.w, boat.h).has_point(p):
-		var spot: Dictionary = hotspots.filter(func(h): return h.label == "The mummy on its sledge")[0]
+		var spot: Dictionary = hotspots.filter(func(h): return h.label == "The funerary bier")[0]
 		return {"type": "hot", "spot": spot, "rect": Rect2(boat.x + haul.offset, boat.y, boat.w, boat.h)}
 	for c in CAPTIONS:
 		var r := Rect2(c.x[0], CAPTION_ROWS.x, c.x[1] - c.x[0], CAPTION_ROWS.y - CAPTION_ROWS.x)
@@ -388,6 +409,8 @@ func _glow_targets(h: Dictionary) -> Array:
 			return [mouth.glow_target(h.id)]
 		"caption":
 			return [h.rect]
+		"std":     # with the standard-bearers: only the standard under the pointer
+			return [_pieces[slot[h.id]]]
 		"slot":
 			var out: Array = []
 			for id in POLES:
@@ -397,25 +420,34 @@ func _glow_targets(h: Dictionary) -> Array:
 			return out
 		"hot":
 			if HAUL_GLOW.has(h.spot.label):
-				return ([h.spot.rect, haul.sprite_of("haul_sledge")] if h.spot.label == "The mummy on its sledge" else HAUL_GLOW[h.spot.label].map(func(nm): return haul.sprite_of(nm)).filter(func(sp): return sp != null and sp.is_visible_in_tree()))
+				return HAUL_GLOW[h.spot.label].map(func(nm): return haul.sprite_of(nm)).filter(func(sp): return sp != null and sp.is_visible_in_tree())
+			if h.spot == _table and solved.t3:   # rebuilt: the whole table glows, its offerings with it
+				return [h.spot.rect] + offerings.placed_sprites()
+			if h.spot.label in SLEDGE_PARTS:   # its own part of the sledge's drawing
+				var home: Rect2 = sprite_rects.haul_sledge
+				var r: Rect2 = h.spot.rect.intersection(home)
+				return [{"sprite": haul.sprite_of("haul_sledge"), "region": Rect2(r.position - home.position, r.size)}]
 			if h.spot.label == "Priest with jar":   # his forearm and jar are a sprite now
 				return [h.spot.rect, water.arm_sprite()]
 			return [h.spot.rect]
 	return []
 
 
-## A glow behind a sprite's drawing, or behind the strip's drawing inside a rect.
+## A glow behind a sprite's drawing; behind the strip's drawing inside a rect; or behind part of a
+## sprite's drawing ({sprite, region}).
 func _glow(target) -> Sprite2D:
 	var g: Sprite2D
-	if target is Rect2:
+	if target is Dictionary:
+		g = UI.part_glow(target.sprite, target.region, GLOW)
+	elif target is Rect2:
 		var r: Rect2 = target
 		if r.position.y < CAPTION_LINE and r.end.y > CAPTION_LINE:   # a figure: not the frame line above it
 			r = Rect2(r.position.x, CAPTION_LINE, r.size.x, r.end.y - CAPTION_LINE)
-		g = UI.strip_glow($Strip, r)
+		g = UI.part_glow($Strip, r, GLOW)
 	else:
 		var sp := target as Sprite2D
 		g = Sprite2D.new()
-		g.material = UI.glow_material(null)
+		g.material = UI.glow_material(null, GLOW)
 		g.show_behind_parent = true
 		g.texture = sp.texture
 		g.centered = sp.centered
@@ -457,6 +489,14 @@ func procession_moving() -> bool:
 
 
 ## Walk toward x and run `then` on arrival.
+## Where you stop to deal with what is at `r`: a few px clear of it, on the side you come from.
+func _beside(r: Rect2) -> float:
+	var half: float = sprite_rects.avatar.size.x / 2.0
+	if avatar.position.x < r.get_center().x:
+		return r.position.x - STAND_GAP * unit - half
+	return r.end.x + STAND_GAP * unit + half
+
+
 func walk_then(x: float, then := Callable()) -> void:
 	avatar.min_x = min_x()
 	avatar.max_x = max_x()
@@ -502,16 +542,22 @@ func leave_table() -> void:
 ## At the table: press on a piece to take it up; it follows the pointer. Let go after dragging,
 ## or click again, and it is set down there: in its place, in the band above, back to the
 ## goose-bearer, or onto the floor.
+## At the table, the table itself (the scene you are in) is not something to point at.
+func _table_pick(p: Vector2) -> Dictionary:
+	var h := _pick(p)
+	return {} if h.get("spot", {}) == _table else h
+
+
 func _table_input(event: InputEvent) -> void:
 	var p := get_global_mouse_position()
 	if event is InputEventMouseMotion:
-		_set_hover(_pick(p))
+		_set_hover(_table_pick(p))
 	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		if event.pressed:
 			if offerings.holding() != "":
 				_table_drop(p)
 				return
-			var h := _pick(p)
+			var h := _table_pick(p)
 			match h.get("type", ""):
 				"piece":
 					_take_offering(h.id)
@@ -570,21 +616,18 @@ func leave_water() -> void:
 
 
 ## At the water: press on the jar to take hold of it, drag to tip it, let go to let it rise.
+## At the water: hold Space to lift the priest's drooping arm.
 func _water_input(event: InputEvent) -> void:
 	var p := get_global_mouse_position()
-	if event is InputEventMouseMotion:
-		water.drag(p)
-		_set_hover({} if water.gripping else _pick(p))
-	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
-		if event.pressed:
-			if water.grip(p):
-				_set_hover({"type": "water"})
-				return
-			var h := _pick(p)
-			if h.get("type", "") == "hot":
-				record(h.spot)
-		else:
-			water.release()
+	if event is InputEventKey and event.keycode == KEY_SPACE and not event.echo:
+		water.raising = event.pressed
+		get_viewport().set_input_as_handled()
+	elif event is InputEventMouseMotion:
+		_set_hover(_pick(p))
+	elif event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		var h := _pick(p)
+		if h.get("type", "") == "hot":
+			record(h.spot)
 
 
 # ---------------------------------------------------------------- puzzle rules
@@ -661,6 +704,9 @@ func leave_standards() -> void:
 func act_slot(id: String) -> void:
 	var s: Dictionary = SLOTS[id]
 	var here: String = slot[id]
+	if solved.t2:   # in order: they stay so
+		say("Standard-bearers", "All eight standards are in order.")
+		return
 	if mouth.carrying() != "":
 		say("Scribe", _hands_message())
 		return
@@ -677,16 +723,101 @@ func act_slot(id: String) -> void:
 			say("Scribe", "%s doesn't belong at %s." % [_cap(NAMES[held]), s.label])
 			return
 		slot[id] = held
-		if here != "":
-			say("Scribe", "You set %s at %s and take %s." % [NAMES[held], s.label, NAMES[here]])
+		if here != "" and held_from != "":   # the one there goes where yours came from
+			slot[held_from] = here
+			say("Scribe", "You set %s at %s; %s goes to %s." % [NAMES[held], s.label, NAMES[here], SLOTS[held_from].label])
 		else:
 			say("Scribe", "You set %s at %s." % [NAMES[held], s.label])
 		if _god(held) == _god(s.home):
 			_flash(_pieces[held])
-		held = here
-		held_from = id if here != "" else ""
+		held = ""
+		held_from = ""
 	_check()
 	_render()
+
+
+## With the standard-bearers: press on a standard to take it up; let go after dragging, or click
+## again, over any pole to set it there (it swaps with the one there), anywhere else and it goes back.
+func _standards_input(event: InputEvent) -> void:
+	var p := get_global_mouse_position()
+	if event is InputEventMouseMotion:
+		_set_hover(_standard_at(p) if held == "" else {})
+	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+		get_viewport().set_input_as_handled()
+		if event.pressed:
+			if held != "":
+				_drop_standard(p)
+				return
+			var h := _standard_at(p)
+			if not h.is_empty():
+				act_slot(h.id)
+				if held != "":
+					_drag_from = event.position
+					_set_hover({})
+		elif _drag_from != Vector2.INF and held != "" and event.position.distance_to(_drag_from) > DRAG:
+			_drop_standard(p)
+		else:
+			_drag_from = Vector2.INF
+
+
+## The standard (its top: the emblem on the pole) under the pointer.
+func _standard_at(p: Vector2) -> Dictionary:
+	for id in POLES:
+		if slot[id] != "":
+			var r := Rect2(_pieces[slot[id]].position, sprite_rects[slot[id]].size).grow(6.0 * unit)
+			if r.has_point(p):
+				return {"type": "std", "id": id, "rect": r}
+	return {}
+
+
+## The pole whose top is near `p` (where a standard can be set down), or "".
+func _pole_at(p: Vector2) -> String:
+	for id in POLES:
+		var home: Rect2 = sprite_rects[SLOTS[id].home]
+		if Rect2(home.position.x - 30.0 * unit, home.position.y - 50.0 * unit, home.size.x + 60.0 * unit, home.size.y + 100.0 * unit).has_point(p):
+			return id
+	return ""
+
+
+func _drop_standard(p: Vector2) -> void:
+	_drag_from = Vector2.INF
+	var id := _pole_at(p)
+	if id == "" or id == held_from:
+		put_back(true)
+	else:
+		act_slot(id)
+
+
+## Where a standard sits on its pole (sprite px): the bottom of its middle part, where it meets the
+## stub (a streamer or tail may hang lower, beside it).
+func _seat(piece: String) -> Vector2:
+	if not _seats.has(piece):
+		var img: Image = _pieces[piece].texture.get_image()
+		var w := img.get_width()
+		var seat := Vector2(w / 2.0, img.get_height())
+		for y in range(img.get_height() - 1, -1, -1):
+			var xs: Array = range(int(w * 0.3), int(w * 0.7) + 1).filter(func(x): return img.get_pixel(x, y).a > 0.24)
+			if not xs.is_empty():
+				seat = Vector2((xs[0] + xs[-1]) / 2.0, y + 1)
+				break
+		_seats[piece] = seat
+	return _seats[piece]
+
+
+## A soft wash of colour over the scene that comes and goes (the standards in order).
+func _scene_flash(color: Color) -> void:
+	var layer := CanvasLayer.new()   # under the bars: hud is drawn after it
+	hud.get_parent().add_child(layer)
+	hud.get_parent().move_child(layer, hud.get_index())
+	var wash := ColorRect.new()
+	wash.set_anchors_preset(Control.PRESET_FULL_RECT)
+	wash.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	wash.color = Color(color, 0.0)
+	layer.add_child(wash)
+	var t := wash.create_tween()
+	t.tween_property(wash, "color:a", color.a, 0.35).set_trans(Tween.TRANS_SINE)
+	t.tween_property(wash, "color:a", 0.0, 0.9).set_trans(Tween.TRANS_SINE)
+	t.tween_callback(layer.queue_free)
 
 
 ## Which god a standard shows (the two falcons are the same god).
@@ -717,14 +848,16 @@ func take_rope(h: Dictionary) -> void:
 ## its place before Ra.
 func act_ending(id: String) -> void:
 	if id == "place":
-		if ending.set_down() == "done" and not rites_done():
-			say("Scribe", NOT_YET)
+		ending.set_down()
+	elif not ending.imprint_shown:   # not before the stela shows what they are for
+		say("Scribe", "This might come in handy later, but you wouldn't want your hands full right now.")
 	else:
 		ending.take(id)
 	_set_hover({})
 
 
-func put_back() -> void:
+## `quiet`: no word said (a dragged standard let go away from the poles goes back without comment).
+func put_back(quiet := false) -> void:
 	if mouth.carrying() != "":
 		mouth.put_back()
 		say("Scribe", "You put %s back." % ("the adze" if mouth.phase == OpeningMouth.Phase.START else "the words"))
@@ -733,7 +866,8 @@ func put_back() -> void:
 		return
 	if held_from != "" and slot[held_from] == "":
 		slot[held_from] = held
-		say("Scribe", "You put %s back." % NAMES[held])
+		if not quiet:
+			say("Scribe", "You put %s back." % NAMES[held])
 	else:
 		return
 	held = ""
@@ -765,11 +899,11 @@ func act_mouth(id: String) -> void:
 			else:
 				mouth.take_words()
 		"mummy":
-			walk_then(mouth.mummy_rect().end.x + BESIDE * unit, mouth.touch)
+			walk_then(_beside(mouth.mummy_rect()), mouth.touch)
 		"home":
-			walk_then(mouth.home_rect().get_center().x + BESIDE * unit, mouth.place_words)
+			walk_then(_beside(mouth.home_rect()), mouth.place_words)
 		"back":     # where the adze or the words were taken from: they go back there
-			walk_then(mouth.back_rect().get_center().x + BESIDE * unit, put_back)
+			walk_then(_beside(mouth.back_rect()), put_back)
 	_set_hover({})
 
 
@@ -794,14 +928,13 @@ func _check() -> void:
 		avatar.set_process(true)
 	if solved.t2 and not was.t2:
 		say("Standard-bearers", "All eight standards are in order.")
+		_scene_flash(STANDARDS_DONE_FLASH)
 	if solved.t3 and not was.t3:
 		say("Scribe", "The offering table is whole again.")
 	if rites and not were:
 		ending.show_imprint()     # the stela only shows the stand once everything else is right
 	if rites and not were and not solved.t7:
-		hud.say_later("Scribe", "The procession is in order. The stela shows the missing stand before Ra.", 1.6)
-	elif solved.t7 and not was.t7 and not rites:
-		hud.say_later("Scribe", NOT_YET + " Return to Ra when the procession is ready.", 2.2)
+		hud.say_later("Scribe", "The procession is in order. Head over to Ra on his throne.", 1.6)
 	if solved.values().all(func(v): return v) and not was.values().all(func(v): return v):
 		var generation := _generation
 		get_tree().create_timer(1.2, false).timeout.connect(func():
@@ -811,8 +944,9 @@ func _check() -> void:
 
 ## Clicking a figure: record it in the journal, and run the figures that do something.
 func record(h: Dictionary) -> void:
-	if h == _lector:  # no words, only the signs he reads out
+	if h == _lector:  # no words, only the signs he reads out; you stand before him, facing him
 		_add_journal(h)
+		avatar.facing = 1
 		recite()
 		return
 	if h == _reader:  # he shows, in front of him, an offering that can go on now
@@ -827,9 +961,6 @@ func record(h: Dictionary) -> void:
 	elif h.label == "Stela" and not ending.imprint_shown:   # blank until the other rites are done
 		text = "A round-topped stela under the winged sun. Its face is blank."
 		h = h.merged({"note": text}, true)
-	elif h.label == "Ra enthroned" and ending.complete() and not rites_done():
-		who = "Scribe"
-		text = NOT_YET
 	say(who, text)
 	_add_journal(h)
 
@@ -926,9 +1057,9 @@ func hint() -> void:
 			"Drag pieces above the upper shelf to clear space. They fall onto it; drag them back across to use them.",
 			"Click the lector beside the table. He shows an offering you can place now."])
 	elif water.active:
-		_hint_lines("water", ["Drag the jar to tip it. Follow the faint water guide.",
-			"Too upright only drips; too far splashes short. Adjust until the stream follows the guide.",
-			"Hold the jar steady until the whole stream is drawn."])
+		_hint_lines("water", ["Hold [space] to lift his drooping arm; let go to let it sink.",
+			"Too high only drips; drooped too far, the water splashes short. Keep the stream on its faint guide.",
+			"His arm droops faster or slower from moment to moment: watch it, and lift as it sinks."])
 	elif mouth.carrying() == "adze":
 		say("Hint", "Touch the adze to the mummy that Anubis holds upright.")
 	elif mouth.carrying() == "words":
@@ -1005,13 +1136,29 @@ func _update_camera(delta: float) -> void:
 		var v: Vector2 = _standards_view if in_standards else (water.view() if water.active else Vector2(level.table.view[0], level.table.view[1]))
 		z = clampf(minf(fit, vp.x / (v.y - v.x + 2.0 * SCENE_MARGIN)), 0.2 / unit, 2.4 / unit)
 		target_x = (v.x + v.y) / 2.0
-	var k := SCROLL_CAMERA.smoothing(delta)
-	z = lerpf(camera.zoom.x, z, k)
-	camera.zoom = Vector2(z, z)
-	var vis_w := vp.x / z
-	target_x = SCROLL_CAMERA.clamp_horizontal(target_x, vis_w, level.width)
-	camera.position.x = lerpf(camera.position.x, target_x, k)
-	camera.position.y = SCROLL_CAMERA.vertical_center(_view_height(), top, bottom, z, VIEW_TOP)
+	var focus := "table" if in_table else "water" if water.active else "standards" if in_standards else "haul" if haul.active else ""
+	if focus != _focus:
+		_focus = focus
+		_refocus = {"t": 0.0, "z": camera.zoom.x, "x": camera.position.x} if delta < 1.0 else {}
+	if not _refocus.is_empty():   # ease in and out to the new focus, instead of lunging at it
+		_refocus.t += delta
+		var s := smoothstep(0.0, REFOCUS, _refocus.t)
+		z = lerpf(_refocus.z, z, s)
+		target_x = SCROLL_CAMERA.clamp_horizontal(target_x, vp.x / z, level.width)
+		camera.zoom = Vector2(z, z)
+		camera.position.x = lerpf(_refocus.x, target_x, s)
+		if _refocus.t >= REFOCUS:
+			_refocus = {}
+	else:
+		var k := SCROLL_CAMERA.smoothing(delta)
+		z = lerpf(camera.zoom.x, z, k)
+		camera.zoom = Vector2(z, z)
+		target_x = SCROLL_CAMERA.clamp_horizontal(target_x, vp.x / z, level.width)
+		camera.position.x = lerpf(camera.position.x, target_x, k)
+	if FRAME_FROM_TOP:
+		camera.position.y = VIEW_TOP + (vp.y / 2.0 - top) / z
+	else:
+		camera.position.y = SCROLL_CAMERA.vertical_center(_view_height(), top, bottom, z, VIEW_TOP)
 
 
 ## Rows the camera fits on screen: the strip plus the visible part of the faded text below.
@@ -1038,20 +1185,15 @@ func _render() -> void:
 		var piece: String = slot[id]
 		if piece == "":
 			continue
-		var home: Rect2 = sprite_rects[SLOTS[id].home]
-		var size: Vector2 = sprite_rects[piece].size
-		var x := home.get_center().x - size.x / 2.0
-		var base := home.end.y if SLOTS[id].kind == "std" else ground
-		_pieces[piece].position = Vector2(x, base - size.y)
+		var home: Rect2 = sprite_rects[SLOTS[id].home]   # its seat on the stub where this pole's own standard sits
+		_pieces[piece].position = home.position + _seat(SLOTS[id].home) - _seat(piece)
 		_pieces[piece].visible = true
 	if mouth.carrying() != "":
 		hud.update_hand(mouth.carrying(), mouth.carried_name(), mouth.carried_texture())
-	elif offerings.holding() != "":
-		hud.update_hand(offerings.holding(), offerings.held_name(), offerings.held_texture())
-	elif held == "" and not ending.carried.is_empty():
-		hud.update_hand("stand", ending.carried_name(), ending.carried_texture(), "Set them up before Ra.")
-	else:
-		hud.update_hand(held, NAMES.get(held, ""), _pieces[held].texture if held != "" else null)
+	elif held == "" and offerings.holding() == "" and not ending.carried.is_empty():
+		hud.update_hand("stand", ending.carried_name(), ending.carried_texture())
+	else:   # a dragged offering or standard is never in the box: it is under the pointer
+		hud.update_hand("", "", null)
 
 
 func _draw_overlay() -> void:
@@ -1077,37 +1219,29 @@ func _flash(node: CanvasItem) -> void:
 	UI.flash(node)
 
 
-## The plumed lector reads out the standards in the order they walk, jackal first. The signs
-## face left like him, so the line begins at its left end (as Egyptian text begins on the
-## side its signs face) and fills back toward him, ending in front of his plumes.
+## The plumed lector reads out the standards in the order they walk, jackal first: one sign at a
+## time, in the space in front of his plumes above his sheet, each replacing the one before.
 func recite() -> void:
 	_clear_recital()
 	var r: Dictionary = level.recital
 	var signs: Array = POLES.map(func(p): return SLOTS[p].home)
 	var tallest := 0.0
-	var widths := 0.0
 	for piece in signs:
 		tallest = maxf(tallest, sprite_rects[piece].size.y)
-		widths += sprite_rects[piece].size.x
 	var s: float = (r.bottom - r.top) / tallest
-	var gap := 6.0 * unit
-	var x: float = r.right - widths * s - gap * (signs.size() - 1)
 	_recital_tween = create_tween()
-	for i in signs.size():
-		var size: Vector2 = sprite_rects[signs[i]].size * s
+	for piece in signs:
+		var size: Vector2 = sprite_rects[piece].size * s
 		var glyph := Sprite2D.new()
-		glyph.texture = _pieces[signs[i]].texture
+		glyph.texture = _pieces[piece].texture
 		glyph.centered = false
 		glyph.scale = Vector2(s, s)
-		glyph.position = Vector2(x, r.bottom - size.y)  # on one baseline, like a line of text
+		glyph.position = Vector2(r.right - size.x, r.bottom - size.y)   # right in front of his plumes
 		glyph.modulate.a = 0.0
 		_recital.add_child(glyph)
-		x += size.x + gap
-		if i > 0:
-			_recital_tween.tween_interval(RECITE_STEP - RECITE_FADE_IN)
 		_recital_tween.tween_property(glyph, "modulate:a", 1.0, RECITE_FADE_IN)
-	_recital_tween.tween_interval(RECITE_HOLD)
-	_recital_tween.tween_property(_recital, "modulate:a", 0.0, RECITE_FADE_OUT)
+		_recital_tween.tween_interval(RECITE_STEP - RECITE_FADE_IN - RECITE_FADE_OUT)
+		_recital_tween.tween_property(glyph, "modulate:a", 0.0, RECITE_FADE_OUT)
 	_recital_tween.tween_callback(_clear_recital)
 
 
@@ -1144,9 +1278,9 @@ func _maybe_run_cli() -> void:
 			_show_hits = true
 		elif a.begins_with("--take="):
 			act_slot(a.trim_prefix("--take="))
-		elif a == "--recite":
+		elif a == "--recite":   # stops at the third sign
 			recite()
-			_recital_tween.custom_step(RECITE_STEP * POLES.size())
+			_recital_tween.custom_step(RECITE_STEP * 2.5)
 		elif a == "--speak":
 			offerings.speak()
 		elif a == "--ending" or a == "--finale":   # dev: carry the stand's pieces, before Ra (and with --finale, set them up and kneel)
@@ -1239,10 +1373,11 @@ func _autotest() -> void:
 	var shown: Array = _recital.get_children().map(func(c): return c.texture)
 	var order: Array = POLES.map(func(p): return _pieces[SLOTS[p].home].texture)
 	expect.call(shown == order, "lector recites the eight standards in order, jackal first")
-	var xs: Array = _recital.get_children().map(func(c): return c.position.x)
-	var sorted := xs.duplicate()
-	sorted.sort()
-	expect.call(xs == sorted and xs[-1] < level.recital.right, "his line runs left to right and ends in front of him")
+	var ends: Array = _recital.get_children().map(func(c): return roundi(c.position.x + c.texture.get_width() * c.scale.x))
+	expect.call(ends.all(func(x): return x == roundi(level.recital.right)), "each sign stands in the same place, right in front of his plumes")
+	_recital_tween.custom_step(RECITE_STEP * 2.5)
+	var lit: Array = _recital.get_children().filter(func(c): return c.modulate.a > 0.5)
+	expect.call(lit.size() == 1 and lit[0].texture == order[2], "one sign at a time: the third replaces the second")
 	# a click in the middle of every slot and journal region picks exactly that region (unless a
 	# fallen offering or a hidden piece of the offering stand lies over it)
 	var missed: Array[String] = []
@@ -1264,18 +1399,18 @@ func _autotest() -> void:
 	_set_hover({})
 	expect.call(_glows.is_empty(), "nothing glows when the pointer leaves")
 	_autotest_haul(expect)
-	for p in POLES:  # lift a wrong standard, carry each one home, until the first pole is filled
+	for p in POLES:  # take the right standard from wherever it is and set it here: the two swap
 		if _god(slot[p]) == _god(SLOTS[p].home):
 			continue
-		act_slot(p)
-		var guard := 0
-		while held != "" and guard < 20:
-			guard += 1
-			for q in POLES:
-				if _god(SLOTS[q].home) == _god(held) and (slot[q] == "" or _god(slot[q]) != _god(SLOTS[q].home)):
-					act_slot(q)
-					break
+		for q in POLES:
+			if q != p and _god(slot[q]) == _god(SLOTS[p].home) and _god(slot[q]) != _god(SLOTS[q].home):
+				act_slot(q)
+				act_slot(p)
+				break
+	expect.call(held == "", "setting a standard down swaps it with the one there: nothing is left in hand")
 	expect.call(solved.t2, "all eight standards on their own poles")
+	act_slot(POLES[0])
+	expect.call(held == "" and solved.t2, "once in order the standards are locked")
 	expect.call(held == "", "hand empty after sorting the standards")
 	_autotest_table(expect)
 	print("AUTOTEST ", "OK" if fails.is_empty() else "FAILED")
@@ -1332,43 +1467,43 @@ func _autotest_water(expect: Callable) -> void:
 	var priest: Dictionary = hotspots.filter(func(h): return h.label == "Priest with jar")[0]
 	var h := _pick(priest.rect.get_center())
 	expect.call(h.get("type") == "hot" and h.spot == priest, "the priest with the jar can be clicked")
-	expect.call(_pick(water.arm_rect().get_center()).get("type") == "water", "his jar can be taken hold of")
-	expect.call(not water.grip(water.arm_rect().get_center()), "the jar can't be worked from along the scroll")
+	expect.call(_pick(water.arm_rect().get_center()).get("type") == "water", "his jar can be clicked from along the scroll")
 	_water_now()
 	expect.call(water.active, "clicking him steps up to the water")
-	# a drag round the elbow turns the arm by as much
-	var elbow := Vector2(level.water.elbow[0], level.water.elbow[1])
-	var at := water.arm_rect().get_center()
-	expect.call(water.grip(at), "a press on the jar takes hold of it")
-	water.drag(elbow + (at - elbow).rotated(-0.2))
-	expect.call(is_equal_approx(water._want, PourWater.START_TILT - 0.2), "dragging round the elbow tips the jar as far")
-	water.release()
-	step.call(1.5)
-	expect.call(water.progress == 0.0 and water.tilt > PourWater.START_TILT - 0.1, "let go, the jar rises back upright; nothing runs")
+	expect.call(_pick(water.arm_rect().get_center()).get("type") != "water", "at the water, the jar is not something to click")
+	step.call(0.5)
+	expect.call(water.tilt < PourWater.START_TILT, "his arm droops by itself")
+	water._droop = PourWater.DROOP.x
+	water._droop_left = 10.0
+	var before := water.tilt
+	water.raising = true
+	step.call(0.5)
+	water.raising = false
+	expect.call(water.tilt > before, "holding Space lifts it")
+	var rates := []
+	for i in 6:
+		water._droop_left = 0.0
+		step.call(1.0 / 60.0)
+		rates.append(water._droop)
+	expect.call(rates.all(func(r): return r >= PourWater.DROOP.x and r <= PourWater.DROOP.y) and rates.any(func(r): return r != rates[0]), "the droop changes, at random, within its range")
 	water.hold_at(0.25)
 	step.call(1.5)
-	expect.call(water.flow == PourWater.Flow.DRIP and water.progress == 0.0 and not water._drops.is_empty(), "too shallow: it only drips")
+	expect.call(water.flow == PourWater.Flow.DRIP and water.progress == 0.0 and not water._drops.is_empty(), "too high: it only drips")
 	water.hold_at(-0.4)
+	water.tilt = -0.4   # straight there, not swept through the window
 	step.call(1.0)
 	var on_hands: bool = water._drops.any(func(d): return d.pos.distance_to(Vector2(level.water.hands[0], level.water.hands[1])) < 40.0)
-	expect.call(water.flow == PourWater.Flow.GUSH and water.progress == 0.0 and on_hands, "too steep: it gushes out and falls short, onto the woman's hands")
+	expect.call(water.flow == PourWater.Flow.GUSH and water.progress == 0.0 and on_hands, "drooped too far: it gushes out and falls short, onto the woman's hands")
 	water.hold_at(0.0)
 	step.call(2.5)
 	var poured := water.progress
-	expect.call(water.flow == PourWater.Flow.POUR and poured > 0.2 and reveal.call() == poured, "tipped as drawn and held steady, the line draws itself in")
-	var swing := 0
-	while swing < 60:      # sloshed to and fro inside the window: it does not grow
-		water.hold_at(0.1 if swing % 2 == 0 else -0.1)
-		step.call(1.0 / 60.0)
-		swing += 1
-	expect.call(water.progress <= poured + 0.001, "a jar swung about slops: the line doesn't grow")
+	expect.call(water.flow == PourWater.Flow.POUR and poured > 0.2 and reveal.call() == poured, "held as drawn, the line draws itself in")
 	water.hold_at(-0.4)
 	step.call(10.0)
 	expect.call(water.progress < poured and is_equal_approx(water.progress, water.best * PourWater.KEEP), "poured wrong, the line dries back, but never below its share of the furthest reached")
 	leave_water()
-	expect.call(not water.active and not water.gripping, "Esc steps away and lets go of the jar")
+	expect.call(not water.active and not water.raising, "Esc steps away")
 	_water_now()
-	water.grip(water.arm_rect().get_center())
 	water.hold_at(0.05)
 	var guard := 0
 	while not water.done and guard < 60 * 20:
@@ -1524,22 +1659,12 @@ func _autotest_table(expect: Callable) -> void:
 	_autotest_soft_lock(expect)
 
 
-## The stand set up before Ra while other rites are undone: no finale, and it and Ra say so.
+## Before the stela shows the imprint (other rites undone), the stand's pieces stay where they hide.
 func _autotest_soft_lock(expect: Callable) -> void:
 	reset()
 	ending.instant = true
 	expect.call(not ending._imprint.visible, "restarting blanks the stela again")
 	for nm in EndingStand.PIECES:
 		act_ending(nm)
-	for i in 3:
-		act_ending("place")
-	expect.call(ending.complete() and solved.t7 and not finished, "the stand can be set up early, but the finale waits")
-	expect.call(not ending._imprint.visible, "the stela stays blank while rites are undone")
-	var h := _pick(ending.place_rect().get_center())
-	expect.call(h.get("type") == "ending" and h.id == "place", "the finished stand can still be clicked")
-	act_ending("place")
-	expect.call(_last_said == NOT_YET, "the finished stand says some things are not set right yet")
-	record(hotspots.filter(func(spot): return spot.label == "Ra enthroned")[0])
-	expect.call(_last_said == NOT_YET, "Ra says some things are not set right yet")
-	ending.show_imprint()
-	expect.call(not ending._imprint.visible, "once the stand stands, the stela needs no imprint")
+	expect.call(ending.carried.is_empty(), "the stand's pieces can't be taken before the stela shows them")
+	expect.call(_last_said == "This might come in handy later, but you wouldn't want your hands full right now.", "a hidden piece says it may come in handy later")

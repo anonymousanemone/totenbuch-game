@@ -276,21 +276,12 @@
    "plate": "I"
   },
   {
-   "x": 12459,
-   "y": 227,
-   "w": 360,
-   "h": 299,
-   "label": "Boat-sledge",
-   "note": "A boat on a sledge with figures aboard.",
-   "plate": "I"
-  },
-  {
    "x": 11794,
    "y": 202,
-   "w": 659,
+   "w": 1025,
    "h": 324,
-   "label": "The mummy on its sledge",
-   "note": "The mummy lies in a shrine on a boat-shaped sledge. It must be hauled to the tomb.",
+   "label": "The funerary bier",
+   "note": "A processional boat with the funerary bier.",
    "plate": "II"
   },
   {
@@ -299,7 +290,7 @@
    "w": 260,
    "h": 294,
    "label": "Priest with censer",
-   "note": "A priest offers incense before the mummy.",
+   "note": "A priest walks before the bier with a censer, offering incense.",
    "plate": "II"
   },
   {
@@ -384,13 +375,22 @@
    "plate": "IV"
   },
   {
-   "x": 4844,
+   "x": 4835,
    "y": 197,
-   "w": 240,
+   "w": 170,
    "h": 329,
-   "label": "Offerer",
-   "note": "A kneeling man raises an offering toward the table.",
+   "label": "Man with a water jar",
+   "note": "A man holds a water jar over the offering table for purification.",
    "plate": "IV"
+  },
+  {
+   "x": 3612,
+   "y": 205,
+   "w": 236,
+   "h": 321,
+   "label": "Two obelisks",
+   "note": "Two obelisks stand on their bases.",
+   "plate": "V"
   },
   {
    "x": 4523,

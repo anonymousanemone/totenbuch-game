@@ -62,6 +62,9 @@
 [ext_resource type="Texture2D" path="res://assets/procession/t24.png" id="tex_t24"]
 [ext_resource type="Texture2D" path="res://assets/procession/t25.png" id="tex_t25"]
 
+[ext_resource type="Texture2D" path="res://assets/procession/mouth_column.png" id="tex_mouth_column"]
+[ext_resource type="Texture2D" path="res://assets/procession/mouth_spoon.png" id="tex_mouth_spoon"]
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_papyrus"]
 shader = ExtResource("6_papyrus")
 shader_parameter/base = Color(0.906, 0.839, 0.682, 1)
@@ -190,7 +193,7 @@ metadata/piece_id = "haul_hauler_art"
 
 
 [node name="driver" type="Node2D" parent="pieces/hauling"]
-position = Vector2(10989.0, 207.0)
+position = Vector2(11071.0, 207.0)
 metadata/piece_id = "haul_driver"
 metadata/_edit_group_ = true
 
@@ -464,7 +467,7 @@ metadata/_edit_group_ = true
 
 
 [node name="sprite" type="Sprite2D" parent="pieces/water/jug_arm"]
-position = Vector2(-77.0, -120.0)
+position = Vector2(-78.0, -120.0)
 texture = ExtResource("tex_water_arm")
 centered = false
 metadata/piece_id = "water_arm"
@@ -495,6 +498,20 @@ centered = true
 metadata/piece_id = "words_imprint"
 visible = false
 modulate = Color(1.9, 1, 0.6, 0.2)
+
+
+[node name="column" type="Sprite2D" parent="pieces/opening_mouth"]
+position = Vector2(3961.0, 312.0)
+texture = ExtResource("tex_mouth_column")
+centered = false
+metadata/piece_id = "mouth_column"
+
+
+[node name="spoon" type="Sprite2D" parent="pieces/opening_mouth"]
+position = Vector2(3960.0, 332.0)
+texture = ExtResource("tex_mouth_spoon")
+centered = false
+metadata/piece_id = "mouth_spoon"
 
 
 [node name="ending" type="Node2D" parent="pieces"]

@@ -98,6 +98,12 @@ so distances written for the 200-dpi plates still work. The dangers level is exp
 hand-made 300-dpi strip bod31-42.mdp (one layer per character, text below added) by
 `../tools/cut_dangers300.py`; the old 200-dpi cutter `../tools/cut_dangers.py` is kept for reference. Pieces cut apart for a fight have their own folders in the .mdp, copies of ink still in the drawing (the cutter keeps them out of the strip): `sheaf41` (`stalks`, `band1`..`band4`, the sheaf of spell 41) and `tail40` (`tail`, the donkey's tail in spell 40). Redraw a piece in its layer and run the cutter again (or only `--sheaf` / `--tail`). See `../tools/strips/NOTES.md` for the strips.
 
+Procession art exports use the `general` conda environment. The exporter accepts either
+`water/arm` or `water/arms` as the existing `water_arm` sprite. The additional mouth layers
+`aa column` and `spoon??` export as `mouth_column` and `mouth_spoon`, visible scene props without
+new interactions. After exporting, compare IDs and crop bounds and adjust saved scene offsets
+for changed crop origins; do not replace deliberate editor placements with source coordinates.
+
 ### Editing the Procession pieces
 
 `scenes/procession.tscn` contains saved figures under `pieces/standards`, `hauling`,

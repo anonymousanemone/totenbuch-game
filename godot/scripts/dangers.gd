@@ -461,7 +461,8 @@ func _targets() -> Array:
 	match fight.kind:
 		"crocs", "roach", "lunge", "creep", "twin", "apep": return []
 		"sheaf": return [SHEAF_STALKS] if fight.get("phase", "") == "bind" else []
-	return [fight.foe]
+		"donkey": return [fight.e.foe]
+	return []
 
 
 func _process(delta: float) -> void:

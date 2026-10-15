@@ -22,6 +22,7 @@ func _run() -> void:
 	_test_figure_mask()
 	_test_procession_scene_pieces()
 	_test_dangers_scene_actors()
+	_test_donkey_hover()
 	_test_hover_glow()
 	print("REGRESSIONS ", "OK" if _failures.is_empty() else "FAILED")
 	quit(0 if _failures.is_empty() else 1)
@@ -99,6 +100,10 @@ func _test_procession_scene_pieces() -> void:
 		and is_equal_approx(nodes.lotus.rotation_degrees, 90.0)
 		and is_equal_approx(nodes.lotus.position.x, data.ending.hide.lotus.cx),
 		"editor puts stand, sun and turned lotus in their hidden starting locations")
+	var props := true
+	for id in ["mouth_column", "mouth_spoon"]:
+		props = props and nodes[id].visible and nodes[id].position == Vector2(data.sprites[id].x, data.sprites[id].y)
+	_expect(props, "additional mouth props are visible at their exported source positions")
 	var start: Vector2 = scene.get_node("Avatar").position
 	_expect(start == Vector2(data.sprites.avatar.x + data.sprites.avatar.w / 2.0, data.ground)
 		and absf(scene.get_node("Camera").position.x - start.x) < 1000.0,
@@ -186,6 +191,28 @@ func _test_dangers_scene_actors() -> void:
 	moved.position += Vector2(20, 10)
 	scene.reset()
 	_expect(moved.position == home, "reset returns actors to their authored starting positions")
+	scene.free()
+
+
+## A real click opens the fight before subsequent mouse motion asks for hover targets.
+func _test_donkey_hover() -> void:
+	var scene = load("res://scenes/dangers.tscn").instantiate()
+	root.add_child(scene)
+	scene.process_mode = Node.PROCESS_MODE_DISABLED
+	scene.hud.dismiss_intro()
+	var encounter: Dictionary = scene.ENCOUNTERS.filter(func(e): return e.id == "e40")[0]
+	scene.start_fight(encounter)
+	_expect(not scene._instant and scene.fight.awaiting_start and not scene.fight.has("foe"),
+		"donkey hover regression uses the normal encounter state before Space")
+	_expect(scene._targets() == [encounter.foe], "donkey hover reads the snake from encounter data")
+	_expect(scene._hover_at(scene.actor_rect(encounter.foe).get_center()) == [encounter.foe],
+		"moving the pointer over the donkey snake after entry finds its hover target")
+	scene._unhandled_input(InputEventMouseMotion.new())
+	scene._croc_open(1.0)
+	_expect(scene._hover_at(scene.actor_rect(encounter.foe).get_center()) == [encounter.foe],
+		"donkey snake remains hoverable after the vignette opens")
+	scene._unhandled_input(InputEventMouseMotion.new())
+	scene.reset()
 	scene.free()
 
 

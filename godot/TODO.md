@@ -32,8 +32,8 @@ Universal and procession items done on 2026-10-15 (dangers still being tested). 
 - [x] **The man across the offering table:** "Man with a water jar", "A man holds a water jar over the offering table for purification.", his box trimmed to x 4835–5005 so the bouquets beside him aren't part of him.
 
 **Hauling**
-- [ ] **Art:** an animation sheet for the whip bearer (the gap where the elbow splits). Needs drawing.
-- [ ] **Art (the .mdp):** the `haul/driver` layer also holds a copy of his forearm and whip (x 10989–11088), while `haul/whip+arm` is still the swinging sprite. A still copy probably stays in his hand as the whip swings. Clean one of the two layers.
+- [ ] **Art:** the whip bearer's sheet is made (2026-10-15): `godot/assets/procession/haul_driver_sheet.png`, 8 frames from wound back (0.2 rad) through as drawn (frame 2) to the full strike (-0.55), the whole figure in each, the arm turned about the elbow drawn on both layers (11120, 289); the layout is in `haul_driver_sheet.json`. Made once by `tools/arm_sheets.py` from the .mdp (only read); now hand-edited, never remade. **You:** touch up any pixels. **Then:** the game shows the frame nearest the whip's angle in place of turning `haul_whip` (not wired yet; the driver is his own sprite, so nothing else changes).
+- [x] **Art (the .mdp):** the duplicate forearm and whip are gone from the `haul/driver` layer.
 
 **Standards**
 - [x] With the standard-bearers, only the standard under the pointer highlights.
@@ -58,11 +58,19 @@ Universal and procession items done on 2026-10-15 (dangers still being tested). 
 - [x] When the procession is in order: "The procession is in order. Head over to Ra on his throne."
 
 **Water pouring**
-- [ ] **Art:** a sprite animation sheet for the arm (broken lines at the elbow). Needs drawing.
+- [ ] **Art:** the water priest's sheet is made (2026-10-15): `godot/assets/procession/water_sheet.png`, 24 frames (6 a row) over the game's whole tilt range, -0.55 to 0.6 rad, 0.05 rad apart (frame 11 as drawn), the whole figure in each, the arm turned about the elbow drawn on both layers (2289, 328); the layout is in `water_sheet.json`. Made once by `tools/arm_sheets.py` from the .mdp (only read); now hand-edited, never remade. The `water/man` layer's old copy of the forearm and jar is left out. **You:** touch up the elbow (its inner line comes loose when drooped, overlaps when raised). **Then:** the game shows the frame nearest the tilt; the priest then comes out of the strip (now `water/man` is drawn into it) and is the sheet's sprite.
 - [x] **New game:** his arm droops by itself, at a rate drawn at random (`DROOP` 0.06–0.4 rad/s), changing every `DROOP_EVERY` (0.6–1.6 s, also random). It really is random: a fresh seed each time you step up. Hold Space to lift (`LIFT` 0.6 rad/s). The line fills while the stream is lined up and slowly dries back when it isn't (never below `KEEP` of the furthest reached). The water particles are unchanged. **Your call:** tune once you've played it.
 
 **Still open from before**
 - [ ] **Your call:** the goose falls at an odd angle (it's dropped last and wedges in). Drop it near level and first? That changes the whole scatter's layout.
+
+**New games to think of**
+- [ ] The barque.
+- [ ] The mourning women.
+- [ ] The two object carriers right behind the Apis bull.
+- [ ] The incense.
+- [ ] The Opening of the Mouth.
+- [ ] Maybe a separate game for the second offering table.
 
 ### Dangers (spells 31–42)
 
@@ -90,6 +98,20 @@ Universal and procession items done on 2026-10-15 (dangers still being tested). 
 
 **Spell 38, the breath of life**
 - [ ] Life and breath become two separate signs, and only breath is taken: the player must click the breath sign (one choice only). Taking the wrong one makes the following fights nearly impossibly hard. Clicking spell 38's caption title shows "breath" in bold (or similar), which tells the player which to pick.
+
+**The last two fights (spells 40–41)**
+- [ ] Both are boring and slow. Rethink their pace (undecided).
+- [ ] Hovering spell 40 on the scroll should highlight the snake and the donkey together, and spell 41 the snake and the sheaf. Now only the snake glows: `_creatures(e)` in `dangers.gd` returns only `e.foe`. Add `e.donkey` (`donkey40`) and `e.bundle` (`bundle41`) to what glows and takes the click.
+- [ ] Walking from the donkey's vignette (spell 40) to the sheaf's (spell 41), the avatar goes behind the column of hieroglyphs between them and comes out the other side. Purely visual: the column's ink is drawn over him (or he fades out and back in at its edges).
+
+**Fight frames (every arena fight)**
+- [ ] Fix every mini-game's border so the lines drawn as the frame opens match the drawn frame exactly (position and thickness), and so the text below lines up where it leaves and where it comes back.
+  How it opens now (`_arena_setup`, `_croc_open`, `_draw_arena_lines`):
+  - It starts as the vignette's own frame (`fight.panel`: from the band's top rule down to the ground line, between the vignette's span) and grows linearly over `CROC_OPEN` (0.8 s) to `fight.full`: the width of the screen at the fight's zoom, down to 24 plate px above the bottom of the scroll.
+  - One-sided fights keep the right-hand double line where it's drawn and open to the left; two-sided fights and those with a `view` open about their middle.
+  - The frame is redrawn in code, not taken from the drawing: one top line on `rules[0]`, a double line at the bottom and on each side, every line as thick as `rules[0]` with an 8 px gap. Wherever the drawing's own lines differ, the drawn and the code frame don't line up at the start.
+  - The text below fades out while dropping `TEXT_DROP` (320 px) and stretching to 130 % wide; neighbouring captions are covered and the other figures fade out.
+  - The camera zooms in during the same 0.8 s.
 
 **Bugs**
 - [ ] **Crash in spell 40:** pointing at the donkey's snake during the fight crashes with "Invalid access to property or key 'foe' on a base object of type 'Dictionary'". Cause: `_targets()` in `dangers.gd` returns `[fight.foe]`, but a fight keeps its creature under `fight.e.foe`; the hover check calls it on every mouse move. One-line fix.

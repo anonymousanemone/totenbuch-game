@@ -7,58 +7,33 @@ Open `project.godot` in Godot 4.7+ and press **Play** (F5). A level menu opens f
 
 The scroll reads right to left. Click the papyrus (or use ← →) to walk.
 
+The captions in the top register are the spells' titles. Click one (it glows under the pointer) and
+the strip shows its translation, from C. H. S. Davis, *The Egyptian Book of the Dead* (1894), which
+translates this same papyrus: `CAPTIONS` in `scripts/procession.gd`, and each danger's `caption` and
+`title` in `scripts/danger_encounters.gd`.
+
+Only the procession and the dangers are in play; the Night Journey, the Field of Offerings and the
+Weighing of the Heart are set aside in `../archive/` (see its README), left out of the game and the tests.
+
 ## The Funeral Procession (spells 1–15, pl. I–VI)
 Whatever can be clicked glows under the pointer (`scripts/glow.gdshader`; all eight standard-bearers glow together). Click figures to record them in the journal; click a movable piece to pick it up and click
-where it belongs to set it down (clicking a filled place swaps the two). **Esc** puts it back.
+where it belongs to set it down (clicking a filled place swaps the two). Click where you took it to put it back.
 The whole scroll can be walked from the start.
 
 1. **Haul the bier** (plate II): click the ox-driver for instructions and become the original hauler. Clicking the bier or censer priest directs you to him. Space starts the count-in. The vignette opens over plate I and the train stands back from its place. Pull with Space, Shift, or click as the whip falls; the drum and whip provide the beat. An early or late pull lets the rope slacken and the bier slip back; a missed beat stops it. The hauler leans and the train moves on accepted pulls. Twelve pulls without setbacks bring it home. Esc or arrow keys let go and restore the walking avatar. Tuned in `scripts/haul.gd` (`BEAT`, `WINDOW`, `BACK`, `PULLS`, `SLIP`).
-2. **Return the standards**: click the eight standard-bearers to stand at their nearer end and frame the group. Esc or arrows leave the scene and return any carried standard. The bearers (four in plate III, four in plate II) carry the wrong gods; the two falcons are interchangeable. An empty pole shows a faint outline of its own standard. The lector with two plumes on his head (plate V, past the offering table) reads out the order when clicked: the eight signs appear one after another in the space above his sheet, jackal first at the far end, falcon last in front of his plumes (`RECITE_*` in `procession.gd`; the line's place is `recital` in `level.json`).
-3. **Rebuild the offering table** (`scripts/offering_table.gd`): the heap in plate IV has collapsed. Click the table (or a piece, the lector or the goose-bearer) and you step up to it: you stand just behind the lector and the camera holds on the table, from the man with the jar to the goose-bearer (`view`, `stand` in `level.json` `table`). Esc, or walking off with the arrow keys, steps away; nothing is lost, and what you held goes back. The loose pieces lie on the floor between the two pairs of bouquets as physics bodies, at any angle, each with a faint papyrus fill (50%) inside its outline; the palm frond lies in the empty band above, a little to the right. Press on a piece to take it up (it comes to the front, follows the pointer, and its place shows faintly); let go after dragging, or click again, to set it down. Near its place it goes in, but only once everything it rests on is there (`rests_on`, worked out by the cutter); otherwise it topples back down. Every loose piece has gravity. Set down above the upper-register platform, a piece falls onto it; only a piece being actively dragged can cross it. The frond goes on last. Clicking the lector shows, in front of him, a piece that can go on now (again for the next one).
+2. **Return the standards**: click the eight standard-bearers to stand at their nearer end and frame the group. Esc or arrows leave the scene and return any carried standard. The bearers (four in plate III, four in plate II) carry the wrong gods; the two falcons are interchangeable. The lector with two plumes on his head (plate V, past the offering table) reads out the order when clicked: the eight signs appear one after another in the space above his sheet, jackal first at the far end, falcon last in front of his plumes (`RECITE_*` in `procession.gd`; the line's place is `recital` in `level.json`).
+3. **Rebuild the offering table** (`scripts/offering_table.gd`): the heap in plate IV has collapsed. Click the table (or a piece, the lector or the goose-bearer) and you step up to it: you stand just behind the lector and the camera holds on the table, from the man with the jar to the goose-bearer (`view`, `stand` in `level.json` `table`). Esc, or walking off with the arrow keys, steps away; nothing is lost, and what you held goes back. The loose pieces lie on the floor between the two pairs of bouquets as physics bodies, at any angle, each with a faint papyrus fill (50%) inside its outline; the palm frond lies flat on the upper register line, towards the right. At first everything else falls through that line to the floor. Press on a piece to take it up (it comes to the front, follows the pointer, and its place shows faintly); let go after dragging, or click again, to set it down. Near its place it goes in, but only once everything it rests on is there (`rests_on`, worked out by the cutter); otherwise it topples back down. Every loose piece has gravity. Set down above the upper-register platform, a piece falls onto it; only a piece being actively dragged can cross it. The frond goes on last. Clicking the lector shows, in front of him, a piece that can go on now (again for the next one).
 4. **Give the goose back**: the man beside the lector holds a loaf from the heap instead of his goose, which lies among the fallen offerings. Take the loaf from him, then give him the goose. While nothing is in his arms, the clothes the goose and loaf cover show.
 5. **Pour the water** (`scripts/pour_water.gd`, plate V): a priest raises a round jar over a kneeling woman, and the wavy line from it, arching over Anubis holding the mummy upright and down to their base, is the stream. At the start his arm is raised further, the jar upright, and no water runs: only a faint dotted ghost of the line (`scripts/water.gdshader`). Click the priest, the woman, Anubis and the mummy, or the jar, and you step up behind him; the camera holds on the scene (`view`, `stand` in `level.json` `water`). Press on the jar and drag to turn his forearm about the elbow. Within `WINDOW` of the tilt as drawn the water runs along the line and the line draws itself in, but only while the jar is held steady (`STEADY`); too shallow and it only drips, too steep and it gushes out and splashes on the woman's raised hands. Not pouring along the line, the drawn part dries back, never below `KEEP` of the furthest it reached. Let go and the arm rises back upright. Once the whole line is drawn the jar settles where it is drawn. Esc, or walking off, steps away.
-6. **Open the mummy's mouth** (`scripts/opening_mouth.gd`, plates V–VI; no game in the touch yet): the caption over Ra, the lotus stand and the kneeler is gone, only a faint imprint of it showing. Click the adze on the offering stand by the obelisks (the hooked blade, third from the top) and it follows the pointer; click the mummy with it and the adze goes back on the stand, and the words come out of the mummy's mouth as a small ball that rises and unrolls into their line in the empty caption band above the mummy (`mouth.speak_right` in `level.json`). Click the line to take it, and click its imprint over Ra to set it there, as drawn. Esc puts the adze back on the stand, or the words back above the mummy.
+6. **Open the mummy's mouth** (`scripts/opening_mouth.gd`, plates V–VI; no game in the touch yet): the caption over Ra, the lotus stand and the kneeler is gone, only a faint imprint of it showing. Click the adze on the offering stand by the obelisks (the hooked blade, third from the top) and it follows the pointer; click the mummy with it and the adze goes back on the stand, and the words come out of the mummy's mouth as a small ball that rises and unrolls into their line in the empty caption band above the mummy (`mouth.speak_right` in `level.json`). Click the line to take it, and click its imprint over Ra to set it there, as drawn. To put the adze back, click its place on the stand; the words, their place above the mummy.
 7. **Set up the offering stand before Ra** (`scripts/ending.gd`, plate VI): the stand, the sun disc on it and the lotus over it are gone from before Ra, and so is the adorer kneeling to him. Once rites 1–6 are done, the stela beside the tomb shows a faint imprint of the three as they stand; until then its face is blank (a soft lock: the stand can still be set up early, but then clicking it or Ra only says that some things have not been set right yet, and the finale waits for the other rites). They lie hidden along the scroll, and glow under the pointer: the stand inside the canopy frame behind the women mourners (pl. I), the sun disc between the legs of the creature on the mummy's bier (pl. II; it rides with the sledge), the lotus on top of the second offering pile (pl. V). Click one to take it; you carry all you find. Click the empty place before Ra to set them up: each goes on only once what it rests on is there (stand, sun, lotus). Where they hide is `ending.hide` in `level.json`.
 
 With all seven done you walk to the adorer's place and kneel there (the drawn adorer, cut as `kneeler`, takes your place), light spreads from Ra's disc and the new sun (`scripts/light.gdshader`) and floods the screen, and the level goes back to the menu (for now; later, on to the next level).
 
-## The Night Journey (spell 17, pl. VII–XI)
-The cleaned 300-dpi strip bod17-21, used as drawn; the movable pieces are lifted out by
-`../tools/cut_cosmos300.py`, which also adds the plates' text below the frame (fading out).
-
-1. **Open the horizon**: the two lions face each other and shut the sun in. Click each to turn it; back to back (as drawn) the sun rises.
-2. **Return the ba to the body**: the human-headed bird waits at the head of the strip. Carry it to the mummy on the lion bier.
-3. **Help the cat at the persea tree**: the snake creeps in and draws back. Click the cat when the head is under its knife (twice).
-4. **Give Ra his sun**: carry the risen sun to the god in Ra's boat (pl. X); the baboons adore.
-5. **Come before Osiris** (pl. XI).
-
-The horizon, the snake and Ra's boat each bar the way until dealt with. `--skip=N` solves the
-first N tasks; `--show-hits` outlines the click regions.
-
-## The Field of Offerings (spell 110, pl. XLI)
-The whole page in three bands framed by water; the camera shows one band, and clicking another
-band crosses over (the lowest band is entered at its left end).
-
-1. **Work the field** (middle band, right to left): click the ploughman, then the sower; the grain grows; click a reaper, then the ox on the threshing floor. Out of order, the field is not ready. The grain heaps rise.
-2. **Feed the gods**: take grain from a heap and give it to the offering table before the three gods (top band).
-3. **Cross by the boat**: the rower in the top band now takes you over.
-4. **Sail to the landing**: in the lowest band, the boat with stairs has no oars; the one with oars sails to the landing stairs.
-
-`--reg=middle`, `--stage=N` (farming stages done), `--skip=N` (tasks done).
-
-## The Weighing of the Heart (spell 125, pl. L)
-1. **Ma'at** lets you into the hall.
-2. **Set your heart on the balance** (right pan): the beam tips, Ammit rises.
-3. **The 42 judges** in the frieze: click each; every declaration of the negative confession lifts the heart a little. When all have heard you the beam is level and the baboon on the post nods.
-4. **Thoth** writes the verdict (before that, Ammit lunges).
-5. **Osiris** receives you.
-
-`--declared=N`, `--skip=N`. Both levels are cut from the 300-dpi panel sheets by `../tools/cut_sheets300.py`.
-
 ## Dangers on the Road (spells 31–42, pl. XVI–XIX)
 You can walk through every vignette. Click a creature (it glows under the pointer) to walk into
 its vignette, become its spear-bearer and start the fight; in the fights that open out, Space
-thrusts and holding Shift lends the thrust heka. Once a fight starts, every spear-bearer rests
+thrusts and holding Shift lends the thrust heka. Walking into a vignette says its danger's line (each time, until it is overcome). Clicking the creature opens the fight, which waits for Space: that first press starts it with a thrust that does not count (it strikes nothing, ties no band). Once a fight starts, every spear-bearer rests
 with the spear drawn back, and a thrust only runs it out and draws it back again; once it is overcome the vignette is put back as drawn.
 You can walk into spell 38 (the breath of life) and take it at any time, but not on past it until spells 31–38 are all done (an invisible barrier at its far edge; the scribe says what is still to do), and spell 42
 at the end waits until every danger before it is overcome.
@@ -80,13 +55,10 @@ at the end waits until every danger before it is overcome.
 ## Layout
 | Path | What |
 |---|---|
-| `scenes/menu.tscn`, `scripts/menu.gd` | The title page (Continue, The scroll, Settings, Quit), the map of the scroll (every scene act by act, reading right to left), Settings (sound, fullscreen, controls, beginning again) |
+| `scenes/menu.tscn`, `scripts/menu.gd` | The title page (Play, The scroll, Settings, Quit), the map of the scroll (every scene act by act, reading right to left), Settings (sound, fullscreen, controls, beginning again) |
 | `scripts/scroll.gd` | Autoload `Scroll`: the scenes in playing order (Lepsius's spell order, the weighing of the heart last), which are restored, and the settings, kept in `user://scroll.cfg`. A scene counts as built once `scenes/<key>.tscn` exists; finishing one opens the next built scene |
 | `scripts/ui.gd` | The shared look (`UI`): palette, Old Fax, square panels, the frame band, pixel icon buttons |
 | `scenes/procession.tscn`, `scripts/procession.gd` | Spells 1–15 |
-| `scenes/cosmos.tscn`, `scripts/cosmos.gd` | Spell 17 |
-| `scenes/field.tscn`, `scripts/field.gd` | Spell 110 |
-| `scenes/hall.tscn`, `scripts/hall.gd` | Spell 125 |
 | `scenes/dangers.tscn`, `scripts/dangers.gd` | Spells 31–42: encounter list, gates, one rule set per creature |
 | `scripts/avatar.gd` | Walking (click target or keyboard), facing, bobbing |
 | `scripts/hud.gd` | Title bar (Restart, Menu), the scribe's strip under the scene (the line said with its speaker's tag, what you carry, Journal and Hint), the Journal page ([j]), intro/outro; each level passes its own texts |
@@ -116,7 +88,7 @@ a crocodile fight once red crocodiles can come); in a fight it also glows under 
 player to hold Shift against the red crocodiles.
 
 ## Command-line checks
-Run all five gameplay suites and the camera, figure-mask, hover and UI regressions from the
+Run both gameplay suites and the camera, figure-mask, hover and UI regressions from the
 repository root:
 ```bash
 python3 godot/tests/run_tests.py
@@ -130,23 +102,22 @@ The HUD uses the shared palette in `scripts/ui.gd`: ink, papyrus, the red UI acc
 terracotta danger ink, gold success flashes, and faint placement previews. Sprite ink tint
 multipliers are distinct from display colors.
 
-Dialogue stays at 32 px. Long notes are paged using the next-page button or Enter, and
-reflow when the window or held-item panel changes size. Instructions and progress remain
-on a separate, persistent line while transient feedback changes. The bottom strip is
-152 px (184 px in narrow windows); cameras reserve its actual height. Intro/outro bodies
+Dialogue is always 32 px (two font pixels to a screen pixel) and never paged, centred in the
+strip; keep lines to three (about 180 characters). A fight shows its progress as pips above the
+vignette. The bottom strip is 130 px; cameras reserve its height. Intro/outro bodies
 use 16 px with additional line and paragraph spacing; panels and the Journal adapt to
 window size. Journal entries and intro/outro bodies can scroll when needed.
 
 The Journal ([j]), intros, and outros pause movement, physics, timers, and active fights.
 Closing them resumes play; going to another scene clears pause. Arrow keys retain their
-gameplay role; menu buttons have visible keyboard focus. Enter/Space advances an intro
+gameplay role; a menu button chosen with the keyboard turns red. Enter/Space advances an intro
 or outro. Gameplay feedback favors visible actions, first-occurrence failure explanations,
 and short phase-change cues over repeated success narration. Explicit Hint remains
 repeatable and describes the active task, including fights played out of order.
 
 Click the ox-driver to become the original hauler. Space starts the count-in; pull as
 his whip falls. Click the standards to stand at the nearer end of their group and sort
-them; empty poles show the required standards. Esc or arrow keys leave these scenes.
+them. Esc or arrow keys leave these scenes.
 At the offering table, all loose pieces have gravity, including pieces on the upper
 register. The register is a platform; dragging a piece lets it cross. The obsolete task
 panel and hidden minimap have been removed. The spell-38 gate opens after the earlier

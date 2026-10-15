@@ -10,7 +10,7 @@ const SMALL := 16
 const DIALOGUE := 32
 const BAND := 16.0            ## the frame band's thickness
 
-const PAPYRUS := Color(0.906, 0.839, 0.682, 1.0)     ## the scene's papyrus: pages
+const PAPYRUS := Color("e2d0a6")     ## the scene's papyrus: pages
 const DEEP := Color("cbb07c")        ## deep papyrus: bars, strips, buttons
 const INK := Color("2e1d10")
 const RULE := Color("8f7142")
@@ -20,13 +20,11 @@ const CREAM := Color("f1e7cd")
 
 # Display colors and ink multipliers are deliberately separate.
 const DANGER := Color("b55b3c")
-const TARGET := Color("963e28")
 const SUCCESS := Color(1.8, 1.4, 0.6)
-const PREVIEW := Color(1.9, 1.0, 0.6, 0.25)
+const PREVIEW := Color(1.9, 1.0, 0.6, 0.2)
 const HOVER := Color(0.95, 0.62, 0.22, 0.6)
 const DIM := Color(0.12, 0.08, 0.04, 0.5)
 const INK_TINT := Color(DANGER.r / INK.r, DANGER.g / INK.g, DANGER.b / INK.b)
-const DAMAGE_TINT := Color(2.2, 0.65, 0.45)
 const GLOW_SHADER := preload("res://scripts/glow.gdshader")
 
 const IMAGES := "res://assets/ui/%s.png"
@@ -52,9 +50,6 @@ static func icon_button(icon: String, tip: String, on_press: Callable, keyboard 
 	var b := TextureButton.new()
 	b.texture_normal = load(IMAGES % ("icon_" + icon))
 	b.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-	b.ignore_texture_size = true
-	b.stretch_mode = TextureButton.STRETCH_KEEP_ASPECT_CENTERED
-	b.custom_minimum_size = Vector2(40, 40)
 	b.tooltip_text = tip
 	b.focus_mode = Control.FOCUS_ALL if keyboard else Control.FOCUS_NONE
 	b.size_flags_vertical = Control.SIZE_SHRINK_CENTER
@@ -96,9 +91,7 @@ static func theme() -> Theme:
 	th.set_stylebox("normal", "Button", box(PAPYRUS, INK, 4, 16, 8))
 	th.set_stylebox("hover", "Button", box(Color("efe0bb"), INK, 4, 16, 8))
 	th.set_stylebox("pressed", "Button", box(DEEP, INK, 4, 16, 8))
-	var focus := box(Color.TRANSPARENT, TAG, 2, 0, 0)
-	focus.draw_center = false
-	th.set_stylebox("focus", "Button", focus)
+	th.set_stylebox("focus", "Button", StyleBoxEmpty.new())   # menu buttons turn red instead (menu.gd)
 	th.set_stylebox("panel", "TooltipPanel", box(PAPYRUS, INK, 2, 8, 4))
 	th.set_color("font_color", "TooltipLabel", INK)
 	return th
@@ -115,6 +108,22 @@ static func glow_material(texture: Texture2D) -> ShaderMaterial:
 		var rect: Rect2 = atlas.region
 		mat.set_shader_parameter("region", Vector4(rect.position.x / whole.x, rect.position.y / whole.y, rect.size.x / whole.x, rect.size.y / whole.y))
 	return mat
+
+
+## A glow behind the strip's own drawing inside `rect` (a figure or a caption that is part of the
+## picture, not a sprite), added under `strip`; its strength starts at 0.
+static func strip_glow(strip: Sprite2D, rect: Rect2) -> Sprite2D:
+	var tex := AtlasTexture.new()
+	tex.atlas = strip.texture
+	tex.region = rect
+	var g := Sprite2D.new()
+	g.texture = tex
+	g.centered = false
+	g.position = rect.position
+	g.show_behind_parent = true
+	g.material = glow_material(tex)
+	strip.add_child(g)
+	return g
 
 
 static func flash(node: CanvasItem, duration := 0.8) -> void:

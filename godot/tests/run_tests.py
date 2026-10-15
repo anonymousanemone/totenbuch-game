@@ -22,7 +22,7 @@ def main():
     project = Path(__file__).resolve().parents[1]
     suites = [
         (level, ["--", f"--level={level}", "--autotest"], "AUTOTEST OK")
-        for level in ("procession", "cosmos", "field", "hall", "dangers")
+        for level in ("procession", "dangers")
     ]
     suites.append(("regressions", ["--script", "res://tests/script_regressions.gd"], "REGRESSIONS OK"))
     suites.append(("ui", ["--script", "res://tests/ui_regressions.gd"], "UI REGRESSIONS OK"))

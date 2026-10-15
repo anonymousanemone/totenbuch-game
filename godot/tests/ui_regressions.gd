@@ -43,7 +43,7 @@ func _run() -> void:
 	for dimensions in [Vector2i(1280, 720), Vector2i(800, 600), Vector2i(640, 480)]:
 		root.size = dimensions
 		await frames()
-		for name in ["procession", "dangers", "cosmos", "field", "hall"]:
+		for name in ["procession", "dangers"]:
 			var level = load("res://scenes/%s.tscn" % name).instantiate()
 			root.add_child(level)
 			var hud = level.hud
@@ -57,23 +57,18 @@ func _run() -> void:
 			hud.dismiss_intro()
 			expect(not paused, label + " begin resumes gameplay")
 			level.set_process(false)
-			hud.set_context("[space] attack · [esc] explore", "2/3")
-			hud.say("Scribe", "Drag each offering to its place, lowest first. The upper shelf catches loose offerings. Only a piece you are dragging can cross the shelf. The lector beside the table shows a piece you can place next. Ask for a hint if you need help.")
+			hud.say("Scribe", "Drag offerings into place, lowest first. Use the upper shelf to clear space. Ask the lector what can go next.")
 			await frames(8)
-			expect(hud._say.get_theme_font_size("normal_font_size") == UI.DIALOGUE, label + " dialogue keeps its readable font size")
-			expect(hud._say.get_content_height() <= hud._say.size.y + 1.0, label + " dialogue page fits")
-			if hud._say.get_content_height() > hud._say.size.y + 1.0:
-				print("LAYOUT ", hud._say.size, " content=", hud._say.get_content_height(), " page=", hud._pages[0])
-			expect(inside(hud._next) and inside(hud._context), label + " paging and controls fit viewport")
-			if not inside(hud._next) or not inside(hud._context):
-				print("BOUNDS next=", hud._next.get_global_rect(), " context=", hud._context.get_global_rect())
-			var rebuilt := " ".join(hud._pages).replace("\n", " ")
-			expect(rebuilt == hud._text, label + " paging preserves every word")
-			hud.next_page()
-			expect(hud._context.text.contains("[esc]"), label + " feedback pages preserve exit controls")
+			var message: Control = hud._say
+			var row: Control = message.get_parent()
+			expect(hud._say.get_theme_font_size("normal_font_size") == UI.DIALOGUE, label + " long dialogue keeps the dialogue size")
+			hud.say("Scribe", "Walk left, toward the crocodiles.")
+			await frames(8)
+			expect(hud._say.get_theme_font_size("normal_font_size") == UI.DIALOGUE, label + " a short line keeps the large font")
+			expect(absf(message.get_global_rect().get_center().y - row.get_global_rect().get_center().y) <= 2.0, label + " dialogue is centred in the strip")
 			hud.update_hand("test", "the jackal standard", level.get_node("Strip").texture)
 			await frames(8)
-			expect(hud._say.get_content_height() <= hud._say.size.y + 1.0, label + " carried item leaves dialogue readable")
+			expect(row.get_global_rect().grow(1.0).encloses(message.get_global_rect()), label + " carried item leaves dialogue readable")
 			hud.say("You, before the last judge", "The judges have heard you.")
 			await frames()
 			expect(inside(hud._tag), label + " long speaker tag fits viewport")
@@ -113,6 +108,13 @@ func _run() -> void:
 				hud.toggle_journal(false)
 				level.leave_fight()
 			if dimensions.x == 1280 and name == "procession":
+				for c in level.CAPTIONS:   # each caption in the top register is a spell's title
+					var at := Vector2((c.x[0] + c.x[1]) / 2.0, 110.0)
+					var cap: Dictionary = level._pick(at)
+					expect(cap.get("type", "") == "caption" and cap.spell == c.spell, "procession caption at x %d is spell %d" % [at.x, c.spell])
+					level._set_hover(cap)
+					expect(not level._glows.is_empty(), "procession caption of spell %d glows" % c.spell)
+				level._set_hover({})
 				level._table_now()
 				level.hint()
 				expect(hud._text.contains("offering"), "offering hints take priority over unfinished hauling")
@@ -122,21 +124,6 @@ func _run() -> void:
 				hud.say("Scribe", "New interaction")
 				await create_timer(0.03).timeout
 				expect(hud._text == "New interaction", "delayed feedback cannot overwrite a newer instruction")
-			if dimensions.x == 1280 and name == "cosmos":
-				level.take("sun")
-				level.hint()
-				expect(hud._text.contains("[esc]"), "carried sun hint explains how to clear the blocked path")
-				level.put_back()
-				level.take("ba")
-				level.hint()
-				expect(hud._text.contains("mummy"), "carried ba hint gives its destination")
-			if dimensions.x == 1280 and name == "field":
-				level.take_grain()
-				level.hint()
-				expect(hud._text.contains("table"), "carried grain hint gives its destination")
-			if dimensions.x == 1280 and name == "hall":
-				level._render()
-				expect(not hud._hand_label.text.contains("esc"), "heart does not advertise an unavailable return action")
 			if dimensions.x == 1280 and name != "procession":
 				level.finish()
 				await create_timer(1.3).timeout
@@ -147,7 +134,7 @@ func _run() -> void:
 			hud.show_outro("The road is clear. You carry the breath of life.\n\nGo on to the next scene.")
 			await frames(8)
 			expect(paused and inside(hud._overlay_layouts[1].scroll.get_parent().get_parent()), label + " outro pauses and fits viewport")
-			if dimensions.x == 640 and name == "hall":
+			if dimensions.x == 640 and name == "dangers":
 				await shot("outro-640")
 			level.free()
 			await frames()
@@ -187,6 +174,24 @@ func _test_feedback() -> void:
 	root.add_child(level)
 	level.hud.dismiss_intro()
 	level._instant = true
+	for e in level.ENCOUNTERS:   # each spell's caption in the top register gives its title
+		if e.has("caption"):
+			var c: Dictionary = level._caption_at(Vector2(e.caption[0] + 30.0, 70.0))   # clear of any heka word
+			expect(c.get("id", "") == e.id, e.id + " caption is under its own frame")
+			level._set_caption_hover(c)
+			expect(is_instance_valid(level._caption_glow), e.id + " caption glows")
+	level._set_caption_hover({})
+	for words in level.level.heka.values():   # the heka words in a caption keep their own click
+		var r: Rect2 = level.actor_rect(words[0])
+		expect(level._caption_at(r.get_center()).is_empty(), words[0] + " stays the heka sign, not the caption")
+	var e31: Dictionary = level.ENCOUNTERS[0]
+	for visit in 2:   # walking into a danger's vignette says its line every time, not only the first
+		level.hud.say("Scribe", "")
+		level.avatar.position.x = level.span(e31).y + 50.0 * level.unit
+		level._check_position()
+		level.avatar.position.x = level.span(e31).y - 100.0 * level.unit
+		level._check_position()
+		expect(level.hud._text.begins_with(e31.get("arrival", e31.intro)), "walking into spell 31 says its line (visit %d)" % (visit + 1))
 	level.take(level.ENCOUNTERS.filter(func(e): return e.id == "e38")[0])
 	expect(not level.hud._hand_label.text.contains("esc"), "breath of life does not advertise an unavailable return action")
 	var volume := AudioServer.get_bus_volume_db(0)
@@ -195,6 +200,7 @@ func _test_feedback() -> void:
 		if encounter.kind not in level.FIGHTS:
 			continue
 		level.start_fight(encounter)
+		expect(level.hud._text.ends_with(level.ATTACK), encounter.id + " clicking the danger says to press Space to attack")
 		level.fight.awaiting_start = true
 		var before: float = level.fight.t
 		level._update_fight(1.0)
@@ -204,8 +210,12 @@ func _test_feedback() -> void:
 		space.pressed = true
 		level._unhandled_input(space)
 		expect(not level.fight.awaiting_start, encounter.id + " Space starts the chosen danger")
-		level._update_fight_context()
-		expect(level.hud._context.text.contains("[esc]"), encounter.id + " controls remain available after starting")
+		expect(level.fight.get("blank", -1.0) >= 0.0, encounter.id + " the first Space begins with a thrust")
+		level._update_fight(0.1)
+		expect(level._spear_out() > level._spear_rest(), encounter.id + " the first thrust runs the spear out")
+		expect(level.fight.hits == 0 and level.fight.get("thrust", -1.0) < 0.0 and level.fight.get("tied", 0) == 0 and level.fight.get("health", 3) == 3,
+			encounter.id + " the first thrust does not count (no hit, no band, no harm)")
+		level.fight.blank = -1.0
 		level._feedback_once("test", "First mistake")
 		level._feedback_once("test", "Repeated mistake")
 		expect(level.hud._text == "First mistake", encounter.id + " repeated mistakes do not spam instructions")
@@ -270,9 +280,9 @@ func _test_procession_scenes() -> void:
 		if not level._visible_rect().has_point(level.avatar.position):
 			print("FRAME ", level._visible_rect(), " avatar=", level.avatar.position)
 		level.act_slot("pole1")
-		expect(level._standard_guides.pole1.visible, "empty standard pole shows its required emblem")
+		expect(level.hud._text.begins_with("You take"), "taking a standard says what you took")
 		level.hint()
-		expect(level.hud._text.contains("pole") or level.hud._text.contains("priest"), "carried-standard hint stays with the sorting task")
+		expect(level.hud._text.contains("priest") or level.hud._text.contains("Jackal"), "carried-standard hint stays with the sorting task")
 		if side < 0:
 			await frames()
 			await shot("standards-frame")

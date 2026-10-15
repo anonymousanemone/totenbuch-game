@@ -21,6 +21,7 @@ const BESIDE := 50.0
 const FIGHTS := ["crocs", "lunge", "twin", "creep", "roach", "apep", "donkey", "sheaf"]
 const ARENA_FIGHTS := ["crocs", "roach", "lunge", "creep", "twin", "apep", "donkey", "sheaf"]   ## the vignette opens out across the screen
 const CLICK_TO_FIGHT := "Click the creature to take up the spear."
+const ATTACK := "Press [space] to attack."   ## said with a fight's rule; nothing moves until then
 
 const ENCOUNTERS := preload("res://scripts/danger_encounters.gd").ENCOUNTERS
 
@@ -35,7 +36,7 @@ var actors := {}         ## sprite name -> Node2D pivot at the sprite's bottom c
 var boxes := {}          ## encounter id -> Vector2(x0, x1)
 
 var solved := {}         ## encounter id -> true
-var seen := {}           ## encounter id -> intro already said
+var _section := ""       ## the encounter whose vignette you are walking through
 var items: Array[String] = []
 var bites := 0
 var finished := false
@@ -63,6 +64,8 @@ var _heka_signs: Array = []      ## flattened once from level.heka
 var _session := 0
 var _fight_tweens: Array[Tween] = []
 var _hover := []                ## the actors glowing under the pointer
+var _caption := {}              ## the encounter whose caption glows under the pointer
+var _caption_glow: Sprite2D
 
 @onready var avatar: Node2D = $Avatar
 @onready var camera: Camera2D = $Camera
@@ -170,7 +173,7 @@ func reset() -> void:
 		_crocs_cleanup()
 	heka_known = false
 	solved.clear()
-	seen.clear()
+	_section = ""
 	items.clear()
 	journal.clear()
 	bites = 0
@@ -275,14 +278,14 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 	# Space thrusts in the fights that open out (holding Shift lends the thrust heka)
 	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_SPACE:
-		if not fight.is_empty():
-			var beginning: bool = fight.get("awaiting_start", false)
+		if fight.get("awaiting_start", false):   # the first press begins the fight with a thrust that does not count
 			fight.awaiting_start = false
-			if beginning and fight.kind in ["donkey", "sheaf"]:
-				# here the press that begins only begins: a thrust at once would go into the donkey,
-				# a band tied at once onto the snake
-				get_viewport().set_input_as_handled()
-				return
+			fight.blank = 0.0
+			get_viewport().set_input_as_handled()
+			return
+		if fight.get("blank", -1.0) >= 0.0:      # that spear is still on its way back
+			get_viewport().set_input_as_handled()
+			return
 		if not fight.is_empty() and fight.kind == "sheaf":
 			_sheaf_act()                # ties the next band, or (once it is out) thrusts
 		elif not fight.is_empty() and fight.kind in ARENA_FIGHTS:
@@ -292,7 +295,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 		return
 	if event is InputEventMouseMotion:
-		_set_hover(_hover_at(get_global_mouse_position()))
+		var at := get_global_mouse_position()
+		_set_hover(_hover_at(at))
+		_set_caption_hover(_caption_at(at) if fight.is_empty() and _hover.is_empty() else {})
+		Input.set_default_cursor_shape(Input.CURSOR_POINTING_HAND if not (_hover.is_empty() and _caption.is_empty()) else Input.CURSOR_ARROW)
 	elif event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		var p := get_global_mouse_position()
 		if _heka_at(p) != "":
@@ -315,6 +321,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		if not t.is_empty():
 			var r := actor_rect(t.item)
 			walk_then(r.end.x + BESIDE * unit, take.bind(t))
+			return
+		var c := _caption_at(p)
+		if not c.is_empty():
+			say("Spell " + c.id.trim_prefix("e"), c.title)
 			return
 		walk_then(p.x)
 
@@ -346,6 +356,46 @@ func _set_hover(names: Array) -> void:
 	for n in _hover:
 		_glow(n, true)
 	Input.set_default_cursor_shape(Input.CURSOR_POINTING_HAND if not names.is_empty() else Input.CURSOR_ARROW)
+
+
+## The spell whose caption, in the top register, is under the pointer (its heka signs are their own).
+func _caption_at(p: Vector2) -> Dictionary:
+	if _heka_at(p) != "":
+		return {}
+	for e in ENCOUNTERS:
+		if e.has("caption") and _caption_rect(e).has_point(p):
+			return e
+	return {}
+
+
+func _caption_rect(e: Dictionary) -> Rect2:
+	return Rect2(e.caption[0], level.caption[0], e.caption[1] - e.caption[0], level.caption[1] - level.caption[0])
+
+
+## A caption glows like the creatures: the strip's drawing in its frame, and those of its signs
+## that are sprites of their own (the heka words, spell 37's snake signs).
+func _set_caption_hover(e: Dictionary) -> void:
+	if e == _caption:
+		return
+	if not _caption.is_empty():
+		var g := _caption_glow
+		var t := create_tween()
+		t.tween_method(func(v: float): (g.material as ShaderMaterial).set_shader_parameter("strength", v), 1.0, 0.0, 0.15)
+		t.tween_callback(g.queue_free)
+		for n in _caption_signs(_caption):
+			_glow(n, false)
+	_caption = e
+	if not e.is_empty():
+		var g := UI.strip_glow($Strip, _caption_rect(e))
+		_caption_glow = g
+		create_tween().tween_method(func(v: float): (g.material as ShaderMaterial).set_shader_parameter("strength", v), 0.0, 1.0, 0.15)
+		for n in _caption_signs(e):
+			_glow(n, true)
+
+
+func _caption_signs(e: Dictionary) -> Array:
+	var r := _caption_rect(e).grow(4.0)
+	return actors.keys().filter(func(n): return r.encloses(actor_rect(n)))
 
 
 ## A soft glow behind actor `n`'s drawing (made the first time it is wanted).
@@ -407,7 +457,6 @@ func _process(delta: float) -> void:
 		_check_position()
 	if not fight.is_empty():
 		_update_fight(delta)
-	_update_fight_context()
 	_update_camera(delta)
 	overlay.queue_redraw()
 	var pulse := 0.5 + 0.5 * sin(_time * 5.0)
@@ -426,16 +475,19 @@ func _process(delta: float) -> void:
 		_arena_lines.queue_redraw()
 
 
-## Say each vignette's line once on arrival (a fight waits for a click on the creature), and end the level at spell
-## 42 once everything before it is done.
+## Say a vignette's line each time you walk into it while its danger is still there (a fight waits
+## for a click on the creature), and end the level at spell 42 once everything before it is done.
 func _check_position() -> void:
 	var x := avatar.position.x
+	var here_now := ""
 	for e in ENCOUNTERS:
 		var s := span(e)
-		if x < s.y - 20.0 * unit and x > s.x and not seen.has(e.id):
-			seen[e.id] = true
-			if not solved.has(e.id):
+		if x < s.y - 20.0 * unit and x > s.x:
+			here_now = e.id
+			if here_now != _section and not solved.has(e.id):
 				say("Scribe", e.get("arrival", e.intro) + (" " + CLICK_TO_FIGHT if e.kind in FIGHTS else ""))
+			break
+	_section = here_now
 	if x < span(ENCOUNTERS[-1]).y - 40.0 * unit:
 		if current.is_empty():
 			finish()
@@ -535,6 +587,7 @@ func start_fight(e: Dictionary) -> void:
 	avatar.set_process(false)
 	actors[e.spear].visible = true
 	_set_hover([])
+	_set_caption_hover({})
 	if not e.kind in ARENA_FIGHTS:
 		_bearer_pose(e.spear, -CROC_PREP)      # in a fight the spear rests drawn back
 	fight = {"kind": e.kind, "e": e, "t": 0.0, "hits": 0}
@@ -556,8 +609,7 @@ func start_fight(e: Dictionary) -> void:
 		"sheaf":
 			_sheaf_start(e)
 	fight.awaiting_start = not _instant
-	say("Scribe", e.intro)
-	_update_fight_context()
+	say("Scribe", e.intro + " " + ATTACK)
 
 
 func end_fight() -> void:
@@ -637,34 +689,14 @@ func _feedback_once(key: String, text: String) -> void:
 		say("Scribe", text)
 
 
-func _update_fight_context() -> void:
-	if fight.is_empty():
-		hud.set_context("")
-		return
-	var controls := "[space] attack · [esc] explore"
-	match fight.kind:
-		"crocs":
-			controls = "[↑] [↓] aim · " + ("[←] [→] turn · " if fight.both else "") + controls
-		"creep": controls = "[←] creep · " + controls
-		"twin", "roach": controls = "[←] [→] turn · " + controls
-		"donkey": controls = "[space] strike · " + controls
-		"sheaf": controls = "[space] tie / attack · [esc] explore"
-	if fight.get("awaiting_start", false):
-		controls = "[space] begin · [esc] explore"
-	var progress := ""
-	match fight.kind:
-		"crocs": progress = "%d/%d turned back" % [fight.killed, _croc_total()]
-		"twin": progress = "%d/%d strikes" % [fight.hits, int(fight.e.need) * 2]
-		"sheaf": progress = "%d/%d bands" % [fight.tied, SHEAF_BANDS.size()]
-		"apep": pass # The barb's advance is the progress indicator.
-		_: progress = "%d/%d hits" % [fight.hits, fight.get("need", fight.e.get("need", 0))]
-	hud.set_context(controls, progress)
-
-
 func _update_fight(dt: float) -> void:
 	if fight.get("awaiting_start", false) and not fight.get("closing", false):
 		return
 	fight.t += dt
+	if fight.get("blank", -1.0) >= 0.0:
+		fight.blank += dt
+		if fight.blank >= THRUST_TIME[0] + THRUST_TIME[1]:
+			fight.blank = -1.0
 	match fight.kind:
 		"crocs": _crocs(dt)
 		"twin": _twin(dt)
@@ -729,7 +761,7 @@ const THRUST_DOWN := 0.5        ## (Apep, the Merti snakes) the point strikes on
 ## Red is #B55B3C. The sprites are drawn in ink (46, 29, 16), so the modulate that turns ink into
 ## that red is the ratio of the two.
 const RED_CROC := UI.INK_TINT   ## red crocodiles, heka word and spear
-const HURT := UI.DAMAGE_TINT                      ## the bearer's body when bitten
+const HURT := RED_CROC                      ## the bearer's body when bitten
 const DISSOLVE := preload("res://scripts/dissolve.gdshader")
 const TEXT_DROP := 320.0        ## how far the text below drops while the vignette is open
 const HEKA_TEXT := "Hold [shift] while striking to fight off the red crocodiles. Don't use heka on the regular crocodiles, or they'll make off with it!"
@@ -2719,6 +2751,8 @@ func _spear_out() -> float:
 	if fight.get("pinned", false):
 		return CROC_THRUST
 	var rest := _spear_rest()
+	if fight.get("blank", -1.0) >= 0.0:   # the first press: the spear runs out and back, striking nothing
+		return _spear_at(fight.blank, rest)
 	if fight.thrust < 0.0:
 		return rest * float(fight.get("open", 1.0))
 	return _spear_at(fight.thrust, rest)
@@ -4212,7 +4246,7 @@ func actor_rect(n: String) -> Rect2:
 	return Rect2(a.position.x - size.x / 2.0, a.position.y - size.y, size.x, size.y)
 
 
-## Enemy hit: a gold flash, distinct from the player’s damage tint.
+## Struck: it flushes red and fades back, as the bearer does when bitten.
 func _hurt(n: CanvasItem) -> void:
 	var previous: Tween = n.get_meta("hurt_tween") if n.has_meta("hurt_tween") else null
 	if previous and previous.is_valid():
@@ -4221,7 +4255,7 @@ func _hurt(n: CanvasItem) -> void:
 	n.set_meta("hurt_tween", tween)
 	tween.tween_method(func(v: float):
 		if is_instance_valid(n) and not n.is_queued_for_deletion():
-			n.modulate = Color(Color.WHITE.lerp(UI.SUCCESS, v), n.modulate.a), 1.0, 0.0, 0.8)
+			n.modulate = Color(Color.WHITE.lerp(HURT, v), n.modulate.a), 1.0, 0.0, 0.8)
 
 
 func _flash(n: CanvasItem) -> void:
@@ -4276,25 +4310,32 @@ func _draw_overlay() -> void:
 		"creep":
 			# where the spear point will come down: a small red dot
 			if fight.open >= 1.0 and not fight.lost and not fight.pinned:
-				overlay.draw_circle(_creep_point(), CREEP_DOT * unit, UI.TARGET)
-				overlay.draw_arc(_creep_point(), (CREEP_DOT + 2.0) * unit, 0, TAU, 16, UI.INK, unit)
-	var pixel := 1.0 / camera.zoom.x
-	if fight.kind == "crocs":
-		# A small diamond distinguishes heka foes even without color.
-		for croc in fight.crocs:
-			if croc.red and croc.s == "crawl":
-				var at: Vector2 = _snout(croc) + Vector2(0, -14.0 * pixel)
-				var r := 5.0 * pixel
-				overlay.draw_polyline(PackedVector2Array([at + Vector2(0, -r), at + Vector2(r, 0), at + Vector2(0, r), at + Vector2(-r, 0), at + Vector2(0, -r)]), UI.INK, 2.0 * pixel)
-	elif fight.kind == "roach":
-		# Escape marks supplement reddening; each beetle has its own allowance.
-		for roach in _roaches():
-			if roach.passes > 0:
-				for i in roach.passes:
-					var at: Vector2 = roach.c + Vector2((i - 1) * 7.0 * pixel, -16.0 * pixel)
-					overlay.draw_line(at, at + Vector2(0, 5.0 * pixel), UI.INK, 2.0 * pixel)
+				overlay.draw_circle(_creep_point(), CREEP_DOT * unit, UI.DANGER)
+	# progress pips above the vignette
+	var total := 0
+	var got := 0
+	match fight.kind:
+		"crocs":
+			total = _croc_total()
+			got = fight.killed
+		_:
+			total = fight.get("need", fight.e.get("need", 0))
+			got = fight.hits
+	var sp := span(fight.e)
+	if fight.kind in ARENA_FIGHTS:
+		sp.y = _arena_rect().end.x
 	if fight.kind in ["crocs", "lunge", "creep", "twin", "apep", "sheaf", "donkey"]:
 		_draw_flesh_health()
+	if fight.kind in ["lunge", "creep", "twin", "apep", "donkey", "sheaf"]:
+		total = 0                      # the snakes show no count (Apep's is the barb going in)
+	for i in total:
+		var c := Vector2(sp.y - (20.0 + i * 16.0) * unit, 14.0 * unit)
+		if fight.kind in ["lunge", "creep"]:      # close up: the top of the scroll is off screen; inside the vignette
+			c.y = _arena_rect().position.y + 20.0 * unit
+		if i < got:
+			overlay.draw_circle(c, 5.0 * unit, Color(0.64, 0.2, 0.12))
+		else:
+			overlay.draw_arc(c, 5.0 * unit, 0.0, TAU, 16, Color(UI.INK, 0.6), 1.5 * unit)
 
 
 # ---------------------------------------------------------------- command line
@@ -4313,7 +4354,6 @@ func _maybe_run_cli() -> void:
 			for e in ENCOUNTERS:
 				if n > 0 and not e.kind in ["note", "end"]:
 					solved[e.id] = true
-					seen[e.id] = true
 					if e.kind == "take":
 						actors[e.item].visible = false
 					else:
@@ -4384,22 +4424,17 @@ func _draw_flesh_health() -> void:
 	# the opened vignette; a lost one stays faint
 	var health: int = int(fight.get("donkey_health", fight.get("health", 0)))
 	var ar := _arena_rect()
-	var pixel := 1.0 / camera.zoom.x
-	var fs := Vector2(26.0, 32.0) * pixel       # on screen, about the size of a caption sign
+	var fs := Vector2(26.0, 32.0)       # on screen, about the size of a caption sign
 	if _flesh_tex:
-		fs = _flesh_tex.get_size() * (32.0 * pixel / _flesh_tex.get_size().y)
-	var red := UI.DANGER
+		fs = _flesh_tex.get_size() * (32.0 / _flesh_tex.get_size().y)
 	for i in CROC_HEALTH:
-		var at := Vector2(ar.position.x + 24.0 * pixel + i * (fs.x + 5.0 * pixel), ar.position.y + 14.0 * pixel)
+		var at := Vector2(ar.position.x + 40.0 + i * (fs.x + 5.0), ar.position.y + 14.0)
 		var a: float = (1.0 if i < health else 0.22) * fight.open
 		if _flesh_tex:
 			# the picture as given, its dark ink turned red: shown through a red silhouette
-			overlay.draw_texture_rect(_flesh_tex, Rect2(at, fs), false, Color(red, a))
+			overlay.draw_texture_rect(_flesh_tex, Rect2(at, fs), false, Color(UI.DANGER, a))
 		else:
-			overlay.draw_circle(at + fs / 2.0, 12.0 * pixel, Color(red, a))
-		if i >= health:
-			overlay.draw_line(at, at + fs, Color(UI.INK, fight.open), 2.0 * pixel)
-			overlay.draw_line(at + Vector2(fs.x, 0), at + Vector2(0, fs.y), Color(UI.INK, fight.open), 2.0 * pixel)
+			overlay.draw_circle(at + fs / 2.0, 14.0, Color(UI.DANGER, a))
 
 
 func _autotest() -> void:

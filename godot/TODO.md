@@ -1,5 +1,101 @@
 # TODO
 
+## Playtest notes — 2026-10-15 (not started; more to come)
+
+Saved for later. Act on these only when told.
+
+### Everywhere (all levels)
+
+- [ ] **Hover glow colour:** a pale beige or whitish glow by default instead of the red one (`glow.gdshader`, `UI.HOVER`). Make the colour settable per level; keep the red for the dangers.
+- [ ] **Success flash:** the yellow flash (`UI.flash`, `UI.SUCCESS`) is obnoxious. Make it much subtler, or remove it.
+- [ ] **Camera refocus:** every switch of focus (offering table, standards, water, hauling) should be smooth, not jerky.
+- [ ] **Walking to a figure:** the avatar stops a few pixels directly in front of or behind the clicked figure, never overlapping it.
+- [ ] **Carried objects have no text:** e.g. the stand. Remove "set them up before Ra" entirely, and likewise the line for any other carried object.
+- [ ] **Drag and drop:** the item being held is never shown in the carried-item box, for every drag-and-drop mechanism.
+- [ ] **Camera zoom-out framing (try it out, not decided):** zooming out now keeps the ground at the same height. Try instead keeping the top of the top guideline at the same height and showing more of the text below.
+- [ ] **The text below the frame:** it seems cut differently from the .mdp now. Read it from the .mdp's `text_below` layers instead.
+- [ ] **Part-vs-whole highlighting** (as in a very early red/green-box version): hovering an interactable part highlights only that part; hovering any other part of the broader object highlights the whole thing, the part included. Build the mechanism; no use for it yet.
+
+### Procession (spells 1–15)
+
+**Intro**
+- [ ] Bigger text on the spells 1–15 intro.
+
+**Captions**
+- [ ] Split spell 1's long caption where "to be said…" begins (that part comes later), and split its highlight there too.
+
+**Figures and descriptions**
+- [ ] **The bier:** the whole bier is one highlight item. Description: "A processional boat with the funerary bier. The bier is stalled…" (etc.).
+- [ ] **The incense man:** separate him from the hauling group, with his own description, and make him clickable for the Journal.
+- [ ] **The two monuments:** make them clickable.
+- [ ] **The man across the offering table:** wrong description. It should be "A man holds a water jar over the offering table for purification." Make sure the shrub isn't cut in with the figure.
+
+**Hauling**
+- [ ] An animation sheet for the whip bearer. It looks fine now, but there's a clear gap where the elbow splits.
+- [ ] Since the 2026-10-15 re-cut, the .mdp's `haul/driver` layer also holds a copy of his forearm and whip (x 10989–11088), and `haul/whip+arm` is still its own swinging sprite. A still copy probably stays in his hand while the whip swings. Clean one of the two layers (or fold it into the animation sheet above).
+
+**Standards**
+- [ ] Once you click into the standard-bearers and the camera switches, only the tops of the standards highlight.
+- [ ] During the swapping scene, a click must not walk the player off by accident.
+- [ ] Scrambled standards must sit correctly on the little stub of whichever pole they're on (Wepwawet floated a little on one).
+- [ ] When all eight are in order, the scene flashes slightly: a coloured glow, subtle but visible. Its colour is a constant that's easy to change in the script.
+- [ ] Once complete, the standards lock (like the offering table): their order can't be changed again.
+- [ ] Make the standards drag and drop. A standard snaps onto any standard pole; let go before it snaps and it goes back where it came from.
+
+**The double-plumed priest (the recital)**
+- [ ] Clicking him: you stand in front of him, facing him.
+- [ ] No lineup of all the standards. In the space directly in front of the plume, above the paper, the standards appear one after the other in order, each replacing the one before.
+
+**Offering table**
+- [ ] Clicking the goose-bearer only says something like "Odd that he's holding a loaf of bread." The table scene starts only from the priest reading the paper (the lector) or the offering heap itself.
+- [ ] Once the camera has zoomed to the table, the offering table no longer highlights.
+- [ ] Once the table is complete, hovering highlights the whole finished table, not just its preset part (the `table` layer).
+
+**The stand before Ra (the finale)**
+- [ ] Carry the three pieces the way the adze and the words are carried: click a piece and it follows the pointer, you still walk with the arrow keys, and clicking again sets it down. Decide whether only one piece can be carried at a time, or whether 1–3 can follow the pointer for this last go-round.
+- [ ] Until the stela shows the imprint, the stand, sun disc and lotus can't be taken. Clicking one says "This might come in handy later, but you wouldn't want your hands full right now."
+- [ ] When the procession is in order, the scribe says "The procession is in order. Head over to Ra on his throne."
+
+**Water pouring**
+- [ ] A simple sprite animation sheet for the arm. The elbow tilt is mostly OK, but some lines and parts are broken and need refining.
+- [ ] **New game: Space-bar response.** The man tries to hold the jar tilted, but his arms droop by varying amounts (random; say if it isn't actually random). Pressing and holding Space raises them; judge each droop and hold steady.
+  - The water line fills slowly, as now, and slowly recedes when the jar isn't lined up.
+  - Keep the water particle animation; it looks good.
+
+### Dangers (spells 31–42)
+
+**Everywhere in the dangers**
+- [ ] Bigger text on the intro card.
+- [ ] Bring back the sassy text. It's boring now; bring back the crocodiles' responses too.
+- [ ] Remove the "Press [space] to attack" start entirely: no mandatory Space before a fight starts. Spell 31 asking for one thrust before the crocodiles come was good, so keep that. Spell 32 starts 1–2 s after clicking in.
+
+**Heka signs (spells 31–32)**
+- [ ] On the scroll they flash too quickly and too brightly while you walk. Make the red flash subtler and slower, with a darker red closer to the ink colour but still clearly visible.
+- [ ] No glow on them. Use the part-vs-whole highlighting instead (see Everywhere).
+
+**Crocodiles (spells 31–32)**
+- [ ] Before the second wave of spell 31, no plain "hold Shift" instruction. Go back to the subtle hint that something flashes red.
+- [ ] Remove the red dots that count the crocodiles left, in both fights.
+- [ ] Flesh signs: slightly bigger and placed closer together. Crop `flesh.png` to remove its extra transparent border.
+- [ ] Losing after too many bites: bring back the old text (about the biting and crumbling to dust).
+- [ ] Spell 32 crocodiles still feel too frequent and fast. The tuning (`waves` in `danger_encounters.gd`) and the spawning code haven't changed since the hand-tuning (commit `d59d0fd`, 2026-10-13). What did change: the HUD bars around the fight shrank (top 40 → 62 px, bottom 228 → 130 px), so the camera is about 17% closer. Crocodiles now move about 17% faster on screen and cover about 15% less ground before reaching you. Re-tune, or fit the fight's camera as it was.
+
+**Snakes and the beetle**
+- [ ] Spell 35, red light green light: too easy. Maybe one life only, or no hints (undecided).
+- [ ] Spell 36, the beetles: also feel too easy (undecided).
+- [ ] Spell 37, the Merti snakes: revert the descriptions. They must not give away that the flashing snake sign shows which snake strikes.
+- [ ] Spell 39, Rekrek (Apep): far too easy. Make it faster, or change the game.
+
+**Spell 38, the breath of life**
+- [ ] Life and breath become two separate signs, and only breath is taken: the player must click the breath sign (one choice only). Taking the wrong one makes the following fights nearly impossibly hard. Clicking spell 38's caption title shows "breath" in bold (or similar), which tells the player which to pick.
+
+**Bugs**
+- [ ] **Crash in spell 40:** pointing at the donkey's snake during the fight crashes with "Invalid access to property or key 'foe' on a base object of type 'Dictionary'". Cause: `_targets()` in `dangers.gd` returns `[fight.foe]`, but a fight keeps its creature under `fight.e.foe`; the hover check calls it on every mouse move. One-line fix.
+
+### Future scenes
+
+- [ ] **The seven cows (spell 148):** think of a game for the cows, and make it.
+
 ## Audit status and approval
 
 Expanded UI, copy, hints, color, and code audit: 2026-10-14. Implementation approved by the user and completed. This audit is based on code and text; layout changes were verified by integration tests and rendered screenshots.

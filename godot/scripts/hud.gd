@@ -10,13 +10,14 @@ signal restart_pressed
 signal menu_pressed
 
 const TOP_BAR := 46.0         ## the title bar, without its band
-const STRIP := 152.0          ## dialogue and persistent controls, its band included
+const STRIP := 130.0          ## the scribe's strip, its band included
 const BOXED := false          ## the band also down the screen's sides and along its bottom, round the strip
 const EDGE := 12.0            ## that band, which has ink only on the strip's side
+const TAG_H := 32.0           ## the speaker's tag, centred on the band
 
 ## Keys are written in brackets ("hold [shift]"); these are shown as written, not read as BBCode
 ## tags ("[s]" would otherwise start a strikethrough).
-const KEY_NAMES := ["space", "shift", "esc", "enter", "←", "→", "↑", "↓", "w", "a", "s", "d"]
+const KEY_NAMES := ["space", "shift", "esc", "←", "→", "↑", "↓", "w", "a", "s", "d"]
 
 var _level: Node
 var _cfg: Dictionary
@@ -37,16 +38,9 @@ var _intro: Control
 var _outro: Control
 var _outro_text: RichTextLabel
 var _text := ""
-var _context: Label
-var _next: Button
-var _pages: Array[String] = []
-var _page := 0
 var _journal_scroll: ScrollContainer
 var _overlay_layouts: Array = []
 var _revision := 0
-var _fit_pending := false
-var _strip_control: ColorRect
-var _strip_height := STRIP
 var _title_label: Label
 
 
@@ -88,7 +82,7 @@ func top_height() -> float:
 
 
 func bottom_height() -> float:
-	return _strip_height
+	return STRIP
 
 
 func is_blocking() -> bool:
@@ -108,7 +102,6 @@ func reset_view() -> void:
 	_journal_title.text = "JOURNAL"
 	_journal_page.visible = false
 	_outro.visible = false
-	set_context("")
 	_sync_pause()
 
 
@@ -117,71 +110,7 @@ func say(who: String, text: String) -> void:
 	_tag_label.text = who
 	_tag.visible = who != ""
 	_revision += 1
-	_page = 0
-	_queue_fit()
-
-
-## Long text is paged at one readable size; resizing never drops the font size.
-func _queue_fit() -> void:
-	if not _fit_pending:
-		_fit_pending = true
-		_fit_say.call_deferred()
-
-
-func _fit_say() -> void:
-	if not is_instance_valid(_say) or _say.size.x <= 0.0:
-		_fit_pending = false
-		return
-	var revision := _revision
-	await get_tree().process_frame
-	_fit_pending = false
-	if revision != _revision:
-		_queue_fit()
-		return
-	_pages = paginate(_text, _say.size.x, _say.size.y)
-	_page = mini(_page, maxi(0, _pages.size() - 1))
-	_show_page()
-
-
-static func paginate(text: String, width: float, height: float) -> Array[String]:
-	var pages: Array[String] = []
-	var line_height := UI.FONT.get_height(UI.DIALOGUE) + 20.0
-	var max_lines := maxi(1, floori(height / line_height))
-	var lines: Array[String] = []
-	var line := ""
-	for paragraph in text.split("\n"):
-		for word in paragraph.split(" ", false):
-			var trial := word if line == "" else line + " " + word
-			if line != "" and UI.FONT.get_string_size(trial, HORIZONTAL_ALIGNMENT_LEFT, -1, UI.DIALOGUE).x > maxf(width - 8.0, 1.0):
-				lines.append(line)
-				line = word
-			else:
-				line = trial
-		if line != "":
-			lines.append(line)
-			line = ""
-	for i in range(0, lines.size(), max_lines):
-		pages.append("\n".join(lines.slice(i, i + max_lines)))
-	if pages.is_empty():
-		pages.append("")
-	return pages
-
-
-func _show_page() -> void:
-	_say.text = _keys(_pages[_page])
-	_say.scroll_to_line(0)
-	_next.visible = _pages.size() > 1
-	_next.text = "%d/%d  →" % [_page + 1, _pages.size()]
-
-
-func next_page() -> void:
-	if _pages.size() > 1:
-		_page = (_page + 1) % _pages.size()
-		_show_page()
-
-
-func set_context(text: String, progress := "") -> void:
-	_context.text = text + ("   ·   " + progress if progress != "" else "")
+	_say.text = _keys(_text)   # always at the dialogue size (two font pixels to a screen pixel), never paged
 
 
 func _sync_pause() -> void:
@@ -208,11 +137,12 @@ func show_outro_later(body: String, seconds: float) -> void:
 		show_outro(body)
 
 
-func update_hand(piece: String, label: String, tex: Texture2D, note := "[esc] puts it back.") -> void:
+func update_hand(piece: String, label: String, tex: Texture2D, note := "") -> void:
 	_hand.visible = piece != ""
 	_hand_icon.texture = tex
 	_hand.tooltip_text = "Holding %s." % label if piece != "" else ""
 	_hand_label.text = note
+	_hand_label.visible = note != ""
 
 
 ## The piece follows the pointer at roughly its on-screen size.
@@ -294,10 +224,6 @@ func _input(event: InputEvent) -> void:
 			KEY_END: _journal_scroll.scroll_vertical = int(_journal_scroll.get_v_scroll_bar().max_value)
 		get_viewport().set_input_as_handled()
 		return
-	if event.keycode in [KEY_ENTER, KEY_KP_ENTER] and _next.visible:
-		next_page()
-		get_viewport().set_input_as_handled()
-		return
 	if event.keycode == KEY_J:
 		toggle_journal()
 		get_viewport().set_input_as_handled()
@@ -340,7 +266,6 @@ func _build_top_bar() -> void:
 ## line said with its speaker's tag on the band, what you carry, Journal and Hint.
 func _build_strip() -> void:
 	var strip := ColorRect.new()
-	_strip_control = strip
 	strip.color = UI.DEEP
 	strip.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
 	strip.offset_top = -STRIP
@@ -354,14 +279,14 @@ func _build_strip() -> void:
 
 	var row := HBoxContainer.new()
 	row.set_anchors_preset(Control.PRESET_FULL_RECT)
-	row.offset_left = edge + 16
+	row.offset_left = edge + 28
 	row.offset_right = -edge - 16
 	row.offset_top = UI.BAND + 8
 	row.offset_bottom = -edge - 8
 	row.add_theme_constant_override("separation", 24)
 	strip.add_child(row)
 
-	# what you carry: a small picture of it, and what Esc does
+	# what you carry: a small picture of it
 	_hand = HBoxContainer.new()
 	_hand.add_theme_constant_override("separation", 10)
 	_hand.visible = false
@@ -383,51 +308,33 @@ func _build_strip() -> void:
 	_hand.add_child(_hand_label)
 	row.add_child(_hand)
 
-	var message := VBoxContainer.new()
-	message.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	message.add_theme_constant_override("separation", 4)
-	row.add_child(message)
+	# what is said, centred in the strip
 	_say = _rich(UI.DIALOGUE)
-	_say.fit_content = false
-	_say.scroll_active = true
-	_say.mouse_filter = Control.MOUSE_FILTER_PASS
-	_say.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	_say.add_theme_constant_override("line_separation", 10)
+	_say.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_say.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	_say.add_theme_constant_override("line_separation", 0)
 	_say.add_theme_constant_override("paragraph_separation", 0)
-	message.add_child(_say)
-	_context = Label.new()
-	_context.add_theme_color_override("font_color", UI.OCHRE)
-	_context.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	_context.add_theme_constant_override("line_spacing", 4)
-	message.add_child(_context)
-	_say.resized.connect(_queue_fit)
+	row.add_child(_say)
 
-	var buttons := VBoxContainer.new()
-	var actions := HBoxContainer.new()
-	actions.add_theme_constant_override("separation", 16)
-	buttons.add_child(actions)
-	buttons.add_theme_constant_override("separation", 6)
+	var buttons := HBoxContainer.new()
+	buttons.add_theme_constant_override("separation", 16)
 	buttons.size_flags_vertical = Control.SIZE_SHRINK_CENTER
 	var journal := _labelled_button("journal", "journal", "Journal  [j]", func(): toggle_journal())
 	_journal_count = journal.get_child(1)
-	actions.add_child(journal)
-	actions.add_child(_labelled_button("hint", "hint", "Hint", func(): hint_pressed.emit()))
-	_next = Button.new()
-	_next.focus_mode = Control.FOCUS_NONE
-	_next.tooltip_text = "Next page [enter]"
-	_next.pressed.connect(next_page)
-	_next.visible = false
-	buttons.add_child(_next)
+	buttons.add_child(journal)
+	buttons.add_child(_labelled_button("hint", "hint", "Hint", func(): hint_pressed.emit()))
 	row.add_child(buttons)
 
 	# the speaker's tag sits on the band
 	_tag = PanelContainer.new()
-	_tag.add_theme_stylebox_override("panel", UI.box(UI.TAG, UI.INK, 4, 12, 2))
-	_tag.position = Vector2(edge + 24, -14)
+	_tag.add_theme_stylebox_override("panel", UI.box(UI.TAG, UI.INK, 4, 12, 0))
+	_tag.custom_minimum_size.y = TAG_H
+	_tag.position = Vector2(edge + 24, (UI.BAND - TAG_H) / 2.0)
 	_tag.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_tag.visible = false
 	_tag_label = Label.new()
 	_tag_label.add_theme_color_override("font_color", UI.CREAM)
+	_tag_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	_tag.add_child(_tag_label)
 	strip.add_child(_tag)
 
@@ -458,7 +365,7 @@ func _build_journal_page() -> void:
 	var head := HBoxContainer.new()
 	_journal_title = Label.new()
 	_journal_title.text = "JOURNAL"
-	_journal_title.add_theme_font_size_override("font_size", UI.SMALL)
+	_journal_title.add_theme_font_size_override("font_size", UI.BIG)
 	_journal_title.add_theme_color_override("font_color", UI.TAG)
 	var spacer := Control.new()
 	spacer.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -577,12 +484,9 @@ func _rich(size: int) -> RichTextLabel:
 
 func _resize_hud() -> void:
 	var viewport := get_viewport().get_visible_rect().size
-	_strip_height = 184.0 if viewport.x < 900.0 else STRIP
-	_strip_control.offset_top = -_strip_height
-	_journal_page.offset_bottom = -_strip_height
 	_title_label.add_theme_font_size_override("font_size", UI.SMALL if viewport.x < 900.0 else UI.BIG)
 	var journal_width := clampf(viewport.x - 100.0, 240.0, 960.0)
-	_journal_scroll.custom_minimum_size = Vector2(journal_width, clampf(viewport.y - top_height() - _strip_height - 150.0, 80.0, 380.0))
+	_journal_scroll.custom_minimum_size = Vector2(journal_width, clampf(viewport.y - top_height() - STRIP - 150.0, 80.0, 380.0))
 	_journal_grid.columns = maxi(1, floori((journal_width + 22.0) / 134.0))
 	for layout in _overlay_layouts:
 		var width := clampf(viewport.x - 120.0, 200.0, 580.0)
@@ -591,7 +495,6 @@ func _resize_hud() -> void:
 		var available: float = viewport.y - 142.0 - layout.title.get_combined_minimum_size().y - layout.button.get_combined_minimum_size().y
 		var height: float = minf(maxf(40.0, available), layout.body.get_content_height() + 8.0)
 		layout.scroll.custom_minimum_size = Vector2(width, maxf(40.0, height))
-	_queue_fit()
 
 
 func _exit_tree() -> void:

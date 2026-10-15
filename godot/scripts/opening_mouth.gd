@@ -106,12 +106,16 @@ func pick(p: Vector2) -> String:
 		Phase.ADZE:
 			if _mummy.has_point(p):
 				return "mummy"
+			if back_rect().has_point(p):
+				return "back"
 		Phase.SPOKEN:
 			if words_rect().grow(6.0).has_point(p) and not (_tween and _tween.is_running()):
 				return "words"
 		Phase.WORDS:
 			if home_rect().has_point(p):
 				return "home"
+			if back_rect().has_point(p):
+				return "back"
 	return ""
 
 
@@ -119,6 +123,14 @@ func pick(p: Vector2) -> String:
 func words_rect() -> Rect2:
 	var size := _words.texture.get_size() * _words.scale
 	return Rect2(_words.position - size / 2.0, size)
+
+
+## Where what you carry was taken from: the adze's place on the stand, or the words' above the mummy.
+func back_rect() -> Rect2:
+	if phase == Phase.WORDS:
+		var size := _words.texture.get_size()
+		return Rect2(_spoken - size / 2.0, size).grow(6.0)
+	return _adze_home.grow(8.0)
 
 
 ## Where the words go: their imprint over Ra, and a margin round it.
@@ -141,6 +153,8 @@ func glow_target(id: String):
 			return _imprint
 		"mummy":
 			return _mummy
+		"back":     # the carried piece lights up over its own place
+			return _words if phase == Phase.WORDS else _adze
 	return null
 
 
@@ -161,7 +175,7 @@ func take_words() -> void:
 	changed.emit()
 
 
-## Esc: the adze goes back on the stand, the words back above the mummy.
+## The adze goes back on the stand, the words back above the mummy.
 func put_back() -> void:
 	match phase:
 		Phase.ADZE:

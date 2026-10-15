@@ -71,6 +71,15 @@ const DRAG := 8.0            ## screen px: let go further than this from where y
 const SCENE_MARGIN := 40.0   ## strip px of papyrus kept either side of the table scene
 const GLOW_FADE := 0.15      ## s for the hover glow to come and go
 const CAPTION_LINE := 187.0  ## first row below the frame line over the figures: glows start here
+## The captions in the top register, between its frame lines (rows): the titles of the spells, from
+## C. H. S. Davis, The Egyptian Book of the Dead (1894), which translates this papyrus. Clicking one
+## shows it. (The third title of spell 15, over Ra, is the Opening of the Mouth's words: not here.)
+const CAPTION_ROWS := Vector2(50.0, 178.0)
+const CAPTIONS := [
+	{"spell": 1, "x": [10164, 14878], "title": "Beginning of the chapters about the going forth by day and the carrying of the shades into the Netherworld, to be said on the day of burial (in order to) go in after coming forth."},
+	{"spell": 15, "x": [3819, 4730], "title": "Adoration to Ra when he rises above the eastern horizon in Heaven."},
+	{"spell": 15, "x": [2166, 2752], "title": "Adoration to the sun when it sets in the Land of Life."},
+]
 ## Journal figures that are sprites of the hauling now: they glow as those drawings.
 const HAUL_GLOW := {
 	"Hauler": ["haul_hauler"], "Ox-driver": ["haul_driver", "haul_whip"],
@@ -93,7 +102,6 @@ var solved := {"t1": false, "t2": false, "t3": false, "t4": false, "t5": false, 
 var finished := false
 var journal: Array[String] = []
 
-var _standard_guides := {}
 var _generation := 0
 var _pieces := {}            ## piece -> Sprite2D
 var _hover := {}
@@ -155,13 +163,6 @@ func _ready() -> void:
 		var p := _make_sprite(piece)
 		$Pieces.add_child(p)
 		_pieces[piece] = p
-	for id in POLES:
-		var guide := _make_sprite(SLOTS[id].home)
-		guide.position = sprite_rects[SLOTS[id].home].position
-		guide.modulate = UI.PREVIEW
-		guide.visible = false
-		$Pieces.add_child(guide)
-		_standard_guides[id] = guide
 	_recital = Node2D.new()
 	$Pieces.add_child(_recital)
 	var b: Dictionary = level.slots.arms
@@ -278,9 +279,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		else:
 			_table_input(event)
 		return
-	if event.is_action_pressed("ui_cancel"):
-		put_back()
-	elif event is InputEventMouseMotion:
+	if event is InputEventMouseMotion:
 		_set_hover(_pick(get_global_mouse_position()))
 	elif event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		var p := get_global_mouse_position()
@@ -295,6 +294,8 @@ func _unhandled_input(event: InputEvent) -> void:
 			act_mouth(h.id)
 		elif h.type == "water" or (h.type == "hot" and h.spot.label in WATER_FIGURES and not water.done):
 			enter_water(h.get("spot", {}))
+		elif h.type == "caption":
+			say("Spell %d" % h.spell, h.title)
 		elif h.type == "slot":
 			var home: Rect2 = sprite_rects[SLOTS[h.id].home]
 			if in_standards:
@@ -343,6 +344,10 @@ func _pick(p: Vector2) -> Dictionary:
 	if Rect2(boat.x + haul.offset, boat.y, boat.w, boat.h).has_point(p):
 		var spot: Dictionary = hotspots.filter(func(h): return h.label == "The mummy on its sledge")[0]
 		return {"type": "hot", "spot": spot, "rect": Rect2(boat.x + haul.offset, boat.y, boat.w, boat.h)}
+	for c in CAPTIONS:
+		var r := Rect2(c.x[0], CAPTION_ROWS.x, c.x[1] - c.x[0], CAPTION_ROWS.y - CAPTION_ROWS.x)
+		if r.has_point(p):
+			return {"type": "caption", "spell": c.spell, "title": c.title, "rect": r}
 	return {}
 
 
@@ -381,6 +386,8 @@ func _glow_targets(h: Dictionary) -> Array:
 			return [water.arm_sprite()]
 		"mouth":
 			return [mouth.glow_target(h.id)]
+		"caption":
+			return [h.rect]
 		"slot":
 			var out: Array = []
 			for id in POLES:
@@ -399,28 +406,21 @@ func _glow_targets(h: Dictionary) -> Array:
 
 ## A glow behind a sprite's drawing, or behind the strip's drawing inside a rect.
 func _glow(target) -> Sprite2D:
-	var g := Sprite2D.new()
-	var mat := UI.glow_material(null)
-	g.show_behind_parent = true
+	var g: Sprite2D
 	if target is Rect2:
-		var top := maxf(target.position.y, CAPTION_LINE)   # not the frame line above the figure
-		target = Rect2(target.position.x, top, target.size.x, target.end.y - top)
-		var tex := AtlasTexture.new()
-		tex.atlas = $Strip.texture
-		tex.region = target
-		var whole: Vector2 = $Strip.texture.get_size()
-		mat.set_shader_parameter("region", Vector4(target.position.x / whole.x, target.position.y / whole.y, target.size.x / whole.x, target.size.y / whole.y))
-		g.texture = tex
-		g.centered = false
-		g.position = target.position
-		$Strip.add_child(g)
+		var r: Rect2 = target
+		if r.position.y < CAPTION_LINE and r.end.y > CAPTION_LINE:   # a figure: not the frame line above it
+			r = Rect2(r.position.x, CAPTION_LINE, r.size.x, r.end.y - CAPTION_LINE)
+		g = UI.strip_glow($Strip, r)
 	else:
 		var sp := target as Sprite2D
+		g = Sprite2D.new()
+		g.material = UI.glow_material(null)
+		g.show_behind_parent = true
 		g.texture = sp.texture
 		g.centered = sp.centered
 		g.offset = sp.offset
 		sp.add_child(g)
-	g.material = mat
 	g.create_tween().tween_method(_glow_strength.bind(g), 0.0, 1.0, GLOW_FADE)
 	return g
 
@@ -649,7 +649,7 @@ func enter_standards() -> void:
 		avatar.facing = 1 if stand == left else -1
 		_standards_view = Vector2(left - 60.0 * unit, right + 60.0 * unit)
 		in_standards = true
-		say("Standard-bearers", "Return each standard to its bearer. Click to take or swap. Empty poles show what belongs there."))
+		say("Standard-bearers", "Return each standard to its bearer. Click to take or swap."))
 
 
 func leave_standards() -> void:
@@ -671,11 +671,16 @@ func act_slot(id: String) -> void:
 		held = here
 		held_from = id
 		slot[id] = ""
+		say("Scribe", "You take %s from %s." % [NAMES[here], s.label])
 	else:
 		if kind_of(held) != s.kind:
 			say("Scribe", "%s doesn't belong at %s." % [_cap(NAMES[held]), s.label])
 			return
 		slot[id] = held
+		if here != "":
+			say("Scribe", "You set %s at %s and take %s." % [NAMES[held], s.label, NAMES[here]])
+		else:
+			say("Scribe", "You set %s at %s." % [NAMES[held], s.label])
 		if _god(held) == _god(s.home):
 			_flash(_pieces[held])
 		held = here
@@ -763,6 +768,8 @@ func act_mouth(id: String) -> void:
 			walk_then(mouth.mummy_rect().end.x + BESIDE * unit, mouth.touch)
 		"home":
 			walk_then(mouth.home_rect().get_center().x + BESIDE * unit, mouth.place_words)
+		"back":     # where the adze or the words were taken from: they go back there
+			walk_then(mouth.back_rect().get_center().x + BESIDE * unit, put_back)
 	_set_hover({})
 
 
@@ -898,7 +905,7 @@ func _hands_message() -> String:
 		item = offerings.held_name()
 	if mouth.carrying() != "":
 		item = "the adze" if mouth.carrying() == "adze" else "the words"
-	return "You carry %s. [esc] returns it." % item
+	return "You carry %s. Put it back where you took it to free your hands." % item
 
 
 func _hint_lines(task: String, lines: Array) -> void:
@@ -911,8 +918,7 @@ func hint() -> void:
 	if haul.active:
 		say("Hint", "Heave with [space] as the whip falls. Too early or late makes the bier slip back.")
 	elif in_standards or (held != "" and kind_of(held) == "std"):
-		_hint_lines("standards", ["Empty poles show a faint outline of the standard they need.",
-			"The priest with two plumes reads the order. He stands beyond the offering table.",
+		_hint_lines("standards", ["The priest with two plumes reads the order. He stands beyond the offering table.",
 			"Jackal, ibis, falcon, bull, vulture, placenta, plumes, falcon: follow the procession from its front."])
 	elif in_table:
 		_hint_lines("table", ["While you carry an offering, its outline shows where it belongs.",
@@ -956,21 +962,6 @@ func say(who: String, text: String) -> void:
 
 # ---------------------------------------------------------------- per-frame
 
-func _update_context() -> void:
-	if haul.active:
-		var action := "[space] begin" if haul.phase in [HaulSledge.Phase.OPENING, HaulSledge.Phase.READY] else "[space] heave"
-		hud.set_context(action + " · [esc] / arrows explore", "%d%% hauled" % roundi((1.0 - haul.target / HaulSledge.BACK) * 100.0))
-	elif in_standards:
-		var count := POLES.filter(func(p): return _god(slot[p]) == _god(SLOTS[p].home)).size()
-		hud.set_context("Click take / swap · [esc] / arrows explore", "%d/8 in order" % count)
-	elif in_table:
-		hud.set_context("Drag offerings · [esc] / [←] [→] explore", "%d/%d placed" % [offerings.placed.size(), offerings.pieces.size()])
-	elif water.active:
-		hud.set_context("Drag jar · [esc] / [←] [→] explore")
-	else:
-		hud.set_context("")
-
-
 func _process(delta: float) -> void:
 	_time += delta
 	avatar.min_x = min_x()
@@ -996,7 +987,6 @@ func _process(delta: float) -> void:
 		d.life -= delta
 	_dust = _dust.filter(func(d): return d.life > 0.0)
 
-	_update_context()
 	_update_camera(delta)
 	hud.update_held(held, _pieces[held].texture if held != "" else null, camera.zoom.x)
 	overlay.queue_redraw()
@@ -1046,7 +1036,6 @@ func _render() -> void:
 			_pieces[piece].position = sprite_rects[piece].position
 	for id in SLOTS:
 		var piece: String = slot[id]
-		_standard_guides[id].visible = piece == ""
 		if piece == "":
 			continue
 		var home: Rect2 = sprite_rects[SLOTS[id].home]
@@ -1403,8 +1392,9 @@ func _autotest_mouth(expect: Callable) -> void:
 	expect.call(_pick(mouth.mummy_rect().get_center()).get("type") != "mouth", "without the adze, the mummy is only a figure")
 	act_mouth("adze")
 	expect.call(mouth.carrying() == "adze", "clicking the adze takes it up")
+	expect.call(_pick(Rect2(adze.x, adze.y, adze.w, adze.h).get_center()).get("id") == "back", "with the adze in hand, its place on the stand can be clicked")
 	put_back()
-	expect.call(mouth.carrying() == "" and mouth._adze.position == Vector2(adze.x, adze.y), "Esc puts the adze back on the stand")
+	expect.call(mouth.carrying() == "" and mouth._adze.position == Vector2(adze.x, adze.y), "clicking the stand puts the adze back")
 	act_mouth("adze")
 	h = _pick(mouth.mummy_rect().get_center())
 	expect.call(h.get("type") == "mouth" and h.id == "mummy", "with the adze in hand, the mummy can be touched")
@@ -1417,6 +1407,7 @@ func _autotest_mouth(expect: Callable) -> void:
 	expect.call(h.get("type") == "mouth" and h.id == "words", "the spoken words can be taken")
 	act_mouth("words")
 	expect.call(mouth.carrying() == "words" and not solved.t6, "taken up, the words are carried")
+	expect.call(_pick(said.get_center()).get("id") == "back", "with the words in hand, their place above the mummy can be clicked")
 	h = _pick(home.get_center())
 	expect.call(h.get("type") == "mouth" and h.id == "home", "their imprint over Ra takes them")
 	mouth.place_words()
@@ -1496,7 +1487,7 @@ func _autotest_table(expect: Callable) -> void:
 	expect.call(offerings.holding() != "" and offerings.pieces[offerings.holding()].kind == "held", "the goose-bearer hands over his loaf")
 	expect.call(offerings.clothes_showing(), "with his arms empty his clothes show")
 	offerings.put_back()
-	expect.call(offerings.bearer != "" and offerings.holding() == "", "Esc gives the loaf back to him")
+	expect.call(offerings.bearer != "" and offerings.holding() == "", "the loaf goes back to him")
 	var frond_early := false
 	var guard := 0
 	while not offerings.complete() and guard < 200:

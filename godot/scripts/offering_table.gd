@@ -3,8 +3,9 @@
 ## The loose pieces lie on the floor between the two pairs of bouquets as physics bodies, at any
 ## angle. A piece snaps back into its place, upright, only when everything it rests on is already
 ## there (`rests_on`, worked out by tools/cut_procession300.py); set down too early it topples
-## and falls back to the floor. The palm frond starts on the upper shelf and goes
-## on last. Loose pieces, including the frond, have gravity; only held pieces cross the shelf.
+## and falls back to the floor. The palm frond starts lying on the upper shelf (the register line
+## above the picture) and goes on last. Everything else starts on the floor: at first the pieces
+## fall through the shelf. After that it holds whatever is let go above it; only a piece in hand crosses it.
 ## The goose-bearer beside the lector holds a loaf from the heap; his goose lies among the
 ## fallen offerings. With neither in his arms, the clothes they cover show. Positions are strip
 ## pixels; the pieces come from level.json `table`.
@@ -20,6 +21,7 @@ const SPEAK_HOLD := 2.5
 const SPEAK_FADE_OUT := 0.6
 const SEED := 7              ## the same scatter every time
 const PIECE_LAYER := 2       ## loose pieces collide with each other and the floor, nothing else
+const SHELF_LAYER := 4       ## the upper register line, a platform
 
 var pieces := {}             ## id -> {rect, kind, name, rests_on, hull}
 var placed := {}             ## id -> true
@@ -35,6 +37,7 @@ var _last_park := {}         ## id -> where it last lay there (centre)
 var _tex := {}               ## id -> Texture2D (and "goose")
 var _img := {}               ## id -> Image, for clicking on the ink only
 var _goose_rect: Rect2
+var _goose_hull: PackedVector2Array  ## the goose's outline (the table pieces have theirs from the cutter)
 var _clothes_rect: Rect2
 var _speech: Rect2
 var _speak_i := 0
@@ -71,6 +74,7 @@ func setup(table: Dictionary, goose: Rect2, clothes: Rect2, ground_y: float, art
 	_tex.clothes = load(art % "clothes")
 	for id in _tex:
 		_img[id] = _tex[id].get_image()
+	_goose_hull = _outline(_img.goose)
 	for id in pieces:   # the frond lies in the band above at first
 		if pieces[id].kind == "frond" and table.has("frond_rest"):
 			_last_park[id] = Vector2(table.frond_rest.x, table.frond_rest.y) + _tex[id].get_size() / 2.0
@@ -113,7 +117,7 @@ func reset() -> void:
 	for i in loose.size():
 		var x := lerpf(floor_x.x + 50.0, floor_x.y - 50.0, (float(i % per_row) + rng.randf_range(0.1, 0.9)) / per_row)
 		var y := ground - 60.0 - 110.0 * floorf(i / float(per_row))
-		_spawn(loose[i], Vector2(x, y), rng.randf_range(-PI, PI))
+		_spawn(loose[i], Vector2(x, y), rng.randf_range(-PI, PI), true)
 	for id in pieces:
 		if pieces[id].kind == "frond":
 			_park(id, _last_park.get(id, Vector2(lerpf(view.x, view.y, 0.5), header.y)))
@@ -328,6 +332,11 @@ func speaking() -> String:
 func _process(_delta: float) -> void:
 	if _held != "":
 		_held_sprite.position = get_global_mouse_position()
+	# a piece scattered at the start takes up the shelf once it has fallen wholly below it
+	for b in _bodies.get_children():
+		if b.has_meta("through") and b.position.y - b.get_meta("through") > header.y + 8.0:
+			b.collision_mask |= SHELF_LAYER
+			b.remove_meta("through")
 
 
 # ---------------------------------------------------------------- internals
@@ -373,11 +382,14 @@ func _fall(id: String, at: Vector2, topple: bool) -> void:
 	changed.emit()
 
 
-func _spawn(id: String, at: Vector2, rot: float) -> RigidBody2D:
+## `through`: it falls through the shelf until it is below it (the scatter at the start).
+func _spawn(id: String, at: Vector2, rot: float, through := false) -> RigidBody2D:
 	var b := RigidBody2D.new()
 	b.set_meta("id", id)
 	b.collision_layer = PIECE_LAYER
-	b.collision_mask = PIECE_LAYER | 4
+	b.collision_mask = PIECE_LAYER if through else PIECE_LAYER | SHELF_LAYER
+	if through:   # how far its drawing can reach above its centre, at any angle
+		b.set_meta("through", _tex[id].get_size().length() / 2.0)
 	b.position = at
 	b.rotation = rot
 	var mat := PhysicsMaterial.new()
@@ -390,7 +402,7 @@ func _spawn(id: String, at: Vector2, rot: float) -> RigidBody2D:
 	b.add_child(sprite)
 	var shape := CollisionPolygon2D.new()
 	var size: Vector2 = _tex[id].get_size()
-	var hull: PackedVector2Array = pieces[id].hull if pieces.has(id) else PackedVector2Array()
+	var hull: PackedVector2Array = pieces[id].hull if pieces.has(id) else _goose_hull
 	if hull.size() < 3:
 		hull = PackedVector2Array([Vector2.ZERO, Vector2(size.x, 0), size, Vector2(0, size.y)])
 	var centred := PackedVector2Array()
@@ -422,7 +434,7 @@ func _build_floor() -> void:
 
 	# Only a piece in the player's hands can pass through this register.
 	var platform := StaticBody2D.new()
-	platform.collision_layer = 4
+	platform.collision_layer = SHELF_LAYER
 	platform.collision_mask = 0
 	var collision := CollisionShape2D.new()
 	var shelf := RectangleShape2D.new()
@@ -469,6 +481,18 @@ func _sprite(id: String, centred: bool, parent: Node = self) -> Sprite2D:
 	s.visible = id != ""
 	parent.add_child(s)
 	return s
+
+
+## The convex outline of a picture's ink, in its own top-left frame.
+func _outline(img: Image) -> PackedVector2Array:
+	var points := PackedVector2Array()
+	for y in img.get_height():   # each row's outermost ink is enough for a convex outline
+		var row := range(img.get_width()).filter(func(x): return img.get_pixel(x, y).a > 0.2)
+		if not row.is_empty():
+			points.append_array([Vector2(row[0], y), Vector2(row[-1] + 1, y), Vector2(row[0], y + 1), Vector2(row[-1] + 1, y + 1)])
+	var hull := Geometry2D.convex_hull(points)
+	hull.resize(hull.size() - 1)   # convex_hull repeats the first point at the end
+	return hull
 
 
 ## Is there ink at this pixel of the piece's picture (its own top-left frame)?

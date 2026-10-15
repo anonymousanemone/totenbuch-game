@@ -113,7 +113,7 @@ func _build_title() -> Control:
 	grid.add_theme_constant_override("h_separation", 16)
 	grid.add_theme_constant_override("v_separation", 12)
 	grid.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-	grid.add_child(_button("Continue", func(): Scroll.open(Scroll.current()), true))
+	grid.add_child(_button("Play", func(): Scroll.open(Scroll.current()), true))
 	grid.add_child(_button("The scroll", func(): _show(_map)))
 	grid.add_child(_button("Settings", func(): _show(_settings)))
 	grid.add_child(_button("Quit", func(): get_tree().quit()))
@@ -149,7 +149,7 @@ func _build_map() -> Control:
 	scroll.offset_top = 70
 	scroll.offset_bottom = -100
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_AUTO   # the wheel scrolls it
+	scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_SHOW_NEVER   # the wheel scrolls it
 	page.add_child(scroll)
 	_cards = VBoxContainer.new()
 	_cards.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -170,8 +170,6 @@ func _build_map() -> Control:
 	row.add_theme_constant_override("separation", 24)
 	strip.add_child(row)
 	_chosen_name = _label("", UI.BIG, UI.TAG)
-	_chosen_name.custom_minimum_size.x = 160
-	_chosen_name.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
 	_chosen_about = _label("", UI.SMALL, UI.INK)
 	_chosen_about.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_chosen_about.autowrap_mode = TextServer.AUTOWRAP_WORD
@@ -267,7 +265,7 @@ func _choose(key: String) -> void:
 	elif key in Scroll.restored:
 		_chosen_go.text = "Play again"
 	else:
-		_chosen_go.text = "Continue" if key == Scroll.current() else "Play"
+		_chosen_go.text = "Play"
 
 
 # ---------------------------------------------------------------- settings and controls
@@ -301,11 +299,11 @@ func _refresh_settings() -> void:
 
 func _build_controls() -> Control:
 	var sheet := _sheet("Controls")
-	for k in [["Walk", "[←] [→] or click"], ["Look / take", "click"], ["Return / leave", "[esc]"], ["Journal", "[j]"],
-			["Begin / attack", "[space]"], ["Red crocodiles", "hold [shift]"], ["Aim / turn", "arrows (each fight explains)"], ["Read next page", "[enter]"]]:
+	for k in [["Walk", "[←] [→] or click"], ["Look / take", "click"], ["Leave / close", "[esc]"], ["Journal", "[j]"],
+			["Begin / attack", "[space]"], ["Red crocodiles", "hold [shift]"], ["Aim / turn", "arrows (each fight explains)"]]:
 		var row := HBoxContainer.new()
 		var name := _label(k[0], UI.BIG, UI.INK)
-		name.custom_minimum_size.x = 220
+		name.custom_minimum_size.x = 280
 		_control_names.append(name)
 		row.add_child(name)
 		row.add_child(_label(k[1], UI.BIG, UI.OCHRE))
@@ -414,7 +412,11 @@ func _button(text: String, on_press: Callable, main := false) -> Button:
 	b.add_theme_stylebox_override("disabled", UI.box(Color(UI.DEEP, 0.5), UI.RULE, 4, 16, 8))
 	b.add_theme_color_override("font_color", UI.CREAM if main else UI.INK)
 	b.add_theme_color_override("font_hover_color", UI.CREAM if main else UI.TAG)
-	b.add_theme_color_override("font_focus_color", UI.CREAM if main else UI.INK)
+	b.add_theme_color_override("font_focus_color", UI.CREAM)
+	if not main:   # chosen with the keyboard it turns red, like the main button (red already)
+		b.add_theme_stylebox_override("focus", UI.box(UI.TAG, UI.INK, 4, 16, 8))
+		b.focus_entered.connect(func(): b.add_theme_color_override("font_hover_color", UI.CREAM))
+		b.focus_exited.connect(func(): b.add_theme_color_override("font_hover_color", UI.TAG))
 	b.add_theme_color_override("font_disabled_color", UI.RULE)
 	b.pressed.connect(on_press)
 	return b
@@ -452,7 +454,7 @@ func _resize_menu() -> void:
 	for panel in _sheets:
 		panel.custom_minimum_size.x = clampf(viewport.x - 80.0, 320.0, 660.0)
 	for label in _control_names:
-		label.custom_minimum_size.x = 140.0 if compact else 220.0
+		label.custom_minimum_size.x = 140.0 if compact else 280.0
 	for label in find_children("*", "Label", true, false):
 		if label.has_meta("font_size"):
 			var original: int = label.get_meta("font_size")

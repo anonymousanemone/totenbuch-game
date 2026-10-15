@@ -15,6 +15,30 @@ translates this same papyrus: `CAPTIONS` in `scripts/procession.gd`, and each da
 Only the procession and the dangers are in play; the Night Journey, the Field of Offerings and the
 Weighing of the Heart are set aside in `../archive/` (see its README), left out of the game and the tests.
 
+## Visual scene workflow
+
+The project is moving toward visual editing in Godot. Major visual elements are being moved
+from runtime construction into saved scene nodes so levels can be inspected and maintained
+in the editor. Position data and metadata are still kept and updated; `level.json` and other
+level data remain useful for descriptions, stable IDs, source-art coordinates and gameplay rules.
+
+For every new scene:
+
+- Place all major visual elements in the saved scene tree: backgrounds, figures, props,
+  puzzle pieces, persistent overlays, and the starting avatar and camera.
+- Organize nodes by spell or puzzle, use readable names, and preserve stable IDs linking
+  nodes to their data. Use a single `Sprite2D` for a single picture; add parents when separate
+  parts, pivots or behavior need them.
+- Make the intended editor arrangement visible before running the game. Scripts should reuse
+  those nodes and apply gameplay startup visibility and state, rather than reconstruct the level.
+- Keep stored positions and metadata maintained alongside scene edits. Update dependent
+  hotspots, placement targets, camera ranges and animation geometry when their visuals move.
+  Scene placement is authoritative for visually edited elements; source-art coordinates remain
+  separately identified, and runtime setup must not silently overwrite scene edits.
+
+Runtime creation remains appropriate for temporary effects, spawned copies and loose physics
+bodies. The remaining code-built visuals, including the HUD, are part of this ongoing migration.
+
 ## The Funeral Procession (spells 1–15, pl. I–VI)
 Whatever can be clicked glows under the pointer (`scripts/glow.gdshader`; all eight standard-bearers glow together). Click figures to record them in the journal; click a movable piece to pick it up and click
 where it belongs to set it down (clicking a filled place swaps the two). Click where you took it to put it back.

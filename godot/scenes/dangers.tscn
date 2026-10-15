@@ -550,6 +550,7 @@ centered = false
 [node name="Overlay" type="Node2D" parent="." unique_id=759531365]
 
 [node name="Avatar" type="Node2D" parent="." unique_id=1686742080]
+z_index = 1
 position = Vector2(6593.0, 526)
 script = ExtResource("3_avatar")
 metadata/size = Vector2(110, 262)

@@ -160,6 +160,10 @@ func _test_dangers_scene_actors() -> void:
 		else:
 			simple = simple and ids[id] is Sprite2D and not ids[id].has_node("sprite")
 	_expect(simple, "single-picture actors are Sprite2D nodes; multipart snakes retain their drawing child")
+	var avatar_in_front := true
+	for id in ids:
+		avatar_in_front = avatar_in_front and scene.get_node("Avatar").z_index > ids[id].z_index
+	_expect(avatar_in_front, "walking avatar draws above scene creatures so its papyrus fill occludes them")
 	var drawn: bool = ids.breath38.visible
 	for id in sheet_data.bearers:
 		var actor = ids[id]

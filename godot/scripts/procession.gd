@@ -19,7 +19,7 @@ const HIT_PAD := 20.0
 
 ## Movable pieces and how the scribe names them.
 const NAMES := {
-	"ox": "the ox", "calf": "the calf",
+	"ox": "the ox",
 	"emb_e1": "the jackal standard", "emb_e2": "the ibis standard",
 	"emb_e3": "the falcon standard", "emb_e4": "the bull standard",
 	"emb_e5": "the vulture standard", "emb_e6": "the placenta standard",
@@ -52,7 +52,7 @@ const START := {
 }
 const POLES := ["pole1", "pole2", "pole3", "pole4", "pole5", "pole6", "pole7", "pole8"]
 ## Pieces that stay where they are drawn (the ox walks with the hauling, see haul.gd).
-const FIXED := ["ox", "calf"]
+const FIXED := ["ox"]
 ## Only the ox-driver starts hauling; the other figures direct the player to him.
 const HAUL_FIGURES := ["Hauler", "Ox-driver", "The funerary bier"]
 const INTO_POSE := 0.5        ## s for you to fade into the hauler's pose on the rope (and out again)
@@ -93,7 +93,9 @@ const SHEETS := {"haul_driver": "haul_driver_sheet", "water_priest": "water_shee
 ## Journal figures that are sprites of the hauling now: they glow as those drawings.
 const HAUL_GLOW := {"Hauler": ["haul_hauler"], "Ox-driver": ["haul_driver", "haul_driver_arm"]}
 ## Journal figures that are pieces (sprites, not in the strip): they glow as those drawings.
-const PIECE_GLOW := {"Ox": "ox", "Calf": "calf"}
+const PIECE_GLOW := {"Ox": "ox"}
+## The figures of the three bulls (see bulls.gd); clicking one steps up to them until they are set right.
+const BULL_FIGURES := ["Calf", "Plumed ox", "The sacrifice"]
 ## Figures drawn inside the sledge sprite (with its rope and the censer priest): each glows as its
 ## own part of that drawing, and moves with it.
 const SLEDGE_PARTS := ["The funerary bier", "Priest with censer"]
@@ -110,7 +112,7 @@ var start_x := 0.0
 var slot := {}               ## slot id -> piece ("" = empty)
 var held := ""
 var held_from := ""
-var solved := {"t1": false, "t2": false, "t3": false, "t4": false, "t5": false, "t6": false, "t7": false}
+var solved := {"t1": false, "t2": false, "t3": false, "t4": false, "t5": false, "t6": false, "t7": false, "t8": false}
 var finished := false
 var journal: Array[String] = []
 
@@ -141,6 +143,7 @@ var haul: HaulSledge
 var ending: EndingStand
 var water: PourWater
 var mouth: OpeningMouth
+var bulls: ThreeBulls
 var _testing := false        ## the autotest: the ending does not leave the scene
 var _strip_img: Image        ## the strip, for journal pictures of figures that are sprites now
 var _recital: Node2D
@@ -208,10 +211,17 @@ func _ready() -> void:
 	water.setup(level, "res://assets/procession/%s.png", _authored)
 	water.said.connect(say)
 	water.finished.connect(_check)
+	bulls = $pieces/bulls
+	bulls.setup(level, _authored)
+	bulls.said.connect(say)
+	bulls.finished.connect(_check)
 	mouth = $pieces/opening_mouth
 	mouth.setup(level, _authored)
 	mouth.said.connect(say)
 	mouth.changed.connect(func():
+		avatar.keys = not mouth.active
+		if mouth.active:
+			avatar.stop()
 		_check()
 		_render())
 
@@ -235,7 +245,7 @@ func reset() -> void:
 	slot = START.duplicate()
 	held = ""
 	held_from = ""
-	solved = {"t1": false, "t2": false, "t3": false, "t4": false, "t5": false, "t6": false, "t7": false}
+	solved = {"t1": false, "t2": false, "t3": false, "t4": false, "t5": false, "t6": false, "t7": false, "t8": false}
 	finished = false
 	journal.clear()
 	_clear_recital()
@@ -244,6 +254,7 @@ func reset() -> void:
 	ending.reset()
 	water.reset()
 	mouth.reset()
+	bulls.reset()
 	_set_hover({})
 	in_table = false
 	_table_told = false
@@ -271,6 +282,13 @@ func reset() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if hud.is_blocking() or finished:
 		return
+	if mouth.active:
+		if event.is_action_pressed("ui_cancel") or (event is InputEventKey and event.pressed and event.keycode in [KEY_LEFT, KEY_RIGHT, KEY_UP, KEY_DOWN]):
+			mouth.leave()
+		elif event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+			mouth.strike(get_global_mouse_position())
+		get_viewport().set_input_as_handled()
+		return
 	if in_standards and event.is_action_pressed("ui_cancel"):
 		leave_standards()
 		return
@@ -292,6 +310,13 @@ func _unhandled_input(event: InputEvent) -> void:
 			get_viewport().set_input_as_handled()
 		else:
 			_water_input(event)
+		return
+	if bulls.active:    # at the three bulls: drag the calf or the plumes; Esc (or walking off) steps away
+		if event.is_action_pressed("ui_cancel"):
+			leave_bulls()
+			get_viewport().set_input_as_handled()
+		else:
+			_bulls_input(event)
 		return
 	if in_table:        # at the offering table: Esc (or walking off with the arrow keys) steps away
 		if event.is_action_pressed("ui_cancel"):
@@ -323,6 +348,8 @@ func _unhandled_input(event: InputEvent) -> void:
 			enter_table(h.get("spot", {}) == _reader)
 		elif h.type == "mouth":
 			act_mouth(h.id)
+		elif h.type == "hot" and h.spot.label in BULL_FIGURES and not bulls.done:
+			enter_bulls(h.spot)
 		elif h.type == "water" or (h.type == "hot" and h.spot.label in WATER_FIGURES and not water.done):
 			enter_water(h.get("spot", {}))
 		elif h.type == "caption":
@@ -430,6 +457,8 @@ func _glow_targets(h: Dictionary) -> Array:
 			return [water.arm_sprite()]
 		"mouth":
 			return [mouth.glow_target(h.id)]
+		"bull":
+			return [bulls.calf_sprite() if h.id == "calf" else bulls.plumes_sprite()]
 		"caption":
 			return [h.rect]
 		"std":     # with the standard-bearers: only the standard under the pointer
@@ -444,6 +473,13 @@ func _glow_targets(h: Dictionary) -> Array:
 		"hot":
 			if PIECE_GLOW.has(h.spot.label):
 				return [_pieces[PIECE_GLOW[h.spot.label]]]
+			match h.spot.label:   # the bulls: sprites now (the sacrifice, in the strip, with the plumes while they sit on it)
+				"Calf":
+					return [bulls.calf_sprite()]
+				"Plumed ox":
+					return [bulls.ox_sprite()] + ([bulls.plumes_sprite()] if bulls.crowned() else [])
+				"The sacrifice":
+					return [h.spot.rect] + ([] if bulls.crowned() else [bulls.plumes_sprite()])
 			if HAUL_GLOW.has(h.spot.label):
 				return HAUL_GLOW[h.spot.label].map(func(nm): return haul.sprite_of(nm)).filter(func(sp): return sp != null and sp.is_visible_in_tree())
 			if h.spot == _table and solved.t3:   # rebuilt: the whole table glows, its offerings with it
@@ -528,6 +564,52 @@ func walk_then(x: float, then := Callable()) -> void:
 	avatar.walk_to(clampf(x, avatar.min_x, avatar.max_x), func():
 		if then.is_valid():
 			then.call())
+
+
+# ---------------------------------------------------------------- the three bulls
+
+## Step up to the three bulls: you stand right of the plumed ox and the camera holds all three.
+## `h` is the figure clicked, recorded on arrival.
+func enter_bulls(h := {}) -> void:
+	if bulls.active or bulls.done:
+		return
+	if _hands_full():
+		say("Scribe", _hands_message())
+		return
+	_set_hover({})
+	walk_then(bulls.stand_x(), func():
+		if not h.is_empty():
+			_add_journal(h)
+		avatar.stop()
+		avatar.facing = -1
+		bulls.enter())
+
+
+func leave_bulls() -> void:
+	if not bulls.active:
+		return
+	bulls.leave()
+	_set_hover({})
+
+
+## At the three bulls: press on the calf or the plumes and drag; let go to set it down.
+func _bulls_input(event: InputEvent) -> void:
+	var p := get_global_mouse_position()
+	if event is InputEventMouseMotion:
+		if bulls.held != "":
+			bulls.drag(p)
+		else:
+			var b := bulls.pick(p)
+			_set_hover({"type": "bull", "id": b} if b != "" else {})
+	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+		get_viewport().set_input_as_handled()
+		if event.pressed:
+			var b := bulls.pick(p)
+			if b != "":
+				bulls.press(b, p)
+				_set_hover({})
+		elif bulls.held != "":
+			bulls.release(p)
 
 
 # ---------------------------------------------------------------- the offering table scene
@@ -924,9 +1006,9 @@ func put_back(quiet := false) -> void:
 	_render()
 
 
-## Every rite but the stand before Ra: hauling, standards, table, goose, water and mouth.
+## Every rite but the stand before Ra: hauling, standards, table, goose, water, mouth and bulls.
 func rites_done() -> bool:
-	return solved.t1 and solved.t2 and solved.t3 and solved.t4 and solved.t5 and solved.t6
+	return solved.t1 and solved.t2 and solved.t3 and solved.t4 and solved.t5 and solved.t6 and solved.t8
 
 
 ## Something is in your hands: a standard, an offering, the adze, the words or a piece of the stand.
@@ -964,8 +1046,9 @@ func _check() -> void:
 	solved.t5 = water.done
 	solved.t6 = mouth.done()
 	solved.t7 = ending.complete()
+	solved.t8 = bulls.done
 	var rites := rites_done()
-	var were: bool = was.t1 and was.t2 and was.t3 and was.t4 and was.t5 and was.t6
+	var were: bool = was.t1 and was.t2 and was.t3 and was.t4 and was.t5 and was.t6 and was.t8
 	if solved.t1 and not was.t1:
 		say("Ox-driver", "Well hauled! The sledge stands where it should, and the mummy goes on toward the tomb.")
 		var o: Dictionary = level.sprites.ox
@@ -986,6 +1069,8 @@ func _check() -> void:
 		_success([water.priest_sprite(), water.arm_sprite(), water.stream_sprite()])
 	if solved.t6 and not was.t6:
 		_success([mouth.glow_target("words"), mouth.glow_target("adze"), mouth.glow_target("mummy")])
+	if solved.t8 and not was.t8:
+		_success([bulls.calf_sprite(), bulls.ox_sprite(), bulls.plumes_sprite()])
 	if solved.t7 and not was.t7:
 		_success(EndingStand.PIECES.map(ending.sprite_of))
 	if rites and not were:
@@ -1032,7 +1117,7 @@ func _add_journal(h: Dictionary) -> void:
 ## The strip under `r`, with the figures that are sprites now (the hauling, the water priest,
 ## and the stream once it runs) drawn in as drawn.
 func _journal_picture(r: Rect2) -> Texture2D:
-	var overlays: Array = HaulSledge.PIECES + ["ox", "water_priest"] + (["water_stream"] if water.done else [])
+	var overlays: Array = HaulSledge.PIECES + ["ox", "water_priest", "calf", "plumed_ox", "plumes", "mouth_mummy", "mouth_features"] + (["water_stream"] if water.done else [])
 	overlays = overlays.filter(func(nm): return r.intersects(_drawn_rect(nm)))
 	if overlays.is_empty():
 		var tex := AtlasTexture.new()
@@ -1124,7 +1209,9 @@ func _hint_lines(task: String, lines: Array) -> void:
 
 
 func hint() -> void:
-	if haul.active:
+	if mouth.active:
+		say("Hint", "Follow each red stroke from its faint next chip. Click rather than drag; finish all three. Three nicks mean starting again.")
+	elif haul.active:
 		say("Hint", "Heave with [space] as the whip falls. Too early or late makes the bier slip back.")
 	elif in_standards or (held != "" and kind_of(held) == "std"):
 		_hint_lines("standards", ["The priest with two plumes reads the order. He stands beyond the offering table.",
@@ -1133,6 +1220,10 @@ func hint() -> void:
 		_hint_lines("table", ["Build lowest first. An offering falls if its support is missing.",
 			"Drag pieces above the upper shelf to clear space. They fall onto it; drag them back across to use them.",
 			"Click the lector beside the table. He shows an offering you can place now."])
+	elif bulls.active:
+		_hint_lines("bulls", ["Two things here are not as they should be. Look at which way each animal faces, and what each one wears.",
+			"The calf is facing the sacrifice. Drag it sideways to turn it away.",
+			"The disc and plumes are on the bull at the block. Drag them onto the living ox's head."])
 	elif water.active:
 		_hint_lines("water", ["Hold [space] to lift his drooping arm; let go to let it sink.",
 			"Too high only drips; drooped too far, the water splashes short. Keep the stream on its faint guide.",
@@ -1151,6 +1242,8 @@ func hint() -> void:
 		say("Hint", "The goose-bearer holds a loaf. Take it, then find his goose among the fallen offerings.")
 	elif not solved.t5:
 		say("Hint", "Find the priest with a jar above a kneeling woman. Click him to pour the water.")
+	elif not solved.t8:
+		say("Hint", "Something is wrong with the bulls near the sacrifice. Click one of them.")
 	elif not solved.t6:
 		say("Hint", "Take the hooked adze beside the obelisks and touch the mummy's mouth." if mouth.phase == OpeningMouth.Phase.START else "Carry the words above the mummy to Ra, at the far left.")
 	else:
@@ -1176,6 +1269,8 @@ func _process(delta: float) -> void:
 	avatar.max_x = max_x()
 	if in_standards and (Input.get_axis("ui_left", "ui_right") != 0.0 or Input.get_axis("ui_up", "ui_down") != 0.0):
 		leave_standards()
+	if bulls.active and Input.get_axis("ui_left", "ui_right") != 0.0:
+		leave_bulls()
 	if in_table and Input.get_axis("ui_left", "ui_right") != 0.0:   # walking off steps away
 		leave_table()
 	if water.active and Input.get_axis("ui_left", "ui_right") != 0.0:
@@ -1205,14 +1300,19 @@ func _update_camera(delta: float) -> void:
 	var fit := (vp.y - top - bottom - 10.0) / (_view_height() - VIEW_TOP)
 	var z := clampf(minf(fit, vp.x / (1000.0 * unit)), 0.4 / unit, 2.4 / unit)
 	var target_x := avatar.position.x - vp.x / z * 0.05
-	if in_table or water.active or in_standards or haul.active:   # hold on the whole scene: the table, the water, the hauling
-		var v: Vector2 = _standards_view if in_standards else (water.view() if water.active else _haul_view() if haul.active else Vector2(level.table.view[0], level.table.view[1]))
+	if in_table or water.active or in_standards or haul.active or bulls.active:   # hold on the whole scene: the table, the water, the hauling, the bulls
+		var v: Vector2 = _standards_view if in_standards else (water.view() if water.active else _haul_view() if haul.active else bulls.view() if bulls.active else Vector2(level.table.view[0], level.table.view[1]))
 		z = clampf(minf(fit, vp.x / (v.y - v.x + 2.0 * SCENE_MARGIN)), 0.2 / unit, 2.4 / unit)
 		target_x = (v.x + v.y) / 2.0
-	var focus := "table" if in_table else "water" if water.active else "standards" if in_standards else "haul" if haul.active else ""
+	var focus := "mouth" if mouth.active else "table" if in_table else "water" if water.active else "standards" if in_standards else "haul" if haul.active else "bulls" if bulls.active else ""
+	if mouth.active:
+		var face := mouth.face_view()
+		z = minf((vp.y - top - bottom - 20.0) / face.size.y, vp.x / (face.size.x + 80.0))
+		target_x = face.get_center().x
 	if focus != _focus:
+		var face_transition := focus == "mouth" or _focus == "mouth"
 		_focus = focus
-		_refocus = {"t": 0.0, "z": camera.zoom.x, "x": camera.position.x} if delta < 1.0 else {}
+		_refocus = {"t": 0.0, "z": camera.zoom.x, "x": camera.position.x, "y": camera.position.y, "face": face_transition} if delta < 1.0 else {}
 	if not _refocus.is_empty():   # ease in and out to the new focus, instead of lunging at it
 		_refocus.t += delta
 		var s := smoothstep(0.0, REFOCUS, _refocus.t)
@@ -1228,7 +1328,13 @@ func _update_camera(delta: float) -> void:
 		camera.zoom = Vector2(z, z)
 		target_x = SCROLL_CAMERA.clamp_horizontal(target_x, vp.x / z, level.width)
 		camera.position.x = lerpf(camera.position.x, target_x, k)
-	if FRAME_FROM_TOP:
+	if mouth.active:
+		var face_y := mouth.face_view().get_center().y + (bottom - top) / 2.0 / z
+		camera.position.y = lerpf(_refocus.y, face_y, smoothstep(0.0, REFOCUS, _refocus.t)) if not _refocus.is_empty() else face_y
+	elif not _refocus.is_empty() and _refocus.face:
+		var normal_y := VIEW_TOP + (vp.y / 2.0 - top) / z if FRAME_FROM_TOP else SCROLL_CAMERA.vertical_center(_view_height(), top, bottom, z, VIEW_TOP)
+		camera.position.y = lerpf(_refocus.y, normal_y, smoothstep(0.0, REFOCUS, _refocus.t))
+	elif FRAME_FROM_TOP:
 		camera.position.y = VIEW_TOP + (vp.y / 2.0 - top) / z
 	else:
 		camera.position.y = SCROLL_CAMERA.vertical_center(_view_height(), top, bottom, z, VIEW_TOP)
@@ -1370,13 +1476,16 @@ func _maybe_run_cli() -> void:
 			_update_camera(1.0)
 			if a.begins_with("--pour="):
 				water.hold_at(a.trim_prefix("--pour=").to_float())
-		elif a == "--mouth" or a == "--open-mouth":   # dev: stand by the mummy with the adze in hand (and with --open-mouth, touch it)
+		elif a == "--mouth" or a == "--open-mouth":   # dev: carve the face, or show its spoken words
 			hud.dismiss_intro()
 			mouth.take_adze()
 			avatar.position.x = mouth.mummy_rect().end.x + BESIDE * unit
-			_update_camera(1.0)
+			mouth.touch()
 			if a == "--open-mouth":
-				mouth.touch()
+				for stroke in mouth._curves.size():
+					while mouth.active and not mouth.stroke_done(stroke):
+						mouth.strike(mouth.next_chip(stroke))
+			_update_camera(1.0)
 		elif a == "--table":   # dev: stand at the offering table, in its scene
 			avatar.position.x = level.table.stand
 			_table_now()
@@ -1623,7 +1732,7 @@ func _autotest_mouth(expect: Callable) -> void:
 	var words: Dictionary = level.sprites.mouth_words
 	var adze: Dictionary = level.sprites.mouth_adze
 	var home := Rect2(words.x, words.y, words.w, words.h)
-	expect.call(mouth._imprint.visible and not mouth._words.visible, "at the start the words over Ra show only faintly")
+	expect.call(not mouth._imprint.visible and not mouth._words.visible, "the caption is empty before the face is finished")
 	var h := _pick(Rect2(adze.x, adze.y, adze.w, adze.h).get_center())
 	expect.call(h.get("type") == "mouth" and h.id == "adze", "the adze on the offering stand can be clicked")
 	expect.call(_pick(mouth.mummy_rect().get_center()).get("type") != "mouth", "without the adze, the mummy is only a figure")
@@ -1636,6 +1745,35 @@ func _autotest_mouth(expect: Callable) -> void:
 	h = _pick(mouth.mummy_rect().get_center())
 	expect.call(h.get("type") == "mouth" and h.id == "mummy", "with the adze in hand, the mummy can be touched")
 	mouth.touch()
+	expect.call(mouth.active and mouth.phase == OpeningMouth.Phase.ADZE and not mouth._words.visible, "touching the mummy starts carving, without releasing the words")
+	expect.call(not avatar.keys, "carving holds the player still")
+	_update_camera(1.0)
+	expect.call(_focus == "mouth" and camera.zoom.x > 2.0, "carving brings the camera close to the mummy's face")
+	var blank := mouth.face_view().position + Vector2(3, 3)
+	expect.call(mouth.strike(mouth.next_chip(0) + Vector2(0, 3)), "a chip within tolerance inks the beginning of a stroke")
+	var progress: float = mouth._progress[0]
+	mouth._process(2.0)
+	expect.call(mouth._progress[0] == progress, "holding the pointer still never carves automatically")
+	expect.call(not mouth.strike(blank) and mouth._nicks.size() == 1, "off the line leaves a nick")
+	mouth.strike(blank)
+	mouth.strike(blank)
+	expect.call(not mouth.active and mouth.phase == OpeningMouth.Phase.ADZE and mouth._progress.all(func(v): return v == 0.0), "three nicks close the view and reset every stroke")
+	expect.call(avatar.keys and not mouth._words.visible, "after a failed attempt the adze stays in hand and walking resumes")
+	mouth.touch()
+	mouth.strike(mouth.next_chip(0))
+	mouth.leave()
+	expect.call(not mouth.active and mouth._progress.all(func(v): return v == 0.0), "stepping away clears an unfinished face")
+	mouth.touch()
+	for stroke in [2, 0, 1]:
+		var guard := 0
+		while mouth.active and not mouth.stroke_done(stroke) and guard < 100:
+			mouth.strike(mouth.next_chip(stroke))
+			guard += 1
+		expect.call(mouth.stroke_done(stroke), "each face stroke can be completed in any order: %d" % stroke)
+	expect.call(not mouth.active and avatar.keys, "finishing the face leaves the close view and restores walking")
+	var final_image := mouth._features.texture.get_image()
+	expect.call(final_image.get_data() == mouth._feature_image.get_data(), "the finished face restores every original feature pixel")
+	expect.call(not mouth.strike(blank), "a closed carving game cannot receive another nick")
 	var said := mouth.words_rect()
 	expect.call(mouth.phase == OpeningMouth.Phase.SPOKEN and mouth._adze.position == Vector2(adze.x, adze.y), "the touch opens the mouth; the adze goes back on the stand")
 	var band_free: bool = said.position.x > 850.0 and said.end.x <= 2172.0 and said.position.y >= 50.0 and said.end.y <= 180.0
@@ -1650,6 +1788,42 @@ func _autotest_mouth(expect: Callable) -> void:
 	mouth.place_words()
 	expect.call(solved.t6 and not mouth._imprint.visible and mouth.words_rect() == home, "the words stand over Ra as drawn")
 	mouth.instant = false
+
+
+## Set the three bulls right through the calls a drag makes.
+func _autotest_bulls(expect: Callable) -> void:
+	bulls.instant = true
+	var calf := bulls.calf_sprite()
+	var plumes := bulls.plumes_sprite()
+	expect.call(not bulls.calf_turned() and not bulls.crowned(), "the calf faces the sacrifice and the plumes are on the bull at the block")
+	var spot: Dictionary = hotspots.filter(func(h): return h.label == "Calf")[0]
+	expect.call(_pick(spot.rect.get_center()).get("spot") == spot, "the calf can be clicked")
+	bulls.enter()
+	expect.call(bulls.active and _last_said == "Fix what is wrong!", "stepping up says only: fix what is wrong")
+	var c := calf.global_position
+	var w := calf.texture.get_width() * 0.5
+	bulls.press(bulls.pick(c), c)
+	bulls.drag(c + Vector2(w * 0.2, 0.0))
+	bulls.release(c + Vector2(w * 0.2, 0.0))
+	expect.call(not bulls.calf_turned(), "dragged short of halfway, the calf turns back to the block")
+	bulls.press(bulls.pick(c), c)
+	bulls.drag(c + Vector2(w * 0.8, 0.0))
+	expect.call(calf.scale.x > 0.0 and calf.scale.x < 1.0, "dragged sideways, the calf turns about its middle")
+	bulls.release(c + Vector2(w * 0.8, 0.0))
+	expect.call(bulls.calf_turned() and calf.scale.x == 1.0 and not bulls.done, "past halfway it faces the plumed ox, as drawn")
+	var p := plumes.global_position + plumes.texture.get_size() / 2.0
+	bulls.press(bulls.pick(p), p)
+	bulls.drag(p + Vector2(300.0, 40.0))
+	bulls.release(p + Vector2(300.0, 40.0))
+	expect.call(not bulls.crowned() and plumes.global_position == Vector2(level.bulls.wrong.x, level.bulls.wrong.y), "let go anywhere else, the plumes go back")
+	var onto := p + (Vector2(level.bulls.right.x, level.bulls.right.y) - plumes.global_position) + Vector2(10.0, -8.0)
+	bulls.press(bulls.pick(p), p)
+	bulls.drag(onto)
+	bulls.release(onto)
+	expect.call(bulls.crowned() and plumes.global_position.is_equal_approx(Vector2(level.bulls.right.x, level.bulls.right.y)), "near his head, the plumes go on the plumed ox, where they are drawn")
+	expect.call(bulls.done and solved.t8 and not bulls.active, "both set right, the bulls are done")
+	expect.call(_success_glowing(bulls.ox_sprite()) and _success_glowing(calf), "and flash pale green")
+	bulls.instant = false
 
 
 ## Find the three pieces of the offering stand, set them up before Ra, and kneel.
@@ -1758,7 +1932,9 @@ func _autotest_table(expect: Callable) -> void:
 	leave_table()
 	_autotest_water(expect)
 	_autotest_mouth(expect)
-	expect.call(rites_done() and not finished, "all six rites done; the level waits for the offering stand")
+	expect.call(not rites_done() and not ending.imprint_shown, "the stela waits for the three bulls too")
+	_autotest_bulls(expect)
+	expect.call(rites_done() and not finished, "all seven rites done; the level waits for the offering stand")
 	_autotest_ending(expect)
 
 	# Restart must clear both the carried piece and its visible preview.

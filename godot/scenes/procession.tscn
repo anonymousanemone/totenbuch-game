@@ -11,6 +11,9 @@
 [ext_resource type="Script" uid="uid://bfkry2clnuy3q" path="res://scripts/offering_table.gd" id="script_offering_table"]
 [ext_resource type="Script" uid="uid://btnlo11h171cd" path="res://scripts/opening_mouth.gd" id="script_opening_mouth"]
 [ext_resource type="Script" uid="uid://cq6xx0sb8ccyk" path="res://scripts/pour_water.gd" id="script_pour_water"]
+[ext_resource type="Script" path="res://scripts/bulls.gd" id="script_bulls"]
+[ext_resource type="Texture2D" path="res://assets/procession/plumed_ox.png" id="tex_plumed_ox"]
+[ext_resource type="Texture2D" path="res://assets/procession/plumes.png" id="tex_plumes"]
 [ext_resource type="Texture2D" uid="uid://pjc8hlpkcee6" path="res://assets/procession/calf.png" id="tex_calf"]
 [ext_resource type="Texture2D" uid="uid://nttcp75ar7eo" path="res://assets/procession/clothes.png" id="tex_clothes"]
 [ext_resource type="Texture2D" uid="uid://c2slhpdwnge12" path="res://assets/procession/emb_e1.png" id="tex_emb_e1"]
@@ -63,6 +66,9 @@
 [ext_resource type="Texture2D" uid="uid://cm3otnnvmw10w" path="res://assets/procession/water_priest_arm.png" id="tex_water_priest_arm"]
 [ext_resource type="Texture2D" uid="uid://cm38oa64c0vv2" path="res://assets/procession/water_priest_body.png" id="tex_water_priest_body"]
 [ext_resource type="Texture2D" uid="uid://dpfqx67o1fj68" path="res://assets/procession/water_stream.png" id="tex_water_stream"]
+
+[ext_resource type="Texture2D" path="res://assets/procession/mouth_mummy.png" id="tex_mouth_mummy"]
+[ext_resource type="Texture2D" path="res://assets/procession/mouth_features.png" id="tex_mouth_features"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_papyrus"]
 shader = ExtResource("6_papyrus")
@@ -146,12 +152,6 @@ position = Vector2(10604, 227)
 texture = ExtResource("tex_ox")
 centered = false
 metadata/piece_id = "ox"
-
-[node name="calf" type="Sprite2D" parent="pieces/hauling" unique_id=691510915]
-position = Vector2(7367, 383)
-texture = ExtResource("tex_calf")
-centered = false
-metadata/piece_id = "calf"
 
 [node name="sledge" type="Node2D" parent="pieces/hauling" unique_id=678563572]
 position = Vector2(11287, 185)
@@ -410,6 +410,18 @@ metadata/piece_id = "water_priest_arm"
 [node name="opening_mouth" type="Node2D" parent="pieces" unique_id=1696754418]
 script = ExtResource("script_opening_mouth")
 
+[node name="mummy" type="Sprite2D" parent="pieces/opening_mouth"]
+position = Vector2(1765, 200)
+texture = ExtResource("tex_mouth_mummy")
+centered = false
+metadata/piece_id = "mouth_mummy"
+
+[node name="features" type="Sprite2D" parent="pieces/opening_mouth/mummy"]
+position = Vector2(162, 45)
+texture = ExtResource("tex_mouth_features")
+centered = false
+metadata/piece_id = "mouth_features"
+
 [node name="adze" type="Sprite2D" parent="pieces/opening_mouth" unique_id=1067889]
 position = Vector2(3967, 359)
 texture = ExtResource("tex_mouth_adze")
@@ -439,6 +451,32 @@ position = Vector2(3960, 332)
 texture = ExtResource("tex_mouth_spoon")
 centered = false
 metadata/piece_id = "mouth_spoon"
+
+[node name="bulls" type="Node2D" parent="pieces"]
+script = ExtResource("script_bulls")
+
+[node name="plumed_ox" type="Sprite2D" parent="pieces/bulls"]
+position = Vector2(8040, 525)
+texture = ExtResource("tex_plumed_ox")
+centered = false
+offset = Vector2(-365, -285)
+metadata/piece_id = "plumed_ox"
+
+[node name="calf" type="Sprite2D" parent="pieces/bulls" unique_id=691510915]
+position = Vector2(7483, 457)
+scale = Vector2(-1, 1)
+texture = ExtResource("tex_calf")
+metadata/piece_id = "calf"
+
+[node name="plumes" type="Sprite2D" parent="pieces/bulls"]
+position = Vector2(6886, 217)
+texture = ExtResource("tex_plumes")
+centered = false
+metadata/piece_id = "plumes"
+
+[node name="plumes_place" type="Marker2D" parent="pieces/bulls"]
+position = Vector2(7718, 209)
+metadata/piece_id = "plumes_place"
 
 [node name="ending" type="Node2D" parent="pieces" unique_id=291455752]
 script = ExtResource("script_ending")

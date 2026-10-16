@@ -1,16 +1,9 @@
 ## The Opening of the Mouth (plates V-VI, spell 15): touch the adze to the mummy's mouth, and
 ## carry the words it speaks to their place over Ra.
 ##
-## The adze lies on the offering stand by the obelisks (the hooked blade, third from the top).
-## The caption over Ra, the lotus stand and the kneeler is gone from the picture: only a faint
-## imprint of it shows. Click the adze and it follows the pointer; click the mummy with it and the
-## adze goes back on the stand, and the words come out of the mummy's mouth as a small ball that
-## rises and unrolls into the line of signs, sitting in the empty caption band above the mummy.
-## Take the line and set it at its imprint over Ra: the caption as drawn. There is no game in the
-## touch itself yet (see ideas.md, "Open the mouth (the adze)").
-##
-## The adze and the words are the sprites mouth_adze and mouth_words, cut by
-## tools/cut_procession300.py; positions (`mouth` in level.json) are strip pixels.
+## With the adze, finish the mouth, eye and beard a chip at a time. Three nicks disturb
+## the mummy and reset the face; the original word-carrying sequence follows success.
+## Face pixels are cut into mouth/features; paths and positions come from level.json.
 class_name OpeningMouth
 extends Node2D
 
@@ -24,8 +17,26 @@ const BALL := 44.0            ## strip px across: the words as they leave the mo
 const RISE := 0.6             ## s for the ball to rise out of the mouth ...
 const UNROLL := 0.9           ## ... and to unroll into the line of signs
 const DROP_PAD := 40.0        ## strip px round the imprint that still take the line
+const CHIP_STEP := 3.0
+const CHIP_TOLERANCE := 4.0
+const MAX_NICKS := 3
+const CARVING_SCALE := 0.35   ## keep the carried handle clear of the small face
 const ADZE_GRIP := Vector2(6.0, 8.0)   ## where on the adze the pointer holds it: at the blade
 
+var active := false
+var _features: Sprite2D
+var _body: Sprite2D
+var _body_home := Vector2.ZERO
+var _feature_texture: Texture2D
+var _feature_image: Image
+var _feature_origin := Vector2.ZERO
+var _face_view := Rect2()
+var _curves: Array[Curve2D] = []
+var _progress: Array[float] = []
+var _pixel_stroke := PackedInt32Array()
+var _pixel_along := PackedFloat32Array()
+var _nicks: Array[Vector2] = []
+var _time := 0.0
 var phase := Phase.START
 var instant := false          ## the autotest: no animation
 var _adze: Sprite2D
@@ -51,18 +62,24 @@ func setup(level: Dictionary, nodes: Dictionary) -> void:
 	_adze_home = Rect2(_adze.position, _adze.texture.get_size())
 	_words_home = Rect2(_words.position - _words.texture.get_size() / 2.0, _words.texture.get_size())
 	_spoken = Vector2(m.speak_right - _words_home.size.x / 2.0, _words_home.get_center().y)
+	_setup_face(level, nodes)
 
 
 func reset() -> void:
 	if _tween and _tween.is_valid():
 		_tween.kill()
+	active = false
 	phase = Phase.START
+	_body.position = _body_home
+	_clear_face()
 	_adze.position = _adze_home.position
+	_adze.scale = Vector2.ONE
+	_adze.self_modulate.a = 1.0
 	_adze.visible = true
 	_words.visible = false
 	_words.scale = Vector2.ONE
 	_words.modulate.a = 1.0
-	_imprint.visible = true
+	_imprint.visible = false
 
 
 func done() -> bool:
@@ -164,7 +181,7 @@ func take_adze() -> void:
 
 
 func take_words() -> void:
-	if phase != Phase.SPOKEN:
+	if phase != Phase.SPOKEN or (_tween and _tween.is_running()):
 		return
 	phase = Phase.WORDS
 	_words.scale = Vector2.ONE
@@ -186,13 +203,23 @@ func put_back() -> void:
 	changed.emit()
 
 
-## The adze touches the mummy's mouth: the adze goes back on the stand, and the words come out of
-## the mouth as a ball that rises and unrolls into their line above the mummy.
+## Bring the adze to the mummy and enter the face-carving view.
 func touch() -> void:
-	if phase != Phase.ADZE:
+	if phase != Phase.ADZE or active or (_tween and _tween.is_running()):
 		return
+	active = true
+	_clear_face()
+	said.emit("Anubis", "Help me finish his face. Click along each red stroke, following the faint next chip. Three nicks disturb him. [esc] steps away.")
+	changed.emit()
+
+
+func _speak() -> void:
+	active = false
 	phase = Phase.SPOKEN
+	_imprint.visible = true
 	_adze.position = _adze_home.position
+	_adze.scale = Vector2.ONE
+	_adze.self_modulate.a = 1.0
 	_words.visible = true
 	said.emit("Scribe", "You touch the adze to the mummy's mouth. Its mouth opens, and words come out.")
 	changed.emit()
@@ -228,12 +255,151 @@ func place_words() -> void:
 
 
 func _process(_delta: float) -> void:
+	_time += _delta
+	if active:
+		queue_redraw()
 	# what is carried follows the pointer: the adze held at its blade, the words by their middle
 	var p := get_global_mouse_position()
 	_adze.z_index = 10 if phase == Phase.ADZE else 0     # what you carry comes to the front
+	_adze.scale = Vector2.ONE * (CARVING_SCALE if active else 1.0)
+	_adze.self_modulate.a = 0.65 if active else 1.0
 	_words.z_index = 10 if phase == Phase.WORDS else 0
 	match phase:
 		Phase.ADZE:
-			_adze.position = p - ADZE_GRIP
+			_adze.position = p - ADZE_GRIP * _adze.scale
 		Phase.WORDS:
 			_words.position = p
+
+
+func _setup_face(level: Dictionary, nodes: Dictionary) -> void:
+	_body = nodes.mouth_mummy
+	_body_home = _body.position
+	_mummy = Rect2(_body_home, _body.texture.get_size())
+	var source_mummy: Dictionary = level.mouth.mummy
+	_mouth += _body_home - Vector2(source_mummy.x, source_mummy.y)
+	_features = nodes.mouth_features
+	_feature_texture = _features.texture
+	_feature_image = _feature_texture.get_image()
+	if _feature_image.is_compressed():
+		_feature_image.decompress()
+	_feature_origin = _features.global_position
+	var data: Dictionary = level.sprites.mouth_features
+	var offset := _feature_origin - Vector2(data.x, data.y)
+	var view: Dictionary = level.mouth.face_view
+	_face_view = Rect2(Vector2(view.x, view.y) + offset, Vector2(view.w, view.h))
+	for stroke in level.mouth.strokes:
+		var curve := Curve2D.new()
+		curve.bake_interval = 0.5
+		for point in stroke.points:
+			curve.add_point(Vector2(point[0], point[1]) + offset)
+		_curves.append(curve)
+		_progress.append(0.0)
+	var width := _feature_image.get_width()
+	_pixel_stroke.resize(width * _feature_image.get_height())
+	_pixel_along.resize(_pixel_stroke.size())
+	for y in _feature_image.get_height():
+		for x in width:
+			var point := _feature_origin + Vector2(x + 0.5, y + 0.5)
+			var best := INF
+			for i in _curves.size():
+				var distance := point.distance_squared_to(_curves[i].get_closest_point(point))
+				if distance < best:
+					best = distance
+					_pixel_stroke[y * width + x] = i
+					_pixel_along[y * width + x] = _curves[i].get_closest_offset(point)
+
+
+func face_view() -> Rect2:
+	return _face_view
+
+
+func next_chip(stroke: int) -> Vector2:
+	return _curves[stroke].sample_baked(minf(_progress[stroke] + CHIP_STEP, _curves[stroke].get_baked_length()))
+
+
+func stroke_done(stroke: int) -> bool:
+	return _progress[stroke] >= _curves[stroke].get_baked_length()
+
+
+## Each accepted click advances one chip on one stroke; holding/dragging never advances it.
+func strike(point: Vector2) -> bool:
+	if not active:
+		return false
+	var chosen := -1
+	var nearest := CHIP_TOLERANCE * CHIP_TOLERANCE
+	for i in _curves.size():
+		if stroke_done(i):
+			continue
+		var distance := point.distance_squared_to(next_chip(i))
+		if distance <= nearest:
+			chosen = i
+			nearest = distance
+	if chosen < 0:
+		_nicks.append(point)
+		queue_redraw()
+		if _nicks.size() >= MAX_NICKS:
+			_fail()
+		elif _nicks.size() == 1:
+			said.emit("Anubis", "A nick. Strike just ahead of the last chip, on the red line.")
+		return false
+	_progress[chosen] = minf(_progress[chosen] + CHIP_STEP, _curves[chosen].get_baked_length())
+	_refresh_face()
+	if _progress.size() == _curves.size() and range(_curves.size()).all(stroke_done):
+		_nicks.clear()
+		_speak()
+	queue_redraw()
+	return true
+
+
+func leave() -> void:
+	if not active:
+		return
+	active = false
+	_clear_face()
+	said.emit("Anubis", "We can try his face again when you are ready.")
+	changed.emit()
+
+
+func _clear_face() -> void:
+	_progress.fill(0.0)
+	_nicks.clear()
+	_refresh_face()
+	queue_redraw()
+
+
+func _refresh_face() -> void:
+	var image := _feature_image.duplicate() as Image
+	for y in image.get_height():
+		for x in image.get_width():
+			var pixel := y * image.get_width() + x
+			var stroke := _pixel_stroke[pixel]
+			if not stroke_done(stroke) and (_progress[stroke] == 0.0 or _pixel_along[pixel] > _progress[stroke]):
+				image.set_pixel(x, y, image.get_pixel(x, y) * IMPRINT)
+	_features.texture = ImageTexture.create_from_image(image)
+
+
+func _fail() -> void:
+	active = false
+	_progress.fill(0.0)
+	_refresh_face()
+	said.emit("Anubis", "He stirs. Steady now. The face must be begun again.")
+	changed.emit()
+	if instant:
+		_nicks.clear()
+		_body.position = _body_home
+		return
+	_tween = create_tween()
+	for shift in [Vector2(2, -1), Vector2(-2, 0), Vector2(1, 0), Vector2.ZERO]:
+		_tween.tween_property(_body, "position", _body_home + shift, 0.08)
+	_tween.tween_callback(func():
+		_nicks.clear()
+		queue_redraw())
+
+
+func _draw() -> void:
+	for point in _nicks:
+		draw_circle(point, 0.9, UI.INK)
+	if active:
+		for i in _curves.size():
+			if not stroke_done(i):
+				draw_circle(next_chip(i), 1.5, Color(UI.INK * IMPRINT, 0.3 + 0.12 * sin(_time * 3.0)))

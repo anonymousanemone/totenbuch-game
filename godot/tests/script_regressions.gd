@@ -82,6 +82,9 @@ func _test_procession_scene_pieces() -> void:
 		var id := "emb_e%d" % i
 		standards = standards and nodes[id].visible and nodes[id].position == Vector2(data.sprites[id].x, data.sprites[id].y)
 	_expect(standards and nodes.calf.visible, "editor shows the correct standards and calf")
+	_expect(nodes.calf.scale.x < 0.0 and nodes.plumes.position == Vector2(data.bulls.wrong.x, data.bulls.wrong.y)
+		and nodes.plumes_place.position == Vector2(data.bulls.right.x, data.bulls.right.y) and nodes.plumed_ox.visible,
+		"editor shows the three bulls as you find them: the calf facing the sacrifice, the plumes on it, their place on the plumed ox marked")
 	var table := true
 	for id in data.table.pieces:
 		var source: Dictionary = data.table.pieces[id]
@@ -118,7 +121,7 @@ func _test_procession_scene_pieces() -> void:
 	var sun_home: Transform2D = nodes.sun.transform
 	root.add_child(scene)
 	scene.process_mode = Node.PROCESS_MODE_DISABLED
-	_expect(scene._pieces.calf == nodes.calf and scene.sprite_rects.calf.position == nodes.calf.position
+	_expect(scene.bulls.calf_sprite() == nodes.calf and nodes.calf.position.x == scene.bulls.calf_sprite().position.x
 		and scene.offerings.pieces.t03.rect.position == nodes.t03.position,
 		"runtime reuses authored pieces and reads moved calf and offering positions")
 	_expect(scene.haul._nodes.haul_sledge == nodes.haul_sledge and scene.water.priest_sprite() == nodes.water_priest

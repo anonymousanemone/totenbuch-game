@@ -4,16 +4,19 @@
 ## The priest raises a round jar over a kneeling woman; the wavy line from its spout, arching
 ## over Anubis holding the mummy upright and down to their base, is the stream. At the start his
 ## arm is raised further, the jar upright, and there is no stream: only a faint dotted ghost of
-## the line. Once you stand at the water his tired arm droops, tipping the jar further, at a rate
-## that changes at random (sometimes more, sometimes less); holding Space lifts it. Within WINDOW
+## the line. Once you stand at the water his tired arm droops, tipping the jar further, pulled
+## down harder or softer at random; holding Space pushes it up. The arm has weight: it keeps
+## swinging after a push or a pull, so it is never still by itself. Within WINDOW
 ## of the tilt as drawn the water runs along the line and the line draws itself in. Too high and
 ## it only drips; drooped too far and it gushes out, falls short and splashes on the woman's
 ## raised hands. Not pouring along the line, the drawn part dries back a little, never below KEEP
 ## of the furthest it reached. Once the whole line is drawn the jar settles where it is drawn.
 ##
-## The arm (forearm, hand and jar) and the stream are the sprites water_arm and water_stream,
-## with the stream's path beside it (water_path), cut by tools/cut_procession300.py; positions
-## (`water` in level.json) are strip pixels.
+## The priest is his body and his forearm with the jar (water_priest_body, water_priest_arm, from
+## tools/arm_sheets.py --parts): the arm is a child of the body, placed at the elbow (drawn on
+## both), and turns about it by the tilt. The stream is the sprite water_stream, with its path
+## beside it (water_path), cut by tools/cut_procession300.py; positions (`water` in level.json)
+## are strip pixels.
 class_name PourWater
 extends Node2D
 
@@ -25,12 +28,13 @@ enum Flow { NONE, DRIP, POUR, GUSH }
 const START_TILT := 0.45      ## rad the arm starts raised past where it is drawn: the jar upright
 const LOW := -0.55            ## the furthest the jar can be tipped (rad from as drawn) ...
 const HIGH := 0.6             ## ... and raised
-const WINDOW := 0.12          ## rad either side of the drawn tilt in which the water runs along the line
+const WINDOW := 0.09          ## rad either side of the drawn tilt in which the water runs along the line
 const DRIP_FROM := 0.32       ## above the window and below this the jar only drips
 const FLOW_RATE := 0.16       ## share of the line drawn per second while pouring along it
-const DROOP := Vector2(0.06, 0.4)       ## rad/s the arm droops: a new rate, at random between these, ...
-const DROOP_EVERY := Vector2(0.6, 1.6)  ## ... every so many s (also at random)
-const LIFT := 0.6             ## rad/s holding Space lifts the arm (against the droop)
+const DROOP := Vector2(0.5, 2.0)        ## rad/s² the arm is pulled down: a new pull, at random between these, ...
+const DROOP_EVERY := Vector2(0.3, 1.0)  ## ... every so many s (also at random)
+const LIFT := 3.0             ## rad/s² holding Space pushes the arm up (against the droop)
+const DAMP := 1.2             ## 1/s the arm's swing dies away by itself
 const TURN := 4.0             ## rad/s the arm turns at most to a held tilt (hold_at)
 const DRY := 0.06             ## share of the line that dries back per second while not pouring along it
 const KEEP := 0.6             ## ... never below this share of the furthest it reached
@@ -49,7 +53,8 @@ var best := 0.0               ## the furthest it has reached
 var flow := Flow.NONE
 var raising := false          ## Space is held: the arm lifts
 var rng := RandomNumberGenerator.new()   ## the droop (randomize()d each time you step up)
-var _droop := 0.0             ## rad/s the arm droops now ...
+var _spin := 0.0              ## rad/s the arm is swinging now (+ raises the jar)
+var _droop := 0.0             ## rad/s² the arm is pulled down now ...
 var _droop_left := 0.0        ## ... for this many s more
 var _want := START_TILT       ## the tilt held by hold_at()
 var _fixed := false           ## held at a turn by hold_at() (the autotest), not by the droop
@@ -59,11 +64,12 @@ var _gush_clock := 0.0
 var _drops: Array = []        ## {pos, vel, life, kind}: falling ("fall") or splashing ("splash")
 var _runs: Array = []         ## shares along the drawn line of drops running down it
 var _told := {}
-var _elbow := Vector2.ZERO
+var _elbow := Vector2.ZERO    ## where his arm joins his body: it turns about it
 var _spout := Vector2.ZERO    ## the spout as drawn
 var _hands := Vector2.ZERO
-var _arm: Node2D              ## pivot at the elbow
-var _arm_sprite: Sprite2D
+var _priest: Sprite2D
+var _arm: Sprite2D            ## his forearm and jar, a child of his body at the elbow
+var _arm_rect := Rect2()      ## the forearm and jar as drawn
 var _stream: Sprite2D
 var _along: PackedVector2Array = []   ## points along the drawn line from the spout (world px)
 var _view := Vector2.ZERO
@@ -73,7 +79,6 @@ var _tween: Tween
 
 func setup(level: Dictionary, art: String, nodes: Dictionary) -> void:
 	var w: Dictionary = level.water
-	_elbow = Vector2(w.elbow[0], w.elbow[1])
 	_spout = Vector2(w.spout[0], w.spout[1])
 	_hands = Vector2(w.hands[0], w.hands[1])
 	_view = Vector2(w.view[0], w.view[1])
@@ -86,9 +91,10 @@ func setup(level: Dictionary, art: String, nodes: Dictionary) -> void:
 	_stream.material = mat
 	for p in w.line:
 		_along.append(Vector2(p[0], p[1]))
-	_arm = nodes.jug_arm
-	_elbow = _arm.position
-	_arm_sprite = nodes.water_arm
+	_priest = nodes.water_priest
+	_arm = nodes.water_priest_arm
+	_elbow = _priest.position + _arm.position
+	_arm_rect = Rect2(_elbow + _arm.offset, _arm.texture.get_size())
 
 
 func reset() -> void:
@@ -103,6 +109,7 @@ func reset() -> void:
 	flow = Flow.NONE
 	raising = false
 	_fixed = false
+	_spin = 0.0
 	_droop_left = 0.0
 	_drops.clear()
 	_runs.clear()
@@ -117,8 +124,9 @@ func enter() -> void:
 		return
 	active = true
 	rng.randomize()
+	_spin = 0.0
 	_droop_left = 0.0
-	_once("enter", "Scribe", "The priest's arms are tired, and his jar droops. Hold [space] to lift it, and keep the water running along the line.")
+	_once("enter", "Priest with jar", "Can you help me pour? My arm is tired and the jar droops. Hold [space] to lift it, and keep the water running along the line.")
 
 
 ## Step away: what is drawn of the line dries back a little, no further.
@@ -144,12 +152,15 @@ func on_jar(p: Vector2) -> bool:
 
 ## The jar and forearm where they are now (world px).
 func arm_rect() -> Rect2:
-	var size := _arm_sprite.texture.get_size()
-	return _arm_sprite.get_global_transform() * Rect2(Vector2.ZERO, size)
+	return Transform2D(tilt, _elbow) * Transform2D(0.0, -_elbow) * _arm_rect
+
+
+func priest_sprite() -> Sprite2D:
+	return _priest
 
 
 func arm_sprite() -> Sprite2D:
-	return _arm_sprite
+	return _arm
 
 
 func stream_sprite() -> Sprite2D:
@@ -188,7 +199,11 @@ func _process(delta: float) -> void:
 			if _droop_left <= 0.0:   # his arm tires again: a new droop, at random
 				_droop = rng.randf_range(DROOP.x, DROOP.y)
 				_droop_left = rng.randf_range(DROOP_EVERY.x, DROOP_EVERY.y)
-			tilt = clampf(tilt + ((LIFT if raising else 0.0) - _droop) * delta, LOW, HIGH)
+			_spin = (_spin + ((LIFT if raising else 0.0) - _droop) * delta) * exp(-DAMP * delta)
+			tilt += _spin * delta
+			if tilt <= LOW or tilt >= HIGH:   # as far as it goes: the swing stops there
+				tilt = clampf(tilt, LOW, HIGH)
+				_spin = 0.0
 		_flow(delta)
 	elif not done:
 		flow = Flow.NONE
@@ -278,7 +293,7 @@ func _move_drops(delta: float) -> void:
 
 
 func _place() -> void:
-	if _arm == null:
+	if _priest == null:
 		return
 	_arm.rotation = tilt
 	(_stream.material as ShaderMaterial).set_shader_parameter("reveal", progress)

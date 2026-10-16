@@ -114,6 +114,10 @@ shader = ExtResource("6_papyrus")
 shader_parameter/base = Color(0.906, 0.839, 0.682, 1)
 shader_parameter/fibre = Color(0.47, 0.35, 0.16, 1)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_column"]
+atlas = ExtResource("2_strip")
+region = Rect2(561, 180, 274, 366)
+
 [node name="Dangers" type="Node2D" unique_id=1241147454]
 script = ExtResource("1_lvl")
 
@@ -424,7 +428,7 @@ centered = false
 [node name="spell40_donkey" type="Node" parent="actors"]
 
 [node name="snake" type="Sprite2D" parent="actors/spell40_donkey"]
-position = Vector2(1104.0, 467)
+position = Vector2(1133.0, 467)
 metadata/actor_id = "snake40"
 metadata/size = Vector2(116, 91)
 offset = Vector2(-58.0, -91)
@@ -432,7 +436,7 @@ texture = ExtResource("actor_27")
 centered = false
 
 [node name="spear_bearer" type="Sprite2D" parent="actors/spell40_donkey"]
-position = Vector2(1270.0, 532)
+position = Vector2(1299.0, 532)
 metadata/actor_id = "spear40"
 metadata/size = Vector2(276, 352)
 offset = Vector2(-168.0, -385)
@@ -440,24 +444,24 @@ texture = SubResource("Atlas_spear40")
 centered = false
 
 [node name="donkey" type="Sprite2D" parent="actors/spell40_donkey"]
-position = Vector2(1036.0, 532)
+position = Vector2(1061.5, 532)
 metadata/actor_id = "donkey40"
-metadata/size = Vector2(354, 221)
-offset = Vector2(-177.0, -221)
+metadata/size = Vector2(347, 221)
+offset = Vector2(-173.5, -221)
 texture = ExtResource("actor_30")
 centered = false
 
 [node name="tail" type="Sprite2D" parent="actors/spell40_donkey"]
-position = Vector2(1218.0, 557)
+position = Vector2(1250.5, 557)
 metadata/actor_id = "tail40"
-metadata/size = Vector2(56, 26)
-offset = Vector2(-28.0, -26)
+metadata/size = Vector2(49, 31)
+offset = Vector2(-24.5, -31)
 texture = ExtResource("actor_40")
 centered = false
 
 [node name="spear_glow" type="Sprite2D" parent="actors/spell40_donkey"]
 visible = false
-position = Vector2(1270.0, 532)
+position = Vector2(1299.0, 532)
 metadata/actor_id = "spear40_pole"
 metadata/size = Vector2(276, 352)
 offset = Vector2(-168.0, -385)
@@ -558,6 +562,21 @@ metadata/size = Vector2(110, 262)
 [node name="Sprite" type="Sprite2D" parent="Avatar" unique_id=1033025849]
 texture = ExtResource("4_avatar_tex")
 offset = Vector2(0, -131)
+
+[node name="Column" type="Node2D" parent="."]
+z_index = 2
+position = Vector2(561, 180)
+metadata/_edit_lock_ = true
+
+[node name="papyrus" type="ColorRect" parent="Column"]
+material = SubResource("ShaderMaterial_papyrus")
+offset_right = 274.0
+offset_bottom = 366.0
+mouse_filter = 2
+
+[node name="ink" type="Sprite2D" parent="Column"]
+texture = SubResource("AtlasTexture_column")
+centered = false
 
 [node name="Camera" type="Camera2D" parent="." unique_id=1184860775]
 

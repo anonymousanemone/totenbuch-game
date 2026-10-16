@@ -1,20 +1,88 @@
 # TODO
 
-## Playtest notes — 2026-10-15
+## Open — to resolve
 
-Universal and procession items done on 2026-10-15 (dangers still being tested). Items marked
-**Your call** need a decision before they can be done.
+Everything still undecided or waiting, from the 2026-10-15 playtest. Design ideas (new games,
+revamps, anything that plays boring) are also in `../ideas.md`.
+
+### Everywhere
+- [x] **Success flashes (second playtest):** when a task is done (the crocodile or snake fights, the offering table, the Opening of the Mouth, and so on), the objects it involved all flash a very slight, unsaturated green. Every glow colour lives in `glow.gdshader`. *Done:* `UI.success_flash`; the colour is `success` in `glow.gdshader`. Fights won, the hauling, standards, table, goose, water, mouth and the stand before Ra all flash what they involved. The old warm wash over the scene for the standards is gone (it's the green flash now).
+- [ ] **Your call:** keep `FRAME_FROM_TOP` in `procession.gd` (zoomed out, the top guideline stays under the title bar and more text below shows; `false` for the old centring)?
+- [x] **Your call (dangers walk-stop):** the only figure you walk up to in the dangers is spell 38's giver (you stop `BESIDE`, 50 px, right of the ankh and sail); clicking a creature walks you into its vignette. Change the giver's, or leave it? *Done:* you said the giver's stop is correct; left as is.
+
+### Procession
+
+- [ ] **Your call (the stand before Ra):** carry the three pieces like the adze and the words (follow the pointer, click to set down): one at a time, or 1–3 following the pointer for this last go-round?
+- [ ] **Your call:** tune the water game once you've played it (`DROOP`, `DROOP_EVERY`, `LIFT`, `DAMP`, `WINDOW`, `DRY`, `KEEP` in `pour_water.gd`). Made much more sensitive (second playtest): the arm now has momentum and keeps swinging, the pulls are stronger and change more often, and the window is narrower (0.12 → 0.09 rad).
+
+**Second playtest (2026-10-15)**
+- [x] **Haul, the driver's arm:** the whip swing looks janky. It clicks from pose to pose instead of swishing down. Why: the sheet has only 8 frames for the whole 0.75 rad swing, and the downstroke (`_whip_angle`, the last 20% of the beat, about 0.18 s) jumps through them in a few screen frames. The old whip was one sprite rotated smoothly. *Done:* both arms (the driver's and the water priest's) turn smoothly in code again, each a child sprite of its body pinned at the shared elbow. The sheets stay on disk, untouched, and give only the Journal pictures.
+- [x] **Haul, "Missed a beat":** it still shows while you are pulling the bier closer. Likely why: the driver says it once (`_once("missed", ...)`), and the line stays on screen until something else is said. Good pulls say nothing, so it never clears. *Done:* after a miss or a slip, the next good pull has the driver answer: "That's it. Keep the beat." A later miss is said again.
+- [x] **Haul, what's in front of the driver:** you used to see whatever is in front of the ox-driver come closer as you hauled, and now it doesn't. Why is not found yet: `_place` still moves the ox with the train (`_ox_home + offset`). Check in play. *Done:* why: while hauling, the camera followed you (the hauler), so the whole train moved with the camera and only the ox's nose showed at the left edge. Now the camera holds still on the train and the road ahead of the ox (`_haul_view`, `HAUL_AHEAD`), so you see the train come up.
+- [x] **Haul, walking up:** clicking the bier should walk you up to it, like everything else. Clicking the ox-driver (which starts the game) should walk you to exactly where the hauler is drawn, then fade you into his pose. *Done:* the bier walks you up to it; the ox-driver walks you to the hauler's place, and you fade into his pose (`INTO_POSE`, also fading back out when you let go).
+- [x] **Haul, after it's done:** clicking the hauler says "You've helped the procession advance." *Done:* the hauler says it (speaker tag "Hauler").
+- [x] **Haul, success message:** say something when the heave is done. *Done:* the driver: "Well hauled! The sledge stands where it should, and the mummy goes on toward the tomb." (plus the green flash).
+- [ ] **The three bulls:** implement the game in `../ideas.md` (calf flips away from the sacrifice, crown to the plumed bull).
+- [x] **Task starters speak:** when you click a figure that starts a task, it asks you instead of stating the rules dryly. For example: "Can you help restore the offering table? Drag items to their rightful place. I can help you if you get lost." *Done:* the ox-driver ("Can you help us haul the bier? ..."), the standard-bearers ("Can you help us? We carry each other's gods. Drag each standard to the bearer it belongs to."), the lector priest at the table (your line), and the priest with the jar ("Can you help me pour? ..."). The adze and the stand's pieces have no figure to ask, so they are as they were.
+- [x] **Offering table:** remove the faint outlines. All the information comes from clicking the lector. *Done:* the placement ghost is gone (node, code, hint line).
+- [x] **Standards, the lector's recital:** centre the signs over the top of his sheet of paper. They sit too close to his face now. *Done:* centred over the top of his sheet (`recital` in `level.json`, `RECITAL` in the cutter).
+- [x] **Standards:** drag only. No click to pick up and click to drop. *Done:* press on a standard and drag; let go on a bearer to set it, anywhere else and it goes back.
+- [x] **Hover glow:** also give it to the small calf, the censer, the bull, and the two figures hauling the other parts of the procession (these also become clickable). *Done:* new figures, clickable with notes: Calf, Ox (the one pulling the sledge; both glow as their own sprites), Priest with arm-censer (by the obelisks), Man hauling Anubis, Man hauling the canopy. Notes are my drafts: check them.
+- [x] **Opening of the Mouth, the stand's glow (part for whole):** hovering over the stand or anything on it other than the adze (the table, the two rods, the foreleg) makes the whole stand glow, with everything on it. Hovering over just the adze makes only the adze glow. *Done:* the stand is a new figure, "Offering stand" (clickable; note is my draft: "A small stand by the obelisks, with two rods, a foreleg and the hooked adze laid on it."). It glows with the rods, the foreleg and the adze; the adze alone glows alone.
+- [x] **Stand before Ra:** the small tag on the lotus, the sun and the stand says the object's name, not "[scribe]". *Done:* the tag says "Offering stand", "Sun disc" or "Lotus".
+- [x] **Remove the inventory box** entirely. *Done:* gone from the HUD in both levels. The stand's pieces now follow the pointer like the adze, one at a time (click where one was found to put it back). The dangers show nothing for the breath of life. Your call on carrying 1–3 at once is still open.
+- [x] **Mourners' note:** it's "six women with their hands to their chests". *Done:* "Six women walk with their hands to their chests."
+- [ ] **The processional boat:** make it a mini-game, a hint of and preparation for the boat games to come.
+- [x] **The journal:** the label under it says "Journal" instead of xx/xx. *Just a note, not to do now:* remove the journal system entirely; so far it doesn't matter to the game. *Done:* the label stays "journal" (the page title still counts).
+
+**New games to think of**
+- [ ] The barque.
+- [ ] The mourning women.
+- [ ] The two object carriers right behind the Apis bull.
+- [ ] The incense.
+- [ ] The Opening of the Mouth. *Chosen: finish the face (2026-10-15).*
+  - **Disturbed:** the mummy's face (eye, mouth line, curled beard) is only a red draft, tinted like the stela's imprint; the caption band is empty.
+  - **Play:** with the adze in hand, click the mummy and the camera closes in on its head. Each click strikes a chip: on the red line, just ahead of the last chip, it inks that bit black; off the line it leaves a nick (a speck of ink). Three strokes (mouth, eye, beard curl), any order, no timer. The next chip spot glows faintly.
+  - **Lost:** three nicks and the mummy jolts, Anubis steadies it, the face goes back to red and the view opens out. Click the mummy to try again.
+  - **Solved:** the face inked as drawn; then the words come out as now.
+  - **Pieces:** a `mouth/features` layer in `procession1-15.mdp` (the face lines, out of the picture); each stroke's polyline in `level.json` `mouth.strokes`.
+  - **Tuning:** chip step ~3 strip px, tolerance ~4 px, 3 nicks.
+  - **New:** click-to-advance along a path; a focus zoom nearer than the water's.
+  - **Test:** `--mouth`, then click each stroke's points in order.
+- [ ] Maybe a separate game for the second offering table.
+
+### Dangers
+- [ ] Heka signs (31–32): on the scroll they flash too quickly and brightly (subtler, slower, a darker red nearer the ink). Left as is, as you said (2026-10-15).
+- [ ] Spell 32 crocodiles still feel too frequent and fast. The tuning (`waves` in `danger_encounters.gd`) and the spawning code haven't changed since the hand-tuning (commit `d59d0fd`, 2026-10-13). What did change: the HUD bars around the fight shrank (top 40 → 62 px, bottom 228 → 130 px), so the camera is about 17% closer. Crocodiles now move about 17% faster on screen and cover about 15% less ground before reaching you. Re-tune, or fit the fight's camera as it was. (Left alone.)
+- [ ] Spell 35, red light green light: too easy. Maybe one life only, or no hints (undecided).
+- [ ] Spell 36, the beetles: also feel too easy (undecided).
+- [ ] **Your call:** spell 37's new Merti wording (nothing may give away that the flashing sign shows which snake strikes): intro "Turn to the snake that strikes ([←] [→]), and thrust as it springs."; hint "Watch the signs above. Striking too soon provokes a snake."; bitten from behind "It sprang from your other side. Turn to face it ([←] [→]). Bitten."
+- [ ] Spell 39, Rekrek (Apep): far too easy. Make it faster, or change the game.
+- [ ] Spell 38: life and breath become two separate signs, and only breath is taken: the player must click the breath sign (one choice only). Taking the wrong one makes the following fights nearly impossibly hard. Clicking spell 38's caption title shows "breath" in bold (or similar), which tells the player which to pick. **Waiting on art:** in the .mdp the ankh and the sail are still one layer (`breath38/ankh`, with `t3`); split them, then this needs deciding how "nearly impossibly hard" works.
+- [ ] Spells 40–41: both are boring and slow. Rethink their pace (undecided).
+- [ ] **Fight frames (later):** fix every mini-game's border so the lines drawn as the frame opens match the drawn frame exactly (position and thickness), and so the text below lines up where it leaves and where it comes back.
+  How it opens now (`_arena_setup`, `_croc_open`, `_draw_arena_lines`):
+  - It starts as the vignette's own frame (`fight.panel`: from the band's top rule down to the ground line, between the vignette's span) and grows linearly over `CROC_OPEN` (0.8 s) to `fight.full`: the width of the screen at the fight's zoom, down to 24 plate px above the bottom of the scroll.
+  - One-sided fights keep the right-hand double line where it's drawn and open to the left; two-sided fights and those with a `view` open about their middle.
+  - The frame is redrawn in code, not taken from the drawing: one top line on `rules[0]`, a double line at the bottom and on each side, every line as thick as `rules[0]` with an 8 px gap. Wherever the drawing's own lines differ, the drawn and the code frame don't line up at the start.
+  - The text below fades out while dropping `TEXT_DROP` (320 px) and stretching to 130 % wide; neighbouring captions are covered and the other figures fade out.
+  - The camera zooms in during the same 0.8 s.
+
+
+## Playtest notes — 2026-10-15 (done)
+
+What the 2026-10-15 playtest changed. What is still open is at the top.
 
 ### Everywhere (all levels)
 
-- [x] **Hover glow colour:** pale cream by default (`UI.HOVER`); each level sets its own (`GLOW` in `procession.gd` and `dangers.gd`); the dangers keep the warm red (`UI.HOVER_WARM`).
+- [x] **Hover glow colour:** level palettes live in `glow.gdshader` (`procession` and `danger`); each level selects its named palette through `UI.Glow`.
 - [x] **Success flash:** much softer and shorter (`UI.FLASH`, 0.6 s).
-- [x] **Camera refocus (procession):** stepping up to the table, the standards or the water, taking up the rope, and stepping away now ease in and out over `REFOCUS` (0.8 s). The dangers' fight camera is not done yet.
-- [x] **Walking to a figure (procession):** you stop `STAND_GAP` (6 plate px) clear of the figure, on the side you came from. The dangers are not done yet.
+- [x] **Camera refocus:** in the procession, stepping up to the table, the standards or the water, taking up the rope, and stepping away now ease in and out over `REFOCUS` (0.8 s). In the dangers, the camera eases in and out (smoothstep) as a fight opens out and closes.
+- [x] **Walking to a figure (procession):** you stop `STAND_GAP` (6 plate px) clear of the figure, on the side you came from.
 - [x] **Carried objects have no text:** the carried-item box shows only the picture; the stand pieces say nothing when picked up; "Set them up before Ra" is gone.
 - [x] **Drag and drop:** a dragged offering or standard is never in the carried-item box.
-- [x] **Camera zoom-out framing (try it out):** `FRAME_FROM_TOP` in `procession.gd` (on): zoomed out, the top guideline stays under the title bar and more text below shows. At the usual zoom nothing changes. Set it to `false` for the old centring. **Your call:** keep it?
-- [x] **The text below the frame (procession):** the 2026-10-15 re-cut reads it from the .mdp's `text_below` layers. The dangers' text below is not re-cut yet.
+- [x] **Camera zoom-out framing (try it out):** `FRAME_FROM_TOP` in `procession.gd` (on): zoomed out, the top guideline stays under the title bar and more text below shows. At the usual zoom nothing changes. Set it to `false` for the old centring.
+- [x] **The text below the frame:** the procession's 2026-10-15 re-cut reads it from the .mdp's `text_below` layers. The dangers' strip already matched its .mdp's `text_below` layers. **Partial dangers cut (2026-10-15):** only spell 40 had changed in the .mdp (the donkey, its snake, the spear-bearer and his spear moved 29 px right; the tail is new, on its own layer `snakeass40/tail`; the text below under it). Cut: `donkey40`, `snake40`, `tail40` and the strip there; spear40 moved with them (`level.json`, its `tip` in `spearers.json`; its sheet row is unchanged); `tail_root` (1230, 529); the four nodes in `dangers.tscn`. `tools/cut_dangers300.py` now reads the new tail layer and builds `bundle41` from the `sheaf41` pieces (no longer in p19), so a full cut runs again. `spearers.png` was not remade: regenerated, its spell 41 row would differ from yours.
 - [x] **Part-vs-whole highlighting:** a figure inside another is picked first and glows alone; anywhere else on the whole, the whole glows. A part can also be one figure of a sprite that holds several (`UI.part_glow`). First use: the censer priest and the bier, both parts of the sledge's drawing.
 
 ### Procession (spells 1–15)
@@ -23,16 +91,16 @@ Universal and procession items done on 2026-10-15 (dangers still being tested). 
 - [x] Bigger text: the intro and outro cards use the dialogue size (32 px), up to `OVERLAY_W` (900 px) wide. This also applies to the dangers.
 
 **Captions**
-- [ ] **Your call:** split spell 1's caption where "to be said…" begins. I can place "Netherworld" (the eye and god-flag group around x 11950) and what looks like the name "Osiris Iufankh" just left of it (x ~11550–12000), but I can't find the *djed* sign for "to be said" reliably. Tell me the x where it starts (or the sign to look for), and I'll split the caption and its highlight there.
+- [x] Spell 1's caption is two (from your `top text front` layer): x 13275–14878 "Beginning of the chapters about the going forth by day and the carrying of the shades into the Netherworld." and x 10164–13275 "To be said on the day of burial (in order to) go in after coming forth.", each with its own highlight.
 
 **Figures and descriptions**
-- [x] **The bier:** one item, "The funerary bier", covering the whole boat (plates II–I), glowing as its own part of the sledge drawing. Its note is "A processional boat with the funerary bier."; clicked before the hauling it adds "The bier is stalled. Ask the ox-driver how to haul it." **Your call:** fill in the rest of the description (the "etc.").
-- [x] **The incense man:** "Priest with censer" is on his own, with his own glow, and is recorded in the Journal when clicked. Note: "A priest walks before the bier with a censer, offering incense." **Your call:** check the wording.
-- [x] **The two monuments:** taken to be the two obelisks in plate V (the tomb chapel and the stela were already clickable). One item, "Two obelisks": "Two obelisks stand on their bases." **Your call:** confirm these are the ones meant, and the wording.
+- [x] **The bier:** one item, "The funerary bier", covering the whole boat (plates II–I), glowing as its own part of the sledge drawing. Its note is "A processional boat with the funerary bier."; clicked before the hauling it adds "The bier is stalled. Ask the ox-driver how to haul it."
+- [x] **The incense man:** "Priest with censer" is on his own, with his own glow, and is recorded in the Journal when clicked. Note: "A priest walks before the bier with a censer, offering incense."
+- [x] **The two monuments:** taken to be the two obelisks in plate V (the tomb chapel and the stela were already clickable). One item, "Two obelisks": "Two obelisks stand on their bases."
 - [x] **The man across the offering table:** "Man with a water jar", "A man holds a water jar over the offering table for purification.", his box trimmed to x 4835–5005 so the bouquets beside him aren't part of him.
 
 **Hauling**
-- [ ] **Art:** the whip bearer's sheet is made (2026-10-15): `godot/assets/procession/haul_driver_sheet.png`, 8 frames from wound back (0.2 rad) through as drawn (frame 2) to the full strike (-0.55), the whole figure in each, the arm turned about the elbow drawn on both layers (11120, 289); the layout is in `haul_driver_sheet.json`. Made once by `tools/arm_sheets.py` from the .mdp (only read); now hand-edited, never remade. **You:** touch up any pixels. **Then:** the game shows the frame nearest the whip's angle in place of turning `haul_whip` (not wired yet; the driver is his own sprite, so nothing else changes).
+- [x] **The ox-driver is his sheet** (`haul_driver_sheet.png`, hand-edited, never remade): the driver and his whip are one sprite showing the frame nearest the whip's angle on the beat (`haul.gd`). In the editor he shows the frame as drawn (2).
 - [x] **Art (the .mdp):** the duplicate forearm and whip are gone from the `haul/driver` layer.
 
 **Standards**
@@ -53,72 +121,46 @@ Universal and procession items done on 2026-10-15 (dangers still being tested). 
 - [x] Once complete, hovering it highlights the whole table, offerings included.
 
 **The stand before Ra (the finale)**
-- [ ] **Your call:** carry the three pieces like the adze and the words (follow the pointer, click to set down): one at a time, or 1–3 following the pointer for this last go-round?
 - [x] Until the stela shows the imprint, the pieces can't be taken; clicking one says "This might come in handy later, but you wouldn't want your hands full right now." The old early-stand soft lock ("Some things have not been set right yet") couldn't happen any more and is gone.
 - [x] When the procession is in order: "The procession is in order. Head over to Ra on his throne."
 
 **Water pouring**
-- [ ] **Art:** the water priest's sheet is made (2026-10-15): `godot/assets/procession/water_sheet.png`, 24 frames (6 a row) over the game's whole tilt range, -0.55 to 0.6 rad, 0.05 rad apart (frame 11 as drawn), the whole figure in each, the arm turned about the elbow drawn on both layers (2289, 328); the layout is in `water_sheet.json`. Made once by `tools/arm_sheets.py` from the .mdp (only read); now hand-edited, never remade. The `water/man` layer's old copy of the forearm and jar is left out. **You:** touch up the elbow (its inner line comes loose when drooped, overlaps when raised). **Then:** the game shows the frame nearest the tilt; the priest then comes out of the strip (now `water/man` is drawn into it) and is the sheet's sprite.
-- [x] **New game:** his arm droops by itself, at a rate drawn at random (`DROOP` 0.06–0.4 rad/s), changing every `DROOP_EVERY` (0.6–1.6 s, also random). It really is random: a fresh seed each time you step up. Hold Space to lift (`LIFT` 0.6 rad/s). The line fills while the stream is lined up and slowly dries back when it isn't (never below `KEEP` of the furthest reached). The water particles are unchanged. **Your call:** tune once you've played it.
-
-**Still open from before**
-- [ ] **Your call:** the goose falls at an odd angle (it's dropped last and wedges in). Drop it near level and first? That changes the whole scatter's layout.
-
-**New games to think of**
-- [ ] The barque.
-- [ ] The mourning women.
-- [ ] The two object carriers right behind the Apis bull.
-- [ ] The incense.
-- [ ] The Opening of the Mouth.
-- [ ] Maybe a separate game for the second offering table.
+- [x] **The water priest is his sheet** (`water_sheet.png`, your hand-edited frames, never remade): he is out of the strip (`--water` with the sheet present takes `water/man` out) and shows the frame nearest the tilt; the spout, the drips and the jar's click area follow the frame shown, turning about your elbow pin (2289, 328). In the editor he shows the frame as drawn (11). The jar glows as its part of the frame; the priest glows whole.
+- [x] **New game:** his arm droops by itself, at a rate drawn at random (`DROOP` 0.06–0.4 rad/s), changing every `DROOP_EVERY` (0.6–1.6 s, also random). It really is random: a fresh seed each time you step up. Hold Space to lift (`LIFT` 0.6 rad/s). The line fills while the stream is lined up and slowly dries back when it isn't (never below `KEEP` of the furthest reached). The water particles are unchanged.
 
 ### Dangers (spells 31–42)
 
 **Everywhere in the dangers**
-- [ ] Bigger text on the intro card.
-- [ ] Bring back the sassy text. It's boring now; bring back the crocodiles' responses too.
-- [ ] Remove the "Press [space] to attack" start entirely: no mandatory Space before a fight starts. Spell 31 asking for one thrust before the crocodiles come was good, so keep that. Spell 32 starts 1–2 s after clicking in.
+- [x] Bigger text on the intro card (the shared card: 32 px).
+- [x] The sassy text is back: every in-fight line `9864c00` ("major sweep again") flattened has its old wording again, wherever the same moment is still in the game:
+  - the crocodiles: "The crocodile turns away.", "They come again.", the heka thefts ("It laughs, seizes the word of power…"), "The fight is lost. Click the creature to take up the spear again."
+  - "Struck!" / "Pinned!" / "Pressed down…" on each hit (spells 33, 35, 36, 37, 39, 41)
+  - each mistake's old explanation ("Too early: your spear was already coming back up…", "The barb jars on a still neck…", "It was at that band: it bites through the stalks…", …)
+  - the beetles' swarm line, and "You step back out of the vignette…" on Esc.
+  - Corrective lines still show once per fight (as since the sweep); a crocodile reaching you is said every time again. The short intros, hints and arrival lines are unchanged.
+- [x] No Space to begin: a fight starts on the click. Spell 31 keeps its lesson (one thrust before the first crocodile comes); spell 32's first crocodile comes 1.2 s in (its `timer`). The intro card says "Click a creature to learn its rule and take up the spear."
 
 **Heka signs (spells 31–32)**
-- [ ] On the scroll they flash too quickly and too brightly while you walk. Make the red flash subtler and slower, with a darker red closer to the ink colour but still clearly visible.
-- [ ] No glow on them. Use the part-vs-whole highlighting instead (see Everywhere).
+- [x] Part for whole: on the scroll, the heka word glows alone under the pointer; anywhere else on its caption, the whole caption glows with the heka word. (In a fight it glows as before.)
 
 **Crocodiles (spells 31–32)**
-- [ ] Before the second wave of spell 31, no plain "hold Shift" instruction. Go back to the subtle hint that something flashes red.
-- [ ] Remove the red dots that count the crocodiles left, in both fights.
-- [ ] Flesh signs: slightly bigger and placed closer together. Crop `flesh.png` to remove its extra transparent border.
-- [ ] Losing after too many bites: bring back the old text (about the biting and crumbling to dust).
-- [ ] Spell 32 crocodiles still feel too frequent and fast. The tuning (`waves` in `danger_encounters.gd`) and the spawning code haven't changed since the hand-tuning (commit `d59d0fd`, 2026-10-13). What did change: the HUD bars around the fight shrank (top 40 → 62 px, bottom 228 → 130 px), so the camera is about 17% closer. Crocodiles now move about 17% faster on screen and cover about 15% less ground before reaching you. Re-tune, or fit the fight's camera as it was.
+- [x] Before the second wave of spell 31: "The crocodiles draw back. Above, signs begin to glow red." again, and a red crocodile's first bite says "Bronze alone will not turn the red ones. The signs glowing above may tell you how." Plain bronze on a red crocodile does nothing, silently (no "hold Shift").
+- [x] The red dots that counted the crocodiles are gone, in both fights. (The beetles of spell 36 keep theirs.)
+- [x] Flesh signs: `flesh.png` cropped to the sign (its white margin; 188×132 → 96×91), drawn `FLESH_SIZE` 28 px tall (about 1.3× before) and `FLESH_GAP` 6 px apart. Adjust the two if they should be bigger.
+- [x] Losing to bites: "One bite too many: the spear-bearer crumbles to dust." again (every fight).
 
-**Snakes and the beetle**
-- [ ] Spell 35, red light green light: too easy. Maybe one life only, or no hints (undecided).
-- [ ] Spell 36, the beetles: also feel too easy (undecided).
-- [ ] Spell 37, the Merti snakes: revert the descriptions. They must not give away that the flashing snake sign shows which snake strikes.
-- [ ] Spell 39, Rekrek (Apep): far too easy. Make it faster, or change the game.
-
-**Spell 38, the breath of life**
-- [ ] Life and breath become two separate signs, and only breath is taken: the player must click the breath sign (one choice only). Taking the wrong one makes the following fights nearly impossibly hard. Clicking spell 38's caption title shows "breath" in bold (or similar), which tells the player which to pick.
+**Spell 37, the Merti snakes**
+- [x] Spell 37, the Merti snakes: nothing gives away that the flashing sign shows which snake strikes. Every earlier version said it outright, so this is new wording (check it: see Open).
+  - intro: "Turn to the snake that strikes ([←] [→]), and thrust as it springs."
+  - hint: "Watch the signs above. Striking too soon provokes a snake."
+  - bitten from behind: "It sprang from your other side. Turn to face it ([←] [→]). Bitten."
 
 **The last two fights (spells 40–41)**
-- [ ] Both are boring and slow. Rethink their pace (undecided).
-- [ ] Hovering spell 40 on the scroll should highlight the snake and the donkey together, and spell 41 the snake and the sheaf. Now only the snake glows: `_creatures(e)` in `dangers.gd` returns only `e.foe`. Add `e.donkey` (`donkey40`) and `e.bundle` (`bundle41`) to what glows and takes the click.
-- [ ] Walking from the donkey's vignette (spell 40) to the sheaf's (spell 41), the avatar goes behind the column of hieroglyphs between them and comes out the other side. Purely visual: the column's ink is drawn over him (or he fades out and back in at its edges).
-
-**Fight frames (every arena fight)**
-- [ ] Fix every mini-game's border so the lines drawn as the frame opens match the drawn frame exactly (position and thickness), and so the text below lines up where it leaves and where it comes back.
-  How it opens now (`_arena_setup`, `_croc_open`, `_draw_arena_lines`):
-  - It starts as the vignette's own frame (`fight.panel`: from the band's top rule down to the ground line, between the vignette's span) and grows linearly over `CROC_OPEN` (0.8 s) to `fight.full`: the width of the screen at the fight's zoom, down to 24 plate px above the bottom of the scroll.
-  - One-sided fights keep the right-hand double line where it's drawn and open to the left; two-sided fights and those with a `view` open about their middle.
-  - The frame is redrawn in code, not taken from the drawing: one top line on `rules[0]`, a double line at the bottom and on each side, every line as thick as `rules[0]` with an 8 px gap. Wherever the drawing's own lines differ, the drawn and the code frame don't line up at the start.
-  - The text below fades out while dropping `TEXT_DROP` (320 px) and stretching to 130 % wide; neighbouring captions are covered and the other figures fade out.
-  - The camera zooms in during the same 0.8 s.
+- [x] On the scroll, spell 40's donkey (and its tail) glows and takes the click with the snake on its back; spell 41's sheaf with its snake.
+- [x] Walking from spell 40 to 41, the avatar passes behind the column of signs between them (x 561–835) and comes out the other side: `Column` in `scenes/dangers.tscn` draws the papyrus and the strip's ink there over him (hidden while a fight is open).
 
 **Bugs**
-- [ ] **Crash in spell 40:** pointing at the donkey's snake during the fight crashes with "Invalid access to property or key 'foe' on a base object of type 'Dictionary'". Cause: `_targets()` in `dangers.gd` returns `[fight.foe]`, but a fight keeps its creature under `fight.e.foe`; the hover check calls it on every mouse move. One-line fix.
-
-### Future scenes
-
-- [ ] **The seven cows (spell 148):** think of a game for the cows, and make it.
+- [x] **Crash in spell 40:** fixed (`_targets()` reads `fight.e.foe`); `tests/script_regressions.gd` covers it.
 
 ## Audit status and approval
 
@@ -164,7 +206,7 @@ only after the change and its relevant verification are complete.
 ## P2 — Color roles and consistency
 
 Current display reds: speaker tags/headings #963e28; minimap #a3321f; progress/debug red
-approximately #a3331f; danger ink, flesh signs, and targets #b55b3c. Hover is warm orange.
+approximately #a3331f; danger ink, flesh signs, and targets #b55b3c. Hover colors are defined per level in `glow.gdshader`.
 Ghosts and sprite modulation are tint multipliers, not directly comparable display colors.
 
 - [x] Define shared semantic colors for UI accent, danger, target, placement preview, success, and hover in `ui.gd`.

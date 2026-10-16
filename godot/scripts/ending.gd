@@ -6,9 +6,9 @@
 ## the women mourners (pl. I), the sun disc between the legs of the creature on the mummy's bier
 ## (pl. II; it rides with the sledge), the lotus on the second offering pile (pl. V). Once the
 ## other rites are done (`show_imprint`) the stela by the tomb shows a faint imprint of the three as
-## they stand; until then its face is blank. A piece found is carried; at its
-## place before Ra each goes on only once what it rests on is there: the stand, then the sun, then
-## the lotus. The kneeling adorer before Ra is absent until the player kneels in his place; then
+## they stand; until then its face is blank. A piece found is carried, one at a time, and follows
+## the pointer; clicking where it was found puts it back. At its place before Ra each goes on only
+## once what it rests on is there: the stand, then the sun, then the lotus. The kneeling adorer before Ra is absent until the player kneels in his place; then
 ## light pours from Ra's disc and the new sun and floods the screen (`ended`).
 class_name EndingStand
 extends Node2D
@@ -20,6 +20,8 @@ signal ended
 const PIECES := ["stand", "sun", "lotus"]
 const RESTS_ON := {"stand": "", "sun": "stand", "lotus": "sun"}
 const NAMES := {"stand": "the offering stand", "sun": "the sun disc", "lotus": "the lotus"}
+## Who speaks for a piece (the tag over what is said about it).
+const TAGS := {"stand": "Offering stand", "sun": "Sun disc", "lotus": "Lotus"}
 const IMPRINT := UI.PREVIEW   ## the imprint on the stela: faint and reddish
 const IMPRINT_FADE := 1.5    ## s for the imprint to go once the stand stands
 const KNEEL := 0.8           ## s for you to sink into the adorer's place
@@ -27,7 +29,7 @@ const RAYS := 1.6            ## s for the light to spread from the two suns ...
 const FLOOD := 0.9           ## ... and to fill the screen
 const LIGHT := preload("res://scripts/light.gdshader")
 
-var carried: Array[String] = []   ## found, not yet at its place, in the order found
+var carried: Array[String] = []   ## found, not yet at its place (one at a time)
 var placed := {}                  ## piece -> true once at its place
 var kneeling := false
 var imprint_shown := false        ## the stela shows the stand (only once the other rites are done)
@@ -103,9 +105,11 @@ func _set_at_place(nm: String) -> void:
 	sp.position = _rects[nm].get_center()
 
 
-## A hidden piece under the pointer, or "place" for the stand's place before Ra (empty, part
-## set up, or whole); else "".
+## A hidden piece under the pointer, "back" for where the carried piece was found, or "place" for
+## the stand's place before Ra (empty, part set up, or whole); else "".
 func pick(p: Vector2) -> String:
+	if not carried.is_empty() and home_rect().grow(6.0).has_point(p):
+		return "back"
 	for nm in PIECES:
 		if placed.has(nm) or nm in carried:
 			continue
@@ -128,16 +132,41 @@ func sprite_of(nm: String) -> Sprite2D:
 	return _nodes.get(nm)
 
 
-## Where a piece is now, for walking to it.
+## Where the carried piece was found (world px).
+func home_rect() -> Rect2:
+	var nm: String = carried[0]
+	var home: Dictionary = _hidden_homes[nm]
+	var size: Vector2 = _nodes[nm].texture.get_size()
+	return (home.parent as Node2D).get_global_transform() * home.transform * Rect2(-size / 2.0, size)
+
+
+## Where a piece is now, for walking to it ("back": where the carried piece was found).
 func where(nm: String) -> Vector2:
+	if nm == "back":
+		return home_rect().get_center()
 	return _nodes[nm].global_position if nm in _nodes else place_rect().get_center()
 
 
+## Take up a piece: it follows the pointer until it is set down or put back.
 func take(nm: String) -> void:
-	if nm in carried or placed.has(nm):
+	if not carried.is_empty() or placed.has(nm):
 		return
 	carried.append(nm)
-	_nodes[nm].visible = false   # a carried piece has no words of its own
+	var sp: Sprite2D = _nodes[nm]
+	sp.reparent(self, false)
+	sp.rotation = 0.0
+	sp.scale = Vector2.ONE
+	sp.z_index = 10
+	changed.emit()
+
+
+## Put the carried piece back where it was found.
+func put_back() -> void:
+	if carried.is_empty():
+		return
+	var nm: String = carried.pop_back()
+	_nodes[nm].z_index = 0
+	_hide(nm)
 	changed.emit()
 
 
@@ -155,13 +184,14 @@ func set_down() -> String:
 		if under == "" or placed.has(under):
 			carried.erase(nm)
 			placed[nm] = true
+			_nodes[nm].z_index = 0
 			_set_at_place(nm)
 			if complete():
 				said.emit("Scribe", "The stand stands before Ra again, the sun disc on it and the lotus bending over it" + (", as on the stela." if imprint_shown else "."))
 				_fade_imprint()
 			changed.emit()
 			return "placed"
-	said.emit("Scribe", "%s has nothing to rest on yet." % _cap(NAMES[carried[0]]) + (" Look at the stela: something stands beneath it." if imprint_shown else ""))
+	said.emit(TAGS[carried[0]], "%s has nothing to rest on yet." % _cap(NAMES[carried[0]]) + (" Look at the stela: something stands beneath it." if imprint_shown else ""))
 	return "unsupported"
 
 
@@ -170,11 +200,7 @@ func complete() -> bool:
 
 
 func carried_name() -> String:
-	return ", ".join(carried.map(func(nm): return NAMES[nm]))
-
-
-func carried_texture() -> Texture2D:
-	return _nodes[carried[-1]].texture if not carried.is_empty() else null
+	return NAMES[carried[0]] if not carried.is_empty() else ""
 
 
 ## Where you kneel: the adorer's place before Ra.
@@ -239,6 +265,8 @@ func _set_light(spread: float, flood: float) -> void:
 
 
 func _process(delta: float) -> void:
+	if not carried.is_empty():   # what is carried follows the pointer
+		_nodes[carried[0]].global_position = get_global_mouse_position()
 	if not _light.visible:
 		return
 	_turn += delta

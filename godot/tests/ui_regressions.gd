@@ -66,13 +66,9 @@ func _run() -> void:
 			await frames(8)
 			expect(hud._say.get_theme_font_size("normal_font_size") == UI.DIALOGUE, label + " a short line keeps the large font")
 			expect(absf(message.get_global_rect().get_center().y - row.get_global_rect().get_center().y) <= 2.0, label + " dialogue is centred in the strip")
-			hud.update_hand("test", "the jackal standard", level.get_node("Strip").texture)
-			await frames(8)
-			expect(row.get_global_rect().grow(1.0).encloses(message.get_global_rect()), label + " carried item leaves dialogue readable")
 			hud.say("You, before the last judge", "The judges have heard you.")
 			await frames()
 			expect(inside(hud._tag), label + " long speaker tag fits viewport")
-			hud.update_hand("", "", null)
 			hud.say("Scribe", "Drag offerings into place, lowest first. The upper shelf catches loose offerings. Drag them across it to use them.")
 			await frames()
 			if dimensions.x == 800 and name == "procession":
@@ -181,9 +177,13 @@ func _test_feedback() -> void:
 			level._set_caption_hover(c)
 			expect(is_instance_valid(level._caption_glow), e.id + " caption glows")
 	level._set_caption_hover({})
-	for words in level.level.heka.values():   # the heka words in a caption keep their own click
+	for id in level.level.heka:   # the heka words in a caption keep their own click
+		var words: Array = level.level.heka[id]
 		var r: Rect2 = level.actor_rect(words[0])
 		expect(level._caption_at(r.get_center()).is_empty(), words[0] + " stays the heka sign, not the caption")
+		expect(level._hover_at(r.get_center()) == [words[0]], words[0] + " glows alone on the scroll (part for whole)")
+		var owner: Dictionary = level.ENCOUNTERS.filter(func(e): return e.id == id)[0]
+		expect(words.all(func(w): return w in level._caption_signs(owner)), id + " the whole caption glows with its heka word")
 	var e31: Dictionary = level.ENCOUNTERS[0]
 	for visit in 2:   # walking into a danger's vignette says its line every time, not only the first
 		level.hud.say("Scribe", "")
@@ -198,23 +198,11 @@ func _test_feedback() -> void:
 	for encounter in level.ENCOUNTERS:
 		if encounter.kind not in level.FIGHTS:
 			continue
+		level.set_process(false)     # the fight stands still between the checks and the pictures
 		level.start_fight(encounter)
-		expect(level.hud._text.ends_with(level.ATTACK), encounter.id + " clicking the danger says to press Space to attack")
-		level.fight.awaiting_start = true
-		var before: float = level.fight.t
-		level._update_fight(1.0)
-		expect(level.fight.t == before, encounter.id + " danger waits while muted")
-		var space := InputEventKey.new()
-		space.keycode = KEY_SPACE
-		space.pressed = true
-		level._unhandled_input(space)
-		expect(not level.fight.awaiting_start, encounter.id + " Space starts the chosen danger")
-		expect(level.fight.get("blank", -1.0) >= 0.0, encounter.id + " the first Space begins with a thrust")
+		expect(level.hud._text == UI.plain(encounter.intro), encounter.id + " clicking the danger says its rule, with no Space to start")
 		level._update_fight(0.1)
-		expect(level._spear_out() > level._spear_rest(), encounter.id + " the first thrust runs the spear out")
-		expect(level.fight.hits == 0 and level.fight.get("thrust", -1.0) < 0.0 and level.fight.get("tied", 0) == 0 and level.fight.get("health", 3) == 3,
-			encounter.id + " the first thrust does not count (no hit, no band, no harm)")
-		level.fight.blank = -1.0
+		expect(level.fight.t > 0.0, encounter.id + " the danger starts at once")
 		level._feedback_once("test", "First mistake")
 		level._feedback_once("test", "Repeated mistake")
 		expect(level.hud._text == "First mistake", encounter.id + " repeated mistakes do not spam instructions")
@@ -225,8 +213,7 @@ func _test_feedback() -> void:
 			croc.node.position = level.fight.pos + level._tip_offset() - level._croc_head(croc.node, croc.dir)
 			level.fight.force_heka = false
 			level._croc_strike()
-			expect(level.hud._text.contains("bronze"), encounter.id + " plain hit on a magic crocodile explains why it failed")
-		level.fight.awaiting_start = true
+			expect(croc.s == "crawl" and not level.hud._text.contains("shift"), encounter.id + " plain bronze does nothing to a red crocodile, and no one says to hold Shift")
 		level.fight.health = 2 if level.fight.has("health") else 0
 		if encounter.kind in ["crocs", "twin", "creep", "apep", "sheaf"]:
 			await frames()
@@ -255,6 +242,7 @@ func _test_feedback() -> void:
 		level.start_fight(encounter)
 		expect(level.fight.get("feedback", {}).is_empty(), encounter.id + " reopening resets first-occurrence advice")
 		level.leave_fight()
+		level.set_process(true)
 	AudioServer.set_bus_volume_db(0, volume)
 	level.free()
 	await frames()

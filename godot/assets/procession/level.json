@@ -266,7 +266,7 @@
    "w": 690,
    "h": 309,
    "label": "Women mourners",
-   "note": "Six women walk with hands to their faces.",
+   "note": "Six women walk with their hands to their chests.",
    "plate": "I"
   },
   {
@@ -279,12 +279,30 @@
    "plate": "I"
   },
   {
+   "x": 13298,
+   "y": 237,
+   "w": 227,
+   "h": 289,
+   "label": "Man hauling the canopy",
+   "note": "A man hauls the canopy frame on its sledge by a rope.",
+   "plate": "I"
+  },
+  {
    "x": 13024,
    "y": 252,
    "w": 260,
    "h": 274,
    "label": "Anubis on a chest",
    "note": "Anubis as a jackal on a chest, dragged on a sledge. You will meet him again at the judgment.",
+   "plate": "I"
+  },
+  {
+   "x": 12807,
+   "y": 254,
+   "w": 213,
+   "h": 272,
+   "label": "Man hauling Anubis",
+   "note": "A man hauls Anubis's chest on its sledge by a rope.",
    "plate": "I"
   },
   {
@@ -324,12 +342,30 @@
    "plate": "II"
   },
   {
+   "x": 10604,
+   "y": 227,
+   "w": 477,
+   "h": 299,
+   "label": "Ox",
+   "note": "The ox pulls the sledge with the mummy's bier.",
+   "plate": "II"
+  },
+  {
    "x": 7669,
    "y": 202,
    "w": 415,
    "h": 324,
    "label": "Plumed ox",
    "note": "An ox crowned with plumes, led toward the sacrifice.",
+   "plate": "III"
+  },
+  {
+   "x": 7367,
+   "y": 383,
+   "w": 232,
+   "h": 143,
+   "label": "Calf",
+   "note": "A young calf leaps toward the plumed ox.",
    "plate": "III"
   },
   {
@@ -405,6 +441,24 @@
    "plate": "V"
   },
   {
+   "x": 3950,
+   "y": 312,
+   "w": 134,
+   "h": 214,
+   "label": "Offering stand",
+   "note": "A small stand by the obelisks, with two rods, a foreleg and the hooked adze laid on it.",
+   "plate": "V"
+  },
+  {
+   "x": 4109,
+   "y": 248,
+   "w": 213,
+   "h": 278,
+   "label": "Priest with arm-censer",
+   "note": "A priest holds out an arm-shaped censer, offering incense.",
+   "plate": "V"
+  },
+  {
    "x": 4523,
    "y": 191,
    "w": 165,
@@ -469,9 +523,9 @@
   }
  ],
  "recital": {
-  "right": 4624,
-  "top": 190,
-  "bottom": 246
+  "centre": 4561,
+  "top": 206,
+  "bottom": 262
  },
  "table": {
   "floor": [

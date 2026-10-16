@@ -1,8 +1,14 @@
-// A soft warm glow around a drawing, for what the pointer is over. Drawn behind the sprite, on a
+// A soft glow around a drawing, for what the pointer is over (and, in pale green, for what a
+// task just set right: UI.success_flash). Drawn behind the sprite, on a
 // quad grown by `pad` texture px all round so the glow can spill past the drawing's edges.
 shader_type canvas_item;
 
-uniform vec4 glow : source_color = vec4(0.95, 0.62, 0.22, 0.6);
+// Edit glow colors here. Unspecified or unknown levels use default_color.
+uniform vec4 default_color : source_color = vec4(1.0, 0.76, 0.28, 0.6);
+uniform vec4 procession : source_color = vec4(1.0, 0.76, 0.28, 0.6);
+uniform vec4 danger : source_color = vec4(0.95, 0.62, 0.22, 0.6);
+uniform vec4 success : source_color = vec4(0.68, 0.80, 0.60, 0.5);   // a task done: very slight, unsaturated green
+uniform int level : hint_enum("Default", "Procession", "Danger", "Success") = 0;
 uniform float pad = 9.0;                       // texture px the glow reaches out
 uniform vec4 region = vec4(0.0, 0.0, 1.0, 1.0); // the drawing's UV rect (an AtlasTexture's region)
 uniform float strength = 0.0;                  // 0..1, faded in and out
@@ -29,5 +35,13 @@ void fragment() {
 		}
 	}
 	a = max(a, ink(TEXTURE, UV));
+	vec4 glow = default_color;
+	if (level == 1) {
+		glow = procession;
+	} else if (level == 2) {
+		glow = danger;
+	} else if (level == 3) {
+		glow = success;
+	}
 	COLOR = vec4(glow.rgb, glow.a * a * strength);
 }

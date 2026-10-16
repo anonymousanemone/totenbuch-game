@@ -15,7 +15,6 @@ extends Node2D
 signal changed
 
 const SNAP := 45.0           ## how near its place a piece must be set down to go in
-const GHOST_ALPHA := 0.18    ## the faint outline of the held piece's place (0 = none)
 const SPEAK_FADE_IN := 0.3   ## the lector beside the table shows a piece that can go on now
 const SPEAK_HOLD := 2.5
 const SPEAK_FADE_OUT := 0.6
@@ -49,7 +48,6 @@ var _bodies: Node2D
 var _bearer_sprite: Sprite2D
 var _clothes: Sprite2D
 var _held_sprite: Sprite2D
-var _ghost: Sprite2D
 var _speak: Sprite2D
 
 
@@ -86,8 +84,6 @@ func setup(table: Dictionary, goose: Rect2, ground_y: float, nodes: Dictionary) 
 	_placed_layer = $layout
 	_bodies = $bodies
 	_build_floor()
-	_ghost = nodes.table_ghost
-	_ghost.modulate.a = GHOST_ALPHA
 	_clothes = nodes.clothes
 	_bearer_sprite = nodes.held_loaf
 	_speak = nodes.table_speech
@@ -360,10 +356,6 @@ func _hold(id: String, from: String) -> void:
 	_held_sprite.texture = _tex[id]
 	_held_sprite.position = get_global_mouse_position()
 	_held_sprite.visible = true
-	if id != "goose":
-		_ghost.texture = _tex[id]
-		_ghost.position = pieces[id].rect.position
-		_ghost.visible = GHOST_ALPHA > 0.0
 	changed.emit()
 
 
@@ -371,7 +363,6 @@ func _let_go() -> void:
 	_held = ""
 	_held_from = ""
 	_held_sprite.visible = false
-	_ghost.visible = false
 
 
 func _place(id: String) -> void:

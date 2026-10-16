@@ -23,8 +23,10 @@ const DANGER := Color("b55b3c")
 const SUCCESS := Color(1.8, 1.4, 0.6)
 const FLASH := Color(1.25, 1.12, 0.88)   ## what was set right lights up, softly, and fades (flash())
 const PREVIEW := Color(1.9, 1.0, 0.6, 0.2)
-const HOVER := Color(1.0, 0.97, 0.88, 0.95)       ## the hover glow: pale cream, by default (a level may set its own)
-const HOVER_WARM := Color(0.95, 0.62, 0.22, 0.6)  ## the old warm red-orange glow (the dangers)
+## Matches the level selector in glow.gdshader; all hover glow colors live there.
+enum Glow { DEFAULT, PROCESSION, DANGER, SUCCESS }
+const SUCCESS_IN := 0.25      ## s for a success flash to come up ...
+const SUCCESS_OUT := 1.0      ## ... and to fade
 const DIM := Color(0.12, 0.08, 0.04, 0.5)
 const INK_TINT := Color(DANGER.r / INK.r, DANGER.g / INK.g, DANGER.b / INK.b)
 const GLOW_SHADER := preload("res://scripts/glow.gdshader")
@@ -99,10 +101,10 @@ static func theme() -> Theme:
 	return th
 
 
-static func glow_material(texture: Texture2D, color := HOVER) -> ShaderMaterial:
+static func glow_material(texture: Texture2D, level: Glow = Glow.DEFAULT) -> ShaderMaterial:
 	var mat := ShaderMaterial.new()
 	mat.shader = GLOW_SHADER
-	mat.set_shader_parameter("glow", color)
+	mat.set_shader_parameter("level", level)
 	mat.set_shader_parameter("strength", 0.0)
 	if texture is AtlasTexture:
 		var atlas := texture as AtlasTexture
@@ -112,21 +114,62 @@ static func glow_material(texture: Texture2D, color := HOVER) -> ShaderMaterial:
 	return mat
 
 
-## A glow behind part of a sprite's drawing: `region` in the sprite's texture px (the sprite not
-## centred). Part for whole: a figure in the strip, or one figure of a sprite that holds several.
-## Added under `sprite`, so it moves with it; its strength starts at 0.
-static func part_glow(sprite: Sprite2D, region: Rect2, color := HOVER) -> Sprite2D:
+## A glow behind part of a sprite's drawing: `region` in the sprite's px (in the frame it shows,
+## if it is a sheet; the sprite not centred). Part for whole: a figure in the strip, or one figure
+## of a sprite that holds several. Added under `sprite`, so it moves with it; its strength starts at 0.
+static func part_glow(sprite: Sprite2D, region: Rect2, level: Glow = Glow.DEFAULT) -> Sprite2D:
+	var cell := sprite.texture.get_size() / Vector2(sprite.hframes, sprite.vframes)
 	var tex := AtlasTexture.new()
 	tex.atlas = sprite.texture
-	tex.region = region
+	tex.region = Rect2(region.position + Vector2(sprite.frame_coords) * cell, region.size)
 	var g := Sprite2D.new()
 	g.texture = tex
 	g.centered = false
 	g.position = region.position
 	g.show_behind_parent = true
-	g.material = glow_material(tex, color)
+	g.material = glow_material(tex, level)
 	sprite.add_child(g)
 	return g
+
+
+## A glow behind a sprite's whole drawing (the frame it shows, if it is a sheet, following it as
+## the frame changes). Added under `sprite`; its strength starts at 0.
+static func sprite_glow(sprite: Sprite2D, level: Glow = Glow.DEFAULT) -> Sprite2D:
+	var g := Sprite2D.new()
+	g.material = glow_material(sprite.texture, level)
+	g.show_behind_parent = true
+	g.texture = sprite.texture
+	g.centered = sprite.centered
+	g.offset = sprite.offset
+	g.flip_h = sprite.flip_h
+	g.hframes = sprite.hframes
+	g.vframes = sprite.vframes
+	sprite.add_child(g)
+	if sprite.hframes * sprite.vframes == 1:
+		return g
+	var follow := func() -> void:
+		g.frame = sprite.frame
+		var n := Vector2(sprite.hframes, sprite.vframes)
+		(g.material as ShaderMaterial).set_shader_parameter("region", Vector4(sprite.frame_coords.x / n.x, sprite.frame_coords.y / n.y, 1.0 / n.x, 1.0 / n.y))
+	follow.call()
+	sprite.frame_changed.connect(follow)
+	g.tree_exiting.connect(func() -> void: sprite.frame_changed.disconnect(follow))
+	return g
+
+
+## A task done: the drawings it set right glow pale green for a moment (`success` in glow.gdshader).
+static func success_flash(sprite: Sprite2D) -> void:
+	flash_glow(sprite_glow(sprite, Glow.SUCCESS))
+
+
+## Bring a glow (made at strength 0) up and fade it out again, then free it.
+static func flash_glow(g: Sprite2D) -> void:
+	var mat := g.material as ShaderMaterial
+	var set_strength := func(v: float) -> void: mat.set_shader_parameter("strength", v)
+	var t := g.create_tween()
+	t.tween_method(set_strength, 0.0, 1.0, SUCCESS_IN).set_trans(Tween.TRANS_SINE)
+	t.tween_method(set_strength, 1.0, 0.0, SUCCESS_OUT).set_trans(Tween.TRANS_SINE)
+	t.tween_callback(g.queue_free)
 
 
 static func flash(node: CanvasItem, duration := 0.6) -> void:

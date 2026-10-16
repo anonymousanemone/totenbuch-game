@@ -74,8 +74,8 @@ func _test_procession_scene_pieces() -> void:
 			var id: String = node.get_meta("piece_id")
 			unique = unique and not nodes.has(id)
 			nodes[id] = node
-	for id in data.sprites:
-		unique = unique and (id == "avatar" or nodes.has(id))
+	for id in data.sprites:   # the forearms are drawn in the water priest's and the driver's sheets
+		unique = unique and (id in ["avatar", "water_arm", "haul_whip"] or nodes.has(id))
 	_expect(unique, "Procession scene contains every extracted piece with unique stable IDs")
 	var standards := true
 	for i in range(1, 9):
@@ -92,7 +92,10 @@ func _test_procession_scene_pieces() -> void:
 	_expect(nodes.t25.position == Vector2(data.table.frond_rest.x, data.table.frond_rest.y)
 		and nodes.frond_place.position == Vector2(data.table.pieces.t25.x, data.table.pieces.t25.y),
 		"frond starts on the upper register with a separate table placement marker")
-	_expect(nodes.jug_arm.rotation == 0.0 and nodes.water_stream.visible and nodes.stela_imprint.visible
+	_expect(nodes.water_priest_arm.get_parent() == nodes.water_priest and nodes.water_priest_arm.rotation == 0.0
+		and nodes.haul_driver_arm.get_parent() == nodes.haul_driver_art and nodes.haul_driver_arm.rotation == 0.0,
+		"editor shows the water priest and the ox-driver with their arms on them as drawn")
+	_expect(nodes.water_stream.visible and nodes.stela_imprint.visible
 		and nodes.kneeler.visible and nodes.mouth_words.visible,
 		"editor displays restored water, stela imprint, kneeler and words above Ra")
 	_expect(nodes.stand.position == Vector2(data.ending.hide.stand.x, data.ending.hide.stand.y) + nodes.stand.texture.get_size() / 2.0
@@ -118,7 +121,7 @@ func _test_procession_scene_pieces() -> void:
 	_expect(scene._pieces.calf == nodes.calf and scene.sprite_rects.calf.position == nodes.calf.position
 		and scene.offerings.pieces.t03.rect.position == nodes.t03.position,
 		"runtime reuses authored pieces and reads moved calf and offering positions")
-	_expect(scene.haul._nodes.haul_sledge == nodes.haul_sledge and scene.water.arm_sprite() == nodes.water_arm
+	_expect(scene.haul._nodes.haul_sledge == nodes.haul_sledge and scene.water.priest_sprite() == nodes.water_priest
 		and scene.mouth._adze == nodes.mouth_adze and scene.ending._nodes.sun == nodes.sun,
 		"all Procession puzzle components reuse their saved scene figures")
 	_expect(not nodes.kneeler.visible and not nodes.stela_imprint.visible and not nodes.mouth_words.visible
@@ -201,10 +204,22 @@ func _test_donkey_hover() -> void:
 	scene.process_mode = Node.PROCESS_MODE_DISABLED
 	scene.hud.dismiss_intro()
 	var encounter: Dictionary = scene.ENCOUNTERS.filter(func(e): return e.id == "e40")[0]
+	var sheaf: Dictionary = scene.ENCOUNTERS.filter(func(e): return e.id == "e41")[0]
+	scene.gate = {}   # the road open past spell 38
+	var between := Rect2(scene.column.position, (scene.column.get_node("papyrus") as ColorRect).size)
+	_expect(scene.column.visible and scene.column.z_index > scene.avatar.z_index
+		and between.position.x >= scene.span(sheaf).y and between.end.x <= scene.span(encounter).x + 1.0,
+		"walking from spell 40 to 41, he passes behind the column of signs between them")
+	_expect(scene._hover_at(scene.actor_rect(encounter.donkey).get_center()) == [encounter.foe, encounter.donkey, encounter.tail],
+		"on the scroll the donkey glows (and takes the click) with the snake on its back")
+	_expect(scene._hover_at(scene.actor_rect(sheaf.bundle).get_center()) == [sheaf.foe, sheaf.bundle],
+		"on the scroll the sheaf glows (and takes the click) with its snake")
 	scene.start_fight(encounter)
-	_expect(not scene._instant and scene.fight.awaiting_start and not scene.fight.has("foe"),
-		"donkey hover regression uses the normal encounter state before Space")
+	_expect(not scene._instant and not scene.fight.has("foe"),
+		"donkey hover regression uses the normal encounter state")
 	_expect(scene._targets() == [encounter.foe], "donkey hover reads the snake from encounter data")
+	scene._process(0.0)
+	_expect(not scene.column.visible, "the column is not drawn over an open fight")
 	_expect(scene._hover_at(scene.actor_rect(encounter.foe).get_center()) == [encounter.foe],
 		"moving the pointer over the donkey snake after entry finds its hover target")
 	scene._unhandled_input(InputEventMouseMotion.new())

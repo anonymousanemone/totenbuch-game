@@ -29,6 +29,7 @@ const ADZE_GRIP := Vector2(6.0, 8.0)   ## where on the adze the pointer holds it
 var phase := Phase.START
 var instant := false          ## the autotest: no animation
 var _adze: Sprite2D
+var _props: Array             ## the rest of what lies on the stand with the adze: two rods and a foreleg
 var _words: Sprite2D          ## centred, so it can grow from a ball
 var _imprint: Sprite2D
 var _adze_home := Rect2()
@@ -44,6 +45,7 @@ func setup(level: Dictionary, nodes: Dictionary) -> void:
 	_mouth = Vector2(m.mouth[0], m.mouth[1])
 	_mummy = Rect2(m.mummy.x, m.mummy.y, m.mummy.w, m.mummy.h)
 	_adze = nodes.mouth_adze
+	_props = [nodes.mouth_column, nodes.mouth_spoon]
 	_words = nodes.mouth_words
 	_imprint = nodes.words_imprint
 	_adze_home = Rect2(_adze.position, _adze.texture.get_size())
@@ -129,6 +131,12 @@ func home_rect() -> Rect2:
 
 func mummy_rect() -> Rect2:
 	return _mummy
+
+
+## What lies on the stand now (it glows with the stand): the rods and the foreleg, and the adze
+## unless it is in your hand.
+func on_stand() -> Array:
+	return _props + ([] if phase == Phase.ADZE else [_adze])
 
 
 ## The drawing to glow for a pick.

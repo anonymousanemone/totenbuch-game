@@ -10,7 +10,9 @@
 ## the rope is held; the walking avatar returns when the vignette closes.
 ##
 ## The figures are the layers of the `haul` folder of art/procession1-15.mdp, cut by
-## tools/cut_procession300.py (sprites haul_*); positions are strip pixels.
+## tools/cut_procession300.py (sprites haul_*); positions are strip pixels. The driver is his body
+## and his whip arm (haul_driver_body, haul_driver_arm, from tools/arm_sheets.py --parts): the arm
+## is a child of the body, placed at the elbow (drawn on both), and turns about it.
 class_name HaulSledge
 extends Node2D
 
@@ -29,9 +31,8 @@ const FOLLOW := 6.0           ## how quickly the train closes on where the pulls
 const OPEN := 0.8             ## s for the vignette to open out, and to close again
 const STRIKE := 0.55          ## the whip comes down this far (radians) below where it is drawn ...
 const WIND := 0.2             ## ... having been drawn back this far above it
-const ELBOW := Vector2(11122, 292)          ## the driver's elbow: his whip arm swings about it
 const COVER := Rect2(12462, 186, 373, 339)  ## the start of plate I, covered while the vignette is open
-const PIECES := ["haul_sledge", "haul_hauler", "haul_driver", "haul_whip"]
+const PIECES := ["haul_sledge", "haul_hauler", "haul_driver"]
 const RATE := 22050
 
 var active := false           ## the rope is taken up
@@ -47,8 +48,10 @@ var _judged := -1             ## the last beat looked at for a miss
 var _heave := 0.0             ## 1 on a good pull, dying away
 var _slack := 0.0             ## 1 when the rope goes slack, dying away
 var _told := {}               ## what the driver has already said, so he does not repeat himself
+var _faulted := false         ## a miss or a slip was said, and no good pull has answered it yet
 var _nodes := {}              ## piece -> Node2D
 var _home := {}               ## piece -> Node2D position as drawn
+var _arm: Sprite2D            ## the driver's whip arm, turning about his elbow
 var _ox: Node2D
 var _ox_home := Vector2.ZERO
 var _cover: ColorRect
@@ -62,6 +65,7 @@ func setup(ox: Node2D, papyrus: Material, cover_parent: Node, cover_index: int, 
 		var pivot: Node2D = nodes[nm]
 		_nodes[nm] = pivot
 		_home[nm] = pivot.position
+	_arm = nodes.haul_driver_arm
 	_ox = ox
 	_cover = ColorRect.new()
 	_cover.material = papyrus
@@ -93,8 +97,11 @@ func hauler_shown() -> bool:
 	return _nodes.haul_hauler.visible
 
 
-## The drawing of a figure of the hauling ("haul_sledge", "haul_hauler", ...), for the hover glow.
+## The drawing of a figure of the hauling ("haul_sledge", "haul_hauler", ...; the driver's whip
+## arm is "haul_driver_arm"), for the hover glow.
 func sprite_of(piece: String) -> Sprite2D:
+	if piece == "haul_driver_arm":
+		return _arm
 	return _nodes[piece].get_child(0) if _nodes.has(piece) else null
 
 
@@ -115,6 +122,7 @@ func start() -> void:
 	_pulled = -1
 	_judged = COUNT_IN - 1
 	_told.clear()
+	_faulted = false
 	clock = -OPEN
 	_cover.visible = true
 	_cover.modulate.a = 0.0
@@ -125,7 +133,7 @@ func start() -> void:
 	_tween = create_tween()
 	_tween.tween_method(_open, 0.0, 1.0, OPEN).set_trans(Tween.TRANS_SINE)
 	_tween.tween_callback(_begin)
-	_say("Ox-driver", "Heave when my whip falls. Wait for the count-in, then pull on each beat.")
+	_say("Ox-driver", "Can you help us haul the bier? Heave with [space] when my whip falls. Wait for my count, then pull on each beat.")
 
 
 ## Let go of the rope: the train stands where it stalled, and you can take it up again.
@@ -184,6 +192,7 @@ func _process(delta: float) -> void:
 		if last > _judged:
 			_judged = last
 			if last >= COUNT_IN and last != _pulled:
+				_faulted = true
 				_once("missed", "Ox-driver", "Missed a beat. Heave as the whip falls.")
 	_heave = maxf(0.0, _heave - delta * 2.5)
 	_slack = maxf(0.0, _slack - delta * 2.0)
@@ -249,11 +258,17 @@ func _pull(k: int) -> void:
 	target = maxf(0.0, target - BACK / PULLS)
 	_heave = 1.0
 	_pull_sound.play()
+	if _faulted:   # a good pull answers the miss or slip, so it is not left standing (and can come again)
+		_faulted = false
+		for key in ["missed", "slack_early", "slack_late"]:
+			_told.erase(key)
+		_say("Ox-driver", "That's it. Keep the beat.")
 
 
 func _slip(when: String) -> void:
 	target = minf(BACK, target + SLIP)
 	_slack = 1.0
+	_faulted = true
 	_once("slack_" + when, "Ox-driver", "Too %s. Heave as the whip falls." % when)
 
 
@@ -269,7 +284,7 @@ func _place() -> void:
 	var h: Node2D = _nodes.haul_hauler
 	h.position.x += 7.0 * _heave - 5.0 * _slack     # leans back on the rope / lurches forward
 	h.rotation = 0.045 * _heave - 0.03 * _slack
-	_nodes.haul_whip.rotation = _whip_angle() if active and phase == Phase.PLAYING else 0.0
+	_arm.rotation = _whip_angle() if active and phase == Phase.PLAYING else 0.0
 	if _ox:
 		_ox.position = _ox_home + d + Vector2(-6.0 * _heave, 0.0)
 

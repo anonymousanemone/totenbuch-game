@@ -26,9 +26,6 @@ var _root: Control
 var _say: RichTextLabel
 var _tag: PanelContainer
 var _tag_label: Label
-var _hand: Control
-var _hand_icon: TextureRect
-var _journal_count: Label
 var _journal_page: Control
 var _journal_grid: GridContainer
 var _journal_title: Label
@@ -98,7 +95,6 @@ func reset_view() -> void:
 	for c in _journal_grid.get_children():
 		c.queue_free()
 	_journal_empty.visible = true
-	_journal_count.text = "journal"
 	_journal_title.text = "JOURNAL"
 	_journal_page.visible = false
 	_outro.visible = false
@@ -137,13 +133,6 @@ func show_outro_later(body: String, seconds: float) -> void:
 		show_outro(body)
 
 
-## What you carry: its picture only (a carried object has no text).
-func update_hand(piece: String, label: String, tex: Texture2D) -> void:
-	_hand.visible = piece != ""
-	_hand_icon.texture = tex
-	_hand.tooltip_text = "Holding %s." % label if piece != "" else ""
-
-
 ## The piece follows the pointer at roughly its on-screen size.
 func update_held(piece: String, tex: Texture2D, zoom: float) -> void:
 	_held.visible = piece != ""
@@ -156,7 +145,6 @@ func update_held(piece: String, tex: Texture2D, zoom: float) -> void:
 
 func add_journal_entry(label: String, note: String, tex: Texture2D, count: int, total: int) -> void:
 	_journal_empty.visible = false
-	_journal_count.text = "%d/%d" % [count, total]
 	_journal_title.text = "Journal · %d/%d" % [count, total]
 	var entry := VBoxContainer.new()
 	entry.custom_minimum_size.x = 112
@@ -285,22 +273,6 @@ func _build_strip() -> void:
 	row.add_theme_constant_override("separation", 24)
 	strip.add_child(row)
 
-	# what you carry: a small picture of it
-	_hand = HBoxContainer.new()
-	_hand.add_theme_constant_override("separation", 10)
-	_hand.visible = false
-	_hand.mouse_filter = Control.MOUSE_FILTER_PASS
-	var frame := PanelContainer.new()
-	frame.add_theme_stylebox_override("panel", UI.box(UI.PAPYRUS, UI.INK, 4, 4, 4))
-	frame.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	_hand_icon = TextureRect.new()
-	_hand_icon.custom_minimum_size = Vector2(56, 52)
-	_hand_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	_hand_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	frame.add_child(_hand_icon)
-	_hand.add_child(frame)
-	row.add_child(_hand)
-
 	# what is said, centred in the strip
 	_say = _rich(UI.DIALOGUE)
 	_say.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -312,9 +284,7 @@ func _build_strip() -> void:
 	var buttons := HBoxContainer.new()
 	buttons.add_theme_constant_override("separation", 16)
 	buttons.size_flags_vertical = Control.SIZE_SHRINK_CENTER
-	var journal := _labelled_button("journal", "journal", "Journal  [j]", func(): toggle_journal())
-	_journal_count = journal.get_child(1)
-	buttons.add_child(journal)
+	buttons.add_child(_labelled_button("journal", "journal", "Journal  [j]", func(): toggle_journal()))
 	buttons.add_child(_labelled_button("hint", "hint", "Hint", func(): hint_pressed.emit()))
 	row.add_child(buttons)
 

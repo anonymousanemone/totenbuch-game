@@ -98,12 +98,15 @@ const ENCOUNTERS := [
 		"won": "The two Merti snakes fall.",
 		"label": "The two Merti snakes", "note": "Spell 37. Each struck twice as it sprang.",
 		"caption": [2803, 3033], "title": "A chapter about opposing the two eyed-ureus."},
-	{"id": "e38", "boxes": ["e38"], "kind": "take", "item": "breath38", "task": 2, "gate": true,
-		"arrival": "The signs of life and breath are offered to you.",
+	# spell 38: he holds out two signs, the sail (breath) and the ankh (life); only one can be taken
+	# (`items`, the right one first). What taking the ankh leads to is still to be decided: for now
+	# either opens the way on.
+	{"id": "e38", "boxes": ["e38"], "kind": "take", "items": ["sail38", "ankh38"], "task": 2, "gate": true,
+		"arrival": "The signs of life and breath are offered to you. Only one can be taken.",
 		"intro": "He offers the ankh and sail: life and breath.",
-		"hint": "Click the ankh and sail in his hand.",
-		"won": "You take the breath of life.",
-		"label": "The breath of life", "note": "Spell 38, for living on air. The ankh and sail taken from his hand.",
+		"hint": "Take one sign from his hand, the ankh or the sail. The caption above says which you need.",
+		"won": {"sail38": "You take the sail: the breath of life.", "ankh38": "You take the ankh: life. The sail stays in his hand."},
+		"label": "The breath of life", "note": "Spell 38, for living on air. One sign taken from his hand.",
 		"caption": [2316, 2782], "title": "A chapter about living by the breath of air in the Netherworld. It is said to oppose the asps."},
 	# Apep: his tail lashes (`lash` s) and a wave runs the length of him to the fold where the spear
 	# point rests, at `speed` plate px/s (first to second value as the barb goes in); a new one every

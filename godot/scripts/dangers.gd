@@ -255,10 +255,23 @@ func here(kinds: Array = FIGHTS) -> Dictionary:
 	return {}
 
 
-## The unsolved "take" encounter whose item is at `p`, or {}.
-func _take_at(p: Vector2) -> Dictionary:
+## The item at `p` that can be taken (of an unsolved "take" encounter; the nearest, where two are
+## close together), or "".
+func _item_at(p: Vector2) -> String:
+	var best := ""
 	for e in ENCOUNTERS:
-		if e.kind == "take" and not solved.has(e.id) and actor_rect(e.item).grow(12 * unit).has_point(p):
+		if e.kind == "take" and not solved.has(e.id):
+			for it in e.items:
+				var r := actor_rect(it)
+				if r.grow(12 * unit).has_point(p) and (best == "" or r.get_center().distance_to(p) < actor_rect(best).get_center().distance_to(p)):
+					best = it
+	return best
+
+
+## The "take" encounter an item belongs to.
+func _taking(item: String) -> Dictionary:
+	for e in ENCOUNTERS:
+		if e.kind == "take" and item in e.items:
 			return e
 	return {}
 
@@ -328,10 +341,9 @@ func _unhandled_input(event: InputEvent) -> void:
 					_set_hover([])
 					start_fight(f))
 			return
-		var t := _take_at(p)
-		if not t.is_empty():
-			var r := actor_rect(t.item)
-			walk_then(r.end.x + BESIDE * unit, take.bind(t))
+		var it := _item_at(p)
+		if it != "":
+			walk_then(actor_rect(it).end.x + BESIDE * unit, take.bind(_taking(it), it))
 			return
 		var c := _caption_at(p)
 		if not c.is_empty():
@@ -354,8 +366,8 @@ func _hover_at(p: Vector2) -> Array:
 	var f := _fight_at(p)
 	if not f.is_empty():
 		return _creatures(f)
-	var t := _take_at(p)
-	return [t.item] if not t.is_empty() else []
+	var it := _item_at(p)
+	return [it] if it != "" else []
 
 
 func _set_hover(names: Array) -> void:
@@ -517,22 +529,29 @@ func _check_position() -> void:
 			say("Scribe", "Spell 42 waits until every danger behind you is overcome. Still to do: spell %s." % current.id.trim_prefix("e"))
 
 
-func take(e: Dictionary) -> void:
-	var a: Node2D = actors[e.item]
+## Take `item` from encounter `e` (the first of its items if none is named); only one is taken, the
+## others stay where they are drawn.
+func take(e: Dictionary, item := "") -> void:
+	if solved.has(e.id):
+		return
+	if item == "":
+		item = e.items[0]
+	var a: Node2D = actors[item]
 	var t := create_tween()
 	t.tween_property(a, "position:y", a.position.y - 30.0 * unit, 0.35)
 	t.parallel().tween_property(a, "modulate:a", 0.0, 0.35)
 	t.tween_callback(func():
 		a.visible = false
 		a.modulate.a = 1.0)
-	items.append(e.item)
-	_solve(e)
+	items.append(item)
+	_solve(e, item)
 
 
-func _solve(e: Dictionary) -> void:
+## `item`: what was taken (its picture goes in the Journal, and `won` may say per item).
+func _solve(e: Dictionary, item := "") -> void:
 	solved[e.id] = true
-	say("Scribe", e.won)
-	var pic: String = e.foes[0] if e.kind == "crocs" else e.get("foe", e.get("item", ""))
+	say("Scribe", e.won if e.won is String else e.won[item])
+	var pic: String = e.foes[0] if e.kind == "crocs" else e.get("foe", item)
 	var tex: Texture2D = load(ASSET % pic)
 	journal.append(e.label)
 	hud.add_journal_entry(e.label, e.note, tex, journal.size(), ENCOUNTERS.filter(func(x): return x.has("label")).size())
@@ -4429,7 +4448,8 @@ func _maybe_run_cli() -> void:
 				if n > 0 and not e.kind in ["note", "end"]:
 					solved[e.id] = true
 					if e.kind == "take":
-						actors[e.item].visible = false
+						actors[e.items[0]].visible = false
+						items.append(e.items[0])
 					else:
 						actors[e.spear].visible = true
 					n -= 1
@@ -4540,8 +4560,13 @@ func _autotest() -> void:
 	solved["e37"] = true
 	_refresh()
 	expect.call(avatar.min_x > span(e38).x, "... and while the breath of life is not taken")
-	expect.call(_take_at(actor_rect(e38.item).get_center()) == e38, "the breath of life can be taken before the way on opens")
+	expect.call(_item_at(actor_rect("sail38").get_center()) == "sail38" and _item_at(actor_rect("ankh38").get_center()) == "ankh38",
+		"the sail and the ankh can each be taken, before the way on opens")
+	take(e38, "ankh38")
+	expect.call(solved.has("e38") and items == ["ankh38"] and actors.sail38.visible and _item_at(actor_rect("sail38").get_center()) == "",
+		"only one sign is taken: the other stays in his hand and can no longer be taken")
 	solved.clear()
+	items.clear()
 	_refresh()
 
 	for e in ENCOUNTERS:

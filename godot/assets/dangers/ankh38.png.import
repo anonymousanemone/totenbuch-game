@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dnuifa0imc5j1"
-path="res://.godot/imported/breath38.png-10a145a6c1fd597e1f5d3a0bf7111776.ctex"
+uid="uid://caaupi53ipkai"
+path="res://.godot/imported/ankh38.png-1403e2afd1dfce82718af45ae43ef05d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/dangers/breath38.png"
-dest_files=["res://.godot/imported/breath38.png-10a145a6c1fd597e1f5d3a0bf7111776.ctex"]
+source_file="res://assets/dangers/ankh38.png"
+dest_files=["res://.godot/imported/ankh38.png-1403e2afd1dfce82718af45ae43ef05d.ctex"]
 
 [params]
 

@@ -175,13 +175,13 @@ func _test_dangers_scene_actors() -> void:
 	for id in ids:
 		avatar_in_front = avatar_in_front and scene.get_node("Avatar").z_index > ids[id].z_index
 	_expect(avatar_in_front, "walking avatar draws above scene creatures so its papyrus fill occludes them")
-	var drawn: bool = ids.breath38.visible
+	var drawn: bool = ids.ankh38.visible and ids.sail38.visible
 	for id in sheet_data.bearers:
 		var actor = ids[id]
 		var picture: Sprite2D = actor if actor is Sprite2D else actor.get_node("sprite")
 		var frame: AtlasTexture = picture.texture
 		drawn = drawn and actor.visible and frame.region.position == Vector2(sheet_data.rest * sheet_data.cell[0], sheet_data.bearers[id].row * sheet_data.cell[1])
-	_expect(drawn, "editor shows held breath and all spear-bearers in their drawn poses")
+	_expect(drawn, "editor shows the ankh and the sail held out, and all spear-bearers in their drawn poses")
 	var moved = ids.c31a
 	moved.position += Vector2(12, -3)
 	var home: Vector2 = moved.position
@@ -193,7 +193,7 @@ func _test_dangers_scene_actors() -> void:
 	for id in scene.actors:
 		if id.begins_with("spear") or id.begins_with("sheaf41_"):
 			hidden = hidden and not scene.actors[id].visible
-	_expect(hidden and scene.actors.breath38.visible, "startup hides fight-only actors while retaining the held breath")
+	_expect(hidden and scene.actors.ankh38.visible and scene.actors.sail38.visible, "startup hides fight-only actors while retaining the ankh and the sail")
 	moved.position += Vector2(20, 10)
 	scene.reset()
 	_expect(moved.position == home, "reset returns actors to their authored starting positions")

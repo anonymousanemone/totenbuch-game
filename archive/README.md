@@ -19,8 +19,21 @@ stay in `art/` (`cosmos17-21.mdp`, `fields110.mdp`, `judgement125.mdp`); `tools/
 gitignored, as the main one is, and imports from the main `tools/`.
 
 ## The Night Journey (spell 17, pl. VII–XI)
-The cleaned 300-dpi strip bod17-21, used as drawn; the movable pieces are lifted out by
-`tools/cut_cosmos300.py`, which also adds the plates' text below the frame (fading out).
+The drawing is `art/cosmos17-21.mdp`. Its `dissected` folder groups nearby scenes into
+chunks, with local themes inside each chunk and one layer per figure. Export directly with:
+
+```bash
+python archive/tools/cut_cosmos300.py art/cosmos17-21.mdp OUTPUT_DIRECTORY
+```
+
+The cutter resolves full chunk/theme/layer paths, so repeated names stay distinct. It writes
+the individual figures under `layers/<chunk>/<theme>/`, preserves that hierarchy in
+`level.json` (`chunks`, `layers`), and derives positions and journal regions from the drawing.
+The archived game's movable pieces keep their existing asset names and are omitted from
+`strip.png`; the remaining figures and inscriptions stay in the strip. The sun disc alone is
+still cut from the solar boat layer. The frame and existing `text_below` layers are included;
+working copies are excluded. The source is read only, and scan pages and intermediate PNG
+exports are no longer needed. Coordinates are MDP canvas pixels, without the old left crop.
 
 1. **Open the horizon**: the two lions face each other and shut the sun in. Click each to turn it; back to back (as drawn) the sun rises.
 2. **Return the ba to the body**: the human-headed bird waits at the head of the strip. Carry it to the mummy on the lion bier.

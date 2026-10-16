@@ -22,7 +22,8 @@
 [ext_resource type="Texture2D" path="res://assets/dangers/snake37.png" id="actor_20"]
 [ext_resource type="Texture2D" path="res://assets/dangers/glyph37_left.png" id="actor_22"]
 [ext_resource type="Texture2D" path="res://assets/dangers/glyph37_right.png" id="actor_23"]
-[ext_resource type="Texture2D" path="res://assets/dangers/breath38.png" id="actor_24"]
+[ext_resource type="Texture2D" path="res://assets/dangers/ankh38.png" id="actor_ankh38"]
+[ext_resource type="Texture2D" path="res://assets/dangers/sail38.png" id="actor_sail38"]
 [ext_resource type="Texture2D" path="res://assets/dangers/apep.png" id="actor_25"]
 [ext_resource type="Texture2D" path="res://assets/dangers/snake40.png" id="actor_27"]
 [ext_resource type="Texture2D" path="res://assets/dangers/donkey40.png" id="actor_30"]
@@ -387,12 +388,20 @@ centered = false
 
 [node name="spell38_breath" type="Node" parent="actors"]
 
-[node name="ankh_and_sail" type="Sprite2D" parent="actors/spell38_breath"]
+[node name="ankh" type="Sprite2D" parent="actors/spell38_breath"]
+position = Vector2(2593, 323)
+metadata/actor_id = "ankh38"
+metadata/size = Vector2(32, 67)
+offset = Vector2(-16, -67)
+texture = ExtResource("actor_ankh38")
+centered = false
+
+[node name="sail" type="Sprite2D" parent="actors/spell38_breath"]
 position = Vector2(2606.5, 374)
-metadata/actor_id = "breath38"
-metadata/size = Vector2(61, 118)
-offset = Vector2(-30.5, -118)
-texture = ExtResource("actor_24")
+metadata/actor_id = "sail38"
+metadata/size = Vector2(61, 49)
+offset = Vector2(-30.5, -49)
+texture = ExtResource("actor_sail38")
 centered = false
 
 [node name="spell39_apep" type="Node" parent="actors"]

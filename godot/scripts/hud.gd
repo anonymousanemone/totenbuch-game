@@ -78,6 +78,11 @@ func top_height() -> float:
 	return TOP_BAR + UI.BAND
 
 
+## How far the speaker's tag reaches up above the strip (it sits centred on the strip's band).
+func tag_reach() -> float:
+	return (TAG_H - UI.BAND) / 2.0
+
+
 func bottom_height() -> float:
 	return STRIP
 

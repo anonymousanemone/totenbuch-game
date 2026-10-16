@@ -198,7 +198,7 @@ func _ready() -> void:
 	haul.said.connect(say)
 	haul.finished.connect(_check)
 	ending = $pieces/ending
-	ending.setup(level, _authored)
+	ending.setup(level, _authored, avatar)
 	ending.said.connect(say)
 	ending.changed.connect(func():
 		_check()
@@ -300,6 +300,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		else:
 			_table_input(event)
 		return
+	if ending.held != "":   # a piece of the stand taken off you, following the pointer
+		_stand_piece_input(event)
+		return
 	if event is InputEventMouseMotion:
 		_set_hover(_pick(get_global_mouse_position()))
 	elif event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
@@ -307,6 +310,10 @@ func _unhandled_input(event: InputEvent) -> void:
 		var h := _pick(p)
 		if h.is_empty():
 			walk_then(p.x)
+		elif h.type == "worn":   # take it off you: drag it, or click and click again
+			ending.hold(h.id)
+			_drag_from = event.position
+			_set_hover({})
 		elif h.type == "ending":
 			walk_then(ending.where(h.id).x + BESIDE * unit, act_ending.bind(h.id))
 		elif h.type == "bearer":   # the scene starts from the lector or the heap, not from him
@@ -347,6 +354,9 @@ func _pick(p: Vector2) -> Dictionary:
 	var off := offerings.pick(p)
 	if off != "":
 		return {"type": "piece", "id": off}
+	var w := ending.worn_at(p)
+	if w != "":
+		return {"type": "worn", "id": w}
 	var e := ending.pick(p)
 	if e != "":
 		return {"type": "ending", "id": e}
@@ -408,9 +418,9 @@ func _glow_targets(h: Dictionary) -> Array:
 		"piece":
 			var sp := offerings.sprite_of(h.id)
 			return [sp] if sp else []
+		"worn":
+			return [ending.sprite_of(h.id)]
 		"ending":   # a hidden piece glows; the empty place glows with what already stands there
-			if h.id == "back":
-				return []
 			if h.id != "place":
 				return [ending.sprite_of(h.id)]
 			return [ending.place_rect()] + ending.placed.keys().map(func(nm): return ending.sprite_of(nm))
@@ -842,6 +852,30 @@ func take_rope(h: Dictionary) -> void:
 	t.parallel().tween_property(hauler, "modulate:a", 1.0, INTO_POSE)
 
 
+## A piece of the stand taken off you: let go of it after dragging, or click again, on its place
+## before Ra and you walk there and set it on; anywhere else (or Esc) it goes back onto you.
+func _stand_piece_input(event: InputEvent) -> void:
+	var p := get_global_mouse_position()
+	if event.is_action_pressed("ui_cancel"):
+		ending.unhold()
+	elif event is InputEventMouseMotion:
+		var h := _pick(p)
+		_set_hover(h if h.get("id") == "place" else {})
+	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+		get_viewport().set_input_as_handled()
+		var dragged: bool = _drag_from != Vector2.INF and event.position.distance_to(_drag_from) > DRAG
+		_drag_from = Vector2.INF
+		if not event.pressed and not dragged:   # the click that took it off you: it stays in hand
+			return
+		if ending.place_rect().has_point(p):
+			walk_then(ending.place_rect().end.x + BESIDE * unit, func():
+				if ending.held != "":
+					ending.set_down())
+		else:
+			ending.unhold()
+		_set_hover({})
+
+
 ## Off the rope (let go, or the sledge is home): you fade back in and walk again.
 func _off_rope() -> void:
 	_hauling = false
@@ -853,13 +887,11 @@ func _off_rope() -> void:
 		create_tween().tween_property(avatar, "modulate:a", 1.0, INTO_POSE)
 
 
-## A piece of the offering stand: take it from where it lies hidden (one at a time), put it back
-## there, or set what you carry at its place before Ra.
+## A piece of the offering stand: take it from where it lies hidden (it goes onto you), or set
+## what you have at its place before Ra.
 func act_ending(id: String) -> void:
 	if id == "place":
 		ending.set_down()
-	elif id == "back":
-		put_back()
 	elif not ending.imprint_shown:   # not before the stela shows what they are for
 		say(EndingStand.TAGS[id], "This might come in handy later, but you wouldn't want your hands full right now.")
 	elif _hands_full():
@@ -871,9 +903,8 @@ func act_ending(id: String) -> void:
 
 ## `quiet`: no word said (a dragged standard let go away from the poles goes back without comment).
 func put_back(quiet := false) -> void:
-	if not ending.carried.is_empty():
-		say("Scribe", "You put %s back." % ending.carried_name())
-		ending.put_back()
+	if ending.held != "":
+		ending.unhold()
 		return
 	if mouth.carrying() != "":
 		mouth.put_back()
@@ -900,7 +931,7 @@ func rites_done() -> bool:
 
 ## Something is in your hands: a standard, an offering, the adze, the words or a piece of the stand.
 func _hands_full() -> bool:
-	return held != "" or offerings.holding() != "" or mouth.carrying() != "" or not ending.carried.is_empty()
+	return held != "" or offerings.holding() != "" or mouth.carrying() != "" or ending.held != ""
 
 
 ## The Opening of the Mouth: take the adze, touch it to the mummy, take the words it speaks, and
@@ -1081,8 +1112,8 @@ func _hands_message() -> String:
 		item = offerings.held_name()
 	if mouth.carrying() != "":
 		item = "the adze" if mouth.carrying() == "adze" else "the words"
-	if not ending.carried.is_empty():
-		item = ending.carried_name()
+	if ending.held != "":
+		item = ending.held_name()
 	return "You carry %s. Put it back where you took it to free your hands." % item
 
 
@@ -1322,7 +1353,8 @@ func _maybe_run_cli() -> void:
 			offerings.speak()
 		elif a == "--ending" or a == "--finale":   # dev: carry the stand's pieces, before Ra (and with --finale, set them up and kneel)
 			hud.dismiss_intro()
-			ending.take("stand")
+			for nm in EndingStand.PIECES:
+				ending.take(nm)
 			avatar.position.x = ending.place_rect().end.x + BESIDE * unit
 			_update_camera(1.0)
 			if a == "--finale":
@@ -1636,20 +1668,24 @@ func _autotest_ending(expect: Callable) -> void:
 	for nm in EndingStand.PIECES:
 		var h := _pick(at[nm])
 		expect.call(h.get("type") == "ending" and h.id == nm, "%s can be clicked where it lies" % nm)
-	act_ending("sun")
+	for nm in EndingStand.PIECES:
+		act_ending(nm)
+	var feet := avatar.global_transform * Transform2D(0.0, avatar.sprite.position)
+	expect.call(ending.worn == ["stand", "sun", "lotus"] and EndingStand.PIECES.all(func(nm): return ending.sprite_of(nm).global_transform.is_equal_approx(feet * EndingStand.pose(nm))), "the pieces taken go onto you, as posed")
+	expect.call(_pick(ending.sprite_of("sun").global_position).get("type") == "worn", "a piece on you can be clicked")
+	ending.hold("sun")
+	ending.hold("lotus")
 	ending._process(0.0)
-	expect.call(ending.sprite_of("sun").global_position == get_global_mouse_position(), "a piece taken up follows the pointer")
-	act_ending("lotus")
-	expect.call(ending.carried == ["sun"], "one piece at a time")
+	expect.call(ending.held == "sun" and ending.sprite_of("sun").global_position == get_global_mouse_position(), "taken off you, it follows the pointer, one at a time")
 	var r := ending.set_down()
-	expect.call(r == "unsupported" and not ending.placed.has("sun"), "the sun disc cannot go on before the stand")
-	expect.call(_pick(at.sun).get("id") == "back", "where it was found takes it back")
-	act_ending("back")
-	expect.call(ending.carried.is_empty() and ending.where("sun") == at.sun, "put back where it was found")
+	expect.call(r == "unsupported" and not ending.placed.has("sun") and "sun" in ending.worn and ending.held == "", "the sun disc cannot go on before the stand: it goes back onto you")
+	ending.hold("lotus")
+	put_back()
+	expect.call("lotus" in ending.worn and ending.held == "", "let go elsewhere, it goes back onto you")
 	var h := _pick(ending.place_rect().get_center())
 	expect.call(h.get("type") == "ending" and h.id == "place", "the stand's place before Ra can be clicked")
 	for nm in EndingStand.PIECES:
-		act_ending(nm)
+		ending.hold(nm)
 		act_ending("place")
 	expect.call(ending.complete() and solved.t7, "stand, sun disc and lotus set up before Ra")
 	for nm in EndingStand.PIECES:
@@ -1741,5 +1777,5 @@ func _autotest_soft_lock(expect: Callable) -> void:
 	expect.call(not ending._imprint.visible, "restarting blanks the stela again")
 	for nm in EndingStand.PIECES:
 		act_ending(nm)
-	expect.call(ending.carried.is_empty(), "the stand's pieces can't be taken before the stela shows them")
+	expect.call(ending.worn.is_empty(), "the stand's pieces can't be taken before the stela shows them")
 	expect.call(_last_said == "This might come in handy later, but you wouldn't want your hands full right now.", "a hidden piece says it may come in handy later")

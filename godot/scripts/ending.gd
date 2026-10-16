@@ -6,10 +6,14 @@
 ## the women mourners (pl. I), the sun disc between the legs of the creature on the mummy's bier
 ## (pl. II; it rides with the sledge), the lotus on the second offering pile (pl. V). Once the
 ## other rites are done (`show_imprint`) the stela by the tomb shows a faint imprint of the three as
-## they stand; until then its face is blank. A piece found is carried, one at a time, and follows
-## the pointer; clicking where it was found puts it back. At its place before Ra each goes on only
-## once what it rests on is there: the stand, then the sun, then the lotus. The kneeling adorer before Ra is absent until the player kneels in his place; then
-## light pours from Ra's disc and the new sun and floods the screen (`ended`).
+## they stand; until then its face is blank. A piece found is worn: it goes onto you, posed as in
+## WORN (the stand held before you, the sun disc on your head, the lotus over your shoulder),
+## mirrored as you turn. Take one off you (drag it, or click it and click again) and it
+## follows the pointer, one at a time; let go of it on its place before Ra and it goes on there,
+## anywhere else and it goes back onto you. Each goes on only once what it rests on is there: the
+## stand, then the sun, then the lotus. The kneeling adorer before Ra is absent until the player
+## kneels in his place; then light pours from Ra's disc and the new sun and floods the screen
+## (`ended`).
 class_name EndingStand
 extends Node2D
 
@@ -28,8 +32,17 @@ const KNEEL := 0.8           ## s for you to sink into the adorer's place
 const RAYS := 1.6            ## s for the light to spread from the two suns ...
 const FLOOD := 0.9           ## ... and to fill the screen
 const LIGHT := preload("res://scripts/light.gdshader")
+## Where each piece sits on you, from your feet (strip px, you facing left as drawn): its centre,
+## turn (rad), scale and whether it is mirrored. Posed in the editor on a copy of the avatar
+## (2026-10-15).
+const WORN := {
+	"stand": {"at": Vector2(-36.0, -172.0), "turn": 0.0, "scale": 1.0, "flip": false},
+	"sun": {"at": Vector2(32.0, -314.0), "turn": 0.0, "scale": 1.0, "flip": false},
+	"lotus": {"at": Vector2(66.0, -235.0), "turn": 0.5323, "scale": 0.7, "flip": true},
+}
 
-var carried: Array[String] = []   ## found, not yet at its place (one at a time)
+var worn: Array[String] = []      ## found, on you, not yet at its place
+var held := ""                    ## the piece taken off you, following the pointer
 var placed := {}                  ## piece -> true once at its place
 var kneeling := false
 var imprint_shown := false        ## the stela shows the stand (only once the other rites are done)
@@ -38,6 +51,7 @@ var _data: Dictionary
 var _rects := {}                  ## piece -> Rect2 where it is drawn
 var _hidden_homes := {}       ## authored starting parent and transform
 var _nodes := {}                  ## piece -> Sprite2D (centred)
+var _avatar: Node2D
 var _imprint: Node2D
 var _kneeler: Sprite2D
 var _light: ColorRect
@@ -46,8 +60,9 @@ var _turn := 0.0
 var _tween: Tween
 
 
-func setup(level: Dictionary, nodes: Dictionary) -> void:
+func setup(level: Dictionary, nodes: Dictionary, avatar: Node2D) -> void:
 	_data = level.ending
+	_avatar = avatar
 	for nm in PIECES:
 		var sp: Sprite2D = nodes[nm]
 		_nodes[nm] = sp
@@ -71,7 +86,8 @@ func setup(level: Dictionary, nodes: Dictionary) -> void:
 func reset() -> void:
 	if _tween and _tween.is_valid():
 		_tween.kill()
-	carried.clear()
+	worn.clear()
+	held = ""
 	placed.clear()
 	kneeling = false
 	imprint_shown = false
@@ -92,6 +108,8 @@ func _hide(nm: String) -> void:
 	if sp.get_parent() != home.parent:
 		sp.reparent(home.parent, false)
 	sp.transform = home.transform
+	sp.z_index = 0
+	sp.flip_h = false
 	sp.visible = true
 
 
@@ -100,27 +118,35 @@ func _set_at_place(nm: String) -> void:
 	if sp.get_parent() != self:
 		sp.reparent(self, false)
 	sp.visible = true
-	sp.rotation = 0.0
-	sp.scale = Vector2.ONE
-	sp.position = _rects[nm].get_center()
+	sp.z_index = 0
+	sp.flip_h = false
+	sp.transform = Transform2D(0.0, _rects[nm].get_center())
 
 
-## A hidden piece under the pointer, "back" for where the carried piece was found, or "place" for
-## the stand's place before Ra (empty, part set up, or whole); else "".
+## A hidden piece under the pointer, or "place" for the stand's place before Ra (empty, part set
+## up, or whole); else "".
 func pick(p: Vector2) -> String:
-	if not carried.is_empty() and home_rect().grow(6.0).has_point(p):
-		return "back"
 	for nm in PIECES:
-		if placed.has(nm) or nm in carried:
-			continue
-		var sp: Sprite2D = _nodes[nm]
-		var size := sp.texture.get_size()
-		var r := sp.get_global_transform() * Rect2(-size / 2.0, size)
-		if r.grow(6.0).has_point(p):
+		if not placed.has(nm) and not nm in worn and nm != held and _drawn_rect(nm).grow(6.0).has_point(p):
 			return nm
 	if place_rect().has_point(p):
 		return "place"
 	return ""
+
+
+## A piece on you under the pointer, or "".
+func worn_at(p: Vector2) -> String:
+	for nm in worn:
+		if _drawn_rect(nm).grow(4.0).has_point(p):
+			return nm
+	return ""
+
+
+## The box round a piece's drawing where it is now (world px).
+func _drawn_rect(nm: String) -> Rect2:
+	var sp: Sprite2D = _nodes[nm]
+	var size := sp.texture.get_size()
+	return sp.get_global_transform() * Rect2(-size / 2.0, size)
 
 
 func place_rect() -> Rect2:
@@ -132,66 +158,72 @@ func sprite_of(nm: String) -> Sprite2D:
 	return _nodes.get(nm)
 
 
-## Where the carried piece was found (world px).
-func home_rect() -> Rect2:
-	var nm: String = carried[0]
-	var home: Dictionary = _hidden_homes[nm]
-	var size: Vector2 = _nodes[nm].texture.get_size()
-	return (home.parent as Node2D).get_global_transform() * home.transform * Rect2(-size / 2.0, size)
-
-
-## Where a piece is now, for walking to it ("back": where the carried piece was found).
+## Where a piece is now, for walking to it.
 func where(nm: String) -> Vector2:
-	if nm == "back":
-		return home_rect().get_center()
 	return _nodes[nm].global_position if nm in _nodes else place_rect().get_center()
 
 
-## Take up a piece: it follows the pointer until it is set down or put back.
+## Take a piece from where it lies hidden: it goes onto you.
 func take(nm: String) -> void:
-	if not carried.is_empty() or placed.has(nm):
+	if nm in worn or nm == held or placed.has(nm):
 		return
-	carried.append(nm)
+	worn.append(nm)
 	var sp: Sprite2D = _nodes[nm]
 	sp.reparent(self, false)
-	sp.rotation = 0.0
-	sp.scale = Vector2.ONE
-	sp.z_index = 10
+	sp.z_index = 5    # over you: you hold it
+	sp.flip_h = WORN[nm].flip
+	_follow()
 	changed.emit()
 
 
-## Put the carried piece back where it was found.
-func put_back() -> void:
-	if carried.is_empty():
+## Take a piece off you: it follows the pointer.
+func hold(nm: String) -> void:
+	if held != "" or not nm in worn:
 		return
-	var nm: String = carried.pop_back()
-	_nodes[nm].z_index = 0
-	_hide(nm)
+	worn.erase(nm)
+	held = nm
+	_nodes[nm].z_index = 10
+	_follow()
 	changed.emit()
 
 
-## At the place before Ra: set down the next carried piece that has what it rests on.
-## Returns "placed", "unsupported" (nothing carried can go on yet), "empty" or "done" (already
-## whole; the level says what is still wrong, if anything).
+## The piece in hand goes back onto you.
+func unhold() -> void:
+	if held == "":
+		return
+	worn.append(held)
+	_nodes[held].z_index = 5
+	held = ""
+	_follow()
+	changed.emit()
+
+
+## At the place before Ra: set down the piece in hand, or (with none) the first piece on you that
+## has what it rests on. A piece in hand that can't go on yet goes back onto you.
+## Returns "placed", "unsupported" (nothing can go on yet), "empty" or "done" (already whole; the
+## level says what is still wrong, if anything).
 func set_down() -> String:
 	if complete():
 		return "done"
-	if carried.is_empty():
+	var choice: Array = [held] if held != "" else worn.duplicate()
+	if choice.is_empty():
 		said.emit("Scribe", "Something stood here before Ra." + (" The stela by the tomb shows what." if imprint_shown else ""))
 		return "empty"
-	for nm in carried:
+	for nm in choice:
 		var under: String = RESTS_ON[nm]
 		if under == "" or placed.has(under):
-			carried.erase(nm)
+			worn.erase(nm)
+			if nm == held:
+				held = ""
 			placed[nm] = true
-			_nodes[nm].z_index = 0
 			_set_at_place(nm)
 			if complete():
 				said.emit("Scribe", "The stand stands before Ra again, the sun disc on it and the lotus bending over it" + (", as on the stela." if imprint_shown else "."))
 				_fade_imprint()
 			changed.emit()
 			return "placed"
-	said.emit(TAGS[carried[0]], "%s has nothing to rest on yet." % _cap(NAMES[carried[0]]) + (" Look at the stela: something stands beneath it." if imprint_shown else ""))
+	said.emit(TAGS[choice[0]], "%s has nothing to rest on yet." % _cap(NAMES[choice[0]]) + (" Look at the stela: something stands beneath it." if imprint_shown else ""))
+	unhold()
 	return "unsupported"
 
 
@@ -199,8 +231,27 @@ func complete() -> bool:
 	return placed.size() == PIECES.size()
 
 
-func carried_name() -> String:
-	return NAMES[carried[0]] if not carried.is_empty() else ""
+## Where piece `nm` sits on you, from your feet as drawn.
+static func pose(nm: String) -> Transform2D:
+	var w: Dictionary = WORN[nm]
+	return Transform2D(w.turn, Vector2(w.scale, w.scale), 0.0, w.at)
+
+
+func held_name() -> String:
+	return NAMES.get(held, "")
+
+
+## The pieces on you sit where they are posed, mirrored as you turn and bobbing as you walk; the
+## one in hand is at the pointer.
+func _follow() -> void:
+	var sprite: Sprite2D = _avatar.sprite
+	var on_you := _avatar.global_transform * Transform2D(0.0, sprite.position)
+	if sprite.flip_h:
+		on_you *= Transform2D.FLIP_X
+	for nm in worn:
+		_nodes[nm].global_transform = on_you * pose(nm)
+	if held != "":
+		_nodes[held].global_transform = Transform2D(0.0, get_global_mouse_position())
 
 
 ## Where you kneel: the adorer's place before Ra.
@@ -265,8 +316,7 @@ func _set_light(spread: float, flood: float) -> void:
 
 
 func _process(delta: float) -> void:
-	if not carried.is_empty():   # what is carried follows the pointer
-		_nodes[carried[0]].global_position = get_global_mouse_position()
+	_follow()
 	if not _light.visible:
 		return
 	_turn += delta

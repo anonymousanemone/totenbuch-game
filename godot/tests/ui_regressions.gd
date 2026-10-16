@@ -201,6 +201,20 @@ func _test_feedback() -> void:
 		level.set_process(false)     # the fight stands still between the checks and the pictures
 		level.start_fight(encounter)
 		expect(level.hud._text == UI.plain(encounter.intro), encounter.id + " clicking the danger says its rule, with no Space to start")
+		expect(level.hud._tag_label.text == encounter.tag, encounter.id + " the fight speaks under the danger's name, not the scribe's")
+		var f0: Dictionary = level.fight.frame0
+		var f1: Dictionary = level.fight.frame1
+		var lw: float = (level.level.rules[0][1] - level.level.rules[0][0]) * level.fight.cam0.z
+		var vp: Vector2 = level.get_viewport_rect().size
+		var wide: bool = encounter.kind in ["crocs", "roach"]
+		expect(is_equal_approx(level.fight.line, lw) and f1.l == 0.0 and f1.r == vp.x and f1.top == f0.top,
+			encounter.id + " the frame opens to the screen's edges, its lines as thick as while walking, the band's top line where it is")
+		expect(f1.bot <= vp.y - level.hud.bottom_height() - level.hud.tag_reach(), encounter.id + " the frame's bottom line stays clear of the speaker's tag")
+		expect(wide or (is_equal_approx(f1.s, f0.s) and is_equal_approx(f1.rule, f0.rule)),
+			encounter.id + " the caption keeps its walking size and height (only the wide fights zoom it out)")
+		var ink: Vector2 = level._caption_ink(level.fight.cell)
+		var mid: float = f1.cap.x + ((ink.x + ink.y) / 2.0 - level.fight.cell.position.x) * f1.s
+		expect(absf(mid - vp.x / 2.0) < 1.0, encounter.id + " the caption is centred")
 		level._update_fight(0.1)
 		expect(level.fight.t > 0.0, encounter.id + " the danger starts at once")
 		level._feedback_once("test", "First mistake")

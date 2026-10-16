@@ -158,6 +158,9 @@ func _test_dangers_scene_actors() -> void:
 	for id in data.sprites:
 		aligned = aligned and (id == "avatar" or ids.has(id))
 	_expect(aligned, "Dangers scene contains unique IDs and source-art placements for every actor")
+	var cam: Camera2D = scene.get_node("Camera")
+	_expect(absf(cam.position.x - scene.get_node("Avatar").position.x) < 1000.0 and cam.zoom.x < 1.0,
+		"the dangers camera is authored where the level starts")
 	_expect(scene.get_node("actors/spell31_crocs/croc31a") == ids.c31a
 		and scene.get_node("actors/spell31_crocs/spear_bearer") == ids.spear31,
 		"actors have readable names and are organized beneath their spell")

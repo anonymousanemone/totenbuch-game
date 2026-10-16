@@ -74,10 +74,10 @@ script = ExtResource("1_proc")
 
 [node name="Papyrus" type="ColorRect" parent="." unique_id=124308656]
 material = SubResource("ShaderMaterial_papyrus")
-offset_left = -1579.0
-offset_top = -716.0
-offset_right = 17375.0
-offset_bottom = 1884.0
+offset_left = -1522.0
+offset_top = -736.0
+offset_right = 17432.0
+offset_bottom = 1864.0
 mouse_filter = 2
 color = Color(0.906, 0.839, 0.682, 1)
 
@@ -479,24 +479,6 @@ scale = Vector2(0.7, 0.7)
 texture = ExtResource("tex_lotus")
 metadata/piece_id = "lotus"
 
-[node name="sun2" type="Sprite2D" parent="pieces/ending" unique_id=481668746]
-position = Vector2(15269, 32)
-texture = ExtResource("tex_sun")
-metadata/piece_id = "sun"
-
-[node name="stand2" type="Sprite2D" parent="pieces/ending" unique_id=867129514]
-position = Vector2(15201, 174)
-texture = ExtResource("tex_stand")
-metadata/piece_id = "stand"
-
-[node name="lotus2" type="Sprite2D" parent="pieces/ending" unique_id=2023278681]
-position = Vector2(15302.999, 110.99995)
-rotation = 0.53232545
-scale = Vector2(0.7, 0.7)
-texture = ExtResource("tex_lotus")
-flip_h = true
-metadata/piece_id = "lotus"
-
 [node name="kneeling_man" type="Sprite2D" parent="pieces/ending" unique_id=302206127]
 position = Vector2(790, 248)
 texture = ExtResource("tex_kneeler")
@@ -512,11 +494,6 @@ position = Vector2(14813, 526)
 script = ExtResource("3_avatar")
 
 [node name="Sprite" type="Sprite2D" parent="Avatar" unique_id=1460035153]
-texture = ExtResource("4_avatar_tex")
-offset = Vector2(0, -148)
-
-[node name="Sprite2" type="Sprite2D" parent="Avatar" unique_id=1376387061]
-position = Vector2(424, -180)
 texture = ExtResource("4_avatar_tex")
 offset = Vector2(0, -148)
 

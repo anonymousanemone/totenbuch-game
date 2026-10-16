@@ -12,7 +12,7 @@ revamps, anything that plays boring) are also in `../ideas.md`.
 
 ### Procession
 
-- [ ] **Your call (the stand before Ra):** carry the three pieces like the adze and the words (follow the pointer, click to set down): one at a time, or 1–3 following the pointer for this last go-round?
+- [x] **Your call (the stand before Ra):** carry the three pieces like the adze and the words (follow the pointer, click to set down): one at a time, or 1–3 following the pointer for this last go-round? *Done (your answer, 2026-10-15):* the pieces attach to you as you posed them in the editor (now `WORN` in `ending.gd`); drag one off (or click it, then click again) to carry it to the place, one at a time.
 - [ ] **Your call:** tune the water game once you've played it (`DROOP`, `DROOP_EVERY`, `LIFT`, `DAMP`, `WINDOW`, `DRY`, `KEEP` in `pour_water.gd`). Made much more sensitive (second playtest): the arm now has momentum and keeps swinging, the pulls are stronger and change more often, and the window is narrower (0.12 → 0.09 rad).
 
 **Second playtest (2026-10-15)**
@@ -55,18 +55,14 @@ revamps, anything that plays boring) are also in `../ideas.md`.
 - [ ] Heka signs (31–32): on the scroll they flash too quickly and brightly (subtler, slower, a darker red nearer the ink). Left as is, as you said (2026-10-15).
 - [ ] Spell 32 crocodiles still feel too frequent and fast. The tuning (`waves` in `danger_encounters.gd`) and the spawning code haven't changed since the hand-tuning (commit `d59d0fd`, 2026-10-13). What did change: the HUD bars around the fight shrank (top 40 → 62 px, bottom 228 → 130 px), so the camera is about 17% closer. Crocodiles now move about 17% faster on screen and cover about 15% less ground before reaching you. Re-tune, or fit the fight's camera as it was. (Left alone.)
 - [ ] Spell 35, red light green light: too easy. Maybe one life only, or no hints (undecided).
-- [ ] Spell 36, the beetles: also feel too easy (undecided).
+- [x] **Spell 36, the swarm line:** the losing line ("A beetle got away from your spear once too often. They multiply until they fill the vignette.") explained the rule and described what is already on screen. *Done (2026-10-16):* "It slipped past one time too many. Apshai never travels alone." (`_roach_swarm` in `dangers.gd`).
+- [x] **Spells 31–32, the heka thefts:** the 10-14 wording ("It laughs, seizes the word of power…") was weak. *Done (2026-10-16):* back to the original 10-13 lines, without "begin again": "Heka spent on an ordinary crocodile! It seizes the word of power and makes off with it. The crocodiles are not turned back." and "A crocodile slipped past you to the wall. It laughs, and the word of heka falls to it." (`_croc_steals`, `_croc_eats_word`).
+- [x] Spell 36, the beetles: also feel too easy. *Done (2026-10-15):* five beetles instead of three (`count`); the intro says five.
 - [ ] **Your call:** spell 37's new Merti wording (nothing may give away that the flashing sign shows which snake strikes): intro "Turn to the snake that strikes ([←] [→]), and thrust as it springs."; hint "Watch the signs above. Striking too soon provokes a snake."; bitten from behind "It sprang from your other side. Turn to face it ([←] [→]). Bitten."
 - [ ] Spell 39, Rekrek (Apep): far too easy. Make it faster, or change the game.
 - [ ] Spell 38: life and breath become two separate signs, and only breath is taken: the player must click the breath sign (one choice only). Taking the wrong one makes the following fights nearly impossibly hard. Clicking spell 38's caption title shows "breath" in bold (or similar), which tells the player which to pick. **Waiting on art:** in the .mdp the ankh and the sail are still one layer (`breath38/ankh`, with `t3`); split them, then this needs deciding how "nearly impossibly hard" works.
 - [ ] Spells 40–41: both are boring and slow. Rethink their pace (undecided).
-- [ ] **Fight frames (later):** fix every mini-game's border so the lines drawn as the frame opens match the drawn frame exactly (position and thickness), and so the text below lines up where it leaves and where it comes back.
-  How it opens now (`_arena_setup`, `_croc_open`, `_draw_arena_lines`):
-  - It starts as the vignette's own frame (`fight.panel`: from the band's top rule down to the ground line, between the vignette's span) and grows linearly over `CROC_OPEN` (0.8 s) to `fight.full`: the width of the screen at the fight's zoom, down to 24 plate px above the bottom of the scroll.
-  - One-sided fights keep the right-hand double line where it's drawn and open to the left; two-sided fights and those with a `view` open about their middle.
-  - The frame is redrawn in code, not taken from the drawing: one top line on `rules[0]`, a double line at the bottom and on each side, every line as thick as `rules[0]` with an 8 px gap. Wherever the drawing's own lines differ, the drawn and the code frame don't line up at the start.
-  - The text below fades out while dropping `TEXT_DROP` (320 px) and stretching to 130 % wide; neighbouring captions are covered and the other figures fade out.
-  - The camera zooms in during the same 0.8 s.
+- [x] **Fight frames:** *Done (2026-10-16):* every fight shares one frame (`_arena_setup`, `_frame_now`, `_place_frame`): it opens from the drawn double lines to the screen's edges, lines at their walking thickness, the bottom line clear of the speaker's tag; the caption centred at its walking size and height (the crocodiles and beetles zoom out, and their caption with them). Mockups: `mockups/fight-frames/`. The fight's lines in the speaker tag name the danger (`tag`).
 
 
 ## Playtest notes — 2026-10-15 (done)
@@ -133,7 +129,7 @@ What the 2026-10-15 playtest changed. What is still open is at the top.
 **Everywhere in the dangers**
 - [x] Bigger text on the intro card (the shared card: 32 px).
 - [x] The sassy text is back: every in-fight line `9864c00` ("major sweep again") flattened has its old wording again, wherever the same moment is still in the game:
-  - the crocodiles: "The crocodile turns away.", "They come again.", the heka thefts ("It laughs, seizes the word of power…"), "The fight is lost. Click the creature to take up the spear again."
+  - the crocodiles: "The crocodile turns away.", "They come again.", the heka thefts (since put back to their original wording, see above), "The fight is lost. Click the creature to take up the spear again."
   - "Struck!" / "Pinned!" / "Pressed down…" on each hit (spells 33, 35, 36, 37, 39, 41)
   - each mistake's old explanation ("Too early: your spear was already coming back up…", "The barb jars on a still neck…", "It was at that band: it bites through the stalks…", …)
   - the beetles' swarm line, and "You step back out of the vignette…" on Esc.

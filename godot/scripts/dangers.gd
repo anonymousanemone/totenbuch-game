@@ -55,7 +55,9 @@ var _arena: Node2D        ## the opened-out crocodile vignette, between the stri
 var _arena_cover: ColorRect
 var _arena_lines: Node2D
 var _text_cover: ColorRect     ## papyrus over the text below while it drops away
-var _caption_covers: Array[ColorRect] = []   ## papyrus over the other vignettes' captions
+var _band_cover: ColorRect    ## papyrus over the caption band inside the fight's frame
+var _caption_art: Sprite2D    ## the fight's caption, drawn again where the frame shows it
+var _strip_img: Image         ## the strip, read once to find where a caption's ink lies
 var _text_drop: Sprite2D       ## the text below, widening and dropping away
 var heka_known := false        ## the player has clicked a flashing heka sign
 const FLESH_PATH := "res://assets/dangers/flesh.png"   ## the flesh sign that counts his health (supplied, not cut)
@@ -128,12 +130,15 @@ func _ready() -> void:
 	_arena_cover.material = $Papyrus.material
 	_arena_cover.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_arena.add_child(_arena_cover)
-	for i in 2:
-		var cc := ColorRect.new()
-		cc.material = $Papyrus.material
-		cc.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		_arena.add_child(cc)
-		_caption_covers.append(cc)
+	_band_cover = ColorRect.new()
+	_band_cover.material = $Papyrus.material
+	_band_cover.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_arena.add_child(_band_cover)
+	_caption_art = Sprite2D.new()
+	_caption_art.centered = false
+	_caption_art.texture = AtlasTexture.new()
+	(_caption_art.texture as AtlasTexture).atlas = $Strip.texture
+	_arena.add_child(_caption_art)
 	_text_cover = ColorRect.new()
 	_text_cover.material = $Papyrus.material
 	_text_cover.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -400,7 +405,11 @@ func _set_caption_hover(e: Dictionary) -> void:
 
 
 func _caption_signs(e: Dictionary) -> Array:
-	var r := _caption_rect(e).grow(4.0)
+	return _caption_signs_in(_caption_rect(e))
+
+
+func _caption_signs_in(cell: Rect2) -> Array:
+	var r := cell.grow(4.0)
 	return actors.keys().filter(func(n): return r.encloses(actor_rect(n)))
 
 
@@ -483,11 +492,8 @@ func _process(delta: float) -> void:
 		if not fight.lost:
 			for nm in _heka_words(fight.e.id):
 				actors[nm].modulate = Color.WHITE.lerp(RED_CROC, pulse * fight.open) if fight.get("heka_on", false) else Color.WHITE
-	var ar := _arena_rect()
-	if ar.has_area():
-		_arena_cover.position = ar.position
-		_arena_cover.size = ar.size
-		_arena_lines.queue_redraw()
+	if not fight.is_empty() and fight.kind in ARENA_FIGHTS:
+		_place_frame()
 
 
 ## Say a vignette's line each time you walk into it while its danger is still there (a fight waits
@@ -563,7 +569,10 @@ func hint() -> void:
 		say("Hint", "Look for %s to your left." % current.label.to_lower() if current.kind in FIGHTS else current.hint)
 
 
+## In a fight, what the scribe would say is said under the danger's name (`tag`).
 func say(who: String, text: String) -> void:
+	if who == "Scribe" and not fight.is_empty():
+		who = fight.e.get("tag", who)
 	hud.say(who, text)
 
 
@@ -760,15 +769,20 @@ const RED_CROC := UI.INK_TINT   ## red crocodiles, heka word and spear
 const HURT := RED_CROC                      ## the bearer's body when bitten
 const DISSOLVE := preload("res://scripts/dissolve.gdshader")
 const TEXT_DROP := 320.0        ## how far the text below drops while the vignette is open
+const FRAME_GAP := 8.0          ## between the two lines of a double line, as drawn (plate px)
 const HEKA_TEXT := "Hold [shift] while striking to fight off the red crocodiles. Don't use heka on the regular crocodiles, or they'll make off with it!"
 
 
-## The opened-out vignette both kinds of arena fight use (crocodiles, roach): the picture band
-## widens across the whole screen and down past the text, which drops away; only this vignette's
-## caption stays; everything else steps out of the way. `both`: he stands in the middle and can
-## turn (else the double line behind him stays where it is drawn). `keep`: actors that stay.
-## `view`: for a close fight, the rows to show (top, bottom) and the x to centre on; empty = the
-## whole height of the scroll.
+## The opened-out vignette every fight uses: its frame (the double lines round the picture and the
+## caption band) moves out to the edges of the screen, the lines keeping the thickness they have
+## while walking; the caption moves to the middle of the band, at the size it has while walking
+## (the wide fights, crocodiles and beetles, zoom out and it shrinks with them); the text below
+## drops away and everything else steps out of the way. The frame is worked out on the screen
+## (`fight.frame0`, as drawn, to `fight.frame1`, opened out) and drawn into the world each frame
+## (_place_frame). `both`: he stands in the middle and can turn (else the double line behind him
+## stays where it is drawn). `keep`: actors that stay. `view`: for a close fight, the lowest row
+## to show (`y1`) and the x to centre on (`x`, or the right-hand edge, `right`), and at most `z`
+## zoom; empty = a wide fight, the whole height of the scroll.
 func _arena_setup(e: Dictionary, both: bool, keep: Array, view := {}) -> void:
 	var s := span(e)
 	var rules: Array = level.rules
@@ -776,23 +790,53 @@ func _arena_setup(e: Dictionary, both: bool, keep: Array, view := {}) -> void:
 	var vp := get_viewport_rect().size
 	var top: float = hud.top_height()
 	var bottom: float = hud.bottom_height()
-	var shown: float = view.y1 - view.y0 if not view.is_empty() else level.height
-	var z: float = (vp.y - top - bottom - 10.0) / shown           # the whole height of the scroll, or `view`
-	if view.has("z"):        # no closer than this, so the fight keeps its width
-		z = minf(z, view.z)
+	var cap: Array = level.get("caption", [50.0, 180.0])
+	var lw: float = rules[0][1] - rules[0][0]
+	# the frame on the screen: as drawn, under the camera you walk with ...
+	var z0 := camera.zoom.x
+	var c0 := camera.position
+	var on0 := func(p: Vector2) -> Vector2: return (p - c0) * z0 + vp / 2.0
+	fight.cam0 = {"z": z0, "x": c0.x, "y": c0.y}
+	fight.line = lw * z0                                          # every line keeps its walking thickness
+	fight.gap = (lw + FRAME_GAP) * z0                             # from one of a double line to the other
+	var top_y: float = on0.call(Vector2(0.0, float(cap[0]) - lw)).y   # the band's top line stays put
+	var bot_y: float = vp.y - bottom - hud.tag_reach() - 4.0      # clear of the speaker's tag
+	var wide := view.is_empty()
+	# ... and opened out, with the zoom that fits the picture between the band and the bottom
+	var z: float
+	var rule_y: float
+	if wide:     # the whole height of the scroll (the caption shrinks with it)
+		z = (vp.y - top - bottom - 10.0) / level.height
+		rule_y = top_y + fight.line + (float(cap[1]) - float(cap[0])) * z
+	else:        # close: the caption as while walking; the picture down to `y1`
+		rule_y = on0.call(Vector2(0.0, float(cap[1]))).y
+		z = (bot_y - fight.line - fight.gap - rule_y - fight.line) / (float(view.y1) - band_top)
+		if view.has("z"):        # no closer than this, so the fight keeps its width
+			z = minf(z, view.z)
 	var vis_w: float = vp.x / z
 	var cx := (s.x + s.y) / 2.0
-	fight.panel = Rect2(s.x, band_top, s.y - s.x, ground - band_top)
+	var cell := _caption_rect(e).grow_individual(-2.0, 0.0, -2.0, 0.0)   # (not the edge of the lines beside it)
+	var ink := _caption_ink(cell)
+	var s1: float = z if wide else z0
+	fight.frame0 = {"l": on0.call(Vector2(s.x - 2.0 * lw - FRAME_GAP, 0.0)).x, "r": on0.call(Vector2(s.y + 2.0 * lw + FRAME_GAP, 0.0)).x,
+		"top": top_y, "rule": on0.call(Vector2(0.0, float(cap[1]))).y, "bot": on0.call(Vector2(0.0, rules[-1][1])).y,
+		"cap": on0.call(cell.position), "s": z0}
+	fight.frame1 = {"l": 0.0, "r": vp.x, "top": top_y, "rule": rule_y, "bot": bot_y,
+		"cap": Vector2(vp.x / 2.0 - ((ink.x + ink.y) / 2.0 - cell.position.x) * s1, top_y + fight.line), "s": s1}
+	(_caption_art.texture as AtlasTexture).region = cell
+	fight.cell = cell
+	fight.signs = _caption_signs(e)
 	fight.both = both
-	if not view.is_empty():
-		fight.full = Rect2(view.x - vis_w / 2.0, band_top, vis_w, level.height - 24.0 * unit - band_top)
+	if not wide:
+		var vx: float = view.right - vis_w / 2.0 if view.has("right") else view.x
+		fight.full = Rect2(vx - vis_w / 2.0, band_top, vis_w, level.height - 24.0 * unit - band_top)
 	elif both:
 		fight.full = Rect2(cx - vis_w / 2.0, band_top, vis_w, level.height - 24.0 * unit - band_top)
 	else:   # the double line on the right stays as drawn (s.y is its inner edge); it opens to the left
 		var right: float = s.y + 20.0
 		fight.full = Rect2(right - vis_w, band_top, vis_w, level.height - 24.0 * unit - band_top)
-	var mid: float = (view.y0 + view.y1) / 2.0 if not view.is_empty() else level.height / 2.0
-	fight.cam = {"z": z, "x": fight.full.get_center().x, "y": mid + (bottom - top) / 2.0 / z}
+	# the picture's top row (under the band's rule) sits just under the frame's rule
+	fight.cam = {"z": z, "x": fight.full.get_center().x, "y": band_top - (rule_y + fight.line - vp.y / 2.0) / z}
 	fight.open = 0.0
 	fight.thrust = -1.0
 	fight.struck = false
@@ -826,12 +870,6 @@ func _arena_setup(e: Dictionary, both: bool, keep: Array, view := {}) -> void:
 	var x1 := minf(level.width, full.end.x)
 	(_text_drop.texture as AtlasTexture).region = Rect2(x0, text_top, x1 - x0, level.height - text_top)
 	fight.text_home = Vector2((x0 + x1) / 2.0, (text_top + level.height) / 2.0)
-	# only this vignette's caption stays: the others on screen are covered (its own double lines stay)
-	var cap: Array = level.get("caption", [rules[0][0] - 130.0, rules[0][0]])
-	_caption_covers[0].position = Vector2(full.position.x - 100.0, cap[0])
-	_caption_covers[0].size = Vector2(maxf(0.0, s.x - 20.0 - (full.position.x - 100.0)), cap[1] - cap[0])
-	_caption_covers[1].position = Vector2(s.y + 20.0, cap[0])
-	_caption_covers[1].size = Vector2(maxf(0.0, full.end.x + 100.0 - (s.y + 20.0)), cap[1] - cap[0])
 	_text_cover.position = Vector2(full.position.x - 100.0, text_top)
 	_text_cover.size = Vector2(full.size.x + 200.0, level.height - text_top + 100.0)
 	_arena.visible = true
@@ -1022,8 +1060,6 @@ func _croc_open(k: float) -> void:
 	_text_drop.position = fight.text_home + Vector2(0.0, TEXT_DROP * unit * k * k)
 	_text_drop.scale = Vector2(1.0 + 0.3 * k, 1.0)
 	_text_drop.modulate.a = 1.0 - k
-	for cc in _caption_covers:
-		cc.modulate.a = k
 	_place_bearer()
 
 
@@ -1241,12 +1277,12 @@ func _croc_total() -> int:
 
 ## Heka thrust at an ordinary crocodile: it takes the word of heka and runs.
 func _croc_steals(c: Dictionary) -> void:
-	_croc_takes_word(c, "Heka spent on an ordinary crocodile! It laughs, seizes the word of power and makes off with it.")
+	_croc_takes_word(c, "Heka spent on an ordinary crocodile! It seizes the word of power and makes off with it. The crocodiles are not turned back.")
 
 
 ## A crocodile got past the bearer, once the heka word glows: it goes off with the word.
 func _croc_eats_word(c: Dictionary) -> void:
-	_croc_takes_word(c, "A crocodile slipped past you. It laughs, and the word of heka falls into its jaws.")
+	_croc_takes_word(c, "A crocodile slipped past you to the wall. It laughs, and the word of heka falls to it.")
 
 
 ## Lost: the crocodile laughs (squashes up and down) and turns round, the heka word spins down from
@@ -1575,7 +1611,7 @@ func _crocs_cleanup() -> void:
 		_sheaf_undress()
 	if fight.kind == "donkey":
 		_donkey_undress()
-	for nm in _all_heka():
+	for nm in _all_heka() + fight.get("signs", []):
 		_restore(nm)
 	for a in fight.get("copies", []):
 		a.queue_free()
@@ -1589,30 +1625,93 @@ func _crocs_cleanup() -> void:
 	_arena.visible = false
 
 
-## The opened-out vignette: papyrus over the picture band (and the text below), framed again.
+## The fight's frame on the screen now: from as drawn (open 0) to the edges of the screen (open 1),
+## easing as the camera does. l, r: its outer edges; top: the band's top line; rule: the line under
+## the caption; bot: the bottom of the lower bottom line; cap, s: the caption's top-left and scale.
+func _frame_now() -> Dictionary:
+	var a: Dictionary = fight.frame0
+	var b: Dictionary = fight.frame1
+	var o: float = smoothstep(0.0, 1.0, fight.open)
+	var out := {}
+	for key in a:
+		out[key] = lerp(a[key], b[key], o)
+	return out
+
+
+## A rect on the screen, in the world under the camera now.
+func _to_world(r: Rect2) -> Rect2:
+	var vp := get_viewport_rect().size
+	var z := camera.zoom.x
+	return Rect2(camera.position + (r.position - vp / 2.0) / z, r.size / z)
+
+
+## The opened-out vignette in the world: inside its frame, under the caption band.
 func _arena_rect() -> Rect2:
 	if fight.is_empty() or not fight.kind in ARENA_FIGHTS:
 		return Rect2()
-	var p: Rect2 = fight.panel
-	var f: Rect2 = fight.full
-	var k: float = fight.open
-	return Rect2(p.position.lerp(f.position, k), p.size.lerp(f.size, k))
+	var f := _frame_now()
+	var side: float = fight.gap + fight.line
+	return _to_world(Rect2(f.l + side, f.rule + fight.line, f.r - f.l - 2.0 * side, f.bot - side - f.rule - fight.line))
+
+
+## Draw the fight's frame where it is now: papyrus inside it (over the band and the picture), the
+## caption (and its signs that are sprites) where the band shows it, and the lines redrawn.
+func _place_frame() -> void:
+	var f := _frame_now()
+	var side: float = fight.gap + fight.line
+	# (from the top of the screen: what lies above the band's line is covered too)
+	var band := _to_world(Rect2(f.l, 0.0, f.r - f.l, f.rule))
+	_band_cover.position = band.position
+	_band_cover.size = band.size
+	var ar := _arena_rect()
+	_arena_cover.position = ar.position
+	_arena_cover.size = ar.size
+	var at := _to_world(Rect2(f.cap, Vector2.ZERO)).position
+	var k: float = f.s / camera.zoom.x
+	_caption_art.position = at
+	_caption_art.scale = Vector2(k, k)
+	if not (fight.kind == "crocs" and fight.lost):   # (a crocodile carries the heka word off)
+		var cell: Rect2 = fight.cell
+		for nm in fight.signs:
+			var a: Node2D = actors[nm]
+			a.position = at + (a.get_meta("home") - cell.position) * k
+			a.scale = Vector2(k, k)
+	_arena_lines.queue_redraw()
 
 
 func _draw_arena_lines() -> void:
-	var r := _arena_rect()
-	if not r.has_area():
+	if fight.is_empty() or not fight.kind in ARENA_FIGHTS:
 		return
-	var ink := UI.INK
-	var rules: Array = level.rules
-	var t0: float = rules[0][0]
-	var lw: float = rules[0][1] - rules[0][0]           # 6 px lines, 8 px apart
-	var gap: float = lw + 8.0
-	_arena_lines.draw_rect(Rect2(r.position.x, t0, r.size.x, lw), ink)
-	for y in [r.end.y - lw, r.end.y - lw - gap]:
-		_arena_lines.draw_rect(Rect2(r.position.x, y, r.size.x, lw), ink)
-	for x in [r.position.x, r.position.x + gap, r.end.x - lw, r.end.x - lw - gap]:
-		_arena_lines.draw_rect(Rect2(x, t0, lw, r.end.y - t0), ink)
+	var f := _frame_now()
+	var lw: float = fight.line
+	var gap: float = fight.gap
+	var w: float = f.r - f.l
+	var rects := [Rect2(f.l, f.top, w, lw), Rect2(f.l, f.rule, w, lw), Rect2(f.l, f.bot - lw, w, lw), Rect2(f.l, f.bot - lw - gap, w, lw)]
+	for x in [f.l, f.l + gap, f.r - lw, f.r - lw - gap]:
+		rects.append(Rect2(x, f.top, lw, f.bot - f.top))
+	for r in rects:
+		_arena_lines.draw_rect(_to_world(r), UI.INK)
+
+
+## Where a caption's ink lies across its cell (strip x, from, to): it is centred by that.
+func _caption_ink(cell: Rect2) -> Vector2:
+	if _strip_img == null:
+		_strip_img = $Strip.texture.get_image()
+		if _strip_img.is_compressed():
+			_strip_img.decompress()
+	var x0 := int(cell.end.x)
+	var x1 := int(cell.position.x)
+	for x in range(int(cell.position.x), int(cell.end.x)):
+		for y in range(int(cell.position.y) + 2, int(cell.end.y) - 2, 2):
+			if _strip_img.get_pixel(x, y).a > 0.4:
+				x0 = mini(x0, x)
+				x1 = maxi(x1, x + 1)
+				break
+	for nm in _caption_signs_in(cell):      # signs that are sprites of their own are not in the strip
+		var r := actor_rect(nm)
+		x0 = mini(x0, int(r.position.x))
+		x1 = maxi(x1, int(r.end.x))
+	return Vector2(x0, x1) if x1 > x0 else Vector2(cell.position.x, cell.end.x)
 
 
 # the two Merti snakes (spell 37). The vignette opens out, close up; he stands where he is drawn, the
@@ -1634,9 +1733,8 @@ const TWIN_BOT_AIM := 0.0       ## (--croc-bot) thrusts this long after the mome
 
 
 func _twin_start(e: Dictionary) -> void:
-	var cap: Array = level.get("caption", [50.0, 180.0])
 	var bearer: Node2D = actors[e.spear]
-	_arena_setup(e, true, [e.foe] + e.signs, {"y0": float(cap[0]) - 12.0 * unit, "y1": ground + 24.0 * unit, "x": bearer.get_meta("home").x})
+	_arena_setup(e, true, [e.foe] + e.signs, {"y1": ground + 24.0 * unit, "x": bearer.get_meta("home").x})
 	fight.stand = bearer.get_meta("home")          # he stays where he is drawn: his point is on the snake
 	fight.pos = fight.stand
 	fight.health = CROC_HEALTH
@@ -1952,19 +2050,13 @@ const CREEP_SLIDE := 0.6        ## sliding back off ahead of him (s)
 func _creep_start(e: Dictionary) -> void:
 	# close up, from the caption banner to just under the ground; he stands near the right-hand
 	# edge, the snake lies near the left-hand one
-	var cap: Array = level.get("caption", [50.0, 180.0])
-	var y0: float = float(cap[0]) - 12.0 * unit
-	var y1: float = ground + 24.0 * unit
-	var vp := get_viewport_rect().size
-	var z: float = (vp.y - hud.top_height() - hud.bottom_height() - 10.0) / (y1 - y0)
 	var right: float = rects[e.spear].end.x + 40.0 * unit
 	# wide enough that the snake starts left of where it is drawn, with room to slide on as it is
 	# struck (however tall the HUD leaves the picture)
 	var foe: Node2D = actors[e.foe]
 	var w: float = right - foe.get_meta("home").x + foe.get_meta("size").x / 2.0 + 40.0 * unit \
 		+ float(e.flee) * unit * int(e.need)
-	z = minf(z, vp.x / w)
-	_arena_setup(e, false, [e.foe], {"y0": y0, "y1": y1, "x": right - vp.x / z / 2.0, "z": z})
+	_arena_setup(e, false, [e.foe], {"y1": ground + 24.0 * unit, "right": right, "z": get_viewport_rect().size.x / w})
 	fight.stand = actors[e.spear].get_meta("home")
 	fight.pos = fight.stand
 	fight.health = CROC_HEALTH
@@ -2475,7 +2567,7 @@ func _roach_strike() -> void:
 func _roach_swarm(r: Dictionary) -> void:
 	var e: Dictionary = fight.e
 	fight.lost = true
-	say("Scribe", "A beetle got away from your spear once too often. They multiply until they fill the vignette.")
+	say("Scribe", "It slipped past one time too many. Apshai never travels alone.")
 	var from: Array = _roaches().map(func(x): return x.c)
 	var tex: Texture2D = _picture(r.node).texture
 	var size: Vector2 = r.size
@@ -2540,9 +2632,8 @@ const SNAKE_TAIL := preload("res://scripts/snake_tail.gdshader")
 
 func _lunge_start(e: Dictionary) -> void:
 	# close up: from the caption banner to just under the ground, centred between him and the snake
-	var cap: Array = level.get("caption", [50.0, 180.0])
 	var mid_x: float = (actors[e.spear].get_meta("home").x + actors[e.foe].get_meta("home").x) / 2.0 - float(e.rest) * unit
-	_arena_setup(e, false, [e.foe], {"y0": float(cap[0]) - 12.0 * unit, "y1": ground + 24.0 * unit, "x": mid_x})
+	_arena_setup(e, false, [e.foe], {"y1": ground + 24.0 * unit, "x": mid_x})
 	# he stays exactly where he is drawn: that is where the spear meets the mark
 	var bearer: Node2D = actors[e.spear]
 	fight.stand = bearer.get_meta("home")
@@ -3041,9 +3132,8 @@ const APEP_BOT_LEAD := 0.05     ## (--croc-bot) thrusts this long before a crest
 
 func _apep_start(e: Dictionary) -> void:
 	# close up: from the caption banner to just under the ground, the whole vignette across
-	var cap: Array = level.get("caption", [50.0, 180.0])
 	var s := span(e)
-	_arena_setup(e, false, [e.foe], {"y0": float(cap[0]) - 12.0 * unit, "y1": ground + 24.0 * unit, "x": (s.x + s.y) / 2.0})
+	_arena_setup(e, false, [e.foe], {"y1": ground + 24.0 * unit, "x": (s.x + s.y) / 2.0})
 	fight.stand = actors[e.spear].get_meta("home")
 	fight.pos = fight.stand
 	fight.health = CROC_HEALTH
@@ -3453,9 +3543,8 @@ const LIFT_END := preload("res://scripts/lift_end.gdshader")
 
 
 func _donkey_start(e: Dictionary) -> void:
-	var cap: Array = level.get("caption", [50.0, 180.0])
 	var mid_x: float = (actors[e.spear].get_meta("home").x + actors[e.donkey].get_meta("home").x) / 2.0
-	_arena_setup(e, false, [e.foe, e.donkey, e.tail], {"y0": float(cap[0]) - 12.0 * unit, "y1": ground + 40.0 * unit, "x": mid_x})
+	_arena_setup(e, false, [e.foe, e.donkey, e.tail], {"y1": ground + 40.0 * unit, "x": mid_x})
 	fight.stand = actors[e.spear].get_meta("home")
 	fight.pos = fight.stand
 	fight.clock = 0.0
@@ -3787,9 +3876,8 @@ const RUSTLE := preload("res://scripts/rustle.gdshader")
 
 
 func _sheaf_start(e: Dictionary) -> void:
-	var cap: Array = level.get("caption", [50.0, 180.0])
 	var mid_x: float = (actors[e.spear].get_meta("home").x + actors[e.bundle].get_meta("home").x) / 2.0
-	_arena_setup(e, false, [e.foe] + SHEAF_BANDS + [SHEAF_STALKS], {"y0": float(cap[0]) - 12.0 * unit, "y1": ground + 24.0 * unit, "x": mid_x})
+	_arena_setup(e, false, [e.foe] + SHEAF_BANDS + [SHEAF_STALKS], {"y1": ground + 24.0 * unit, "x": mid_x})
 	fight.stand = actors[e.spear].get_meta("home")
 	fight.pos = fight.stand
 	fight.health = CROC_HEALTH
@@ -4281,12 +4369,12 @@ func _update_camera(delta: float) -> void:
 	var k := SCROLL_CAMERA.smoothing(delta, 0.002)
 	var y := SCROLL_CAMERA.vertical_center(_view_height(), top, bottom, z, VIEW_TOP)
 	if not fight.is_empty() and fight.kind in ARENA_FIGHTS:
-		# the opened-out vignette: zoom out to the whole height of the scroll (easing in and out)
+		# the opened-out vignette: from the camera you walked with to the fight's (easing in and out)
 		var o: float = smoothstep(0.0, 1.0, fight.open)
-		z = lerpf(z, fight.cam.z, o)
+		z = lerpf(fight.cam0.z, fight.cam.z, o)
 		camera.zoom = Vector2(z, z)
-		focus = lerpf(focus, fight.cam.x, o)
-		y = lerpf(y, fight.cam.y, o)
+		focus = lerpf(fight.cam0.x, fight.cam.x, o)
+		y = lerpf(fight.cam0.y, fight.cam.y, o)
 		k = 1.0
 	camera.position.x = lerpf(camera.position.x, focus, k)
 	camera.position.y = y
@@ -4315,9 +4403,9 @@ func _draw_overlay() -> void:
 	# progress pips above the vignette: the beetles pinned
 	var total: int = fight.get("need", fight.e.get("need", 0))
 	var got: int = fight.hits
-	var right := _arena_rect().end.x
+	var ar := _arena_rect()
 	for i in total:
-		var c := Vector2(right - (20.0 + i * 16.0) * unit, 14.0 * unit)
+		var c := Vector2(ar.end.x - (20.0 + i * 16.0) * unit, ar.position.y + 14.0 * unit)
 		if i < got:
 			overlay.draw_circle(c, 5.0 * unit, Color(0.64, 0.2, 0.12))
 		else:

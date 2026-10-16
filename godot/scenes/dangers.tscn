@@ -579,6 +579,8 @@ texture = SubResource("AtlasTexture_column")
 centered = false
 
 [node name="Camera" type="Camera2D" parent="." unique_id=1184860775]
+position = Vector2(5939.622, 398.43243)
+zoom = Vector2(0.8222222, 0.8222222)
 
 [node name="HUD" type="CanvasLayer" parent="." unique_id=948880668]
 script = ExtResource("5_hud")

@@ -36,6 +36,7 @@ var _plumes: Sprite2D
 var _right := Vector2.ZERO    ## the plumes' top-left on his head (world)
 var _wrong := Vector2.ZERO    ## ... and on the sacrifice
 var _view := Vector2.ZERO
+var _stand := 0.0
 var _grab := Vector2.ZERO     ## the pointer's offset from the plumes' top-left, or where a calf drag began
 var _turn_from := -1.0
 var _shy_in := 0.0
@@ -51,7 +52,10 @@ func setup(level: Dictionary, nodes: Dictionary) -> void:
 	_wrong = Vector2(level.bulls.wrong.x, level.bulls.wrong.y)
 	var sacrifice: Dictionary = level.hotspots.filter(func(h): return h.label == "The sacrifice")[0]
 	var ox_end: float = _ox.position.x + _ox.offset.x + _ox.texture.get_width()
-	_view = Vector2(sacrifice.x - MARGIN, ox_end + MARGIN)
+	var half: float = level.sprites.avatar.w / 2.0
+	_stand = ox_end + MARGIN + half
+	# from the sacrifice to you, standing right of the plumed ox: all of it in view
+	_view = Vector2(sacrifice.x - MARGIN, _stand + half + MARGIN)
 
 
 func reset() -> void:
@@ -66,13 +70,14 @@ func reset() -> void:
 	_shy_in = SHY_EVERY.x
 
 
-## The scene's extent on the strip (from, to) and where you stand to it (right of the plumed ox).
+## The scene's extent on the strip (from, to), you included, and where you stand to it (right of
+## the plumed ox).
 func view() -> Vector2:
 	return _view
 
 
 func stand_x() -> float:
-	return _view.y + 30.0
+	return _stand
 
 
 func calf_turned() -> bool:

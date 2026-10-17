@@ -1,9 +1,11 @@
 ## The Opening of the Mouth (plates V-VI, spell 15): touch the adze to the mummy's mouth, and
 ## carry the words it speaks to their place over Ra.
 ##
-## With the adze, finish the mouth, eye and beard a chip at a time. Three nicks disturb
-## the mummy and reset the face; the original word-carrying sequence follows success.
-## Face pixels are cut into mouth/features; paths and positions come from level.json.
+## With the adze, finish the mouth and the eye a chip at a time. The adze is held by the end of its
+## handle; a click brings it down a little (it turns about the pointer) and chips where the tip of its
+## blade is. Three nicks disturb the mummy and reset the face; the original word-carrying sequence
+## follows success. Face pixels are cut into mouth/features (lines far from both strokes, such as the
+## beard, are not carved: they stay as drawn); paths and positions come from level.json.
 class_name OpeningMouth
 extends Node2D
 
@@ -21,7 +23,11 @@ const CHIP_STEP := 3.0
 const CHIP_TOLERANCE := 4.0
 const MAX_NICKS := 3
 const CARVING_SCALE := 0.35   ## keep the carried handle clear of the small face
-const ADZE_GRIP := Vector2(6.0, 8.0)   ## where on the adze the pointer holds it: at the blade
+const ADZE_GRIP := Vector2(83.0, 37.0)  ## where on the adze the pointer holds it: the end of its handle
+const ADZE_TIP := Vector2(4.0, 27.0)    ## the tip of its blade, where it chips
+const SWING := 0.08           ## rad the adze comes down about the pointer on a click ...
+const SWING_TIME := 0.12      ## ... and goes back up, over this long
+const FAR := 4.0              ## face pixels further than this from both strokes are not carved
 
 var active := false
 var _features: Sprite2D
@@ -37,6 +43,7 @@ var _pixel_stroke := PackedInt32Array()
 var _pixel_along := PackedFloat32Array()
 var _nicks: Array[Vector2] = []
 var _time := 0.0
+var _swing := 0.0             ## how far down the adze is now (0..1)
 var phase := Phase.START
 var instant := false          ## the autotest: no animation
 var _adze: Sprite2D
@@ -74,6 +81,7 @@ func reset() -> void:
 	_clear_face()
 	_adze.position = _adze_home.position
 	_adze.scale = Vector2.ONE
+	_adze.rotation = 0.0
 	_adze.self_modulate.a = 1.0
 	_adze.visible = true
 	_words.visible = false
@@ -195,6 +203,7 @@ func put_back() -> void:
 		Phase.ADZE:
 			phase = Phase.START
 			_adze.position = _adze_home.position
+			_adze.rotation = 0.0
 		Phase.WORDS:
 			phase = Phase.SPOKEN
 			_words.position = _spoken
@@ -219,6 +228,7 @@ func _speak() -> void:
 	_imprint.visible = true
 	_adze.position = _adze_home.position
 	_adze.scale = Vector2.ONE
+	_adze.rotation = 0.0
 	_adze.self_modulate.a = 1.0
 	_words.visible = true
 	said.emit("Scribe", "You touch the adze to the mummy's mouth. Its mouth opens, and words come out.")
@@ -264,9 +274,11 @@ func _process(_delta: float) -> void:
 	_adze.scale = Vector2.ONE * (CARVING_SCALE if active else 1.0)
 	_adze.self_modulate.a = 0.65 if active else 1.0
 	_words.z_index = 10 if phase == Phase.WORDS else 0
+	_swing = maxf(0.0, _swing - _delta / SWING_TIME)
 	match phase:
-		Phase.ADZE:
-			_adze.position = p - ADZE_GRIP * _adze.scale
+		Phase.ADZE:   # held by its handle: it turns about the pointer as it comes down
+			_adze.rotation = -SWING * sin(_swing * PI)
+			_adze.position = p - (ADZE_GRIP * _adze.scale).rotated(_adze.rotation)
 		Phase.WORDS:
 			_words.position = p
 
@@ -300,10 +312,11 @@ func _setup_face(level: Dictionary, nodes: Dictionary) -> void:
 	for y in _feature_image.get_height():
 		for x in width:
 			var point := _feature_origin + Vector2(x + 0.5, y + 0.5)
-			var best := INF
+			var best := FAR * FAR
+			_pixel_stroke[y * width + x] = -1      # not part of either stroke: stays as drawn
 			for i in _curves.size():
 				var distance := point.distance_squared_to(_curves[i].get_closest_point(point))
-				if distance < best:
+				if distance <= best:
 					best = distance
 					_pixel_stroke[y * width + x] = i
 					_pixel_along[y * width + x] = _curves[i].get_closest_offset(point)
@@ -311,6 +324,17 @@ func _setup_face(level: Dictionary, nodes: Dictionary) -> void:
 
 func face_view() -> Rect2:
 	return _face_view
+
+
+## Where the tip of the adze's blade is, held at `p` (the pointer) and at rest.
+func tip_at(p: Vector2) -> Vector2:
+	return p + (ADZE_TIP - ADZE_GRIP) * (CARVING_SCALE if active else 1.0)
+
+
+## A click while carving: the adze comes down a little about the pointer and chips at its tip.
+func chop(p: Vector2) -> bool:
+	_swing = 1.0
+	return strike(tip_at(p))
 
 
 func next_chip(stroke: int) -> Vector2:
@@ -373,7 +397,7 @@ func _refresh_face() -> void:
 		for x in image.get_width():
 			var pixel := y * image.get_width() + x
 			var stroke := _pixel_stroke[pixel]
-			if not stroke_done(stroke) and (_progress[stroke] == 0.0 or _pixel_along[pixel] > _progress[stroke]):
+			if stroke >= 0 and not stroke_done(stroke) and (_progress[stroke] == 0.0 or _pixel_along[pixel] > _progress[stroke]):
 				image.set_pixel(x, y, image.get_pixel(x, y) * IMPRINT)
 	_features.texture = ImageTexture.create_from_image(image)
 

@@ -127,7 +127,7 @@ func _set_at_place(nm: String) -> void:
 ## up, or whole); else "".
 func pick(p: Vector2) -> String:
 	for nm in PIECES:
-		if not placed.has(nm) and not nm in worn and nm != held and _drawn_rect(nm).grow(6.0).has_point(p):
+		if not placed.has(nm) and not nm in worn and nm != held and rect_of(nm).grow(6.0).has_point(p):
 			return nm
 	if place_rect().has_point(p):
 		return "place"
@@ -137,13 +137,13 @@ func pick(p: Vector2) -> String:
 ## A piece on you under the pointer, or "".
 func worn_at(p: Vector2) -> String:
 	for nm in worn:
-		if _drawn_rect(nm).grow(4.0).has_point(p):
+		if rect_of(nm).grow(4.0).has_point(p):
 			return nm
 	return ""
 
 
 ## The box round a piece's drawing where it is now (world px).
-func _drawn_rect(nm: String) -> Rect2:
+func rect_of(nm: String) -> Rect2:
 	var sp: Sprite2D = _nodes[nm]
 	var size := sp.texture.get_size()
 	return sp.get_global_transform() * Rect2(-size / 2.0, size)

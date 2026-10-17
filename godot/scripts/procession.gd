@@ -14,7 +14,7 @@ const VIEW_TOP := 36.0   ## the row under the top register's upper rule: the tit
 const FRAME_FROM_TOP := true
 const DATA_PATH := "res://assets/procession/level.json"
 const BESIDE := 70.0         ## stand just behind (right of) what you interact with, not on top of it
-const STAND_GAP := 6.0       ## plate px between you and a figure you walk up to (never overlapping it)
+const STAND_GAP := 6.0       ## plate px between you and the plumed lector, whom you stand in front of
 const HIT_PAD := 20.0
 
 ## Movable pieces and how the scribe names them.
@@ -286,7 +286,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		if event.is_action_pressed("ui_cancel") or (event is InputEventKey and event.pressed and event.keycode in [KEY_LEFT, KEY_RIGHT, KEY_UP, KEY_DOWN]):
 			mouth.leave()
 		elif event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-			mouth.strike(get_global_mouse_position())
+			mouth.chop(get_global_mouse_position())
 		get_viewport().set_input_as_handled()
 		return
 	if in_standards and event.is_action_pressed("ui_cancel"):
@@ -340,14 +340,14 @@ func _unhandled_input(event: InputEvent) -> void:
 			_drag_from = event.position
 			_set_hover({})
 		elif h.type == "ending":
-			walk_then(ending.where(h.id).x + BESIDE * unit, act_ending.bind(h.id))
+			walk_then(_reach(ending.place_rect() if h.id == "place" else ending.rect_of(h.id), p), act_ending.bind(h.id))
 		elif h.type == "bearer":   # the scene starts from the lector or the heap, not from him
 			if offerings.bearer != "goose":
 				say("Scribe", "Odd that he's holding a loaf of bread.")
 		elif h.type == "piece" or (h.type == "hot" and (h.spot == _table or h.spot == _reader)):
 			enter_table(h.get("spot", {}) == _reader)
 		elif h.type == "mouth":
-			act_mouth(h.id)
+			act_mouth(h.id, p)
 		elif h.type == "hot" and h.spot.label in BULL_FIGURES and not bulls.done:
 			enter_bulls(h.spot)
 		elif h.type == "water" or (h.type == "hot" and h.spot.label in WATER_FIGURES and not water.done):
@@ -364,15 +364,15 @@ func _unhandled_input(event: InputEvent) -> void:
 				var hl: Dictionary = level.sprites.haul_hauler
 				walk_then(hl.x + hl.w / 2.0, take_rope.bind(h.spot))
 			else:
-				walk_then(_beside(h.rect), say.bind(h.spot.label, h.spot.note + " The bier is stalled. Ask the ox-driver how to haul it."))
+				walk_then(_reach(h.rect, p), say.bind(h.spot.label, h.spot.note + " The bier is stalled. Ask the ox-driver how to haul it."))
 		elif h.spot.label == "Hauler":   # home: he has his rope again
-			walk_then(_beside(h.spot.rect), func():
+			walk_then(_reach(h.spot.rect, p), func():
 				say("Hauler", "You've helped the procession advance.")
 				_add_journal(h.spot))
 		elif h.spot == _lector:   # stand in front of him (he faces left), to hear him
 			walk_then(h.spot.rect.position.x - STAND_GAP * unit - sprite_rects.avatar.size.x / 2.0, record.bind(h.spot))
 		else:
-			walk_then(_beside(h.spot.rect), record.bind(h.spot))
+			walk_then(_reach(h.spot.rect, p), record.bind(h.spot))
 
 
 ## What is under the pointer: a loose offering, a hidden piece of the offering stand or its place,
@@ -549,15 +549,17 @@ func procession_moving() -> bool:
 	return solved.t1 and solved.t2
 
 
+## Where you walk to deal with what is at `r`, clicked at `p` (unless it has a place of its own to
+## stand): the nearest point of it to where you are, its left or right edge; already in front of it,
+## where you clicked (its middle, without a click).
+func _reach(r: Rect2, p := Vector2.INF) -> float:
+	var x := avatar.position.x
+	if x >= r.position.x and x <= r.end.x:
+		return r.get_center().x if p == Vector2.INF else p.x
+	return clampf(x, r.position.x, r.end.x)
+
+
 ## Walk toward x and run `then` on arrival.
-## Where you stop to deal with what is at `r`: a few px clear of it, on the side you come from.
-func _beside(r: Rect2) -> float:
-	var half: float = sprite_rects.avatar.size.x / 2.0
-	if avatar.position.x < r.get_center().x:
-		return r.position.x - STAND_GAP * unit - half
-	return r.end.x + STAND_GAP * unit + half
-
-
 func walk_then(x: float, then := Callable()) -> void:
 	avatar.min_x = min_x()
 	avatar.max_x = max_x()
@@ -950,7 +952,7 @@ func _stand_piece_input(event: InputEvent) -> void:
 		if not event.pressed and not dragged:   # the click that took it off you: it stays in hand
 			return
 		if ending.place_rect().has_point(p):
-			walk_then(ending.place_rect().end.x + BESIDE * unit, func():
+			walk_then(_reach(ending.place_rect(), p), func():
 				if ending.held != "":
 					ending.set_down())
 		else:
@@ -1018,7 +1020,7 @@ func _hands_full() -> bool:
 
 ## The Opening of the Mouth: take the adze, touch it to the mummy, take the words it speaks, and
 ## set them at their imprint over Ra.
-func act_mouth(id: String) -> void:
+func act_mouth(id: String, p := Vector2.INF) -> void:
 	match id:
 		"adze", "words":
 			if _hands_full():
@@ -1029,11 +1031,11 @@ func act_mouth(id: String) -> void:
 			else:
 				mouth.take_words()
 		"mummy":
-			walk_then(_beside(mouth.mummy_rect()), mouth.touch)
+			walk_then(_reach(mouth.mummy_rect(), p), mouth.touch)
 		"home":
-			walk_then(_beside(mouth.home_rect()), mouth.place_words)
+			walk_then(_reach(mouth.home_rect(), p), mouth.place_words)
 		"back":     # where the adze or the words were taken from: they go back there
-			walk_then(_beside(mouth.back_rect()), put_back)
+			walk_then(_reach(mouth.back_rect(), p), put_back)
 	_set_hover({})
 
 
@@ -1575,6 +1577,17 @@ func _autotest() -> void:
 	expect.call(_glows.size() == 1 and _glows[0].get_parent() == $Strip, "a journal figure glows under the pointer")
 	_set_hover({})
 	expect.call(_glows.is_empty(), "nothing glows when the pointer leaves")
+	var was := avatar.position.x
+	var thing := Rect2(level.width / 2.0, 200.0, 100.0, 300.0)
+	avatar.position.x = thing.position.x - 300.0
+	var from_left := _reach(thing, thing.get_center())
+	avatar.position.x = thing.end.x + 300.0
+	var from_right := _reach(thing, thing.get_center())
+	avatar.position.x = thing.position.x + 20.0
+	var in_front := _reach(thing, thing.position + Vector2(70.0, 50.0))
+	avatar.position.x = was
+	expect.call(from_left == thing.position.x and from_right == thing.end.x and in_front == thing.position.x + 70.0,
+		"clicking a thing walks you to its nearer edge, or, in front of it already, to where you clicked")
 	var stand: Dictionary = hotspots.filter(func(h): return h.label == "Offering stand")[0]
 	_set_hover(_pick(stand.rect.get_center()))
 	expect.call(_glows.size() == 4 and _glows[0].get_parent() == $Strip, "the adze's stand glows whole, with the rods, the foreleg and the adze")
@@ -1764,7 +1777,7 @@ func _autotest_mouth(expect: Callable) -> void:
 	mouth.leave()
 	expect.call(not mouth.active and mouth._progress.all(func(v): return v == 0.0), "stepping away clears an unfinished face")
 	mouth.touch()
-	for stroke in [2, 0, 1]:
+	for stroke in [1, 0]:   # the eye, then the mouth (the beard is not carved)
 		var guard := 0
 		while mouth.active and not mouth.stroke_done(stroke) and guard < 100:
 			mouth.strike(mouth.next_chip(stroke))
@@ -1793,6 +1806,9 @@ func _autotest_mouth(expect: Callable) -> void:
 ## Set the three bulls right through the calls a drag makes.
 func _autotest_bulls(expect: Callable) -> void:
 	bulls.instant = true
+	var half: float = sprite_rects.avatar.size.x / 2.0
+	expect.call(bulls.stand_x() - half > bulls.ox_sprite().position.x and bulls.stand_x() + half < bulls.view().y,
+		"the bulls' view takes in where you stand, right of the plumed ox")
 	var calf := bulls.calf_sprite()
 	var plumes := bulls.plumes_sprite()
 	expect.call(not bulls.calf_turned() and not bulls.crowned(), "the calf faces the sacrifice and the plumes are on the bull at the block")

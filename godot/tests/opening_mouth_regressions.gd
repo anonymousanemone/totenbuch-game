@@ -49,9 +49,13 @@ func _run() -> void:
 		expect(level._focus == "mouth" and not level.avatar.keys, tag + "carving owns focus and movement")
 		# Put the carried adze at its next target for the visual review.
 		level.mouth.set_process(false)
-		level.mouth._adze.position = level.mouth.next_chip(0) - OpeningMouth.ADZE_GRIP * level.mouth._adze.scale
+		level.mouth._adze.position = level.mouth.next_chip(0) - OpeningMouth.ADZE_TIP * level.mouth._adze.scale
 		await shot(tag.strip_edges() + "-start")
 		level.mouth.strike(level.mouth.next_chip(0))
+		var held_at: Vector2 = level.mouth.next_chip(0) - (OpeningMouth.ADZE_TIP - OpeningMouth.ADZE_GRIP) * OpeningMouth.CARVING_SCALE
+		var before: float = level.mouth._progress[0]
+		expect(level.mouth.chop(held_at) and level.mouth._progress[0] > before and level.mouth._swing > 0.0,
+			tag + "a click brings the adze down and chips where its blade's tip is, not under the pointer")
 		var progress: float = level.mouth._progress[0]
 		level._unhandled_input(InputEventMouseMotion.new())
 		expect(level.mouth._progress[0] == progress, tag + "mouse motion cannot carve")
@@ -85,7 +89,7 @@ func _run() -> void:
 			tag + "restart cancels the failure jolt and delayed callbacks")
 		level.mouth.take_adze()
 		level.mouth.touch()
-		for stroke in [1, 2, 0]:
+		for stroke in [1, 0]:
 			while level.mouth.active and not level.mouth.stroke_done(stroke):
 				level.mouth.strike(level.mouth.next_chip(stroke))
 		level.mouth.take_words()

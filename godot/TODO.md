@@ -7,8 +7,11 @@ revamps, anything that plays boring) are also in `../ideas.md`.
 
 ### Procession
 
-**Second playtest (2026-10-15)**
-- [ ] **The processional boat:** make it a mini-game, a hint of and preparation for the boat games to come.
+- [ ] unify the click to walk mechanism - when clicking on *something*, walk to it unless otherwise specified. walk to the closest position on the object to where you are, so that could be at the right edge, at the left edge, but if you are already in front of it, walk to where the mouse clicks (because the mouse is still inside of the object). 
+- [ ] camera for cow game is panned too much to the left
+- [ ] the adze opening of the mouth game - i will manually cut out the eyes and mouth. no more chipping the beard. the handle of the adze should align with the mouse, and when the mouse clicks to chip, the adze should come down a little (rotate, with the fixed point on the mouse) very slightly to mimic the clicking. the tip of the adze is where the "action" is happening and needs to map to the correct area.
+- [ ] 
+
 
 **New games to think of**
 - [ ] The barque.
@@ -16,6 +19,7 @@ revamps, anything that plays boring) are also in `../ideas.md`.
 - [ ] The two object carriers right behind the Apis bull.
 - [ ] The incense.
 - [ ] Maybe a separate game for the second offering table.
+- [ ] Is there some drawing/2d rigging software that lets you set a reference point, put a box around it, and pivot around that point?
 
 ### Dangers
 - [ ] Spell 35, red light green light: too easy. Maybe one life only, or no hints (undecided).

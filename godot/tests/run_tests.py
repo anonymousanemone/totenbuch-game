@@ -25,6 +25,7 @@ def main():
         for level in ("procession", "dangers")
     ]
     suites.append(("regressions", ["--script", "res://tests/script_regressions.gd"], "REGRESSIONS OK"))
+    suites.append(("cosmos", ["--script", "res://tests/cosmos_regressions.gd"], "COSMOS REGRESSIONS OK"))
     suites.append(("mouth", ["--script", "res://tests/opening_mouth_regressions.gd"], "MOUTH REGRESSIONS OK"))
     suites.append(("ui", ["--script", "res://tests/ui_regressions.gd"], "UI REGRESSIONS OK"))
     # These also occur in the committed baseline. The sampler diagnostic is specific

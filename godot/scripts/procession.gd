@@ -13,6 +13,7 @@ const VIEW_TOP := 36.0   ## the row under the top register's upper rule: the tit
 ## (At the usual zoom the two are the same.)
 const FRAME_FROM_TOP := true
 const DATA_PATH := "res://assets/procession/level.json"
+const ILLUSTRATION := preload("res://assets/procession/illustration.png")
 const BESIDE := 70.0         ## stand just behind (right of) what you interact with, not on top of it
 const STAND_GAP := 6.0       ## plate px between you and the plumed lector, whom you stand in front of
 const HIT_PAD := 20.0
@@ -507,6 +508,8 @@ func _glow(target, level := GLOW) -> Sprite2D:
 		if r.position.y < CAPTION_LINE and r.end.y > CAPTION_LINE:   # a figure: not the frame line above it
 			r = Rect2(r.position.x, CAPTION_LINE, r.size.x, r.end.y - CAPTION_LINE)
 		g = UI.part_glow($Strip, r, level)
+		# Static figures are separate scene sprites; use their flat reference for region glows.
+		(g.texture as AtlasTexture).atlas = ILLUSTRATION
 	else:
 		g = UI.sprite_glow(target as Sprite2D, level)
 	return g
@@ -1123,11 +1126,11 @@ func _journal_picture(r: Rect2) -> Texture2D:
 	overlays = overlays.filter(func(nm): return r.intersects(_drawn_rect(nm)))
 	if overlays.is_empty():
 		var tex := AtlasTexture.new()
-		tex.atlas = $Strip.texture
+		tex.atlas = ILLUSTRATION
 		tex.region = r
 		return tex
 	if _strip_img == null:
-		_strip_img = $Strip.texture.get_image()
+		_strip_img = ILLUSTRATION.get_image()
 		if _strip_img.is_compressed():
 			_strip_img.decompress()
 		_strip_img.convert(Image.FORMAT_RGBA8)

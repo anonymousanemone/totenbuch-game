@@ -12,7 +12,15 @@ revamps, anything that plays boring) are also in `../ideas.md`.
 - [ ] unify the click to walk mechanism - when clicking on *something*, walk to it unless otherwise specified. walk to the closest position on the object to where you are, so that could be at the right edge, at the left edge, but if you are already in front of it, walk to where the mouse clicks (because the mouse is still inside of the object). 
 - [ ] camera for cow game is panned too much to the left
 - [ ] the adze opening of the mouth game - i will manually cut out the eyes and mouth. no more chipping the beard. the handle of the adze should align with the mouse, and when the mouse clicks to chip, the adze should come down a little (rotate, with the fixed point on the mouse) very slightly to mimic the clicking. the tip of the adze is where the "action" is happening and needs to map to the correct area.
-- [ ] 
+- [ ] procession table items should snap into place (even if it's still being dragged)
+- [ ] for procession table, make it more clear he's the one you should talk to. (whne you click on him, show minigame instructions)
+- [ ] for procession table game, give intstructions/info
+- [ ] danger games - 
+- [ ] expect instructions to be on the bottom, so doesn't look up as much. 
+- [ ] when confused, look around
+- [ ] the calf description - "the young calf shakes at the sight of the sacrifice"
+- [ ] look through the minigame instructions. (in "minigame mode" when entering it, the text should get a slightly different appearnce, tbd)
+- [ ] remove losing for the opeing of the mouth game. it shoudld always let you [esc] to exit. remove the little bubbles, and just detect that wherever the tip of the adze clicks, if it's within the bounds of the features
 
 
 **New games to think of**

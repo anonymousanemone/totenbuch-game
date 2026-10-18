@@ -38,6 +38,9 @@
 [ext_resource type="Texture2D" path="res://assets/dangers/snake41.png" id="actor_39"]
 [ext_resource type="Texture2D" path="res://assets/dangers/tail40.png" id="actor_40"]
 
+
+[ext_resource type="Texture2D" path="res://assets/dangers/figures/layer_1111.png" id="layer_1111"]
+
 [sub_resource type="AtlasTexture" id="Atlas_spear31_pole"]
 atlas = ExtResource("7_sheet")
 region = Rect2(3696, 0, 336, 415)
@@ -135,6 +138,14 @@ color = Color(0.906, 0.839, 0.682, 1)
 texture = ExtResource("2_strip")
 centered = false
 metadata/_edit_lock_ = true
+
+[node name="ArtworkLayers" type="Node2D" parent="."]
+
+[node name="giver_1111" type="Sprite2D" parent="ArtworkLayers"]
+position = Vector2(2322, 49)
+texture = ExtResource("layer_1111")
+centered = false
+metadata/source_layer_id = "1111"
 
 [node name="actors" type="Node2D" parent="." unique_id=1532077110]
 
@@ -271,17 +282,17 @@ centered = false
 
 [node name="spear_glow" type="Sprite2D" parent="actors/spell33_lunging_snake"]
 visible = false
-position = Vector2(3832.0, 529)
+position = Vector2(3839, 529)
 metadata/actor_id = "spear33_pole"
-metadata/size = Vector2(168, 342)
+metadata/size = Vector2(182, 342)
 offset = Vector2(-168.0, -385)
 texture = SubResource("Atlas_spear33_pole")
 centered = false
 
 [node name="spear_bearer" type="Sprite2D" parent="actors/spell33_lunging_snake"]
-position = Vector2(3832.0, 529)
+position = Vector2(3839, 529)
 metadata/actor_id = "spear33"
-metadata/size = Vector2(168, 342)
+metadata/size = Vector2(182, 342)
 offset = Vector2(-168.0, -385)
 texture = SubResource("Atlas_spear33")
 centered = false

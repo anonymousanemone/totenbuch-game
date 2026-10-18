@@ -42,6 +42,14 @@ func _run() -> void:
 		level._update_camera(1.0)
 		await frames(2)
 		var tag := "%dx%d " % [dimensions.x, dimensions.y]
+		var source: Dictionary = level.level.sprites.mouth_features
+		expect(level.mouth._feature_origin == Vector2(source.x, source.y), tag + "face features align with their source-art coordinates")
+		var all_carved := true
+		for y in level.mouth._feature_image.get_height():
+			for x in level.mouth._feature_image.get_width():
+				if level.mouth._feature_image.get_pixel(x, y).a > 0.1:
+					all_carved = all_carved and level.mouth._pixel_stroke[y * level.mouth._feature_image.get_width() + x] >= 0
+		expect(all_carved, tag + "carving paths cover the current eye and mouth cutouts")
 		var face: Rect2 = level.get_canvas_transform() * level.mouth.face_view()
 		var usable := Rect2(0, level.hud.top_height(), dimensions.x,
 			dimensions.y - level.hud.top_height() - level.hud.bottom_height())
@@ -92,6 +100,7 @@ func _run() -> void:
 		for stroke in [1, 0]:
 			while level.mouth.active and not level.mouth.stroke_done(stroke):
 				level.mouth.strike(level.mouth.next_chip(stroke))
+		expect(level.mouth._features.texture.get_image().get_data() == level.mouth._feature_image.get_data(), tag + "completed carving restores the original feature pixels")
 		level.mouth.take_words()
 		expect(level.mouth.phase == OpeningMouth.Phase.SPOKEN, tag + "words cannot be picked up during their reveal")
 		await create_timer(1.8).timeout

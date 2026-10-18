@@ -286,7 +286,7 @@ func _process(_delta: float) -> void:
 func _setup_face(level: Dictionary, nodes: Dictionary) -> void:
 	_body = nodes.mouth_mummy
 	_body_home = _body.position
-	_mummy = Rect2(_body_home, _body.texture.get_size())
+	_mummy = _body.global_transform * _body.get_rect()
 	var source_mummy: Dictionary = level.mouth.mummy
 	_mouth += _body_home - Vector2(source_mummy.x, source_mummy.y)
 	_features = nodes.mouth_features

@@ -1,0 +1,1087 @@
+{
+ "source": "art/procession1-15.mdp",
+ "sha256": "601bc5cd97a42042758fe416e6882b803b7db0b93c8f19d96df9d2a37b575d14",
+ "width": 14954,
+ "height": 1000,
+ "layers": [
+  {
+   "layer_id": "80",
+   "name": "avatar",
+   "folder": "pre-barque",
+   "asset": "avatar.png",
+   "rect": {
+    "x": 14743,
+    "y": 238,
+    "w": 140,
+    "h": 296
+   },
+   "static": false
+  },
+  {
+   "layer_id": "119",
+   "name": "mourners",
+   "folder": "pre-barque",
+   "asset": "figures/layer_119.png",
+   "rect": {
+    "x": 14396,
+    "y": 203,
+    "w": 342,
+    "h": 323
+   },
+   "static": true
+  },
+  {
+   "layer_id": "121",
+   "name": "mourning women",
+   "folder": "pre-barque",
+   "asset": "figures/layer_121.png",
+   "rect": {
+    "x": 13697,
+    "y": 218,
+    "w": 673,
+    "h": 308
+   },
+   "static": true
+  },
+  {
+   "layer_id": "127",
+   "name": "canopy frame",
+   "folder": "pre-barque",
+   "asset": "figures/layer_127.png",
+   "rect": {
+    "x": 13527,
+    "y": 236,
+    "w": 142,
+    "h": 290
+   },
+   "static": true
+  },
+  {
+   "layer_id": "128",
+   "name": "man hauling the canopy",
+   "folder": "pre-barque",
+   "asset": "figures/layer_128.png",
+   "rect": {
+    "x": 13297,
+    "y": 245,
+    "w": 230,
+    "h": 281
+   },
+   "static": true
+  },
+  {
+   "layer_id": "129",
+   "name": "anubis on a chest",
+   "folder": "pre-barque",
+   "asset": "figures/layer_129.png",
+   "rect": {
+    "x": 13032,
+    "y": 256,
+    "w": 250,
+    "h": 270
+   },
+   "static": true
+  },
+  {
+   "layer_id": "130",
+   "name": "man hauling anubis",
+   "folder": "pre-barque",
+   "asset": "figures/layer_130.png",
+   "rect": {
+    "x": 12807,
+    "y": 254,
+    "w": 240,
+    "h": 272
+   },
+   "static": true
+  },
+  {
+   "layer_id": "99",
+   "name": "sledge",
+   "folder": "haul",
+   "asset": "haul_sledge.png",
+   "rect": {
+    "x": 11287,
+    "y": 185,
+    "w": 1520,
+    "h": 347
+   },
+   "static": false
+  },
+  {
+   "layer_id": "100",
+   "name": "hauler",
+   "folder": "haul",
+   "asset": "haul_hauler.png",
+   "rect": {
+    "x": 11337,
+    "y": 221,
+    "w": 136,
+    "h": 311
+   },
+   "static": false
+  },
+  {
+   "layer_id": "101",
+   "name": "driver",
+   "folder": "haul",
+   "asset": "haul_driver.png",
+   "rect": {
+    "x": 11071,
+    "y": 207,
+    "w": 155,
+    "h": 329
+   },
+   "static": false
+  },
+  {
+   "layer_id": "102",
+   "name": "whip+arm",
+   "folder": "haul",
+   "asset": "haul_whip.png",
+   "rect": {
+    "x": 10989,
+    "y": 207,
+    "w": 136,
+    "h": 87
+   },
+   "static": false
+  },
+  {
+   "layer_id": "135",
+   "name": "ox",
+   "folder": "haul",
+   "asset": "ox.png",
+   "rect": {
+    "x": 10604,
+    "y": 227,
+    "w": 477,
+    "h": 306
+   },
+   "static": false
+  },
+  {
+   "layer_id": "94",
+   "name": "vulture",
+   "folder": "standards",
+   "asset": "emb_e5.png",
+   "rect": {
+    "x": 9880,
+    "y": 194,
+    "w": 71,
+    "h": 73
+   },
+   "static": false
+  },
+  {
+   "layer_id": "93",
+   "name": "placenta",
+   "folder": "standards",
+   "asset": "emb_e6.png",
+   "rect": {
+    "x": 10049,
+    "y": 201,
+    "w": 110,
+    "h": 53
+   },
+   "static": false
+  },
+  {
+   "layer_id": "92",
+   "name": "plumes",
+   "folder": "standards",
+   "asset": "emb_e7.png",
+   "rect": {
+    "x": 10258,
+    "y": 182,
+    "w": 65,
+    "h": 76
+   },
+   "static": false
+  },
+  {
+   "layer_id": "91",
+   "name": "falcon2",
+   "folder": "standards",
+   "asset": "emb_e8.png",
+   "rect": {
+    "x": 10426,
+    "y": 192,
+    "w": 85,
+    "h": 60
+   },
+   "static": false
+  },
+  {
+   "layer_id": "98",
+   "name": "wepwawet",
+   "folder": "standards",
+   "asset": "emb_e1.png",
+   "rect": {
+    "x": 9069,
+    "y": 184,
+    "w": 104,
+    "h": 75
+   },
+   "static": false
+  },
+  {
+   "layer_id": "97",
+   "name": "thoth",
+   "folder": "standards",
+   "asset": "emb_e2.png",
+   "rect": {
+    "x": 9276,
+    "y": 184,
+    "w": 68,
+    "h": 68
+   },
+   "static": false
+  },
+  {
+   "layer_id": "96",
+   "name": "falcon1",
+   "folder": "standards",
+   "asset": "emb_e3.png",
+   "rect": {
+    "x": 9487,
+    "y": 189,
+    "w": 74,
+    "h": 73
+   },
+   "static": false
+  },
+  {
+   "layer_id": "95",
+   "name": "bull",
+   "folder": "standards",
+   "asset": "emb_e4.png",
+   "rect": {
+    "x": 9669,
+    "y": 187,
+    "w": 119,
+    "h": 81
+   },
+   "static": false
+  },
+  {
+   "layer_id": "131",
+   "name": "standard-bearers",
+   "folder": "standards",
+   "asset": "figures/layer_131.png",
+   "rect": {
+    "x": 9006,
+    "y": 246,
+    "w": 1488,
+    "h": 287
+   },
+   "static": true
+  },
+  {
+   "layer_id": "140",
+   "name": "walking woman 1",
+   "folder": "front procession",
+   "asset": "figures/layer_140.png",
+   "rect": {
+    "x": 8753,
+    "y": 243,
+    "w": 210,
+    "h": 283
+   },
+   "static": true
+  },
+  {
+   "layer_id": "142",
+   "name": "yoke-bearer",
+   "folder": "front procession",
+   "asset": "figures/layer_142.png",
+   "rect": {
+    "x": 8484,
+    "y": 244,
+    "w": 206,
+    "h": 282
+   },
+   "static": true
+  },
+  {
+   "layer_id": "143",
+   "name": "canopy-bearer",
+   "folder": "front procession",
+   "asset": "figures/layer_143.png",
+   "rect": {
+    "x": 8229,
+    "y": 199,
+    "w": 196,
+    "h": 327
+   },
+   "static": true
+  },
+  {
+   "layer_id": "144",
+   "name": "plumed ox",
+   "folder": "bulls",
+   "asset": "plumed_ox.png",
+   "rect": {
+    "x": 7675,
+    "y": 240,
+    "w": 402,
+    "h": 286
+   },
+   "static": false
+  },
+  {
+   "layer_id": "164",
+   "name": "plumes",
+   "folder": "bulls",
+   "asset": "plumes.png",
+   "rect": {
+    "x": 7718,
+    "y": 209,
+    "w": 77,
+    "h": 105
+   },
+   "static": false
+  },
+  {
+   "layer_id": "145",
+   "name": "calf",
+   "folder": "bulls",
+   "asset": "calf.png",
+   "rect": {
+    "x": 7367,
+    "y": 383,
+    "w": 232,
+    "h": 148
+   },
+   "static": false
+  },
+  {
+   "layer_id": "163",
+   "name": "plumes_wrong",
+   "folder": "bulls",
+   "asset": "figures/layer_163.png",
+   "rect": {
+    "x": 6886,
+    "y": 218,
+    "w": 77,
+    "h": 104
+   },
+   "static": false
+  },
+  {
+   "layer_id": "146",
+   "name": "sacrifice",
+   "folder": "bulls",
+   "asset": "figures/layer_146.png",
+   "rect": {
+    "x": 6660,
+    "y": 270,
+    "w": 643,
+    "h": 256
+   },
+   "static": true
+  },
+  {
+   "layer_id": "47",
+   "name": "trees",
+   "folder": "offerings1",
+   "asset": "figures/layer_47.png",
+   "rect": {
+    "x": 4834,
+    "y": 310,
+    "w": 2468,
+    "h": 223
+   },
+   "static": true
+  },
+  {
+   "layer_id": "149",
+   "name": "man with a water jar",
+   "folder": "offerings1",
+   "asset": "figures/layer_149.png",
+   "rect": {
+    "x": 4854,
+    "y": 202,
+    "w": 219,
+    "h": 324
+   },
+   "static": true
+  },
+  {
+   "layer_id": "148",
+   "name": "lector priest",
+   "folder": "offerings1",
+   "asset": "figures/layer_148.png",
+   "rect": {
+    "x": 6107,
+    "y": 233,
+    "w": 148,
+    "h": 293
+   },
+   "static": true
+  },
+  {
+   "layer_id": "77",
+   "name": "goose man",
+   "folder": "offerings1",
+   "asset": "figures/layer_77.png",
+   "rect": {
+    "x": 6412,
+    "y": 242,
+    "w": 137,
+    "h": 286
+   },
+   "static": true
+  },
+  {
+   "layer_id": "79",
+   "name": "clothes",
+   "folder": "offerings1",
+   "asset": "clothes.png",
+   "rect": {
+    "x": 6460,
+    "y": 368,
+    "w": 46,
+    "h": 48
+   },
+   "static": false
+  },
+  {
+   "layer_id": "78",
+   "name": "goose",
+   "folder": "offerings1",
+   "asset": "goose.png",
+   "rect": {
+    "x": 6319,
+    "y": 354,
+    "w": 208,
+    "h": 69
+   },
+   "static": false
+  },
+  {
+   "layer_id": "48",
+   "name": "table",
+   "folder": "table",
+   "asset": "figures/layer_48.png",
+   "rect": {
+    "x": 5173,
+    "y": 351,
+    "w": 724,
+    "h": 182
+   },
+   "static": true
+  },
+  {
+   "layer_id": "54",
+   "name": "t line",
+   "folder": "table",
+   "asset": "t08.png",
+   "rect": {
+    "x": 5698,
+    "y": 428,
+    "w": 145,
+    "h": 49
+   },
+   "static": false
+  },
+  {
+   "layer_id": "62",
+   "name": "t long",
+   "folder": "table",
+   "asset": "t02.png",
+   "rect": {
+    "x": 5756,
+    "y": 465,
+    "w": 115,
+    "h": 40
+   },
+   "static": false
+  },
+  {
+   "layer_id": "61",
+   "name": "t round",
+   "folder": "table",
+   "asset": "t06.png",
+   "rect": {
+    "x": 5708,
+    "y": 472,
+    "w": 48,
+    "h": 31
+   },
+   "static": false
+  },
+  {
+   "layer_id": "60",
+   "name": "pom",
+   "folder": "table",
+   "asset": "t17.png",
+   "rect": {
+    "x": 5687,
+    "y": 313,
+    "w": 70,
+    "h": 104
+   },
+   "static": false
+  },
+  {
+   "layer_id": "59",
+   "name": "leaf",
+   "folder": "table",
+   "asset": "t12.png",
+   "rect": {
+    "x": 5725,
+    "y": 358,
+    "w": 64,
+    "h": 76
+   },
+   "static": false
+  },
+  {
+   "layer_id": "58",
+   "name": "leaf",
+   "folder": "table",
+   "asset": "t10.png",
+   "rect": {
+    "x": 5660,
+    "y": 347,
+    "w": 67,
+    "h": 88
+   },
+   "static": false
+  },
+  {
+   "layer_id": "57",
+   "name": "grain",
+   "folder": "table",
+   "asset": "t13.png",
+   "rect": {
+    "x": 5785,
+    "y": 374,
+    "w": 47,
+    "h": 55
+   },
+   "static": false
+  },
+  {
+   "layer_id": "56",
+   "name": "grain",
+   "folder": "table",
+   "asset": "t11.png",
+   "rect": {
+    "x": 5823,
+    "y": 388,
+    "w": 36,
+    "h": 47
+   },
+   "static": false
+  },
+  {
+   "layer_id": "55",
+   "name": "cob",
+   "folder": "table",
+   "asset": "t19.png",
+   "rect": {
+    "x": 5776,
+    "y": 310,
+    "w": 62,
+    "h": 70
+   },
+   "static": false
+  },
+  {
+   "layer_id": "53",
+   "name": "t line",
+   "folder": "table",
+   "asset": "t07.png",
+   "rect": {
+    "x": 5555,
+    "y": 428,
+    "w": 141,
+    "h": 49
+   },
+   "static": false
+  },
+  {
+   "layer_id": "76",
+   "name": "t round",
+   "folder": "table",
+   "asset": "t04.png",
+   "rect": {
+    "x": 5656,
+    "y": 468,
+    "w": 50,
+    "h": 36
+   },
+   "static": false
+  },
+  {
+   "layer_id": "75",
+   "name": "t round",
+   "folder": "table",
+   "asset": "t05.png",
+   "rect": {
+    "x": 5603,
+    "y": 468,
+    "w": 51,
+    "h": 35
+   },
+   "static": false
+  },
+  {
+   "layer_id": "74",
+   "name": "t round",
+   "folder": "table",
+   "asset": "t03.png",
+   "rect": {
+    "x": 5551,
+    "y": 467,
+    "w": 53,
+    "h": 37
+   },
+   "static": false
+  },
+  {
+   "layer_id": "73",
+   "name": "t vertical",
+   "folder": "table",
+   "asset": "t01.png",
+   "rect": {
+    "x": 5507,
+    "y": 400,
+    "w": 46,
+    "h": 107
+   },
+   "static": false
+  },
+  {
+   "layer_id": "72",
+   "name": "leaf",
+   "folder": "table",
+   "asset": "t14.png",
+   "rect": {
+    "x": 5582,
+    "y": 353,
+    "w": 70,
+    "h": 73
+   },
+   "static": false
+  },
+  {
+   "layer_id": "71",
+   "name": "leaf",
+   "folder": "table",
+   "asset": "t21.png",
+   "rect": {
+    "x": 5567,
+    "y": 316,
+    "w": 94,
+    "h": 43
+   },
+   "static": false
+  },
+  {
+   "layer_id": "70",
+   "name": "leaf",
+   "folder": "table",
+   "asset": "t20.png",
+   "rect": {
+    "x": 5459,
+    "y": 310,
+    "w": 97,
+    "h": 55
+   },
+   "static": false
+  },
+  {
+   "layer_id": "69",
+   "name": "fruit",
+   "folder": "table",
+   "asset": "t15.png",
+   "rect": {
+    "x": 5548,
+    "y": 355,
+    "w": 44,
+    "h": 68
+   },
+   "static": false
+  },
+  {
+   "layer_id": "68",
+   "name": "fruit",
+   "folder": "table",
+   "asset": "t09.png",
+   "rect": {
+    "x": 5467,
+    "y": 364,
+    "w": 52,
+    "h": 71
+   },
+   "static": false
+  },
+  {
+   "layer_id": "67",
+   "name": "leaf",
+   "folder": "table",
+   "asset": "t23.png",
+   "rect": {
+    "x": 5665,
+    "y": 277,
+    "w": 40,
+    "h": 65
+   },
+   "static": false
+  },
+  {
+   "layer_id": "66",
+   "name": "goose",
+   "folder": "table",
+   "asset": "t24.png",
+   "rect": {
+    "x": 5501,
+    "y": 265,
+    "w": 115,
+    "h": 76
+   },
+   "static": false
+  },
+  {
+   "layer_id": "52",
+   "name": "goose",
+   "folder": "table",
+   "asset": "t22.png",
+   "rect": {
+    "x": 5296,
+    "y": 274,
+    "w": 160,
+    "h": 80
+   },
+   "static": false
+  },
+  {
+   "layer_id": "65",
+   "name": "cob",
+   "folder": "table",
+   "asset": "t18.png",
+   "rect": {
+    "x": 5257,
+    "y": 346,
+    "w": 78,
+    "h": 68
+   },
+   "static": false
+  },
+  {
+   "layer_id": "64",
+   "name": "ti",
+   "folder": "table",
+   "asset": "t16.png",
+   "rect": {
+    "x": 5212,
+    "y": 310,
+    "w": 52,
+    "h": 110
+   },
+   "static": false
+  },
+  {
+   "layer_id": "51",
+   "name": "leaf",
+   "folder": "table",
+   "asset": "t25.png",
+   "rect": {
+    "x": 5272,
+    "y": 227,
+    "w": 580,
+    "h": 88
+   },
+   "static": false
+  },
+  {
+   "layer_id": "153",
+   "name": "two obelisks",
+   "folder": "offerings2",
+   "asset": "figures/layer_153.png",
+   "rect": {
+    "x": 3613,
+    "y": 209,
+    "w": 274,
+    "h": 317
+   },
+   "static": true
+  },
+  {
+   "layer_id": "151",
+   "name": "priest with arm-censer",
+   "folder": "offerings2",
+   "asset": "figures/layer_151.png",
+   "rect": {
+    "x": 4108,
+    "y": 247,
+    "w": 217,
+    "h": 279
+   },
+   "static": true
+  },
+  {
+   "layer_id": "169",
+   "name": "offering table",
+   "folder": "offerings2",
+   "asset": "figures/layer_169.png",
+   "rect": {
+    "x": 2487,
+    "y": 244,
+    "w": 1120,
+    "h": 291
+   },
+   "static": true
+  },
+  {
+   "layer_id": "150",
+   "name": "lector with plumes",
+   "folder": "offerings2",
+   "asset": "figures/layer_150.png",
+   "rect": {
+    "x": 4522,
+    "y": 190,
+    "w": 166,
+    "h": 336
+   },
+   "static": true
+  },
+  {
+   "layer_id": "112",
+   "name": "adze",
+   "folder": "small stand",
+   "asset": "mouth_adze.png",
+   "rect": {
+    "x": 3967,
+    "y": 359,
+    "w": 90,
+    "h": 42
+   },
+   "static": false
+  },
+  {
+   "layer_id": "118",
+   "name": "aa column",
+   "folder": "small stand",
+   "asset": "mouth_column.png",
+   "rect": {
+    "x": 3961,
+    "y": 312,
+    "w": 103,
+    "h": 17
+   },
+   "static": false
+  },
+  {
+   "layer_id": "117",
+   "name": "spoon??",
+   "folder": "small stand",
+   "asset": "mouth_spoon.png",
+   "rect": {
+    "x": 3960,
+    "y": 332,
+    "w": 104,
+    "h": 27
+   },
+   "static": false
+  },
+  {
+   "layer_id": "152",
+   "name": "offering stand",
+   "folder": "small stand",
+   "asset": "figures/layer_152.png",
+   "rect": {
+    "x": 3948,
+    "y": 392,
+    "w": 139,
+    "h": 134
+   },
+   "static": true
+  },
+  {
+   "layer_id": "108",
+   "name": "stream",
+   "folder": "water game",
+   "asset": "water_stream.png",
+   "rect": {
+    "x": 1771,
+    "y": 188,
+    "w": 450,
+    "h": 304
+   },
+   "static": false
+  },
+  {
+   "layer_id": "115",
+   "name": "man",
+   "folder": "water game",
+   "asset": "figures/layer_115.png",
+   "rect": {
+    "x": 2221,
+    "y": 199,
+    "w": 200,
+    "h": 331
+   },
+   "static": false
+  },
+  {
+   "layer_id": "109",
+   "name": "arms",
+   "folder": "water game",
+   "asset": "water_arm.png",
+   "rect": {
+    "x": 2219,
+    "y": 198,
+    "w": 86,
+    "h": 134
+   },
+   "static": false
+  },
+  {
+   "layer_id": "154",
+   "name": "kneeling woman",
+   "folder": "opening of mouth",
+   "asset": "figures/layer_154.png",
+   "rect": {
+    "x": 2122,
+    "y": 323,
+    "w": 122,
+    "h": 203
+   },
+   "static": true
+  },
+  {
+   "layer_id": "155",
+   "name": "anubis and the mummy",
+   "folder": "mouth game",
+   "asset": "mouth_mummy.png",
+   "rect": {
+    "x": 1743,
+    "y": 200,
+    "w": 394,
+    "h": 326
+   },
+   "static": false
+  },
+  {
+   "layer_id": "175",
+   "name": "features",
+   "folder": "mouth game",
+   "asset": "mouth_features.png",
+   "rect": {
+    "x": 1930,
+    "y": 246,
+    "w": 14,
+    "h": 16
+   },
+   "static": false
+  },
+  {
+   "layer_id": "111",
+   "name": "words",
+   "folder": "mouth game",
+   "asset": "mouth_words.png",
+   "rect": {
+    "x": 160,
+    "y": 62,
+    "w": 689,
+    "h": 93
+   },
+   "static": false
+  },
+  {
+   "layer_id": "160",
+   "name": "ra enthroned",
+   "folder": "tombs and beyond",
+   "asset": "figures/layer_160.png",
+   "rect": {
+    "x": 117,
+    "y": 189,
+    "w": 358,
+    "h": 337
+   },
+   "static": true
+  },
+  {
+   "layer_id": "159",
+   "name": "kneeler",
+   "folder": "tombs and beyond",
+   "asset": "kneeler.png",
+   "rect": {
+    "x": 790,
+    "y": 248,
+    "w": 207,
+    "h": 278
+   },
+   "static": false
+  },
+  {
+   "layer_id": "158",
+   "name": "tomb chapel",
+   "folder": "tombs and beyond",
+   "asset": "figures/layer_158.png",
+   "rect": {
+    "x": 1119,
+    "y": 197,
+    "w": 312,
+    "h": 329
+   },
+   "static": true
+  },
+  {
+   "layer_id": "157",
+   "name": "stela",
+   "folder": "tombs and beyond",
+   "asset": "figures/layer_157.png",
+   "rect": {
+    "x": 1499,
+    "y": 191,
+    "w": 258,
+    "h": 335
+   },
+   "static": true
+  },
+  {
+   "layer_id": "104",
+   "name": "stand",
+   "folder": "lotus stand",
+   "asset": "stand.png",
+   "rect": {
+    "x": 572,
+    "y": 343,
+    "w": 74,
+    "h": 189
+   },
+   "static": false
+  },
+  {
+   "layer_id": "105",
+   "name": "lotus",
+   "folder": "lotus stand",
+   "asset": "lotus.png",
+   "rect": {
+    "x": 565,
+    "y": 224,
+    "w": 94,
+    "h": 193
+   },
+   "static": false
+  },
+  {
+   "layer_id": "106",
+   "name": "sun",
+   "folder": "lotus stand",
+   "asset": "sun.png",
+   "rect": {
+    "x": 579,
+    "y": 303,
+    "w": 55,
+    "h": 46
+   },
+   "static": false
+  }
+ ]
+}

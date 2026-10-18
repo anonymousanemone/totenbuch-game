@@ -13,19 +13,18 @@ const SCROLL_CAMERA := preload("res://scripts/scroll_camera.gd")
 const VIEW_TOP := 36.0   ## the row under the top register's upper rule: the title bar's band takes its place
 const DATA_PATH := "res://assets/dangers/level.json"
 const SHEET_PATH := "res://assets/dangers/spearers.json"   ## the spear-bearers' thrust (tools/spearer_sheet.py)
-const CREEPING_SNAKE_STATE := preload("res://scripts/creeping_snake_state.gd")
+const CREEPING_SNAKE_STATE := preload("res://scripts/dangers/creeping_snake_state.gd")
 const FIGURE_MASK := preload("res://scripts/figure_mask.gd")
 const SHEET_TEX := "res://assets/dangers/spearers.png"
 const ASSET := "res://assets/dangers/%s.png"
 const BESIDE := 50.0
 const FIGHTS := ["crocs", "lunge", "twin", "creep", "roach", "apep", "donkey", "sheaf"]
 const ARENA_FIGHTS := ["crocs", "roach", "lunge", "creep", "twin", "apep", "donkey", "sheaf"]   ## the vignette opens out across the screen
-const CLICK_TO_FIGHT := "Click the creature to take up the spear."
 ## Debug: true opens the road, so you can walk past spell 38 with dangers still undone (also
 ## `-- --open-road` on the command line). Keep it false for play.
 const DEBUG_OPEN_ROAD := true
 
-const ENCOUNTERS := preload("res://scripts/danger_encounters.gd").ENCOUNTERS
+const ENCOUNTERS := preload("res://scripts/dangers/danger_encounters.gd").ENCOUNTERS
 const GLOW := UI.Glow.DANGER
 
 var level: Dictionary
@@ -57,11 +56,9 @@ var _instant := false     ## the autotest skips the crocodile vignette's opening
 var _arena: Node2D        ## the opened-out crocodile vignette, between the strip and the actors
 var _arena_cover: ColorRect
 var _arena_lines: Node2D
-var _text_cover: ColorRect     ## papyrus over the text below while it drops away
 var _band_cover: ColorRect    ## papyrus over the caption band inside the fight's frame
 var _caption_art: Sprite2D    ## the fight's caption, drawn again where the frame shows it
 var _strip_img: Image         ## the strip, read once to find where a caption's ink lies
-var _text_drop: Sprite2D       ## the text below, widening and dropping away
 var heka_known := false        ## the player has clicked a flashing heka sign
 const FLESH_PATH := "res://assets/dangers/flesh.png"   ## the flesh sign that counts his health (supplied, not cut)
 const FLESH_SIZE := 28.0        ## screen px tall, each flesh sign ...
@@ -144,14 +141,6 @@ func _ready() -> void:
 	_caption_art.texture = AtlasTexture.new()
 	(_caption_art.texture as AtlasTexture).atlas = $Strip.texture
 	_arena.add_child(_caption_art)
-	_text_cover = ColorRect.new()
-	_text_cover.material = $Papyrus.material
-	_text_cover.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_arena.add_child(_text_cover)
-	_text_drop = Sprite2D.new()
-	_text_drop.texture = AtlasTexture.new()
-	(_text_drop.texture as AtlasTexture).atlas = $Strip.texture
-	_arena.add_child(_text_drop)
 	_arena_lines = Node2D.new()
 	_arena.add_child(_arena_lines)
 	_arena_lines.draw.connect(_draw_arena_lines)
@@ -213,7 +202,7 @@ func reset() -> void:
 	avatar.position = Vector2(rects.avatar.get_center().x, ground)
 	avatar.facing = -1
 	hud.reset_view()
-	hud.say("Scribe", "The road to the hall of judgment begins here. Walk left, toward the crocodiles.")
+	hud.say("Scribe", _hints.message("dangers.start"))
 	_refresh()
 	_update_camera(1.0)
 
@@ -304,7 +293,7 @@ func _blocked() -> void:
 	if gate.is_empty() or _time - _bump_time < 2.5:
 		return
 	_bump_time = _time
-	say("Scribe", "The way on opens only once every danger up to the breath of life is overcome. Still to do: spell %s." % current.id.trim_prefix("e"))
+	say("Scribe", _hints.message("dangers.blocked") % current.id.trim_prefix("e"))
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -333,7 +322,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		var p := get_global_mouse_position()
 		if _heka_at(p) != "":
 			heka_known = true
-			say("Scribe", HEKA_TEXT)
+			say("Scribe", _hints.message("dangers.heka_controls"))
 			return
 		if not fight.is_empty():
 			fight_click(p)
@@ -548,7 +537,7 @@ func _check_position() -> void:
 		if x < s.y - 20.0 * unit and x > s.x:
 			here_now = e.id
 			if here_now != _section and not solved.has(e.id):
-				say("Scribe", (_hints.message("dangers.end") if e.kind == "end" else _descriptions.line(e.id, "default", true).text) + (" " + CLICK_TO_FIGHT if e.kind in FIGHTS else ""))
+				say("Scribe", (_hints.message("dangers.end") if e.kind == "end" else _descriptions.line(e.id, "default", true).text) + (" " + _hints.message("dangers.click_to_fight") if e.kind in FIGHTS else ""))
 			break
 	_section = here_now
 	if x < span(ENCOUNTERS[-1]).y - 40.0 * unit:
@@ -556,7 +545,7 @@ func _check_position() -> void:
 			finish()
 		elif _time - _told_unsolved > 6.0:
 			_told_unsolved = _time
-			say("Scribe", "Spell 42 waits until every danger behind you is overcome. Still to do: spell %s." % current.id.trim_prefix("e"))
+			say("Scribe", _hints.message("dangers.unfinished") % current.id.trim_prefix("e"))
 
 
 ## Take `item` from encounter `e` (the first of its items if none is named); only one is taken, the
@@ -580,7 +569,7 @@ func take(e: Dictionary, item := "") -> void:
 ## `item`: what was taken (its picture goes in the Journal, and `won` may say per item).
 func _solve(e: Dictionary, item := "") -> void:
 	solved[e.id] = true
-	say("Scribe", _hints.text("dangers." + e.id, "success", item if item != "" else "default"))
+	say("Scribe", (_hints.text("dangers." + e.id, "feedback", "success_" + item) if item != "" else _hints.text("dangers." + e.id, "success")))
 	var pic: String = e.foes[0] if e.kind == "crocs" else e.get("foe", item)
 	var tex: Texture2D = load(ASSET % pic)
 	_descriptions.remember(e.id, hud, journal, tex, _descriptions.journal_total(), "settled")
@@ -592,8 +581,8 @@ func finish() -> void:
 		return
 	finished = true
 	_refresh()
-	say("Scribe", "The road is clear. You carry the breath of life.")
-	var body := "The dangers are overcome. You carry [b]the breath of life[/b]."
+	say("Scribe", _hints.message("dangers.finished"))
+	var body := _hints.message("dangers.outro")
 	var revision: int = _session
 	get_tree().create_timer(1.2, false).timeout.connect(func():
 		if revision == _session and finished:
@@ -717,7 +706,7 @@ func leave_fight() -> void:
 		avatar.position.x = rects[e.spear].get_center().x
 		avatar.visible = true
 		avatar.set_process(true)
-		say("Scribe", "You step back out of the vignette. Click the creature to take it up again.")
+		say("Scribe", _hints.message("dangers.left_fight"))
 	if fight.kind in ARENA_FIGHTS and not _instant:
 		_crocs_close(out)
 	else:
@@ -747,6 +736,9 @@ func _restore(n: String) -> void:
 	if sheet.bearers.has(n.trim_suffix("_pole")):
 		_bearer_pose(n.trim_suffix("_pole"), 0.0)
 
+
+func _feedback_text(key: String) -> String:
+	return _hints.text("dangers." + fight.e.id, "feedback", key)
 
 func _feedback_once(key: String, text: String) -> void:
 	var told: Dictionary = fight.get("feedback", {})
@@ -821,17 +813,15 @@ const THRUST_DOWN := 0.5        ## (Apep, the Merti snakes) the point strikes on
 ## that red is the ratio of the two.
 const RED_CROC := UI.INK_TINT   ## red crocodiles, heka word and spear
 const HURT := RED_CROC                      ## the bearer's body when bitten
-const DISSOLVE := preload("res://scripts/dissolve.gdshader")
-const TEXT_DROP := 320.0        ## how far the text below drops while the vignette is open
+const DISSOLVE := preload("res://scripts/dangers/dissolve.gdshader")
 const FRAME_GAP := 8.0          ## between the two lines of a double line, as drawn (plate px)
-const HEKA_TEXT := "Hold [shift] while striking to fight off the red crocodiles. Don't use heka on the regular crocodiles, or they'll make off with it!"
 
 
 ## The opened-out vignette every fight uses: its frame (the double lines round the picture and the
 ## caption band) moves out to the edges of the screen, the lines keeping the thickness they have
 ## while walking; the caption moves to the middle of the band, at the size it has while walking
-## (the wide fights, crocodiles and beetles, zoom out and it shrinks with them); the text below
-## drops away and everything else steps out of the way. The frame is worked out on the screen
+## (the wide fights, crocodiles and beetles, zoom out and it shrinks with them).
+## Everything else steps out of the way. The frame is worked out on the screen
 ## (`fight.frame0`, as drawn, to `fight.frame1`, opened out) and drawn into the world each frame
 ## (_place_frame). `both`: he stands in the middle and can turn (else the double line behind him
 ## stays where it is drawn). `keep`: actors that stay. `view`: for a close fight, the lowest row
@@ -918,14 +908,6 @@ func _arena_setup(e: Dictionary, both: bool, keep: Array, view := {}) -> void:
 	for nm in actors:
 		if actors[nm].visible and not nm in keep and nm != e.spear and nm != e.spear + "_pole" and not nm in _heka_words(e.id):
 			fight.hidden.append(nm)
-	# the text below the frame widens and drops away to make room
-	var text_top: float = rules[-1][1]
-	var x0 := maxf(0.0, full.position.x)
-	var x1 := minf(level.width, full.end.x)
-	(_text_drop.texture as AtlasTexture).region = Rect2(x0, text_top, x1 - x0, level.height - text_top)
-	fight.text_home = Vector2((x0 + x1) / 2.0, (text_top + level.height) / 2.0)
-	_text_cover.position = Vector2(full.position.x - 100.0, text_top)
-	_text_cover.size = Vector2(full.size.x + 200.0, level.height - text_top + 100.0)
 	_arena.visible = true
 	actors[e.spear + "_pole"].visible = true
 
@@ -1111,9 +1093,6 @@ func _croc_open(k: float) -> void:
 		_donkey_place()
 	for nm in fight.hidden:
 		actors[nm].modulate.a = 1.0 - k
-	_text_drop.position = fight.text_home + Vector2(0.0, TEXT_DROP * unit * k * k)
-	_text_drop.scale = Vector2(1.0 + 0.3 * k, 1.0)
-	_text_drop.modulate.a = 1.0 - k
 	_place_bearer()
 
 
@@ -1170,7 +1149,7 @@ func _crocs(dt: float) -> void:
 		"move":
 			if fight.moved > 60.0 * unit:
 				fight.tut = "first"
-				say("Scribe", "Here one comes. Meet its snout with the spear tip, and press [space] as they touch.")
+				say("Scribe", _feedback_text("first_crocodile"))
 				_croc_launch(e.first_speed)
 		"":
 			fight.timer -= dt
@@ -1262,9 +1241,9 @@ func _croc_strike() -> void:
 		fight.tut = ""
 		fight.timer = 1.5
 		if not wave_done:
-			say("Scribe", "Well struck. More are coming, at different heights.")
+			say("Scribe", _feedback_text("first_strike"))
 	elif not wave_done:
-		say("Scribe", "The crocodile turns away.")
+		say("Scribe", _feedback_text("crocodile_defeated"))
 	if wave_done:
 		if fight.wave + 1 < fight.waves.size():
 			_croc_break()
@@ -1278,7 +1257,7 @@ func _croc_break() -> void:
 	fight.phase = "break"
 	fight.timer = e.get("break", 5.0)
 	fight.heka_on = true
-	say("Scribe", "The crocodiles draw back. Above, signs begin to glow red.")
+	say("Scribe", _feedback_text("heka_break"))
 
 
 func _croc_next_wave() -> void:
@@ -1287,7 +1266,7 @@ func _croc_next_wave() -> void:
 	fight.wave_killed = 0
 	fight.wave_launched = 0
 	fight.timer = 0.3
-	say("Scribe", "They come again.")
+	say("Scribe", _feedback_text("next_wave"))
 
 
 ## A picture as ink: its darkness becomes opacity (a white background drops away, a transparent
@@ -1331,12 +1310,12 @@ func _croc_total() -> int:
 
 ## Heka thrust at an ordinary crocodile: it takes the word of heka and runs.
 func _croc_steals(c: Dictionary) -> void:
-	_croc_takes_word(c, "Heka spent on an ordinary crocodile! It seizes the word of power and makes off with it. The crocodiles are not turned back.")
+	_croc_takes_word(c, _feedback_text("heka_on_normal_crocodile"))
 
 
 ## A crocodile got past the bearer, once the heka word glows: it goes off with the word.
 func _croc_eats_word(c: Dictionary) -> void:
-	_croc_takes_word(c, "A crocodile slipped past you to the wall. It laughs, and the word of heka falls to it.")
+	_croc_takes_word(c, _feedback_text("crocodile_escaped"))
 
 
 ## Lost: the crocodile laughs (squashes up and down) and turns round, the heka word spins down from
@@ -1420,7 +1399,7 @@ func _bot_move() -> Vector2:
 func _croc_dies(c: Dictionary) -> void:
 	fight.lost = true
 	var e: Dictionary = fight.e
-	say("Scribe", "One bite too many: the spear-bearer crumbles to dust.")
+	say("Scribe", _hints.message("dangers.defeated"))
 	c.s = "thief"
 	_disintegrate(e)
 	var t := _fight_tween()
@@ -1430,7 +1409,7 @@ func _croc_dies(c: Dictionary) -> void:
 			_arena_lost(e))
 
 
-## The spear-bearer crumbles away (scripts/dissolve.gdshader).
+## The spear-bearer crumbles away (scripts/dangers/dissolve.gdshader).
 func _disintegrate(e: Dictionary) -> void:
 	var mat := ShaderMaterial.new()
 	mat.shader = DISSOLVE
@@ -1454,7 +1433,7 @@ func _arena_lost(e: Dictionary) -> void:
 		avatar.position.x = rects[e.spear].get_center().x
 		avatar.visible = true
 		avatar.set_process(true)
-		say("Scribe", "The fight is lost. Click the creature to take up the spear again."))
+		say("Scribe", _hints.message("dangers.retry")))
 
 
 func _croc_bites(c: Dictionary) -> void:
@@ -1467,13 +1446,13 @@ func _croc_bites(c: Dictionary) -> void:
 			return
 	if c.red and not heka_known and not fight.nudged:
 		fight.nudged = true
-		say("Scribe", "Bronze alone will not turn the red ones. The signs glowing above may tell you how.")
+		say("Scribe", _feedback_text("red_crocodile"))
 		c.s = "back"
 		_croc_send_back(c)
 		bites += 1
 		return
-	_bite("The crocodile reached you. Line the spear tip up with its snout, and strike as they touch." if fight.tut == "first"
-		else "A crocodile reached you.")
+	_bite(_feedback_text("tutorial_bite") if fight.tut == "first"
+		else _feedback_text("bitten"))
 	c.s = "back"
 	_croc_send_back(c)
 
@@ -1553,7 +1532,7 @@ func _croc_launch(speed: float) -> bool:
 		fight.copies.append(a)
 		if dir < 0 and not fight.told_back:
 			fight.told_back = true
-			say("Scribe", "One comes from behind! [←] [→] turn you to face either way.")
+			say("Scribe", _feedback_text("behind_you"))
 	# never two front halves on top of each other, nor two at one spot one just after the other
 	if not _instant and not _croc_clear(c, speed):
 		if c.node in fight.copies:              # not yet: take the new one away again
@@ -1622,11 +1601,11 @@ func _croc_thrust() -> void:
 	fight.last_thrust = fight.get("clock", 0.0)
 	if fight.tut == "thrust":
 		fight.tut = "move"
-		say("Scribe", "Good. Now move: [↑] [↓] (or [w] [s]) take you up and down.")
+		say("Scribe", _feedback_text("movement_lesson"))
 
 
 func _crocs_click(_p: Vector2) -> void:
-	_feedback_once("controls", "Press [space] to thrust the spear; [↑] [↓] (or [w] [s]) move you" + ("; [←] [→] turn you." if fight.both else "."))
+	_feedback_once("controls", _feedback_text("controls_both" if fight.both else "controls"))
 
 
 ## Close the vignette again, then finish the fight (or whatever `then` does).
@@ -1960,7 +1939,7 @@ func _twin_caught(s: Dictionary) -> void:
 	_hurt(s.node)
 	_twin_phase(s, "pinned")
 	_dev_shot("SHOT_ON_CATCH")
-	say("Scribe", "Struck!" + (" It falls." if s.hits >= int(fight.e.need) else " It pulls free and coils again."))
+	say("Scribe", _feedback_text("struck_final" if s.hits >= int(fight.e.need) else "struck_partial"))
 
 
 ## The spear at full thrust on the side he faces, with the snake there still coiled: it sees it and
@@ -1969,7 +1948,7 @@ func _twin_provoke() -> void:
 	var s: Dictionary = fight.snakes[0 if fight.facing < 0 else 1]
 	if not s.phase in ["rest", "warn"]:
 		return
-	s.why = "It saw the spear and sprang. Wait for its sign to flash and for it to squash down; thrust as it springs."
+	s.why = _feedback_text("provoked")
 	_twin_phase(s, "snap")
 	s.for = _twin_tune("snap")
 	s.from = s.off
@@ -1983,7 +1962,7 @@ func _twin_bites(s: Dictionary) -> void:
 	if fight.health <= 0:
 		fight.lost = true
 		var e: Dictionary = fight.e
-		say("Scribe", "One bite too many: the spear-bearer crumbles to dust.")
+		say("Scribe", _hints.message("dangers.defeated"))
 		_disintegrate(e)
 		var t := _fight_tween()
 		t.tween_interval(2.0)
@@ -1995,16 +1974,16 @@ func _twin_bites(s: Dictionary) -> void:
 	s.erase("why")
 	if why == "":
 		if fight.facing != s.side:
-			why = "It sprang from your other side. Turn to face it ([←] [→])."
+			why = _feedback_text("wrong_direction")
 		elif fight.clock - fight.last_thrust < float(s.for) + 0.4:
-			why = "Too early or too late: thrust just as it springs past your spear point."
+			why = _feedback_text("mistimed_thrust")
 		else:
-			why = "It sprang at you. When it squashes down, thrust as it springs."
-	_feedback_once(why, why + " Bitten.")
+			why = _feedback_text("bite_advice")
+	_feedback_once(why, _feedback_text("bitten") % why)
 
 
 func _twin_click(_p: Vector2) -> void:
-	_feedback_once("controls", "[←] [→] (or [a] [d]) turn you; [space] thrusts. Thrust as a snake springs at you.")
+	_feedback_once("controls", _feedback_text("controls"))
 
 
 ## Dev (`--croc-bot`): turns to the snake whose sign flashes and thrusts TWIN_BOT_AIM s after the
@@ -2312,7 +2291,7 @@ func _creep_move(mv: float, dt: float) -> void:
 		return
 	fight.pos.x = x
 	if snake.phase == "watch" and snake.elapsed >= CREEP_GRACE:
-		_creep_lash("It turned and saw you move.")
+		_creep_lash(_feedback_text("seen_moving"))
 
 
 ## The warning grows shorter with each strike.
@@ -2328,7 +2307,7 @@ func _creep_strike() -> void:
 	if snake.phase in ["strike", "bitten", "pinned", "slide"]:
 		return
 	if snake.phase == "watch" and snake.elapsed >= CREEP_GRACE:
-		_creep_lash("It saw the spear coming.")
+		_creep_lash(_feedback_text("seen_thrusting"))
 		return
 	if _creep_in_reach():
 		fight.hits += 1
@@ -2337,13 +2316,13 @@ func _creep_strike() -> void:
 		_creep_phase("pinned")
 		_dev_shot("SHOT_ON_CATCH")
 		var left: int = int(fight.e.need) - fight.hits
-		say("Scribe", "Struck!" + (" It pulls free and slides off ahead of you. %d more." % left if left > 0 else ""))
+		say("Scribe", (_feedback_text("struck_more") % left if left > 0 else _feedback_text("struck")))
 		return
 	# off its eye: on its head, or short of it on the ground; either way it turns to look
 	if _creep_on_head():
-		_feedback_once("Aim the target dot at its eye before striking", "That hit its head, but not the eye. Bring the red dot onto its eye before you thrust.")
+		_feedback_once("Aim the target dot at its eye before striking", _feedback_text("missed_eye"))
 	else:
-		_feedback_once("Too far away", "Short of its eye: the spear strikes the ground, and it hears.")
+		_feedback_once("Too far away", _feedback_text("out_of_reach"))
 	if snake.phase in ["away", "tell"]:
 		snake.lift = maxf(snake.lift, CREEP_LIFT * 0.45)
 		_creep_phase("turn")
@@ -2371,7 +2350,7 @@ func _creep_bites() -> void:
 	if fight.health <= 0:
 		_creep_dies()
 		return
-	_feedback_once("watched", snake.bite_reason + " Bitten. When its head lifts, let go of the keys and wait until it looks away again.")
+	_feedback_once("watched", _feedback_text("bitten") % snake.bite_reason)
 
 
 ## It slides to `to` (its offset from where it is drawn), its head turned away again.
@@ -2388,7 +2367,7 @@ func _creep_slide(to: float) -> void:
 func _creep_dies() -> void:
 	fight.lost = true
 	var e: Dictionary = fight.e
-	say("Scribe", "One bite too many: the spear-bearer crumbles to dust.")
+	say("Scribe", _hints.message("dangers.defeated"))
 	_disintegrate(e)
 	var t := _fight_tween()
 	t.tween_interval(2.0)
@@ -2398,7 +2377,7 @@ func _creep_dies() -> void:
 
 
 func _creep_click(_p: Vector2) -> void:
-	_feedback_once("controls", "[←] (or [a]) creeps toward it; [space] thrusts. Hold still while it looks back.")
+	_feedback_once("controls", _feedback_text("controls"))
 
 
 ## Dev (`--croc-bot`): creeps while its head is down, stops when it lifts, thrusts when in reach
@@ -2613,7 +2592,7 @@ func _roach_strike() -> void:
 	hit.at_point = false
 	hit.node.modulate = Color(RED_CROC, hit.node.modulate.a)
 	var left: int = fight.need - fight.hits
-	say("Scribe", "Pinned!" + (" %d more." % left if left > 0 else ""))
+	say("Scribe", (_feedback_text("pinned_more") % left if left > 0 else _feedback_text("pinned")))
 
 
 ## Lost: beetle `r` got away from the spear point once too often. Beetles multiply from the ones
@@ -2621,7 +2600,7 @@ func _roach_strike() -> void:
 func _roach_swarm(r: Dictionary) -> void:
 	var e: Dictionary = fight.e
 	fight.lost = true
-	say("Scribe", "It slipped past one time too many. Apshai never travels alone.")
+	say("Scribe", _feedback_text("swarm"))
 	var from: Array = _roaches().map(func(x): return x.c)
 	var tex: Texture2D = _picture(r.node).texture
 	var size: Vector2 = r.size
@@ -2651,7 +2630,7 @@ func _roach_swarm(r: Dictionary) -> void:
 
 
 func _roach_click(_p: Vector2) -> void:
-	_feedback_once("controls", "Press [space] to thrust the spear; [←] [→] turn you. You cannot step.")
+	_feedback_once("controls", _feedback_text("controls"))
 
 
 ## Dev (`--croc-bot`): turns toward a beetle that has rested REACT s within reach, and thrusts.
@@ -2681,7 +2660,7 @@ const SNAKE_MARK := 7.0         ## radius of the red mark on its body (plate px)
 const SNAKE_GRACE := 3.0        ## the spear point counts this close outside the mark (plate px)
 const SNAKE_PAD := 40           ## room around the snake's picture for the tail to wave into (px)
 const SNAKE_FIGURE := preload("res://scripts/figure.gdshader")
-const SNAKE_TAIL := preload("res://scripts/snake_tail.gdshader")
+const SNAKE_TAIL := preload("res://scripts/dangers/snake_tail.gdshader")
 
 
 func _lunge_start(e: Dictionary) -> void:
@@ -3048,7 +3027,7 @@ func _lunge_caught() -> void:
 	_lunge_phase("pinned")
 	_dev_shot("SHOT_ON_CATCH")
 	var left: int = int(e.need) - fight.hits
-	say("Scribe", "Struck!" + (" It pulls free and coils again. %d more." % left if left > 0 else ""))
+	say("Scribe", (_feedback_text("struck_more") % left if left > 0 else _feedback_text("struck")))
 
 
 func _lunge_bites() -> void:
@@ -3069,18 +3048,18 @@ func _lunge_bites() -> void:
 	# why it got through: a thrust that came and went before it sprang, or one that came too late
 	var since: float = fight.clock - fight.last_thrust
 	if since < float(e.snap) + 0.6 and since > float(e.snap):
-		_feedback_once("Too early", "Too early: your spear was already coming back up when it sprang. Wait for the snap.")
+		_feedback_once("Too early", _feedback_text("too_early"))
 	elif since <= float(e.snap):
-		_feedback_once("Too late", "Too late: it was past the point of your spear.")
+		_feedback_once("Too late", _feedback_text("too_late"))
 	else:
-		_feedback_once("Watch its tail", "It bit you. When its tail waves and it squashes down, it is about to spring: thrust as it springs.")
+		_feedback_once("Watch its tail", _feedback_text("bite_advice"))
 
 
 ## The last bite: he crumbles away, and he is back on the scroll.
 func _lunge_dies() -> void:
 	fight.lost = true
 	var e: Dictionary = fight.e
-	say("Scribe", "One bite too many: the spear-bearer crumbles to dust.")
+	say("Scribe", _hints.message("dangers.defeated"))
 	_lunge_undress()
 	_disintegrate(e)
 	var t := _fight_tween()
@@ -3139,7 +3118,7 @@ func _dev_shot(env: String) -> void:
 
 
 func _lunge_click(_p: Vector2) -> void:
-	_feedback_once("controls", "Press [space] to thrust the spear, just as the snake springs. You cannot step.")
+	_feedback_once("controls", _feedback_text("controls"))
 
 
 ## Dev (`--croc-bot`): thrusts LUNGE_BOT_AIM s after the snap begins, give or take BOT_JITTER s.
@@ -3167,7 +3146,7 @@ const LUNGE_BOT_AIM := -0.01    ## the middle of the window the autotest measure
 # Some waves (after the first `teach`) are feints: smaller, they die out in the drawn hump. A thrust
 # on a still neck (nothing coming) works the barb loose a step. Bitten CROC_HEALTH times, he
 # crumbles and is back on the scroll.
-const APEP_WAVE := preload("res://scripts/apep_wave.gdshader")
+const APEP_WAVE := preload("res://scripts/dangers/apep_wave.gdshader")
 const APEP_WAVES := 4           ## waves the shader can show at once
 const APEP_PAD := 40            ## room above his picture for the waves and his head to rise into (px)
 const APEP_FIRST := 1.4         ## the first wave comes this long after the vignette opens (s)
@@ -3421,9 +3400,9 @@ func _apep_pressed(w: Dictionary) -> void:
 	if fight.hits >= int(e.need):
 		for o in fight.waves:
 			o.s = "pressed"
-		say("Scribe", "Pressed down. Apep lies still.")
+		say("Scribe", _feedback_text("apep_defeated"))
 	else:
-		say("Scribe", "Pressed down: the barb goes in a step.")
+		say("Scribe", _feedback_text("barb_advanced"))
 
 
 ## A thrust that pressed nothing down: early for a wave on its way, or else on a still neck.
@@ -3431,12 +3410,12 @@ func _apep_jab() -> void:
 	var px: float = fight.point_x
 	var coming: bool = fight.waves.any(func(w): return not w.feint and w.s in ["lash", "run"] and px - w.x < w.v * APEP_EARLY)
 	if coming:
-		_feedback_once("Too early", "Too early: wait until the wave reaches your spear point.")
+		_feedback_once("Too early", _feedback_text("too_early"))
 	elif fight.hits > 0:
 		fight.hits -= 1
-		_feedback_once("The barb slipped back", "The barb jars on a still neck and works loose a step. Thrust only as a wave reaches the point.")
+		_feedback_once("The barb slipped back", _feedback_text("barb_slipped"))
 	else:
-		_feedback_once("Wait for a wave to reach the spear point", "Nothing there to press down. Thrust only as a wave reaches the point.")
+		_feedback_once("Wait for a wave to reach the spear point", _feedback_text("no_wave"))
 
 
 ## A wave got past the point: his head rears out from under it, turns and bites.
@@ -3444,9 +3423,9 @@ func _apep_slip(w: Dictionary) -> void:
 	_apep_head_phase("rear")
 	var since: float = fight.clock - fight.last_thrust
 	if since < APEP_EARLY + 2.0 * _apep_reach() / w.v:
-		_feedback_once("Too early", "Too early: your spear came and went before the wave reached it.")
+		_feedback_once("Too early", _feedback_text("missed_wave"))
 	else:
-		_feedback_once("The wave got through", "The wave lifted his head from under your spear. When it reaches the point, thrust.")
+		_feedback_once("The wave got through", _feedback_text("wave_passed"))
 	fight.next = maxf(fight.next, fight.clock + 0.6)
 
 
@@ -3504,7 +3483,7 @@ func _apep_bites() -> void:
 func _apep_dies() -> void:
 	fight.lost = true
 	var e: Dictionary = fight.e
-	say("Scribe", "One bite too many: the spear-bearer crumbles to dust.")
+	say("Scribe", _hints.message("dangers.defeated"))
 	_disintegrate(e)
 	var t := _fight_tween()
 	t.tween_interval(2.0)
@@ -3514,7 +3493,7 @@ func _apep_dies() -> void:
 
 
 func _apep_click(_p: Vector2) -> void:
-	_feedback_once("controls", "Press [space] to thrust the spear as a wave reaches its point. You cannot step.")
+	_feedback_once("controls", _feedback_text("controls"))
 
 
 ## Dev (`--croc-bot`): thrusts APEP_BOT_LEAD s before each real crest reaches the point.
@@ -3593,7 +3572,7 @@ const DONKEY_PAD := 24           ## room round the snake's picture for its front
 const DONKEY_BOT_REACT := 0.25   ## (--croc-bot) thrusts this long after its head is clear (s)
 const DONKEY_UP_JITTER := [0.8, 1.25]   ## each look up lasts `up` s times a share in this range
 const DONKEY_FAIR := 1.3         ## a bite this close and no look up since the last: the donkey swishes now (s)
-const LIFT_END := preload("res://scripts/lift_end.gdshader")
+const LIFT_END := preload("res://scripts/dangers/lift_end.gdshader")
 
 
 func _donkey_start(e: Dictionary) -> void:
@@ -3773,7 +3752,7 @@ func _donkey_struck() -> void:
 	_donkey_phase("pinned")
 	_dev_shot("SHOT_ON_CATCH")
 	var left: int = int(e.need) - fight.hits
-	say("Scribe", "Struck!" + (" It sinks its head into the donkey again. %d more." % left if left > 0 else ""))
+	say("Scribe", (_feedback_text("struck_more") % left if left > 0 else _feedback_text("struck")))
 
 
 ## The point went into the donkey: he crumbles at once.
@@ -3782,7 +3761,7 @@ func _donkey_speared() -> void:
 	fight.lost = true
 	_shake(actors[e.donkey])
 	_hurt(actors[e.donkey])
-	say("Scribe", "The spear goes into the donkey! The spear-bearer crumbles to dust. Strike only while the snake's head is up.")
+	say("Scribe", _feedback_text("donkey_speared"))
 	_disintegrate(e)
 	_donkey_lost_later(e)
 
@@ -3798,7 +3777,7 @@ func _donkey_bitten() -> void:
 	_donkey_phase("latched")
 	if fight.donkey_health <= 0:
 		fight.lost = true
-		say("Scribe", "The snake has eaten the donkey.")
+		say("Scribe", _feedback_text("donkey_eaten"))
 		var mat := ShaderMaterial.new()
 		mat.shader = DISSOLVE
 		mat.set_shader_parameter("grain", 3.0 * unit)
@@ -3809,7 +3788,7 @@ func _donkey_bitten() -> void:
 		return
 	if not fight.told.has("bite"):
 		fight.told.bite = true
-		say("Scribe", "It bites the donkey. Strike it before it bites again: thrust as it lifts its head to the swishing tail.")
+		say("Scribe", _feedback_text("donkey_bitten"))
 
 
 func _donkey_lost_later(e: Dictionary) -> void:
@@ -3849,7 +3828,7 @@ func _donkey_place() -> void:
 func _donkey_click(_p: Vector2) -> void:
 	if _time - fight.nag > 4.0:
 		fight.nag = _time
-		say("Scribe", "Press [space] to thrust the spear, while the snake's head is up off the donkey's back.")
+		say("Scribe", _feedback_text("controls"))
 
 
 ## Dev (`--croc-bot`, and the autotest's trials): thrusts DONKEY_BOT_REACT s (or BOT_REACT) after
@@ -3926,7 +3905,7 @@ const SHEAF_LOCK := 0.5         ## after a bite, a band cannot be tied for this 
 const SHEAF_STIR := 3.0         ## the stalks' push where it rests (texture px) ...
 const SHEAF_STIR_MOVING := 6.0  ## ... and where it is moving
 const SHEAF_BOT_REACT := 0.25   ## (--croc-bot) ties this long after the stir settles above the band (s)
-const RUSTLE := preload("res://scripts/rustle.gdshader")
+const RUSTLE := preload("res://scripts/dangers/rustle.gdshader")
 
 
 func _sheaf_start(e: Dictionary) -> void:
@@ -4145,10 +4124,10 @@ func _sheaf_tied() -> void:
 		fight.sn.moving = false
 		fight.sn.at = float(SHEAF_TOP)
 		_sheaf_phase("rise")
-		say("Scribe", "Bound tight, the sheaf forces the snake out on top.")
+		say("Scribe", _feedback_text("snake_emerged"))
 	elif not fight.told.has("tied"):
 		fight.told.tied = true
-		say("Scribe", "Tied. Below that band it has no room now.")
+		say("Scribe", _feedback_text("band_tied"))
 
 
 ## Tied on the snake: it bites through the stalks at his hand, and the band springs loose.
@@ -4162,7 +4141,7 @@ func _sheaf_bitten() -> void:
 		return
 	if not fight.told.has("bitten"):
 		fight.told.bitten = true
-		say("Scribe", "It was at that band: it bites through the stalks, and the band springs loose. Tie only once the stir has settled above it.")
+		say("Scribe", _feedback_text("band_broken"))
 	if fight.sn.at < float(SHEAF_TOP) and not fight.sn.moving:
 		fight.sn.t = fight.sn.dur - 0.3          # it draws back up soon after
 
@@ -4176,7 +4155,7 @@ func _sheaf_struck() -> bool:
 	_hurt(actors[fight.e.foe])
 	_sheaf_phase("pinned")
 	_dev_shot("SHOT_ON_CATCH")
-	say("Scribe", "Struck!")
+	say("Scribe", _feedback_text("struck"))
 	return true
 
 
@@ -4186,7 +4165,7 @@ func _sheaf_bites() -> void:
 	if fight.lost:
 		return
 	_sheaf_phase("bitten")
-	say("Scribe", "It struck first. Thrust ([space]) as soon as it comes out, before it strikes.")
+	say("Scribe", _feedback_text("bitten"))
 
 
 func _sheaf_hurt() -> void:
@@ -4205,7 +4184,7 @@ func _sheaf_dies() -> void:
 	fight.lost = true
 	fight.tie = -1.0
 	var e: Dictionary = fight.e
-	say("Scribe", "One bite too many: the spear-bearer crumbles to dust.")
+	say("Scribe", _hints.message("dangers.defeated"))
 	_disintegrate(e)
 	var t := _fight_tween()
 	t.tween_interval(2.0)

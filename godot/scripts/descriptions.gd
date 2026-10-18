@@ -5,6 +5,7 @@ const HIT_PAD := 4
 var entries: Dictionary
 var _level: String
 var _images := {}
+static var _ink_bounds := {}
 
 
 func _init(level: String) -> void:
@@ -69,6 +70,23 @@ func hit(sprite: Sprite2D, point: Vector2) -> bool:
 			if image.get_pixel(x, y).a > 0.1:
 				return true
 	return false
+
+
+## A tight rectangle around the texture's nontransparent pixels, in world coordinates.
+static func sprite_bounds(sprite: Sprite2D) -> Rect2:
+	var texture := sprite.texture
+	if not _ink_bounds.has(texture):
+		var image := texture.get_image()
+		if image.is_compressed():
+			image.decompress()
+		_ink_bounds[texture] = Rect2(image.get_used_rect())
+	var bounds: Rect2 = _ink_bounds[texture]
+	if sprite.flip_h:
+		bounds.position.x = texture.get_width() - bounds.end.x
+	if sprite.flip_v:
+		bounds.position.y = texture.get_height() - bounds.end.y
+	bounds.position += sprite.get_rect().position
+	return sprite.global_transform * bounds
 
 
 static func region_bounds(region: Area2D) -> Rect2:

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bcpjnomldmxc6"]
 
-[ext_resource type="Script" uid="uid://c6712v4413yr7" path="res://scripts/dangers.gd" id="1_lvl"]
+[ext_resource type="Script" uid="uid://c6712v4413yr7" path="res://scripts/dangers/dangers.gd" id="1_lvl"]
 [ext_resource type="Texture2D" uid="uid://buxa3g3iif0p5" path="res://assets/dangers/strip.png" id="2_strip"]
 [ext_resource type="Script" uid="uid://cfiivvydggr46" path="res://scripts/avatar.gd" id="3_avatar"]
 [ext_resource type="Texture2D" uid="uid://bv78ls3gtqi7w" path="res://assets/dangers/avatar.png" id="4_avatar_tex"]

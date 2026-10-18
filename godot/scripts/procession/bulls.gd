@@ -120,9 +120,9 @@ func leave() -> void:
 func pick(p: Vector2) -> String:
 	if not active or done:
 		return ""
-	if _rect(_plumes).grow(8.0).has_point(p):
+	if _rect(_plumes).has_point(p):
 		return "plumes"
-	if _rect(_calf).grow(8.0).has_point(p):
+	if _rect(_calf).has_point(p):
 		return "calf"
 	return ""
 
@@ -163,11 +163,11 @@ func release(p: Vector2) -> void:
 			var on := p != Vector2.INF and at.distance_to(_right) <= SNAP
 			_set_plumes_on(on)
 			if on:
-				_once("crowned", "Scribe", "The disc and plumes sit on the living ox again.")
+				_once("crowned", "Scribe", PUZZLES.text("procession.bulls", "feedback", "plumes_restored"))
 		"calf":
 			_calf.scale.x = 1.0 if _calf.scale.x > 0.0 and p != Vector2.INF else _turn_from
 			if calf_turned():
-				_once("turned", "Scribe", "The calf turns its back on the block and settles.")
+				_once("turned", "Scribe", PUZZLES.text("procession.bulls", "feedback", "calf_turned"))
 	_check()
 
 
@@ -211,9 +211,7 @@ func _process(delta: float) -> void:
 
 ## The box round a sprite's drawing where it is now (world px).
 func _rect(sp: Sprite2D) -> Rect2:
-	var size := sp.texture.get_size()
-	var local := Rect2(-size / 2.0, size) if sp.centered else Rect2(sp.offset, size)
-	return sp.get_global_transform() * local
+	return preload("res://scripts/descriptions.gd").sprite_bounds(sp)
 
 
 func _once(key: String, who: String, text: String) -> void:

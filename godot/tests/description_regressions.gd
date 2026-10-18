@@ -21,6 +21,15 @@ func _run() -> void:
 	p.hud.dismiss_intro()
 	p.set_process(false)
 	p.avatar.set_process(false)
+	for region in p.find_children("*", "Area2D", true, false):
+		if not region.get_parent() is Sprite2D:
+			continue
+		var sprite: Sprite2D = region.get_parent()
+		var before := DESCRIPTIONS.region_bounds(region)
+		sprite.position.x += 17.0
+		expect(DESCRIPTIONS.region_bounds(region).position.is_equal_approx(before.position + Vector2(17, 0)),
+			"saved hitbox follows its sprite in the running scene: " + region.name)
+		sprite.position.x -= 17.0
 	var region_ids: Array = p._inspection_regions.keys()
 	expect(region_ids.size() == p.hotspots.size() + p.CAPTIONS.size() and region_ids.all(func(id): return p._descriptions.entries.has(id)), "every saved inspection region resolves a unique registry ID")
 	var before_caption: int = p.journal.size()

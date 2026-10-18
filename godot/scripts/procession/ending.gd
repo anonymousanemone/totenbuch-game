@@ -33,7 +33,7 @@ const IMPRINT_FADE := 1.5    ## s for the imprint to go once the stand stands
 const KNEEL := 0.8           ## s for you to sink into the adorer's place
 const RAYS := 1.6            ## s for the light to spread from the two suns ...
 const FLOOD := 0.9           ## ... and to fill the screen
-const LIGHT := preload("res://scripts/light.gdshader")
+const LIGHT := preload("res://scripts/procession/light.gdshader")
 ## Where each piece sits on you, from your feet (strip px, you facing left as drawn): its centre,
 ## turn (rad), scale and whether it is mirrored. Posed in the editor on a copy of the avatar
 ## (2026-10-15).
@@ -139,7 +139,7 @@ func _set_at_place(nm: String) -> void:
 ## up, or whole); else "".
 func pick(p: Vector2) -> String:
 	for nm in PIECES:
-		if not placed.has(nm) and not nm in worn and nm != held and rect_of(nm).grow(6.0).has_point(p):
+		if not placed.has(nm) and not nm in worn and nm != held and rect_of(nm).has_point(p):
 			return nm
 	if place_rect().has_point(p):
 		return "place"
@@ -149,16 +149,14 @@ func pick(p: Vector2) -> String:
 ## A piece on you under the pointer, or "".
 func worn_at(p: Vector2) -> String:
 	for nm in worn:
-		if rect_of(nm).grow(4.0).has_point(p):
+		if rect_of(nm).has_point(p):
 			return nm
 	return ""
 
 
 ## The box round a piece's drawing where it is now (world px).
 func rect_of(nm: String) -> Rect2:
-	var sp: Sprite2D = _nodes[nm]
-	var size := sp.texture.get_size()
-	return sp.get_global_transform() * Rect2(-size / 2.0, size)
+	return preload("res://scripts/descriptions.gd").sprite_bounds(_nodes[nm])
 
 
 func place_rect() -> Rect2:
@@ -219,7 +217,7 @@ func set_down() -> String:
 		return "done"
 	var choice: Array = [held] if held != "" else worn.duplicate()
 	if choice.is_empty():
-		said.emit("Scribe", PUZZLES.text("procession.offering_stand", "instructions", "stela" if imprint_shown else "default"))
+		said.emit("Scribe", (PUZZLES.text("procession.offering_stand", "feedback", "instructions_stela") if imprint_shown else PUZZLES.text("procession.offering_stand", "instructions")))
 		return "empty"
 	for nm in choice:
 		var under: String = RESTS_ON[nm]
@@ -232,11 +230,11 @@ func set_down() -> String:
 			placed[nm] = true
 			_set_at_place(nm)
 			if complete():
-				said.emit("Scribe", PUZZLES.text("procession.offering_stand", "success", "stela" if imprint_shown else "default"))
+				said.emit("Scribe", (PUZZLES.text("procession.offering_stand", "feedback", "success_stela") if imprint_shown else PUZZLES.text("procession.offering_stand", "success")))
 				_fade_imprint()
 			changed.emit()
 			return "placed"
-	said.emit(TAGS[choice[0]], "%s has nothing to rest on yet." % _cap(NAMES[choice[0]]) + (" Look at the stela: something stands beneath it." if imprint_shown else ""))
+	said.emit(TAGS[choice[0]], PUZZLES.text("procession.offering_stand", "feedback", "unsupported_stela" if imprint_shown else "unsupported") % _cap(NAMES[choice[0]]))
 	unhold()
 	return "unsupported"
 

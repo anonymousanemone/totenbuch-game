@@ -82,7 +82,8 @@
   "plumed_ox": {
    "name": "Plumed ox",
    "descriptions": {
-    "default": "An ox crowned with plumes, led toward the sacrifice."
+    "default": "An ox crowned with plumes, led toward the sacrifice.",
+    "unresolved": "A bull."
    },
    "journal": true
   },
@@ -119,7 +120,8 @@
   "sacrifice": {
    "name": "The sacrifice",
    "descriptions": {
-    "default": "A bull is thrown down and butchered."
+    "default": "A bull is thrown down and butchered.",
+    "unresolved": "The Apis bull should never be slaughtered. (Not even Cambyses did it, despite what Herodotus claimed.)"
    },
    "journal": true
   },
@@ -134,7 +136,7 @@
    "name": "Offering table",
    "descriptions": {
     "default": "A great heaped table of bread, meat, fowl and fruit, between pairs of trees.",
-    "collapsed": "The offering table has collapsed. Only a few loaves, a small head and a pomegranate still stand; everything else lies on the floor between the bouquets."
+    "collapsed": "The offering table has collapsed. Only a few loaves, a small head and a pomegranate still stand; everything else lies on the floor between the bouquets. Speak with the lector priest beside it."
    },
    "journal": true
   },
@@ -153,16 +155,16 @@
    "journal": true
   },
   "offering_stand": {
-   "name": "Offering stand",
+   "name": "Low table",
    "descriptions": {
-    "default": "A small stand by the obelisks, with two rods, a foreleg and the hooked adze laid on it."
+    "default": "A small stand with two rods, a hooked adze, and a foreleg laid on it."
    },
    "journal": true
   },
   "priest_with_arm_censer": {
    "name": "Priest with arm-censer",
    "descriptions": {
-    "default": "A priest holds out an arm-shaped censer, offering incense."
+    "default": "He holds incense over the small stand, purifying the sacred implements for the Opening of the Mouth ritual."
    },
    "journal": true
   },
@@ -190,7 +192,8 @@
   "anubis_and_the_mummy": {
    "name": "Anubis and the mummy",
    "descriptions": {
-    "default": "Anubis holds the mummy upright on a low base before the tomb."
+    "default": "Anubis holds the mummy upright on a low base before the tomb.",
+    "unopened": "Anubis holds the mummy upright on a low base before the tomb. The mummy's mouth is not opened yet, and needs the right tool."
    },
    "journal": true
   },

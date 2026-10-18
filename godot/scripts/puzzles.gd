@@ -1,4 +1,4 @@
-## Shared puzzle instructions, success text and Hint-button hints.
+## Shared puzzle instructions, success, feedback and Hint-button hints.
 ## Each scene owns hint progress; ordinary clues and instructions never advance it.
 extends RefCounted
 
@@ -26,11 +26,13 @@ func advance(puzzle: String, phase: String) -> String:
 	return entries[step].text + (MORE_HINTS if step < entries.size() - 1 else "")
 
 
-func message(id: String) -> String:
-	return data.messages[id]
+static func message(id: String) -> String:
+	return _catalog.messages[id]
 
 
-## Named variants keep existing phase and outcome wording together without affecting hints.
+## Instructions/success are plain strings; feedback is selected by event name.
 static func text(puzzle: String, field: String, variant := "default") -> String:
-	var entries: Dictionary = _catalog.puzzles[puzzle][field]
-	return entries.get(variant, entries.default)
+	var entry = _catalog.puzzles[puzzle][field]
+	if entry is String:
+		return entry
+	return entry[variant]

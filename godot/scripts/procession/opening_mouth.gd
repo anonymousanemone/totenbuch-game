@@ -183,7 +183,7 @@ func take_adze() -> void:
 	if phase != Phase.START:
 		return
 	phase = Phase.ADZE
-	said.emit("Scribe", "You take the adze from the offering stand: a hooked blade on a long handle.")
+	said.emit("Scribe", PUZZLES.text("procession.opening_mouth", "feedback", "adze_taken"))
 	changed.emit()
 
 
@@ -192,7 +192,7 @@ func take_words() -> void:
 		return
 	phase = Phase.WORDS
 	_words.scale = Vector2.ONE
-	said.emit("Scribe", "You take up the words.")
+	said.emit("Scribe", PUZZLES.text("procession.opening_mouth", "feedback", "words_taken"))
 	changed.emit()
 
 
@@ -230,7 +230,7 @@ func _speak() -> void:
 	_adze.rotation = 0.0
 	_adze.self_modulate.a = 1.0
 	_words.visible = true
-	said.emit("Scribe", PUZZLES.text("procession.opening_mouth", "success", "opened"))
+	said.emit("Scribe", PUZZLES.text("procession.opening_mouth", "feedback", "success_opened"))
 	changed.emit()
 	var size := _words.texture.get_size()
 	var ball := Vector2(BALL / size.x, BALL / size.y)
@@ -282,7 +282,7 @@ func _process(_delta: float) -> void:
 func _setup_face(level: Dictionary, nodes: Dictionary) -> void:
 	_body = nodes.mouth_mummy
 	_body_home = _body.position
-	_mummy = _body.global_transform * _body.get_rect()
+	_mummy = preload("res://scripts/descriptions.gd").sprite_bounds(_body)
 	var source_mummy: Dictionary = level.mouth.mummy
 	_mouth += _body_home - Vector2(source_mummy.x, source_mummy.y)
 	_features = nodes.mouth_features
@@ -374,7 +374,7 @@ func leave() -> void:
 		return
 	active = false
 	_clear_face()
-	said.emit("Anubis", "We can try his face again when you are ready.")
+	said.emit("Anubis", PUZZLES.text("procession.opening_mouth", "feedback", "left_carving"))
 	changed.emit()
 
 

@@ -41,10 +41,9 @@ const TURN := 4.0             ## rad/s the arm turns at most to a held tilt (hol
 const DRY := 0.06             ## share of the line that dries back per second while not pouring along it
 const KEEP := 0.6             ## ... never below this share of the furthest it reached
 const SETTLE := 0.7           ## s for the jar to settle where it is drawn once the line is whole
-const JAR_PAD := 22.0         ## strip px round the jar and forearm that take a click
 const GRAVITY := 900.0        ## strip px/s² for falling drops
 const INK := UI.INK
-const SHADER := preload("res://scripts/water.gdshader")
+const SHADER := preload("res://scripts/procession/water.gdshader")
 
 var active := false           ## at the water: the camera holds on it and you work the jar
 var instant := false          ## the autotest: settle at once
@@ -71,7 +70,6 @@ var _spout := Vector2.ZERO    ## the spout as drawn
 var _hands := Vector2.ZERO
 var _priest: Sprite2D
 var _arm: Sprite2D            ## his forearm and jar, a child of his body at the elbow
-var _arm_rect := Rect2()      ## the forearm and jar as drawn
 var _stream: Sprite2D
 var _along: PackedVector2Array = []   ## points along the drawn line from the spout (world px)
 var _view := Vector2.ZERO
@@ -96,7 +94,6 @@ func setup(level: Dictionary, art: String, nodes: Dictionary) -> void:
 	_priest = nodes.water_priest
 	_arm = nodes.water_priest_arm
 	_elbow = _priest.position + _arm.position
-	_arm_rect = Rect2(_elbow + _arm.offset, _arm.texture.get_size())
 
 
 func reset() -> void:
@@ -148,12 +145,12 @@ func stand_x() -> float:
 
 ## The jar is here (a click on it steps up to the water).
 func on_jar(p: Vector2) -> bool:
-	return not done and arm_rect().grow(JAR_PAD).has_point(p)
+	return not done and arm_rect().has_point(p)
 
 
 ## The jar and forearm where they are now (world px).
 func arm_rect() -> Rect2:
-	return Transform2D(tilt, _elbow) * Transform2D(0.0, -_elbow) * _arm_rect
+	return preload("res://scripts/descriptions.gd").sprite_bounds(_arm)
 
 
 func priest_sprite() -> Sprite2D:
@@ -226,14 +223,14 @@ func _flow(delta: float) -> void:
 				_complete()
 				return
 			if progress > 0.15:
-				_once("pour", "Scribe", "The water runs along the line. Keep it there.")
+				_once("pour", "Scribe", PUZZLES.text("procession.water", "feedback", "pouring"))
 		Flow.DRIP:
 			_dry(delta)
 			_drip_clock -= delta
 			if _drip_clock <= 0.0:
 				_drip_clock = 0.35
 				_drops.append({"pos": spout(), "vel": Vector2(randf_range(-10.0, 0.0), 0.0), "life": 2.0, "kind": "fall"})
-			_once("drip", "Scribe", "Too high: the jar only drips. Let it sink a little.")
+			_once("drip", "Scribe", PUZZLES.text("procession.water", "feedback", "dripping"))
 		Flow.GUSH:
 			_dry(delta)
 			_gush_clock -= delta
@@ -243,7 +240,7 @@ func _flow(delta: float) -> void:
 				var t := 0.5    # s to fall onto her hands
 				var v := Vector2((_hands.x - sp.x) / t, (_hands.y - sp.y - 0.5 * GRAVITY * t * t) / t)
 				_drops.append({"pos": sp, "vel": v + Vector2(randf_range(-25.0, 25.0), randf_range(-25.0, 25.0)), "life": 1.5, "kind": "fall"})
-			_once("gush", "Scribe", "His arm droops too far: the water gushes out onto the woman's raised hands. Hold [space] to lift the jar.")
+			_once("gush", "Scribe", PUZZLES.text("procession.water", "feedback", "gushing"))
 		_:
 			_dry(delta)
 

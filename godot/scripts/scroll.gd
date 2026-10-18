@@ -8,11 +8,11 @@ const SAVE := "user://scroll.cfg"
 const MENU := "res://scenes/menu.tscn"
 
 const ACTS := {
-	"I": "Act I — Burial and going forth", "II": "Act II — Dangers on the road",
+	"I": "Act I — Burial and going forth", "II": "Act II — Survival",
 	"III": "Act III — Food, breath and transformations", "IV": "Act IV — The Field of Reeds",
 	"V": "Act V — Gates and guardians", "VI": "Act VI — Amulets and strange creatures", "F": "Finale",
 }
-## In playing order: Lepsius's spell order, except the weighing of the heart (125), which ends it.
+## In playing order: Lepsius's spell order, except the finale: Thoth opens the sky, then the weighing of the heart.
 ## Each scene's picture is assets/menu/<key>.png.
 const SCENES := [
 	{"key": "procession", "act": "I", "title": "The Funeral Procession", "spells": "1–15", "plates": "I–VI",
@@ -27,7 +27,7 @@ const SCENES := [
 		"about": "Spells for the mouth and the heart."},
 	{"key": "dangers", "act": "II", "title": "Dangers on the Road", "spells": "31–42", "plates": "XVI–XIX",
 		"about": "Crocodiles, snakes, a beetle, Apep and the Eater of the Ass."},
-	{"key": "survival", "act": "III", "title": "Survival and Sustenance", "spells": "43–63", "plates": "XX–XXIII",
+	{"key": "survival", "act": "II", "title": "Survival and Sustenance", "spells": "43–63", "plates": "XX–XXIII",
 		"about": "Food, water and breath for the dead."},
 	{"key": "forth", "act": "III", "title": "Coming Forth by Day", "spells": "64–75", "plates": "XXIII–XXVII",
 		"about": "Going out into the daylight."},
@@ -55,10 +55,10 @@ const SCENES := [
 		"about": "The burial chamber and its guardians."},
 	{"key": "amulets", "act": "VI", "title": "The Amulets", "spells": "155–160", "plates": "LXXV–LXXVI",
 		"about": "The djed, the knot of Isis, the vulture, the collar and the papyrus column."},
-	{"key": "doors", "act": "VI", "title": "Thoth Opens the Sky", "spells": "161", "plates": "LXXVI",
-		"about": "Thoth opens the doors of the sky."},
 	{"key": "creatures", "act": "VI", "title": "Strange Creatures", "spells": "162–165", "plates": "LXXVII–LXXIX",
 		"about": "The Ihet cow and the strange creatures of the last spells."},
+	{"key": "doors", "act": "F", "title": "Thoth Opens the Sky", "spells": "161", "plates": "LXXVI",
+		"about": "Thoth opens the doors of the sky."},
 	{"key": "hall", "act": "F", "title": "The Weighing of the Heart", "spells": "125", "plates": "L",
 		"about": "Ma'at, the balance, the 42 judges, Thoth and Osiris."},
 ]
@@ -81,12 +81,12 @@ func is_built(key: String) -> bool:
 	return ResourceLoader.exists(_path(key))
 
 
-## The first built scene not yet restored (or the first built one, once all are).
+## The first unfinished built scene; empty once every playable scene is complete.
 func current() -> String:
 	for s in SCENES:
 		if is_built(s.key) and not s.key in restored:
 			return s.key
-	return SCENES[0].key
+	return ""
 
 
 func scene(key: String) -> Dictionary:

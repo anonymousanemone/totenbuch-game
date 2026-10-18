@@ -105,7 +105,7 @@ func _run() -> void:
 				level.leave_fight()
 			if dimensions.x == 1280 and name == "procession":
 				for c in level.CAPTIONS:   # each caption in the top register is a spell's title
-					var at := Vector2((c.x[0] + c.x[1]) / 2.0, 110.0)
+					var at: Vector2 = level._descriptions.region_bounds(level._inspection_regions[c.id]).get_center()
 					var cap: Dictionary = level._pick(at)
 					expect(cap.get("type", "") == "caption" and cap.spell == c.spell, "procession caption at x %d is spell %d" % [at.x, c.spell])
 					level._set_hover(cap)

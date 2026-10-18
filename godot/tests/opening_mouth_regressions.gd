@@ -39,8 +39,8 @@ func _run() -> void:
 		level.mouth.take_adze()
 		var stand: float = level._mouth_stand_x()
 		var woman: Rect2 = level._descriptions.region_bounds(level._inspection_regions["kneeling_woman"])
-		var mummy: Rect2 = level._descriptions.region_bounds(level._inspection_regions["anubis_and_the_mummy"])
-		expect(stand > mummy.end.x and stand < woman.position.x,
+		expect(stand == level.get_node("pieces/opening_mouth/StandPosition").global_position.x
+			and stand > level.mouth.face_view().end.x and stand < woman.position.x,
 			"mouth approach position lies between the mummy and kneeling woman")
 		level.avatar.position.x = stand + 250.0
 		level.act_mouth("mummy", level.mouth.mummy_rect().get_center())

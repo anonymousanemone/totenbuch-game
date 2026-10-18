@@ -143,7 +143,7 @@ func quit() -> void:
 	if not active or phase == Phase.CLOSING:
 		return
 	_close(false)
-	_say("Scribe", "Speak with the ox-driver when you are ready to return.")
+	_say("Scribe", PUZZLES.text("procession.haul", "feedback", "left_haul"))
 
 
 ## A press: on the beat it is a pull, off it the rope goes slack.
@@ -157,7 +157,7 @@ func press() -> void:
 	var k := roundi(clock / BEAT)
 	var off := clock - k * BEAT
 	if k < COUNT_IN:
-		_once("count", "Ox-driver", "Wait for my call.")
+		_once("count", "Ox-driver", PUZZLES.text("procession.haul", "feedback", "wait_for_count"))
 		return
 	if absf(off) <= WINDOW and k != _pulled:
 		_pull(k)
@@ -184,18 +184,18 @@ func _process(delta: float) -> void:
 			var k := floori(clock / BEAT)
 			_beat_sound.play()
 			if k == 0:
-				_say("Ox-driver", "Ready...")
+				_say("Ox-driver", PUZZLES.text("procession.haul", "feedback", "ready"))
 			elif k == 1:
-				_say("Ox-driver", "...and...")
+				_say("Ox-driver", PUZZLES.text("procession.haul", "feedback", "and"))
 			elif k == COUNT_IN:
-				_say("Ox-driver", "Heave!")
+				_say("Ox-driver", PUZZLES.text("procession.haul", "feedback", "heave"))
 		# a beat let pass: the bier stops
 		var last := floori((clock - WINDOW) / BEAT)
 		if last > _judged:
 			_judged = last
 			if last >= COUNT_IN and last != _pulled:
 				_faulted = true
-				_once("missed", "Ox-driver", "Missed a beat. Heave as the whip falls.")
+				_once("missed", "Ox-driver", PUZZLES.text("procession.haul", "feedback", "missed_beat"))
 	_heave = maxf(0.0, _heave - delta * 2.5)
 	_slack = maxf(0.0, _slack - delta * 2.0)
 	offset = lerpf(offset, target, 1.0 - exp(-FOLLOW * delta))
@@ -264,14 +264,14 @@ func _pull(k: int) -> void:
 		_faulted = false
 		for key in ["missed", "slack_early", "slack_late"]:
 			_told.erase(key)
-		_say("Ox-driver", "That's it. Keep the beat.")
+		_say("Ox-driver", PUZZLES.text("procession.haul", "feedback", "recovered_beat"))
 
 
 func _slip(when: String) -> void:
 	target = minf(BACK, target + SLIP)
 	_slack = 1.0
 	_faulted = true
-	_once("slack_" + when, "Ox-driver", "Too %s. Heave as the whip falls." % when)
+	_once("slack_" + when, "Ox-driver", PUZZLES.text("procession.haul", "feedback", "off_beat") % when)
 
 
 ## Put the train where it is: drawn place + offset, the hauler leaning into a pull (or lurching

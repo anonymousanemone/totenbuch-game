@@ -113,7 +113,7 @@ func _build_title() -> Control:
 	grid.add_theme_constant_override("h_separation", 16)
 	grid.add_theme_constant_override("v_separation", 12)
 	grid.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
-	grid.add_child(_button("Play", func(): Scroll.open(Scroll.current()), true))
+	grid.add_child(_button("Play", func(): Scroll.open(_play_key()), true))
 	grid.add_child(_button("The scroll", func(): _show(_map)))
 	grid.add_child(_button("Settings", func(): _show(_settings)))
 	grid.add_child(_button("Quit", func(): get_tree().quit()))
@@ -180,12 +180,18 @@ func _build_map() -> Control:
 	return page
 
 
+## A new game starts at Procession; otherwise resume the first unfinished playable chapter.
+func _play_key() -> String:
+	var current: String = Scroll.current()
+	return current if current != "" else Scroll.SCENES[0].key
+
+
 func _refresh_map() -> void:
 	for c in _cards.get_children():
 		c.queue_free()
 	_count.text = "%d of %d restored — right to left" % [Scroll.restored.size(), Scroll.SCENES.size()]
 	if _chosen == "":
-		_chosen = Scroll.current()
+		_chosen = _play_key()
 	for act in Scroll.ACTS:
 		var head := HBoxContainer.new()
 		head.add_theme_constant_override("separation", 14)
@@ -207,7 +213,7 @@ func _refresh_map() -> void:
 	_choose(_chosen)
 
 
-## A scene's card: its picture (faint until reached), name and spells.
+## Built scenes use full ink; chapters without a playable scene remain faint.
 func _card(s: Dictionary) -> Control:
 	var card := VBoxContainer.new()
 	card.layout_direction = Control.LAYOUT_DIRECTION_LTR
@@ -227,7 +233,7 @@ func _card(s: Dictionary) -> Control:
 	frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var pic := _picture(load("res://assets/menu/%s.png" % s.key), CARD)
 	var restored: bool = s.key in Scroll.restored
-	if not restored and s.key != Scroll.current():
+	if not Scroll.is_built(s.key):
 		pic.modulate.a = 0.22
 	frame.add_child(pic)
 	card.add_child(frame)

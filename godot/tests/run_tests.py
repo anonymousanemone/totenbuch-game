@@ -6,6 +6,8 @@ import shutil
 import subprocess
 import tempfile
 
+from hitbox_diagnostics import diagnose_hitbox_mismatches
+
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
@@ -25,6 +27,7 @@ def main():
         for level in ("procession", "dangers")
     ]
     suites.append(("regressions", ["--script", "res://tests/script_regressions.gd"], "REGRESSIONS OK"))
+    suites.append(("procession_interactions", ["--script", "res://tests/procession_interaction_regressions.gd"], "PROCESSION INTERACTIONS OK"))
     suites.append(("descriptions", ["--script", "res://tests/description_regressions.gd"], "DESCRIPTION REGRESSIONS OK"))
     suites.append(("hints", ["--script", "res://tests/hint_regressions.gd"], "HINT REGRESSIONS OK"))
     suites.append(("cosmos", ["--script", "res://tests/cosmos_regressions.gd"], "COSMOS REGRESSIONS OK"))
@@ -64,6 +67,8 @@ def main():
             if not passed:
                 failures.append(name)
                 print(output)
+                if "HITBOX_MISMATCH " in output:
+                    diagnose_hitbox_mismatches(project, output)
     print(f"{total_checks} checks across {len(suites)} suites; {len(failures)} failed suites")
     return 1 if failures else 0
 

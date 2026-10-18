@@ -49,6 +49,7 @@ var _bearer_sprite: Sprite2D
 var _clothes: Sprite2D
 var _held_sprite: Sprite2D
 var _speak: Sprite2D
+var _placement_imprint: Sprite2D
 
 
 func setup(table: Dictionary, goose: Rect2, ground_y: float, nodes: Dictionary) -> void:
@@ -86,6 +87,10 @@ func setup(table: Dictionary, goose: Rect2, ground_y: float, nodes: Dictionary) 
 	_build_floor()
 	_clothes = nodes.clothes
 	_bearer_sprite = nodes.held_loaf
+	_placement_imprint = Sprite2D.new()
+	_placement_imprint.modulate = UI.PREVIEW
+	_placement_imprint.visible = false
+	add_child(_placement_imprint)
 	_speak = nodes.table_speech
 	_held_sprite = nodes.table_held
 	_held_sprite.z_index = 10
@@ -260,6 +265,16 @@ func drop_at(p: Vector2) -> String:
 	return "dropped"
 
 
+## A valid piece snaps into place without waiting for mouse release.
+func snap_held(p: Vector2) -> bool:
+	if _held == "" or _held == "goose" or not can_place(_held):
+		return false
+	if p.distance_to(pieces[_held].rect.get_center()) > SNAP:
+		return false
+	drop_at(p)
+	return true
+
+
 ## Esc: back where it came from.
 func put_back() -> void:
 	var id := _held
@@ -319,6 +334,10 @@ func speak() -> bool:
 	_stop_speaking()
 	var size: Vector2 = _tex[id].get_size()
 	var s := minf(1.0, minf(_speech.size.x / size.x, _speech.size.y / size.y))
+	_placement_imprint.texture = _tex[id]
+	_placement_imprint.position = pieces[id].rect.get_center()
+	_placement_imprint.modulate = Color(UI.PREVIEW, 0.0)
+	_placement_imprint.visible = true
 	_speak.texture = _tex[id]
 	_speak.scale = Vector2(s, s)
 	_speak.position = _speech.get_center()
@@ -327,9 +346,13 @@ func speak() -> bool:
 	_speak.set_meta("id", id)
 	_speak_tween = create_tween()
 	_speak_tween.tween_property(_speak, "modulate:a", 1.0, SPEAK_FADE_IN)
+	_speak_tween.parallel().tween_property(_placement_imprint, "modulate:a", UI.PREVIEW.a, SPEAK_FADE_IN)
 	_speak_tween.tween_interval(SPEAK_HOLD)
 	_speak_tween.tween_property(_speak, "modulate:a", 0.0, SPEAK_FADE_OUT)
-	_speak_tween.tween_callback(func(): _speak.visible = false)
+	_speak_tween.parallel().tween_property(_placement_imprint, "modulate:a", 0.0, SPEAK_FADE_OUT)
+	_speak_tween.tween_callback(func():
+		_speak.visible = false
+		_placement_imprint.visible = false)
 	return true
 
 
@@ -366,6 +389,8 @@ func _let_go() -> void:
 
 
 func _place(id: String) -> void:
+	if speaking() == id:
+		_stop_speaking()
 	placed[id] = true
 	var s: Sprite2D = _authored[id]
 	s.visible = true
@@ -476,6 +501,8 @@ func _stop_speaking() -> void:
 		_speak_tween.kill()
 	if _speak:
 		_speak.visible = false
+	if _placement_imprint:
+		_placement_imprint.visible = false
 
 
 ## The convex outline of a picture's ink, in its own top-left frame.

@@ -7,19 +7,10 @@ revamps, anything that plays boring) are also in `../ideas.md`.
 
 ### Procession
 
-- [ ] **Consistent click-to-walk behavior:** clicking a physical subject should walk to it before interacting, unless that interaction explicitly requires otherwise. Approach the nearest horizontal edge when standing outside its bounds; when already in front of it, walk to the clicked position within those bounds. Review all Procession interactions for consistency with this rule.
-- [ ] **Offering-table snapping during dragging:** snap a held piece into its correct place as soon as it is close enough and its supporting pieces are in place, even while the mouse button is still held. Currently placement waits for release or another click.
-- [ ] **Make the lector priest the clear point of contact:** make it apparent that the player should click the priest beside the collapsed offering table. Clicking him should display the table minigame's instructions, including when the player needs to read them again. Instructions now appear on every entry; review how clearly the priest is presented as the point of contact.
-- [ ] **Show the placement imprint with the priest’s clue:** when the lector priest beside the offering table is clicked, keep showing a piece that can currently be placed and simultaneously fade in a faint imprint of that piece at its correct destination. Fade the imprint out with the existing piece clue, using the same timing.
-- [ ] **Review offering-table instructions:** make the objective and controls clear when entering the minigame. Review the existing text in `assets/puzzles.json` rather than adding a second source of instructions.
 - [ ] **Put minigame instructions near the action:** the playtest suggests players expect instructions at the bottom and rarely look up. Review their placement and give instructions a slightly different appearance when entering a minigame; the visual treatment is still undecided.
 - [ ] **Support players who are unsure what to do:** the playtest observation was “when confused, look around.” Review whether nearby figures, descriptions and NPC clues give enough direction. Keep these in-game clues separate from Hint-button hints.
 - [ ] **Review all Procession minigame instructions:** check that each instruction matches its current objective and controls, and that entry makes the instructions easy to notice. Coordinate this with the placement and appearance review above.
-- [ ] All levels that are programmed and playable should be marked black in the map and playable (unlocked). and by default, clicking "play" should take you to the first level. 
-- [ ] the censer (in front of the implements stand), should get the description (he hold incense over the small stand, purifying the sacred implements for the opening of the mouth ritual.)
-- [ ] currently when anubis + mummy is clicked, the water game activates instead. only activate teh water game when clicking on the priest holding the jar. if clicking anubis+mummy, they should get the description (whatever it was before + THe mummy's mouth is not opened yet, and needs the right tool).
-- [ ] the offering stand 9with the implements) should be renamed to low table. and write, "a small stand with two rods, a hooked adze, and a foreleg laid on it."
-- [ ] standards are drag and drop only, however it moves off of the mouse and becomes smaller. it should remain the same size and not look like it's jupming away from the mouse.
+- [ ] Redo the descriptions for cosmos by matching scholarly sources and actual knowledge of the bod. 
 
 
 **New games and tools to consider**
@@ -218,7 +209,7 @@ Preserve narrative character interactions: their purpose is not limited to mecha
 
 ### Shared hint system — implemented (2026-10-18)
 
-- [x] **Move hint content into JSON:** create a hand-edited `godot/assets/puzzles.json`, split by stable puzzle IDs such as `procession.standards`, `procession.offerings`, `procession.goose`, `procession.water`, `procession.bulls`, `procession.opening_mouth`, `procession.offering_stand`, `procession.haul`, and `dangers.e31` through the actual encounter IDs. Keep this file independent of the art cutters and generated `level.json` files. Each puzzle contains `hints`, `instructions` and `success`; named instruction and success variants preserve phase-specific messages and outcomes. Keep puzzle rules and progress in gameplay scripts; JSON holds authored text, not executable conditions.
+- [x] **Move hint content into JSON:** create a hand-edited `godot/assets/puzzles.json`, split by stable puzzle IDs such as `procession.standards`, `procession.offerings`, `procession.goose`, `procession.water`, `procession.bulls`, `procession.opening_mouth`, `procession.offering_stand`, `procession.haul`, and `dangers.e31` through the actual encounter IDs. Keep this file independent of the art cutters and generated `level.json` files. Each puzzle contains `instructions`, `success`, `feedback`, then `hints`. Instructions and success are plain strings; named feedback entries preserve intermediate responses and alternate messages. Keep puzzle rules and progress in gameplay scripts; JSON holds authored text, not executable conditions.
 
 **Suggested hint levels**
 
@@ -243,6 +234,12 @@ These four levels are Hint-button hints. They can point toward or explain in-gam
 {
   "puzzles": {
     "procession.bulls": {
+      "instructions": "Fix what is wrong!",
+      "success": "The plumed ox lowers his head to the calf. All three are as they should be.",
+      "feedback": {
+        "calf_turned": "The calf turns its back on the block and settles.",
+        "plumes_restored": "The disc and plumes sit on the living ox again."
+      },
       "hints": {
         "find": {
           "default": "Look for the calf and the two bulls near the sacrifice."
@@ -263,12 +260,6 @@ These four levels are Hint-button hints. They can point toward or explain in-gam
             }
           ]
         }
-      },
-      "instructions": {
-        "default": "Fix what is wrong!"
-      },
-      "success": {
-        "default": "The plumed ox lowers his head to the calf. All three are as they should be."
       }
     }
   }
@@ -354,3 +345,14 @@ An entry may also supply `speech` and `speaker` when an NPC has a spoken line. T
 - [x] the calf description - "the young calf shakes at the sight of the sacrifice"
 - [x] **Opening of the Mouth artwork and adze alignment:** use the manually separated eye and mouth artwork, with no beard carving. Verify the existing handle-to-pointer alignment and small downward strike rotation about the pointer. The blade tip must match the point used to detect a successful strike.
 - [x] **Opening of the Mouth without a loss state:** remove the missed-strike limit and failure/reset behavior. Keep Esc available to leave the minigame at any time. Remove the small target bubbles and accept strikes wherever the adze tip falls within the eye or mouth feature bounds, rather than requiring the next point along a stroke.
+- [x] **Consistent click-to-walk behavior:** clicking a physical subject should walk to it before interacting, unless that interaction explicitly requires otherwise. Approach the nearest horizontal edge when standing outside its bounds; when already in front of it, walk to the clicked position within those bounds. Review all Procession interactions for consistency with this rule.
+- [x] **Offering-table snapping during dragging:** snap a held piece into its correct place as soon as it is close enough and its supporting pieces are in place, even while the mouse button is still held. Currently placement waits for release or another click.
+- [x] **Make the lector priest the clear point of contact:** make it apparent that the player should click the priest beside the collapsed offering table. Clicking him should display the table minigame's instructions, including when the player needs to read them again. Instructions now appear on every entry; review how clearly the priest is presented as the point of contact.
+- [x] **Show the placement imprint with the priest’s clue:** when the lector priest beside the offering table is clicked, keep showing a piece that can currently be placed and simultaneously fade in a faint imprint of that piece at its correct destination. Fade the imprint out with the existing piece clue, using the same timing.
+- [x] **Review offering-table instructions:** make the objective and controls clear when entering the minigame. Review the existing text in `assets/puzzles.json` rather than adding a second source of instructions.
+- [x] All levels that are programmed and playable should be marked black in the map and playable (unlocked). and by default, clicking "play" should take you to the first level.
+- [x] the censer (in front of the implements stand), should get the description (he hold incense over the small stand, purifying the sacred implements for the opening of the mouth ritual.)
+- [x] currently when anubis + mummy is clicked, the water game activates instead. only activate teh water game when clicking on the priest holding the jar. if clicking anubis+mummy, they should get the description (whatever it was before + THe mummy's mouth is not opened yet, and needs the right tool).
+- [x] the offering stand (with the implements) should be renamed to low table. and write, "a small stand with two rods, a hooked adze, and a foreleg laid on it."
+- [x] standards are drag and drop only, however it moves off of the mouse and becomes smaller. it should remain the same size and not look like it's jupming away from the mouse.
+- [x] for the cows minigame - the three separate sprites should be clickable in that game, and reveal their 'unresolved' descriptions that gives hints - the slaughtered bull should be: the apis bull should never be slaughtered. (Not even Cambyses did it, despite what Herodotus claimed.). the calf: whatever it is right now, something about trembling at the sight of th eslaughter. the other bull (the actual apis bull). A bull.

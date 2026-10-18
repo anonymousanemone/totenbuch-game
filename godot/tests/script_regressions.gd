@@ -2,6 +2,7 @@
 extends SceneTree
 
 const FIGURE_MASK := preload("res://scripts/figure_mask.gd")
+const DESCRIPTIONS := preload("res://scripts/descriptions.gd")
 const SCROLL_CAMERA := preload("res://scripts/scroll_camera.gd")
 
 var _failures: Array[String] = []
@@ -18,14 +19,34 @@ func _expect(condition: bool, description: String) -> void:
 
 
 func _run() -> void:
+	_test_scroll_text_opacity()
 	_test_camera_bounds()
 	_test_figure_mask()
+	_test_procession_hitboxes()
 	_test_procession_scene_pieces()
 	_test_dangers_scene_actors()
 	_test_donkey_hover()
 	_test_hover_glow()
 	print("REGRESSIONS ", "OK" if _failures.is_empty() else "FAILED")
 	quit(0 if _failures.is_empty() else 1)
+
+
+func _test_scroll_text_opacity() -> void:
+	for key in ["procession", "dangers", "cosmos"]:
+		var scene = load("res://scenes/%s.tscn" % key).instantiate()
+		var strip: Sprite2D = scene.get_node("Strip")
+		_expect(strip.material == null and strip.modulate.a == 1.0 and strip.self_modulate.a == 1.0,
+			key + " displays lower scroll text without an opacity effect")
+		var image := strip.texture.get_image()
+		if image.is_compressed(): image.decompress()
+		var full_ink := true
+		for row in [600, 700, 800, 900, 980]:
+			var maximum := 0.0
+			for x in image.get_width():
+				maximum = maxf(maximum, image.get_pixel(x, row).a)
+			full_ink = full_ink and maximum == 1.0
+		_expect(full_ink, key + " retains full-strength text ink through the bottom of the imported texture")
+		scene.free()
 
 
 func _test_camera_bounds() -> void:
@@ -61,6 +82,55 @@ func _test_figure_mask() -> void:
 	source.set_pixel(10, 5, Color.TRANSPARENT)
 	var repaired := FIGURE_MASK.create_texture(ImageTexture.create_from_image(source), 2).get_image()
 	_expect(repaired.get_pixel(12, 12).g == 1.0, "a small gap in the outline does not leak the fill")
+
+
+# Scene shapes are authored by hand. On mismatch, report both values and investigate scene
+# edits versus exporter changes. Never recalculate shapes or synchronize either file here.
+func _test_procession_hitboxes() -> void:
+	var data: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://assets/procession/level.json"))
+	var json_boxes := {}
+	for entry in data.hotspots:
+		json_boxes[entry.id] = entry
+	for id in data.slots:
+		json_boxes["GooseBearerHit" if id == "arms" else id] = data.slots[id]
+	var scene = load("res://scenes/procession.tscn").instantiate()
+	var count := 0
+	for area in scene.find_children("*", "Area2D", true, false):
+		if not area.get_parent() is Sprite2D:
+			continue
+		count += 1
+		var sprite: Sprite2D = area.get_parent()
+		var actual := DESCRIPTIONS.region_bounds(area)
+		var id: String = area.get_meta("registry_id", area.get_meta("interaction_id", ""))
+		var stored: Dictionary = json_boxes.get(id, {})
+		var measured := {"x": actual.position.x, "y": actual.position.y, "w": actual.size.x, "h": actual.size.y}
+		var aligned := measured.keys().all(func(key): return stored.has(key) and absf(float(stored[key]) - measured[key]) < 0.001)
+		_expect(aligned, "JSON and scene nodes are aligned: " + id if aligned else
+			"JSON and scene nodes are not aligned: %s; JSON=%s; scene=%s. Report and investigate; do not auto-fix." % [id, stored, measured])
+		if not aligned:
+			print("HITBOX_MISMATCH ", JSON.stringify({"id": id, "json": stored, "scene": measured}))
+			print("Investigate manual shape/parent-transform edits and art re-exports; the test must not change either source.")
+		var shape: CollisionShape2D = area.get_node("Shape")
+		_expect(not shape.disabled and actual.size.x > 0.0 and actual.size.y > 0.0
+			and actual.position.is_finite() and actual.size.is_finite(),
+			"manually authored figure box is enabled and has valid bounds: " + id)
+	_expect(count == 39, "all 30 describable figures, eight bearers and the goose-bearer own saved boxes")
+	scene.free()
+	var image := Image.create(20, 15, false, Image.FORMAT_RGBA8)
+	image.fill(Color.TRANSPARENT)
+	image.fill_rect(Rect2i(3, 4, 6, 5), Color.BLACK)
+	var sprite := Sprite2D.new()
+	sprite.texture = ImageTexture.create_from_image(image)
+	sprite.centered = false
+	sprite.offset = Vector2(2, 1)
+	sprite.position = Vector2(100, 200)
+	sprite.scale = Vector2(2, 3)
+	_expect(DESCRIPTIONS.sprite_bounds(sprite).is_equal_approx(Rect2(110, 215, 12, 15)),
+		"runtime bounds exclude transparent padding and respect sprite offset and scale")
+	sprite.flip_h = true
+	_expect(DESCRIPTIONS.sprite_bounds(sprite).size == Vector2(12, 15),
+		"flipping a sprite preserves the tight hitbox size")
+	sprite.free()
 
 
 ## The editor arrangement intentionally mixes restored rites with hidden-piece starts.

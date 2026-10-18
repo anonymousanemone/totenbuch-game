@@ -15,10 +15,11 @@ func _run() -> void:
 	var text_valid := true
 	for id in reader.data.puzzles:
 		var entry: Dictionary = reader.data.puzzles[id]
+		text_valid = text_valid and entry.keys() == ["instructions", "success", "feedback", "hints"]
 		for field in ["instructions", "success"]:
-			text_valid = text_valid and entry.has(field) and not entry[field].get("default", "").is_empty()
-			for value in entry[field].values():
-				text_valid = text_valid and value is String and not value.is_empty()
+			text_valid = text_valid and entry[field] is String and not entry[field].is_empty()
+		for value in entry.feedback.values():
+			text_valid = text_valid and value is String and not value.is_empty()
 		valid = valid and not entry.hints.find.default.is_empty() and not entry.hints.phases.is_empty()
 		for entries in entry.hints.phases.values():
 			var previous := 0
@@ -28,10 +29,13 @@ func _run() -> void:
 				previous = ranks.get(line.level, 0)
 			valid = valid and entries[-1].level == "act"
 	expect(valid, "all puzzles have Find text and nonempty, ordered hint levels ending with an action")
-	expect(text_valid, "every puzzle has instructions and success text with valid default and named variants")
+	expect(text_valid, "every puzzle has plain instructions/success strings, named feedback, and the requested field order")
 	var steps: Dictionary = reader._steps.duplicate()
 	reader.text("procession.bulls", "instructions")
 	reader.text("procession.bulls", "success")
+	expect(reader.text("procession.bulls", "feedback", "calf_turned") == "The calf turns its back on the block and settles.", "intermediate success uses named puzzle feedback")
+	expect(reader.text("procession.standards", "feedback", "standard_taken") % ["the ibis standard", "the first standard-bearer"] == "You take the ibis standard from the first standard-bearer.", "feedback preserves runtime formatting placeholders")
+	expect(reader.text("procession.opening_mouth", "feedback", "success_opened") == "You touch the adze to the mummy's mouth. Its mouth opens, and words come out.", "former success variants remain available as feedback")
 	expect(reader._steps == steps, "reading puzzle instructions and success text does not consume hint levels")
 	for puzzle in reader.data.puzzles:
 		expect(reader.find(puzzle).ends_with(HINTS.MORE_HINTS), "Find includes the next-hint reminder: " + puzzle)

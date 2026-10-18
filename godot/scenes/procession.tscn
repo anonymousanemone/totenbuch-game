@@ -1,17 +1,42 @@
 [gd_scene format=3 uid="uid://ctrghjxuc25c0"]
 
-[ext_resource type="Script" uid="uid://b7xar400h48no" path="res://scripts/procession.gd" id="1_proc"]
+[ext_resource type="Script" uid="uid://b7xar400h48no" path="res://scripts/procession/procession.gd" id="1_proc"]
 [ext_resource type="Texture2D" uid="uid://dcqvveb8fce70" path="res://assets/procession/strip.png" id="2_strip"]
 [ext_resource type="Script" uid="uid://cfiivvydggr46" path="res://scripts/avatar.gd" id="3_avatar"]
 [ext_resource type="Texture2D" uid="uid://cy81wwbdiwrck" path="res://assets/procession/avatar.png" id="4_avatar_tex"]
 [ext_resource type="Script" uid="uid://c8ayee7wdepte" path="res://scripts/hud.gd" id="5_hud"]
 [ext_resource type="Shader" uid="uid://cuel7upwgpsc3" path="res://scripts/papyrus.gdshader" id="6_papyrus"]
-[ext_resource type="Script" uid="uid://b3x5w4gg3fmq6" path="res://scripts/bulls.gd" id="script_bulls"]
-[ext_resource type="Script" uid="uid://cqap7xh3n6lrm" path="res://scripts/ending.gd" id="script_ending"]
-[ext_resource type="Script" uid="uid://bpveo8ppaaelh" path="res://scripts/haul.gd" id="script_haul"]
-[ext_resource type="Script" uid="uid://bfkry2clnuy3q" path="res://scripts/offering_table.gd" id="script_offering_table"]
-[ext_resource type="Script" uid="uid://btnlo11h171cd" path="res://scripts/opening_mouth.gd" id="script_opening_mouth"]
-[ext_resource type="Script" uid="uid://cq6xx0sb8ccyk" path="res://scripts/pour_water.gd" id="script_pour_water"]
+[ext_resource type="Texture2D" uid="uid://ci6v86f7xa3ft" path="res://assets/procession/figures/layer_47.png" id="layer_47"]
+[ext_resource type="Texture2D" uid="uid://dkuup2ecfbjib" path="res://assets/procession/figures/layer_48.png" id="layer_48"]
+[ext_resource type="Texture2D" uid="uid://utk8so6kj8fd" path="res://assets/procession/figures/layer_77.png" id="layer_77"]
+[ext_resource type="Texture2D" uid="uid://cehyd07nf00qv" path="res://assets/procession/figures/layer_119.png" id="layer_119"]
+[ext_resource type="Texture2D" uid="uid://dk8felh8430lt" path="res://assets/procession/figures/layer_121.png" id="layer_121"]
+[ext_resource type="Texture2D" uid="uid://dmbmlanvr3ov7" path="res://assets/procession/figures/layer_127.png" id="layer_127"]
+[ext_resource type="Texture2D" uid="uid://caktkujv4pjph" path="res://assets/procession/figures/layer_128.png" id="layer_128"]
+[ext_resource type="Texture2D" uid="uid://dv6d3b2rfau7" path="res://assets/procession/figures/layer_129.png" id="layer_129"]
+[ext_resource type="Texture2D" uid="uid://isgnbvw6sr36" path="res://assets/procession/figures/layer_130.png" id="layer_130"]
+[ext_resource type="Texture2D" uid="uid://v2vqwk83he55" path="res://assets/procession/figures/layer_131.png" id="layer_131"]
+[ext_resource type="Texture2D" uid="uid://c7m8evi0ihxi4" path="res://assets/procession/figures/layer_140.png" id="layer_140"]
+[ext_resource type="Texture2D" uid="uid://dtxcpqcieirwf" path="res://assets/procession/figures/layer_142.png" id="layer_142"]
+[ext_resource type="Texture2D" uid="uid://dhc6n60vm4ly3" path="res://assets/procession/figures/layer_143.png" id="layer_143"]
+[ext_resource type="Texture2D" uid="uid://llrfm2tnive6" path="res://assets/procession/figures/layer_146.png" id="layer_146"]
+[ext_resource type="Texture2D" uid="uid://dsmibta0mkwc5" path="res://assets/procession/figures/layer_148.png" id="layer_148"]
+[ext_resource type="Texture2D" uid="uid://bwnt6e0iw6dae" path="res://assets/procession/figures/layer_149.png" id="layer_149"]
+[ext_resource type="Texture2D" uid="uid://btfod1myinlvi" path="res://assets/procession/figures/layer_150.png" id="layer_150"]
+[ext_resource type="Texture2D" uid="uid://cq3v1bbpgl2qo" path="res://assets/procession/figures/layer_151.png" id="layer_151"]
+[ext_resource type="Texture2D" uid="uid://dhcf42pclorn0" path="res://assets/procession/figures/layer_152.png" id="layer_152"]
+[ext_resource type="Texture2D" uid="uid://but5x60si86uh" path="res://assets/procession/figures/layer_153.png" id="layer_153"]
+[ext_resource type="Texture2D" uid="uid://rxtema4m1v36" path="res://assets/procession/figures/layer_154.png" id="layer_154"]
+[ext_resource type="Texture2D" uid="uid://bwml3bvcprrfq" path="res://assets/procession/figures/layer_157.png" id="layer_157"]
+[ext_resource type="Texture2D" uid="uid://cagsa8n3i38hy" path="res://assets/procession/figures/layer_158.png" id="layer_158"]
+[ext_resource type="Texture2D" uid="uid://cgr3yi4syfa0u" path="res://assets/procession/figures/layer_160.png" id="layer_160"]
+[ext_resource type="Texture2D" uid="uid://c6prd4yhex0v5" path="res://assets/procession/figures/layer_169.png" id="layer_169"]
+[ext_resource type="Script" uid="uid://b3x5w4gg3fmq6" path="res://scripts/procession/bulls.gd" id="script_bulls"]
+[ext_resource type="Script" uid="uid://cqap7xh3n6lrm" path="res://scripts/procession/ending.gd" id="script_ending"]
+[ext_resource type="Script" uid="uid://bpveo8ppaaelh" path="res://scripts/procession/haul.gd" id="script_haul"]
+[ext_resource type="Script" uid="uid://bfkry2clnuy3q" path="res://scripts/procession/offering_table.gd" id="script_offering_table"]
+[ext_resource type="Script" uid="uid://btnlo11h171cd" path="res://scripts/procession/opening_mouth.gd" id="script_opening_mouth"]
+[ext_resource type="Script" uid="uid://cq6xx0sb8ccyk" path="res://scripts/procession/pour_water.gd" id="script_pour_water"]
 [ext_resource type="Texture2D" uid="uid://pjc8hlpkcee6" path="res://assets/procession/calf.png" id="tex_calf"]
 [ext_resource type="Texture2D" uid="uid://nttcp75ar7eo" path="res://assets/procession/clothes.png" id="tex_clothes"]
 [ext_resource type="Texture2D" uid="uid://c2slhpdwnge12" path="res://assets/procession/emb_e1.png" id="tex_emb_e1"]
@@ -69,127 +94,127 @@
 [ext_resource type="Texture2D" uid="uid://cm38oa64c0vv2" path="res://assets/procession/water_priest_body.png" id="tex_water_priest_body"]
 [ext_resource type="Texture2D" uid="uid://dpfqx67o1fj68" path="res://assets/procession/water_stream.png" id="tex_water_stream"]
 
-
-[ext_resource type="Texture2D" path="res://assets/procession/figures/layer_119.png" id="layer_119"]
-[ext_resource type="Texture2D" path="res://assets/procession/figures/layer_121.png" id="layer_121"]
-[ext_resource type="Texture2D" path="res://assets/procession/figures/layer_127.png" id="layer_127"]
-[ext_resource type="Texture2D" path="res://assets/procession/figures/layer_128.png" id="layer_128"]
-[ext_resource type="Texture2D" path="res://assets/procession/figures/layer_129.png" id="layer_129"]
-[ext_resource type="Texture2D" path="res://assets/procession/figures/layer_130.png" id="layer_130"]
-[ext_resource type="Texture2D" path="res://assets/procession/figures/layer_131.png" id="layer_131"]
-[ext_resource type="Texture2D" path="res://assets/procession/figures/layer_140.png" id="layer_140"]
-[ext_resource type="Texture2D" path="res://assets/procession/figures/layer_142.png" id="layer_142"]
-[ext_resource type="Texture2D" path="res://assets/procession/figures/layer_143.png" id="layer_143"]
-[ext_resource type="Texture2D" path="res://assets/procession/figures/layer_146.png" id="layer_146"]
-[ext_resource type="Texture2D" path="res://assets/procession/figures/layer_47.png" id="layer_47"]
-[ext_resource type="Texture2D" path="res://assets/procession/figures/layer_149.png" id="layer_149"]
-[ext_resource type="Texture2D" path="res://assets/procession/figures/layer_148.png" id="layer_148"]
-[ext_resource type="Texture2D" path="res://assets/procession/figures/layer_77.png" id="layer_77"]
-[ext_resource type="Texture2D" path="res://assets/procession/figures/layer_48.png" id="layer_48"]
-[ext_resource type="Texture2D" path="res://assets/procession/figures/layer_153.png" id="layer_153"]
-[ext_resource type="Texture2D" path="res://assets/procession/figures/layer_151.png" id="layer_151"]
-[ext_resource type="Texture2D" path="res://assets/procession/figures/layer_169.png" id="layer_169"]
-[ext_resource type="Texture2D" path="res://assets/procession/figures/layer_150.png" id="layer_150"]
-[ext_resource type="Texture2D" path="res://assets/procession/figures/layer_152.png" id="layer_152"]
-[ext_resource type="Texture2D" path="res://assets/procession/figures/layer_154.png" id="layer_154"]
-[ext_resource type="Texture2D" path="res://assets/procession/figures/layer_160.png" id="layer_160"]
-[ext_resource type="Texture2D" path="res://assets/procession/figures/layer_158.png" id="layer_158"]
-[ext_resource type="Texture2D" path="res://assets/procession/figures/layer_157.png" id="layer_157"]
-
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_papyrus"]
 shader = ExtResource("6_papyrus")
 shader_parameter/base = Color(0.906, 0.839, 0.682, 1)
 shader_parameter/fibre = Color(0.47, 0.35, 0.16, 1)
 
 [sub_resource type="RectangleShape2D" id="inspection_mourners"]
-size = Vector2(305, 329)
+size = Vector2(342, 323)
 
 [sub_resource type="RectangleShape2D" id="inspection_women_mourners"]
-size = Vector2(690, 309)
+size = Vector2(673, 308)
 
 [sub_resource type="RectangleShape2D" id="inspection_canopy_frame"]
-size = Vector2(145, 294)
+size = Vector2(142, 290)
 
 [sub_resource type="RectangleShape2D" id="inspection_man_hauling_the_canopy"]
-size = Vector2(227, 289)
+size = Vector2(230, 281)
 
 [sub_resource type="RectangleShape2D" id="inspection_anubis_on_a_chest"]
-size = Vector2(260, 274)
+size = Vector2(250, 270)
 
 [sub_resource type="RectangleShape2D" id="inspection_man_hauling_anubis"]
-size = Vector2(213, 272)
+size = Vector2(225, 272)
 
-[sub_resource type="RectangleShape2D" id="inspection_funerary_bier"]
-size = Vector2(1025, 324)
+[sub_resource type="RectangleShape2D" id="hit_pole1"]
+size = Vector2(142, 347)
 
-[sub_resource type="RectangleShape2D" id="inspection_priest_with_censer"]
-size = Vector2(260, 294)
+[sub_resource type="RectangleShape2D" id="hit_pole2"]
+size = Vector2(120, 346)
 
-[sub_resource type="RectangleShape2D" id="inspection_hauler"]
-size = Vector2(195, 314)
+[sub_resource type="RectangleShape2D" id="hit_pole3"]
+size = Vector2(124, 345)
 
-[sub_resource type="RectangleShape2D" id="inspection_ox_driver"]
-size = Vector2(130, 324)
+[sub_resource type="RectangleShape2D" id="hit_pole4"]
+size = Vector2(148, 347)
 
-[sub_resource type="RectangleShape2D" id="inspection_ox"]
-size = Vector2(477, 299)
+[sub_resource type="RectangleShape2D" id="hit_pole5"]
+size = Vector2(124, 347)
 
-[sub_resource type="RectangleShape2D" id="inspection_plumed_ox"]
-size = Vector2(415, 324)
+[sub_resource type="RectangleShape2D" id="hit_pole6"]
+size = Vector2(131, 329)
 
-[sub_resource type="RectangleShape2D" id="inspection_calf"]
-size = Vector2(232, 143)
+[sub_resource type="RectangleShape2D" id="hit_pole7"]
+size = Vector2(113, 340)
 
-[sub_resource type="RectangleShape2D" id="inspection_canopy_bearer"]
-size = Vector2(205, 334)
-
-[sub_resource type="RectangleShape2D" id="inspection_yoke_bearer"]
-size = Vector2(220, 289)
+[sub_resource type="RectangleShape2D" id="hit_pole8"]
+size = Vector2(121, 339)
 
 [sub_resource type="RectangleShape2D" id="inspection_two_women"]
-size = Vector2(220, 289)
+size = Vector2(210, 283)
+
+[sub_resource type="RectangleShape2D" id="inspection_yoke_bearer"]
+size = Vector2(206, 282)
+
+[sub_resource type="RectangleShape2D" id="inspection_canopy_bearer"]
+size = Vector2(196, 327)
 
 [sub_resource type="RectangleShape2D" id="inspection_sacrifice"]
-size = Vector2(650, 264)
-
-[sub_resource type="RectangleShape2D" id="inspection_lector_priest"]
-size = Vector2(170, 304)
-
-[sub_resource type="RectangleShape2D" id="inspection_offering_table"]
-size = Vector2(720, 309)
+size = Vector2(643, 256)
 
 [sub_resource type="RectangleShape2D" id="inspection_man_with_a_water_jar"]
-size = Vector2(170, 329)
+size = Vector2(219, 324)
+
+[sub_resource type="RectangleShape2D" id="inspection_lector_priest"]
+size = Vector2(148, 293)
+
+[sub_resource type="RectangleShape2D" id="hit_GooseBearerHit"]
+size = Vector2(175, 286)
+
+[sub_resource type="RectangleShape2D" id="inspection_offering_table"]
+size = Vector2(724, 295)
 
 [sub_resource type="RectangleShape2D" id="inspection_two_obelisks"]
-size = Vector2(236, 321)
-
-[sub_resource type="RectangleShape2D" id="inspection_offering_stand"]
-size = Vector2(134, 214)
+size = Vector2(274, 317)
 
 [sub_resource type="RectangleShape2D" id="inspection_priest_with_arm_censer"]
-size = Vector2(213, 278)
+size = Vector2(217, 279)
 
 [sub_resource type="RectangleShape2D" id="inspection_lector_with_plumes"]
-size = Vector2(165, 335)
+size = Vector2(166, 336)
 
-[sub_resource type="RectangleShape2D" id="inspection_priest_with_jar"]
-size = Vector2(165, 331)
+[sub_resource type="RectangleShape2D" id="inspection_offering_stand"]
+size = Vector2(139, 217)
 
 [sub_resource type="RectangleShape2D" id="inspection_kneeling_woman"]
-size = Vector2(135, 211)
-
-[sub_resource type="RectangleShape2D" id="inspection_anubis_and_the_mummy"]
-size = Vector2(225, 295)
-
-[sub_resource type="RectangleShape2D" id="inspection_stela"]
-size = Vector2(259, 335)
-
-[sub_resource type="RectangleShape2D" id="inspection_tomb_chapel"]
-size = Vector2(308, 331)
+size = Vector2(122, 203)
 
 [sub_resource type="RectangleShape2D" id="inspection_ra_enthroned"]
-size = Vector2(355, 340)
+size = Vector2(270, 337)
+
+[sub_resource type="RectangleShape2D" id="inspection_tomb_chapel"]
+size = Vector2(312, 329)
+
+[sub_resource type="RectangleShape2D" id="inspection_stela"]
+size = Vector2(250, 335)
+
+[sub_resource type="RectangleShape2D" id="inspection_ox"]
+size = Vector2(476, 299)
+
+[sub_resource type="RectangleShape2D" id="inspection_funerary_bier"]
+size = Vector2(1023, 322)
+
+[sub_resource type="RectangleShape2D" id="inspection_priest_with_censer"]
+size = Vector2(253, 287)
+
+[sub_resource type="RectangleShape2D" id="inspection_hauler"]
+size = Vector2(187, 311)
+
+[sub_resource type="RectangleShape2D" id="inspection_ox_driver"]
+size = Vector2(236, 328)
+
+[sub_resource type="RectangleShape2D" id="inspection_priest_with_jar"]
+size = Vector2(202, 331)
+
+[sub_resource type="RectangleShape2D" id="inspection_anubis_and_the_mummy"]
+size = Vector2(214, 311)
+
+[sub_resource type="RectangleShape2D" id="inspection_plumed_ox"]
+size = Vector2(402, 286)
+
+[sub_resource type="RectangleShape2D" id="inspection_calf"]
+size = Vector2(232, 142)
 
 [sub_resource type="RectangleShape2D" id="inspect_caption_1"]
 size = Vector2(1603, 128)
@@ -220,178 +245,522 @@ texture = ExtResource("2_strip")
 centered = false
 metadata/_edit_lock_ = true
 
-[node name="ArtworkLayers" type="Node2D" parent="."]
+[node name="ArtworkLayers" type="Node2D" parent="." unique_id=1047177428]
 
-[node name="mourners_119" type="Sprite2D" parent="ArtworkLayers"]
+[node name="mourners_119" type="Sprite2D" parent="ArtworkLayers" unique_id=1951225282]
 position = Vector2(14396, 203)
 texture = ExtResource("layer_119")
 centered = false
 metadata/source_layer_id = "119"
 metadata/registry_id = "mourners"
 
-[node name="mourning_women_121" type="Sprite2D" parent="ArtworkLayers"]
+[node name="mourners" type="Area2D" parent="ArtworkLayers/mourners_119" unique_id=1928954537]
+position = Vector2(171, 161.5)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "mourners"
+
+[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/mourners_119/mourners" unique_id=737992424]
+shape = SubResource("inspection_mourners")
+
+[node name="mourning_women_121" type="Sprite2D" parent="ArtworkLayers" unique_id=1997278166]
 position = Vector2(13697, 218)
 texture = ExtResource("layer_121")
 centered = false
 metadata/source_layer_id = "121"
 metadata/registry_id = "women_mourners"
 
-[node name="canopy_frame_127" type="Sprite2D" parent="ArtworkLayers"]
+[node name="women_mourners" type="Area2D" parent="ArtworkLayers/mourning_women_121" unique_id=481827089]
+position = Vector2(336.5, 154)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "women_mourners"
+
+[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/mourning_women_121/women_mourners" unique_id=1670137498]
+shape = SubResource("inspection_women_mourners")
+
+[node name="canopy_frame_127" type="Sprite2D" parent="ArtworkLayers" unique_id=1998625185]
 position = Vector2(13527, 236)
 texture = ExtResource("layer_127")
 centered = false
 metadata/source_layer_id = "127"
 metadata/registry_id = "canopy_frame"
 
-[node name="man_hauling_the_canopy_128" type="Sprite2D" parent="ArtworkLayers"]
+[node name="canopy_frame" type="Area2D" parent="ArtworkLayers/canopy_frame_127" unique_id=1066007354]
+position = Vector2(71, 145)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "canopy_frame"
+
+[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/canopy_frame_127/canopy_frame" unique_id=942607841]
+shape = SubResource("inspection_canopy_frame")
+
+[node name="man_hauling_the_canopy_128" type="Sprite2D" parent="ArtworkLayers" unique_id=1977111158]
 position = Vector2(13297, 245)
 texture = ExtResource("layer_128")
 centered = false
 metadata/source_layer_id = "128"
 metadata/registry_id = "man_hauling_the_canopy"
 
-[node name="anubis_on_a_chest_129" type="Sprite2D" parent="ArtworkLayers"]
+[node name="man_hauling_the_canopy" type="Area2D" parent="ArtworkLayers/man_hauling_the_canopy_128" unique_id=1409517334]
+position = Vector2(115, 140.5)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "man_hauling_the_canopy"
+
+[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/man_hauling_the_canopy_128/man_hauling_the_canopy" unique_id=667579983]
+shape = SubResource("inspection_man_hauling_the_canopy")
+
+[node name="anubis_on_a_chest_129" type="Sprite2D" parent="ArtworkLayers" unique_id=1071921291]
 position = Vector2(13032, 256)
 texture = ExtResource("layer_129")
 centered = false
 metadata/source_layer_id = "129"
 metadata/registry_id = "anubis_on_a_chest"
 
-[node name="man_hauling_anubis_130" type="Sprite2D" parent="ArtworkLayers"]
+[node name="anubis_on_a_chest" type="Area2D" parent="ArtworkLayers/anubis_on_a_chest_129" unique_id=953190501]
+position = Vector2(125, 135)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "anubis_on_a_chest"
+
+[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/anubis_on_a_chest_129/anubis_on_a_chest" unique_id=821687529]
+shape = SubResource("inspection_anubis_on_a_chest")
+
+[node name="man_hauling_anubis_130" type="Sprite2D" parent="ArtworkLayers" unique_id=566533427]
 position = Vector2(12807, 254)
 texture = ExtResource("layer_130")
 centered = false
 metadata/source_layer_id = "130"
 metadata/registry_id = "man_hauling_anubis"
 
-[node name="standard_bearers_131" type="Sprite2D" parent="ArtworkLayers"]
+[node name="man_hauling_anubis" type="Area2D" parent="ArtworkLayers/man_hauling_anubis_130" unique_id=155719445]
+position = Vector2(120, 136)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "man_hauling_anubis"
+
+[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/man_hauling_anubis_130/man_hauling_anubis" unique_id=1540440979]
+position = Vector2(-7.5, 0)
+shape = SubResource("inspection_man_hauling_anubis")
+
+[node name="standard_bearers_131" type="Sprite2D" parent="ArtworkLayers" unique_id=1452843401]
 position = Vector2(9006, 246)
 texture = ExtResource("layer_131")
 centered = false
 metadata/source_layer_id = "131"
 
-[node name="walking_woman_1_140" type="Sprite2D" parent="ArtworkLayers"]
+[node name="pole1" type="Area2D" parent="ArtworkLayers/standard_bearers_131" unique_id=1391248116]
+position = Vector2(96, 143.5)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/interaction_id = "pole1"
+
+[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/standard_bearers_131/pole1" unique_id=525892152]
+position = Vector2(3, -30)
+shape = SubResource("hit_pole1")
+
+[node name="pole2" type="Area2D" parent="ArtworkLayers/standard_bearers_131" unique_id=8883589]
+position = Vector2(294, 144.5)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/interaction_id = "pole2"
+
+[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/standard_bearers_131/pole2" unique_id=1073565046]
+position = Vector2(5, -30.5)
+shape = SubResource("hit_pole2")
+
+[node name="pole3" type="Area2D" parent="ArtworkLayers/standard_bearers_131" unique_id=247583213]
+position = Vector2(496.5, 149.5)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/interaction_id = "pole3"
+
+[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/standard_bearers_131/pole3" unique_id=1804691433]
+position = Vector2(6.5, -35)
+shape = SubResource("hit_pole3")
+
+[node name="pole4" type="Area2D" parent="ArtworkLayers/standard_bearers_131" unique_id=1615564857]
+position = Vector2(693.5, 152.5)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/interaction_id = "pole4"
+
+[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/standard_bearers_131/pole4" unique_id=258574048]
+position = Vector2(22.5, -39)
+shape = SubResource("hit_pole4")
+
+[node name="pole5" type="Area2D" parent="ArtworkLayers/standard_bearers_131" unique_id=1928049784]
+position = Vector2(862.5, 151)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/interaction_id = "pole5"
+
+[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/standard_bearers_131/pole5" unique_id=1745203932]
+position = Vector2(23.5, -37.5)
+shape = SubResource("hit_pole5")
+
+[node name="pole6" type="Area2D" parent="ArtworkLayers/standard_bearers_131" unique_id=746687966]
+position = Vector2(1078, 142.5)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/interaction_id = "pole6"
+
+[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/standard_bearers_131/pole6" unique_id=519516091]
+position = Vector2(11.5, -27)
+shape = SubResource("hit_pole6")
+
+[node name="pole7" type="Area2D" parent="ArtworkLayers/standard_bearers_131" unique_id=502883901]
+position = Vector2(1270.5, 144)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/interaction_id = "pole7"
+
+[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/standard_bearers_131/pole7" unique_id=749173807]
+position = Vector2(1, -34)
+shape = SubResource("hit_pole7")
+
+[node name="pole8" type="Area2D" parent="ArtworkLayers/standard_bearers_131" unique_id=1186998796]
+position = Vector2(1437.5, 141)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/interaction_id = "pole8"
+
+[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/standard_bearers_131/pole8" unique_id=1417059867]
+position = Vector2(8, -30.5)
+shape = SubResource("hit_pole8")
+
+[node name="walking_woman_1_140" type="Sprite2D" parent="ArtworkLayers" unique_id=1388312666]
 position = Vector2(8753, 243)
 texture = ExtResource("layer_140")
 centered = false
 metadata/source_layer_id = "140"
 metadata/registry_id = "two_women"
 
-[node name="yoke_bearer_142" type="Sprite2D" parent="ArtworkLayers"]
+[node name="two_women" type="Area2D" parent="ArtworkLayers/walking_woman_1_140" unique_id=1208051032]
+position = Vector2(105, 141.5)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "two_women"
+
+[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/walking_woman_1_140/two_women" unique_id=2100848453]
+shape = SubResource("inspection_two_women")
+
+[node name="yoke_bearer_142" type="Sprite2D" parent="ArtworkLayers" unique_id=1537154803]
 position = Vector2(8484, 244)
 texture = ExtResource("layer_142")
 centered = false
 metadata/source_layer_id = "142"
 metadata/registry_id = "yoke_bearer"
 
-[node name="canopy_bearer_143" type="Sprite2D" parent="ArtworkLayers"]
+[node name="yoke_bearer" type="Area2D" parent="ArtworkLayers/yoke_bearer_142" unique_id=1139838376]
+position = Vector2(103, 141)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "yoke_bearer"
+
+[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/yoke_bearer_142/yoke_bearer" unique_id=1817049592]
+shape = SubResource("inspection_yoke_bearer")
+
+[node name="canopy_bearer_143" type="Sprite2D" parent="ArtworkLayers" unique_id=477809563]
 position = Vector2(8229, 199)
 texture = ExtResource("layer_143")
 centered = false
 metadata/source_layer_id = "143"
 metadata/registry_id = "canopy_bearer"
 
-[node name="sacrifice_146" type="Sprite2D" parent="ArtworkLayers"]
+[node name="canopy_bearer" type="Area2D" parent="ArtworkLayers/canopy_bearer_143" unique_id=2044977979]
+position = Vector2(98, 163.5)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "canopy_bearer"
+
+[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/canopy_bearer_143/canopy_bearer" unique_id=1311394655]
+shape = SubResource("inspection_canopy_bearer")
+
+[node name="sacrifice_146" type="Sprite2D" parent="ArtworkLayers" unique_id=1862630144]
 position = Vector2(6660, 270)
 texture = ExtResource("layer_146")
 centered = false
 metadata/source_layer_id = "146"
 metadata/registry_id = "sacrifice"
 
-[node name="trees_47" type="Sprite2D" parent="ArtworkLayers"]
+[node name="sacrifice" type="Area2D" parent="ArtworkLayers/sacrifice_146" unique_id=1883002704]
+position = Vector2(321.5, 128)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "sacrifice"
+
+[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/sacrifice_146/sacrifice" unique_id=513152035]
+shape = SubResource("inspection_sacrifice")
+
+[node name="trees_47" type="Sprite2D" parent="ArtworkLayers" unique_id=2087751067]
 position = Vector2(4834, 310)
 texture = ExtResource("layer_47")
 centered = false
 metadata/source_layer_id = "47"
 
-[node name="man_with_a_water_jar_149" type="Sprite2D" parent="ArtworkLayers"]
+[node name="man_with_a_water_jar_149" type="Sprite2D" parent="ArtworkLayers" unique_id=292498458]
 position = Vector2(4854, 202)
 texture = ExtResource("layer_149")
 centered = false
 metadata/source_layer_id = "149"
 metadata/registry_id = "man_with_a_water_jar"
 
-[node name="lector_priest_148" type="Sprite2D" parent="ArtworkLayers"]
+[node name="man_with_a_water_jar" type="Area2D" parent="ArtworkLayers/man_with_a_water_jar_149" unique_id=1912844481]
+position = Vector2(109.5, 162)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "man_with_a_water_jar"
+
+[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/man_with_a_water_jar_149/man_with_a_water_jar" unique_id=139032115]
+shape = SubResource("inspection_man_with_a_water_jar")
+
+[node name="lector_priest_148" type="Sprite2D" parent="ArtworkLayers" unique_id=430804817]
 position = Vector2(6107, 233)
 texture = ExtResource("layer_148")
 centered = false
 metadata/source_layer_id = "148"
 metadata/registry_id = "lector_priest"
 
-[node name="goose_man_77" type="Sprite2D" parent="ArtworkLayers"]
+[node name="lector_priest" type="Area2D" parent="ArtworkLayers/lector_priest_148" unique_id=247520209]
+position = Vector2(74, 146.5)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "lector_priest"
+
+[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/lector_priest_148/lector_priest" unique_id=2071943782]
+shape = SubResource("inspection_lector_priest")
+
+[node name="goose_man_77" type="Sprite2D" parent="ArtworkLayers" unique_id=1089609093]
 position = Vector2(6412, 242)
 texture = ExtResource("layer_77")
 centered = false
 metadata/source_layer_id = "77"
 
-[node name="table_48" type="Sprite2D" parent="ArtworkLayers"]
+[node name="GooseBearerHit" type="Area2D" parent="ArtworkLayers/goose_man_77" unique_id=1101312305]
+position = Vector2(68.5, 143)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/interaction_id = "GooseBearerHit"
+
+[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/goose_man_77/GooseBearerHit" unique_id=1007918322]
+position = Vector2(-19, 0)
+shape = SubResource("hit_GooseBearerHit")
+
+[node name="table_48" type="Sprite2D" parent="ArtworkLayers" unique_id=1948845674]
 position = Vector2(5173, 351)
 texture = ExtResource("layer_48")
 centered = false
 metadata/source_layer_id = "48"
 metadata/registry_id = "offering_table"
 
-[node name="two_obelisks_153" type="Sprite2D" parent="ArtworkLayers"]
+[node name="offering_table" type="Area2D" parent="ArtworkLayers/table_48" unique_id=1488933126]
+position = Vector2(362, 91)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "offering_table"
+
+[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/table_48/offering_table" unique_id=574858007]
+position = Vector2(0, -56.5)
+shape = SubResource("inspection_offering_table")
+
+[node name="two_obelisks_153" type="Sprite2D" parent="ArtworkLayers" unique_id=1276350697]
 position = Vector2(3613, 209)
 texture = ExtResource("layer_153")
 centered = false
 metadata/source_layer_id = "153"
 metadata/registry_id = "two_obelisks"
 
-[node name="priest_with_arm_censer_151" type="Sprite2D" parent="ArtworkLayers"]
+[node name="two_obelisks" type="Area2D" parent="ArtworkLayers/two_obelisks_153" unique_id=112900039]
+position = Vector2(137, 158.5)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "two_obelisks"
+
+[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/two_obelisks_153/two_obelisks" unique_id=561545417]
+shape = SubResource("inspection_two_obelisks")
+
+[node name="priest_with_arm_censer_151" type="Sprite2D" parent="ArtworkLayers" unique_id=18355349]
 position = Vector2(4108, 247)
 texture = ExtResource("layer_151")
 centered = false
 metadata/source_layer_id = "151"
 metadata/registry_id = "priest_with_arm_censer"
 
-[node name="offering_table_169" type="Sprite2D" parent="ArtworkLayers"]
+[node name="priest_with_arm_censer" type="Area2D" parent="ArtworkLayers/priest_with_arm_censer_151" unique_id=715650323]
+position = Vector2(108.5, 139.5)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "priest_with_arm_censer"
+
+[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/priest_with_arm_censer_151/priest_with_arm_censer" unique_id=923590824]
+shape = SubResource("inspection_priest_with_arm_censer")
+
+[node name="offering_table_169" type="Sprite2D" parent="ArtworkLayers" unique_id=1831762811]
 position = Vector2(2487, 244)
 texture = ExtResource("layer_169")
 centered = false
 metadata/source_layer_id = "169"
 
-[node name="lector_with_plumes_150" type="Sprite2D" parent="ArtworkLayers"]
+[node name="lector_with_plumes_150" type="Sprite2D" parent="ArtworkLayers" unique_id=2016452678]
 position = Vector2(4522, 190)
 texture = ExtResource("layer_150")
 centered = false
 metadata/source_layer_id = "150"
 metadata/registry_id = "lector_with_plumes"
 
-[node name="offering_stand_152" type="Sprite2D" parent="ArtworkLayers"]
+[node name="lector_with_plumes" type="Area2D" parent="ArtworkLayers/lector_with_plumes_150" unique_id=1661950012]
+position = Vector2(83, 168)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "lector_with_plumes"
+
+[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/lector_with_plumes_150/lector_with_plumes" unique_id=438523210]
+shape = SubResource("inspection_lector_with_plumes")
+
+[node name="offering_stand_152" type="Sprite2D" parent="ArtworkLayers" unique_id=2020610222]
 position = Vector2(3948, 392)
 texture = ExtResource("layer_152")
 centered = false
 metadata/source_layer_id = "152"
 metadata/registry_id = "offering_stand"
 
-[node name="kneeling_woman_154" type="Sprite2D" parent="ArtworkLayers"]
+[node name="offering_stand" type="Area2D" parent="ArtworkLayers/offering_stand_152" unique_id=1801979021]
+position = Vector2(69.5, 67)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "offering_stand"
+
+[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/offering_stand_152/offering_stand" unique_id=1063614234]
+position = Vector2(0, -41.5)
+shape = SubResource("inspection_offering_stand")
+
+[node name="kneeling_woman_154" type="Sprite2D" parent="ArtworkLayers" unique_id=278100286]
 position = Vector2(2122, 323)
 texture = ExtResource("layer_154")
 centered = false
 metadata/source_layer_id = "154"
 metadata/registry_id = "kneeling_woman"
 
-[node name="ra_enthroned_160" type="Sprite2D" parent="ArtworkLayers"]
+[node name="kneeling_woman" type="Area2D" parent="ArtworkLayers/kneeling_woman_154" unique_id=1601641246]
+position = Vector2(61, 101.5)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "kneeling_woman"
+
+[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/kneeling_woman_154/kneeling_woman" unique_id=1669170886]
+shape = SubResource("inspection_kneeling_woman")
+
+[node name="ra_enthroned_160" type="Sprite2D" parent="ArtworkLayers" unique_id=140866361]
 position = Vector2(117, 189)
 texture = ExtResource("layer_160")
 centered = false
 metadata/source_layer_id = "160"
 metadata/registry_id = "ra_enthroned"
 
-[node name="tomb_chapel_158" type="Sprite2D" parent="ArtworkLayers"]
+[node name="ra_enthroned" type="Area2D" parent="ArtworkLayers/ra_enthroned_160" unique_id=1971588460]
+position = Vector2(179, 168.5)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "ra_enthroned"
+
+[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/ra_enthroned_160/ra_enthroned" unique_id=2129190731]
+position = Vector2(-44, 0)
+shape = SubResource("inspection_ra_enthroned")
+
+[node name="tomb_chapel_158" type="Sprite2D" parent="ArtworkLayers" unique_id=1135524773]
 position = Vector2(1119, 197)
 texture = ExtResource("layer_158")
 centered = false
 metadata/source_layer_id = "158"
 metadata/registry_id = "tomb_chapel"
 
-[node name="stela_157" type="Sprite2D" parent="ArtworkLayers"]
+[node name="tomb_chapel" type="Area2D" parent="ArtworkLayers/tomb_chapel_158" unique_id=1465625176]
+position = Vector2(156, 164.5)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "tomb_chapel"
+
+[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/tomb_chapel_158/tomb_chapel" unique_id=1779642798]
+shape = SubResource("inspection_tomb_chapel")
+
+[node name="stela_157" type="Sprite2D" parent="ArtworkLayers" unique_id=1813585218]
 position = Vector2(1499, 191)
 texture = ExtResource("layer_157")
 centered = false
 metadata/source_layer_id = "157"
 metadata/registry_id = "stela"
+
+[node name="stela" type="Area2D" parent="ArtworkLayers/stela_157" unique_id=2087095193]
+position = Vector2(129, 167.5)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "stela"
+
+[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/stela_157/stela" unique_id=2115364509]
+position = Vector2(-4, 0)
+shape = SubResource("inspection_stela")
 
 [node name="pieces" type="Node2D" parent="." unique_id=1220443640]
 
@@ -456,6 +825,17 @@ centered = false
 metadata/piece_id = "ox"
 metadata/registry_id = "ox"
 
+[node name="ox" type="Area2D" parent="pieces/hauling/ox" unique_id=823338297]
+position = Vector2(239, 149.5)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "ox"
+
+[node name="Shape" type="CollisionShape2D" parent="pieces/hauling/ox/ox" unique_id=1749068504]
+shape = SubResource("inspection_ox")
+
 [node name="sledge" type="Node2D" parent="pieces/hauling" unique_id=678563572]
 position = Vector2(11287, 185)
 metadata/piece_id = "haul_sledge"
@@ -472,6 +852,30 @@ position = Vector2(685.5, 173)
 texture = ExtResource("tex_sun")
 metadata/piece_id = "sun"
 
+[node name="funerary_bier" type="Area2D" parent="pieces/hauling/sledge/sprite" unique_id=641382053]
+position = Vector2(1014, 180)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "funerary_bier"
+
+[node name="Shape" type="CollisionShape2D" parent="pieces/hauling/sledge/sprite/funerary_bier" unique_id=1209077348]
+position = Vector2(-5.5, 0)
+shape = SubResource("inspection_funerary_bier")
+
+[node name="priest_with_censer" type="Area2D" parent="pieces/hauling/sledge/sprite" unique_id=1388827439]
+position = Vector2(373, 197.5)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "priest_with_censer"
+
+[node name="Shape" type="CollisionShape2D" parent="pieces/hauling/sledge/sprite/priest_with_censer" unique_id=653077394]
+position = Vector2(-3.5, 0)
+shape = SubResource("inspection_priest_with_censer")
+
 [node name="hauler" type="Node2D" parent="pieces/hauling" unique_id=546995389]
 position = Vector2(11405, 532)
 metadata/piece_id = "haul_hauler"
@@ -483,6 +887,18 @@ texture = ExtResource("tex_haul_hauler")
 centered = false
 metadata/piece_id = "haul_hauler_art"
 metadata/registry_id = "hauler"
+
+[node name="hauler" type="Area2D" parent="pieces/hauling/hauler/sprite" unique_id=727995430]
+position = Vector2(71.5, 155.5)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "hauler"
+
+[node name="Shape" type="CollisionShape2D" parent="pieces/hauling/hauler/sprite/hauler" unique_id=2011183250]
+position = Vector2(-28, 0)
+shape = SubResource("inspection_hauler")
 
 [node name="driver" type="Node2D" parent="pieces/hauling" unique_id=2040606113]
 position = Vector2(10979, 184)
@@ -503,6 +919,17 @@ centered = false
 offset = Vector2(-131.3, -82.3)
 metadata/piece_id = "haul_driver_arm"
 metadata/registry_id = "ox_driver"
+
+[node name="ox_driver" type="Area2D" parent="pieces/hauling/driver/sprite" unique_id=831938242]
+position = Vector2(36, 164)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "ox_driver"
+
+[node name="Shape" type="CollisionShape2D" parent="pieces/hauling/driver/sprite/ox_driver" unique_id=656216846]
+shape = SubResource("inspection_ox_driver")
 
 [node name="offering_table" type="Node2D" parent="pieces" unique_id=1505178867]
 script = ExtResource("script_offering_table")
@@ -531,15 +958,15 @@ metadata/piece_id = "t03"
 position = Vector2(5656, 468)
 texture = ExtResource("tex_t04")
 centered = false
-metadata/piece_id = "t04"
 offset = Vector2(-52, 0)
+metadata/piece_id = "t04"
 
 [node name="t05_round_loaf3" type="Sprite2D" parent="pieces/offering_table/layout" unique_id=1599934757]
 position = Vector2(5603, 468)
 texture = ExtResource("tex_t05")
 centered = false
-metadata/piece_id = "t05"
 offset = Vector2(-52, -1)
+metadata/piece_id = "t05"
 
 [node name="t06_round_loaf1" type="Sprite2D" parent="pieces/offering_table/layout" unique_id=1925550935]
 position = Vector2(5708, 472)
@@ -636,8 +1063,8 @@ metadata/piece_id = "t20"
 position = Vector2(5567, 316)
 texture = ExtResource("tex_t21")
 centered = false
-metadata/piece_id = "t21"
 offset = Vector2(-108, -6)
+metadata/piece_id = "t21"
 
 [node name="t22_goose2" type="Sprite2D" parent="pieces/offering_table/layout" unique_id=2122265733]
 position = Vector2(5296, 274)
@@ -719,6 +1146,17 @@ offset = Vector2(-70.4, -129.7)
 metadata/piece_id = "water_priest_arm"
 metadata/registry_id = "priest_with_jar"
 
+[node name="priest_with_jar" type="Area2D" parent="pieces/water/priest" unique_id=1329596804]
+position = Vector2(34, 157.5)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "priest_with_jar"
+
+[node name="Shape" type="CollisionShape2D" parent="pieces/water/priest/priest_with_jar" unique_id=980988485]
+shape = SubResource("inspection_priest_with_jar")
+
 [node name="opening_mouth" type="Node2D" parent="pieces" unique_id=1696754418]
 script = ExtResource("script_opening_mouth")
 
@@ -726,8 +1164,8 @@ script = ExtResource("script_opening_mouth")
 position = Vector2(1765, 200)
 texture = ExtResource("tex_mouth_mummy")
 centered = false
-metadata/piece_id = "mouth_mummy"
 offset = Vector2(-22, 0)
+metadata/piece_id = "mouth_mummy"
 metadata/registry_id = "anubis_and_the_mummy"
 
 [node name="features" type="Sprite2D" parent="pieces/opening_mouth/mummy" unique_id=221700792]
@@ -736,6 +1174,21 @@ texture = ExtResource("tex_mouth_features")
 centered = false
 metadata/piece_id = "mouth_features"
 metadata/registry_id = "anubis_and_the_mummy"
+
+[node name="anubis_and_the_mummy" type="Area2D" parent="pieces/opening_mouth/mummy" unique_id=1106325598]
+position = Vector2(175, 170.5)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "anubis_and_the_mummy"
+
+[node name="Shape" type="CollisionShape2D" parent="pieces/opening_mouth/mummy/anubis_and_the_mummy" unique_id=1940641878]
+position = Vector2(-49, 0)
+shape = SubResource("inspection_anubis_and_the_mummy")
+
+[node name="StandPosition" type="Marker2D" parent="pieces/opening_mouth" unique_id=1337845075]
+position = Vector2(2052.5, 526)
 
 [node name="adze" type="Sprite2D" parent="pieces/opening_mouth" unique_id=1067889]
 position = Vector2(3967, 359)
@@ -778,12 +1231,34 @@ offset = Vector2(-365, -285)
 metadata/piece_id = "plumed_ox"
 metadata/registry_id = "plumed_ox"
 
+[node name="plumed_ox" type="Area2D" parent="pieces/bulls/plumed_ox" unique_id=188692437]
+position = Vector2(-164, -142)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "plumed_ox"
+
+[node name="Shape" type="CollisionShape2D" parent="pieces/bulls/plumed_ox/plumed_ox" unique_id=543740370]
+shape = SubResource("inspection_plumed_ox")
+
 [node name="calf" type="Sprite2D" parent="pieces/bulls" unique_id=691510915]
 position = Vector2(7483, 457)
 scale = Vector2(-1, 1)
 texture = ExtResource("tex_calf")
 metadata/piece_id = "calf"
 metadata/registry_id = "calf"
+
+[node name="calf" type="Area2D" parent="pieces/bulls/calf" unique_id=772555953]
+position = Vector2(0, -2)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "calf"
+
+[node name="Shape" type="CollisionShape2D" parent="pieces/bulls/calf/calf" unique_id=857550429]
+shape = SubResource("inspection_calf")
 
 [node name="plumes" type="Sprite2D" parent="pieces/bulls" unique_id=1441437649]
 position = Vector2(6886, 217)
@@ -859,341 +1334,9 @@ zoom = Vector2(0.77894735, 0.77894735)
 [node name="HUD" type="CanvasLayer" parent="." unique_id=1181277456]
 script = ExtResource("5_hud")
 
-[node name="InspectionRegions" type="Node2D" parent="."]
+[node name="CaptionRegions" type="Node2D" parent="." unique_id=274218356]
 
-[node name="mourners" type="Area2D" parent="ArtworkLayers/mourners_119"]
-position = Vector2(145.5, 158.5)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/registry_id = "mourners"
-
-[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/mourners_119/mourners"]
-shape = SubResource("inspection_mourners")
-
-[node name="women_mourners" type="Area2D" parent="ArtworkLayers/mourning_women_121"]
-position = Vector2(337, 153.5)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/registry_id = "women_mourners"
-
-[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/mourning_women_121/women_mourners"]
-shape = SubResource("inspection_women_mourners")
-
-[node name="canopy_frame" type="Area2D" parent="ArtworkLayers/canopy_frame_127"]
-position = Vector2(74.5, 143)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/registry_id = "canopy_frame"
-
-[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/canopy_frame_127/canopy_frame"]
-shape = SubResource("inspection_canopy_frame")
-
-[node name="man_hauling_the_canopy" type="Area2D" parent="ArtworkLayers/man_hauling_the_canopy_128"]
-position = Vector2(114.5, 136.5)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/registry_id = "man_hauling_the_canopy"
-
-[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/man_hauling_the_canopy_128/man_hauling_the_canopy"]
-shape = SubResource("inspection_man_hauling_the_canopy")
-
-[node name="anubis_on_a_chest" type="Area2D" parent="ArtworkLayers/anubis_on_a_chest_129"]
-position = Vector2(122, 133)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/registry_id = "anubis_on_a_chest"
-
-[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/anubis_on_a_chest_129/anubis_on_a_chest"]
-shape = SubResource("inspection_anubis_on_a_chest")
-
-[node name="man_hauling_anubis" type="Area2D" parent="ArtworkLayers/man_hauling_anubis_130"]
-position = Vector2(106.5, 136)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/registry_id = "man_hauling_anubis"
-
-[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/man_hauling_anubis_130/man_hauling_anubis"]
-shape = SubResource("inspection_man_hauling_anubis")
-
-[node name="funerary_bier" type="Area2D" parent="InspectionRegions"]
-position = Vector2(12306.5, 364)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/registry_id = "funerary_bier"
-
-[node name="Shape" type="CollisionShape2D" parent="InspectionRegions/funerary_bier"]
-shape = SubResource("inspection_funerary_bier")
-
-[node name="priest_with_censer" type="Area2D" parent="InspectionRegions"]
-position = Vector2(11659, 379)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/registry_id = "priest_with_censer"
-
-[node name="Shape" type="CollisionShape2D" parent="InspectionRegions/priest_with_censer"]
-shape = SubResource("inspection_priest_with_censer")
-
-[node name="hauler" type="Area2D" parent="InspectionRegions"]
-position = Vector2(11386.5, 369)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/registry_id = "hauler"
-
-[node name="Shape" type="CollisionShape2D" parent="InspectionRegions/hauler"]
-shape = SubResource("inspection_hauler")
-
-[node name="ox_driver" type="Area2D" parent="InspectionRegions"]
-position = Vector2(11164, 364)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/registry_id = "ox_driver"
-
-[node name="Shape" type="CollisionShape2D" parent="InspectionRegions/ox_driver"]
-shape = SubResource("inspection_ox_driver")
-
-[node name="ox" type="Area2D" parent="InspectionRegions"]
-position = Vector2(10842.5, 376.5)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/registry_id = "ox"
-
-[node name="Shape" type="CollisionShape2D" parent="InspectionRegions/ox"]
-shape = SubResource("inspection_ox")
-
-[node name="plumed_ox" type="Area2D" parent="InspectionRegions"]
-position = Vector2(7876.5, 364)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/registry_id = "plumed_ox"
-
-[node name="Shape" type="CollisionShape2D" parent="InspectionRegions/plumed_ox"]
-shape = SubResource("inspection_plumed_ox")
-
-[node name="calf" type="Area2D" parent="InspectionRegions"]
-position = Vector2(7483, 454.5)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/registry_id = "calf"
-
-[node name="Shape" type="CollisionShape2D" parent="InspectionRegions/calf"]
-shape = SubResource("inspection_calf")
-
-[node name="canopy_bearer" type="Area2D" parent="ArtworkLayers/canopy_bearer_143"]
-position = Vector2(97.5, 160)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/registry_id = "canopy_bearer"
-
-[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/canopy_bearer_143/canopy_bearer"]
-shape = SubResource("inspection_canopy_bearer")
-
-[node name="yoke_bearer" type="Area2D" parent="ArtworkLayers/yoke_bearer_142"]
-position = Vector2(105, 137.5)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/registry_id = "yoke_bearer"
-
-[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/yoke_bearer_142/yoke_bearer"]
-shape = SubResource("inspection_yoke_bearer")
-
-[node name="two_women" type="Area2D" parent="ArtworkLayers/walking_woman_1_140"]
-position = Vector2(111, 138.5)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/registry_id = "two_women"
-
-[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/walking_woman_1_140/two_women"]
-shape = SubResource("inspection_two_women")
-
-[node name="sacrifice" type="Area2D" parent="ArtworkLayers/sacrifice_146"]
-position = Vector2(319, 124)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/registry_id = "sacrifice"
-
-[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/sacrifice_146/sacrifice"]
-shape = SubResource("inspection_sacrifice")
-
-[node name="lector_priest" type="Area2D" parent="ArtworkLayers/lector_priest_148"]
-position = Vector2(72, 141)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/registry_id = "lector_priest"
-
-[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/lector_priest_148/lector_priest"]
-shape = SubResource("inspection_lector_priest")
-
-[node name="offering_table" type="Area2D" parent="ArtworkLayers/table_48"]
-position = Vector2(361, 20.5)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/registry_id = "offering_table"
-
-[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/table_48/offering_table"]
-shape = SubResource("inspection_offering_table")
-
-[node name="man_with_a_water_jar" type="Area2D" parent="ArtworkLayers/man_with_a_water_jar_149"]
-position = Vector2(66, 159.5)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/registry_id = "man_with_a_water_jar"
-
-[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/man_with_a_water_jar_149/man_with_a_water_jar"]
-shape = SubResource("inspection_man_with_a_water_jar")
-
-[node name="two_obelisks" type="Area2D" parent="ArtworkLayers/two_obelisks_153"]
-position = Vector2(117, 156.5)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/registry_id = "two_obelisks"
-
-[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/two_obelisks_153/two_obelisks"]
-shape = SubResource("inspection_two_obelisks")
-
-[node name="offering_stand" type="Area2D" parent="ArtworkLayers/offering_stand_152"]
-position = Vector2(69, 27)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/registry_id = "offering_stand"
-
-[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/offering_stand_152/offering_stand"]
-shape = SubResource("inspection_offering_stand")
-
-[node name="priest_with_arm_censer" type="Area2D" parent="ArtworkLayers/priest_with_arm_censer_151"]
-position = Vector2(107.5, 140)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/registry_id = "priest_with_arm_censer"
-
-[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/priest_with_arm_censer_151/priest_with_arm_censer"]
-shape = SubResource("inspection_priest_with_arm_censer")
-
-[node name="lector_with_plumes" type="Area2D" parent="ArtworkLayers/lector_with_plumes_150"]
-position = Vector2(83.5, 168.5)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/registry_id = "lector_with_plumes"
-
-[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/lector_with_plumes_150/lector_with_plumes"]
-shape = SubResource("inspection_lector_with_plumes")
-
-[node name="priest_with_jar" type="Area2D" parent="InspectionRegions"]
-position = Vector2(2337.5, 360.5)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/registry_id = "priest_with_jar"
-
-[node name="Shape" type="CollisionShape2D" parent="InspectionRegions/priest_with_jar"]
-shape = SubResource("inspection_priest_with_jar")
-
-[node name="kneeling_woman" type="Area2D" parent="ArtworkLayers/kneeling_woman_154"]
-position = Vector2(60.5, 97.5)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/registry_id = "kneeling_woman"
-
-[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/kneeling_woman_154/kneeling_woman"]
-shape = SubResource("inspection_kneeling_woman")
-
-[node name="anubis_and_the_mummy" type="Area2D" parent="InspectionRegions"]
-position = Vector2(1877.5, 347.5)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/registry_id = "anubis_and_the_mummy"
-
-[node name="Shape" type="CollisionShape2D" parent="InspectionRegions/anubis_and_the_mummy"]
-shape = SubResource("inspection_anubis_and_the_mummy")
-
-[node name="stela" type="Area2D" parent="ArtworkLayers/stela_157"]
-position = Vector2(131.5, 167.5)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/registry_id = "stela"
-
-[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/stela_157/stela"]
-shape = SubResource("inspection_stela")
-
-[node name="tomb_chapel" type="Area2D" parent="ArtworkLayers/tomb_chapel_158"]
-position = Vector2(155, 163.5)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/registry_id = "tomb_chapel"
-
-[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/tomb_chapel_158/tomb_chapel"]
-shape = SubResource("inspection_tomb_chapel")
-
-[node name="ra_enthroned" type="Area2D" parent="ArtworkLayers/ra_enthroned_160"]
-position = Vector2(180.5, 167)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/registry_id = "ra_enthroned"
-
-[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/ra_enthroned_160/ra_enthroned"]
-shape = SubResource("inspection_ra_enthroned")
-
-[node name="CaptionRegions" type="Node2D" parent="."]
-
-[node name="caption_1" type="Area2D" parent="CaptionRegions"]
+[node name="caption_1" type="Area2D" parent="CaptionRegions" unique_id=593160522]
 position = Vector2(14076.5, 114)
 collision_layer = 0
 collision_mask = 0
@@ -1201,10 +1344,10 @@ monitoring = false
 monitorable = false
 metadata/registry_id = "caption_1"
 
-[node name="Shape" type="CollisionShape2D" parent="CaptionRegions/caption_1"]
+[node name="Shape" type="CollisionShape2D" parent="CaptionRegions/caption_1" unique_id=1693558506]
 shape = SubResource("inspect_caption_1")
 
-[node name="caption_2" type="Area2D" parent="CaptionRegions"]
+[node name="caption_2" type="Area2D" parent="CaptionRegions" unique_id=715293410]
 position = Vector2(11719.5, 114)
 collision_layer = 0
 collision_mask = 0
@@ -1212,10 +1355,10 @@ monitoring = false
 monitorable = false
 metadata/registry_id = "caption_2"
 
-[node name="Shape" type="CollisionShape2D" parent="CaptionRegions/caption_2"]
+[node name="Shape" type="CollisionShape2D" parent="CaptionRegions/caption_2" unique_id=373601257]
 shape = SubResource("inspect_caption_2")
 
-[node name="caption_3" type="Area2D" parent="CaptionRegions"]
+[node name="caption_3" type="Area2D" parent="CaptionRegions" unique_id=1904849777]
 position = Vector2(4274.5, 114)
 collision_layer = 0
 collision_mask = 0
@@ -1223,10 +1366,10 @@ monitoring = false
 monitorable = false
 metadata/registry_id = "caption_3"
 
-[node name="Shape" type="CollisionShape2D" parent="CaptionRegions/caption_3"]
+[node name="Shape" type="CollisionShape2D" parent="CaptionRegions/caption_3" unique_id=577994601]
 shape = SubResource("inspect_caption_3")
 
-[node name="caption_4" type="Area2D" parent="CaptionRegions"]
+[node name="caption_4" type="Area2D" parent="CaptionRegions" unique_id=1254454306]
 position = Vector2(2459, 114)
 collision_layer = 0
 collision_mask = 0
@@ -1234,5 +1377,5 @@ monitoring = false
 monitorable = false
 metadata/registry_id = "caption_4"
 
-[node name="Shape" type="CollisionShape2D" parent="CaptionRegions/caption_4"]
+[node name="Shape" type="CollisionShape2D" parent="CaptionRegions/caption_4" unique_id=2042235963]
 shape = SubResource("inspect_caption_4")

@@ -1,0 +1,156 @@
+{
+ "entries": {
+  "e31": {
+   "name": "Crocodiles of spell 31",
+   "descriptions": {
+    "default": "Crocodiles guard the road.",
+    "settled": "They come to take the magic of the deceased. Turned back with the spear."
+   },
+   "journal": true
+  },
+  "e32": {
+   "name": "Crocodiles of spell 32",
+   "descriptions": {
+    "default": "Crocodiles wait on both sides.",
+    "settled": "One for each quarter of the sky. Turned back two at a time."
+   },
+   "journal": true
+  },
+  "e33": {
+   "name": "The lunging snake",
+   "descriptions": {
+    "default": "A coiled snake blocks the way.",
+    "settled": "Spell 33, against a snake. Struck three times as it sprang."
+   },
+   "journal": true
+  },
+  "e35": {
+   "name": "The snake on the ground",
+   "descriptions": {
+    "default": "A snake lies with its back to you.",
+    "settled": "Spell 35. Crept up on from behind and struck three times."
+   },
+   "journal": true
+  },
+  "e36": {
+   "name": "The Apshai beetle",
+   "descriptions": {
+    "default": "The Apshai beetles dart across the road.",
+    "settled": "Spell 36. Pinned with the point of the spear."
+   },
+   "journal": true
+  },
+  "e37": {
+   "name": "The two Merti snakes",
+   "descriptions": {
+    "default": "Two Merti snakes wait on either side.",
+    "settled": "Spell 37. Each struck twice as it sprang."
+   },
+   "journal": true
+  },
+  "e38": {
+   "name": "The breath of life",
+   "descriptions": {
+    "default": "The signs of life and breath are offered to you. Only one can be taken.",
+    "settled": "Spell 38, for living on air. One sign taken from his hand."
+   },
+   "journal": true
+  },
+  "e39": {
+   "name": "Apep",
+   "descriptions": {
+    "default": "Apep stretches across the road.",
+    "settled": "Spell 39, repelling Apep. Every wave of him pressed down at the spear point."
+   },
+   "journal": true
+  },
+  "e40": {
+   "name": "The Eater of the Ass",
+   "descriptions": {
+    "default": "The Eater of the Ass",
+    "settled": "Spell 40. Struck three times as it snapped at the donkey's tail; the donkey spared."
+   },
+   "journal": true,
+   "speech": "Strike the snake three times without hitting the ass beneath it.",
+   "speaker": "Scribe"
+  },
+  "e41": {
+   "name": "The snake in the sheaf",
+   "descriptions": {
+    "default": "Something stirs inside the sheaf.",
+    "settled": "Spell 41. Bound into the sheaf and speared as it came out."
+   },
+   "journal": true
+  },
+  "caption_e31": {
+   "name": "Spell 31",
+   "descriptions": {
+    "default": "A chapter about repelling the reptiles that come to take off the man's magic charms in the Netherworld."
+   },
+   "journal": false
+  },
+  "caption_e32": {
+   "name": "Spell 32",
+   "descriptions": {
+    "default": "A chapter about repelling the crocodiles coming to deprive the deceased from his magic power in the Netherworld."
+   },
+   "journal": false
+  },
+  "caption_e33": {
+   "name": "Spell 33",
+   "descriptions": {
+    "default": "A chapter about repelling any reptile."
+   },
+   "journal": false
+  },
+  "caption_e35": {
+   "name": "Spell 35",
+   "descriptions": {
+    "default": "A chapter about not letting the man be devoured by any reptile in the Netherworld."
+   },
+   "journal": false
+  },
+  "caption_e36": {
+   "name": "Spell 36",
+   "descriptions": {
+    "default": "A chapter about opposing the tortoise."
+   },
+   "journal": false
+  },
+  "caption_e37": {
+   "name": "Spell 37",
+   "descriptions": {
+    "default": "A chapter about opposing the two eyed-ureus."
+   },
+   "journal": false
+  },
+  "caption_e38": {
+   "name": "Spell 38",
+   "descriptions": {
+    "default": "A chapter about living by the breath of air in the Netherworld. It is said to oppose the asps."
+   },
+   "journal": false
+  },
+  "caption_e39": {
+   "name": "Spell 39",
+   "descriptions": {
+    "default": "A chapter about opposing serpent-Rekrek in the Netherworld."
+   },
+   "journal": false
+  },
+  "caption_e40": {
+   "name": "Spell 40",
+   "descriptions": {
+    "default": "A chapter about repelling the Eater of the Ass."
+   },
+   "journal": false
+  },
+  "caption_e41": {
+   "name": "Spell 41",
+   "descriptions": {
+    "default": "A chapter about preventing being injured in the Netherworld."
+   },
+   "journal": false
+  }
+ }
+}

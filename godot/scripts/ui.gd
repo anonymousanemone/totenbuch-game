@@ -16,6 +16,8 @@ const INK := Color("2e1d10")
 const RULE := Color("8f7142")
 const OCHRE := Color("62380e")
 const TAG := Color("963e28")         ## speakers' tags, headings, the main button
+const TAG_MINIGAME := Color("456137") ## minigame instructions, clues and feedback
+const TAG_HINT := Color("d2ad46")     ## Hint-button messages
 const CREAM := Color("f1e7cd")
 
 # Display colors and ink multipliers are deliberately separate.

@@ -1,4 +1,4 @@
-## Opening of the Mouth integration: focus, input ownership, pause, retry and reset.
+## Opening of the Mouth integration: focus, input ownership, pause, harmless misses and reset.
 ## Optional --mouth-images=/tmp/mouth captures the actual close views with a display renderer.
 extends SceneTree
 
@@ -37,7 +37,24 @@ func _run() -> void:
 		await frames(8)
 		level.hud.dismiss_intro()
 		level.mouth.take_adze()
-		level.mouth.touch()
+		var stand: float = level._mouth_stand_x()
+		var woman: Rect2 = level._descriptions.region_bounds(level._inspection_regions["kneeling_woman"])
+		var mummy: Rect2 = level._descriptions.region_bounds(level._inspection_regions["anubis_and_the_mummy"])
+		expect(stand > mummy.end.x and stand < woman.position.x,
+			"mouth approach position lies between the mummy and kneeling woman")
+		level.avatar.position.x = stand + 250.0
+		level.act_mouth("mummy", level.mouth.mummy_rect().get_center())
+		level._update_camera(1.0)
+		expect(level.avatar.is_walking() and not level.mouth.active and level._focus != "mouth",
+			"clicking the mummy starts walking before the face zoom")
+		level.avatar._process(0.25)
+		expect(not level.mouth.active, "the face view stays closed during the approach")
+		for i in 100:
+			if not level.avatar.is_walking():
+				break
+			level.avatar._process(0.05)
+		expect(level.avatar.position.x == stand and level.mouth.active and level.avatar.facing == -1,
+			"arrival between the figures opens the face view facing the mummy")
 		await frames(8)
 		level._update_camera(1.0)
 		await frames(2)
@@ -61,6 +78,12 @@ func _run() -> void:
 		await shot(tag.strip_edges() + "-start")
 		level.mouth.strike(level.mouth.next_chip(0))
 		var held_at: Vector2 = level.mouth.next_chip(0) - (OpeningMouth.ADZE_TIP - OpeningMouth.ADZE_GRIP) * OpeningMouth.CARVING_SCALE
+		level.mouth._adze.rotation = -OpeningMouth.SWING / 2.0
+		var grip: Vector2 = OpeningMouth.ADZE_GRIP * OpeningMouth.CARVING_SCALE
+		level.mouth._adze.position = held_at - grip.rotated(level.mouth._adze.rotation)
+		expect((level.mouth._adze.global_transform * OpeningMouth.ADZE_GRIP).is_equal_approx(held_at), tag + "adze handle stays at the pointer while rotated")
+		expect(level.mouth.tip_at(held_at).is_equal_approx(level.mouth._adze.global_transform * OpeningMouth.ADZE_TIP), tag + "strike point matches the visible rotated blade tip")
+		level.mouth._adze.rotation = 0.0
 		var before: float = level.mouth._progress[0]
 		expect(level.mouth.chop(held_at) and level.mouth._progress[0] > before and level.mouth._swing > 0.0,
 			tag + "a click brings the adze down and chips where its blade's tip is, not under the pointer")
@@ -87,19 +110,20 @@ func _run() -> void:
 				level.mouth.strike(level.mouth.next_chip(0))
 			await shot("partial")
 		var blank: Vector2 = level.mouth.face_view().position + Vector2(3, 3)
-		for i in 3:
+		progress = level.mouth._progress[0]
+		for i in 20:
 			level.mouth.strike(blank)
-		expect(not level.mouth.active and level.mouth.phase == OpeningMouth.Phase.ADZE, tag + "three misses release the close view")
+		expect(level.mouth.active and level.mouth._progress[0] == progress, tag + "repeated misses neither exit nor reset carving")
 		level.reset()
 		await create_timer(0.4).timeout
 		expect(level.mouth._body.position == level.mouth._body_home
 			and level.mouth.phase == OpeningMouth.Phase.START and not level.mouth._words.visible,
-			tag + "restart cancels the failure jolt and delayed callbacks")
+			tag + "restart restores the mummy and clears the minigame")
 		level.mouth.take_adze()
 		level.mouth.touch()
 		for stroke in [1, 0]:
 			while level.mouth.active and not level.mouth.stroke_done(stroke):
-				level.mouth.strike(level.mouth.next_chip(stroke))
+				level.mouth.strike(level.mouth._feature_bounds[stroke].get_center())
 		expect(level.mouth._features.texture.get_image().get_data() == level.mouth._feature_image.get_data(), tag + "completed carving restores the original feature pixels")
 		level.mouth.take_words()
 		expect(level.mouth.phase == OpeningMouth.Phase.SPOKEN, tag + "words cannot be picked up during their reveal")

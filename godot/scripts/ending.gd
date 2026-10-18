@@ -17,6 +17,8 @@
 class_name EndingStand
 extends Node2D
 
+const PUZZLES := preload("res://scripts/puzzles.gd")
+
 signal said(who: String, text: String)
 signal changed
 signal ended
@@ -58,6 +60,8 @@ var _light: ColorRect
 var _light_layer: CanvasLayer
 var _turn := 0.0
 var _tween: Tween
+var _base_clue: Sprite2D
+var _base_clue_tween: Tween
 
 
 func setup(level: Dictionary, nodes: Dictionary, avatar: Node2D) -> void:
@@ -69,6 +73,13 @@ func setup(level: Dictionary, nodes: Dictionary, avatar: Node2D) -> void:
 		_hidden_homes[nm] = {"parent": sp.get_parent(), "transform": sp.transform}
 		var target: Sprite2D = nodes[nm + "_place"]
 		_rects[nm] = Rect2(target.position, target.texture.get_size())
+	_base_clue = Sprite2D.new()
+	_base_clue.texture = _nodes.stand.texture
+	_base_clue.centered = false
+	_base_clue.position = _rects.stand.position
+	_base_clue.modulate = IMPRINT
+	_base_clue.visible = false
+	add_child(_base_clue)
 	_imprint = nodes.stela_imprint
 	_kneeler = nodes.kneeler
 	_light_layer = CanvasLayer.new()
@@ -84,6 +95,7 @@ func setup(level: Dictionary, nodes: Dictionary, avatar: Node2D) -> void:
 
 
 func reset() -> void:
+	_clear_base_clue()
 	if _tween and _tween.is_valid():
 		_tween.kill()
 	worn.clear()
@@ -207,7 +219,7 @@ func set_down() -> String:
 		return "done"
 	var choice: Array = [held] if held != "" else worn.duplicate()
 	if choice.is_empty():
-		said.emit("Scribe", "Something stood here before Ra." + (" The stela by the tomb shows what." if imprint_shown else ""))
+		said.emit("Scribe", PUZZLES.text("procession.offering_stand", "instructions", "stela" if imprint_shown else "default"))
 		return "empty"
 	for nm in choice:
 		var under: String = RESTS_ON[nm]
@@ -215,16 +227,38 @@ func set_down() -> String:
 			worn.erase(nm)
 			if nm == held:
 				held = ""
+			if nm == "stand":
+				_clear_base_clue()
 			placed[nm] = true
 			_set_at_place(nm)
 			if complete():
-				said.emit("Scribe", "The stand stands before Ra again, the sun disc on it and the lotus bending over it" + (", as on the stela." if imprint_shown else "."))
+				said.emit("Scribe", PUZZLES.text("procession.offering_stand", "success", "stela" if imprint_shown else "default"))
 				_fade_imprint()
 			changed.emit()
 			return "placed"
 	said.emit(TAGS[choice[0]], "%s has nothing to rest on yet." % _cap(NAMES[choice[0]]) + (" Look at the stela: something stands beneath it." if imprint_shown else ""))
 	unhold()
 	return "unsupported"
+
+
+## Ra points out the stand's foundation while a part is carried or worn.
+func show_base_clue() -> void:
+	if placed.has("stand") or (held == "" and worn.is_empty()):
+		return
+	_clear_base_clue()
+	_base_clue.visible = true
+	_base_clue.modulate = Color(IMPRINT, 0.0)
+	_base_clue_tween = create_tween()
+	_base_clue_tween.tween_property(_base_clue, "modulate:a", IMPRINT.a, 0.3)
+	_base_clue_tween.tween_interval(2.5)
+	_base_clue_tween.tween_property(_base_clue, "modulate:a", 0.0, 0.6)
+	_base_clue_tween.tween_callback(func(): _base_clue.visible = false)
+
+
+func _clear_base_clue() -> void:
+	if _base_clue_tween and _base_clue_tween.is_valid():
+		_base_clue_tween.kill()
+	_base_clue.visible = false
 
 
 func complete() -> bool:

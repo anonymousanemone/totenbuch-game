@@ -20,6 +20,8 @@
 class_name PourWater
 extends Node2D
 
+const PUZZLES := preload("res://scripts/puzzles.gd")
+
 signal said(who: String, text: String)
 signal finished
 
@@ -117,8 +119,7 @@ func reset() -> void:
 	_place()
 
 
-## Step up to the water: the camera holds on it (see the level), and the first time the scribe
-## says what is wrong.
+## Step up to the water: the camera holds on it and instructions appear on every entry.
 func enter() -> void:
 	if done:
 		return
@@ -126,7 +127,7 @@ func enter() -> void:
 	rng.randomize()
 	_spin = 0.0
 	_droop_left = 0.0
-	_once("enter", "Priest with jar", "Can you help me pour? My arm is tired and the jar droops. Hold [space] to lift it, and keep the water running along the line.")
+	said.emit("Priest with jar", PUZZLES.text("procession.water", "instructions"))
 
 
 ## Step away: what is drawn of the line dries back a little, no further.
@@ -265,7 +266,7 @@ func _complete() -> void:
 	else:
 		_tween = create_tween()
 		_tween.tween_property(self, "tilt", 0.0, SETTLE).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-	said.emit("Scribe", "The water arches over Anubis and the mummy and runs down to their base, as it is drawn.")
+	said.emit("Scribe", PUZZLES.text("procession.water", "success"))
 	finished.emit()
 
 

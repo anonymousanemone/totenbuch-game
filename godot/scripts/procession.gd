@@ -3,8 +3,10 @@
 ## World coordinates are pixels of the strip (assets/procession/strip.png), which reads right
 ## to left: the player starts at the head of plate I (far right) and walks left. The strip is
 ## art/procession1-15.mdp as drawn. Saved nodes own piece placement; level.json, exported by
-## tools/cut_procession300.py, retains source-art data, descriptions and interaction geometry.
+## tools/cut_procession300.py, retains source-art data and interaction geometry; registry.json owns descriptions.
 extends Node2D
+
+const PUZZLES := preload("res://scripts/puzzles.gd")
 
 const SCROLL_CAMERA := preload("res://scripts/scroll_camera.gd")
 const VIEW_TOP := 36.0   ## the row under the top register's upper rule: the title bar's band takes its place
@@ -55,12 +57,12 @@ const POLES := ["pole1", "pole2", "pole3", "pole4", "pole5", "pole6", "pole7", "
 ## Pieces that stay where they are drawn (the ox walks with the hauling, see haul.gd).
 const FIXED := ["ox"]
 ## Only the ox-driver starts hauling; the other figures direct the player to him.
-const HAUL_FIGURES := ["Hauler", "Ox-driver", "The funerary bier"]
+const HAUL_FIGURES := ["hauler", "ox_driver", "funerary_bier"]
 const INTO_POSE := 0.5        ## s for you to fade into the hauler's pose on the rope (and out again)
 const HAUL_AHEAD := 200.0     ## plate px of the road ahead of the ox the camera shows while hauling
 ## The figures round the purifying water (plate V); clicking one steps up to the jar until the
 ## water runs as drawn.
-const WATER_FIGURES := ["Priest with jar", "Kneeling woman", "Anubis and the mummy"]
+const WATER_FIGURES := ["priest_with_jar", "kneeling_woman", "anubis_and_the_mummy"]
 
 ## The plumed lector's recital: one sign at a time over his sheet, each fading in, held,
 ## and fading as the next comes.
@@ -83,24 +85,27 @@ const CAPTION_LINE := 187.0  ## first row below the frame line over the figures:
 ## shows it. (The third title of spell 15, over Ra, is the Opening of the Mouth's words: not here.)
 const CAPTION_ROWS := Vector2(50.0, 178.0)
 const CAPTIONS := [
-	{"spell": 1, "x": [13275, 14878], "title": "Beginning of the chapters about the going forth by day and the carrying of the shades into the Netherworld."},
-	{"spell": 1, "x": [10164, 13275], "title": "To be said on the day of burial (in order to) go in after coming forth."},
-	{"spell": 15, "x": [3819, 4730], "title": "Adoration to Ra when he rises above the eastern horizon in Heaven."},
-	{"spell": 15, "x": [2166, 2752], "title": "Adoration to the sun when it sets in the Land of Life."},
+	{"spell": 1, "x": [13275, 14878], "id": "caption_1"},
+	{"spell": 1, "x": [10164, 13275], "id": "caption_2"},
+	{"spell": 15, "x": [3819, 4730], "id": "caption_3"},
+	{"spell": 15, "x": [2166, 2752], "id": "caption_4"},
 ]
 ## Figures whose arm turns in code (see haul.gd, pour_water.gd): their Journal picture is the frame
 ## as drawn of their (hand-drawn) sheet, each frame the whole figure.
 const SHEETS := {"haul_driver": "haul_driver_sheet", "water_priest": "water_sheet"}
 ## Journal figures that are sprites of the hauling now: they glow as those drawings.
-const HAUL_GLOW := {"Hauler": ["haul_hauler"], "Ox-driver": ["haul_driver", "haul_driver_arm"]}
+const HAUL_GLOW := {"hauler": ["haul_hauler"], "ox_driver": ["haul_driver", "haul_driver_arm"]}
 ## Journal figures that are pieces (sprites, not in the strip): they glow as those drawings.
-const PIECE_GLOW := {"Ox": "ox"}
+const PIECE_GLOW := {"ox": "ox"}
 ## The figures of the three bulls (see bulls.gd); clicking one steps up to them until they are set right.
-const BULL_FIGURES := ["Calf", "Plumed ox", "The sacrifice"]
+const BULL_FIGURES := ["calf", "plumed_ox", "sacrifice"]
 ## Figures drawn inside the sledge sprite (with its rope and the censer priest): each glows as its
 ## own part of that drawing, and moves with it.
-const SLEDGE_PARTS := ["The funerary bier", "Priest with censer"]
+const SLEDGE_PARTS := ["funerary_bier", "priest_with_censer"]
 
+var _descriptions = preload("res://scripts/descriptions.gd").new("procession")
+var _inspection_regions := {}
+var _inspection_sprites := {}
 var level: Dictionary
 var ground := 248.0          ## feet line inside the strip (from level.json)
 var unit := 1.0              ## strip pixels per 200-dpi plate pixel: distances below are in plate pixels
@@ -128,9 +133,8 @@ var _standards_view := Vector2.ZERO
 var _hauling := false        ## you hold the rope in the hauler's place
 var in_table := false        ## at the offering table: the camera holds on it, you work with the pieces
 var _drag_from := Vector2.INF  ## where (screen px) the piece in hand was taken up, while the button is down
-var _hint_step := {}
+var _hints = preload("res://scripts/puzzles.gd").new()
 var _feedback := {}
-var _table_told := false
 var _focus := ""             ## what the camera holds on: "" (you), "table", "water", "standards" or "haul"
 var _refocus := {}           ## an ease to a new focus under way: its start (zoom, x) and time
 var _dust: Array = []
@@ -172,14 +176,25 @@ func _ready() -> void:
 	for piece in level.sprites:
 		var s: Dictionary = level.sprites[piece]
 		sprite_rects[piece] = Rect2(s.x, s.y, s.w, s.h)
-	for h in level.hotspots:
-		hotspots.append({"rect": Rect2(h.x, h.y, h.w, h.h), "label": h.label, "note": h.note})
-		if h.label == "Lector priest":
-			_reader = hotspots[-1]
-		elif h.label == "Offering table":
-			_table = hotspots[-1]
-		elif h.label == "Lector with plumes":
-			_lector = hotspots[-1]
+	for node in find_children("*", "Sprite2D", true, false):
+		if node.has_meta("registry_id") and node.has_meta("source_layer_id"):
+			_inspection_sprites[node.get_meta("registry_id")] = node
+	for region in find_children("*", "Area2D", true, false):
+		if not region.has_meta("registry_id"):
+			continue
+		var id: String = region.get_meta("registry_id")
+		assert(not _inspection_regions.has(id), "Duplicate Procession inspection ID: " + id)
+		_inspection_regions[id] = region
+	for source in level.hotspots:
+		var id: String = source.id
+		var h := {"id": id, "rect": _descriptions.region_bounds(_inspection_regions[id]), "label": _descriptions.entries[id].name}
+		hotspots.append(h)
+		if id == "lector_priest":
+			_reader = h
+		elif id == "offering_table":
+			_table = h
+		elif id == "lector_with_plumes":
+			_lector = h
 	# part for whole: a figure lying inside another is picked first, so it glows alone; anywhere
 	# else on the whole, the whole glows (the part with it)
 	var parts := hotspots.filter(func(h): return hotspots.any(func(o): return o != h and o.rect.encloses(h.rect)))
@@ -199,26 +214,26 @@ func _ready() -> void:
 	offerings.changed.connect(_on_offerings_changed)
 	haul = $pieces/hauling
 	haul.setup(_pieces.ox, $Papyrus.material, self, $Strip.get_index() + 1, _authored)
-	haul.said.connect(say)
+	haul.said.connect(say_game)
 	haul.finished.connect(_check)
 	ending = $pieces/ending
 	ending.setup(level, _authored, avatar)
-	ending.said.connect(say)
+	ending.said.connect(say_game)
 	ending.changed.connect(func():
 		_check()
 		_render())
 	ending.ended.connect(_ended)
 	water = $pieces/water
 	water.setup(level, "res://assets/procession/%s.png", _authored)
-	water.said.connect(say)
+	water.said.connect(say_game)
 	water.finished.connect(_check)
 	bulls = $pieces/bulls
 	bulls.setup(level, _authored)
-	bulls.said.connect(say)
+	bulls.said.connect(say_game)
 	bulls.finished.connect(_check)
 	mouth = $pieces/opening_mouth
 	mouth.setup(level, _authored)
-	mouth.said.connect(say)
+	mouth.said.connect(say_game)
 	mouth.changed.connect(func():
 		avatar.keys = not mouth.active
 		if mouth.active:
@@ -258,8 +273,7 @@ func reset() -> void:
 	bulls.reset()
 	_set_hover({})
 	in_table = false
-	_table_told = false
-	_hint_step.clear()
+	_hints.reset()
 	_feedback.clear()
 	_drag_from = Vector2.INF
 	_hauling = false
@@ -344,31 +358,31 @@ func _unhandled_input(event: InputEvent) -> void:
 			walk_then(_reach(ending.place_rect() if h.id == "place" else ending.rect_of(h.id), p), act_ending.bind(h.id))
 		elif h.type == "bearer":   # the scene starts from the lector or the heap, not from him
 			if offerings.bearer != "goose":
-				say("Scribe", "Odd that he's holding a loaf of bread.")
+				say_game("Scribe", "Odd that he's holding a loaf of bread.")
 		elif h.type == "piece" or (h.type == "hot" and (h.spot == _table or h.spot == _reader)):
 			enter_table(h.get("spot", {}) == _reader)
 		elif h.type == "mouth":
 			act_mouth(h.id, p)
-		elif h.type == "hot" and h.spot.label in BULL_FIGURES and not bulls.done:
+		elif h.type == "hot" and h.spot.id in BULL_FIGURES and not bulls.done:
 			enter_bulls(h.spot)
-		elif h.type == "water" or (h.type == "hot" and h.spot.label in WATER_FIGURES and not water.done):
+		elif h.type == "water" or (h.type == "hot" and h.spot.id in WATER_FIGURES and not water.done):
 			enter_water(h.get("spot", {}))
 		elif h.type == "caption":
-			say("Spell %d" % h.spell, h.title)
+			_descriptions.show(h.id, hud)
 		elif h.type == "slot":
 			if solved.t2:
-				say("Standard-bearers", "All eight standards are in order.")
+				say_game("Standard-bearers", PUZZLES.text("procession.standards", "success"))
 			else:
 				enter_standards()
-		elif h.spot.label in HAUL_FIGURES and not haul.done:
-			if h.spot.label == "Ox-driver":   # you walk to the hauler's place and take up his rope
+		elif h.spot.id in HAUL_FIGURES and not haul.done:
+			if h.spot.id == "ox_driver":   # you walk to the hauler's place and take up his rope
 				var hl: Dictionary = level.sprites.haul_hauler
 				walk_then(hl.x + hl.w / 2.0, take_rope.bind(h.spot))
 			else:
-				walk_then(_reach(h.rect, p), say.bind(h.spot.label, h.spot.note + " The bier is stalled. Ask the ox-driver how to haul it."))
-		elif h.spot.label == "Hauler":   # home: he has his rope again
+				walk_then(_reach(h.rect, p), record.bind(h.spot))
+		elif h.spot.id == "hauler":   # home: he has his rope again
 			walk_then(_reach(h.spot.rect, p), func():
-				say("Hauler", "You've helped the procession advance.")
+				say_game("Hauler", PUZZLES.text("procession.haul", "success", "hauler"))
 				_add_journal(h.spot))
 		elif h.spot == _lector:   # stand in front of him (he faces left), to hear him
 			walk_then(h.spot.rect.position.x - STAND_GAP * unit - sprite_rects.avatar.size.x / 2.0, record.bind(h.spot))
@@ -404,18 +418,19 @@ func _pick(p: Vector2) -> Dictionary:
 		if r.has_point(p):
 			return {"type": "slot", "id": id, "rect": r}
 	for h in hotspots:
-		if h.label == "Hauler" and not haul.hauler_shown():   # absent while exploring before the first haul
+		h.rect = _descriptions.region_bounds(_inspection_regions[h.id])
+		if h.id == "hauler" and not haul.hauler_shown():   # absent while exploring before the first haul
 			continue
 		if h.rect.has_point(p):
 			return {"type": "hot", "spot": h, "rect": h.rect}
 	var boat: Dictionary = level.sprites.haul_sledge
 	if Rect2(boat.x + haul.offset, boat.y, boat.w, boat.h).has_point(p):
-		var spot: Dictionary = hotspots.filter(func(h): return h.label == "The funerary bier")[0]
+		var spot: Dictionary = hotspots.filter(func(h): return h.id == "funerary_bier")[0]
 		return {"type": "hot", "spot": spot, "rect": Rect2(boat.x + haul.offset, boat.y, boat.w, boat.h)}
 	for c in CAPTIONS:
-		var r := Rect2(c.x[0], CAPTION_ROWS.x, c.x[1] - c.x[0], CAPTION_ROWS.y - CAPTION_ROWS.x)
+		var r := _descriptions.region_bounds(_inspection_regions[c.id])
 		if r.has_point(p):
-			return {"type": "caption", "spell": c.spell, "title": c.title, "rect": r}
+			return {"type": "caption", "id": c.id, "spell": c.spell, "rect": r}
 	return {}
 
 
@@ -472,28 +487,28 @@ func _glow_targets(h: Dictionary) -> Array:
 					out.append(_pieces[slot[id]])
 			return out
 		"hot":
-			if PIECE_GLOW.has(h.spot.label):
-				return [_pieces[PIECE_GLOW[h.spot.label]]]
-			match h.spot.label:   # the bulls: sprites now (the sacrifice, in the strip, with the plumes while they sit on it)
-				"Calf":
+			if PIECE_GLOW.has(h.spot.id):
+				return [_pieces[PIECE_GLOW[h.spot.id]]]
+			match h.spot.id:   # the bulls: sprites now (the sacrifice, in the strip, with the plumes while they sit on it)
+				"calf":
 					return [bulls.calf_sprite()]
-				"Plumed ox":
+				"plumed_ox":
 					return [bulls.ox_sprite()] + ([bulls.plumes_sprite()] if bulls.crowned() else [])
-				"The sacrifice":
-					return [h.spot.rect] + ([] if bulls.crowned() else [bulls.plumes_sprite()])
-			if HAUL_GLOW.has(h.spot.label):
-				return HAUL_GLOW[h.spot.label].map(func(nm): return haul.sprite_of(nm)).filter(func(sp): return sp != null and sp.is_visible_in_tree())
+				"sacrifice":
+					return [_inspection_sprites[h.spot.id]] + ([] if bulls.crowned() else [bulls.plumes_sprite()])
+			if HAUL_GLOW.has(h.spot.id):
+				return HAUL_GLOW[h.spot.id].map(func(nm): return haul.sprite_of(nm)).filter(func(sp): return sp != null and sp.is_visible_in_tree())
 			if h.spot == _table and solved.t3:   # rebuilt: the whole table glows, its offerings with it
-				return [h.spot.rect] + offerings.placed_sprites()
-			if h.spot.label == "Offering stand":   # part for whole: the stand glows with all on it
-				return [h.spot.rect] + mouth.on_stand()
-			if h.spot.label in SLEDGE_PARTS:   # its own part of the sledge's drawing
+				return [_inspection_sprites[h.spot.id]] + offerings.placed_sprites()
+			if h.spot.id == "offering_stand":   # part for whole: the stand glows with all on it
+				return [_inspection_sprites[h.spot.id]] + mouth.on_stand()
+			if h.spot.id in SLEDGE_PARTS:   # its own part of the sledge's drawing
 				var home: Rect2 = sprite_rects.haul_sledge
 				var r: Rect2 = h.spot.rect.intersection(home)
 				return [{"sprite": haul.sprite_of("haul_sledge"), "region": Rect2(r.position - home.position, r.size)}]
-			if h.spot.label == "Priest with jar":   # he is a sprite now, his arm with him
+			if h.spot.id == "priest_with_jar":   # he is a sprite now, his arm with him
 				return [water.priest_sprite(), water.arm_sprite()]
-			return [h.spot.rect]
+			return [_inspection_sprites[h.spot.id]] if _inspection_sprites.has(h.spot.id) else [h.spot.rect]
 	return []
 
 
@@ -579,7 +594,7 @@ func enter_bulls(h := {}) -> void:
 	if bulls.active or bulls.done:
 		return
 	if _hands_full():
-		say("Scribe", _hands_message())
+		say_game("Scribe", _hands_message())
 		return
 	_set_hover({})
 	walk_then(bulls.stand_x(), func():
@@ -635,9 +650,7 @@ func _table_now() -> void:
 	in_table = true
 	avatar.stop()
 	avatar.facing = -1
-	if not _table_told:
-		_table_told = true
-		say("Lector priest", "Can you help restore the offering table? Drag items to their rightful place. I can help you if you get lost.")
+	say_game("Lector priest", PUZZLES.text("procession.offerings", "instructions"))
 
 
 ## Step away from the table (Esc, or walking off): what you hold goes back; nothing is lost.
@@ -704,7 +717,7 @@ func enter_water(h := {}) -> void:
 	if water.active or water.done:
 		return
 	if _hands_full():
-		say("Scribe", _hands_message())
+		say_game("Scribe", _hands_message())
 		return
 	_set_hover({})
 	walk_then(water.stand_x(), func():
@@ -746,10 +759,10 @@ func _water_input(event: InputEvent) -> void:
 
 func _take_offering(id: String) -> void:
 	if held != "" or mouth.carrying() != "":
-		say("Scribe", _hands_message())
+		say_game("Scribe", _hands_message())
 		return
 	if offerings.holding() != "":
-		say("Scribe", "You are already carrying %s." % offerings.held_name())
+		say_game("Scribe", "You are already carrying %s." % offerings.held_name())
 		return
 	offerings.take(id)
 
@@ -761,30 +774,30 @@ func _drop_offering(p: Vector2) -> void:
 			_tell_once("support", "It needs support. Place the lower offerings first.")
 		"dropped":
 			if what == "goose":
-				say("Scribe", "The goose is not an offering for this table. Its bearer is beside the lector.")
+				say_game("Scribe", "The goose is not an offering for this table. Its bearer is beside the lector.")
 
 
 func _act_bearer() -> void:
 	if held != "" and offerings.holding() == "":
-		say("Scribe", "%s doesn't belong in his arms." % _cap(NAMES[held]))
+		say_game("Scribe", "%s doesn't belong in his arms." % _cap(NAMES[held]))
 		return
 	match offerings.bearer_act():
 		"took":
-			say("Goose-bearer", "He hands you the loaf. It belongs on the offering table, and he is still missing his goose.")
+			say_game("Goose-bearer", PUZZLES.text("procession.goose", "instructions"))
 		"gave":
-			say("Goose-bearer", "He takes his goose back in his arms, as it is drawn.")
+			say_game("Goose-bearer", PUZZLES.text("procession.goose", "success"))
 		"swapped":
-			say("Goose-bearer", "He takes his goose and hands you the loaf. It belongs on the offering table.")
+			say_game("Goose-bearer", PUZZLES.text("procession.goose", "success", "swapped"))
 		"wrong":
 			if offerings.bearer == "" and offerings.held_from() == "bearer":
 				offerings.put_back()
-				say("Goose-bearer", "He takes the loaf back.")
+				say_game("Goose-bearer", "He takes the loaf back.")
 			else:
-				say("Scribe", "He has no use for that. It belongs on the offering table.")
+				say_game("Scribe", "He has no use for that. It belongs on the offering table.")
 		"empty":
-			say("Scribe", "His arms are empty. He carried a goose; it must be among the fallen offerings.")
+			say_game("Scribe", PUZZLES.text("procession.goose", "instructions", "empty"))
 		"has_goose":
-			say("Goose-bearer", "He carries his goose to the tomb.")
+			say_game("Goose-bearer", PUZZLES.text("procession.goose", "success", "carrying"))
 
 
 func _on_offerings_changed() -> void:
@@ -804,7 +817,7 @@ func enter_standards() -> void:
 		avatar.facing = 1 if stand == left else -1
 		_standards_view = Vector2(left - 60.0 * unit, right + 60.0 * unit)
 		in_standards = true
-		say("Standard-bearers", "Can you help us? We carry each other's gods. Drag each standard to the bearer it belongs to."))
+		say_game("Standard-bearers", PUZZLES.text("procession.standards", "instructions")))
 
 
 func leave_standards() -> void:
@@ -817,29 +830,29 @@ func act_slot(id: String) -> void:
 	var s: Dictionary = SLOTS[id]
 	var here: String = slot[id]
 	if solved.t2:   # in order: they stay so
-		say("Standard-bearers", "All eight standards are in order.")
+		say_game("Standard-bearers", PUZZLES.text("procession.standards", "success"))
 		return
 	if mouth.carrying() != "":
-		say("Scribe", _hands_message())
+		say_game("Scribe", _hands_message())
 		return
 	if held == "":
 		if here == "":
-			say("Scribe", "Take a standard from another bearer first.")
+			say_game("Scribe", "Take a standard from another bearer first.")
 			return
 		held = here
 		held_from = id
 		slot[id] = ""
-		say("Scribe", "You take %s from %s." % [NAMES[here], s.label])
+		say_game("Scribe", "You take %s from %s." % [NAMES[here], s.label])
 	else:
 		if kind_of(held) != s.kind:
-			say("Scribe", "%s doesn't belong at %s." % [_cap(NAMES[held]), s.label])
+			say_game("Scribe", "%s doesn't belong at %s." % [_cap(NAMES[held]), s.label])
 			return
 		slot[id] = held
 		if here != "" and held_from != "":   # the one there goes where yours came from
 			slot[held_from] = here
-			say("Scribe", "You set %s at %s; %s goes to %s." % [NAMES[held], s.label, NAMES[here], SLOTS[held_from].label])
+			say_game("Scribe", "You set %s at %s; %s goes to %s." % [NAMES[held], s.label, NAMES[here], SLOTS[held_from].label])
 		else:
-			say("Scribe", "You set %s at %s." % [NAMES[held], s.label])
+			say_game("Scribe", "You set %s at %s." % [NAMES[held], s.label])
 		if _god(held) == _god(s.home):
 			_flash(_pieces[held])
 		held = ""
@@ -921,7 +934,7 @@ func kind_of(_piece: String) -> String:
 func take_rope(h: Dictionary) -> void:
 	_add_journal(h)
 	if _hands_full():
-		say("Scribe", _hands_message())
+		say_game("Scribe", _hands_message())
 		return
 	_set_hover({})
 	avatar.stop()
@@ -954,6 +967,10 @@ func _stand_piece_input(event: InputEvent) -> void:
 		_drag_from = Vector2.INF
 		if not event.pressed and not dragged:   # the click that took it off you: it stays in hand
 			return
+		var target := _pick(p)
+		if event.pressed and target.get("type") == "hot" and target.spot.id == "ra_enthroned":
+			ending.show_base_clue()
+			return
 		if ending.place_rect().has_point(p):
 			walk_then(_reach(ending.place_rect(), p), func():
 				if ending.held != "":
@@ -980,9 +997,9 @@ func act_ending(id: String) -> void:
 	if id == "place":
 		ending.set_down()
 	elif not ending.imprint_shown:   # not before the stela shows what they are for
-		say(EndingStand.TAGS[id], "This might come in handy later, but you wouldn't want your hands full right now.")
+		say_game(EndingStand.TAGS[id], "This might come in handy later, but you wouldn't want your hands full right now.")
 	elif _hands_full():
-		say("Scribe", _hands_message())
+		say_game("Scribe", _hands_message())
 	else:
 		ending.take(id)
 	_set_hover({})
@@ -995,14 +1012,14 @@ func put_back(quiet := false) -> void:
 		return
 	if mouth.carrying() != "":
 		mouth.put_back()
-		say("Scribe", "You put %s back." % ("the adze" if mouth.phase == OpeningMouth.Phase.START else "the words"))
+		say_game("Scribe", "You put %s back." % ("the adze" if mouth.phase == OpeningMouth.Phase.START else "the words"))
 		return
 	if held == "":
 		return
 	if held_from != "" and slot[held_from] == "":
 		slot[held_from] = held
 		if not quiet:
-			say("Scribe", "You put %s back." % NAMES[held])
+			say_game("Scribe", "You put %s back." % NAMES[held])
 	else:
 		return
 	held = ""
@@ -1023,18 +1040,32 @@ func _hands_full() -> bool:
 
 ## The Opening of the Mouth: take the adze, touch it to the mummy, take the words it speaks, and
 ## set them at their imprint over Ra.
+func _mouth_stand_x() -> float:
+	var mummy := _descriptions.region_bounds(_inspection_regions["anubis_and_the_mummy"])
+	var woman := _descriptions.region_bounds(_inspection_regions["kneeling_woman"])
+	return (mummy.end.x + woman.position.x) / 2.0
+
+
+## Clear the mummy's face before entering the close view.
+func enter_mouth() -> void:
+	walk_then(_mouth_stand_x(), func():
+		avatar.stop()
+		avatar.facing = -1
+		mouth.touch())
+
+
 func act_mouth(id: String, p := Vector2.INF) -> void:
 	match id:
 		"adze", "words":
 			if _hands_full():
-				say("Scribe", _hands_message())
+				say_game("Scribe", _hands_message())
 				return
 			if id == "adze":
 				mouth.take_adze()
 			else:
 				mouth.take_words()
 		"mummy":
-			walk_then(_reach(mouth.mummy_rect(), p), mouth.touch)
+			enter_mouth()
 		"home":
 			walk_then(_reach(mouth.home_rect(), p), mouth.place_words)
 		"back":     # where the adze or the words were taken from: they go back there
@@ -1055,7 +1086,7 @@ func _check() -> void:
 	var rites := rites_done()
 	var were: bool = was.t1 and was.t2 and was.t3 and was.t4 and was.t5 and was.t6 and was.t8
 	if solved.t1 and not was.t1:
-		say("Ox-driver", "Well hauled! The sledge stands where it should, and the mummy goes on toward the tomb.")
+		say_game("Ox-driver", PUZZLES.text("procession.haul", "success"))
 		var o: Dictionary = level.sprites.ox
 		var sl: Dictionary = level.sprites.haul_sledge
 		_kick_dust(Rect2(o.x, 0, sl.x + sl.w - o.x, 0))
@@ -1063,10 +1094,10 @@ func _check() -> void:
 		avatar.position.x = level.sprites.haul_hauler.x + level.sprites.haul_hauler.w + BESIDE * unit
 		_off_rope()
 	if solved.t2 and not was.t2:
-		say("Standard-bearers", "All eight standards are in order.")
+		say_game("Standard-bearers", PUZZLES.text("procession.standards", "success"))
 		_success(POLES.map(func(p): return _pieces[slot[p]]))
 	if solved.t3 and not was.t3:
-		say("Scribe", "The offering table is whole again.")
+		say_game("Scribe", PUZZLES.text("procession.offerings", "success"))
 		_success([_table.rect] + offerings.placed_sprites())
 	if solved.t4 and not was.t4:
 		_success(offerings.bearer_sprites())
@@ -1081,7 +1112,7 @@ func _check() -> void:
 	if rites and not were:
 		ending.show_imprint()     # the stela only shows the stand once everything else is right
 	if rites and not were and not solved.t7:
-		hud.say_later("Scribe", "The procession is in order. Head over to Ra on his throne.", 1.6)
+		hud.say_later("Scribe", "The procession is in order. Head over to Ra on his throne.", 1.6, "minigame")
 	if solved.values().all(func(v): return v) and not was.values().all(func(v): return v):
 		var generation := _generation
 		get_tree().create_timer(1.2, false).timeout.connect(func():
@@ -1091,6 +1122,8 @@ func _check() -> void:
 
 ## Clicking a figure: record it in the journal, and run the figures that do something.
 func record(h: Dictionary) -> void:
+	if h.id == "ra_enthroned":
+		ending.show_base_clue()
 	if h == _lector:  # no words, only the signs he reads out; you stand before him, facing him
 		_add_journal(h)
 		avatar.facing = 1
@@ -1100,23 +1133,28 @@ func record(h: Dictionary) -> void:
 		_add_journal(h)
 		offerings.speak()
 		return
-	var who: String = h.label
-	var text: String = h.note
-	if h == _table and not solved.t3:
-		who = "Scribe"
-		text = "The offering table has collapsed. Only a few loaves, a small head and a pomegranate still stand; everything else lies on the floor between the bouquets."
-	elif h.label == "Stela" and not ending.imprint_shown:   # blank until the other rites are done
-		text = "A round-topped stela under the winged sun. Its face is blank."
-		h = h.merged({"note": text}, true)
-	say(who, text)
-	_add_journal(h)
+	_descriptions.inspect(h.id, hud, journal, _inspection_picture(h), hotspots.size(), _description_variant(h.id))
+
+
+func _description_variant(id: String) -> String:
+	match id:
+		"offering_table":
+			return "default" if solved.t3 else "collapsed"
+		"stela":
+			return "default" if ending.imprint_shown else "blank"
+		"calf":
+			return "settled" if bulls.calf_turned() else "unsettled"
+		"funerary_bier", "hauler":
+			return "default" if haul.done else "stalled"
+	return "default"
 
 
 func _add_journal(h: Dictionary) -> void:
-	if h.label in journal:
-		return
-	journal.append(h.label)
-	hud.add_journal_entry(h.label, h.note, _journal_picture(h.rect), journal.size(), hotspots.size())
+	_descriptions.remember(h.id, hud, journal, _inspection_picture(h), hotspots.size(), _description_variant(h.id))
+
+
+func _inspection_picture(h: Dictionary) -> Texture2D:
+	return _inspection_sprites[h.id].texture if _inspection_sprites.has(h.id) else _journal_picture(h.rect)
 
 
 ## The strip under `r`, with the figures that are sprites now (the hauling, the water priest,
@@ -1177,7 +1215,7 @@ func finish() -> void:
 	finished = true
 	_set_hover({})
 	_render()
-	say("Lector priest", "The procession has arrived. Kneel before Ra as he sets.")
+	say_game("Lector priest", "The procession has arrived. Kneel before Ra as he sets.")
 	avatar.keys = false
 	avatar.set_process(true)
 	walk_then(ending.kneel_x(), func():
@@ -1193,7 +1231,7 @@ func _ended() -> void:
 func _tell_once(key: String, text: String) -> void:
 	if not _feedback.has(key):
 		_feedback[key] = true
-		say("Scribe", text)
+		say_game("Scribe", text)
 
 
 func _hands_message() -> String:
@@ -1207,58 +1245,79 @@ func _hands_message() -> String:
 	return "You carry %s. Put it back where you took it to free your hands." % item
 
 
-func _hint_lines(task: String, lines: Array) -> void:
-	var step: int = _hint_step.get(task, 0)
-	say("Hint", lines[mini(step, lines.size() - 1)])
-	_hint_step[task] = step + 1
+func _show_hint(puzzle: String, phase := "", destination := "default") -> void:
+	say("Hint", _hints.find(puzzle, destination) if phase == "" else _hints.advance(puzzle, phase))
+
+
+func _stand_hint_phase() -> String:
+	return "assemble" if EndingStand.PIECES.all(func(id): return id in ending.worn or ending.placed.has(id) or ending.held == id) else "collect"
 
 
 func hint() -> void:
-	if mouth.active:
-		say("Hint", "Follow each red stroke from its faint next chip. Click rather than drag; finish all three. Three nicks mean starting again.")
-	elif haul.active:
-		say("Hint", "Heave with [space] as the whip falls. Too early or late makes the bier slip back.")
-	elif in_standards or (held != "" and kind_of(held) == "std"):
-		_hint_lines("standards", ["The priest with two plumes reads the order. He stands beyond the offering table.",
-			"Jackal, ibis, falcon, bull, vulture, placenta, plumes, falcon: follow the procession from its front."])
-	elif in_table:
-		_hint_lines("table", ["Build lowest first. An offering falls if its support is missing.",
-			"Drag pieces above the upper shelf to clear space. They fall onto it; drag them back across to use them.",
-			"Click the lector beside the table. He shows an offering you can place now."])
-	elif bulls.active:
-		_hint_lines("bulls", ["Two things here are not as they should be. Look at which way each animal faces, and what each one wears.",
-			"The calf is facing the sacrifice. Drag it sideways to turn it away.",
-			"The disc and plumes are on the bull at the block. Drag them onto the living ox's head."])
-	elif water.active:
-		_hint_lines("water", ["Hold [space] to lift his drooping arm; let go to let it sink.",
-			"Too high only drips; drooped too far, the water splashes short. Keep the stream on its faint guide.",
-			"His arm droops faster or slower from moment to moment: watch it, and lift as it sinks."])
-	elif mouth.carrying() == "adze":
-		say("Hint", "Touch the adze to the mummy that Anubis holds upright.")
-	elif mouth.carrying() == "words":
-		say("Hint", "Carry the words to their faint outline over Ra, at the far left.")
-	elif not solved.t1:
-		say("Hint", "Walk left to the stalled bier. Speak with the ox-driver beside the ox.")
-	elif not solved.t2:
-		say("Hint", "Click the group of eight standard-bearers to put their standards in order.")
-	elif not solved.t3:
-		say("Hint", "Click the collapsed offering table to begin rebuilding it.")
-	elif not solved.t4:
-		say("Hint", "The goose-bearer holds a loaf. Take it, then find his goose among the fallen offerings.")
-	elif not solved.t5:
-		say("Hint", "Find the priest with a jar above a kneeling woman. Click him to pour the water.")
-	elif not solved.t8:
-		say("Hint", "Something is wrong with the bulls near the sacrifice. Click one of them.")
-	elif not solved.t6:
-		say("Hint", "Take the hooked adze beside the obelisks and touch the mummy's mouth." if mouth.phase == OpeningMouth.Phase.START else "Carry the words above the mummy to Ra, at the far left.")
+	if mouth.active and not solved.t6:
+		_show_hint("procession.opening_mouth", "carve")
+	elif haul.active and not solved.t1:
+		_show_hint("procession.haul", "pull")
+	elif (in_standards or (held != "" and kind_of(held) == "std")) and not solved.t2:
+		_show_hint("procession.standards", "sort")
+	elif in_table and not solved.t4 and (offerings.holding() == "goose" or solved.t3):
+		_show_hint("procession.goose", "give_goose" if offerings.holding() == "goose" else ("find_goose" if offerings.bearer == "" else "return"))
+	elif in_table and not solved.t3:
+		_show_hint("procession.offerings", "build")
+	elif bulls.active and not solved.t8:
+		_show_hint("procession.bulls", "plumes" if bulls.calf_turned() else "calf")
+	elif water.active and not solved.t5:
+		_show_hint("procession.water", "pour")
+	elif mouth.carrying() == "adze" and not solved.t6:
+		_show_hint("procession.opening_mouth", "", "adze")
+	elif not solved.t6 and mouth.phase in [OpeningMouth.Phase.SPOKEN, OpeningMouth.Phase.WORDS]:
+		_show_hint("procession.opening_mouth", "words" if mouth.carrying() == "words" else "", "words")
+	elif ending.imprint_shown and not solved.t7 and (not ending.worn.is_empty() or ending.held != "" or absf(avatar.position.x - ending.place_rect().get_center().x) <= 350.0 * unit):
+		_show_hint("procession.offering_stand", _stand_hint_phase())
 	else:
-		_hint_lines("stand", ["The stela beside Ra shows the missing offering stand.",
-			"Look behind the women mourners, on the bier, and on the offering pile for its three pieces.",
-			"Place the stand before Ra, then the sun disc, then the lotus."])
+		# Find points to nearby unfinished work; otherwise retain the level's task order.
+		var tasks := [
+			{"id": "procession.haul", "done": solved.t1, "x": _authored.haul_driver.global_position.x},
+			{"id": "procession.standards", "done": solved.t2, "x": (_slot_hit_rect("pole1").position.x + _slot_hit_rect("pole8").end.x) / 2.0},
+			{"id": "procession.offerings", "done": solved.t3, "x": _table.rect.get_center().x},
+			{"id": "procession.goose", "done": solved.t4, "x": _bearer_rect.get_center().x},
+			{"id": "procession.water", "done": solved.t5, "x": water.priest_sprite().global_position.x},
+			{"id": "procession.bulls", "done": solved.t8, "x": bulls.calf_sprite().global_position.x},
+			{"id": "procession.opening_mouth", "done": solved.t6, "x": _authored.mouth_adze.global_position.x},
+		]
+		if ending.imprint_shown:
+			tasks.append({"id": "procession.offering_stand", "done": solved.t7, "x": ending.place_rect().get_center().x})
+		var first := ""
+		var nearby := ""
+		var distance := 450.0 * unit
+		for task in tasks:
+			if task.done:
+				continue
+			if first == "":
+				first = task.id
+			var gap: float = absf(avatar.position.x - task.x)
+			if gap < distance:
+				distance = gap
+				nearby = task.id
+		var chosen: String = nearby if nearby != "" else first
+		if chosen == "":
+			say("Hint", _hints.message("procession.complete"))
+		else:
+			var destination := "default"
+			if chosen == "procession.goose" and offerings.bearer == "":
+				destination = "empty"
+			elif chosen == "procession.haul" and avatar.position.x < _authored.haul_driver.global_position.x:
+				destination = "right"
+			_show_hint(chosen, "", destination)
 
 
 func _cap(s: String) -> String:
 	return s.left(1).to_upper() + s.substr(1)
+
+
+func say_game(who: String, text: String) -> void:
+	_last_said = text
+	hud.say(who, text, "minigame")
 
 
 func say(who: String, text: String) -> void:
@@ -1484,7 +1543,7 @@ func _maybe_run_cli() -> void:
 		elif a == "--mouth" or a == "--open-mouth":   # dev: carve the face, or show its spoken words
 			hud.dismiss_intro()
 			mouth.take_adze()
-			avatar.position.x = mouth.mummy_rect().end.x + BESIDE * unit
+			avatar.position.x = _mouth_stand_x()
 			mouth.touch()
 			if a == "--open-mouth":
 				for stroke in mouth._curves.size():
@@ -1577,7 +1636,7 @@ func _autotest() -> void:
 	_set_hover(_pick(_slot_hit_rect("pole1").get_center()))
 	expect.call(_glows.size() == 16 and _glows[1].get_parent() == _pieces[slot.pole1], "a standard-bearer glows whole under the pointer: the man and his standard")
 	_set_hover(_pick(hotspots[0].rect.get_center()))
-	expect.call(_glows.size() == 1 and _glows[0].get_parent() == $Strip, "a journal figure glows under the pointer")
+	expect.call(_glows.size() == 1 and _glows[0].get_parent() == _inspection_sprites[hotspots[0].id], "a journal figure glows under the pointer")
 	_set_hover({})
 	expect.call(_glows.is_empty(), "nothing glows when the pointer leaves")
 	var was := avatar.position.x
@@ -1593,11 +1652,11 @@ func _autotest() -> void:
 		"clicking a thing walks you to its nearer edge, or, in front of it already, to where you clicked")
 	var stand: Dictionary = hotspots.filter(func(h): return h.label == "Offering stand")[0]
 	_set_hover(_pick(stand.rect.get_center()))
-	expect.call(_glows.size() == 4 and _glows[0].get_parent() == $Strip, "the adze's stand glows whole, with the rods, the foreleg and the adze")
+	expect.call(_glows.size() == 4 and _glows[0].get_parent() == _inspection_sprites[stand.id], "the adze's stand glows whole, with the rods, the foreleg and the adze")
 	_set_hover(_pick(mouth.glow_target("adze").position + Vector2(10, 10)))
 	expect.call(_glows.size() == 1 and _glows[0].get_parent() == mouth.glow_target("adze"), "the adze alone glows alone")
 	for figure in PIECE_GLOW:   # pieces, not in the strip: their own drawings glow
-		_set_hover(_pick(hotspots.filter(func(h): return h.label == figure)[0].rect.get_center()))
+		_set_hover(_pick(hotspots.filter(func(h): return h.id == figure)[0].rect.get_center()))
 		expect.call(_glows.size() == 1 and _glows[0].get_parent() == _pieces[PIECE_GLOW[figure]], "the %s glows as its own drawing" % figure.to_lower())
 	_set_hover({})
 	_autotest_haul(expect)
@@ -1766,17 +1825,14 @@ func _autotest_mouth(expect: Callable) -> void:
 	_update_camera(1.0)
 	expect.call(_focus == "mouth" and camera.zoom.x > 2.0, "carving brings the camera close to the mummy's face")
 	var blank := mouth.face_view().position + Vector2(3, 3)
-	expect.call(mouth.strike(mouth.next_chip(0) + Vector2(0, 3)), "a chip within tolerance inks the beginning of a stroke")
+	expect.call(mouth.strike(mouth._feature_bounds[0].get_center()), "a strike within the mouth bounds advances carving")
 	var progress: float = mouth._progress[0]
 	mouth._process(2.0)
 	expect.call(mouth._progress[0] == progress, "holding the pointer still never carves automatically")
-	expect.call(not mouth.strike(blank) and mouth._nicks.size() == 1, "off the line leaves a nick")
-	mouth.strike(blank)
-	mouth.strike(blank)
-	expect.call(not mouth.active and mouth.phase == OpeningMouth.Phase.ADZE and mouth._progress.all(func(v): return v == 0.0), "three nicks close the view and reset every stroke")
-	expect.call(avatar.keys and not mouth._words.visible, "after a failed attempt the adze stays in hand and walking resumes")
-	mouth.touch()
-	mouth.strike(mouth.next_chip(0))
+	for i in 10:
+		expect.call(not mouth.strike(blank), "a strike outside the features is ignored")
+	expect.call(mouth.active and mouth._progress[0] == progress and not avatar.keys,
+		"repeated misses preserve progress and keep the carving view active")
 	mouth.leave()
 	expect.call(not mouth.active and mouth._progress.all(func(v): return v == 0.0), "stepping away clears an unfinished face")
 	mouth.touch()
@@ -1789,7 +1845,7 @@ func _autotest_mouth(expect: Callable) -> void:
 	expect.call(not mouth.active and avatar.keys, "finishing the face leaves the close view and restores walking")
 	var final_image := mouth._features.texture.get_image()
 	expect.call(final_image.get_data() == mouth._feature_image.get_data(), "the finished face restores every original feature pixel")
-	expect.call(not mouth.strike(blank), "a closed carving game cannot receive another nick")
+	expect.call(not mouth.strike(blank), "a closed carving game cannot receive another strike")
 	var said := mouth.words_rect()
 	expect.call(mouth.phase == OpeningMouth.Phase.SPOKEN and mouth._adze.position == Vector2(adze.x, adze.y), "the touch opens the mouth; the adze goes back on the stand")
 	var band_free: bool = said.position.x > 850.0 and said.end.x <= 2172.0 and said.position.y >= 50.0 and said.end.y <= 180.0

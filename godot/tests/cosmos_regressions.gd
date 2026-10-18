@@ -49,7 +49,7 @@ func _run() -> void:
 			var missed: Array = []
 			for id in scene.figures:
 				var sprite: Sprite2D = scene.figures[id]
-				var image: Image = scene._images[id]
+				var image: Image = sprite.texture.get_image()
 				var found := false
 				for y in range(0, image.get_height(), 5):
 					for x in range(0, image.get_width(), 5):
@@ -69,7 +69,7 @@ func _run() -> void:
 		scene.walk_then(scene.min_x(), func(): scene.record(id))
 		scene.avatar._process(100.0)
 		scene.avatar._process(0.1)
-		expect(scene.journal.has(id) and scene.hud._text == scene.level.figures[id].description, tag + "walking arrival displays and journals the figure description")
+		expect(scene.journal.has(id) and scene.hud._text == scene._descriptions.text(id), tag + "walking arrival displays and journals the figure description")
 		scene.record(id)
 		expect(scene.journal.size() == 1, tag + "repeat looks do not duplicate journal entries")
 		scene.hud.toggle_journal(true)

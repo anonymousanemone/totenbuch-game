@@ -96,7 +96,7 @@ func _run() -> void:
 			if dimensions.x == 1280 and name == "dangers":
 				level.start_fight(level.ENCOUNTERS[2])
 				level.hint()
-				expect(hud._text == level.fight.e.hint, "hint describes the chosen fight rather than the first unsolved one")
+				expect(hud._text == level._hints.data.puzzles["dangers." + level.fight.e.id].hints.phases.fight[0].text, "hint describes the chosen fight rather than the first unsolved one")
 				var before_time: float = level.fight.t
 				hud.toggle_journal(true)
 				await frames()
@@ -191,7 +191,7 @@ func _test_feedback() -> void:
 		level._check_position()
 		level.avatar.position.x = level.span(e31).y - 100.0 * level.unit
 		level._check_position()
-		expect(level.hud._text.begins_with(e31.get("arrival", e31.intro)), "walking into spell 31 says its line (visit %d)" % (visit + 1))
+		expect(level.hud._text.begins_with(level._descriptions.line("e31", "default", true).text), "walking into spell 31 says its line (visit %d)" % (visit + 1))
 	level.take(level.ENCOUNTERS.filter(func(e): return e.id == "e38")[0])
 	var volume := AudioServer.get_bus_volume_db(0)
 	AudioServer.set_bus_volume_db(0, -80.0)
@@ -200,7 +200,7 @@ func _test_feedback() -> void:
 			continue
 		level.set_process(false)     # the fight stands still between the checks and the pictures
 		level.start_fight(encounter)
-		expect(level.hud._text == UI.plain(encounter.intro), encounter.id + " clicking the danger says its rule, with no Space to start")
+		expect(level.hud._text == UI.plain(level._hints.text("dangers." + encounter.id, "instructions")), encounter.id + " clicking the danger says its rule, with no Space to start")
 		expect(level.hud._tag_label.text == encounter.tag, encounter.id + " the fight speaks under the danger's name, not the scribe's")
 		var f0: Dictionary = level.fight.frame0
 		var f1: Dictionary = level.fight.frame1
@@ -292,9 +292,10 @@ func _test_procession_scenes() -> void:
 		Input.action_release("ui_left")
 		expect(not level.in_standards and level.held == "", "arrow exit returns carried standard safely")
 	level._table_now()
-	level._table_told = true
 	level.reset()
-	expect(not level._table_told, "restart restores the table introduction")
+	level._table_now()
+	expect(level.hud._text == level.PUZZLES.text("procession.offerings", "instructions"), "table entry after restart shows instructions")
+	level.leave_table()
 	var driver: Dictionary = level.hotspots.filter(func(h): return h.label == "Ox-driver")[0]
 	level.take_rope(driver)
 	level.haul._tween.custom_step(1.0)

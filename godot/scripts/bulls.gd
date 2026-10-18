@@ -16,6 +16,8 @@
 class_name ThreeBulls
 extends Node2D
 
+const PUZZLES := preload("res://scripts/puzzles.gd")
+
 signal said(who: String, text: String)
 signal finished
 
@@ -50,7 +52,7 @@ func setup(level: Dictionary, nodes: Dictionary) -> void:
 	_plumes = nodes.plumes
 	_right = (nodes.plumes_place as Node2D).position
 	_wrong = Vector2(level.bulls.wrong.x, level.bulls.wrong.y)
-	var sacrifice: Dictionary = level.hotspots.filter(func(h): return h.label == "The sacrifice")[0]
+	var sacrifice: Dictionary = level.hotspots.filter(func(h): return h.id == "sacrifice")[0]
 	var ox_end: float = _ox.position.x + _ox.offset.x + _ox.texture.get_width()
 	var half: float = level.sprites.avatar.w / 2.0
 	_stand = ox_end + MARGIN + half
@@ -100,12 +102,12 @@ func plumes_sprite() -> Sprite2D:
 	return _plumes
 
 
-## Step up: one line, no more.
+## Show instructions every time the player steps up.
 func enter() -> void:
 	if done:
 		return
 	active = true
-	_once("enter", "Scribe", "Fix what is wrong!")
+	said.emit("Scribe", PUZZLES.text("procession.bulls", "instructions"))
 
 
 func leave() -> void:
@@ -185,7 +187,7 @@ func _check() -> void:
 		return
 	done = true
 	active = false
-	said.emit("Scribe", "The plumed ox lowers his head to the calf. All three are as they should be.")
+	said.emit("Scribe", PUZZLES.text("procession.bulls", "success"))
 	if not instant:
 		var t := create_tween()
 		t.tween_property(_ox, "rotation", -BOW, BOW_TIME).set_trans(Tween.TRANS_SINE)

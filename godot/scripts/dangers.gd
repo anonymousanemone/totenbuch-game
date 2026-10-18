@@ -38,6 +38,9 @@ var _filled := {}        ## bearer -> his poses filled with papyrus (spell 33), 
 var actors := {}         ## sprite name -> Node2D pivot at the sprite's bottom centre
 var boxes := {}          ## encounter id -> Vector2(x0, x1)
 
+var _caption_regions := {}
+var _descriptions = preload("res://scripts/descriptions.gd").new("dangers")
+var _hints = preload("res://scripts/puzzles.gd").new()
 var solved := {}         ## encounter id -> true
 var _section := ""       ## the encounter whose vignette you are walking through
 var items: Array[String] = []
@@ -85,6 +88,8 @@ var _caption_glow: Sprite2D
 
 func _ready() -> void:
 	level = JSON.parse_string(FileAccess.get_file_as_string(DATA_PATH))
+	for region in $CaptionRegions.get_children():
+		_caption_regions[region.get_meta("registry_id")] = region
 	var heka = level.get("heka", {})
 	if heka is Dictionary:
 		for words in heka.values():
@@ -93,7 +98,7 @@ func _ready() -> void:
 	ground = level.ground
 	avatar.speed *= unit
 	avatar.bob_height *= unit
-	# Scene transforms own placement; JSON retains descriptions and source-art data.
+	# Scene transforms own placement; registry.json owns descriptions, level.json source-art data.
 	for actor in $actors.find_children("*", "Node2D", true, false):
 		if not actor.has_meta("actor_id"):
 			continue
@@ -185,6 +190,7 @@ func _picture(actor: Node2D) -> Sprite2D:
 
 
 func reset() -> void:
+	_hints.reset()
 	_kill_fight_tweens()
 	_session += 1
 	if not fight.is_empty() and fight.kind in ARENA_FIGHTS:
@@ -207,7 +213,7 @@ func reset() -> void:
 	avatar.position = Vector2(rects.avatar.get_center().x, ground)
 	avatar.facing = -1
 	hud.reset_view()
-	say("Scribe", "The road to the hall of judgment begins here. Walk left, toward the crocodiles.")
+	hud.say("Scribe", "The road to the hall of judgment begins here. Walk left, toward the crocodiles.")
 	_refresh()
 	_update_camera(1.0)
 
@@ -347,9 +353,30 @@ func _unhandled_input(event: InputEvent) -> void:
 			return
 		var c := _caption_at(p)
 		if not c.is_empty():
-			say("Spell " + c.id.trim_prefix("e"), c.title)
+			_descriptions.show("caption_" + c.id, hud)
+			return
+		var subject := _inspection_at(p)
+		if subject != "":
+			var bounds := actor_rect(subject)
+			var destination := p.x if avatar.position.x >= bounds.position.x and avatar.position.x <= bounds.end.x else clampf(avatar.position.x, bounds.position.x, bounds.end.x)
+			walk_then(destination, _record_actor.bind(subject))
 			return
 		walk_then(p.x)
+
+
+func _inspection_at(point: Vector2) -> String:
+	var names: Array = actors.keys()
+	names.reverse()
+	for name in names:
+		var actor: Node2D = actors[name]
+		if actor.has_meta("registry_id") and actor.is_visible_in_tree() and _descriptions.hit(_picture(actor), point):
+			return name
+	return ""
+
+
+func _record_actor(name: String) -> void:
+	var id: String = actors[name].get_meta("registry_id")
+	_descriptions.inspect(id, hud, journal, _picture(actors[name]).texture, _descriptions.journal_total(), "settled" if solved.has(id) else "default")
 
 
 ## What glows under the pointer (hit-tested by box): a heka word; a target in a fight, or, walking, a
@@ -367,7 +394,10 @@ func _hover_at(p: Vector2) -> Array:
 	if not f.is_empty():
 		return _creatures(f)
 	var it := _item_at(p)
-	return [it] if it != "" else []
+	if it != "":
+		return [it]
+	var subject := _inspection_at(p)
+	return [subject] if subject != "" else []
 
 
 func _set_hover(names: Array) -> void:
@@ -392,7 +422,7 @@ func _caption_at(p: Vector2) -> Dictionary:
 
 
 func _caption_rect(e: Dictionary) -> Rect2:
-	return Rect2(e.caption[0], level.caption[0], e.caption[1] - e.caption[0], level.caption[1] - level.caption[0])
+	return _descriptions.region_bounds(_caption_regions["caption_" + e.id])
 
 
 ## A caption glows like the creatures: the strip's drawing in its frame, and those of its signs
@@ -518,7 +548,7 @@ func _check_position() -> void:
 		if x < s.y - 20.0 * unit and x > s.x:
 			here_now = e.id
 			if here_now != _section and not solved.has(e.id):
-				say("Scribe", e.get("arrival", e.intro) + (" " + CLICK_TO_FIGHT if e.kind in FIGHTS else ""))
+				say("Scribe", (_hints.message("dangers.end") if e.kind == "end" else _descriptions.line(e.id, "default", true).text) + (" " + CLICK_TO_FIGHT if e.kind in FIGHTS else ""))
 			break
 	_section = here_now
 	if x < span(ENCOUNTERS[-1]).y - 40.0 * unit:
@@ -550,11 +580,10 @@ func take(e: Dictionary, item := "") -> void:
 ## `item`: what was taken (its picture goes in the Journal, and `won` may say per item).
 func _solve(e: Dictionary, item := "") -> void:
 	solved[e.id] = true
-	say("Scribe", e.won if e.won is String else e.won[item])
+	say("Scribe", _hints.text("dangers." + e.id, "success", item if item != "" else "default"))
 	var pic: String = e.foes[0] if e.kind == "crocs" else e.get("foe", item)
 	var tex: Texture2D = load(ASSET % pic)
-	journal.append(e.label)
-	hud.add_journal_entry(e.label, e.note, tex, journal.size(), ENCOUNTERS.filter(func(x): return x.has("label")).size())
+	_descriptions.remember(e.id, hud, journal, tex, _descriptions.journal_total(), "settled")
 	_refresh()
 
 
@@ -574,25 +603,31 @@ func finish() -> void:
 func hint() -> void:
 	if finished:
 		return
-	if not fight.is_empty():
-		var text: String = fight.e.hint
-		if fight.kind == "crocs" and fight.get("heka_on", false):
-			text += " Hold [shift] only for red crocodiles."
-		say("Hint", text)
-	elif not here().is_empty() and not solved.has(here().id):
-		var encounter: Dictionary = here()
-		say("Hint", CLICK_TO_FIGHT if encounter.kind in FIGHTS else encounter.hint)
-	elif current.is_empty():
-		say("Hint", "Walk left to the end of the scroll.")
-	else:
-		say("Hint", "Look for %s to your left." % current.label.to_lower() if current.kind in FIGHTS else current.hint)
+	if not fight.is_empty() and not solved.has(fight.e.id):
+		var phase := "fight"
+		if fight.kind == "sheaf":
+			phase = "bind" if fight.get("phase", "") == "bind" else "strike"
+		elif fight.kind == "crocs" and fight.get("heka_on", false):
+			phase = "heka"
+		say("Hint", _hints.advance("dangers." + fight.e.id, phase))
+		return
+	var nearby := here(FIGHTS + ["take"])
+	if not nearby.is_empty():
+		say("Hint", _hints.advance("dangers." + nearby.id, "choose") if nearby.kind == "take" else _hints.find("dangers." + nearby.id, "nearby"))
+		return
+	# Resolve unfinished work from current state, including when a later vignette is solved first.
+	for encounter in ENCOUNTERS:
+		if encounter.kind in FIGHTS + ["take"] and not solved.has(encounter.id):
+			say("Hint", _hints.find("dangers." + encounter.id, "right" if avatar.position.x < span(encounter).x else "default"))
+			return
+	say("Hint", _hints.message("dangers.complete"))
 
 
 ## In a fight, what the scribe would say is said under the danger's name (`tag`).
 func say(who: String, text: String) -> void:
 	if who == "Scribe" and not fight.is_empty():
 		who = fight.e.get("tag", who)
-	hud.say(who, text)
+	hud.say(who, text, "minigame")
 
 
 # ---------------------------------------------------------------- fights
@@ -641,7 +676,7 @@ func start_fight(e: Dictionary) -> void:
 			_donkey_start(e)
 		"sheaf":
 			_sheaf_start(e)
-	say("Scribe", e.intro)
+	say("Scribe", _hints.text("dangers." + e.id, "instructions"))
 
 
 func end_fight() -> void:

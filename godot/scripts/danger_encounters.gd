@@ -1,9 +1,9 @@
-## Encounter descriptions and tuning, in scroll order. Distances use 200-dpi plate pixels.
+## Encounter tuning and source-art geometry, in scroll order. Distances use 200-dpi plate pixels.
 extends RefCounted
 
 ## Encounters in play order. `boxes` are vignette frames from level.json; `spear` is the
 ## vignette's spear-bearer, who stands in for the player during the fight. `caption` is the frame of
-## the spell's caption in the top register (strip px, x from and to), and `title` its translation,
+## the spell's caption in the top register (strip px, x from and to), with translations in registry.json,
 ## from C. H. S. Davis, The Egyptian Book of the Dead (1894), which translates this papyrus.
 ## `tag`: whose name stands over what is said during the fight (the danger's, not the scribe's).
 const ENCOUNTERS := [
@@ -20,23 +20,13 @@ const ENCOUNTERS := [
 			{"count": 3, "speed": 180.0, "ramp": 0.01, "interval": 3.0, "at_once": 1},
 			{"count": 6, "speed": 200.0, "ramp": 0.01, "interval": 2.2, "at_once": 2, "red_order": [false, true, false, true, true, false]},
 		],
-		"arrival": "Crocodiles guard the road.",
-		"intro": "Meet each snout with your spear tip. Strike as they touch. Three bites end the attempt.",
-		"hint": "Aim with [↑] [↓]. Press [space] when the snout meets the spear tip.",
-		"won": "The crocodiles turn away.",
-		"label": "Crocodiles of spell 31", "note": "They come to take the magic of the deceased. Turned back with the spear.",
-		"caption": [5189, 6667], "title": "A chapter about repelling the reptiles that come to take off the man's magic charms in the Netherworld."},
+		"caption": [5189, 6667]},
 	{"id": "e32", "tag": "Crocodiles", "boxes": ["e32"], "kind": "crocs", "spear": "spear32", "task": 0,
 		"foes": ["c32a", "c32b", "c32c", "c32d"], "both_sides": true,
 		# harder than 31 and losable, but always possible: each crocodile is `ramp` faster than the
 		# one before (210 -> about 420), and none reaches him within `min_gap` s of the one before
 		"waves": [{"count": 14, "speed": 180.0, "ramp": 0.01, "interval": 0.8, "at_once": 2, "red": 0.35, "min_gap": 0.9}],
-		"arrival": "Crocodiles wait on both sides.",
-		"intro": "Face the approaching crocodile and meet its snout with your spear. Use heka only against red ones.",
-		"hint": "Turn with [←] [→], aim with [↑] [↓]. Hold [shift] only when striking a red crocodile.",
-		"won": "The crocodiles of the four quarters are turned back.",
-		"label": "Crocodiles of spell 32", "note": "One for each quarter of the sky. Turned back two at a time.",
-		"caption": [3944, 5168], "title": "A chapter about repelling the crocodiles coming to deprive the deceased from his magic power in the Netherworld."},
+		"caption": [3944, 5168]},
 	# the lunging snake: it waits `rest` back from where it is drawn (out of reach) for `idle` s,
 	# waves its tail (`wave` s, `tail` rad, `wave_hz`), squashes down (`crouch` s) and springs
 	# (`snap` s) to his front leg. `head_tip`, `head_rect`, `tail_base`: in its picture's pixels.
@@ -44,12 +34,7 @@ const ENCOUNTERS := [
 		# `marks`: the red mark's radius (plate px) for each strike in turn, smaller each time
 		"foe": "snake33", "need": 3, "marks": [11.0, 8.0, 5.0], "rest": 33.0, "idle": [1.2, 2.4], "wave": 1.4, "tail": 0.26, "wave_hz": 2.2,
 		"crouch": 0.35, "snap": 0.16, "head_tip": [122, 218], "head_rect": [68, 205, 58, 25], "tail_base": [28, 172],
-		"arrival": "A coiled snake blocks the way.",
-		"intro": "Watch its tail: it warns before the snake springs. Strike as its head reaches the spear point.",
-		"hint": "Wait for the tail to wave, then strike as the snake springs. Each hit makes the target smaller.",
-		"won": "The snake falls.",
-		"label": "The lunging snake", "note": "Spell 33, against a snake. Struck three times as it sprang.",
-		"caption": [3664, 3923], "title": "A chapter about repelling any reptile."},
+		"caption": [3664, 3923]},
 	# the snake on the ground, its back to him: red light, green light. It lies near the far (left)
 	# edge of the opened vignette; he creeps up on it, forward only, at `creep` plate px/s. Every `away`
 	# s it lifts its head (`tell` s, shorter with each strike; after the first strike a `fake` share of
@@ -60,12 +45,7 @@ const ENCOUNTERS := [
 	{"id": "e35", "tag": "Snake", "boxes": ["e35"], "kind": "creep", "spear": "spear35", "task": 1,
 		"foe": "snake35", "need": 3, "flee": 70.0, "creep": 90.0, "away": [1.2, 2.6], "tell": [0.6, 0.35],
 		"watch": [1.0, 2.0], "fake": 0.3, "head_rect": [104, 42, 38, 23], "head_pivot": [123, 55], "eye": [114, 52],
-		"arrival": "A snake lies with its back to you.",
-		"intro": "Creep closer while its head is down. Stop when it lifts its head. Strike when your target dot reaches its eye.",
-		"hint": "Hold [←] only while it looks away. Stop when its head lifts. Aim the target dot at its eye.",
-		"won": "The snake on the ground lies still.",
-		"label": "The snake on the ground", "note": "Spell 35. Crept up on from behind and struck three times.",
-		"caption": [3298, 3643], "title": "A chapter about not letting the man be devoured by any reptile in the Netherworld."},
+		"caption": [3298, 3643]},
 	# the roach: `count` beetles (the drawn one and copies), each to be pinned once by the spear
 	# point. Each darts at `dart` (plate px/s), rests `rest` s, and every `bait_every` darts stops
 	# by the spear point on his left or right for `bait_rest` s (a `fake` share of those just out
@@ -75,12 +55,7 @@ const ENCOUNTERS := [
 	{"id": "e36", "tag": "Beetles", "boxes": ["e36"], "kind": "roach", "spear": "spear36", "task": 1,
 		"foe": "beetle36", "count": 5, "passes": 3, "dart": 1100.0, "rest": [0.15, 0.5], "bait_every": 2,
 		"bait_rest": [0.35, 0.75], "fake": 0.3, "range": 480.0, "dot": false,
-		"arrival": "The Apshai beetles dart across the road.",
-		"intro": "Spear all five beetles when they pause near the point. Turn to face them. Each can escape three times.",
-		"hint": "Turn toward a beetle when it pauses at the spear point. The redder it is, the fewer escapes it has left.",
-		"won": "The beetles are pinned.",
-		"label": "The Apshai beetle", "note": "Spell 36. Pinned with the point of the spear.",
-		"caption": [3054, 3277], "title": "A chapter about opposing the tortoise."},
+		"caption": [3054, 3277]},
 	# the two Merti snakes: the drawn one on his left and a mirrored copy on his right, both facing him,
 	# coiled `rest` plate px out from where they are drawn. Every `idle` s one of the two snake signs
 	# in the caption (`signs`, cut as sprites; left sign, left snake) flashes red for `warn` s; that
@@ -92,22 +67,12 @@ const ENCOUNTERS := [
 		"foe": "snake37", "need": 2, "rest": 90.0, "bite": 30.0, "idle": [0.8, 1.6], "warn": [0.9, 0.45],
 		"crouch": [0.35, 0.22], "snap": [0.24, 0.17], "reach": [12.0, 7.0],
 		"signs": ["glyph37_left", "glyph37_right"],
-		"arrival": "Two Merti snakes wait on either side.",
-		"intro": "Turn to the snake that strikes ([←] [→]), and thrust as it springs.",
-		"hint": "Watch the signs above. Striking too soon provokes a snake.",
-		"won": "The two Merti snakes fall.",
-		"label": "The two Merti snakes", "note": "Spell 37. Each struck twice as it sprang.",
-		"caption": [2803, 3033], "title": "A chapter about opposing the two eyed-ureus."},
+		"caption": [2803, 3033]},
 	# spell 38: he holds out two signs, the sail (breath) and the ankh (life); only one can be taken
 	# (`items`, the right one first). What taking the ankh leads to is still to be decided: for now
 	# either opens the way on.
 	{"id": "e38", "boxes": ["e38"], "kind": "take", "items": ["sail38", "ankh38"], "task": 2, "gate": true,
-		"arrival": "The signs of life and breath are offered to you. Only one can be taken.",
-		"intro": "He offers the ankh and sail: life and breath.",
-		"hint": "Take one sign from his hand, the ankh or the sail. The caption above says which you need.",
-		"won": {"sail38": "You take the sail: the breath of life.", "ankh38": "You take the ankh: life. The sail stays in his hand."},
-		"label": "The breath of life", "note": "Spell 38, for living on air. One sign taken from his hand.",
-		"caption": [2316, 2782], "title": "A chapter about living by the breath of air in the Netherworld. It is said to oppose the asps."},
+		"caption": [2316, 2782]},
 	# Apep: his tail lashes (`lash` s) and a wave runs the length of him to the fold where the spear
 	# point rests, at `speed` plate px/s (first to second value as the barb goes in); a new one every
 	# `gap` s, none reaching the point within `min_gap` s of the one before. Each wave pressed down
@@ -120,12 +85,7 @@ const ENCOUNTERS := [
 		"foe": "apep", "need": 6, "speed": [220.0, 380.0], "gap": [2.2, 0.9], "min_gap": 0.8, "lash": 0.35,
 		"reach": [10.0, 5.0], "height": 12.0, "width": 30.0, "teach": 2, "feint": 0.35, "hump": [190, 320],
 		"head_rect": [398, 23, 44, 18], "head_pivot": [440, 33], "fold": 492,
-		"arrival": "Apep stretches across the road.",
-		"intro": "Follow each wave from Apep’s tail. Strike as it reaches your spear point. Leave waves that fade away alone.",
-		"hint": "Strike as a wave reaches the point. Small waves fade before reaching you; striking a still neck loosens the barb.",
-		"won": "Apep lies still, pinned at the neck.",
-		"label": "Apep", "note": "Spell 39, repelling Apep. Every wave of him pressed down at the spear point.",
-		"caption": [1458, 2295], "title": "A chapter about opposing serpent-Rekrek in the Netherworld."},
+		"caption": [1458, 2295]},
 	# the Eater of the Ass (spell 40): the vignette opens out close up; the bearer stands where he is
 	# drawn, his spear point resting just up its line from where the snake's front lies on the
 	# donkey's back. Its head is down in the donkey: a thrust then goes into the donkey, and he
@@ -140,11 +100,7 @@ const ENCOUNTERS := [
 		"foe": "snake40", "donkey": "donkey40", "tail": "tail40", "need": 3,
 		"swish_gap": [1.0, 2.6], "flick": 0.45, "up": [0.6, 0.38], "bite_every": [4.5, 3.6], "warn": 0.45,
 		"lift": 9.0, "lift_from": 70.0, "lift_to": 96.0, "tail_root": [1230, 529],
-		"intro": "Strike the snake three times without hitting the ass beneath it.",
-		"hint": "Watch the snake's head, not only the tail: thrust ([space]) only while its head is up off the donkey's back.",
-		"won": "The snake falls from the donkey's back.",
-		"label": "The Eater of the Ass", "note": "Spell 40. Struck three times as it snapped at the donkey's tail; the donkey spared.",
-		"caption": [581, 1437], "title": "A chapter about repelling the Eater of the Ass."},
+		"caption": [581, 1437]},
 	# the snake in the sheaf (spell 41): the vignette opens out close up; the sheaf's four bands are
 	# undone (faint) and its stalks splay; the snake is hidden inside, and the stalks stir at its
 	# height. Space (or a click on the sheaf) ties the lowest band still loose, taking `tie` s; if the
@@ -161,13 +117,7 @@ const ENCOUNTERS := [
 		"foe": "snake41", "bundle": "bundle41", "need": 1,
 		"dwell": [[0.9, 1.6], [0.65, 1.2]], "move": [0.3, 0.18], "tie": 0.28, "feint": 0.35, "linger": 0.6,
 		"coil": [1.1, 0.7], "splay": 0.32, "top": 63.0,
-		"arrival": "Something stirs inside the sheaf.",
-		"intro": "Tie each band while the stirring is above it. Once all four are tied, strike the snake as it emerges.",
-		"hint": "Wait for the stirring to settle above the next band, then [space]. When the head emerges, [space] again.",
-		"won": "The snake is pinned on top of the bound sheaf.",
-		"label": "The snake in the sheaf", "note": "Spell 41. Bound into the sheaf and speared as it came out.",
-		"caption": [50, 560], "title": "A chapter about preventing being injured in the Netherworld."},
-	{"id": "e42", "boxes": ["e42"], "kind": "end",
-		"intro": "Spell 42 is a list, not a picture: each part of the body is given to a god."},
+		"caption": [50, 560]},
+	{"id": "e42", "boxes": ["e42"], "kind": "end"},
 ]
 

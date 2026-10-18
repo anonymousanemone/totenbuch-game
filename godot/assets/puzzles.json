@@ -1,0 +1,504 @@
+{
+  "messages": {
+    "cosmos.explore": "Walk with [←] [→] or click the papyrus. Figures glow under the pointer; click one to read about it. The whole scroll is open to explore.",
+    "procession.complete": "The procession is in order. Head over to Ra on his throne.",
+    "dangers.complete": "Walk left to the end of the scroll.",
+    "dangers.end": "Spell 42 is a list, not a picture: each part of the body is given to a god."
+  },
+  "puzzles": {
+    "procession.haul": {
+      "hints": {
+        "find": {
+          "default": "Walk left to the stalled bier. Speak with the ox-driver beside the ox.",
+          "right": "Walk right to the stalled bier. Speak with the ox-driver beside the ox."
+        },
+        "phases": {
+          "pull": [
+            {
+              "level": "act",
+              "text": "Heave with [space] as the whip falls. Too early or late makes the bier slip back."
+            }
+          ]
+        }
+      },
+      "instructions": {
+        "default": "Can you help us haul the bier? Heave with [space] when my whip falls. Wait for my count, then pull on each beat."
+      },
+      "success": {
+        "default": "Well hauled! The sledge stands where it should, and the mummy goes on toward the tomb.",
+        "hauler": "You've helped the procession advance."
+      }
+    },
+    "procession.standards": {
+      "hints": {
+        "find": {
+          "default": "Click the group of eight standard-bearers to put their standards in order."
+        },
+        "phases": {
+          "sort": [
+            {
+              "level": "notice",
+              "text": "The priest with two plumes reads the order. He stands beyond the offering table."
+            },
+            {
+              "level": "act",
+              "text": "Jackal, ibis, falcon, bull, vulture, placenta, plumes, falcon: follow the procession from its front."
+            }
+          ]
+        }
+      },
+      "instructions": {
+        "default": "Can you help us? We carry each other's gods. Drag each standard to the bearer it belongs to."
+      },
+      "success": {
+        "default": "All eight standards are in order."
+      }
+    },
+    "procession.offerings": {
+      "hints": {
+        "find": {
+          "default": "Click the collapsed offering table to begin rebuilding it."
+        },
+        "phases": {
+          "build": [
+            {
+              "level": "notice",
+              "text": "Click the lector beside the table. He shows an offering you can place now."
+            },
+            {
+              "level": "interpret",
+              "text": "Build lowest first. An offering falls if its support is missing."
+            },
+            {
+              "level": "act",
+              "text": "Drag pieces above the upper shelf to clear space. They fall onto it; drag them back across to use them."
+            }
+          ]
+        }
+      },
+      "instructions": {
+        "default": "Can you help restore the offering table? Drag items to their rightful place. I can help you if you get lost."
+      },
+      "success": {
+        "default": "The offering table is whole again."
+      }
+    },
+    "procession.goose": {
+      "hints": {
+        "find": {
+          "default": "The goose-bearer holds a loaf. Take it, then find his goose among the fallen offerings.",
+          "empty": "His arms are empty. He carried a goose; it must be among the fallen offerings."
+        },
+        "phases": {
+          "return": [
+            {
+              "level": "act",
+              "text": "The goose-bearer holds a loaf. Take it, then find his goose among the fallen offerings."
+            }
+          ],
+          "find_goose": [
+            {
+              "level": "notice",
+              "text": "His arms are empty. He carried a goose; it must be among the fallen offerings."
+            },
+            {
+              "level": "act",
+              "text": "Find his goose among the fallen offerings."
+            }
+          ],
+          "give_goose": [
+            {
+              "level": "act",
+              "text": "Give him back his goose."
+            }
+          ]
+        }
+      },
+      "instructions": {
+        "default": "He hands you the loaf. It belongs on the offering table, and he is still missing his goose.",
+        "empty": "His arms are empty. He carried a goose; it must be among the fallen offerings."
+      },
+      "success": {
+        "default": "He takes his goose back in his arms, as it is drawn.",
+        "swapped": "He takes his goose and hands you the loaf. It belongs on the offering table.",
+        "carrying": "He carries his goose to the tomb."
+      }
+    },
+    "procession.water": {
+      "hints": {
+        "find": {
+          "default": "Find the priest with a jar above a kneeling woman. Click him to pour the water."
+        },
+        "phases": {
+          "pour": [
+            {
+              "level": "notice",
+              "text": "Too high only drips; drooped too far, the water splashes short. Keep the stream on its faint guide."
+            },
+            {
+              "level": "interpret",
+              "text": "His arm droops faster or slower from moment to moment: watch it, and lift as it sinks."
+            },
+            {
+              "level": "act",
+              "text": "Hold [space] to lift his drooping arm; let go to let it sink."
+            }
+          ]
+        }
+      },
+      "instructions": {
+        "default": "Can you help me pour? My arm is tired and the jar droops. Hold [space] to lift it, and keep the water running along the line."
+      },
+      "success": {
+        "default": "The water arches over Anubis and the mummy and runs down to their base, as it is drawn."
+      }
+    },
+    "procession.bulls": {
+      "hints": {
+        "find": {
+          "default": "Something is wrong with the bulls near the sacrifice. Click one of them."
+        },
+        "phases": {
+          "calf": [
+            {
+              "level": "notice",
+              "text": "Look at which way each animal faces, and what each one wears."
+            },
+            {
+              "level": "act",
+              "text": "The calf is facing the sacrifice. Drag it sideways to turn it away."
+            }
+          ],
+          "plumes": [
+            {
+              "level": "notice",
+              "text": "Look at which way each animal faces, and what each one wears."
+            },
+            {
+              "level": "act",
+              "text": "The disc and plumes are on the bull at the block. Drag them onto the living ox's head."
+            }
+          ]
+        }
+      },
+      "instructions": {
+        "default": "Fix what is wrong!"
+      },
+      "success": {
+        "default": "The plumed ox lowers his head to the calf. All three are as they should be."
+      }
+    },
+    "procession.opening_mouth": {
+      "hints": {
+        "find": {
+          "default": "Take the hooked adze beside the obelisks and touch the mummy's mouth.",
+          "adze": "Touch the adze to the mummy that Anubis holds upright.",
+          "words": "Carry the words above the mummy to Ra, at the far left."
+        },
+        "phases": {
+          "carve": [
+            {
+              "level": "act",
+              "text": "Click rather than drag; touch the adze tip within the faint eye and mouth to finish them. [esc] steps away."
+            }
+          ],
+          "words": [
+            {
+              "level": "act",
+              "text": "Carry the words to their faint outline over Ra, at the far left."
+            }
+          ]
+        }
+      },
+      "instructions": {
+        "default": "Help me finish his face. Click with the adze tip within the faint eye and mouth. [esc] steps away."
+      },
+      "success": {
+        "opened": "You touch the adze to the mummy's mouth. Its mouth opens, and words come out.",
+        "default": "The words stand over Ra again, as they are written."
+      }
+    },
+    "procession.offering_stand": {
+      "hints": {
+        "find": {
+          "default": "The stela beside Ra shows the missing offering stand."
+        },
+        "phases": {
+          "collect": [
+            {
+              "level": "notice",
+              "text": "The stela beside Ra shows the missing offering stand."
+            },
+            {
+              "level": "act",
+              "text": "Look behind the women mourners, on the bier, and on the offering pile for its three pieces."
+            }
+          ],
+          "assemble": [
+            {
+              "level": "act",
+              "text": "Place the stand before Ra, then the sun disc, then the lotus."
+            }
+          ]
+        }
+      },
+      "instructions": {
+        "default": "Something stood here before Ra.",
+        "stela": "Something stood here before Ra. The stela by the tomb shows what."
+      },
+      "success": {
+        "default": "The stand stands before Ra again, the sun disc on it and the lotus bending over it.",
+        "stela": "The stand stands before Ra again, the sun disc on it and the lotus bending over it, as on the stela."
+      }
+    },
+    "dangers.e31": {
+      "hints": {
+        "find": {
+          "default": "Look for crocodiles of spell 31 to your left.",
+          "nearby": "Click the creature to take up the spear.",
+          "right": "Look for crocodiles of spell 31 to your right."
+        },
+        "phases": {
+          "fight": [
+            {
+              "level": "act",
+              "text": "Aim with [↑] [↓]. Press [space] when the snout meets the spear tip."
+            }
+          ],
+          "heka": [
+            {
+              "level": "act",
+              "text": "Aim with [↑] [↓]. Press [space] when the snout meets the spear tip. Hold [shift] only for red crocodiles."
+            }
+          ]
+        }
+      },
+      "instructions": {
+        "default": "Meet each snout with your spear tip. Strike as they touch. Three bites end the attempt."
+      },
+      "success": {
+        "default": "The crocodiles turn away."
+      }
+    },
+    "dangers.e32": {
+      "hints": {
+        "find": {
+          "default": "Look for crocodiles of spell 32 to your left.",
+          "nearby": "Click the creature to take up the spear.",
+          "right": "Look for crocodiles of spell 32 to your right."
+        },
+        "phases": {
+          "fight": [
+            {
+              "level": "act",
+              "text": "Turn with [←] [→], aim with [↑] [↓]. Hold [shift] only when striking a red crocodile."
+            }
+          ],
+          "heka": [
+            {
+              "level": "act",
+              "text": "Turn with [←] [→], aim with [↑] [↓]. Hold [shift] only when striking a red crocodile. Hold [shift] only for red crocodiles."
+            }
+          ]
+        }
+      },
+      "instructions": {
+        "default": "Face the approaching crocodile and meet its snout with your spear. Use heka only against red ones."
+      },
+      "success": {
+        "default": "The crocodiles of the four quarters are turned back."
+      }
+    },
+    "dangers.e33": {
+      "hints": {
+        "find": {
+          "default": "Look for the lunging snake to your left.",
+          "nearby": "Click the creature to take up the spear.",
+          "right": "Look for the lunging snake to your right."
+        },
+        "phases": {
+          "fight": [
+            {
+              "level": "act",
+              "text": "Wait for the tail to wave, then strike as the snake springs. Each hit makes the target smaller."
+            }
+          ]
+        }
+      },
+      "instructions": {
+        "default": "Watch its tail: it warns before the snake springs. Strike as its head reaches the spear point."
+      },
+      "success": {
+        "default": "The snake falls."
+      }
+    },
+    "dangers.e35": {
+      "hints": {
+        "find": {
+          "default": "Look for the snake on the ground to your left.",
+          "nearby": "Click the creature to take up the spear.",
+          "right": "Look for the snake on the ground to your right."
+        },
+        "phases": {
+          "fight": [
+            {
+              "level": "act",
+              "text": "Hold [←] only while it looks away. Stop when its head lifts. Aim the target dot at its eye."
+            }
+          ]
+        }
+      },
+      "instructions": {
+        "default": "Creep closer while its head is down. Stop when it lifts its head. Strike when your target dot reaches its eye."
+      },
+      "success": {
+        "default": "The snake on the ground lies still."
+      }
+    },
+    "dangers.e36": {
+      "hints": {
+        "find": {
+          "default": "Look for the apshai beetle to your left.",
+          "nearby": "Click the creature to take up the spear.",
+          "right": "Look for the apshai beetle to your right."
+        },
+        "phases": {
+          "fight": [
+            {
+              "level": "act",
+              "text": "Turn toward a beetle when it pauses at the spear point. The redder it is, the fewer escapes it has left."
+            }
+          ]
+        }
+      },
+      "instructions": {
+        "default": "Spear all five beetles when they pause near the point. Turn to face them. Each can escape three times."
+      },
+      "success": {
+        "default": "The beetles are pinned."
+      }
+    },
+    "dangers.e37": {
+      "hints": {
+        "find": {
+          "default": "Look for the two merti snakes to your left.",
+          "nearby": "Click the creature to take up the spear.",
+          "right": "Look for the two merti snakes to your right."
+        },
+        "phases": {
+          "fight": [
+            {
+              "level": "act",
+              "text": "Watch the signs above. Striking too soon provokes a snake."
+            }
+          ]
+        }
+      },
+      "instructions": {
+        "default": "Turn to the snake that strikes ([←] [→]), and thrust as it springs."
+      },
+      "success": {
+        "default": "The two Merti snakes fall."
+      }
+    },
+    "dangers.e38": {
+      "hints": {
+        "find": {
+          "default": "Look for the breath of life to your left.",
+          "right": "Look for the breath of life to your right."
+        },
+        "phases": {
+          "choose": [
+            {
+              "level": "act",
+              "text": "Take one sign from his hand, the ankh or the sail. The caption above says which you need."
+            }
+          ]
+        }
+      },
+      "instructions": {
+        "default": "He offers the ankh and sail: life and breath."
+      },
+      "success": {
+        "default": "You take the sail: the breath of life.",
+        "sail38": "You take the sail: the breath of life.",
+        "ankh38": "You take the ankh: life. The sail stays in his hand."
+      }
+    },
+    "dangers.e39": {
+      "hints": {
+        "find": {
+          "default": "Look for apep to your left.",
+          "nearby": "Click the creature to take up the spear.",
+          "right": "Look for apep to your right."
+        },
+        "phases": {
+          "fight": [
+            {
+              "level": "act",
+              "text": "Strike as a wave reaches the point. Small waves fade before reaching you; striking a still neck loosens the barb."
+            }
+          ]
+        }
+      },
+      "instructions": {
+        "default": "Follow each wave from Apep’s tail. Strike as it reaches your spear point. Leave waves that fade away alone."
+      },
+      "success": {
+        "default": "Apep lies still, pinned at the neck."
+      }
+    },
+    "dangers.e40": {
+      "hints": {
+        "find": {
+          "default": "Look for the eater of the ass to your left.",
+          "nearby": "Click the creature to take up the spear.",
+          "right": "Look for the eater of the ass to your right."
+        },
+        "phases": {
+          "fight": [
+            {
+              "level": "act",
+              "text": "Watch the snake's head, not only the tail: thrust ([space]) only while its head is up off the donkey's back."
+            }
+          ]
+        }
+      },
+      "instructions": {
+        "default": "Strike the snake three times without hitting the ass beneath it."
+      },
+      "success": {
+        "default": "The snake falls from the donkey's back."
+      }
+    },
+    "dangers.e41": {
+      "hints": {
+        "find": {
+          "default": "Look for the snake in the sheaf to your left.",
+          "nearby": "Click the creature to take up the spear.",
+          "right": "Look for the snake in the sheaf to your right."
+        },
+        "phases": {
+          "bind": [
+            {
+              "level": "act",
+              "text": "Wait for the stirring to settle above the next band, then [space]."
+            }
+          ],
+          "strike": [
+            {
+              "level": "act",
+              "text": "When the head emerges, [space] again."
+            }
+          ]
+        }
+      },
+      "instructions": {
+        "default": "Tie each band while the stirring is above it. Once all four are tied, strike the snake as it emerges."
+      },
+      "success": {
+        "default": "The snake is pinned on top of the bound sheaf."
+      }
+    }
+  }
+}

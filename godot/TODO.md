@@ -7,29 +7,29 @@ revamps, anything that plays boring) are also in `../ideas.md`.
 
 ### Procession
 
-- [ ] **Clickable figures as sprites:** use the already separated artwork to give each clickable figure (or group described together) its own sprite in the saved scene, with a stable registry ID and attached hit area. Export these layers individually instead of recombining them into the background strip; ensure the background does not retain duplicate figures. Keep placement and hit areas editable in Godot, with consistent picking for overlapping figures.
-- [ ] **Centralize figure descriptions and interactions:** add a hand-edited `assets/procession/registry.json` keyed by stable IDs, holding names, descriptions, journal text/settings, and any named text variants. Link scene figures to it by ID rather than display-name comparisons. Use a shared loader and interaction component for description lookup, displaying text through the existing HUD, and journal recording; keep puzzle actions and selection of state-dependent responses in gameplay scripts. Move authored descriptions out of the art cutters and generated `level.json`, so re-exporting art cannot overwrite writing. Keep cutters responsible for images and source-art geometry, preserve existing behavior during migration, and establish a format reusable by other levels without migrating them as part of this task.
-- [ ] unify the click to walk mechanism - when clicking on *something*, walk to it unless otherwise specified. walk to the closest position on the object to where you are, so that could be at the right edge, at the left edge, but if you are already in front of it, walk to where the mouse clicks (because the mouse is still inside of the object). 
-- [ ] camera for cow game is panned too much to the left
-- [ ] the adze opening of the mouth game - i will manually cut out the eyes and mouth. no more chipping the beard. the handle of the adze should align with the mouse, and when the mouse clicks to chip, the adze should come down a little (rotate, with the fixed point on the mouse) very slightly to mimic the clicking. the tip of the adze is where the "action" is happening and needs to map to the correct area.
-- [ ] procession table items should snap into place (even if it's still being dragged)
-- [ ] for procession table, make it more clear he's the one you should talk to. (whne you click on him, show minigame instructions)
-- [ ] for procession table game, give intstructions/info
-- [ ] danger games - 
-- [ ] expect instructions to be on the bottom, so doesn't look up as much. 
-- [ ] when confused, look around
-- [ ] the calf description - "the young calf shakes at the sight of the sacrifice"
-- [ ] look through the minigame instructions. (in "minigame mode" when entering it, the text should get a slightly different appearnce, tbd)
-- [ ] remove losing for the opeing of the mouth game. it shoudld always let you [esc] to exit. remove the little bubbles, and just detect that wherever the tip of the adze clicks, if it's within the bounds of the features
+- [ ] **Consistent click-to-walk behavior:** clicking a physical subject should walk to it before interacting, unless that interaction explicitly requires otherwise. Approach the nearest horizontal edge when standing outside its bounds; when already in front of it, walk to the clicked position within those bounds. Review all Procession interactions for consistency with this rule.
+- [ ] **Offering-table snapping during dragging:** snap a held piece into its correct place as soon as it is close enough and its supporting pieces are in place, even while the mouse button is still held. Currently placement waits for release or another click.
+- [ ] **Make the lector priest the clear point of contact:** make it apparent that the player should click the priest beside the collapsed offering table. Clicking him should display the table minigame's instructions, including when the player needs to read them again. Instructions now appear on every entry; review how clearly the priest is presented as the point of contact.
+- [ ] **Show the placement imprint with the priest’s clue:** when the lector priest beside the offering table is clicked, keep showing a piece that can currently be placed and simultaneously fade in a faint imprint of that piece at its correct destination. Fade the imprint out with the existing piece clue, using the same timing.
+- [ ] **Review offering-table instructions:** make the objective and controls clear when entering the minigame. Review the existing text in `assets/puzzles.json` rather than adding a second source of instructions.
+- [ ] **Put minigame instructions near the action:** the playtest suggests players expect instructions at the bottom and rarely look up. Review their placement and give instructions a slightly different appearance when entering a minigame; the visual treatment is still undecided.
+- [ ] **Support players who are unsure what to do:** the playtest observation was “when confused, look around.” Review whether nearby figures, descriptions and NPC clues give enough direction. Keep these in-game clues separate from Hint-button hints.
+- [ ] **Review all Procession minigame instructions:** check that each instruction matches its current objective and controls, and that entry makes the instructions easy to notice. Coordinate this with the placement and appearance review above.
+- [ ] All levels that are programmed and playable should be marked black in the map and playable (unlocked). and by default, clicking "play" should take you to the first level. 
+- [ ] the censer (in front of the implements stand), should get the description (he hold incense over the small stand, purifying the sacred implements for the opening of the mouth ritual.)
+- [ ] currently when anubis + mummy is clicked, the water game activates instead. only activate teh water game when clicking on the priest holding the jar. if clicking anubis+mummy, they should get the description (whatever it was before + THe mummy's mouth is not opened yet, and needs the right tool).
+- [ ] the offering stand 9with the implements) should be renamed to low table. and write, "a small stand with two rods, a hooked adze, and a foreleg laid on it."
+- [ ] standards are drag and drop only, however it moves off of the mouse and becomes smaller. it should remain the same size and not look like it's jupming away from the mouse.
 
 
-**New games to think of**
-- [ ] The barque.
-- [ ] The mourning women.
-- [ ] The two object carriers right behind the Apis bull.
-- [ ] The incense.
-- [ ] Maybe a separate game for the second offering table.
-- [ ] Is there some drawing/2d rigging software that lets you set a reference point, put a box around it, and pivot around that point?
+**New games and tools to consider**
+
+- [ ] Consider a minigame for the barque.
+- [ ] Consider a minigame for the mourning women.
+- [ ] Consider a minigame for the two object carriers immediately behind the Apis bull.
+- [ ] Consider a minigame involving the incense.
+- [ ] Decide whether the second offering table should have its own minigame.
+- [ ] Research a drawing or 2D rigging tool that lets you select part of an image, set a pivot/reference point and rotate that part around it.
 
 ### Dangers
 - [ ] Spell 35, red light green light: too easy. Maybe one life only, or no hints (undecided).
@@ -37,99 +37,6 @@ revamps, anything that plays boring) are also in `../ideas.md`.
 - [ ] Spell 39, Rekrek (Apep): far too easy. Make it faster, or change the game.
 - [ ] Spell 38: life and breath become two separate signs, and only breath is taken: the player must click the breath sign (one choice only). Taking the wrong one makes the following fights nearly impossibly hard. Clicking spell 38's caption title shows "breath" in bold (or similar), which tells the player which to pick. **Art ready (2026-10-16):** in the .mdp the ankh and the sail are separate layers now: `breath38/ankh` is the ankh (life) alone, `breath38/t3` the sail (breath). Still to decide: how "nearly impossibly hard" works after taking the wrong one. *Built (2026-10-16):* they are two sprites (`ankh38`, `sail38`), each clicked on its own; only one can be taken, the other stays in his hand. For now either one opens the way on.
 - [ ] Spells 40–41: both are boring and slow. Rethink their pace (undecided).
-
-## Playtest notes — 2026-10-15 (done)
-
-What the 2026-10-15 playtest changed. What is still open is at the top.
-
-### Everywhere (all levels)
-
-- [x] **Hover glow colour:** level palettes live in `glow.gdshader` (`procession` and `danger`); each level selects its named palette through `UI.Glow`.
-- [x] **Success flash:** much softer and shorter (`UI.FLASH`, 0.6 s).
-- [x] **Camera refocus:** in the procession, stepping up to the table, the standards or the water, taking up the rope, and stepping away now ease in and out over `REFOCUS` (0.8 s). In the dangers, the camera eases in and out (smoothstep) as a fight opens out and closes.
-- [x] **Walking to a figure (procession):** you stop `STAND_GAP` (6 plate px) clear of the figure, on the side you came from.
-- [x] **Carried objects have no text:** the carried-item box shows only the picture; the stand pieces say nothing when picked up; "Set them up before Ra" is gone.
-- [x] **Drag and drop:** a dragged offering or standard is never in the carried-item box.
-- [x] **Camera zoom-out framing (try it out):** `FRAME_FROM_TOP` in `procession.gd` (on): zoomed out, the top guideline stays under the title bar and more text below shows. At the usual zoom nothing changes. Set it to `false` for the old centring.
-- [x] **The text below the frame:** the procession's 2026-10-15 re-cut reads it from the .mdp's `text_below` layers. The dangers' strip already matched its .mdp's `text_below` layers. **Partial dangers cut (2026-10-15):** only spell 40 had changed in the .mdp (the donkey, its snake, the spear-bearer and his spear moved 29 px right; the tail is new, on its own layer `snakeass40/tail`; the text below under it). Cut: `donkey40`, `snake40`, `tail40` and the strip there; spear40 moved with them (`level.json`, its `tip` in `spearers.json`; its sheet row is unchanged); `tail_root` (1230, 529); the four nodes in `dangers.tscn`. `tools/cut_dangers300.py` now reads the new tail layer and builds `bundle41` from the `sheaf41` pieces (no longer in p19), so a full cut runs again. `spearers.png` was not remade: regenerated, its spell 41 row would differ from yours.
-- [x] **Part-vs-whole highlighting:** a figure inside another is picked first and glows alone; anywhere else on the whole, the whole glows. A part can also be one figure of a sprite that holds several (`UI.part_glow`). First use: the censer priest and the bier, both parts of the sledge's drawing.
-
-### Procession (spells 1–15)
-
-**Intro**
-- [x] Bigger text: the intro and outro cards use the dialogue size (32 px), up to `OVERLAY_W` (900 px) wide. This also applies to the dangers.
-
-**Captions**
-- [x] Spell 1's caption is two (from your `top text front` layer): x 13275–14878 "Beginning of the chapters about the going forth by day and the carrying of the shades into the Netherworld." and x 10164–13275 "To be said on the day of burial (in order to) go in after coming forth.", each with its own highlight.
-
-**Figures and descriptions**
-- [x] **The bier:** one item, "The funerary bier", covering the whole boat (plates II–I), glowing as its own part of the sledge drawing. Its note is "A processional boat with the funerary bier."; clicked before the hauling it adds "The bier is stalled. Ask the ox-driver how to haul it."
-- [x] **The incense man:** "Priest with censer" is on his own, with his own glow, and is recorded in the Journal when clicked. Note: "A priest walks before the bier with a censer, offering incense."
-- [x] **The two monuments:** taken to be the two obelisks in plate V (the tomb chapel and the stela were already clickable). One item, "Two obelisks": "Two obelisks stand on their bases."
-- [x] **The man across the offering table:** "Man with a water jar", "A man holds a water jar over the offering table for purification.", his box trimmed to x 4835–5005 so the bouquets beside him aren't part of him.
-
-**Hauling**
-- [x] **The ox-driver is his sheet** (`haul_driver_sheet.png`, hand-edited, never remade): the driver and his whip are one sprite showing the frame nearest the whip's angle on the beat (`haul.gd`). In the editor he shows the frame as drawn (2).
-- [x] **Art (the .mdp):** the duplicate forearm and whip are gone from the `haul/driver` layer.
-
-**Standards**
-- [x] With the standard-bearers, only the standard under the pointer highlights.
-- [x] A click there never walks you off (arrows and Esc still leave).
-- [x] Each standard sits on the stub of whatever pole it's on: its seat (the bottom of its middle part) matches the seat of that pole's own standard. Wepwawet's streamer hangs 6 px below its base, which made it float.
-- [x] When all eight are in order, a soft wash of colour comes and goes over the scene: `STANDARDS_DONE_FLASH` in `procession.gd`.
-- [x] Once complete, they lock.
-- [x] Drag and drop (or click to take up, click to set down, like the table): set a standard on any pole and it swaps with the one there; let go anywhere else and it goes back where it came from.
-
-**The double-plumed priest (the recital)**
-- [x] Clicking him: you stand in front of him (he faces left), facing him.
-- [x] The standards appear one at a time in the space in front of his plumes, above his sheet, each replacing the one before (`RECITE_STEP` 1.1 s apart).
-
-**Offering table**
-- [x] Clicking the goose-bearer says "Odd that he's holding a loaf of bread." The scene starts only from the lector or the heap (or a fallen piece).
-- [x] At the table, the table itself no longer highlights.
-- [x] Once complete, hovering it highlights the whole table, offerings included.
-
-**The stand before Ra (the finale)**
-- [x] Until the stela shows the imprint, the pieces can't be taken; clicking one says "This might come in handy later, but you wouldn't want your hands full right now." The old early-stand soft lock ("Some things have not been set right yet") couldn't happen any more and is gone.
-- [x] When the procession is in order: "The procession is in order. Head over to Ra on his throne."
-
-**Water pouring**
-- [x] **The water priest is his sheet** (`water_sheet.png`, your hand-edited frames, never remade): he is out of the strip (`--water` with the sheet present takes `water/man` out) and shows the frame nearest the tilt; the spout, the drips and the jar's click area follow the frame shown, turning about your elbow pin (2289, 328). In the editor he shows the frame as drawn (11). The jar glows as its part of the frame; the priest glows whole.
-- [x] **New game:** his arm droops by itself, at a rate drawn at random (`DROOP` 0.06–0.4 rad/s), changing every `DROOP_EVERY` (0.6–1.6 s, also random). It really is random: a fresh seed each time you step up. Hold Space to lift (`LIFT` 0.6 rad/s). The line fills while the stream is lined up and slowly dries back when it isn't (never below `KEEP` of the furthest reached). The water particles are unchanged.
-
-### Dangers (spells 31–42)
-
-**Everywhere in the dangers**
-- [x] Bigger text on the intro card (the shared card: 32 px).
-- [x] The sassy text is back: every in-fight line `9864c00` ("major sweep again") flattened has its old wording again, wherever the same moment is still in the game:
-  - the crocodiles: "The crocodile turns away.", "They come again.", the heka thefts (since put back to their original wording, see above), "The fight is lost. Click the creature to take up the spear again."
-  - "Struck!" / "Pinned!" / "Pressed down…" on each hit (spells 33, 35, 36, 37, 39, 41)
-  - each mistake's old explanation ("Too early: your spear was already coming back up…", "The barb jars on a still neck…", "It was at that band: it bites through the stalks…", …)
-  - the beetles' swarm line, and "You step back out of the vignette…" on Esc.
-  - Corrective lines still show once per fight (as since the sweep); a crocodile reaching you is said every time again. The short intros, hints and arrival lines are unchanged.
-- [x] No Space to begin: a fight starts on the click. Spell 31 keeps its lesson (one thrust before the first crocodile comes); spell 32's first crocodile comes 1.2 s in (its `timer`). The intro card says "Click a creature to learn its rule and take up the spear."
-
-**Heka signs (spells 31–32)**
-- [x] Part for whole: on the scroll, the heka word glows alone under the pointer; anywhere else on its caption, the whole caption glows with the heka word. (In a fight it glows as before.)
-
-**Crocodiles (spells 31–32)**
-- [x] Before the second wave of spell 31: "The crocodiles draw back. Above, signs begin to glow red." again, and a red crocodile's first bite says "Bronze alone will not turn the red ones. The signs glowing above may tell you how." Plain bronze on a red crocodile does nothing, silently (no "hold Shift").
-- [x] The red dots that counted the crocodiles are gone, in both fights. (The beetles of spell 36 keep theirs.)
-- [x] Flesh signs: `flesh.png` cropped to the sign (its white margin; 188×132 → 96×91), drawn `FLESH_SIZE` 28 px tall (about 1.3× before) and `FLESH_GAP` 6 px apart. Adjust the two if they should be bigger.
-- [x] Losing to bites: "One bite too many: the spear-bearer crumbles to dust." again (every fight).
-
-**Spell 37, the Merti snakes**
-- [x] Spell 37, the Merti snakes: nothing gives away that the flashing sign shows which snake strikes. Every earlier version said it outright, so this is new wording (check it: see Open).
-  - intro: "Turn to the snake that strikes ([←] [→]), and thrust as it springs."
-  - hint: "Watch the signs above. Striking too soon provokes a snake."
-  - bitten from behind: "It sprang from your other side. Turn to face it ([←] [→]). Bitten."
-
-**The last two fights (spells 40–41)**
-- [x] On the scroll, spell 40's donkey (and its tail) glows and takes the click with the snake on its back; spell 41's sheaf with its snake.
-- [x] Walking from spell 40 to 41, the avatar passes behind the column of signs between them (x 561–835) and comes out the other side: `Column` in `scenes/dangers.tscn` draws the papyrus and the strip's ink there over him (hidden while a fight is open).
-
-**Bugs**
-- [x] **Crash in spell 40:** fixed (`_targets()` reads `fight.e.foe`); `tests/script_regressions.gd` covers it.
 
 ## Audit status and approval
 
@@ -284,71 +191,6 @@ Preserve narrative character interactions: their purpose is not limited to mecha
 - [x] Preserve meaningful character dialogue and Hall declarations while trimming repetitive mechanical narration.
 - [x] Test feedback with sound muted and with repeated mistakes to verify clarity without message spam.
 
-## P3 — Dead code and maintenance
-
-- [x] Remove obsolete `_parked` sprite dictionary/layer and unused pick/take/reset branches now that upper offerings are physics bodies.
-- [x] Update offering-table comments describing fixed parked sprites and the frond returning above instead of falling.
-- [x] Update hauling documentation that says the original hauler appears only after success.
-- [x] Review hidden-avatar positioning/leaning during hauling; preserve required camera/exit positioning and remove redundant work.
-- [x] Remove ignored HUD configuration fields and obsolete task-panel data where appropriate.
-- [x] Remove or give purpose to HUD `_done` and `update_tasks`, which store data without displaying it.
-- [x] Decide whether the disabled minimap is planned functionality or obsolete code, including its signals and level connections.
-- [x] Resolve the commented-out spell-38 gate override and align progression, copy, and regression expectations.
-- [x] Share repeated glow, completion-flash, and palette behavior where it prevents divergence.
-- [x] Review `_hurt` tween callbacks for freed-node access during cleanup reported by the danger test.
-- [x] Reset `_table_told` on restart so first-time table instructions can be shown again.
-- [x] Update stale README descriptions, especially spell 41's old reeds mechanic.
-- [x] Update the project description's outdated spell ranges.
-
-## Validation after implementation
-
-- [x] Review all five intros/outros, Journal pages, and menus at 1280 × 720 and smaller window sizes.
-- [x] Check the longest messages with and without a carried item.
-- [x] Check each minigame before starting, during feedback, after failure, and after reopening.
-- [x] Verify Journal/overlays pause gameplay and cannot accidentally move or exit the avatar.
-- [x] Check color meaning and readability in grayscale.
-- [x] Test hints with encounters played out of order and while carrying an object.
-- [x] Verify exits match their displayed instructions.
-- [x] Run regression suites after resolving the gate override and cleanup errors.
-- [x] Check off each implementation item only after its relevant verification passes.
-
-## Intro slides: the Old Fax font (original audit, completed)
-
-Checked at 1280×720 on all five intros (procession, cosmos, field, hall, dangers). The outro uses
-the same builder (`hud.gd` `_build_overlay`), so every fix here applies to it too.
-
-**Why it looks cramped:** Old Fax is set with ascent 768 + descent 192 in a 1024 em and a line gap
-of 92 that Godot ignores. At 16 px the lines are only 15 px apart, less than the font size, so
-descenders nearly touch the ascenders of the next line. At 32 px (the scribe strip) it is the same.
-
-- [x] **Line spacing.** Set `line_separation` on RichTextLabel and `line_spacing` on Label in
-  `UI.theme()`: about +6 px at 16 px (a 21 px pitch, ~1.3×) and about +10 px at 32 px. Doing it in
-  the theme fixes the intros, outros, journal and scribe strip together.
-- [x] **The button.** "Begin" (32 px) has no padding, so its letters touch the box. Give the
-  Button styles content margins of about 16 px left/right and 6–8 px top/bottom (normal, hover
-  and pressed alike). Also check the menu's buttons, which use the same theme.
-- [x] **Panel breathing room.** The panel padding of 28/22 → about 36/30. Raise the spacing after
-  the title from 14 to about 18 and before the button to about 24 (a spacer, or a separate
-  separation). In the hall intro the title "Spell 125: The Hall of the Two Truths" nearly touches
-  the right border.
-- [x] **Paragraph gaps.** Once lines are spaced, a full blank line between paragraphs (`\n\n`) is
-  ~42 px, too much. Use single `\n` with RichTextLabel `paragraph_separation` (~10 px) instead.
-- [x] **Line length.** The body is 640 px wide, about 80 characters a line at 16 px. Narrow it to
-  ~580 px (~70 characters).
-- [x] **Bold and italics do nothing.** Old Fax has no bold or italic face, so `[b]right to left[/b]`
-  (dangers, procession) and `[i]…[/i]` show as plain text. In `_keys()`, map `[b]` to the tag red
-  (`UI.TAG`) and `[i]` to ochre, or drop the markup.
-- [x] **Remove "Every figure is cut directly from Lepsius's 1842 plates; nothing is redrawn."**
-  from the intros in `procession.gd` and `dangers.gd`. `godot/README.md` already says "Every figure
-  is cut from the plate scans"; add "nothing is redrawn" there, once.
-
-Seen in passing (not the intro, same cause):
-- [x] **Scribe strip overflow.** At 32 px, a three-line scribe line (dangers' spell 31 intro,
-  the hall's opening) passes `_fit_say()`'s height test but its last line runs into the bottom
-  edge of the window. Once lines are spaced, three lines at 32 px won't fit; check the
-  threshold. Implemented fixed-size pagination instead of dropping to 16 px.
-
-
 ## Completion notes
 
 - Dialogue stays at 32 px and pages without dropping words. Essential controls and progress stay
@@ -372,48 +214,143 @@ Seen in passing (not the intro, same cause):
 - The headless renderer still reports its known glow-sampler diagnostic, macOS certificate
   diagnostic, and occasional exit-time object-leak warning; no unexpected errors were reported.
 
-## Finished tasks
+## Completed — 2026-10-18
 
-### Everywhere
-- [x] **Success flashes (second playtest):** when a task is done (the crocodile or snake fights, the offering table, the Opening of the Mouth, and so on), the objects it involved all flash a very slight, unsaturated green. Every glow colour lives in `glow.gdshader`. *Done:* `UI.success_flash`; the colour is `success` in `glow.gdshader`. Fights won, the hauling, standards, table, goose, water, mouth and the stand before Ra all flash what they involved. The old warm wash over the scene for the standards is gone (it's the green flash now).
-- [x] **Your call:** keep `FRAME_FROM_TOP` in `procession.gd` (zoomed out, the top guideline stays under the title bar and more text below shows; `false` for the old centring)? *Kept (your answer, 2026-10-16):* yes. The title bar still overlaps the top guideline: the upper line of the scroll's top double line (rows 30–35) stays under the bar in every view (`VIEW_TOP` 36), walking or zoomed out.
-- [x] **Your call (dangers walk-stop):** the only figure you walk up to in the dangers is spell 38's giver (you stop `BESIDE`, 50 px, right of the ankh and sail); clicking a creature walks you into its vignette. Change the giver's, or leave it? *Done:* you said the giver's stop is correct; left as is.
+### Shared hint system — implemented (2026-10-18)
+
+- [x] **Move hint content into JSON:** create a hand-edited `godot/assets/puzzles.json`, split by stable puzzle IDs such as `procession.standards`, `procession.offerings`, `procession.goose`, `procession.water`, `procession.bulls`, `procession.opening_mouth`, `procession.offering_stand`, `procession.haul`, and `dangers.e31` through the actual encounter IDs. Keep this file independent of the art cutters and generated `level.json` files. Each puzzle contains `hints`, `instructions` and `success`; named instruction and success variants preserve phase-specific messages and outcomes. Keep puzzle rules and progress in gameplay scripts; JSON holds authored text, not executable conditions.
+
+**Suggested hint levels**
+
+**Terminology:** “clues” are information available within the game world through NPC descriptions, speech, artwork, objects and other observations. “Hints” exclusively means help requested by clicking the **Hint button**. Ordinary controls and minigame instructions remain instructions.
+
+These four levels are Hint-button hints. They can point toward or explain in-game clues, but are separate from those clues and from ordinary instructions and feedback. These are editorial meanings; existing text is reused, and intermediate levels are omitted where no suitable text exists.
+
+| Level | Purpose | Example: turning the calf |
+| --- | --- | --- |
+| 1 — Find | Point toward an unfinished puzzle and where to find it, without explaining its solution. | “Look for the calf and the two bulls near the sacrifice.” |
+| 2 — Notice | Point toward a relevant detail or someone worth consulting, without stating the answer. | “Look at what the calf is facing.” |
+| 3 — Interpret | Explain the relationship or principle the player needs to understand. | “The calf shies at the sacrifice. It should face the living ox.” |
+| 4 — Act | Give the exact next action, including the answer when needed. | “Drag the calf sideways until it turns to face the plumed ox, then release.” |
+
+- [x] Keep Find at the puzzle level. Write each Notice → Interpret → Act ladder about one puzzle phase or remaining problem. Do not use a later slot to introduce an unrelated task. For example, turning the calf and moving the plumes need separate ladders; finding the final stand pieces and assembling them also need separate phases.
+- [x] Use Find plus up to three puzzle-specific levels per phase; do not pad simple actions with artificial hints. The last available hint should be actionable. Basic controls and entry instructions should be available immediately as ordinary instructions, without spending a hint level.
+- [x] Keep hints short enough for the bottom dialogue strip. Level 1 directs the player to an unfinished puzzle; level 2 encourages examining a clue within it; explicit solutions belong at level 4. Respect the existing spell-37 wording constraint: no hint should disclose which flashing sign predicts which snake.
+
+**Proposed JSON shape**
+
+```json
+{
+  "puzzles": {
+    "procession.bulls": {
+      "hints": {
+        "find": {
+          "default": "Look for the calf and the two bulls near the sacrifice."
+        },
+        "phases": {
+          "calf": [
+            {
+              "level": "notice",
+              "text": "Look at what the calf is facing."
+            },
+            {
+              "level": "interpret",
+              "text": "The calf shies at the sacrifice. It should face the living ox."
+            },
+            {
+              "level": "act",
+              "text": "Drag the calf sideways until it turns to face the plumed ox, then release."
+            }
+          ]
+        }
+      },
+      "instructions": {
+        "default": "Fix what is wrong!"
+      },
+      "success": {
+        "default": "The plumed ox lowers his head to the calf. All three are as they should be."
+      }
+    }
+  }
+}
+```
+
+- [x] **Shared selection and progression:** the level supplies the current puzzle and phase IDs to a shared hint reader. It selects the next authored entry and sends it through the existing HUD as speaker “Hint”. Puzzle/phase IDs must not depend on visible names or scene node paths.
+- [x] While exploring, the Hint button gives level 1 (Find): point toward a nearby unfinished puzzle, otherwise the next unfinished puzzle in level order. A relevant carried item can determine which unfinished puzzle to point toward. When the player is in a puzzle, the button gives that phase's Notice → Interpret → Act hints instead. Find is an explicit hint level, stored once per puzzle, but repeating it while walking does not consume that puzzle's phase hints. Never point toward completed puzzles or give advice for completed phases; when none remain, give a brief completion/navigation message.
+- [x] Advance puzzle-specific hint levels only when the player explicitly presses Hint while in that puzzle. Entering a minigame, receiving ordinary instructions, or seeing gameplay feedback must not consume a Hint-button hint. Remember the next hint separately for each puzzle and phase during the current attempt; leaving and returning preserves it. A newly reached phase starts at its first hint. Repeat the last hint after the ladder is exhausted. Restarting the level clears hint progression. No automatic hints or cross-session persistence in the initial implementation.
+- [x] Cosmos currently has no puzzles: retain its general exploration help, without creating artificial puzzle ladders.
+
+**Before the JSON migration (2026-10-18)**
+
+Before migration, the HUD shared a Hint button and signal, but each level implemented its own selection logic without shared hint JSON or standardized difficulty levels.
+
+| Current context | Current hints | Difference from the proposal |
+| --- | --- | --- |
+| Procession: standards | Two successive lines: consult the plumed lector, then the full eight-standard order. | Roughly Notice → Act; no intermediate interpretation. |
+| Procession: offering table | Three lines: build lowest first; use the upper shelf; ask the lector to show a placeable offering. | A sequence of different practical tips, rather than three levels about the same obstacle. |
+| Procession: bulls | Three lines: inspect facing/headgear; turn the calf; move the plumes. | First line is broad, but the next two address separate unsolved tasks. |
+| Procession: water | Three lines: Space lifts the arm; keep the stream on its guide; compensate for changing droop. | Starts with controls and continues with technique; not an increasing reveal of one answer. |
+| Procession: final stand | Three lines: inspect the stela; locations of the three pieces; assembly order. | Mixes finding and assembly phases in one ladder. |
+| Procession: hauling and active opening-mouth game | One fixed action hint each. | No escalation. The mouth hint still says “finish all three” despite only eye and mouth being carved. |
+| Procession: carrying the adze or words, goose task, and exploration | Fixed next-action or navigation messages; exploration follows the first unfinished task in a hard-coded order. | No separate per-phase ladders; navigation is mixed into the same handler. |
+| Dangers | One `hint` string per encounter in `danger_encounters.gd`; active fight takes priority, then the local unfinished encounter, then the next unfinished task. Crocodile help can append a heka reminder. | State-aware selection, but repeated requests generally repeat the same advice. |
+| Cosmos | One fixed walking/inspection message. | General help only; appropriate until puzzles exist. |
+
+Before migration, Procession's `_hint_step` remembered independent indices for standards, table, bulls, water and stand. Repeated requests stopped advancing the displayed text at the last entry; level restart cleared the indices. Other hints had no ladder counter.
+
+- [x] **Migration and acceptance:** move existing text into the puzzle/phase structure, then edit it into the proposed levels; review it against actual gameplay rather than assuming the existing line order is a difficulty order. Correct stale mouth instructions to eye and mouth; do not implement the separately proposed mouth-game rule changes as part of the hint migration. Check Find selection among unfinished puzzles, the switch from Find to puzzle-specific hints on entry, separation from ordinary minigame instructions, phase changes, completed-phase exclusion, independent progression, final-hint repetition and restart reset. Verify JSON IDs and ordered levels, and check readability at the supported window sizes. Implemented in `assets/puzzles.json` and `scripts/puzzles.gd`, with level scripts selecting context. Existing text was restructured; edits were limited to stale counts, state accuracy and navigation direction.
+
+### Background and sprite descriptions — implemented (2026-10-18)
+
+- [x] **One shared description system, with content per level:** use hand-edited `assets/<level>/registry.json` files, following the Procession registry proposal below. Each describable figure, object or background feature has a stable ID, a display name, descriptive text and optional speech and journal settings. Keep descriptions independent of generated art metadata and `puzzles.json`; art exports must never overwrite authored writing.
+- [x] **Sprites:** attach the registry ID to the saved scene object. Keep its texture, placement and hit area in the scene. Parts can share a description ID when they represent one subject; give a part its own ID only when it has something distinct to describe. A group described together can remain one subject.
+- [x] **Background:** retain the continuous illustration, guidelines and text as background art. Add named, editable inspection regions in the scene only for features worth describing, such as a stela inscription, a landscape or a scene's setting. Link those regions to the same registry as sprites; a region does not require a separate image. Ordinary empty papyrus remains click-to-walk, with no generic description on every click.
+
+**Content and terminology**
+
+- [x] Descriptions state what the player sees; NPC speech states what the character says. Either can provide an in-game **clue**. Write observations that help the player infer a solution, such as “The young calf shakes at the sight of the sacrifice,” rather than automatically issuing the Hint-button answer “Turn the calf around.” Keep basic controls and minigame instructions separate. **Hints** remain exclusively the help requested through the Hint button.
+- [x] Store text in each entry's `descriptions` dictionary, with `default` and named states such as `unsettled` and `settled` as sibling keys. Gameplay scripts select the appropriate variant from actual state, falling back to `default`; JSON contains text, not condition expressions. Repeat inspection shows the appropriate description again; it does not advance a hint ladder or progressively reveal answers.
+- [x] Keep text brief enough for the bottom dialogue strip. Use a consistent descriptive voice; label speech with the NPC's name and observations with the subject's name. Preserve uncertainty in identifications instead of presenting guesses as established facts.
+
+**Proposed JSON shape**
+
+```json
+{
+  "entries": {
+    "calf": {
+      "name": "Calf",
+      "descriptions": {
+        "default": "A young calf stands near the bulls.",
+        "unsettled": "The young calf shakes at the sight of the sacrifice.",
+        "settled": "The calf faces the living ox."
+      },
+      "journal": true
+    },
+    "stela": {
+      "name": "Stela",
+      "descriptions": {
+        "default": "A round-topped stela beneath the winged sun."
+      },
+      "journal": true
+    }
+  }
+}
+```
+
+An entry may also supply `speech` and `speaker` when an NPC has a spoken line. The stela can be linked to a sprite or a background inspection region without changing its text entry. The examples illustrate the registry format; existing text is reused in the implemented entries.
+
+**Interaction and journal behavior**
+
+- [x] Use a shared inspection handler to resolve the selected object's ID, obtain the current text variant and display it through the existing HUD. Scene scripts retain puzzle actions and decide whether a click inspects, speaks, picks up an item or enters a minigame. Preserve explicit interaction exceptions; do not make an extra inspection click mandatory before every puzzle action.
+- [x] Pick active minigame controls and foreground objects before background regions. Resolve overlapping subjects consistently with drawing order and distinct parts. Use suitable hit shapes or alpha checks so transparent sprite margins do not block subjects behind them. Highlight the actual selected subject; do not highlight an entire background when only one feature is selected.
+- [x] In ordinary exploration, clicking a physical describable subject walks to it using the shared approach rule, then displays its text. Background caption translations continue to display in place. Clicking empty space walks there. Hover only identifies the subject; it does not show a description or reveal a clue automatically.
+- [x] Journal entries use stable IDs, not display names, to avoid duplicates and allow identically named figures. Record only text the player has actually seen. Re-inspecting a changed subject updates that entry to its latest observed description; unseen variants never appear automatically. Use the sprite's image or a crop of the background region as its journal picture.
+- [x] **Migration and acceptance:** move Procession's cutter-authored hotspot descriptions, Dangers' descriptive encounter text and Cosmos' figure descriptions into this format without moving combat tuning or puzzle rules. Connect saved sprites and necessary background regions by ID. Check default and state-specific text, NPC speech, overlapping targets, empty-space walking, journal updates, and that inspection never consumes or advances Hint-button hints. Verify re-exporting art preserves all authored descriptions. Implemented through per-level `registry.json` files, `scripts/descriptions.gd`, saved inspection regions and sprite IDs, with journal entries updated by stable ID. Art exporters now write IDs and geometry instead of authored descriptions.
 
 ### Procession
-- [x] **Your call (the stand before Ra):** carry the three pieces like the adze and the words (follow the pointer, click to set down): one at a time, or 1–3 following the pointer for this last go-round? *Done (your answer, 2026-10-15):* the pieces attach to you as you posed them in the editor (now `WORN` in `ending.gd`); drag one off (or click it, then click again) to carry it to the place, one at a time.
-- [x] **Your call:** tune the water game once you've played it (`DROOP`, `DROOP_EVERY`, `LIFT`, `DAMP`, `WINDOW`, `DRY`, `KEEP` in `pour_water.gd`). Made much more sensitive (second playtest): the arm now has momentum and keeps swinging, the pulls are stronger and change more often, and the window is narrower (0.12 → 0.09 rad).
 
-**Second playtest (2026-10-15)**
-- [x] **Haul, the driver's arm:** the whip swing looks janky. It clicks from pose to pose instead of swishing down. Why: the sheet has only 8 frames for the whole 0.75 rad swing, and the downstroke (`_whip_angle`, the last 20% of the beat, about 0.18 s) jumps through them in a few screen frames. The old whip was one sprite rotated smoothly. *Done:* both arms (the driver's and the water priest's) turn smoothly in code again, each a child sprite of its body pinned at the shared elbow. The sheets stay on disk, untouched, and give only the Journal pictures.
-- [x] **Haul, "Missed a beat":** it still shows while you are pulling the bier closer. Likely why: the driver says it once (`_once("missed", ...)`), and the line stays on screen until something else is said. Good pulls say nothing, so it never clears. *Done:* after a miss or a slip, the next good pull has the driver answer: "That's it. Keep the beat." A later miss is said again.
-- [x] **Haul, what's in front of the driver:** you used to see whatever is in front of the ox-driver come closer as you hauled, and now it doesn't. Why is not found yet: `_place` still moves the ox with the train (`_ox_home + offset`). Check in play. *Done:* why: while hauling, the camera followed you (the hauler), so the whole train moved with the camera and only the ox's nose showed at the left edge. Now the camera holds still on the train and the road ahead of the ox (`_haul_view`, `HAUL_AHEAD`), so you see the train come up.
-- [x] **Haul, walking up:** clicking the bier should walk you up to it, like everything else. Clicking the ox-driver (which starts the game) should walk you to exactly where the hauler is drawn, then fade you into his pose. *Done:* the bier walks you up to it; the ox-driver walks you to the hauler's place, and you fade into his pose (`INTO_POSE`, also fading back out when you let go).
-- [x] **Haul, after it's done:** clicking the hauler says "You've helped the procession advance." *Done:* the hauler says it (speaker tag "Hauler").
-- [x] **Haul, success message:** say something when the heave is done. *Done:* the driver: "Well hauled! The sledge stands where it should, and the mummy goes on toward the tomb." (plus the green flash).
-- [x] **The three bulls:** implement the game in `../ideas.md` (calf flips away from the sacrifice, crown to the plumed bull). *Built (2026-10-16):* `scripts/bulls.gd`; the plumes from the `.mdp`'s `bulls/plumes` and `bulls/plumes_wrong`. It counts as a rite: the stela waits for it too.
-- [x] **Task starters speak:** when you click a figure that starts a task, it asks you instead of stating the rules dryly. For example: "Can you help restore the offering table? Drag items to their rightful place. I can help you if you get lost." *Done:* the ox-driver ("Can you help us haul the bier? ..."), the standard-bearers ("Can you help us? We carry each other's gods. Drag each standard to the bearer it belongs to."), the lector priest at the table (your line), and the priest with the jar ("Can you help me pour? ..."). The adze and the stand's pieces have no figure to ask, so they are as they were.
-- [x] **Offering table:** remove the faint outlines. All the information comes from clicking the lector. *Done:* the placement ghost is gone (node, code, hint line).
-- [x] **Standards, the lector's recital:** centre the signs over the top of his sheet of paper. They sit too close to his face now. *Done:* centred over the top of his sheet (`recital` in `level.json`, `RECITAL` in the cutter).
-- [x] **Standards:** drag only. No click to pick up and click to drop. *Done:* press on a standard and drag; let go on a bearer to set it, anywhere else and it goes back.
-- [x] **Hover glow:** also give it to the small calf, the censer, the bull, and the two figures hauling the other parts of the procession (these also become clickable). *Done:* new figures, clickable with notes: Calf, Ox (the one pulling the sledge; both glow as their own sprites), Priest with arm-censer (by the obelisks), Man hauling Anubis, Man hauling the canopy. Notes are my drafts: check them.
-- [x] **Opening of the Mouth, the stand's glow (part for whole):** hovering over the stand or anything on it other than the adze (the table, the two rods, the foreleg) makes the whole stand glow, with everything on it. Hovering over just the adze makes only the adze glow. *Done:* the stand is a new figure, "Offering stand" (clickable; note is my draft: "A small stand by the obelisks, with two rods, a foreleg and the hooked adze laid on it."). It glows with the rods, the foreleg and the adze; the adze alone glows alone.
-- [x] **Stand before Ra:** the small tag on the lotus, the sun and the stand says the object's name, not "[scribe]". *Done:* the tag says "Offering stand", "Sun disc" or "Lotus".
-- [x] **Remove the inventory box** entirely. *Done:* gone from the HUD in both levels. The stand's pieces now follow the pointer like the adze, one at a time (click where one was found to put it back). The dangers show nothing for the breath of life. Your call on carrying 1–3 at once is still open.
-- [x] **Mourners' note:** it's "six women with their hands to their chests". *Done:* "Six women walk with their hands to their chests."
-- [x] **The journal:** the label under it says "Journal" instead of xx/xx. *Just a note, not to do now:* remove the journal system entirely; so far it doesn't matter to the game. *Done:* the label stays "journal" (the page title still counts).
-
-- [x] The Opening of the Mouth. *Chosen: finish the face (2026-10-15).*
-  - **Disturbed:** the mummy's face (eye, mouth line, curled beard) is only a red draft, tinted like the stela's imprint; the caption band is empty.
-  - **Play:** with the adze in hand, click the mummy and the camera closes in on its head. Each click strikes a chip: on the red line, just ahead of the last chip, it inks that bit black; off the line it leaves a nick (a speck of ink). Three strokes (mouth, eye, beard curl), any order, no timer. The next chip spot glows faintly.
-  - **Lost:** three nicks and the mummy jolts, Anubis steadies it, the face goes back to red and the view opens out. Click the mummy to try again.
-  - **Solved:** the face inked as drawn; then the words come out as now.
-  - **Pieces:** a `mouth/features` layer in `procession1-15.mdp` (the face lines, out of the picture); each stroke's polyline in `level.json` `mouth.strokes`.
-  - **Tuning:** chip step ~3 strip px, tolerance ~4 px, 3 nicks.
-  - **New:** click-to-advance along a path; a focus zoom nearer than the water's.
-  - **Test:** `--mouth`, then click each stroke's points in order.
-
-### Dangers
-- [x] **Spell 36, the swarm line:** the losing line ("A beetle got away from your spear once too often. They multiply until they fill the vignette.") explained the rule and described what is already on screen. *Done (2026-10-16):* "It slipped past one time too many. Apshai never travels alone." (`_roach_swarm` in `dangers.gd`).
-- [x] **Spells 31–32, the heka thefts:** the 10-14 wording ("It laughs, seizes the word of power…") was weak. *Done (2026-10-16):* back to the original 10-13 lines, without "begin again": "Heka spent on an ordinary crocodile! It seizes the word of power and makes off with it. The crocodiles are not turned back." and "A crocodile slipped past you to the wall. It laughs, and the word of heka falls to it." (`_croc_steals`, `_croc_eats_word`).
-- [x] Spell 36, the beetles: also feel too easy. *Done (2026-10-15):* five beetles instead of three (`count`); the intro says five.
-- [x] **Fight frames:** *Done (2026-10-16):* every fight shares one frame (`_arena_setup`, `_frame_now`, `_place_frame`): it opens from the drawn double lines to the screen's edges, lines at their walking thickness, the bottom line clear of the speaker's tag; the caption centred at its walking size and height (the crocodiles and beetles zoom out, and their caption with them). Mockups: `mockups/fight-frames/`. The fight's lines in the speaker tag name the danger (`tag`).
+- [x] **Clickable figures as sprites:** use the already separated artwork to give each clickable figure (or group described together) its own sprite in the saved scene, with a stable registry ID and attached hit area. Export these layers individually instead of recombining them into the background strip; ensure the background does not retain duplicate figures. Keep placement and hit areas editable in Godot, with consistent picking for overlapping figures.
+- [x] **Centralize figure descriptions and interactions:** add a hand-edited `assets/procession/registry.json` keyed by stable IDs, holding names, descriptions, journal text/settings, and any named text variants. Link scene figures to it by ID rather than display-name comparisons. Use a shared loader and interaction component for description lookup, displaying text through the existing HUD, and journal recording; keep puzzle actions and selection of state-dependent responses in gameplay scripts. Move authored descriptions out of the art cutters and generated `level.json`, so re-exporting art cannot overwrite writing. Keep cutters responsible for images and source-art geometry, preserve existing behavior during migration, and establish a format reusable by other levels without migrating them as part of this task.
+- [x] the calf description - "the young calf shakes at the sight of the sacrifice"
+- [x] **Opening of the Mouth artwork and adze alignment:** use the manually separated eye and mouth artwork, with no beard carving. Verify the existing handle-to-pointer alignment and small downward strike rotation about the pointer. The blade tip must match the point used to detect a successful strike.
+- [x] **Opening of the Mouth without a loss state:** remove the missed-strike limit and failure/reset behavior. Keep Esc available to leave the minigame at any time. Remove the small target bubbles and accept strikes wherever the adze tip falls within the eye or mouth feature bounds, rather than requiring the next point along a stroke.

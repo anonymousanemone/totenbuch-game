@@ -3,11 +3,13 @@
 ##
 ## With the adze, finish the mouth and the eye a chip at a time. The adze is held by the end of its
 ## handle; a click brings it down a little (it turns about the pointer) and chips where the tip of its
-## blade is. Three nicks disturb the mummy and reset the face; the original word-carrying sequence
-## follows success. Face pixels are cut into mouth/features (lines far from both strokes, such as the
-## beard, are not carved: they stay as drawn); paths and positions come from level.json.
+## blade is. Strikes anywhere within either feature advance it; misses leave progress alone.
+## The original word-carrying sequence follows success. Face pixels are cut into mouth/features;
+## the beard stays as drawn. Reveal paths and positions come from level.json.
 class_name OpeningMouth
 extends Node2D
+
+const PUZZLES := preload("res://scripts/puzzles.gd")
 
 signal said(who: String, text: String)
 signal changed
@@ -20,8 +22,6 @@ const RISE := 0.6             ## s for the ball to rise out of the mouth ...
 const UNROLL := 0.9           ## ... and to unroll into the line of signs
 const DROP_PAD := 40.0        ## strip px round the imprint that still take the line
 const CHIP_STEP := 3.0
-const CHIP_TOLERANCE := 4.0
-const MAX_NICKS := 3
 const CARVING_SCALE := 0.35   ## keep the carried handle clear of the small face
 const ADZE_GRIP := Vector2(83.0, 37.0)  ## where on the adze the pointer holds it: the end of its handle
 const ADZE_TIP := Vector2(4.0, 27.0)    ## the tip of its blade, where it chips
@@ -41,8 +41,7 @@ var _curves: Array[Curve2D] = []
 var _progress: Array[float] = []
 var _pixel_stroke := PackedInt32Array()
 var _pixel_along := PackedFloat32Array()
-var _nicks: Array[Vector2] = []
-var _time := 0.0
+var _feature_bounds: Array[Rect2] = []
 var _swing := 0.0             ## how far down the adze is now (0..1)
 var phase := Phase.START
 var instant := false          ## the autotest: no animation
@@ -218,7 +217,7 @@ func touch() -> void:
 		return
 	active = true
 	_clear_face()
-	said.emit("Anubis", "Help me finish his face. Click along each red stroke, following the faint next chip. Three nicks disturb him. [esc] steps away.")
+	said.emit("Anubis", PUZZLES.text("procession.opening_mouth", "instructions"))
 	changed.emit()
 
 
@@ -231,7 +230,7 @@ func _speak() -> void:
 	_adze.rotation = 0.0
 	_adze.self_modulate.a = 1.0
 	_words.visible = true
-	said.emit("Scribe", "You touch the adze to the mummy's mouth. Its mouth opens, and words come out.")
+	said.emit("Scribe", PUZZLES.text("procession.opening_mouth", "success", "opened"))
 	changed.emit()
 	var size := _words.texture.get_size()
 	var ball := Vector2(BALL / size.x, BALL / size.y)
@@ -260,15 +259,12 @@ func place_words() -> void:
 	_words.position = _words_home.get_center()
 	_words.scale = Vector2.ONE
 	_imprint.visible = false
-	said.emit("Scribe", "The words stand over Ra again, as they are written.")
+	said.emit("Scribe", PUZZLES.text("procession.opening_mouth", "success"))
 	changed.emit()
 
 
 func _process(_delta: float) -> void:
-	_time += _delta
-	if active:
-		queue_redraw()
-	# what is carried follows the pointer: the adze held at its blade, the words by their middle
+	# what is carried follows the pointer: the adze held at its handle, the words by their middle
 	var p := get_global_mouse_position()
 	_adze.z_index = 10 if phase == Phase.ADZE else 0     # what you carry comes to the front
 	_adze.scale = Vector2.ONE * (CARVING_SCALE if active else 1.0)
@@ -321,14 +317,24 @@ func _setup_face(level: Dictionary, nodes: Dictionary) -> void:
 					_pixel_stroke[y * width + x] = i
 					_pixel_along[y * width + x] = _curves[i].get_closest_offset(point)
 
+	# Bounds come from the actual cutout pixels assigned to each feature, not a moving target.
+	for i in _curves.size():
+		var bounds := Rect2(_curves[i].get_point_position(0), Vector2.ZERO)
+		for y in _feature_image.get_height():
+			for x in width:
+				if _pixel_stroke[y * width + x] == i and _feature_image.get_pixel(x, y).a > 0.0:
+					var point := _feature_origin + Vector2(x, y)
+					bounds = bounds.expand(point).expand(point + Vector2.ONE)
+		_feature_bounds.append(bounds)
+
 
 func face_view() -> Rect2:
 	return _face_view
 
 
-## Where the tip of the adze's blade is, held at `p` (the pointer) and at rest.
+## Where the visible blade tip is when the handle is held at the pointer.
 func tip_at(p: Vector2) -> Vector2:
-	return p + (ADZE_TIP - ADZE_GRIP) * (CARVING_SCALE if active else 1.0)
+	return p + ((ADZE_TIP - ADZE_GRIP) * (CARVING_SCALE if active else 1.0)).rotated(_adze.rotation)
 
 
 ## A click while carving: the adze comes down a little about the pointer and chips at its tip.
@@ -350,28 +356,16 @@ func strike(point: Vector2) -> bool:
 	if not active:
 		return false
 	var chosen := -1
-	var nearest := CHIP_TOLERANCE * CHIP_TOLERANCE
-	for i in _curves.size():
-		if stroke_done(i):
-			continue
-		var distance := point.distance_squared_to(next_chip(i))
-		if distance <= nearest:
+	for i in _feature_bounds.size():
+		if not stroke_done(i) and _feature_bounds[i].has_point(point):
 			chosen = i
-			nearest = distance
+			break
 	if chosen < 0:
-		_nicks.append(point)
-		queue_redraw()
-		if _nicks.size() >= MAX_NICKS:
-			_fail()
-		elif _nicks.size() == 1:
-			said.emit("Anubis", "A nick. Strike just ahead of the last chip, on the red line.")
 		return false
 	_progress[chosen] = minf(_progress[chosen] + CHIP_STEP, _curves[chosen].get_baked_length())
 	_refresh_face()
 	if _progress.size() == _curves.size() and range(_curves.size()).all(stroke_done):
-		_nicks.clear()
 		_speak()
-	queue_redraw()
 	return true
 
 
@@ -386,9 +380,7 @@ func leave() -> void:
 
 func _clear_face() -> void:
 	_progress.fill(0.0)
-	_nicks.clear()
 	_refresh_face()
-	queue_redraw()
 
 
 func _refresh_face() -> void:
@@ -400,30 +392,3 @@ func _refresh_face() -> void:
 			if stroke >= 0 and not stroke_done(stroke) and (_progress[stroke] == 0.0 or _pixel_along[pixel] > _progress[stroke]):
 				image.set_pixel(x, y, image.get_pixel(x, y) * IMPRINT)
 	_features.texture = ImageTexture.create_from_image(image)
-
-
-func _fail() -> void:
-	active = false
-	_progress.fill(0.0)
-	_refresh_face()
-	said.emit("Anubis", "He stirs. Steady now. The face must be begun again.")
-	changed.emit()
-	if instant:
-		_nicks.clear()
-		_body.position = _body_home
-		return
-	_tween = create_tween()
-	for shift in [Vector2(2, -1), Vector2(-2, 0), Vector2(1, 0), Vector2.ZERO]:
-		_tween.tween_property(_body, "position", _body_home + shift, 0.08)
-	_tween.tween_callback(func():
-		_nicks.clear()
-		queue_redraw())
-
-
-func _draw() -> void:
-	for point in _nicks:
-		draw_circle(point, 0.9, UI.INK)
-	if active:
-		for i in _curves.size():
-			if not stroke_done(i):
-				draw_circle(next_chip(i), 1.5, Color(UI.INK * IMPRINT, 0.3 + 0.12 * sin(_time * 3.0)))

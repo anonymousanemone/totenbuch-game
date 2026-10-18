@@ -34,8 +34,7 @@
    "plate": "XI",
    "layer": "isis nepthys",
    "group": "Adoration scene",
-   "label": "Nephthys and Isis",
-   "description": "Two women kneel side by side, each with her name sign on her head: Nephthys (a basket on a house) and Isis (a throne)."
+   "id": "isis_nephthys_kneeling"
   },
   "goddess_over_scarab": {
    "x": 238,
@@ -45,9 +44,7 @@
    "plate": "XI",
    "layer": "nut?",
    "group": "Adoration scene",
-   "label": "The goddess over the scarab",
-   "description": "A tall long-haired woman bends forward, one hand on the back of a figure lying face down with its head raised; a scarab beetle sits beneath her.",
-   "doubt": "Layer named 'nut?'. Who she is (Nut?) and who lies under her hand is not certain."
+   "id": "goddess_over_scarab"
   },
   "god_enthroned": {
    "x": 559,
@@ -57,9 +54,7 @@
    "plate": "XI",
    "layer": "Seated deity",
    "group": "Adoration scene",
-   "label": "God on a throne",
-   "description": "A god sits on a block throne, wearing a tall crown with plumes and holding a was-sceptre.",
-   "doubt": "Probably Osiris (the crown), though he holds a was-sceptre, not crook and flail."
+   "id": "god_enthroned"
   },
   "offering_stand": {
    "x": 750,
@@ -69,8 +64,7 @@
    "plate": "XI",
    "layer": "stand",
    "group": "Adoration scene",
-   "label": "Offering stand",
-   "description": "A tall offering stand with a round loaf on a dish and a lotus flower on top."
+   "id": "offering_stand"
   },
   "adorer_xi": {
    "x": 895,
@@ -80,8 +74,7 @@
    "plate": "XI",
    "layer": "Adorant",
    "group": "Adoration scene",
-   "label": "Adorer",
-   "description": "A man in a long kilt stands facing left, both hands raised in praise."
+   "id": "adorer_xi"
   },
   "anubis": {
    "x": 1047,
@@ -91,8 +84,7 @@
    "plate": "XI",
    "layer": "Jackal deity",
    "group": "Adoration scene",
-   "label": "Anubis",
-   "description": "The jackal-headed god Anubis stands facing left, arms at his sides."
+   "id": "anubis"
   },
   "chest_bearer": {
    "x": 1266,
@@ -102,8 +94,7 @@
    "plate": "X",
    "layer": "Offering bearer",
    "group": "Barque procession",
-   "label": "Bearer of the chest",
-   "description": "A man in a long kilt carries a chest with a curved lid, holding it up on one raised hand."
+   "id": "chest_bearer"
   },
   "isis_nephthys_standing_1": {
    "x": 1495,
@@ -113,8 +104,7 @@
    "plate": "X",
    "layer": "isis nepthys",
    "group": "Barque procession",
-   "label": "Nephthys and Isis",
-   "description": "Two women stand facing right, each raising a hand: Nephthys (a basket on a house on her head) and Isis (a throne), who holds an ankh."
+   "id": "isis_nephthys_standing_1"
   },
   "baboons_praising_1": {
    "x": 1698,
@@ -124,8 +114,7 @@
    "plate": "X",
    "layer": "Baboon 1",
    "group": "Barque procession",
-   "label": "Two baboons",
-   "description": "Two baboons stand upright facing right, forepaws raised in praise toward the boat."
+   "id": "baboons_praising_1"
   },
   "boat_of_ra": {
    "x": 1978,
@@ -135,8 +124,7 @@
    "plate": "X",
    "layer": "Solar boat",
    "group": "Barque procession",
-   "label": "Ra's boat",
-   "description": "A boat on the water. In the middle a god crouches wrapped in a cloak, a sun disc on horns on his head and a sceptre in his hand; before him a stand with a lotus flower; steering oars at the stern."
+   "id": "boat_of_ra"
   },
   "baboons_praising_2": {
    "x": 2859,
@@ -146,8 +134,7 @@
    "plate": "X",
    "layer": "Baboon 1",
    "group": "Barque procession",
-   "label": "Two baboons",
-   "description": "Two baboons stand upright facing left, forepaws raised in praise toward the boat."
+   "id": "baboons_praising_2"
   },
   "isis_nephthys_standing_2": {
    "x": 3161,
@@ -157,8 +144,7 @@
    "plate": "X",
    "layer": "Deity 1",
    "group": "Barque procession",
-   "label": "Isis and Nephthys",
-   "description": "Two women stand facing left, each raising one hand and holding an ankh: Isis (a throne on her head) and Nephthys (a basket on a house)."
+   "id": "isis_nephthys_standing_2"
   },
   "baboons_seated_x": {
    "x": 3380,
@@ -168,8 +154,7 @@
    "plate": "X",
    "layer": "baboons",
    "group": "Barque procession",
-   "label": "Two seated baboons",
-   "description": "Two baboons squat on their haunches facing right, hands on their knees."
+   "id": "baboons_seated_x"
   },
   "boat_of_khepri": {
    "x": 3689,
@@ -179,9 +164,7 @@
    "plate": "IX",
    "layer": "Solar boat",
    "group": "Scarab barque and sacred tree",
-   "label": "Khepri's boat",
-   "description": "A boat on the water carries a crouching god with a scarab beetle for a head and wide horns; a stand with a lotus flower before him, and a damaged sign at the prow.",
-   "doubt": "The sign at the prow is broken and could not be made out."
+   "id": "boat_of_khepri"
   },
   "inscriptions_ix": {
    "x": 4112,
@@ -191,8 +174,7 @@
    "plate": "IX",
    "layer": "Inscriptions and remnants",
    "group": "Scarab barque and sacred tree",
-   "label": "Inscriptions",
-   "description": "The hieroglyphic text above the scenes of plate IX, with remnants of signs."
+   "id": "inscriptions_ix"
   },
   "kneeling_adorer": {
    "x": 4331,
@@ -202,8 +184,7 @@
    "plate": "IX",
    "layer": "Kneeling man",
    "group": "Scarab barque and sacred tree",
-   "label": "Kneeling adorer",
-   "description": "A man kneels on his heels facing left, both hands raised in praise toward the boat."
+   "id": "kneeling_adorer"
   },
   "baboons_seated_ix": {
    "x": 4500,
@@ -213,9 +194,7 @@
    "plate": "IX",
    "layer": "baboons",
    "group": "Scarab barque and sacred tree",
-   "label": "Two seated baboons",
-   "description": "Two baboons squat on their haunches facing left, hands on their knees.",
-   "doubt": "Read as baboons (they match the seated baboons of plate X); the heads could also be read as lions'."
+   "id": "baboons_seated_ix"
   },
   "falcon_standard": {
    "x": 4794,
@@ -225,8 +204,7 @@
    "plate": "IX",
    "layer": "Falcon standard",
    "group": "Scarab barque and sacred tree",
-   "label": "Falcon on a standard",
-   "description": "A falcon with a flail at its back perches on a tall standard."
+   "id": "falcon_standard"
   },
   "cat_and_snake": {
    "x": 4878,
@@ -236,8 +214,7 @@
    "plate": "IX",
    "layer": "cat serpent",
    "group": "Scarab barque and sacred tree",
-   "label": "The cat and the snake",
-   "description": "A long-eared cat sits upright and holds down the head of a long wavy snake with its paw: Ra as the great cat of Heliopolis, cutting up Apep."
+   "id": "cat_and_snake"
   },
   "persea_tree": {
    "x": 5124,
@@ -247,8 +224,7 @@
    "plate": "IX",
    "layer": "Tree",
    "group": "Scarab barque and sacred tree",
-   "label": "Persea tree",
-   "description": "A tall leafy tree beside the cat: the persea tree of Heliopolis."
+   "id": "persea_tree"
   },
   "small_seated_god": {
    "x": 5273,
@@ -258,9 +234,7 @@
    "plate": "IX",
    "layer": "Recumbent deity",
    "group": "Scarab barque and sacred tree",
-   "label": "Small seated figure",
-   "description": "A small figure sits on the ground with one knee drawn up.",
-   "doubt": "Badly drawn or damaged; the head may be a falcon's."
+   "id": "small_seated_god"
   },
   "two_seated_gods": {
    "x": 5393,
@@ -270,8 +244,7 @@
    "plate": "IX",
    "layer": "seated",
    "group": "Scarab barque and sacred tree",
-   "label": "Two seated gods",
-   "description": "Two gods with long wigs and beards sit on block thrones, facing right."
+   "id": "two_seated_gods"
   },
   "two_bowls": {
    "x": 5720,
@@ -281,8 +254,7 @@
    "plate": "IX",
    "layer": "Offering symbols",
    "group": "Scarab barque and sacred tree",
-   "label": "Two bowls",
-   "description": "Two ribbed bowls side by side, with signs set on and above them: a jar, a stand, a loaf and a long rope-like sign, under a band of water ripples and a domed sign."
+   "id": "two_bowls"
   },
   "god_with_two_eyes": {
    "x": 5975,
@@ -292,8 +264,7 @@
    "plate": "IX",
    "layer": "figure2",
    "group": "Scarab barque and sacred tree",
-   "label": "God beneath two eyes",
-   "description": "A wrapped, bearded god stands facing left beneath a pair of wedjat eyes."
+   "id": "god_with_two_eyes"
   },
   "god_with_emblem": {
    "x": 6090,
@@ -303,9 +274,7 @@
    "plate": "IX",
    "layer": "figure1",
    "group": "Scarab barque and sacred tree",
-   "label": "God with a sign on his head",
-   "description": "A bearded god stands facing left, a tall curled sign on his head.",
-   "doubt": "The sign on his head could not be identified."
+   "id": "god_with_emblem"
   },
   "duamutef": {
    "x": 6179,
@@ -315,8 +284,7 @@
    "plate": "IX",
    "layer": "canopic4",
    "group": "Scarab barque and sacred tree",
-   "label": "Duamutef",
-   "description": "A mummy-shaped figure with a jackal's head, facing right: Duamutef, a son of Horus."
+   "id": "duamutef"
   },
   "imsety": {
    "x": 6256,
@@ -326,9 +294,7 @@
    "plate": "IX",
    "layer": "canopic3",
    "group": "Scarab barque and sacred tree",
-   "label": "Imsety",
-   "description": "A mummy-shaped figure with a human head in a heavy wig, facing right: Imsety, a son of Horus.",
-   "doubt": "The face is mostly lost; human by elimination (the other three heads are jackal, baboon and falcon)."
+   "id": "imsety"
   },
   "shrine_with_falcon": {
    "x": 6347,
@@ -338,8 +304,7 @@
    "plate": "IX",
    "layer": "canopicchest",
    "group": "Scarab barque and sacred tree",
-   "label": "Tall shrine",
-   "description": "A tall shrine with ribbed sides and a vaulted roof, a falcon perched on top, between the sons of Horus."
+   "id": "shrine_with_falcon"
   },
   "hapy": {
    "x": 6510,
@@ -349,8 +314,7 @@
    "plate": "IX",
    "layer": "canopic2",
    "group": "Scarab barque and sacred tree",
-   "label": "Hapy",
-   "description": "A mummy-shaped figure with a baboon's head, facing left: Hapy, a son of Horus."
+   "id": "hapy"
   },
   "qebehsenuef": {
    "x": 6578,
@@ -360,8 +324,7 @@
    "plate": "VIII",
    "layer": "canopic1",
    "group": "Shrines and funerary scene",
-   "label": "Qebehsenuef",
-   "description": "A mummy-shaped figure with a falcon's head, facing left: Qebehsenuef, a son of Horus."
+   "id": "qebehsenuef"
   },
   "cow_on_shrine": {
    "x": 6660,
@@ -371,9 +334,7 @@
    "plate": "VIII",
    "layer": "Ram shrine",
    "group": "Shrines and funerary scene",
-   "label": "The cow on the shrine",
-   "description": "A cow lies on a shrine, a sun disc with two plumes on her head and a flail on her back: Mehet-weret, the great cow of the sky.",
-   "doubt": "Layer named 'Ram shrine'; the crown sits on wavy ram-like horns, but the body is a cow's."
+   "id": "cow_on_shrine"
   },
   "inscriptions_viii": {
    "x": 6790,
@@ -383,8 +344,7 @@
    "plate": "VIII",
    "layer": "Inscriptions and remnants",
    "group": "Shrines and funerary scene/Inscriptions",
-   "label": "Inscriptions",
-   "description": "The hieroglyphic text above the scenes of plate VIII, with remnants of signs."
+   "id": "inscriptions_viii"
   },
   "adorer_with_bowl": {
    "x": 6965,
@@ -394,8 +354,7 @@
    "plate": "VIII",
    "layer": "Adorant",
    "group": "Shrines and funerary scene",
-   "label": "Adorer with a bowl",
-   "description": "A man stands facing left, one hand raised in praise, the other holding up a small bowl."
+   "id": "adorer_with_bowl"
   },
   "wedjat_shrine": {
    "x": 7117,
@@ -405,8 +364,7 @@
    "plate": "VIII",
    "layer": "Eye shrine",
    "group": "Shrines and funerary scene",
-   "label": "Eye on a shrine",
-   "description": "The wedjat eye, the Eye of Horus, rests on a shrine."
+   "id": "wedjat_shrine"
   },
   "seated_god_snout": {
    "x": 7300,
@@ -416,9 +374,7 @@
    "plate": "VIII",
    "layer": "Recumbent deity",
    "group": "Shrines and funerary scene",
-   "label": "Seated figure",
-   "description": "A figure sits with one knee drawn up; it has an animal's head with a snout, in a heavy wig.",
-   "doubt": "The animal is unclear (a dog or a baboon?)."
+   "id": "seated_god_snout"
   },
   "snake_shrine": {
    "x": 7429,
@@ -428,8 +384,7 @@
    "plate": "VIII",
    "layer": "Serpent shrine",
    "group": "Shrines and funerary scene",
-   "label": "Shrine with a snake",
-   "description": "A tall shrine with a rearing snake inside and three blades standing on its roof."
+   "id": "snake_shrine"
   },
   "mourning_women": {
    "x": 7575,
@@ -439,8 +394,7 @@
    "plate": "VIII",
    "layer": "Seated women",
    "group": "Shrines and funerary scene",
-   "label": "Two mourning women",
-   "description": "Two women kneel facing left, each with a hand at her face in mourning; small signs lie on the ground before them."
+   "id": "mourning_women"
   },
   "nephthys_kite": {
    "x": 8149,
@@ -450,8 +404,7 @@
    "plate": "VIII",
    "layer": "bird",
    "group": "Shrines and funerary scene",
-   "label": "Nephthys as a kite",
-   "description": "A kite with the Nephthys sign (a basket on a house) on its head, at the head of the bier: Nephthys mourning the dead."
+   "id": "nephthys_kite"
   },
   "mummy_on_bier": {
    "x": 8356,
@@ -461,8 +414,7 @@
    "plate": "VIII",
    "layer": "Funerary bier",
    "group": "Shrines and funerary scene",
-   "label": "The mummy on the bier",
-   "description": "The mummy lies on a lion-shaped bier, the lion's head at one end and its tail curling up at the other; four looped signs below."
+   "id": "mummy_on_bier"
   },
   "isis_kite": {
    "x": 8800,
@@ -472,8 +424,7 @@
    "plate": "VIII",
    "layer": "Falcon",
    "group": "Shrines and funerary scene",
-   "label": "Isis as a kite",
-   "description": "A kite with the Isis sign (a throne) on its head stands on a low base at the foot of the bier: Isis mourning the dead."
+   "id": "isis_kite"
   },
   "benu_heron": {
    "x": 8960,
@@ -483,9 +434,7 @@
    "plate": "VIII",
    "layer": "Heron",
    "group": "Shrines and funerary scene",
-   "label": "Benu heron",
-   "description": "A crested heron facing left: the Benu, the bird of renewal.",
-   "doubt": "A sliver of the Isis kite's tail is in this layer at its left edge."
+   "id": "benu_heron"
   },
   "lion_left": {
    "x": 9146,
@@ -495,8 +444,7 @@
    "plate": "VII",
    "layer": "Lion left",
    "group": "Lions and solar procession/Lions and sun",
-   "label": "Lion (left)",
-   "description": "A lion sits upright facing left, back to back with the other across the horizon: Aker, yesterday and tomorrow."
+   "id": "lion_left"
   },
   "horizon": {
    "x": 9268,
@@ -506,8 +454,7 @@
    "plate": "VII",
    "layer": "Sun",
    "group": "Lions and solar procession/Lions and sun",
-   "label": "The horizon",
-   "description": "The horizon sign: the sun disc rising between two hills, between the two lions."
+   "id": "horizon"
   },
   "inscriptions_vii": {
    "x": 9314,
@@ -517,8 +464,7 @@
    "plate": "VII",
    "layer": "Inscriptions and remnants",
    "group": "Lions and solar procession/Inscriptions",
-   "label": "Inscriptions",
-   "description": "The hieroglyphic text above the scenes of plate VII, with remnants of signs."
+   "id": "inscriptions_vii"
   },
   "lion_right": {
    "x": 9372,
@@ -528,8 +474,7 @@
    "plate": "VII",
    "layer": "Lion right",
    "group": "Lions and solar procession/Lions and sun",
-   "label": "Lion (right)",
-   "description": "A lion sits upright facing right, back to back with the other across the horizon: Aker, yesterday and tomorrow."
+   "id": "lion_right"
   },
   "boat_with_crew": {
    "x": 9584,
@@ -539,9 +484,7 @@
    "plate": "VII",
    "layer": "Solar boat",
    "group": "Lions and solar procession",
-   "label": "Boat with a crew of gods",
-   "description": "A long boat on the water with six gods standing in it holding spears, three on each side of a stand where a crowned animal lies under a sun disc.",
-   "doubt": "The animal on the stand could not be identified."
+   "id": "boat_with_crew"
   },
   "man_with_flowers": {
    "x": 10721,
@@ -551,9 +494,7 @@
    "plate": "VII",
    "layer": "Offering man",
    "group": "Lions and solar procession",
-   "label": "Man with flowers",
-   "description": "A man holds up a lotus flower in one hand and a bunch of flowers in the other; a tall pointed pole stands beside him.",
-   "doubt": "What the pointed pole is could not be made out."
+   "id": "man_with_flowers"
   },
   "adorer_vii": {
    "x": 10909,
@@ -563,8 +504,7 @@
    "plate": "VII",
    "layer": "Adorant",
    "group": "Lions and solar procession",
-   "label": "Adorer",
-   "description": "A man stands facing left, both hands raised in praise."
+   "id": "adorer_vii"
   },
   "ba_bird": {
    "x": 11037,
@@ -574,9 +514,7 @@
    "plate": "VII",
    "layer": "Walking woman",
    "group": "Lions and solar procession",
-   "label": "The ba",
-   "description": "A bird with a human head, a long wig and a curled beard stands on a low base: the ba, the soul of the dead.",
-   "doubt": "Layer named 'Walking woman'. The branch-like thing held before it is unclear."
+   "id": "ba_bird"
   },
   "falcon_on_perch": {
    "x": 11273,
@@ -586,8 +524,7 @@
    "plate": "VII",
    "layer": "Falcon standard",
    "group": "Lions and solar procession",
-   "label": "Falcon on a perch",
-   "description": "A falcon stands on a perch with a curved rest."
+   "id": "falcon_on_perch"
   },
   "senet_booth": {
    "x": 11438,
@@ -597,8 +534,7 @@
    "plate": "VII",
    "layer": "Seated deity shrine",
    "group": "Lions and solar procession",
-   "label": "The booth",
-   "description": "Under a canopy the deceased sits on a chair, a staff in hand, before a game board on a stand: playing senet, the game that decides the passage."
+   "id": "senet_booth"
   },
   "deceased_standing": {
    "x": 11765,
@@ -608,9 +544,7 @@
    "plate": "VII",
    "layer": "Standing deity",
    "group": "Lions and solar procession",
-   "label": "The deceased",
-   "description": "A man in a long robe with a sash stands facing left, a staff in his hand: the deceased.",
-   "doubt": "Layer named 'Standing deity', but he is a man, not a god."
+   "id": "deceased_standing"
   }
  }
 }

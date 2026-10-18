@@ -1,0 +1,248 @@
+{
+ "entries": {
+  "mourners": {
+   "name": "Mourners",
+   "descriptions": {
+    "default": "Two mourners with arms raised: the lament at the head of the procession."
+   },
+   "journal": true
+  },
+  "women_mourners": {
+   "name": "Women mourners",
+   "descriptions": {
+    "default": "Six women walk with their hands to their chests."
+   },
+   "journal": true
+  },
+  "canopy_frame": {
+   "name": "Canopy frame",
+   "descriptions": {
+    "default": "An empty canopy frame carried in the procession."
+   },
+   "journal": true
+  },
+  "man_hauling_the_canopy": {
+   "name": "Man hauling the canopy",
+   "descriptions": {
+    "default": "A man hauls the canopy frame on its sledge by a rope."
+   },
+   "journal": true
+  },
+  "anubis_on_a_chest": {
+   "name": "Anubis on a chest",
+   "descriptions": {
+    "default": "Anubis as a jackal on a chest, dragged on a sledge. You will meet him again at the judgment."
+   },
+   "journal": true
+  },
+  "man_hauling_anubis": {
+   "name": "Man hauling Anubis",
+   "descriptions": {
+    "default": "A man hauls Anubis's chest on its sledge by a rope."
+   },
+   "journal": true
+  },
+  "funerary_bier": {
+   "name": "The funerary bier",
+   "descriptions": {
+    "default": "A processional boat with the funerary bier.",
+    "stalled": "A processional boat with the funerary bier. The bier is stalled. Ask the ox-driver how to haul it."
+   },
+   "journal": true
+  },
+  "priest_with_censer": {
+   "name": "Priest with censer",
+   "descriptions": {
+    "default": "A priest walks before the bier with a censer, offering incense."
+   },
+   "journal": true
+  },
+  "hauler": {
+   "name": "Hauler",
+   "descriptions": {
+    "default": "A man hauls the sledge rope.",
+    "stalled": "A man hauls the sledge rope. The bier is stalled. Ask the ox-driver how to haul it."
+   },
+   "journal": true
+  },
+  "ox_driver": {
+   "name": "Ox-driver",
+   "descriptions": {
+    "default": "A man with a stick drives the ox that pulls the sledge."
+   },
+   "journal": true
+  },
+  "ox": {
+   "name": "Ox",
+   "descriptions": {
+    "default": "The ox pulls the sledge with the mummy's bier."
+   },
+   "journal": true
+  },
+  "plumed_ox": {
+   "name": "Plumed ox",
+   "descriptions": {
+    "default": "An ox crowned with plumes, led toward the sacrifice."
+   },
+   "journal": true
+  },
+  "calf": {
+   "name": "Calf",
+   "descriptions": {
+    "default": "A young calf leaps toward the plumed ox.",
+    "unsettled": "The young calf shakes at the sight of the sacrifice.",
+    "settled": "A young calf leaps toward the plumed ox."
+   },
+   "journal": true
+  },
+  "canopy_bearer": {
+   "name": "Canopy-bearer",
+   "descriptions": {
+    "default": "A man walks under a portable canopy."
+   },
+   "journal": true
+  },
+  "yoke_bearer": {
+   "name": "Yoke-bearer",
+   "descriptions": {
+    "default": "A man carries two vessels on a shoulder yoke."
+   },
+   "journal": true
+  },
+  "two_women": {
+   "name": "Two women",
+   "descriptions": {
+    "default": "Two women walk in the procession."
+   },
+   "journal": true
+  },
+  "sacrifice": {
+   "name": "The sacrifice",
+   "descriptions": {
+    "default": "A bull is thrown down and butchered."
+   },
+   "journal": true
+  },
+  "lector_priest": {
+   "name": "Lector priest",
+   "descriptions": {
+    "default": "The lector priest reads from a scroll."
+   },
+   "journal": true
+  },
+  "offering_table": {
+   "name": "Offering table",
+   "descriptions": {
+    "default": "A great heaped table of bread, meat, fowl and fruit, between pairs of trees.",
+    "collapsed": "The offering table has collapsed. Only a few loaves, a small head and a pomegranate still stand; everything else lies on the floor between the bouquets."
+   },
+   "journal": true
+  },
+  "man_with_a_water_jar": {
+   "name": "Man with a water jar",
+   "descriptions": {
+    "default": "A man holds a water jar over the offering table for purification."
+   },
+   "journal": true
+  },
+  "two_obelisks": {
+   "name": "Two obelisks",
+   "descriptions": {
+    "default": "Two obelisks stand on their bases."
+   },
+   "journal": true
+  },
+  "offering_stand": {
+   "name": "Offering stand",
+   "descriptions": {
+    "default": "A small stand by the obelisks, with two rods, a foreleg and the hooked adze laid on it."
+   },
+   "journal": true
+  },
+  "priest_with_arm_censer": {
+   "name": "Priest with arm-censer",
+   "descriptions": {
+    "default": "A priest holds out an arm-shaped censer, offering incense."
+   },
+   "journal": true
+  },
+  "lector_with_plumes": {
+   "name": "Lector with plumes",
+   "descriptions": {
+    "default": "A lector priest in a two-feather headdress holds up a sheet: he reads out the order of the gods' standards."
+   },
+   "journal": true
+  },
+  "priest_with_jar": {
+   "name": "Priest with jar",
+   "descriptions": {
+    "default": "A priest raises a round jar and pours purifying water. The wavy line is the stream: it arches over Anubis and the mummy."
+   },
+   "journal": true
+  },
+  "kneeling_woman": {
+   "name": "Kneeling woman",
+   "descriptions": {
+    "default": "A woman kneels with her hands raised, under the stream of water."
+   },
+   "journal": true
+  },
+  "anubis_and_the_mummy": {
+   "name": "Anubis and the mummy",
+   "descriptions": {
+    "default": "Anubis holds the mummy upright on a low base before the tomb."
+   },
+   "journal": true
+  },
+  "stela": {
+   "name": "Stela",
+   "descriptions": {
+    "default": "A round-topped stela under the winged sun. Faint on its face: a stand, the sun disc on it, a lotus bending over it.",
+    "blank": "A round-topped stela under the winged sun. Its face is blank."
+   },
+   "journal": true
+  },
+  "tomb_chapel": {
+   "name": "Tomb chapel",
+   "descriptions": {
+    "default": "The tomb: a chapel with a cornice, crowned by a small pyramid."
+   },
+   "journal": true
+  },
+  "ra_enthroned": {
+   "name": "Ra enthroned",
+   "descriptions": {
+    "default": "Ra sits on his throne with the sun disc on his head and a staff in his hand."
+   },
+   "journal": true
+  },
+  "caption_1": {
+   "name": "Spell 1",
+   "descriptions": {
+    "default": "Beginning of the chapters about the going forth by day and the carrying of the shades into the Netherworld."
+   },
+   "journal": false
+  },
+  "caption_2": {
+   "name": "Spell 1",
+   "descriptions": {
+    "default": "To be said on the day of burial (in order to) go in after coming forth."
+   },
+   "journal": false
+  },
+  "caption_3": {
+   "name": "Spell 15",
+   "descriptions": {
+    "default": "Adoration to Ra when he rises above the eastern horizon in Heaven."
+   },
+   "journal": false
+  },
+  "caption_4": {
+   "name": "Spell 15",
+   "descriptions": {
+    "default": "Adoration to the sun when it sets in the Land of Life."
+   },
+   "journal": false
+  }
+ }
+}

@@ -35,6 +35,7 @@ var _intro: Control
 var _outro: Control
 var _outro_text: RichTextLabel
 var _text := ""
+var _journal_entries := {}
 var _journal_scroll: ScrollContainer
 var _overlay_layouts: Array = []
 var _revision := 0
@@ -97,6 +98,7 @@ func dismiss_intro() -> void:
 
 
 func reset_view() -> void:
+	_journal_entries.clear()
 	for c in _journal_grid.get_children():
 		c.queue_free()
 	_journal_empty.visible = true
@@ -106,7 +108,13 @@ func reset_view() -> void:
 	_sync_pause()
 
 
-func say(who: String, text: String) -> void:
+func say(who: String, text: String, category := "default") -> void:
+	# Hint-button messages take precedence over the surrounding gameplay context.
+	if who == "Hint":
+		category = "hint"
+	var color: Color = UI.TAG_HINT if category == "hint" else UI.TAG_MINIGAME if category == "minigame" else UI.TAG
+	_tag.add_theme_stylebox_override("panel", UI.box(color, UI.INK, 4, 12, 0))
+	_tag_label.add_theme_color_override("font_color", UI.INK if category == "hint" else UI.CREAM)
 	_text = UI.plain(text)
 	_tag_label.text = who
 	_tag.visible = who != ""
@@ -124,11 +132,11 @@ func _sync_pause() -> void:
 
 
 ## Deferred messages are discarded when an interaction, reset, or later line supersedes them.
-func say_later(who: String, text: String, seconds: float) -> void:
+func say_later(who: String, text: String, seconds: float, category := "default") -> void:
 	var revision := _revision
 	await get_tree().create_timer(seconds, false).timeout
 	if revision == _revision:
-		say(who, text)
+		say(who, text, category)
 
 
 func show_outro_later(body: String, seconds: float) -> void:
@@ -148,9 +156,20 @@ func update_held(piece: String, tex: Texture2D, zoom: float) -> void:
 	_held.position = _root.get_local_mouse_position() + Vector2(14, 10)
 
 
-func add_journal_entry(label: String, note: String, tex: Texture2D, count: int, total: int) -> void:
+func add_journal_entry(label: String, note: String, tex: Texture2D, count: int, total: int, id := "", speaker := "") -> void:
 	_journal_empty.visible = false
 	_journal_title.text = "Journal · %d/%d" % [count, total]
+	if id == "":
+		id = label
+	if speaker == "":
+		speaker = label
+	if _journal_entries.has(id):
+		var old: Dictionary = _journal_entries[id]
+		old.label.text = label
+		old.picture.texture = tex
+		old.text = note
+		old.speaker = speaker
+		return
 	var entry := VBoxContainer.new()
 	entry.custom_minimum_size.x = 112
 	entry.mouse_filter = Control.MOUSE_FILTER_STOP
@@ -173,9 +192,11 @@ func add_journal_entry(label: String, note: String, tex: Texture2D, count: int, 
 	name_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	entry.add_child(frame)
 	entry.add_child(name_label)
+	_journal_entries[id] = {"node": entry, "label": name_label, "picture": pic, "text": note, "speaker": speaker}
 	entry.gui_input.connect(func(e):
 		if e is InputEventMouseButton and e.pressed and e.button_index == MOUSE_BUTTON_LEFT:
-			say(label, note))
+			var observed: Dictionary = _journal_entries[id]
+			say(observed.speaker, observed.text))
 	_journal_grid.add_child(entry)
 	_journal_grid.move_child(entry, 0)
 

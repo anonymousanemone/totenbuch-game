@@ -16,6 +16,8 @@
 class_name HaulSledge
 extends Node2D
 
+const PUZZLES := preload("res://scripts/puzzles.gd")
+
 signal said(who: String, text: String)
 signal finished
 
@@ -133,7 +135,7 @@ func start() -> void:
 	_tween = create_tween()
 	_tween.tween_method(_open, 0.0, 1.0, OPEN).set_trans(Tween.TRANS_SINE)
 	_tween.tween_callback(_begin)
-	_say("Ox-driver", "Can you help us haul the bier? Heave with [space] when my whip falls. Wait for my count, then pull on each beat.")
+	_say("Ox-driver", PUZZLES.text("procession.haul", "instructions"))
 
 
 ## Let go of the rope: the train stands where it stalled, and you can take it up again.

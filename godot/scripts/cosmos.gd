@@ -5,13 +5,13 @@ extends Node2D
 const SCROLL_CAMERA := preload("res://scripts/scroll_camera.gd")
 const DATA_PATH := "res://assets/cosmos/level.json"
 const VIEW_TOP := 36.0
-const HIT_PAD := 4
 const GLOW_FADE := 0.15
 
+var _descriptions = preload("res://scripts/descriptions.gd").new("cosmos")
 var level: Dictionary
 var figures := {}             ## stable ID -> saved Sprite2D
 var journal: Array[String] = []
-var _images := {}
+var _hints = preload("res://scripts/puzzles.gd").new()
 var _hover := ""
 var _glow: Sprite2D
 var _start := Vector2.ZERO
@@ -29,15 +29,11 @@ func _ready() -> void:
 	avatar.speed *= _unit
 	avatar.bob_height *= _unit
 	for node in $Figures.find_children("*", "Sprite2D", true, false):
-		if not node.has_meta("figure_id"):
+		if not node.has_meta("registry_id"):
 			continue
-		var id: String = node.get_meta("figure_id")
+		var id: String = node.get_meta("registry_id")
 		assert(not figures.has(id), "Duplicate Cosmos figure ID: " + id)
 		figures[id] = node
-		var image: Image = node.texture.get_image()
-		if image.is_compressed():
-			image.decompress()
-		_images[id] = image
 	hud.setup(self, {
 		"title": "The Night Journey",
 		"journal_hint": "Click figures in the scroll to record them here.",
@@ -60,6 +56,7 @@ func max_x() -> float:
 
 
 func reset() -> void:
+	_hints.reset()
 	_set_hover("")
 	avatar.stop()
 	avatar.position = _start
@@ -73,7 +70,7 @@ func reset() -> void:
 
 
 func hint() -> void:
-	hud.say("Scribe", "Walk with [←] [→] or click the papyrus. Figures glow under the pointer; click one to read about it. The whole scroll is open to explore.")
+	hud.say("Hint", _hints.message("cosmos.explore"))
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -103,16 +100,8 @@ func _pick(point: Vector2) -> String:
 	ids.reverse()
 	for id in ids:
 		var sprite: Sprite2D = figures[id]
-		if not sprite.is_visible_in_tree():
-			continue
-		var pixel := sprite.to_local(point) - sprite.get_rect().position
-		var image: Image = _images[id]
-		if not Rect2(Vector2.ZERO, image.get_size()).grow(HIT_PAD).has_point(pixel):
-			continue
-		for y in range(maxi(0, floori(pixel.y) - HIT_PAD), mini(image.get_height(), floori(pixel.y) + HIT_PAD + 1)):
-			for x in range(maxi(0, floori(pixel.x) - HIT_PAD), mini(image.get_width(), floori(pixel.x) + HIT_PAD + 1)):
-				if image.get_pixel(x, y).a > 0.1:
-					return id
+		if _descriptions.hit(sprite, point):
+			return id
 	return ""
 
 
@@ -132,11 +121,7 @@ func _set_hover(id: String) -> void:
 
 
 func record(id: String) -> void:
-	var entry: Dictionary = level.figures[id]
-	hud.say(entry.label, entry.description)
-	if id not in journal:
-		journal.append(id)
-		hud.add_journal_entry(entry.label, entry.description, figures[id].texture, journal.size(), figures.size())
+	_descriptions.inspect(id, hud, journal, figures[id].texture, figures.size())
 
 
 func _process(delta: float) -> void:

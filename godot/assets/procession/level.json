@@ -280,270 +280,240 @@
    "y": 197,
    "w": 305,
    "h": 329,
-   "label": "Mourners",
-   "note": "Two mourners with arms raised: the lament at the head of the procession.",
-   "plate": "I"
+   "plate": "I",
+   "id": "mourners"
   },
   {
    "x": 13689,
    "y": 217,
    "w": 690,
    "h": 309,
-   "label": "Women mourners",
-   "note": "Six women walk with their hands to their chests.",
-   "plate": "I"
+   "plate": "I",
+   "id": "women_mourners"
   },
   {
    "x": 13529,
    "y": 232,
    "w": 145,
    "h": 294,
-   "label": "Canopy frame",
-   "note": "An empty canopy frame carried in the procession.",
-   "plate": "I"
+   "plate": "I",
+   "id": "canopy_frame"
   },
   {
    "x": 13298,
    "y": 237,
    "w": 227,
    "h": 289,
-   "label": "Man hauling the canopy",
-   "note": "A man hauls the canopy frame on its sledge by a rope.",
-   "plate": "I"
+   "plate": "I",
+   "id": "man_hauling_the_canopy"
   },
   {
    "x": 13024,
    "y": 252,
    "w": 260,
    "h": 274,
-   "label": "Anubis on a chest",
-   "note": "Anubis as a jackal on a chest, dragged on a sledge. You will meet him again at the judgment.",
-   "plate": "I"
+   "plate": "I",
+   "id": "anubis_on_a_chest"
   },
   {
    "x": 12807,
    "y": 254,
    "w": 213,
    "h": 272,
-   "label": "Man hauling Anubis",
-   "note": "A man hauls Anubis's chest on its sledge by a rope.",
-   "plate": "I"
+   "plate": "I",
+   "id": "man_hauling_anubis"
   },
   {
    "x": 11794,
    "y": 202,
    "w": 1025,
    "h": 324,
-   "label": "The funerary bier",
-   "note": "A processional boat with the funerary bier.",
-   "plate": "II"
+   "plate": "II",
+   "id": "funerary_bier"
   },
   {
    "x": 11529,
    "y": 232,
    "w": 260,
    "h": 294,
-   "label": "Priest with censer",
-   "note": "A priest walks before the bier with a censer, offering incense.",
-   "plate": "II"
+   "plate": "II",
+   "id": "priest_with_censer"
   },
   {
    "x": 11289,
    "y": 212,
    "w": 195,
    "h": 314,
-   "label": "Hauler",
-   "note": "A man hauls the sledge rope.",
-   "plate": "II"
+   "plate": "II",
+   "id": "hauler"
   },
   {
    "x": 11099,
    "y": 202,
    "w": 130,
    "h": 324,
-   "label": "Ox-driver",
-   "note": "A man with a stick drives the ox that pulls the sledge.",
-   "plate": "II"
+   "plate": "II",
+   "id": "ox_driver"
   },
   {
    "x": 10604,
    "y": 227,
    "w": 477,
    "h": 299,
-   "label": "Ox",
-   "note": "The ox pulls the sledge with the mummy's bier.",
-   "plate": "II"
+   "plate": "II",
+   "id": "ox"
   },
   {
    "x": 7669,
    "y": 202,
    "w": 415,
    "h": 324,
-   "label": "Plumed ox",
-   "note": "An ox crowned with plumes, led toward the sacrifice.",
-   "plate": "III"
+   "plate": "III",
+   "id": "plumed_ox"
   },
   {
    "x": 7367,
    "y": 383,
    "w": 232,
    "h": 143,
-   "label": "Calf",
-   "note": "A young calf leaps toward the plumed ox.",
-   "plate": "III"
+   "plate": "III",
+   "id": "calf"
   },
   {
    "x": 8224,
    "y": 192,
    "w": 205,
    "h": 334,
-   "label": "Canopy-bearer",
-   "note": "A man walks under a portable canopy.",
-   "plate": "III"
+   "plate": "III",
+   "id": "canopy_bearer"
   },
   {
    "x": 8479,
    "y": 237,
    "w": 220,
    "h": 289,
-   "label": "Yoke-bearer",
-   "note": "A man carries two vessels on a shoulder yoke.",
-   "plate": "III"
+   "plate": "III",
+   "id": "yoke_bearer"
   },
   {
    "x": 8754,
    "y": 237,
    "w": 220,
    "h": 289,
-   "label": "Two women",
-   "note": "Two women walk in the procession.",
-   "plate": "III"
+   "plate": "III",
+   "id": "two_women"
   },
   {
    "x": 6654,
    "y": 262,
    "w": 650,
    "h": 264,
-   "label": "The sacrifice",
-   "note": "A bull is thrown down and butchered.",
-   "plate": "IV"
+   "plate": "IV",
+   "id": "sacrifice"
   },
   {
    "x": 6094,
    "y": 222,
    "w": 170,
    "h": 304,
-   "label": "Lector priest",
-   "note": "The lector priest reads from a scroll.",
-   "plate": "IV"
+   "plate": "IV",
+   "id": "lector_priest"
   },
   {
    "x": 5174,
    "y": 217,
    "w": 720,
    "h": 309,
-   "label": "Offering table",
-   "note": "A great heaped table of bread, meat, fowl and fruit, between pairs of trees.",
-   "plate": "IV"
+   "plate": "IV",
+   "id": "offering_table"
   },
   {
    "x": 4835,
    "y": 197,
    "w": 170,
    "h": 329,
-   "label": "Man with a water jar",
-   "note": "A man holds a water jar over the offering table for purification.",
-   "plate": "IV"
+   "plate": "IV",
+   "id": "man_with_a_water_jar"
   },
   {
    "x": 3612,
    "y": 205,
    "w": 236,
    "h": 321,
-   "label": "Two obelisks",
-   "note": "Two obelisks stand on their bases.",
-   "plate": "V"
+   "plate": "V",
+   "id": "two_obelisks"
   },
   {
    "x": 3950,
    "y": 312,
    "w": 134,
    "h": 214,
-   "label": "Offering stand",
-   "note": "A small stand by the obelisks, with two rods, a foreleg and the hooked adze laid on it.",
-   "plate": "V"
+   "plate": "V",
+   "id": "offering_stand"
   },
   {
    "x": 4109,
    "y": 248,
    "w": 213,
    "h": 278,
-   "label": "Priest with arm-censer",
-   "note": "A priest holds out an arm-shaped censer, offering incense.",
-   "plate": "V"
+   "plate": "V",
+   "id": "priest_with_arm_censer"
   },
   {
    "x": 4523,
    "y": 191,
    "w": 165,
    "h": 335,
-   "label": "Lector with plumes",
-   "note": "A lector priest in a two-feather headdress holds up a sheet: he reads out the order of the gods' standards.",
-   "plate": "V"
+   "plate": "V",
+   "id": "lector_with_plumes"
   },
   {
    "x": 2255,
    "y": 195,
    "w": 165,
    "h": 331,
-   "label": "Priest with jar",
-   "note": "A priest raises a round jar and pours purifying water. The wavy line is the stream: it arches over Anubis and the mummy.",
-   "plate": "V"
+   "plate": "V",
+   "id": "priest_with_jar"
   },
   {
    "x": 2115,
    "y": 315,
    "w": 135,
    "h": 211,
-   "label": "Kneeling woman",
-   "note": "A woman kneels with her hands raised, under the stream of water.",
-   "plate": "V"
+   "plate": "V",
+   "id": "kneeling_woman"
   },
   {
    "x": 1765,
    "y": 200,
    "w": 225,
    "h": 295,
-   "label": "Anubis and the mummy",
-   "note": "Anubis holds the mummy upright on a low base before the tomb.",
-   "plate": "V"
+   "plate": "V",
+   "id": "anubis_and_the_mummy"
   },
   {
    "x": 1501,
    "y": 191,
    "w": 259,
    "h": 335,
-   "label": "Stela",
-   "note": "A round-topped stela under the winged sun. Faint on its face: a stand, the sun disc on it, a lotus bending over it.",
-   "plate": "VI"
+   "plate": "VI",
+   "id": "stela"
   },
   {
    "x": 1120,
    "y": 195,
    "w": 308,
    "h": 331,
-   "label": "Tomb chapel",
-   "note": "The tomb: a chapel with a cornice, crowned by a small pyramid.",
-   "plate": "VI"
+   "plate": "VI",
+   "id": "tomb_chapel"
   },
   {
    "x": 120,
    "y": 186,
    "w": 355,
    "h": 340,
-   "label": "Ra enthroned",
-   "note": "Ra sits on his throne with the sun disc on his head and a staff in his hand.",
-   "plate": "VI"
+   "plate": "VI",
+   "id": "ra_enthroned"
   }
  ],
  "recital": {

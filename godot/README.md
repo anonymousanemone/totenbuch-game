@@ -60,7 +60,7 @@ You can walk through every vignette. Click a creature (it glows under the pointe
 its vignette, become its spear-bearer and start the fight; in the fights that open out, Space
 thrusts and holding Shift lends the thrust heka. Walking into a vignette says its danger's line (each time, until it is overcome). Clicking the creature opens the fight, and it starts at once: no Space to begin (spell 31 opens with its lesson, one thrust before the first crocodile comes; spell 32's first crocodile comes 1.2 s in). Walking from spell 40 to 41 he passes behind the column of signs between them (`Column` in `scenes/dangers.tscn`: the papyrus and the strip's ink there, drawn over him; hidden while a fight is open). Once a fight starts, every spear-bearer rests
 with the spear drawn back, and a thrust only runs it out and draws it back again; once it is overcome the vignette is put back as drawn.
-You can walk into spell 38 (the breath of life) and take it at any time, but not on past it until spells 31–38 are all done (an invisible barrier at its far edge; the scribe says what is still to do), and spell 42
+You can walk into spell 38 (the breath of life) and take it at any time, but not on past it until the earlier dangers (31–37) are all done (an invisible barrier at its far edge; the scribe says what is still to do), and spell 42
 at the end waits until every danger before it is overcome.
 
 Every fight opens the same way (`_arena_setup`, `_frame_now`, `_place_frame` in `dangers.gd`): over `CROC_OPEN` its frame moves from the vignette's drawn double lines out to the edges of the screen, the bottom double line stopping just above the speaker's tag. The lines keep the thickness they have while walking; the band's top line stays where it is. The caption moves to the middle of the band (centred by its ink) at the size and height it has while walking. Only the wide fights (the crocodiles, 31–32, and the beetles, 36) zoom out to the whole height of the scroll, and their caption shrinks with them. The picture fills the frame below the band. During a fight, what the scribe would say is said under the danger's name (`tag` in `danger_encounters.gd`: Crocodiles, Snake, Beetles, Snakes, Apep, Eater of the Ass).
@@ -69,15 +69,48 @@ Every fight opens the same way (`_arena_setup`, `_frame_now`, `_place_frame` in 
 |---|---|
 | 31 | The vignette opens out (see above). You are the spear-bearer: ↑ ↓ / W S move you, Space thrusts; only the spear point strikes, anywhere on a crocodile (or right by its snout) before it reaches you. Crocodiles never come with their front halves on top of each other, nor one right after another at the same spot. The last crocodile of each wave is always one of the drawn ones squatting on screen. Wave 1 is the lesson (a thrust, a move, one slow crocodile, two more). Then a break: the heka word in the banner starts flashing red (click it for the hold-Shift hint). Wave 2 has red crocodiles (`red_order`), turned back only by a thrust while holding Shift. Bites redden the body; heka on an ordinary crocodile, or one slipping past you once the word glows, loses, with one animation for both: the crocodile laughs (squashes up and down) and turns round, the word spins down into its jaws, he crumbles the moment it lands, and it carries the word off. You are back on the scroll; click a crocodile to fight again, always from wave 1. Each crocodile of a wave is `ramp` faster than the one before. The last crocodile of the fight is the last one on screen: every drawn one has come before it, and it sets off only once the others are gone. Tuned in `ENCOUNTERS` (`waves`, `break`, `ramp`) |
 | 32 | The same, faster, two at a time and from both sides: you stand in the middle, ← → turn you, ↑ ↓ move you. When spacing them, one from the other side counts as if it came from the same side. Some crocodiles come red (`red` chance): hold Shift (heka; the spear turns red) as you thrust to turn those back. A plain thrust does nothing to a red one; heka on an ordinary one loses: it takes the heka word as in spell 31, and you are back on the scroll. Bites redden the body, heka reddens the spear |
-| 33 | Close up (caption to ground). He stays where he is drawn, spear raised; Space thrusts. The snake coils just out of reach, breathing; its tail waves (the warning, `snake_tail.gdshader` bends the drawing), it squashes, and snaps to his front leg (its body passes behind his skirt, its head in front). Thrust as it springs: the point must come down on the red mark, at the spot where it is drawn. The mark shrinks with each strike (`marks`: radius 11, 8, 5 plate px, a window of about 170 ms down to 85 ms); no count is shown. Too early, the spear is already rising again. Three strikes (`need`; for five, give `marks` five sizes); three bites and he crumbles. Tuned in its `ENCOUNTERS` entry |
-| 35 | Red light, green light: creep up (←) on the snake from behind and freeze whenever it lifts its head and looks. A small red dot shows where the spear point will land; thrust when it is on its eye (`eye`; the rest of the head does not count, and the scribe says so). Struck, it slides on; three strikes; three bites and he crumbles |
-| 36 | The vignette opens out; you stand still in the middle: ← → turn you, Space thrusts. Five beetles (`count`: the drawn one and four copies) dart about very fast; every couple of darts each stops by the point of your spear on your left or right for 0.35–0.75 s (some stops just out of reach). Only the spear point at the full thrust pins one (its body, or with `dot` only a red dot on its back); a catch holds everything for 0.5 s and that beetle is gone. Pin all three to win. A beetle that stops within reach and gets away has passed the point: it reddens a step each time, and once it has passed `passes` (3) times, the next time it gets away they multiply until they fill the vignette, the bearer crumbles, and you are back on the scroll. Set `passes` to 5 for an easier fight |
+| 33 | Close up (caption to ground). He stays where he is drawn, spear raised; Space thrusts. The snake coils just out of reach, breathing; its tail waves (the warning, `snake_tail.gdshader` bends the drawing), it squashes, and snaps to his front leg (its body passes behind his skirt, its head in front). Thrust as it springs: the point must come down on the red mark, at the spot where it is drawn. The mark shrinks with each strike (`marks`: radius 14, 11, 8 plate px, a window of about 200 ms down to 145 ms); no count is shown. Too early, the spear is already rising again. Three strikes (`need`; for five, give `marks` five sizes); three bites and he crumbles. Tuned in its `ENCOUNTERS` entry |
+| 35 | Like spell 32, without red ones: the vignette opens out, you stand in the middle, ← → turn you, ↑ ↓ move you, Space thrusts. The drawn snake moves off to rest `rest` from you; more slither in from the edges and stop (never more than `at_once`, 5, resting). One at a time, `next` s (0–1.5) after the last attack ended, a resting snake shakes its tail (the only warning; `snake_tail.gdshader` bends it along `tail_base`→`tail_tip`) and darts at you along its row at `speed`. The spear point anywhere on it spears it. Touching any part of you, it bites and slinks back to rest elsewhere; missing you, it slips past, turns and rests on the far side (and no longer counts toward `at_once`). 14 speared (`need`) wins; three bites and snakes come in from everywhere (no steeper than 15°), bite him all down both sides, and he crumbles. `--croc-bot` with `BOT_REACT` checks it can be won (above `shake`, 0.8: a player who ignores the tails) |
+| 36 | The vignette opens out; you stand still in the middle: ← → turn you, Space thrusts. Five beetles (`count`: the drawn one and four copies) dart about very fast; every couple of darts each stops by the point of your spear on your left or right for 0.35–0.75 s (some stops just out of reach). Only the spear point at the full thrust pins one on its body; a catch holds everything for 0.5 s and that beetle is gone. Pin all three to win. A beetle that stops within reach and gets away has passed the point: it reddens a step each time, and once it has passed `passes` (3) times, the next time it gets away they multiply until they fill the vignette, the bearer crumbles, and you are back on the scroll. Set `passes` to 5 for an easier fight |
 | 37 | Close up; he stands in the middle as drawn, ← → turn him, Space thrusts. The drawn snake on his left and a mirrored copy on his right wait coiled `rest` (90) plate px out from where they are drawn, facing him, breathing. One of the two snake signs in the caption flashes red (left sign, left snake); that snake squashes down and springs at his foot, passing the spot where it is drawn. Thrust facing it as it passes (`reach` 12 → 7 plate px; a window of about 110 ms down to 90 ms); a thrust at a coiled snake makes it spring at once. Each struck twice falls where it is drawn; three bites and he crumbles. `warn`, `crouch`, `snap` and `reach` tighten with each strike |
-| 38 | Take one sign from the giver's hand, the sail (breath) or the ankh (life): only one can be taken, and the other stays in his hand. What taking the ankh leads to is still to be decided; for now either opens the way on. |
+| 38 | Take one sign from the giver's hand, the sail (breath) or the ankh (life): only one can be taken, and the other stays in his hand. The sail gives the later fights their easy rules; the ankh gives endless life. Taking neither sign is allowed once the earlier dangers are overcome. |
 | 39 | Close up, the whole vignette across. He stays where he is drawn, the barb resting a little way up its line from Apep's neck (where the body folds back); Space thrusts. Now and then the tail lashes and a wave runs the length of Apep to the fold (`apep_wave.gdshader` lifts the drawing column by column); his head strains up as it comes. Thrust as the crest reaches the point: the wave is pressed flat, Apep flushes red, and the barb rests a step further in (`need` 6 steps; at the last the spear is as drawn). A wave that gets past rears his head out from under the barb, round to bite the bearer's foot. After the first two (`teach`), a share of waves (`feint`) are smaller and die out in the drawn hump; a thrust on a still neck works the barb loose a step. The waves come faster (`speed` 220 → 380 plate px/s), closer together (`gap`, never two at the point within `min_gap`), and the crest must be nearer the point (`reach` 10 → 5 plate px: a window of about 155 ms down to 135 ms). No count is shown; three bites and he crumbles. Tuned in its `ENCOUNTERS` entry |
 | 40 | Close up. The snake's head is down in the donkey's back: a thrust then goes into the donkey and he crumbles at once. Now and then the donkey swishes its tail (`tail40`, cut from the donkey, turns about its root) and the snake lifts its front up the spear's line to snap at it (`lift_end.gdshader`), for `up` s (0.6 → 0.38, ±25%): Space then strikes it. After the first strike some swishes are only flicks (`flick` 45%), and it does not look up. Left alone, its coils tighten and it bites the donkey every `bite_every` s (4.5 → 3.6); the flesh signs count the donkey's health, and the third bite and the donkey is eaten. It always looks up at least once before each bite, and a strike sets the bite back. Three strikes win. `DONKEY_CURVE=1` with `--autotest` prints how often a stand-in player wins at each reaction time |
-| 41 | Tie the sheaf’s four bands while the stirring is above the next band, then spear the snake as its head emerges |
+| 41 | Use ↑ ↓ to aim at the shivering band and Space to spear the snake. Five hits, the last on top, win in mortal play. Without breath, missing the opening also causes a bite. |
 | 42 | End of the level. Spell 42 is text only (each body part given to a god) and is not a puzzle yet |
+
+Spell 38's choice affects only spells 39–41:
+
+| Choice | Rules | Health and ending |
+|---|---|---|
+| Breath sail | Easy | Three flesh signs; encounters can be completed |
+| Ankh | Hard where implemented | One ankh flashes red on a damaging mistake; no death, snakes return, no level ending |
+| Neither | Same hard rules as the ankh | Three flesh signs; normal deaths and victories |
+
+Only the sheaf currently has hard rules. Apep and the Eater of the Ass keep their existing
+(easy) tuning in all three routes; their `hard_ready: false` entries are the scaffolding for
+future tuning. The ankh's immortality and repeating encounters already apply to all three.
+Earlier encounters keep their original rules regardless of which sign is carried.
+
+With the ankh, the Journal silently counts each successful wave pressed back (39) or snake
+speared (40–41), in a separate entry per spell. Scores survive leaving and re-entering fights.
+After 60 active seconds in one encounter, or 120 active seconds combined, whichever comes first,
+the scribe says: “you are living but never free. perhaps that wasn't what you needed.”
+Time accumulates across visits; opening/closing animations, walking, and the paused Journal do
+not count. The clue appears once per run and stays clear of routine feedback for six seconds.
+Restart clears the scores, journal, choice, and clue timers; these are session records, not a disk save.
+
+The adze sits in the player's hand while walking to the mummy, mirroring and bobbing with
+him. Entering the face view puts it on the pointer for carving; leaving returns it to his hand.
+The words still follow the pointer. Final offering pieces keep their existing worn/drag behavior.
+Attachment transforms are shared through `avatar.gd`'s `carrying_transform()`.
+
+In Dangers, the chosen ankh or breath sail stays on the walking player. Its pose comes from
+`Avatar/CarryAnkh` or `Avatar/CarryBreath` in `scenes/dangers.tscn`, preserving the former
+avatar-copy arrangement: ankh anchor `(-38, -233)`, sail anchor `(-35, -236)` relative to the
+player's feet facing left. Their image offsets remain `(-16, -67)` and `(-30.5, -49)`.
+The sign mirrors and bobs with the player, hides during combat, and returns to the giver on restart.
+The unchosen sign stays in the giver's hand. The reference copies have been removed.
 
 ## Layout
 
@@ -90,7 +123,7 @@ Scene-specific scripts and shaders are grouped under `scripts/procession/`, `scr
 | `scripts/scroll.gd` | Autoload `Scroll`: the scenes in playing order (Lepsius's spell order, the weighing of the heart last), which are restored, and the settings, kept in `user://scroll.cfg`. A scene counts as built once `scenes/<key>.tscn` exists; finishing one opens the next built scene |
 | `scripts/ui.gd` | The shared look (`UI`): palette, Old Fax, square panels, the frame band, pixel icon buttons |
 | `scenes/procession.tscn`, `scripts/procession/procession.gd` | Spells 1–15 |
-| `scenes/dangers.tscn`, `scripts/dangers/dangers.gd` | Spells 31–42: encounter list, gates, one rule set per creature |
+| `scenes/dangers.tscn`, `scripts/dangers/dangers.gd` | Spells 31–42: shared arena, walking, gates, breath-of-life choice, and encounter dispatch |
 | `scripts/avatar.gd` | Walking (click target or keyboard), facing, bobbing |
 | `scripts/hud.gd` | Title bar (Restart, Menu), the scribe's strip under the scene (the line said with its speaker's tag, Journal and Hint; nothing shows what you carry: it follows the pointer), the Journal page ([j]), intro/outro; each level passes its own texts |
 | `assets/menu/` | A picture per scene for the map (frames of the built levels, crops of the plates for the rest) and the title page's frontispiece, made by `../tools/menu_images.py` |
@@ -111,9 +144,10 @@ Procession art exports use the `general` conda environment. The exporter accepts
 new interactions. After exporting, compare IDs and crop bounds and adjust saved scene offsets
 for changed crop origins; do not replace deliberate editor placements with source coordinates.
 
-Puzzle writing lives in `assets/puzzles.json`. Each puzzle lists `instructions` and `success`
-as plain strings, then named `feedback` events and Hint-button `hints`. Alternate instruction
-or outcome messages are named feedback entries. Shared responses live in top-level `messages`.
+Puzzle writing lives in each level's `assets/<level>/puzzles.json`. Each puzzle lists
+`instructions` and `success` as plain strings, then named `feedback` events and Hint-button
+`hints`. Alternate instruction or outcome messages are named feedback entries. Level responses
+live in top-level `messages`; shared interaction messages live in `assets/messages.json`.
 Scripts choose when to display each line and whether it repeats; the catalog holds the wording.
 
 ### Editing the Procession pieces
@@ -166,7 +200,7 @@ Temporary fight effects and spawned copies remain generated at runtime. Art expo
 automatically replace the saved scene layout.
 
 Both crocodile fights: three bites and the bearer crumbles and you are back on the scroll (never an automatic restart); the flesh
-sign (your picture at `assets/dangers/flesh.png`, cropped to the sign; `FLESH_SIZE` tall, `FLESH_GAP` apart; red dots until it is there) counts his health in red at the
+sign (your picture at `assets/dangers/flesh.png`, cropped to the sign; native image size, `FLESH_GAP` apart; red dots until it is there) counts his health in red at the
 top left. Spell 32 speeds up with every crocodile (`ramp`) but keeps arrivals `min_gap` apart so it
 can always be won. `-- --croc-bot` lets a stand-in player (0.35 s reaction, `BOT_REACT=0.7` for a
 slower one) fight the next crocodile vignette and prints how many tries it needed.
@@ -222,8 +256,12 @@ add `-- --ui-images=/tmp/totenbuch-ui` with a rendering backend to capture repre
 
 Shared camera arithmetic lives in `scripts/scroll_camera.gd`; figure ink/interior masks
 live in `scripts/figure_mask.gd`. Dangers encounter descriptions and tuning live in
-`scripts/dangers/danger_encounters.gd`, and spell 35 uses `scripts/dangers/creeping_snake_state.gd` for its
-typed animation state. Hauling phases use `HaulSledge.Phase`.
+`scripts/dangers/danger_encounters.gd`. Combat behavior, development bots, and encounter-specific
+autotests live in `crocodiles.gd` (31–32), `lunging_snake.gd` (33), `creeping_snake.gd` (35),
+`beetles.gd` (36), `two_snakes.gd` (37), `apep.gd` (39), `donkey.gd` (40), and `sheaf.gd` (41),
+all under `scripts/dangers/`. Each receives the level as its shared scene/state context.
+Taking the breath of life (38), walking, progression, arena presentation, and the test runner
+remain in `dangers.gd`. Hauling phases use `HaulSledge.Phase`.
 
 ```bash
 godot --headless --path . -- --level=dangers --autotest

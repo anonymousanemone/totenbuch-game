@@ -25,6 +25,7 @@ func _run() -> void:
 	_test_procession_hitboxes()
 	_test_procession_scene_pieces()
 	_test_dangers_scene_actors()
+	_test_dangers_inventory()
 	_test_donkey_hover()
 	_test_hover_glow()
 	print("REGRESSIONS ", "OK" if _failures.is_empty() else "FAILED")
@@ -216,6 +217,12 @@ func _test_procession_scene_pieces() -> void:
 ## Authored actors must be inspectable before _ready(), then retain scene placement in play.
 func _test_dangers_scene_actors() -> void:
 	var scene = load("res://scenes/dangers.tscn").instantiate()
+	var image: Image = scene.get_node("Avatar/Sprite").texture.get_image()
+	var ink_opacity := 0.0
+	for y in image.get_height():
+		for x in image.get_width():
+			ink_opacity = maxf(ink_opacity, image.get_pixel(x, y).a)
+	_expect(ink_opacity == 1.0, "Dangers avatar retains fully opaque ink instead of a faded export")
 	var data = JSON.parse_string(FileAccess.get_file_as_string("res://assets/dangers/level.json"))
 	var sheet_data = JSON.parse_string(FileAccess.get_file_as_string("res://assets/dangers/spearers.json"))
 	var ids := {}
@@ -271,6 +278,41 @@ func _test_dangers_scene_actors() -> void:
 	scene.reset()
 	_expect(moved.position == home, "reset returns actors to their authored starting positions")
 	scene.free()
+
+
+func _test_dangers_inventory() -> void:
+	for item in ["ankh38", "sail38"]:
+		var scene = load("res://scenes/dangers.tscn").instantiate()
+		root.add_child(scene)
+		scene.hud.dismiss_intro()
+		scene._instant = true
+		var encounter: Dictionary = scene.ENCOUNTERS.filter(func(e): return e.id == "e38")[0]
+		var other := "sail38" if item == "ankh38" else "ankh38"
+		var sign: Sprite2D = scene.actors[item]
+		var home: Vector2 = sign.position
+		var other_home: Vector2 = scene.actors[other].position
+		scene.take(encounter, item)
+		scene.avatar.sprite.flip_h = false
+		scene.avatar.sprite.position.y = -3.0
+		scene._process(0.0)
+		var pose := Vector2(-38, -233) if item == "ankh38" else Vector2(-35, -236)
+		_expect(sign.visible and sign.global_position.is_equal_approx(scene.avatar.global_position + pose + Vector2(0, -3)), item + " is worn at the reference pose and follows the walking bob")
+		_expect(scene.actors[other].visible and scene.actors[other].position == other_home, "the unchosen sign stays in the giver's hand")
+		scene.avatar.position.x -= 60.0
+		scene.avatar.sprite.flip_h = true
+		scene._process(0.0)
+		_expect(sign.global_position.is_equal_approx(scene.avatar.global_position + Vector2(-pose.x, pose.y - 3)) and sign.global_transform.determinant() < 0.0, item + " travels and mirrors with the player")
+		scene.take(encounter, other)
+		_expect(scene.items == [item], "carrying a sign does not allow taking the other one")
+		scene.start_fight(scene.ENCOUNTERS[0])
+		scene._process(0.0)
+		_expect(not sign.visible, item + " hides with the player during combat")
+		scene.leave_fight()
+		scene._process(0.0)
+		_expect(sign.visible and scene.items == [item], item + " returns to the player after leaving combat")
+		scene.reset()
+		_expect(scene.items.is_empty() and sign.visible and sign.position == home and sign.scale == Vector2.ONE and sign.rotation == 0.0 and sign.z_index == 0, item + " returns to its original pose on restart")
+		scene.free()
 
 
 ## A real click opens the fight before subsequent mouse motion asks for hover targets.

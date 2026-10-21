@@ -36,7 +36,7 @@
    "group": "Adoration scene",
    "id": "isis_nephthys_kneeling"
   },
-  "goddess_over_scarab": {
+  "nut_over_scarab": {
    "x": 238,
    "y": 258,
    "w": 321,
@@ -44,9 +44,9 @@
    "plate": "XI",
    "layer": "nut?",
    "group": "Adoration scene",
-   "id": "goddess_over_scarab"
+   "id": "nut_over_scarab"
   },
-  "god_enthroned": {
+  "osiris_enthroned": {
    "x": 559,
    "y": 192,
    "w": 191,
@@ -54,7 +54,7 @@
    "plate": "XI",
    "layer": "Seated deity",
    "group": "Adoration scene",
-   "id": "god_enthroned"
+   "id": "osiris_enthroned"
   },
   "offering_stand": {
    "x": 750,
@@ -66,7 +66,7 @@
    "group": "Adoration scene",
    "id": "offering_stand"
   },
-  "adorer_xi": {
+  "deceased_adoring": {
    "x": 895,
    "y": 252,
    "w": 155,
@@ -74,7 +74,7 @@
    "plate": "XI",
    "layer": "Adorant",
    "group": "Adoration scene",
-   "id": "adorer_xi"
+   "id": "deceased_adoring"
   },
   "anubis": {
    "x": 1047,
@@ -116,7 +116,7 @@
    "group": "Barque procession",
    "id": "baboons_praising_1"
   },
-  "boat_of_ra": {
+  "atum_evening_boat": {
    "x": 1978,
    "y": 200,
    "w": 737,
@@ -124,7 +124,7 @@
    "plate": "X",
    "layer": "Solar boat",
    "group": "Barque procession",
-   "id": "boat_of_ra"
+   "id": "atum_evening_boat"
   },
   "baboons_praising_2": {
    "x": 2859,
@@ -156,7 +156,7 @@
    "group": "Barque procession",
    "id": "baboons_seated_x"
   },
-  "boat_of_khepri": {
+  "khepri_boat": {
    "x": 3689,
    "y": 232,
    "w": 688,
@@ -164,7 +164,7 @@
    "plate": "IX",
    "layer": "Solar boat",
    "group": "Scarab barque and sacred tree",
-   "id": "boat_of_khepri"
+   "id": "khepri_boat"
   },
   "inscriptions_ix": {
    "x": 4112,
@@ -176,7 +176,7 @@
    "group": "Scarab barque and sacred tree",
    "id": "inscriptions_ix"
   },
-  "kneeling_adorer": {
+  "deceased_kneeling": {
    "x": 4331,
    "y": 286,
    "w": 169,
@@ -184,9 +184,9 @@
    "plate": "IX",
    "layer": "Kneeling man",
    "group": "Scarab barque and sacred tree",
-   "id": "kneeling_adorer"
+   "id": "deceased_kneeling"
   },
-  "baboons_seated_ix": {
+  "two_apes_isis_nephthys": {
    "x": 4500,
    "y": 342,
    "w": 275,
@@ -194,9 +194,9 @@
    "plate": "IX",
    "layer": "baboons",
    "group": "Scarab barque and sacred tree",
-   "id": "baboons_seated_ix"
+   "id": "two_apes_isis_nephthys"
   },
-  "falcon_standard": {
+  "falcon_on_standard": {
    "x": 4794,
    "y": 247,
    "w": 113,
@@ -204,9 +204,9 @@
    "plate": "IX",
    "layer": "Falcon standard",
    "group": "Scarab barque and sacred tree",
-   "id": "falcon_standard"
+   "id": "falcon_on_standard"
   },
-  "cat_and_snake": {
+  "great_cat_and_apep": {
    "x": 4878,
    "y": 355,
    "w": 284,
@@ -214,9 +214,9 @@
    "plate": "IX",
    "layer": "cat serpent",
    "group": "Scarab barque and sacred tree",
-   "id": "cat_and_snake"
+   "id": "great_cat_and_apep"
   },
-  "persea_tree": {
+  "ished_tree": {
    "x": 5124,
    "y": 206,
    "w": 163,
@@ -224,7 +224,7 @@
    "plate": "IX",
    "layer": "Tree",
    "group": "Scarab barque and sacred tree",
-   "id": "persea_tree"
+   "id": "ished_tree"
   },
   "small_seated_god": {
    "x": 5273,
@@ -236,7 +236,7 @@
    "group": "Scarab barque and sacred tree",
    "id": "small_seated_god"
   },
-  "two_seated_gods": {
+  "twin_souls": {
    "x": 5393,
    "y": 280,
    "w": 327,
@@ -244,7 +244,7 @@
    "plate": "IX",
    "layer": "seated",
    "group": "Scarab barque and sacred tree",
-   "id": "two_seated_gods"
+   "id": "twin_souls"
   },
   "two_bowls": {
    "x": 5720,
@@ -256,7 +256,7 @@
    "group": "Scarab barque and sacred tree",
    "id": "two_bowls"
   },
-  "god_with_two_eyes": {
+  "horus_khenty_irty": {
    "x": 5975,
    "y": 201,
    "w": 137,
@@ -264,9 +264,9 @@
    "plate": "IX",
    "layer": "figure2",
    "group": "Scarab barque and sacred tree",
-   "id": "god_with_two_eyes"
+   "id": "horus_khenty_irty"
   },
-  "god_with_emblem": {
+  "spirit_with_emblem": {
    "x": 6090,
    "y": 212,
    "w": 105,
@@ -274,7 +274,7 @@
    "plate": "IX",
    "layer": "figure1",
    "group": "Scarab barque and sacred tree",
-   "id": "god_with_emblem"
+   "id": "spirit_with_emblem"
   },
   "duamutef": {
    "x": 6179,
@@ -296,7 +296,7 @@
    "group": "Scarab barque and sacred tree",
    "id": "imsety"
   },
-  "shrine_with_falcon": {
+  "chest_with_head_of_ra": {
    "x": 6347,
    "y": 185,
    "w": 163,
@@ -304,7 +304,7 @@
    "plate": "IX",
    "layer": "canopicchest",
    "group": "Scarab barque and sacred tree",
-   "id": "shrine_with_falcon"
+   "id": "chest_with_head_of_ra"
   },
   "hapy": {
    "x": 6510,
@@ -326,7 +326,7 @@
    "group": "Shrines and funerary scene",
    "id": "qebehsenuef"
   },
-  "cow_on_shrine": {
+  "mehet_weret": {
    "x": 6660,
    "y": 199,
    "w": 305,
@@ -334,7 +334,7 @@
    "plate": "VIII",
    "layer": "Ram shrine",
    "group": "Shrines and funerary scene",
-   "id": "cow_on_shrine"
+   "id": "mehet_weret"
   },
   "inscriptions_viii": {
    "x": 6790,
@@ -346,7 +346,7 @@
    "group": "Shrines and funerary scene/Inscriptions",
    "id": "inscriptions_viii"
   },
-  "adorer_with_bowl": {
+  "offerer_before_cow": {
    "x": 6965,
    "y": 283,
    "w": 152,
@@ -354,7 +354,7 @@
    "plate": "VIII",
    "layer": "Adorant",
    "group": "Shrines and funerary scene",
-   "id": "adorer_with_bowl"
+   "id": "offerer_before_cow"
   },
   "wedjat_shrine": {
    "x": 7117,
@@ -366,7 +366,7 @@
    "group": "Shrines and funerary scene",
    "id": "wedjat_shrine"
   },
-  "seated_god_snout": {
+  "thoth_baboon": {
    "x": 7300,
    "y": 336,
    "w": 114,
@@ -374,9 +374,9 @@
    "plate": "VIII",
    "layer": "Recumbent deity",
    "group": "Shrines and funerary scene",
-   "id": "seated_god_snout"
+   "id": "thoth_baboon"
   },
-  "snake_shrine": {
+  "rosetau_gate": {
    "x": 7429,
    "y": 191,
    "w": 146,
@@ -384,9 +384,9 @@
    "plate": "VIII",
    "layer": "Serpent shrine",
    "group": "Shrines and funerary scene",
-   "id": "snake_shrine"
+   "id": "rosetau_gate"
   },
-  "mourning_women": {
+  "heh_and_wadj_wer": {
    "x": 7575,
    "y": 260,
    "w": 583,
@@ -394,7 +394,7 @@
    "plate": "VIII",
    "layer": "Seated women",
    "group": "Shrines and funerary scene",
-   "id": "mourning_women"
+   "id": "heh_and_wadj_wer"
   },
   "nephthys_kite": {
    "x": 8149,
@@ -426,7 +426,7 @@
    "group": "Shrines and funerary scene",
    "id": "isis_kite"
   },
-  "benu_heron": {
+  "benu": {
    "x": 8960,
    "y": 376,
    "w": 186,
@@ -434,9 +434,9 @@
    "plate": "VIII",
    "layer": "Heron",
    "group": "Shrines and funerary scene",
-   "id": "benu_heron"
+   "id": "benu"
   },
-  "lion_left": {
+  "lion_tomorrow": {
    "x": 9146,
    "y": 312,
    "w": 197,
@@ -444,7 +444,7 @@
    "plate": "VII",
    "layer": "Lion left",
    "group": "Lions and solar procession/Lions and sun",
-   "id": "lion_left"
+   "id": "lion_tomorrow"
   },
   "horizon": {
    "x": 9268,
@@ -466,7 +466,7 @@
    "group": "Lions and solar procession/Inscriptions",
    "id": "inscriptions_vii"
   },
-  "lion_right": {
+  "lion_yesterday": {
    "x": 9372,
    "y": 308,
    "w": 195,
@@ -474,9 +474,9 @@
    "plate": "VII",
    "layer": "Lion right",
    "group": "Lions and solar procession/Lions and sun",
-   "id": "lion_right"
+   "id": "lion_yesterday"
   },
-  "boat_with_crew": {
+  "sun_boat_with_crew": {
    "x": 9584,
    "y": 187,
    "w": 1171,
@@ -484,9 +484,9 @@
    "plate": "VII",
    "layer": "Solar boat",
    "group": "Lions and solar procession",
-   "id": "boat_with_crew"
+   "id": "sun_boat_with_crew"
   },
-  "man_with_flowers": {
+  "adorer_with_flowers": {
    "x": 10721,
    "y": 187,
    "w": 192,
@@ -494,9 +494,9 @@
    "plate": "VII",
    "layer": "Offering man",
    "group": "Lions and solar procession",
-   "id": "man_with_flowers"
+   "id": "adorer_with_flowers"
   },
-  "adorer_vii": {
+  "adorer_before_boat": {
    "x": 10909,
    "y": 255,
    "w": 128,
@@ -504,9 +504,9 @@
    "plate": "VII",
    "layer": "Adorant",
    "group": "Lions and solar procession",
-   "id": "adorer_vii"
+   "id": "adorer_before_boat"
   },
-  "ba_bird": {
+  "ba": {
    "x": 11037,
    "y": 240,
    "w": 258,
@@ -514,7 +514,7 @@
    "plate": "VII",
    "layer": "Walking woman",
    "group": "Lions and solar procession",
-   "id": "ba_bird"
+   "id": "ba"
   },
   "falcon_on_perch": {
    "x": 11273,
@@ -536,7 +536,7 @@
    "group": "Lions and solar procession",
    "id": "senet_booth"
   },
-  "deceased_standing": {
+  "deceased_with_staff": {
    "x": 11765,
    "y": 239,
    "w": 164,
@@ -544,7 +544,7 @@
    "plate": "VII",
    "layer": "Standing deity",
    "group": "Lions and solar procession",
-   "id": "deceased_standing"
+   "id": "deceased_with_staff"
   }
  }
 }

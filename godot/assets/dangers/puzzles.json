@@ -1,0 +1,321 @@
+{
+  "messages": {
+	"dangers.complete": "Walk left to the end of the scroll.",
+	"dangers.end": "Spell 42 is a list, not a picture: each part of the body is given to a god.",
+	"dangers.defeated": "One bite too many: the spear-bearer crumbles to dust.",
+	"dangers.retry": "The fight is lost. Click the creature to take up the spear again.",
+	"dangers.left_fight": "You step back out of the vignette. Click the creature to take it up again.",
+	"dangers.click_to_fight": "Click the creature to take up the spear.",
+	"dangers.heka_controls": "Hold [shift] while striking to fight off the red crocodiles. Don't use heka on the regular crocodiles, or they'll make off with it!",
+	"dangers.start": "The road to the hall of judgment begins here. Walk left, toward the crocodiles.",
+	"dangers.blocked": "The way on opens only once every danger up to the breath of life is overcome. Still to do: spell %s.",
+	"dangers.unfinished": "Spell 42 waits until every danger behind you is overcome. Still to do: spell %s.",
+	"dangers.finished": "The road is clear. You carry the breath of life.",
+	"dangers.life_clue": "you are living but never free. perhaps that wasn't what you needed.",
+	"dangers.finished_without_breath": "The road is clear.",
+	"dangers.outro_without_breath": "The dangers are overcome.",
+	"dangers.outro": "The dangers are overcome. You carry [b]the breath of life[/b]."
+  },
+  "puzzles": {
+	"dangers.e31": {
+	  "instructions": "Meet each snout with your spear tip. Strike as they touch. Three bites end the attempt. Don't let any crocodiles slip past you or it'll take your words of power.",
+	  "success": "The crocodiles turn away.",
+	  "feedback": {
+		"controls_both": "Press [space] to thrust the spear; [↑] [↓] (or [w] [s]) move you; [←] [→] turn you.",
+		"controls": "Press [space] to thrust the spear; [↑] [↓] (or [w] [s]) move you.",
+		"first_crocodile": "Here one comes. Meet its snout with the spear tip, and press [space] as they touch.",
+		"first_strike": "Well struck. More are coming, at different heights.",
+		"crocodile_defeated": "The crocodile turns away.",
+		"heka_break": "The crocodiles draw back. Above, signs begin to glow red.",
+		"next_wave": "They come again.",
+		"heka_on_normal_crocodile": "Heka spent on an ordinary crocodile! It seizes the word of power and makes off with it. The crocodiles are not turned back.",
+		"crocodile_escaped": "A crocodile slipped past you to the wall. It laughs, and the word of heka falls to it.",
+		"red_crocodile": "Bronze alone will not turn the red ones. The signs glowing above may tell you how.",
+		"tutorial_bite": "The crocodile reached you. Line the spear tip up with its snout, and strike as they touch.",
+		"bitten": "A crocodile reached you.",
+		"behind_you": "One comes from behind! [←] [→] turn you to face either way.",
+		"movement_lesson": "Good. Now move: [↑] [↓] (or [w] [s]) take you up and down."
+	  },
+	  "hints": {
+		"find": {
+		  "default": "Look for crocodiles of spell 31 to your left.",
+		  "nearby": "Click the creature to take up the spear.",
+		  "right": "Look for crocodiles of spell 31 to your right."
+		},
+		"phases": {
+		  "fight": [
+			{
+			  "level": "act",
+			  "text": "Aim with [↑] [↓]. Press [space] when the snout meets the spear tip."
+			}
+		  ],
+		  "heka": [
+			{
+			  "level": "act",
+			  "text": "Aim with [↑] [↓]. Press [space] when the snout meets the spear tip. Hold [shift] only for red crocodiles."
+			}
+		  ]
+		}
+	  }
+	},
+	"dangers.e32": {
+	  "instructions": "Face the approaching crocodile and meet its snout with your spear. Use heka only against red ones. Don't let any crocodiles slip past you or it'll take your words of power.",
+	  "success": "The crocodiles of the four quarters are turned back.",
+	  "feedback": {
+		"controls_both": "Press [space] to thrust the spear; [↑] [↓] (or [w] [s]) move you; [←] [→] turn you.",
+		"controls": "Press [space] to thrust the spear; [↑] [↓] (or [w] [s]) move you.",
+		"first_crocodile": "Here one comes. Meet its snout with the spear tip, and press [space] as they touch.",
+		"first_strike": "Well struck. More are coming, at different heights.",
+		"crocodile_defeated": "The crocodile turns away.",
+		"heka_break": "The crocodiles draw back. Above, signs begin to glow red.",
+		"next_wave": "They come again.",
+		"heka_on_normal_crocodile": "Heka spent on an ordinary crocodile! It seizes the word of power and makes off with it. The crocodiles are not turned back.",
+		"crocodile_escaped": "A crocodile slipped past you to the wall. It laughs, and the word of heka falls to it.",
+		"red_crocodile": "Bronze alone will not turn the red ones. The signs glowing above may tell you how.",
+		"tutorial_bite": "The crocodile reached you. Line the spear tip up with its snout, and strike as they touch.",
+		"bitten": "A crocodile reached you.",
+		"behind_you": "One comes from behind! [←] [→] turn you to face either way.",
+		"movement_lesson": "Good. Now move: [↑] [↓] (or [w] [s]) take you up and down."
+	  },
+	  "hints": {
+		"find": {
+		  "default": "Look for crocodiles of spell 32 to your left.",
+		  "nearby": "Click the creature to take up the spear.",
+		  "right": "Look for crocodiles of spell 32 to your right."
+		},
+		"phases": {
+		  "fight": [
+			{
+			  "level": "act",
+			  "text": "Turn with [←] [→], aim with [↑] [↓]. Hold [shift] only when striking a red crocodile."
+			}
+		  ],
+		  "heka": [
+			{
+			  "level": "act",
+			  "text": "Turn with [←] [→], aim with [↑] [↓]. Hold [shift] only when striking a red crocodile. Hold [shift] only for red crocodiles."
+			}
+		  ]
+		}
+	  }
+	},
+	"dangers.e33": {
+	  "instructions": "Watch its tail: it warns before the snake springs. Strike as its head reaches the spear point.",
+	  "success": "The snake falls.",
+	  "feedback": {
+		"struck_more": "Struck! It pulls free and coils again. %d more.",
+		"struck": "Struck!",
+		"too_early": "Too early: your spear was already coming back up when it sprang. Wait for the snap.",
+		"too_late": "Too late: it was past the point of your spear.",
+		"bite_advice": "It bit you. When its tail waves and it squashes down, it is about to spring: thrust as it springs.",
+		"controls": "Press [space] to thrust the spear, just as the snake springs. You cannot step."
+	  },
+	  "hints": {
+		"find": {
+		  "default": "Look for the lunging snake to your left.",
+		  "nearby": "Click the creature to take up the spear.",
+		  "right": "Look for the lunging snake to your right."
+		},
+		"phases": {
+		  "fight": [
+			{
+			  "level": "act",
+			  "text": "Wait for the tail to wave, then strike as the snake springs. Each hit makes the target smaller."
+			}
+		  ]
+		}
+	  }
+	},
+	"dangers.e35": {
+	  "instructions": "Snakes come at you from both sides. A shaking tail warns which one comes next. Meet it with your spear point.",
+	  "success": "The snakes on the ground are speared.",
+	  "feedback": {
+		"struck_more": "Speared! %d more.",
+		"struck": "Speared!",
+		"bitten": "Bitten. Watch the tails: the one that shakes is the one that comes.",
+		"slipped": "It slipped past you. Now it waits on the other side.",
+		"controls": "[←] [→] turn you; [↑] [↓] move you; [space] thrusts."
+	  },
+	  "hints": {
+		"find": {
+		  "default": "Look for the snake on the ground to your left.",
+		  "nearby": "Click the creature to take up the spear.",
+		  "right": "Look for the snake on the ground to your right."
+		},
+		"phases": {
+		  "fight": [
+			{
+			  "level": "act",
+			  "text": "When a tail shakes, move to that snake's height and face it. Thrust as it reaches your spear point."
+			}
+		  ]
+		}
+	  }
+	},
+	"dangers.e36": {
+	  "instructions": "Spear all five beetles when they pause near the point. Turn to face them. Each can escape three times.",
+	  "success": "The beetles are pinned.",
+	  "feedback": {
+		"pinned_more": "Pinned! %d more.",
+		"pinned": "Pinned!",
+		"swarm": "It slipped past one time too many. Apshai never travels alone.",
+		"controls": "Press [space] to thrust the spear; [←] [→] turn you. You cannot step."
+	  },
+	  "hints": {
+		"find": {
+		  "default": "Look for the apshai beetle to your left.",
+		  "nearby": "Click the creature to take up the spear.",
+		  "right": "Look for the apshai beetle to your right."
+		},
+		"phases": {
+		  "fight": [
+			{
+			  "level": "act",
+			  "text": "Turn toward a beetle when it pauses at the spear point. The redder it is, the fewer escapes it has left."
+			}
+		  ]
+		}
+	  }
+	},
+	"dangers.e37": {
+	  "instructions": "Turn to the snake that strikes ([←] [→]), and thrust as it springs.",
+	  "success": "The two Merti snakes fall.",
+	  "feedback": {
+		"struck_final": "Struck! It falls.",
+		"struck_partial": "Struck! It pulls free and coils again.",
+		"bitten": "%s Bitten.",
+		"provoked": "It saw the spear and sprang. Wait for its sign to flash and for it to squash down; thrust as it springs.",
+		"wrong_direction": "It sprang from your other side. Turn to face it ([←] [→]).",
+		"mistimed_thrust": "Too early or too late: thrust just as it springs past your spear point.",
+		"bite_advice": "It sprang at you. When it squashes down, thrust as it springs.",
+		"controls": "[←] [→] (or [a] [d]) turn you; [space] thrusts. Thrust as a snake springs at you."
+	  },
+	  "hints": {
+		"find": {
+		  "default": "Look for the two merti snakes to your left.",
+		  "nearby": "Click the creature to take up the spear.",
+		  "right": "Look for the two merti snakes to your right."
+		},
+		"phases": {
+		  "fight": [
+			{
+			  "level": "act",
+			  "text": "Watch the signs above. Striking too soon provokes a snake."
+			}
+		  ]
+		}
+	  }
+	},
+	"dangers.e38": {
+	  "instructions": "He offers the ankh and sail: life and breath.",
+	  "success": "You take the sail: the breath of life.",
+	  "feedback": {
+		"success_sail38": "You take the sail: the breath of life.",
+		"success_ankh38": "You take the ankh: life. The sail stays in his hand."
+	  },
+	  "hints": {
+		"find": {
+		  "default": "Look for the breath of life to your left.",
+		  "right": "Look for the breath of life to your right."
+		},
+		"phases": {
+		  "choose": [
+			{
+			  "level": "act",
+			  "text": "Take one sign from his hand, the ankh or the sail. The caption above says which you need."
+			}
+		  ]
+		}
+	  }
+	},
+	"dangers.e39": {
+	  "instructions": "Follow each wave from Apep’s tail. Strike as it reaches your spear point. Leave waves that fade away alone.",
+	  "success": "Apep lies still, pinned at the neck.",
+	  "feedback": {
+		"life_hit": "The wave subsides, but Apep stirs again.",
+		"life_score": "Spell 39: waves pressed back %d times.",
+		"apep_defeated": "Pressed down. Apep lies still.",
+		"barb_advanced": "Pressed down: the barb goes in a step.",
+		"too_early": "Too early: wait until the wave reaches your spear point.",
+		"barb_slipped": "The barb jars on a still neck and works loose a step. Thrust only as a wave reaches the point.",
+		"no_wave": "Nothing there to press down. Thrust only as a wave reaches the point.",
+		"missed_wave": "Too early: your spear came and went before the wave reached it.",
+		"wave_passed": "The wave lifted his head from under your spear. When it reaches the point, thrust.",
+		"controls": "Press [space] to thrust the spear as a wave reaches its point. You cannot step."
+	  },
+	  "hints": {
+		"find": {
+		  "default": "Look for apep to your left.",
+		  "nearby": "Click the creature to take up the spear.",
+		  "right": "Look for apep to your right."
+		},
+		"phases": {
+		  "fight": [
+			{
+			  "level": "act",
+			  "text": "Strike as a wave reaches the point. Small waves fade before reaching you; striking a still neck loosens the barb."
+			}
+		  ]
+		}
+	  }
+	},
+	"dangers.e40": {
+	  "instructions": "Strike the snake three times without hitting the ass beneath it.",
+	  "success": "The snake falls from the donkey's back.",
+	  "feedback": {
+		"life_hit": "Struck! It returns to the donkey.",
+		"life_score": "Spell 40: the Eater of the Ass speared %d times.",
+		"life_donkey_speared": "The spear strikes the donkey, but life holds. The snake remains.",
+		"struck_more": "Struck! It sinks its head into the donkey again. %d more.",
+		"struck": "Struck!",
+		"donkey_speared": "The spear goes into the donkey! The spear-bearer crumbles to dust. Strike only while the snake's head is up.",
+		"donkey_eaten": "The snake has eaten the donkey.",
+		"donkey_bitten": "It bites the donkey. Strike it before it bites again: thrust as it lifts its head to the swishing tail.",
+		"controls": "Press [space] to thrust the spear, while the snake's head is up off the donkey's back."
+	  },
+	  "hints": {
+		"find": {
+		  "default": "Look for the eater of the ass to your left.",
+		  "nearby": "Click the creature to take up the spear.",
+		  "right": "Look for the eater of the ass to your right."
+		},
+		"phases": {
+		  "fight": [
+			{
+			  "level": "act",
+			  "text": "Watch the snake's head, not only the tail: thrust ([space]) only while its head is up off the donkey's back."
+			}
+		  ]
+		}
+	  }
+	},
+	"dangers.e41": {
+	  "instructions": "Strike the band that shivers: the snake is on top of it. Lean with [↑] [↓], strike with [space].",
+	  "success": "The snake is pinned on top of the sheaf.",
+	  "feedback": {
+		"life_hit": "Struck! It slips back inside the sheaf.",
+		"life_score": "Spell 41: the snake in the sheaf speared %d times.",
+		"hit": "Struck! It slips away inside the sheaf.",
+		"short": "Your spear stops just before the snake, and you are bitten.",
+		"past": "Your spear slips past the snake, and you are bitten.",
+		"late": "It bit before you struck.",
+		"struck": "Struck!"
+	  },
+	  "hints": {
+		"find": {
+		  "default": "Look for the snake in the sheaf to your left.",
+		  "nearby": "Click the creature to take up the spear.",
+		  "right": "Look for the snake in the sheaf to your right."
+		},
+		"phases": {
+		  "fight": [
+			{
+			  "level": "act",
+			  "text": "Lean to the band that shivers ([↑] [↓]), then [space]."
+			}
+		  ]
+		}
+	  }
+	}
+  }
+}

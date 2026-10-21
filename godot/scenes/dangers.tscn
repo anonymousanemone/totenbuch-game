@@ -6,40 +6,42 @@
 [ext_resource type="Texture2D" uid="uid://bv78ls3gtqi7w" path="res://assets/dangers/avatar.png" id="4_avatar_tex"]
 [ext_resource type="Script" uid="uid://c8ayee7wdepte" path="res://scripts/hud.gd" id="5_hud"]
 [ext_resource type="Shader" uid="uid://cuel7upwgpsc3" path="res://scripts/papyrus.gdshader" id="6_papyrus"]
+[ext_resource type="Texture2D" uid="uid://cxa2elyjtcj04" path="res://assets/dangers/spearers.png" id="7_sheet"]
+[ext_resource type="Texture2D" uid="uid://bag62yvfwury7" path="res://assets/dangers/c31a.png" id="actor_0"]
+[ext_resource type="Texture2D" uid="uid://cw3rn6btjhkxu" path="res://assets/dangers/c31b.png" id="actor_1"]
+[ext_resource type="Texture2D" uid="uid://6xw1wj0nn6tw" path="res://assets/dangers/c31c.png" id="actor_2"]
+[ext_resource type="Texture2D" uid="uid://ciq18mnholddd" path="res://assets/dangers/c31d.png" id="actor_3"]
+[ext_resource type="Texture2D" uid="uid://by5qm0aexwsik" path="res://assets/dangers/c32a.png" id="actor_6"]
+[ext_resource type="Texture2D" uid="uid://d4idrct0e2jmb" path="res://assets/dangers/c32b.png" id="actor_7"]
+[ext_resource type="Texture2D" uid="uid://x6uhllgmjh4g" path="res://assets/dangers/c32c.png" id="actor_8"]
+[ext_resource type="Texture2D" uid="uid://dn6u0uyhrsck8" path="res://assets/dangers/c32d.png" id="actor_9"]
+[ext_resource type="Texture2D" uid="uid://dpu3eaughcpnc" path="res://assets/dangers/snake33.png" id="actor_12"]
+[ext_resource type="Texture2D" uid="uid://d2s384xaqov6v" path="res://assets/dangers/snake35.png" id="actor_15"]
+[ext_resource type="Texture2D" uid="uid://gk1dvw3c3at5" path="res://assets/dangers/beetle36.png" id="actor_17"]
+[ext_resource type="Texture2D" uid="uid://cg7qtiqhn6pyt" path="res://assets/dangers/snake37.png" id="actor_20"]
+[ext_resource type="Texture2D" uid="uid://r5iadpjru7tp" path="res://assets/dangers/glyph37_left.png" id="actor_22"]
+[ext_resource type="Texture2D" uid="uid://csd0iguc44gjx" path="res://assets/dangers/glyph37_right.png" id="actor_23"]
+[ext_resource type="Texture2D" uid="uid://cgc6th4k1we7k" path="res://assets/dangers/apep.png" id="actor_25"]
+[ext_resource type="Texture2D" uid="uid://dm28p612b20te" path="res://assets/dangers/snake40.png" id="actor_27"]
+[ext_resource type="Texture2D" uid="uid://co4y4wt26sg2u" path="res://assets/dangers/donkey40.png" id="actor_30"]
+[ext_resource type="Texture2D" uid="uid://s8q4vq2npg63" path="res://assets/dangers/bundle41.png" id="actor_31"]
+[ext_resource type="Texture2D" uid="uid://d0t26bvaoppbp" path="res://assets/dangers/heka_e31_hekat.png" id="actor_32"]
+[ext_resource type="Texture2D" uid="uid://dlpx8xhhwjk3g" path="res://assets/dangers/heka_e32_hekat.png" id="actor_33"]
+[ext_resource type="Texture2D" uid="uid://b7s8ei6iu3t2d" path="res://assets/dangers/sheaf41_stalks.png" id="actor_34"]
+[ext_resource type="Texture2D" uid="uid://didsik25eeqjk" path="res://assets/dangers/sheaf41_band1.png" id="actor_35"]
+[ext_resource type="Texture2D" uid="uid://c8usdlg5mapar" path="res://assets/dangers/sheaf41_band2.png" id="actor_36"]
+[ext_resource type="Texture2D" uid="uid://boc6fk1rma2d" path="res://assets/dangers/sheaf41_band3.png" id="actor_37"]
+[ext_resource type="Texture2D" uid="uid://drefhujtidcxn" path="res://assets/dangers/sheaf41_band4.png" id="actor_38"]
+[ext_resource type="Texture2D" uid="uid://bftd2d5yexo3a" path="res://assets/dangers/snake41.png" id="actor_39"]
+[ext_resource type="Texture2D" uid="uid://d1s867gtn2x2n" path="res://assets/dangers/tail40.png" id="actor_40"]
+[ext_resource type="Texture2D" uid="uid://caaupi53ipkai" path="res://assets/dangers/ankh38.png" id="actor_ankh38"]
+[ext_resource type="Texture2D" uid="uid://day6vrpv8mydw" path="res://assets/dangers/breath_giver.png" id="actor_breath_giver"]
+[ext_resource type="Texture2D" uid="uid://h6c1gy6e1nm" path="res://assets/dangers/sail38.png" id="actor_sail38"]
 
-[ext_resource type="Texture2D" path="res://assets/dangers/spearers.png" id="7_sheet"]
-[ext_resource type="Texture2D" path="res://assets/dangers/c31a.png" id="actor_0"]
-[ext_resource type="Texture2D" path="res://assets/dangers/c31b.png" id="actor_1"]
-[ext_resource type="Texture2D" path="res://assets/dangers/c31c.png" id="actor_2"]
-[ext_resource type="Texture2D" path="res://assets/dangers/c31d.png" id="actor_3"]
-[ext_resource type="Texture2D" path="res://assets/dangers/c32a.png" id="actor_6"]
-[ext_resource type="Texture2D" path="res://assets/dangers/c32b.png" id="actor_7"]
-[ext_resource type="Texture2D" path="res://assets/dangers/c32c.png" id="actor_8"]
-[ext_resource type="Texture2D" path="res://assets/dangers/c32d.png" id="actor_9"]
-[ext_resource type="Texture2D" path="res://assets/dangers/snake33.png" id="actor_12"]
-[ext_resource type="Texture2D" path="res://assets/dangers/snake35.png" id="actor_15"]
-[ext_resource type="Texture2D" path="res://assets/dangers/beetle36.png" id="actor_17"]
-[ext_resource type="Texture2D" path="res://assets/dangers/snake37.png" id="actor_20"]
-[ext_resource type="Texture2D" path="res://assets/dangers/glyph37_left.png" id="actor_22"]
-[ext_resource type="Texture2D" path="res://assets/dangers/glyph37_right.png" id="actor_23"]
-[ext_resource type="Texture2D" path="res://assets/dangers/ankh38.png" id="actor_ankh38"]
-[ext_resource type="Texture2D" path="res://assets/dangers/sail38.png" id="actor_sail38"]
-[ext_resource type="Texture2D" path="res://assets/dangers/apep.png" id="actor_25"]
-[ext_resource type="Texture2D" path="res://assets/dangers/snake40.png" id="actor_27"]
-[ext_resource type="Texture2D" path="res://assets/dangers/donkey40.png" id="actor_30"]
-[ext_resource type="Texture2D" path="res://assets/dangers/bundle41.png" id="actor_31"]
-[ext_resource type="Texture2D" path="res://assets/dangers/heka_e31_hekat.png" id="actor_32"]
-[ext_resource type="Texture2D" path="res://assets/dangers/heka_e32_hekat.png" id="actor_33"]
-[ext_resource type="Texture2D" path="res://assets/dangers/sheaf41_stalks.png" id="actor_34"]
-[ext_resource type="Texture2D" path="res://assets/dangers/sheaf41_band1.png" id="actor_35"]
-[ext_resource type="Texture2D" path="res://assets/dangers/sheaf41_band2.png" id="actor_36"]
-[ext_resource type="Texture2D" path="res://assets/dangers/sheaf41_band3.png" id="actor_37"]
-[ext_resource type="Texture2D" path="res://assets/dangers/sheaf41_band4.png" id="actor_38"]
-[ext_resource type="Texture2D" path="res://assets/dangers/snake41.png" id="actor_39"]
-[ext_resource type="Texture2D" path="res://assets/dangers/tail40.png" id="actor_40"]
-
-
-[ext_resource type="Texture2D" path="res://assets/dangers/breath_giver.png" id="actor_breath_giver"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_papyrus"]
+shader = ExtResource("6_papyrus")
+shader_parameter/base = Color(0.906, 0.839, 0.682, 1)
+shader_parameter/fibre = Color(0.47, 0.35, 0.16, 1)
 
 [sub_resource type="AtlasTexture" id="Atlas_spear31_pole"]
 atlas = ExtResource("7_sheet")
@@ -69,6 +71,10 @@ region = Rect2(1008, 830, 336, 415)
 atlas = ExtResource("7_sheet")
 region = Rect2(1008, 1245, 336, 415)
 
+[sub_resource type="AtlasTexture" id="Atlas_spear35_pole"]
+atlas = ExtResource("7_sheet")
+region = Rect2(3696, 1245, 336, 415)
+
 [sub_resource type="AtlasTexture" id="Atlas_spear36_pole"]
 atlas = ExtResource("7_sheet")
 region = Rect2(3696, 1660, 336, 415)
@@ -81,42 +87,33 @@ region = Rect2(1008, 1660, 336, 415)
 atlas = ExtResource("7_sheet")
 region = Rect2(1008, 2075, 336, 415)
 
-[sub_resource type="AtlasTexture" id="Atlas_spear39"]
-atlas = ExtResource("7_sheet")
-region = Rect2(1008, 2490, 336, 415)
-
-[sub_resource type="AtlasTexture" id="Atlas_spear40"]
-atlas = ExtResource("7_sheet")
-region = Rect2(1008, 2905, 336, 415)
-
-[sub_resource type="AtlasTexture" id="Atlas_spear41"]
-atlas = ExtResource("7_sheet")
-region = Rect2(1008, 3320, 336, 415)
-
-[sub_resource type="AtlasTexture" id="Atlas_spear35_pole"]
-atlas = ExtResource("7_sheet")
-region = Rect2(3696, 1245, 336, 415)
-
 [sub_resource type="AtlasTexture" id="Atlas_spear37_pole"]
 atlas = ExtResource("7_sheet")
 region = Rect2(3696, 2075, 336, 415)
+
+[sub_resource type="AtlasTexture" id="Atlas_spear39"]
+atlas = ExtResource("7_sheet")
+region = Rect2(1008, 2490, 336, 415)
 
 [sub_resource type="AtlasTexture" id="Atlas_spear39_pole"]
 atlas = ExtResource("7_sheet")
 region = Rect2(3696, 2490, 336, 415)
 
+[sub_resource type="AtlasTexture" id="Atlas_spear40"]
+atlas = ExtResource("7_sheet")
+region = Rect2(1008, 2905, 336, 415)
+
 [sub_resource type="AtlasTexture" id="Atlas_spear40_pole"]
 atlas = ExtResource("7_sheet")
 region = Rect2(3696, 2905, 336, 415)
 
+[sub_resource type="AtlasTexture" id="Atlas_spear41"]
+atlas = ExtResource("7_sheet")
+region = Rect2(1008, 3320, 336, 415)
+
 [sub_resource type="AtlasTexture" id="Atlas_spear41_pole"]
 atlas = ExtResource("7_sheet")
 region = Rect2(3696, 3320, 336, 415)
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_papyrus"]
-shader = ExtResource("6_papyrus")
-shader_parameter/base = Color(0.906, 0.839, 0.682, 1)
-shader_parameter/fibre = Color(0.47, 0.35, 0.16, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_column"]
 atlas = ExtResource("2_strip")
@@ -163,6 +160,7 @@ offset_right = 8800.0
 offset_bottom = 1600.0
 mouse_filter = 2
 color = Color(0.906, 0.839, 0.682, 1)
+metadata/_edit_lock_ = true
 
 [node name="Strip" type="Sprite2D" parent="." unique_id=1124235670]
 texture = ExtResource("2_strip")
@@ -171,482 +169,488 @@ metadata/_edit_lock_ = true
 
 [node name="actors" type="Node2D" parent="." unique_id=1532077110]
 
-[node name="spell31_crocs" type="Node" parent="actors"]
+[node name="spell31_crocs" type="Node" parent="actors" unique_id=1540320510]
 
-[node name="croc31a" type="Sprite2D" parent="actors/spell31_crocs"]
-position = Vector2(5519.0, 367)
-metadata/actor_id = "c31a"
-metadata/size = Vector2(630, 139)
-offset = Vector2(-315.0, -139)
+[node name="croc31a" type="Sprite2D" parent="actors/spell31_crocs" unique_id=935301612]
+position = Vector2(5519, 367)
 texture = ExtResource("actor_0")
 centered = false
+offset = Vector2(-315, -139)
+metadata/actor_id = "c31a"
+metadata/size = Vector2(630, 139)
 metadata/registry_id = "e31"
 
-[node name="croc31b" type="Sprite2D" parent="actors/spell31_crocs"]
+[node name="croc31b" type="Sprite2D" parent="actors/spell31_crocs" unique_id=2129218327]
 position = Vector2(5519.5, 528)
-metadata/actor_id = "c31b"
-metadata/size = Vector2(631, 138)
-offset = Vector2(-315.5, -138)
 texture = ExtResource("actor_1")
 centered = false
+offset = Vector2(-315.5, -138)
+metadata/actor_id = "c31b"
+metadata/size = Vector2(631, 138)
 metadata/registry_id = "e31"
 
-[node name="croc31c" type="Sprite2D" parent="actors/spell31_crocs"]
+[node name="croc31c" type="Sprite2D" parent="actors/spell31_crocs" unique_id=1925334124]
 position = Vector2(6140.5, 415)
-metadata/actor_id = "c31c"
-metadata/size = Vector2(563, 150)
-offset = Vector2(-281.5, -150)
 texture = ExtResource("actor_2")
 centered = false
+offset = Vector2(-281.5, -150)
+metadata/actor_id = "c31c"
+metadata/size = Vector2(563, 150)
 metadata/registry_id = "e31"
 
-[node name="croc31d" type="Sprite2D" parent="actors/spell31_crocs"]
-position = Vector2(6154.0, 528)
-metadata/actor_id = "c31d"
-metadata/size = Vector2(568, 122)
-offset = Vector2(-284.0, -122)
+[node name="croc31d" type="Sprite2D" parent="actors/spell31_crocs" unique_id=1614006077]
+position = Vector2(6154, 528)
 texture = ExtResource("actor_3")
 centered = false
+offset = Vector2(-284, -122)
+metadata/actor_id = "c31d"
+metadata/size = Vector2(568, 122)
 metadata/registry_id = "e31"
 
-[node name="spear_glow" type="Sprite2D" parent="actors/spell31_crocs"]
+[node name="spear_glow" type="Sprite2D" parent="actors/spell31_crocs" unique_id=517454124]
 visible = false
 position = Vector2(6527.5, 528)
-metadata/actor_id = "spear31_pole"
-metadata/size = Vector2(221, 326)
-offset = Vector2(-167.5, -385)
 texture = SubResource("Atlas_spear31_pole")
 centered = false
-
-[node name="spear_bearer" type="Sprite2D" parent="actors/spell31_crocs"]
-position = Vector2(6527.5, 528)
-metadata/actor_id = "spear31"
-metadata/size = Vector2(221, 326)
 offset = Vector2(-167.5, -385)
+metadata/actor_id = "spear31_pole"
+metadata/size = Vector2(221, 326)
+
+[node name="spear_bearer" type="Sprite2D" parent="actors/spell31_crocs" unique_id=520245787]
+position = Vector2(6527.5, 528)
 texture = SubResource("Atlas_spear31")
 centered = false
+offset = Vector2(-167.5, -385)
+metadata/actor_id = "spear31"
+metadata/size = Vector2(221, 326)
 
-[node name="heka" type="Sprite2D" parent="actors/spell31_crocs"]
-position = Vector2(6113.0, 160)
-metadata/actor_id = "heka_e31_hekat"
-metadata/size = Vector2(154, 107)
-offset = Vector2(-77.0, -107)
+[node name="heka" type="Sprite2D" parent="actors/spell31_crocs" unique_id=32092359]
+position = Vector2(6113, 160)
 texture = ExtResource("actor_32")
 centered = false
+offset = Vector2(-77, -107)
+metadata/actor_id = "heka_e31_hekat"
+metadata/size = Vector2(154, 107)
 
-[node name="spell32_crocs" type="Node" parent="actors"]
+[node name="spell32_crocs" type="Node" parent="actors" unique_id=2054226157]
 
-[node name="croc32a" type="Sprite2D" parent="actors/spell32_crocs"]
+[node name="croc32a" type="Sprite2D" parent="actors/spell32_crocs" unique_id=226905827]
 position = Vector2(4184.5, 374)
-metadata/actor_id = "c32a"
-metadata/size = Vector2(479, 115)
-offset = Vector2(-239.5, -115)
 texture = ExtResource("actor_6")
 centered = false
+offset = Vector2(-239.5, -115)
+metadata/actor_id = "c32a"
+metadata/size = Vector2(479, 115)
 metadata/registry_id = "e32"
 
-[node name="croc32b" type="Sprite2D" parent="actors/spell32_crocs"]
+[node name="croc32b" type="Sprite2D" parent="actors/spell32_crocs" unique_id=1536906223]
 position = Vector2(4193.5, 529)
-metadata/actor_id = "c32b"
-metadata/size = Vector2(503, 108)
-offset = Vector2(-251.5, -108)
 texture = ExtResource("actor_7")
 centered = false
+offset = Vector2(-251.5, -108)
+metadata/actor_id = "c32b"
+metadata/size = Vector2(503, 108)
 metadata/registry_id = "e32"
 
-[node name="croc32c" type="Sprite2D" parent="actors/spell32_crocs"]
-position = Vector2(4645.0, 423)
-metadata/actor_id = "c32c"
-metadata/size = Vector2(530, 122)
-offset = Vector2(-265.0, -122)
+[node name="croc32c" type="Sprite2D" parent="actors/spell32_crocs" unique_id=43235949]
+position = Vector2(4645, 423)
 texture = ExtResource("actor_8")
 centered = false
+offset = Vector2(-265, -122)
+metadata/actor_id = "c32c"
+metadata/size = Vector2(530, 122)
 metadata/registry_id = "e32"
 
-[node name="croc32d" type="Sprite2D" parent="actors/spell32_crocs"]
+[node name="croc32d" type="Sprite2D" parent="actors/spell32_crocs" unique_id=971291183]
 position = Vector2(4643.5, 531)
-metadata/actor_id = "c32d"
-metadata/size = Vector2(567, 88)
-offset = Vector2(-283.5, -88)
 texture = ExtResource("actor_9")
 centered = false
+offset = Vector2(-283.5, -88)
+metadata/actor_id = "c32d"
+metadata/size = Vector2(567, 88)
 metadata/registry_id = "e32"
 
-[node name="spear_glow" type="Sprite2D" parent="actors/spell32_crocs"]
+[node name="spear_glow" type="Sprite2D" parent="actors/spell32_crocs" unique_id=1686473546]
 visible = false
-position = Vector2(5004.0, 531)
-metadata/actor_id = "spear32_pole"
-metadata/size = Vector2(222, 336)
-offset = Vector2(-168.0, -385)
+position = Vector2(5004, 531)
 texture = SubResource("Atlas_spear32_pole")
 centered = false
-
-[node name="spear_bearer" type="Sprite2D" parent="actors/spell32_crocs"]
-position = Vector2(5004.0, 531)
-metadata/actor_id = "spear32"
+offset = Vector2(-168, -385)
+metadata/actor_id = "spear32_pole"
 metadata/size = Vector2(222, 336)
-offset = Vector2(-168.0, -385)
+
+[node name="spear_bearer" type="Sprite2D" parent="actors/spell32_crocs" unique_id=1171403436]
+position = Vector2(5004, 531)
 texture = SubResource("Atlas_spear32")
 centered = false
+offset = Vector2(-168, -385)
+metadata/actor_id = "spear32"
+metadata/size = Vector2(222, 336)
 
-[node name="heka" type="Sprite2D" parent="actors/spell32_crocs"]
-position = Vector2(4505.0, 164)
-metadata/actor_id = "heka_e32_hekat"
-metadata/size = Vector2(186, 105)
-offset = Vector2(-93.0, -105)
+[node name="heka" type="Sprite2D" parent="actors/spell32_crocs" unique_id=1643333867]
+position = Vector2(4505, 164)
 texture = ExtResource("actor_33")
 centered = false
+offset = Vector2(-93, -105)
+metadata/actor_id = "heka_e32_hekat"
+metadata/size = Vector2(186, 105)
 
-[node name="spell33_lunging_snake" type="Node" parent="actors"]
+[node name="spell33_lunging_snake" type="Node" parent="actors" unique_id=1464283828]
 
-[node name="snake" type="Node2D" parent="actors/spell33_lunging_snake"]
+[node name="snake" type="Node2D" parent="actors/spell33_lunging_snake" unique_id=172769499]
 position = Vector2(3752.5, 526)
 metadata/actor_id = "snake33"
 metadata/size = Vector2(159, 267)
 metadata/_edit_group_ = true
 metadata/registry_id = "e33"
 
-[node name="sprite" type="Sprite2D" parent="actors/spell33_lunging_snake/snake"]
-offset = Vector2(-79.5, -267)
+[node name="sprite" type="Sprite2D" parent="actors/spell33_lunging_snake/snake" unique_id=730432309]
 texture = ExtResource("actor_12")
 centered = false
+offset = Vector2(-79.5, -267)
 
-[node name="spear_glow" type="Sprite2D" parent="actors/spell33_lunging_snake"]
+[node name="spear_glow" type="Sprite2D" parent="actors/spell33_lunging_snake" unique_id=1058481692]
 visible = false
 position = Vector2(3839, 529)
-metadata/actor_id = "spear33_pole"
-metadata/size = Vector2(182, 342)
-offset = Vector2(-168.0, -385)
 texture = SubResource("Atlas_spear33_pole")
 centered = false
-
-[node name="spear_bearer" type="Sprite2D" parent="actors/spell33_lunging_snake"]
-position = Vector2(3839, 529)
-metadata/actor_id = "spear33"
+offset = Vector2(-168, -385)
+metadata/actor_id = "spear33_pole"
 metadata/size = Vector2(182, 342)
-offset = Vector2(-168.0, -385)
+
+[node name="spear_bearer" type="Sprite2D" parent="actors/spell33_lunging_snake" unique_id=1017911836]
+position = Vector2(3839, 529)
 texture = SubResource("Atlas_spear33")
 centered = false
+offset = Vector2(-168, -385)
+metadata/actor_id = "spear33"
+metadata/size = Vector2(182, 342)
 
-[node name="spell35_creeping_snake" type="Node" parent="actors"]
+[node name="spell35_creeping_snake" type="Node" parent="actors" unique_id=1953030127]
 
-[node name="snake" type="Node2D" parent="actors/spell35_creeping_snake"]
+[node name="snake" type="Node2D" parent="actors/spell35_creeping_snake" unique_id=2049290271]
 position = Vector2(3408.5, 530)
 metadata/actor_id = "snake35"
 metadata/size = Vector2(205, 65)
 metadata/_edit_group_ = true
 metadata/registry_id = "e35"
 
-[node name="sprite" type="Sprite2D" parent="actors/spell35_creeping_snake/snake"]
-offset = Vector2(-102.5, -65)
+[node name="sprite" type="Sprite2D" parent="actors/spell35_creeping_snake/snake" unique_id=510369252]
 texture = ExtResource("actor_15")
 centered = false
+offset = Vector2(-102.5, -65)
 
-[node name="spear_bearer" type="Sprite2D" parent="actors/spell35_creeping_snake"]
-position = Vector2(3531.0, 529)
-metadata/actor_id = "spear35"
-metadata/size = Vector2(204, 341)
-offset = Vector2(-168.0, -385)
+[node name="spear_bearer" type="Sprite2D" parent="actors/spell35_creeping_snake" unique_id=538353956]
+position = Vector2(3531, 529)
 texture = SubResource("Atlas_spear35")
 centered = false
-
-[node name="spear_glow" type="Sprite2D" parent="actors/spell35_creeping_snake"]
-visible = false
-position = Vector2(3531.0, 529)
-metadata/actor_id = "spear35_pole"
+offset = Vector2(-168, -385)
+metadata/actor_id = "spear35"
 metadata/size = Vector2(204, 341)
-offset = Vector2(-168.0, -385)
+
+[node name="spear_glow" type="Sprite2D" parent="actors/spell35_creeping_snake" unique_id=1528942426]
+visible = false
+position = Vector2(3531, 529)
 texture = SubResource("Atlas_spear35_pole")
 centered = false
+offset = Vector2(-168, -385)
+metadata/actor_id = "spear35_pole"
+metadata/size = Vector2(204, 341)
 
-[node name="spell36_beetle" type="Node" parent="actors"]
+[node name="spell36_beetle" type="Node" parent="actors" unique_id=1803195938]
 
-[node name="beetle" type="Sprite2D" parent="actors/spell36_beetle"]
-position = Vector2(3115.0, 516)
-metadata/actor_id = "beetle36"
-metadata/size = Vector2(100, 57)
-offset = Vector2(-50.0, -57)
+[node name="beetle" type="Sprite2D" parent="actors/spell36_beetle" unique_id=1198026479]
+position = Vector2(3115, 516)
 texture = ExtResource("actor_17")
 centered = false
+offset = Vector2(-50, -57)
+metadata/actor_id = "beetle36"
+metadata/size = Vector2(100, 57)
 metadata/registry_id = "e36"
 
-[node name="spear_glow" type="Sprite2D" parent="actors/spell36_beetle"]
+[node name="spear_glow" type="Sprite2D" parent="actors/spell36_beetle" unique_id=1793759005]
 visible = false
-position = Vector2(3204.0, 529)
-metadata/actor_id = "spear36_pole"
-metadata/size = Vector2(142, 355)
-offset = Vector2(-168.0, -385)
+position = Vector2(3204, 529)
 texture = SubResource("Atlas_spear36_pole")
 centered = false
-
-[node name="spear_bearer" type="Sprite2D" parent="actors/spell36_beetle"]
-position = Vector2(3204.0, 529)
-metadata/actor_id = "spear36"
+offset = Vector2(-168, -385)
+metadata/actor_id = "spear36_pole"
 metadata/size = Vector2(142, 355)
-offset = Vector2(-168.0, -385)
+
+[node name="spear_bearer" type="Sprite2D" parent="actors/spell36_beetle" unique_id=906200164]
+position = Vector2(3204, 529)
 texture = SubResource("Atlas_spear36")
 centered = false
+offset = Vector2(-168, -385)
+metadata/actor_id = "spear36"
+metadata/size = Vector2(142, 355)
 
-[node name="spell37_twin_snakes" type="Node" parent="actors"]
+[node name="spell37_twin_snakes" type="Node" parent="actors" unique_id=1752249385]
 
-[node name="snake" type="Sprite2D" parent="actors/spell37_twin_snakes"]
+[node name="snake" type="Sprite2D" parent="actors/spell37_twin_snakes" unique_id=679962303]
 position = Vector2(2885.5, 528)
-metadata/actor_id = "snake37"
-metadata/size = Vector2(105, 70)
-offset = Vector2(-52.5, -70)
 texture = ExtResource("actor_20")
 centered = false
+offset = Vector2(-52.5, -70)
+metadata/actor_id = "snake37"
+metadata/size = Vector2(105, 70)
 metadata/registry_id = "e37"
 
-[node name="spear_bearer" type="Sprite2D" parent="actors/spell37_twin_snakes"]
-position = Vector2(2956.0, 528)
-metadata/actor_id = "spear37"
-metadata/size = Vector2(132, 328)
-offset = Vector2(-168.0, -385)
+[node name="spear_bearer" type="Sprite2D" parent="actors/spell37_twin_snakes" unique_id=186429424]
+position = Vector2(2956, 528)
 texture = SubResource("Atlas_spear37")
 centered = false
+offset = Vector2(-168, -385)
+metadata/actor_id = "spear37"
+metadata/size = Vector2(132, 328)
 
-[node name="left_sign" type="Sprite2D" parent="actors/spell37_twin_snakes"]
-position = Vector2(2832.0, 132)
-metadata/actor_id = "glyph37_left"
-metadata/size = Vector2(36, 74)
-offset = Vector2(-18.0, -74)
+[node name="left_sign" type="Sprite2D" parent="actors/spell37_twin_snakes" unique_id=378070272]
+position = Vector2(2832, 132)
 texture = ExtResource("actor_22")
 centered = false
+offset = Vector2(-18, -74)
+metadata/actor_id = "glyph37_left"
+metadata/size = Vector2(36, 74)
 
-[node name="right_sign" type="Sprite2D" parent="actors/spell37_twin_snakes"]
+[node name="right_sign" type="Sprite2D" parent="actors/spell37_twin_snakes" unique_id=2075939703]
 position = Vector2(2858.5, 129)
-metadata/actor_id = "glyph37_right"
-metadata/size = Vector2(33, 72)
-offset = Vector2(-16.5, -72)
 texture = ExtResource("actor_23")
 centered = false
+offset = Vector2(-16.5, -72)
+metadata/actor_id = "glyph37_right"
+metadata/size = Vector2(33, 72)
 
-[node name="spear_glow" type="Sprite2D" parent="actors/spell37_twin_snakes"]
+[node name="spear_glow" type="Sprite2D" parent="actors/spell37_twin_snakes" unique_id=821865462]
 visible = false
-position = Vector2(2956.0, 528)
-metadata/actor_id = "spear37_pole"
-metadata/size = Vector2(132, 328)
-offset = Vector2(-168.0, -385)
+position = Vector2(2956, 528)
 texture = SubResource("Atlas_spear37_pole")
 centered = false
+offset = Vector2(-168, -385)
+metadata/actor_id = "spear37_pole"
+metadata/size = Vector2(132, 328)
 
-[node name="spell38_breath" type="Node" parent="actors"]
+[node name="spell38_breath" type="Node" parent="actors" unique_id=533871507]
 
-[node name="giver" type="Sprite2D" parent="actors/spell38_breath"]
+[node name="giver" type="Sprite2D" parent="actors/spell38_breath" unique_id=1742285]
 position = Vector2(2550.5, 528)
 texture = ExtResource("actor_breath_giver")
 centered = false
+offset = Vector2(-228.5, -479)
 metadata/source_layer_id = "1111"
 metadata/registry_id = "e38"
 metadata/actor_id = "breath_giver"
 metadata/size = Vector2(457, 479)
-offset = Vector2(-228.5, -479)
 
-[node name="ankh" type="Sprite2D" parent="actors/spell38_breath"]
+[node name="ankh" type="Sprite2D" parent="actors/spell38_breath" unique_id=929133635]
 position = Vector2(2593, 323)
-metadata/actor_id = "ankh38"
-metadata/size = Vector2(32, 67)
-offset = Vector2(-16, -67)
 texture = ExtResource("actor_ankh38")
 centered = false
+offset = Vector2(-16, -67)
+metadata/actor_id = "ankh38"
+metadata/size = Vector2(32, 67)
 metadata/registry_id = "e38"
 
-[node name="sail" type="Sprite2D" parent="actors/spell38_breath"]
+[node name="sail" type="Sprite2D" parent="actors/spell38_breath" unique_id=1736169436]
 position = Vector2(2606.5, 374)
-metadata/actor_id = "sail38"
-metadata/size = Vector2(61, 49)
-offset = Vector2(-30.5, -49)
 texture = ExtResource("actor_sail38")
 centered = false
+offset = Vector2(-30.5, -49)
+metadata/actor_id = "sail38"
+metadata/size = Vector2(61, 49)
 metadata/registry_id = "e38"
 
-[node name="spell39_apep" type="Node" parent="actors"]
+[node name="spell39_apep" type="Node" parent="actors" unique_id=833552771]
 
-[node name="apep" type="Node2D" parent="actors/spell39_apep"]
+[node name="apep" type="Node2D" parent="actors/spell39_apep" unique_id=1007985309]
 position = Vector2(1815.5, 527)
 metadata/actor_id = "apep"
 metadata/size = Vector2(493, 41)
 metadata/_edit_group_ = true
 metadata/registry_id = "e39"
 
-[node name="sprite" type="Sprite2D" parent="actors/spell39_apep/apep"]
-offset = Vector2(-246.5, -41)
+[node name="sprite" type="Sprite2D" parent="actors/spell39_apep/apep" unique_id=1058762504]
 texture = ExtResource("actor_25")
 centered = false
+offset = Vector2(-246.5, -41)
 
-[node name="spear_bearer" type="Sprite2D" parent="actors/spell39_apep"]
-position = Vector2(2137.0, 527)
-metadata/actor_id = "spear39"
-metadata/size = Vector2(228, 340)
-offset = Vector2(-168.0, -385)
+[node name="spear_bearer" type="Sprite2D" parent="actors/spell39_apep" unique_id=1758193344]
+position = Vector2(2137, 527)
 texture = SubResource("Atlas_spear39")
 centered = false
-
-[node name="spear_glow" type="Sprite2D" parent="actors/spell39_apep"]
-visible = false
-position = Vector2(2137.0, 527)
-metadata/actor_id = "spear39_pole"
+offset = Vector2(-168, -385)
+metadata/actor_id = "spear39"
 metadata/size = Vector2(228, 340)
-offset = Vector2(-168.0, -385)
+
+[node name="spear_glow" type="Sprite2D" parent="actors/spell39_apep" unique_id=1020994494]
+visible = false
+position = Vector2(2137, 527)
 texture = SubResource("Atlas_spear39_pole")
 centered = false
+offset = Vector2(-168, -385)
+metadata/actor_id = "spear39_pole"
+metadata/size = Vector2(228, 340)
 
-[node name="spell40_donkey" type="Node" parent="actors"]
+[node name="spell40_donkey" type="Node" parent="actors" unique_id=1429942516]
 
-[node name="snake" type="Sprite2D" parent="actors/spell40_donkey"]
-position = Vector2(1133.0, 467)
-metadata/actor_id = "snake40"
-metadata/size = Vector2(116, 91)
-offset = Vector2(-58.0, -91)
+[node name="snake" type="Sprite2D" parent="actors/spell40_donkey" unique_id=1888149106]
+position = Vector2(1133, 467)
 texture = ExtResource("actor_27")
 centered = false
+offset = Vector2(-58, -91)
+metadata/actor_id = "snake40"
+metadata/size = Vector2(116, 91)
 metadata/registry_id = "e40"
 
-[node name="spear_bearer" type="Sprite2D" parent="actors/spell40_donkey"]
-position = Vector2(1299.0, 532)
-metadata/actor_id = "spear40"
-metadata/size = Vector2(276, 352)
-offset = Vector2(-168.0, -385)
+[node name="spear_bearer" type="Sprite2D" parent="actors/spell40_donkey" unique_id=641745771]
+position = Vector2(1299, 532)
 texture = SubResource("Atlas_spear40")
 centered = false
+offset = Vector2(-168, -385)
+metadata/actor_id = "spear40"
+metadata/size = Vector2(276, 352)
 
-[node name="donkey" type="Sprite2D" parent="actors/spell40_donkey"]
+[node name="donkey" type="Sprite2D" parent="actors/spell40_donkey" unique_id=594604207]
 position = Vector2(1061.5, 532)
-metadata/actor_id = "donkey40"
-metadata/size = Vector2(347, 221)
-offset = Vector2(-173.5, -221)
 texture = ExtResource("actor_30")
 centered = false
+offset = Vector2(-173.5, -221)
+metadata/actor_id = "donkey40"
+metadata/size = Vector2(347, 221)
 metadata/registry_id = "e40"
 
-[node name="tail" type="Sprite2D" parent="actors/spell40_donkey"]
+[node name="tail" type="Sprite2D" parent="actors/spell40_donkey" unique_id=372533289]
 position = Vector2(1250.5, 557)
-metadata/actor_id = "tail40"
-metadata/size = Vector2(49, 31)
-offset = Vector2(-24.5, -31)
 texture = ExtResource("actor_40")
 centered = false
+offset = Vector2(-24.5, -31)
+metadata/actor_id = "tail40"
+metadata/size = Vector2(49, 31)
 metadata/registry_id = "e40"
 
-[node name="spear_glow" type="Sprite2D" parent="actors/spell40_donkey"]
+[node name="spear_glow" type="Sprite2D" parent="actors/spell40_donkey" unique_id=1876403730]
 visible = false
-position = Vector2(1299.0, 532)
-metadata/actor_id = "spear40_pole"
-metadata/size = Vector2(276, 352)
-offset = Vector2(-168.0, -385)
+position = Vector2(1299, 532)
 texture = SubResource("Atlas_spear40_pole")
 centered = false
+offset = Vector2(-168, -385)
+metadata/actor_id = "spear40_pole"
+metadata/size = Vector2(276, 352)
 
-[node name="spell41_sheaf" type="Node" parent="actors"]
+[node name="spell41_sheaf" type="Node" parent="actors" unique_id=2114336771]
 
-[node name="spear_bearer" type="Sprite2D" parent="actors/spell41_sheaf"]
+[node name="spear_bearer" type="Sprite2D" parent="actors/spell41_sheaf" unique_id=464171459]
 position = Vector2(390.5, 531)
-metadata/actor_id = "spear41"
-metadata/size = Vector2(205, 339)
-offset = Vector2(-167.5, -385)
 texture = SubResource("Atlas_spear41")
 centered = false
+offset = Vector2(-167.5, -385)
+metadata/actor_id = "spear41"
+metadata/size = Vector2(205, 339)
 
-[node name="sheaf" type="Sprite2D" parent="actors/spell41_sheaf"]
-position = Vector2(254.0, 530)
-metadata/actor_id = "bundle41"
-metadata/size = Vector2(122, 102)
-offset = Vector2(-61.0, -102)
+[node name="sheaf" type="Sprite2D" parent="actors/spell41_sheaf" unique_id=1907539415]
+position = Vector2(254, 530)
 texture = ExtResource("actor_31")
 centered = false
+offset = Vector2(-61, -102)
+metadata/actor_id = "bundle41"
+metadata/size = Vector2(122, 102)
 metadata/registry_id = "e41"
 
-[node name="loose_stalks" type="Sprite2D" parent="actors/spell41_sheaf"]
+[node name="loose_stalks" type="Sprite2D" parent="actors/spell41_sheaf" unique_id=672198337]
 visible = false
-position = Vector2(258.0, 530)
-metadata/actor_id = "sheaf41_stalks"
-metadata/size = Vector2(60, 102)
-offset = Vector2(-30.0, -102)
+position = Vector2(258, 530)
 texture = ExtResource("actor_34")
 centered = false
+offset = Vector2(-30, -102)
+metadata/actor_id = "sheaf41_stalks"
+metadata/size = Vector2(60, 102)
 
-[node name="band1" type="Sprite2D" parent="actors/spell41_sheaf"]
+[node name="band1" type="Sprite2D" parent="actors/spell41_sheaf" unique_id=1257827531]
 visible = false
-position = Vector2(254.0, 440)
-metadata/actor_id = "sheaf41_band1"
-metadata/size = Vector2(122, 12)
-offset = Vector2(-61.0, -12)
+position = Vector2(254, 440)
 texture = ExtResource("actor_35")
 centered = false
+offset = Vector2(-61, -12)
+metadata/actor_id = "sheaf41_band1"
+metadata/size = Vector2(122, 12)
 
-[node name="band2" type="Sprite2D" parent="actors/spell41_sheaf"]
+[node name="band2" type="Sprite2D" parent="actors/spell41_sheaf" unique_id=634732813]
 visible = false
 position = Vector2(254.5, 455)
-metadata/actor_id = "sheaf41_band2"
-metadata/size = Vector2(117, 13)
-offset = Vector2(-58.5, -13)
 texture = ExtResource("actor_36")
 centered = false
+offset = Vector2(-58.5, -13)
+metadata/actor_id = "sheaf41_band2"
+metadata/size = Vector2(117, 13)
 
-[node name="band3" type="Sprite2D" parent="actors/spell41_sheaf"]
+[node name="band3" type="Sprite2D" parent="actors/spell41_sheaf" unique_id=559405644]
 visible = false
-position = Vector2(253.0, 472)
-metadata/actor_id = "sheaf41_band3"
-metadata/size = Vector2(108, 13)
-offset = Vector2(-54.0, -13)
+position = Vector2(253, 472)
 texture = ExtResource("actor_37")
 centered = false
+offset = Vector2(-54, -13)
+metadata/actor_id = "sheaf41_band3"
+metadata/size = Vector2(108, 13)
 
-[node name="band4" type="Sprite2D" parent="actors/spell41_sheaf"]
+[node name="band4" type="Sprite2D" parent="actors/spell41_sheaf" unique_id=1682301729]
 visible = false
 position = Vector2(251.5, 484)
-metadata/actor_id = "sheaf41_band4"
-metadata/size = Vector2(99, 11)
-offset = Vector2(-49.5, -11)
 texture = ExtResource("actor_38")
 centered = false
+offset = Vector2(-49.5, -11)
+metadata/actor_id = "sheaf41_band4"
+metadata/size = Vector2(99, 11)
 
-[node name="snake" type="Node2D" parent="actors/spell41_sheaf"]
+[node name="snake" type="Node2D" parent="actors/spell41_sheaf" unique_id=1095735655]
 position = Vector2(250.5, 481)
 metadata/actor_id = "snake41"
 metadata/size = Vector2(139, 116)
 metadata/_edit_group_ = true
 metadata/registry_id = "e41"
 
-[node name="sprite" type="Sprite2D" parent="actors/spell41_sheaf/snake"]
-offset = Vector2(-69.5, -116)
+[node name="sprite" type="Sprite2D" parent="actors/spell41_sheaf/snake" unique_id=1085154016]
 texture = ExtResource("actor_39")
 centered = false
+offset = Vector2(-69.5, -116)
 
-[node name="spear_glow" type="Sprite2D" parent="actors/spell41_sheaf"]
+[node name="spear_glow" type="Sprite2D" parent="actors/spell41_sheaf" unique_id=2056126854]
 visible = false
 position = Vector2(390.5, 531)
-metadata/actor_id = "spear41_pole"
-metadata/size = Vector2(205, 339)
-offset = Vector2(-167.5, -385)
 texture = SubResource("Atlas_spear41_pole")
 centered = false
+offset = Vector2(-167.5, -385)
+metadata/actor_id = "spear41_pole"
+metadata/size = Vector2(205, 339)
 
 [node name="Overlay" type="Node2D" parent="." unique_id=759531365]
 
 [node name="Avatar" type="Node2D" parent="." unique_id=1686742080]
 z_index = 1
-position = Vector2(6593.0, 526)
+position = Vector2(6593, 526)
 script = ExtResource("3_avatar")
-metadata/size = Vector2(110, 262)
+metadata/size = Vector2(110, 267)
+
+[node name="CarryAnkh" type="Marker2D" parent="Avatar" unique_id=1950775912]
+position = Vector2(-38, -233)
+
+[node name="CarryBreath" type="Marker2D" parent="Avatar" unique_id=779738191]
+position = Vector2(-35, -236)
 
 [node name="Sprite" type="Sprite2D" parent="Avatar" unique_id=1033025849]
 texture = ExtResource("4_avatar_tex")
-offset = Vector2(0, -131)
+offset = Vector2(0, -133.5)
 
-[node name="Column" type="Node2D" parent="."]
+[node name="Column" type="Node2D" parent="." unique_id=429431950]
 z_index = 2
 position = Vector2(561, 180)
 metadata/_edit_lock_ = true
 
-[node name="papyrus" type="ColorRect" parent="Column"]
+[node name="papyrus" type="ColorRect" parent="Column" unique_id=1445488544]
 material = SubResource("ShaderMaterial_papyrus")
 offset_right = 274.0
 offset_bottom = 366.0
 mouse_filter = 2
 
-[node name="ink" type="Sprite2D" parent="Column"]
+[node name="ink" type="Sprite2D" parent="Column" unique_id=1726722826]
 texture = SubResource("AtlasTexture_column")
 centered = false
 
@@ -657,9 +661,9 @@ zoom = Vector2(0.8222222, 0.8222222)
 [node name="HUD" type="CanvasLayer" parent="." unique_id=948880668]
 script = ExtResource("5_hud")
 
-[node name="CaptionRegions" type="Node2D" parent="."]
+[node name="CaptionRegions" type="Node2D" parent="." unique_id=1531809871]
 
-[node name="caption_e31" type="Area2D" parent="CaptionRegions"]
+[node name="caption_e31" type="Area2D" parent="CaptionRegions" unique_id=1929079776]
 position = Vector2(5928, 115)
 collision_layer = 0
 collision_mask = 0
@@ -667,10 +671,10 @@ monitoring = false
 monitorable = false
 metadata/registry_id = "caption_e31"
 
-[node name="Shape" type="CollisionShape2D" parent="CaptionRegions/caption_e31"]
+[node name="Shape" type="CollisionShape2D" parent="CaptionRegions/caption_e31" unique_id=848931828]
 shape = SubResource("inspect_caption_e31")
 
-[node name="caption_e32" type="Area2D" parent="CaptionRegions"]
+[node name="caption_e32" type="Area2D" parent="CaptionRegions" unique_id=382286115]
 position = Vector2(4556, 115)
 collision_layer = 0
 collision_mask = 0
@@ -678,10 +682,10 @@ monitoring = false
 monitorable = false
 metadata/registry_id = "caption_e32"
 
-[node name="Shape" type="CollisionShape2D" parent="CaptionRegions/caption_e32"]
+[node name="Shape" type="CollisionShape2D" parent="CaptionRegions/caption_e32" unique_id=1373629798]
 shape = SubResource("inspect_caption_e32")
 
-[node name="caption_e33" type="Area2D" parent="CaptionRegions"]
+[node name="caption_e33" type="Area2D" parent="CaptionRegions" unique_id=1486119435]
 position = Vector2(3793.5, 115)
 collision_layer = 0
 collision_mask = 0
@@ -689,10 +693,10 @@ monitoring = false
 monitorable = false
 metadata/registry_id = "caption_e33"
 
-[node name="Shape" type="CollisionShape2D" parent="CaptionRegions/caption_e33"]
+[node name="Shape" type="CollisionShape2D" parent="CaptionRegions/caption_e33" unique_id=1924441294]
 shape = SubResource("inspect_caption_e33")
 
-[node name="caption_e35" type="Area2D" parent="CaptionRegions"]
+[node name="caption_e35" type="Area2D" parent="CaptionRegions" unique_id=1817984899]
 position = Vector2(3470.5, 115)
 collision_layer = 0
 collision_mask = 0
@@ -700,10 +704,10 @@ monitoring = false
 monitorable = false
 metadata/registry_id = "caption_e35"
 
-[node name="Shape" type="CollisionShape2D" parent="CaptionRegions/caption_e35"]
+[node name="Shape" type="CollisionShape2D" parent="CaptionRegions/caption_e35" unique_id=2089119513]
 shape = SubResource("inspect_caption_e35")
 
-[node name="caption_e36" type="Area2D" parent="CaptionRegions"]
+[node name="caption_e36" type="Area2D" parent="CaptionRegions" unique_id=822735037]
 position = Vector2(3165.5, 115)
 collision_layer = 0
 collision_mask = 0
@@ -711,10 +715,10 @@ monitoring = false
 monitorable = false
 metadata/registry_id = "caption_e36"
 
-[node name="Shape" type="CollisionShape2D" parent="CaptionRegions/caption_e36"]
+[node name="Shape" type="CollisionShape2D" parent="CaptionRegions/caption_e36" unique_id=1484292060]
 shape = SubResource("inspect_caption_e36")
 
-[node name="caption_e37" type="Area2D" parent="CaptionRegions"]
+[node name="caption_e37" type="Area2D" parent="CaptionRegions" unique_id=128969514]
 position = Vector2(2918, 115)
 collision_layer = 0
 collision_mask = 0
@@ -722,10 +726,10 @@ monitoring = false
 monitorable = false
 metadata/registry_id = "caption_e37"
 
-[node name="Shape" type="CollisionShape2D" parent="CaptionRegions/caption_e37"]
+[node name="Shape" type="CollisionShape2D" parent="CaptionRegions/caption_e37" unique_id=1541562878]
 shape = SubResource("inspect_caption_e37")
 
-[node name="caption_e38" type="Area2D" parent="CaptionRegions"]
+[node name="caption_e38" type="Area2D" parent="CaptionRegions" unique_id=740898598]
 position = Vector2(2549, 115)
 collision_layer = 0
 collision_mask = 0
@@ -733,10 +737,10 @@ monitoring = false
 monitorable = false
 metadata/registry_id = "caption_e38"
 
-[node name="Shape" type="CollisionShape2D" parent="CaptionRegions/caption_e38"]
+[node name="Shape" type="CollisionShape2D" parent="CaptionRegions/caption_e38" unique_id=1121716153]
 shape = SubResource("inspect_caption_e38")
 
-[node name="caption_e39" type="Area2D" parent="CaptionRegions"]
+[node name="caption_e39" type="Area2D" parent="CaptionRegions" unique_id=653746893]
 position = Vector2(1876.5, 115)
 collision_layer = 0
 collision_mask = 0
@@ -744,10 +748,10 @@ monitoring = false
 monitorable = false
 metadata/registry_id = "caption_e39"
 
-[node name="Shape" type="CollisionShape2D" parent="CaptionRegions/caption_e39"]
+[node name="Shape" type="CollisionShape2D" parent="CaptionRegions/caption_e39" unique_id=1992179464]
 shape = SubResource("inspect_caption_e39")
 
-[node name="caption_e40" type="Area2D" parent="CaptionRegions"]
+[node name="caption_e40" type="Area2D" parent="CaptionRegions" unique_id=896196762]
 position = Vector2(1009, 115)
 collision_layer = 0
 collision_mask = 0
@@ -755,10 +759,10 @@ monitoring = false
 monitorable = false
 metadata/registry_id = "caption_e40"
 
-[node name="Shape" type="CollisionShape2D" parent="CaptionRegions/caption_e40"]
+[node name="Shape" type="CollisionShape2D" parent="CaptionRegions/caption_e40" unique_id=158369173]
 shape = SubResource("inspect_caption_e40")
 
-[node name="caption_e41" type="Area2D" parent="CaptionRegions"]
+[node name="caption_e41" type="Area2D" parent="CaptionRegions" unique_id=1828862830]
 position = Vector2(305, 115)
 collision_layer = 0
 collision_mask = 0
@@ -766,5 +770,5 @@ monitoring = false
 monitorable = false
 metadata/registry_id = "caption_e41"
 
-[node name="Shape" type="CollisionShape2D" parent="CaptionRegions/caption_e41"]
+[node name="Shape" type="CollisionShape2D" parent="CaptionRegions/caption_e41" unique_id=1379499435]
 shape = SubResource("inspect_caption_e41")

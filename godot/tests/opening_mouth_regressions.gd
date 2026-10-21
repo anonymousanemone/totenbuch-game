@@ -37,6 +37,25 @@ func _run() -> void:
 		await frames(8)
 		level.hud.dismiss_intro()
 		level.mouth.take_adze()
+		level.avatar.sprite.flip_h = false
+		level.avatar.sprite.position.y = -4.0
+		level.mouth._process(0.0)
+		var grip_world: Vector2 = level.mouth._adze.global_transform * OpeningMouth.ADZE_GRIP
+		var grip_local := Transform2D(0.5305801, Vector2(-28.0, -290.0)) * OpeningMouth.ADZE_GRIP
+		var hand_world: Vector2 = level.avatar.global_position + grip_local + Vector2(0.0, -4.0)
+		expect(grip_world.is_equal_approx(hand_world), "the carried adze sits in the player's hand and follows the walking bob")
+		level.avatar.position.x -= 40.0
+		level.mouth._process(0.0)
+		expect((level.mouth._adze.global_transform * OpeningMouth.ADZE_GRIP).is_equal_approx(grip_world - Vector2(40.0, 0.0)),
+			"the adze travels with the player before carving")
+		level.avatar.sprite.flip_h = true
+		level.mouth._process(0.0)
+		expect((level.mouth._adze.global_transform * OpeningMouth.ADZE_GRIP).is_equal_approx(level.avatar.global_position + Vector2(-grip_local.x, grip_local.y - 4.0))
+			and level.mouth._adze.global_transform.determinant() < 0.0, "turning mirrors both the carried adze's position and drawing")
+		await shot("%dx%d-carry" % [dimensions.x, dimensions.y])
+		level.mouth.put_back()
+		expect(level.mouth._adze.transform == level.mouth._adze_home_transform, "returning a mirrored adze restores its stand pose")
+		level.mouth.take_adze()
 		var stand: float = level._mouth_stand_x()
 		var woman: Rect2 = level._descriptions.region_bounds(level._inspection_regions["kneeling_woman"])
 		expect(stand == level.get_node("pieces/opening_mouth/StandPosition").global_position.x
@@ -72,6 +91,9 @@ func _run() -> void:
 			dimensions.y - level.hud.top_height() - level.hud.bottom_height())
 		expect(usable.grow(1.0).encloses(face), tag + "face fits between the HUD bars")
 		expect(level._focus == "mouth" and not level.avatar.keys, tag + "carving owns focus and movement")
+		level.mouth._process(0.0)
+		expect((level.mouth._adze.global_transform * OpeningMouth.ADZE_GRIP).is_equal_approx(level.mouth.get_global_mouse_position())
+			and level.mouth._adze.global_transform.determinant() > 0.0, tag + "carving releases the adze to the pointer without a carried mirror")
 		# Put the carried adze at its next target for the visual review.
 		level.mouth.set_process(false)
 		level.mouth._adze.position = level.mouth.next_chip(0) - OpeningMouth.ADZE_TIP * level.mouth._adze.scale
@@ -103,6 +125,9 @@ func _run() -> void:
 		level._unhandled_input(escape)
 		level._update_camera(1.0)
 		expect(not level.mouth.active and level.avatar.keys and level._focus == "", tag + "Esc restores walking and the normal view")
+		level.mouth._process(0.0)
+		expect((level.mouth._adze.global_transform * OpeningMouth.ADZE_GRIP).is_equal_approx(level.avatar.carrying_transform() * level.mouth._adze_carry_pose * OpeningMouth.ADZE_GRIP),
+			tag + "leaving carving puts the adze back on the player")
 		level.mouth.touch()
 		level._update_camera(1.0)
 		if dimensions.x == 1280:
@@ -119,6 +144,7 @@ func _run() -> void:
 		expect(level.mouth._body.position == level.mouth._body_home
 			and level.mouth.phase == OpeningMouth.Phase.START and not level.mouth._words.visible,
 			tag + "restart restores the mummy and clears the minigame")
+		expect(level.mouth._adze.transform == level.mouth._adze_home_transform, tag + "restart restores the adze stand pose")
 		level.mouth.take_adze()
 		level.mouth.touch()
 		for stroke in [1, 0]:
@@ -130,6 +156,8 @@ func _run() -> void:
 		await create_timer(1.8).timeout
 		level.mouth.take_words()
 		expect(level.mouth.phase == OpeningMouth.Phase.WORDS, tag + "spoken words can be carried once revealed")
+		level.mouth._process(0.0)
+		expect(level.mouth._words.global_position.is_equal_approx(level.mouth.get_global_mouse_position()), tag + "carried words still follow the pointer")
 		level.queue_free()
 		await frames()
 	print("MOUTH REGRESSIONS ", "OK" if failures.is_empty() else "FAILED")

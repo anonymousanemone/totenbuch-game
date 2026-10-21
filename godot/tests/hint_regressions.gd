@@ -142,10 +142,7 @@ func _run() -> void:
 	encounter = d.ENCOUNTERS.filter(func(e): return e.id == "e41")[0]
 	d.start_fight(encounter)
 	d.hint()
-	expect(d.hud._text.begins_with("Wait for the stirring") and not d.hud._text.contains("head emerges"), "sheaf binding hint does not mix in a later phase")
-	d.fight.phase = "out"
-	d.hint()
-	expect(d.hud._text == "When the head emerges, [space] again.", "sheaf emergence switches to its own existing hint sentence")
+	expect(d.hud._text == "Lean to the band that shivers ([↑] [↓]), then [space].", "the sheaf fight hints at its controls")
 	d.leave_fight()
 	d.avatar.position.x = d.span(encounter).x + 50.0
 	d.hint()

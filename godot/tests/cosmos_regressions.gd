@@ -62,10 +62,10 @@ func _run() -> void:
 					missed.append(id)
 			expect(missed.is_empty(), "every figure has independently pickable ink: %s" % [missed])
 			expect(scene._pick(Vector2(-100.0, -100.0)) == "", "empty papyrus does not select a figure")
-			scene._set_hover("lion_left")
-			expect(is_instance_valid(scene._glow) and scene._glow.get_parent() == scene.figures.lion_left, "hover uses the shared glow on the saved sprite")
+			scene._set_hover("lion_tomorrow")
+			expect(is_instance_valid(scene._glow) and scene._glow.get_parent() == scene.figures.lion_tomorrow, "hover uses the shared glow on the saved sprite")
 			scene._set_hover("")
-		var id := "lion_left"
+		var id := "lion_tomorrow"
 		scene.walk_then(scene.min_x(), func(): scene.record(id))
 		scene.avatar._process(100.0)
 		scene.avatar._process(0.1)

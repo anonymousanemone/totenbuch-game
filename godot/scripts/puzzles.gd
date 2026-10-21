@@ -3,10 +3,18 @@
 extends RefCounted
 
 const MORE_HINTS := " (click hint again if you're still confused)"
-const DATA_PATH := "res://assets/puzzles.json"
-static var _catalog: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(DATA_PATH))
+static var _catalog: Dictionary = _load_catalog()
 var data: Dictionary = _catalog
 var _steps := {}
+
+
+static func _load_catalog() -> Dictionary:
+	var catalog := {"messages": JSON.parse_string(FileAccess.get_file_as_string("res://assets/messages.json")), "puzzles": {}}
+	for level in ["procession", "dangers", "cosmos"]:
+		var content: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://assets/%s/puzzles.json" % level))
+		catalog.messages.merge(content.messages)
+		catalog.puzzles.merge(content.puzzles)
+	return catalog
 
 
 func reset() -> void:

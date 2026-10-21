@@ -45,11 +45,14 @@ var _feature_bounds: Array[Rect2] = []
 var _swing := 0.0             ## how far down the adze is now (0..1)
 var phase := Phase.START
 var instant := false          ## the autotest: no animation
+var _avatar: Node2D
 var _adze: Sprite2D
 var _props: Array             ## the rest of what lies on the stand with the adze: two rods and a foreleg
 var _words: Sprite2D          ## centred, so it can grow from a ball
 var _imprint: Sprite2D
 var _adze_home := Rect2()
+var _adze_home_transform := Transform2D.IDENTITY
+var _adze_carry_pose := Transform2D.IDENTITY
 var _words_home := Rect2()
 var _spoken := Vector2.ZERO   ## the words' centre above the mummy
 var _mouth := Vector2.ZERO
@@ -57,7 +60,8 @@ var _mummy := Rect2()
 var _tween: Tween
 
 
-func setup(level: Dictionary, nodes: Dictionary) -> void:
+func setup(level: Dictionary, nodes: Dictionary, avatar: Node2D) -> void:
+	_avatar = avatar
 	var m: Dictionary = level.mouth
 	_mouth = Vector2(m.mouth[0], m.mouth[1])
 	_mummy = Rect2(m.mummy.x, m.mummy.y, m.mummy.w, m.mummy.h)
@@ -66,6 +70,8 @@ func setup(level: Dictionary, nodes: Dictionary) -> void:
 	_words = nodes.mouth_words
 	_imprint = nodes.words_imprint
 	_adze_home = Rect2(_adze.position, _adze.texture.get_size())
+	_adze_home_transform = _adze.transform
+	_adze_carry_pose = (_avatar.get_node("CarryAdze") as Marker2D).transform
 	_words_home = Rect2(_words.position - _words.texture.get_size() / 2.0, _words.texture.get_size())
 	_spoken = Vector2(m.speak_right - _words_home.size.x / 2.0, _words_home.get_center().y)
 	_setup_face(level, nodes)
@@ -78,9 +84,7 @@ func reset() -> void:
 	phase = Phase.START
 	_body.position = _body_home
 	_clear_face()
-	_adze.position = _adze_home.position
-	_adze.scale = Vector2.ONE
-	_adze.rotation = 0.0
+	_adze.transform = _adze_home_transform
 	_adze.self_modulate.a = 1.0
 	_adze.visible = true
 	_words.visible = false
@@ -201,8 +205,8 @@ func put_back() -> void:
 	match phase:
 		Phase.ADZE:
 			phase = Phase.START
-			_adze.position = _adze_home.position
-			_adze.rotation = 0.0
+			_adze.transform = _adze_home_transform
+			_adze.self_modulate.a = 1.0
 		Phase.WORDS:
 			phase = Phase.SPOKEN
 			_words.position = _spoken
@@ -225,9 +229,7 @@ func _speak() -> void:
 	active = false
 	phase = Phase.SPOKEN
 	_imprint.visible = true
-	_adze.position = _adze_home.position
-	_adze.scale = Vector2.ONE
-	_adze.rotation = 0.0
+	_adze.transform = _adze_home_transform
 	_adze.self_modulate.a = 1.0
 	_words.visible = true
 	said.emit("Scribe", PUZZLES.text("procession.opening_mouth", "feedback", "success_opened"))
@@ -264,7 +266,7 @@ func place_words() -> void:
 
 
 func _process(_delta: float) -> void:
-	# what is carried follows the pointer: the adze held at its handle, the words by their middle
+	# The adze sits on the player until carving; words keep following the pointer.
 	var p := get_global_mouse_position()
 	_adze.z_index = 10 if phase == Phase.ADZE else 0     # what you carry comes to the front
 	_adze.scale = Vector2.ONE * (CARVING_SCALE if active else 1.0)
@@ -272,9 +274,12 @@ func _process(_delta: float) -> void:
 	_words.z_index = 10 if phase == Phase.WORDS else 0
 	_swing = maxf(0.0, _swing - _delta / SWING_TIME)
 	match phase:
-		Phase.ADZE:   # held by its handle: it turns about the pointer as it comes down
-			_adze.rotation = -SWING * sin(_swing * PI)
-			_adze.position = p - (ADZE_GRIP * _adze.scale).rotated(_adze.rotation)
+		Phase.ADZE:
+			if active:   # held by its handle: it turns about the pointer as it comes down
+				_adze.rotation = -SWING * sin(_swing * PI)
+				_adze.position = p - (ADZE_GRIP * _adze.scale).rotated(_adze.rotation)
+			else:
+				_adze.global_transform = _avatar.carrying_transform() * _adze_carry_pose
 		Phase.WORDS:
 			_words.position = p
 

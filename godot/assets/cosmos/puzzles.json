@@ -1,0 +1,7 @@
+{
+  "messages": {
+    "cosmos.explore": "Walk with [←] [→] or click the papyrus. Figures glow under the pointer; click one to read about it. The whole scroll is open to explore.",
+    "cosmos.start": "Walk left through the night world. Click a figure to look, or open the Journal to read what you have seen."
+  },
+  "puzzles": {}
+}

@@ -6,57 +6,57 @@
 [ext_resource type="Script" path="res://scripts/hud.gd" id="hud"]
 [ext_resource type="Shader" path="res://scripts/papyrus.gdshader" id="papyrus"]
 [ext_resource type="Texture2D" path="res://assets/cosmos/figures/isis_nephthys_kneeling.png" id="isis_nephthys_kneeling"]
-[ext_resource type="Texture2D" path="res://assets/cosmos/figures/goddess_over_scarab.png" id="goddess_over_scarab"]
-[ext_resource type="Texture2D" path="res://assets/cosmos/figures/god_enthroned.png" id="god_enthroned"]
+[ext_resource type="Texture2D" path="res://assets/cosmos/figures/nut_over_scarab.png" id="nut_over_scarab"]
+[ext_resource type="Texture2D" path="res://assets/cosmos/figures/osiris_enthroned.png" id="osiris_enthroned"]
 [ext_resource type="Texture2D" path="res://assets/cosmos/figures/offering_stand.png" id="offering_stand"]
-[ext_resource type="Texture2D" path="res://assets/cosmos/figures/adorer_xi.png" id="adorer_xi"]
+[ext_resource type="Texture2D" path="res://assets/cosmos/figures/deceased_adoring.png" id="deceased_adoring"]
 [ext_resource type="Texture2D" path="res://assets/cosmos/figures/anubis.png" id="anubis"]
 [ext_resource type="Texture2D" path="res://assets/cosmos/figures/chest_bearer.png" id="chest_bearer"]
 [ext_resource type="Texture2D" path="res://assets/cosmos/figures/isis_nephthys_standing_1.png" id="isis_nephthys_standing_1"]
 [ext_resource type="Texture2D" path="res://assets/cosmos/figures/baboons_praising_1.png" id="baboons_praising_1"]
-[ext_resource type="Texture2D" path="res://assets/cosmos/figures/boat_of_ra.png" id="boat_of_ra"]
+[ext_resource type="Texture2D" path="res://assets/cosmos/figures/atum_evening_boat.png" id="atum_evening_boat"]
 [ext_resource type="Texture2D" path="res://assets/cosmos/figures/baboons_praising_2.png" id="baboons_praising_2"]
 [ext_resource type="Texture2D" path="res://assets/cosmos/figures/isis_nephthys_standing_2.png" id="isis_nephthys_standing_2"]
 [ext_resource type="Texture2D" path="res://assets/cosmos/figures/baboons_seated_x.png" id="baboons_seated_x"]
-[ext_resource type="Texture2D" path="res://assets/cosmos/figures/boat_of_khepri.png" id="boat_of_khepri"]
+[ext_resource type="Texture2D" path="res://assets/cosmos/figures/khepri_boat.png" id="khepri_boat"]
 [ext_resource type="Texture2D" path="res://assets/cosmos/figures/inscriptions_ix.png" id="inscriptions_ix"]
-[ext_resource type="Texture2D" path="res://assets/cosmos/figures/kneeling_adorer.png" id="kneeling_adorer"]
-[ext_resource type="Texture2D" path="res://assets/cosmos/figures/baboons_seated_ix.png" id="baboons_seated_ix"]
-[ext_resource type="Texture2D" path="res://assets/cosmos/figures/falcon_standard.png" id="falcon_standard"]
-[ext_resource type="Texture2D" path="res://assets/cosmos/figures/cat_and_snake.png" id="cat_and_snake"]
-[ext_resource type="Texture2D" path="res://assets/cosmos/figures/persea_tree.png" id="persea_tree"]
+[ext_resource type="Texture2D" path="res://assets/cosmos/figures/deceased_kneeling.png" id="deceased_kneeling"]
+[ext_resource type="Texture2D" path="res://assets/cosmos/figures/two_apes_isis_nephthys.png" id="two_apes_isis_nephthys"]
+[ext_resource type="Texture2D" path="res://assets/cosmos/figures/falcon_on_standard.png" id="falcon_on_standard"]
+[ext_resource type="Texture2D" path="res://assets/cosmos/figures/great_cat_and_apep.png" id="great_cat_and_apep"]
+[ext_resource type="Texture2D" path="res://assets/cosmos/figures/ished_tree.png" id="ished_tree"]
 [ext_resource type="Texture2D" path="res://assets/cosmos/figures/small_seated_god.png" id="small_seated_god"]
-[ext_resource type="Texture2D" path="res://assets/cosmos/figures/two_seated_gods.png" id="two_seated_gods"]
+[ext_resource type="Texture2D" path="res://assets/cosmos/figures/twin_souls.png" id="twin_souls"]
 [ext_resource type="Texture2D" path="res://assets/cosmos/figures/two_bowls.png" id="two_bowls"]
-[ext_resource type="Texture2D" path="res://assets/cosmos/figures/god_with_two_eyes.png" id="god_with_two_eyes"]
-[ext_resource type="Texture2D" path="res://assets/cosmos/figures/god_with_emblem.png" id="god_with_emblem"]
+[ext_resource type="Texture2D" path="res://assets/cosmos/figures/horus_khenty_irty.png" id="horus_khenty_irty"]
+[ext_resource type="Texture2D" path="res://assets/cosmos/figures/spirit_with_emblem.png" id="spirit_with_emblem"]
 [ext_resource type="Texture2D" path="res://assets/cosmos/figures/duamutef.png" id="duamutef"]
 [ext_resource type="Texture2D" path="res://assets/cosmos/figures/imsety.png" id="imsety"]
-[ext_resource type="Texture2D" path="res://assets/cosmos/figures/shrine_with_falcon.png" id="shrine_with_falcon"]
+[ext_resource type="Texture2D" path="res://assets/cosmos/figures/chest_with_head_of_ra.png" id="chest_with_head_of_ra"]
 [ext_resource type="Texture2D" path="res://assets/cosmos/figures/hapy.png" id="hapy"]
 [ext_resource type="Texture2D" path="res://assets/cosmos/figures/qebehsenuef.png" id="qebehsenuef"]
-[ext_resource type="Texture2D" path="res://assets/cosmos/figures/cow_on_shrine.png" id="cow_on_shrine"]
+[ext_resource type="Texture2D" path="res://assets/cosmos/figures/mehet_weret.png" id="mehet_weret"]
 [ext_resource type="Texture2D" path="res://assets/cosmos/figures/inscriptions_viii.png" id="inscriptions_viii"]
-[ext_resource type="Texture2D" path="res://assets/cosmos/figures/adorer_with_bowl.png" id="adorer_with_bowl"]
+[ext_resource type="Texture2D" path="res://assets/cosmos/figures/offerer_before_cow.png" id="offerer_before_cow"]
 [ext_resource type="Texture2D" path="res://assets/cosmos/figures/wedjat_shrine.png" id="wedjat_shrine"]
-[ext_resource type="Texture2D" path="res://assets/cosmos/figures/seated_god_snout.png" id="seated_god_snout"]
-[ext_resource type="Texture2D" path="res://assets/cosmos/figures/snake_shrine.png" id="snake_shrine"]
-[ext_resource type="Texture2D" path="res://assets/cosmos/figures/mourning_women.png" id="mourning_women"]
+[ext_resource type="Texture2D" path="res://assets/cosmos/figures/thoth_baboon.png" id="thoth_baboon"]
+[ext_resource type="Texture2D" path="res://assets/cosmos/figures/rosetau_gate.png" id="rosetau_gate"]
+[ext_resource type="Texture2D" path="res://assets/cosmos/figures/heh_and_wadj_wer.png" id="heh_and_wadj_wer"]
 [ext_resource type="Texture2D" path="res://assets/cosmos/figures/nephthys_kite.png" id="nephthys_kite"]
 [ext_resource type="Texture2D" path="res://assets/cosmos/figures/mummy_on_bier.png" id="mummy_on_bier"]
 [ext_resource type="Texture2D" path="res://assets/cosmos/figures/isis_kite.png" id="isis_kite"]
-[ext_resource type="Texture2D" path="res://assets/cosmos/figures/benu_heron.png" id="benu_heron"]
-[ext_resource type="Texture2D" path="res://assets/cosmos/figures/lion_left.png" id="lion_left"]
+[ext_resource type="Texture2D" path="res://assets/cosmos/figures/benu.png" id="benu"]
+[ext_resource type="Texture2D" path="res://assets/cosmos/figures/lion_tomorrow.png" id="lion_tomorrow"]
 [ext_resource type="Texture2D" path="res://assets/cosmos/figures/horizon.png" id="horizon"]
 [ext_resource type="Texture2D" path="res://assets/cosmos/figures/inscriptions_vii.png" id="inscriptions_vii"]
-[ext_resource type="Texture2D" path="res://assets/cosmos/figures/lion_right.png" id="lion_right"]
-[ext_resource type="Texture2D" path="res://assets/cosmos/figures/boat_with_crew.png" id="boat_with_crew"]
-[ext_resource type="Texture2D" path="res://assets/cosmos/figures/man_with_flowers.png" id="man_with_flowers"]
-[ext_resource type="Texture2D" path="res://assets/cosmos/figures/adorer_vii.png" id="adorer_vii"]
-[ext_resource type="Texture2D" path="res://assets/cosmos/figures/ba_bird.png" id="ba_bird"]
+[ext_resource type="Texture2D" path="res://assets/cosmos/figures/lion_yesterday.png" id="lion_yesterday"]
+[ext_resource type="Texture2D" path="res://assets/cosmos/figures/sun_boat_with_crew.png" id="sun_boat_with_crew"]
+[ext_resource type="Texture2D" path="res://assets/cosmos/figures/adorer_with_flowers.png" id="adorer_with_flowers"]
+[ext_resource type="Texture2D" path="res://assets/cosmos/figures/adorer_before_boat.png" id="adorer_before_boat"]
+[ext_resource type="Texture2D" path="res://assets/cosmos/figures/ba.png" id="ba"]
 [ext_resource type="Texture2D" path="res://assets/cosmos/figures/falcon_on_perch.png" id="falcon_on_perch"]
 [ext_resource type="Texture2D" path="res://assets/cosmos/figures/senet_booth.png" id="senet_booth"]
-[ext_resource type="Texture2D" path="res://assets/cosmos/figures/deceased_standing.png" id="deceased_standing"]
+[ext_resource type="Texture2D" path="res://assets/cosmos/figures/deceased_with_staff.png" id="deceased_with_staff"]
 
 [sub_resource type="ShaderMaterial" id="paper"]
 shader = ExtResource("papyrus")
@@ -91,19 +91,19 @@ centered = false
 metadata/figure_id = "isis_nephthys_kneeling"
 metadata/registry_id = "isis_nephthys_kneeling"
 
-[node name="goddess_over_scarab" type="Sprite2D" parent="Figures/Adoration_scene"]
+[node name="nut_over_scarab" type="Sprite2D" parent="Figures/Adoration_scene"]
 position = Vector2(238, 258)
-texture = ExtResource("goddess_over_scarab")
+texture = ExtResource("nut_over_scarab")
 centered = false
-metadata/figure_id = "goddess_over_scarab"
-metadata/registry_id = "goddess_over_scarab"
+metadata/figure_id = "nut_over_scarab"
+metadata/registry_id = "nut_over_scarab"
 
-[node name="god_enthroned" type="Sprite2D" parent="Figures/Adoration_scene"]
+[node name="osiris_enthroned" type="Sprite2D" parent="Figures/Adoration_scene"]
 position = Vector2(559, 192)
-texture = ExtResource("god_enthroned")
+texture = ExtResource("osiris_enthroned")
 centered = false
-metadata/figure_id = "god_enthroned"
-metadata/registry_id = "god_enthroned"
+metadata/figure_id = "osiris_enthroned"
+metadata/registry_id = "osiris_enthroned"
 
 [node name="offering_stand" type="Sprite2D" parent="Figures/Adoration_scene"]
 position = Vector2(750, 268)
@@ -112,12 +112,12 @@ centered = false
 metadata/figure_id = "offering_stand"
 metadata/registry_id = "offering_stand"
 
-[node name="adorer_xi" type="Sprite2D" parent="Figures/Adoration_scene"]
+[node name="deceased_adoring" type="Sprite2D" parent="Figures/Adoration_scene"]
 position = Vector2(895, 252)
-texture = ExtResource("adorer_xi")
+texture = ExtResource("deceased_adoring")
 centered = false
-metadata/figure_id = "adorer_xi"
-metadata/registry_id = "adorer_xi"
+metadata/figure_id = "deceased_adoring"
+metadata/registry_id = "deceased_adoring"
 
 [node name="anubis" type="Sprite2D" parent="Figures/Adoration_scene"]
 position = Vector2(1047, 243)
@@ -149,12 +149,12 @@ centered = false
 metadata/figure_id = "baboons_praising_1"
 metadata/registry_id = "baboons_praising_1"
 
-[node name="boat_of_ra" type="Sprite2D" parent="Figures/Barque_procession"]
+[node name="atum_evening_boat" type="Sprite2D" parent="Figures/Barque_procession"]
 position = Vector2(1978, 200)
-texture = ExtResource("boat_of_ra")
+texture = ExtResource("atum_evening_boat")
 centered = false
-metadata/figure_id = "boat_of_ra"
-metadata/registry_id = "boat_of_ra"
+metadata/figure_id = "atum_evening_boat"
+metadata/registry_id = "atum_evening_boat"
 
 [node name="baboons_praising_2" type="Sprite2D" parent="Figures/Barque_procession"]
 position = Vector2(2859, 283)
@@ -179,12 +179,12 @@ metadata/registry_id = "baboons_seated_x"
 
 [node name="Scarab_barque_and_sacred_tree" type="Node2D" parent="Figures"]
 
-[node name="boat_of_khepri" type="Sprite2D" parent="Figures/Scarab_barque_and_sacred_tree"]
+[node name="khepri_boat" type="Sprite2D" parent="Figures/Scarab_barque_and_sacred_tree"]
 position = Vector2(3689, 232)
-texture = ExtResource("boat_of_khepri")
+texture = ExtResource("khepri_boat")
 centered = false
-metadata/figure_id = "boat_of_khepri"
-metadata/registry_id = "boat_of_khepri"
+metadata/figure_id = "khepri_boat"
+metadata/registry_id = "khepri_boat"
 
 [node name="inscriptions_ix" type="Sprite2D" parent="Figures/Scarab_barque_and_sacred_tree"]
 position = Vector2(4112, 49)
@@ -193,40 +193,40 @@ centered = false
 metadata/figure_id = "inscriptions_ix"
 metadata/registry_id = "inscriptions_ix"
 
-[node name="kneeling_adorer" type="Sprite2D" parent="Figures/Scarab_barque_and_sacred_tree"]
+[node name="deceased_kneeling" type="Sprite2D" parent="Figures/Scarab_barque_and_sacred_tree"]
 position = Vector2(4331, 286)
-texture = ExtResource("kneeling_adorer")
+texture = ExtResource("deceased_kneeling")
 centered = false
-metadata/figure_id = "kneeling_adorer"
-metadata/registry_id = "kneeling_adorer"
+metadata/figure_id = "deceased_kneeling"
+metadata/registry_id = "deceased_kneeling"
 
-[node name="baboons_seated_ix" type="Sprite2D" parent="Figures/Scarab_barque_and_sacred_tree"]
+[node name="two_apes_isis_nephthys" type="Sprite2D" parent="Figures/Scarab_barque_and_sacred_tree"]
 position = Vector2(4500, 342)
-texture = ExtResource("baboons_seated_ix")
+texture = ExtResource("two_apes_isis_nephthys")
 centered = false
-metadata/figure_id = "baboons_seated_ix"
-metadata/registry_id = "baboons_seated_ix"
+metadata/figure_id = "two_apes_isis_nephthys"
+metadata/registry_id = "two_apes_isis_nephthys"
 
-[node name="falcon_standard" type="Sprite2D" parent="Figures/Scarab_barque_and_sacred_tree"]
+[node name="falcon_on_standard" type="Sprite2D" parent="Figures/Scarab_barque_and_sacred_tree"]
 position = Vector2(4794, 247)
-texture = ExtResource("falcon_standard")
+texture = ExtResource("falcon_on_standard")
 centered = false
-metadata/figure_id = "falcon_standard"
-metadata/registry_id = "falcon_standard"
+metadata/figure_id = "falcon_on_standard"
+metadata/registry_id = "falcon_on_standard"
 
-[node name="cat_and_snake" type="Sprite2D" parent="Figures/Scarab_barque_and_sacred_tree"]
+[node name="great_cat_and_apep" type="Sprite2D" parent="Figures/Scarab_barque_and_sacred_tree"]
 position = Vector2(4878, 355)
-texture = ExtResource("cat_and_snake")
+texture = ExtResource("great_cat_and_apep")
 centered = false
-metadata/figure_id = "cat_and_snake"
-metadata/registry_id = "cat_and_snake"
+metadata/figure_id = "great_cat_and_apep"
+metadata/registry_id = "great_cat_and_apep"
 
-[node name="persea_tree" type="Sprite2D" parent="Figures/Scarab_barque_and_sacred_tree"]
+[node name="ished_tree" type="Sprite2D" parent="Figures/Scarab_barque_and_sacred_tree"]
 position = Vector2(5124, 206)
-texture = ExtResource("persea_tree")
+texture = ExtResource("ished_tree")
 centered = false
-metadata/figure_id = "persea_tree"
-metadata/registry_id = "persea_tree"
+metadata/figure_id = "ished_tree"
+metadata/registry_id = "ished_tree"
 
 [node name="small_seated_god" type="Sprite2D" parent="Figures/Scarab_barque_and_sacred_tree"]
 position = Vector2(5273, 393)
@@ -235,12 +235,12 @@ centered = false
 metadata/figure_id = "small_seated_god"
 metadata/registry_id = "small_seated_god"
 
-[node name="two_seated_gods" type="Sprite2D" parent="Figures/Scarab_barque_and_sacred_tree"]
+[node name="twin_souls" type="Sprite2D" parent="Figures/Scarab_barque_and_sacred_tree"]
 position = Vector2(5393, 280)
-texture = ExtResource("two_seated_gods")
+texture = ExtResource("twin_souls")
 centered = false
-metadata/figure_id = "two_seated_gods"
-metadata/registry_id = "two_seated_gods"
+metadata/figure_id = "twin_souls"
+metadata/registry_id = "twin_souls"
 
 [node name="two_bowls" type="Sprite2D" parent="Figures/Scarab_barque_and_sacred_tree"]
 position = Vector2(5720, 337)
@@ -249,19 +249,19 @@ centered = false
 metadata/figure_id = "two_bowls"
 metadata/registry_id = "two_bowls"
 
-[node name="god_with_two_eyes" type="Sprite2D" parent="Figures/Scarab_barque_and_sacred_tree"]
+[node name="horus_khenty_irty" type="Sprite2D" parent="Figures/Scarab_barque_and_sacred_tree"]
 position = Vector2(5975, 201)
-texture = ExtResource("god_with_two_eyes")
+texture = ExtResource("horus_khenty_irty")
 centered = false
-metadata/figure_id = "god_with_two_eyes"
-metadata/registry_id = "god_with_two_eyes"
+metadata/figure_id = "horus_khenty_irty"
+metadata/registry_id = "horus_khenty_irty"
 
-[node name="god_with_emblem" type="Sprite2D" parent="Figures/Scarab_barque_and_sacred_tree"]
+[node name="spirit_with_emblem" type="Sprite2D" parent="Figures/Scarab_barque_and_sacred_tree"]
 position = Vector2(6090, 212)
-texture = ExtResource("god_with_emblem")
+texture = ExtResource("spirit_with_emblem")
 centered = false
-metadata/figure_id = "god_with_emblem"
-metadata/registry_id = "god_with_emblem"
+metadata/figure_id = "spirit_with_emblem"
+metadata/registry_id = "spirit_with_emblem"
 
 [node name="duamutef" type="Sprite2D" parent="Figures/Scarab_barque_and_sacred_tree"]
 position = Vector2(6179, 278)
@@ -277,12 +277,12 @@ centered = false
 metadata/figure_id = "imsety"
 metadata/registry_id = "imsety"
 
-[node name="shrine_with_falcon" type="Sprite2D" parent="Figures/Scarab_barque_and_sacred_tree"]
+[node name="chest_with_head_of_ra" type="Sprite2D" parent="Figures/Scarab_barque_and_sacred_tree"]
 position = Vector2(6347, 185)
-texture = ExtResource("shrine_with_falcon")
+texture = ExtResource("chest_with_head_of_ra")
 centered = false
-metadata/figure_id = "shrine_with_falcon"
-metadata/registry_id = "shrine_with_falcon"
+metadata/figure_id = "chest_with_head_of_ra"
+metadata/registry_id = "chest_with_head_of_ra"
 
 [node name="hapy" type="Sprite2D" parent="Figures/Scarab_barque_and_sacred_tree"]
 position = Vector2(6510, 291)
@@ -300,12 +300,12 @@ centered = false
 metadata/figure_id = "qebehsenuef"
 metadata/registry_id = "qebehsenuef"
 
-[node name="cow_on_shrine" type="Sprite2D" parent="Figures/Shrines_and_funerary_scene"]
+[node name="mehet_weret" type="Sprite2D" parent="Figures/Shrines_and_funerary_scene"]
 position = Vector2(6660, 199)
-texture = ExtResource("cow_on_shrine")
+texture = ExtResource("mehet_weret")
 centered = false
-metadata/figure_id = "cow_on_shrine"
-metadata/registry_id = "cow_on_shrine"
+metadata/figure_id = "mehet_weret"
+metadata/registry_id = "mehet_weret"
 
 [node name="inscriptions_viii" type="Sprite2D" parent="Figures/Shrines_and_funerary_scene"]
 position = Vector2(6790, 45)
@@ -314,12 +314,12 @@ centered = false
 metadata/figure_id = "inscriptions_viii"
 metadata/registry_id = "inscriptions_viii"
 
-[node name="adorer_with_bowl" type="Sprite2D" parent="Figures/Shrines_and_funerary_scene"]
+[node name="offerer_before_cow" type="Sprite2D" parent="Figures/Shrines_and_funerary_scene"]
 position = Vector2(6965, 283)
-texture = ExtResource("adorer_with_bowl")
+texture = ExtResource("offerer_before_cow")
 centered = false
-metadata/figure_id = "adorer_with_bowl"
-metadata/registry_id = "adorer_with_bowl"
+metadata/figure_id = "offerer_before_cow"
+metadata/registry_id = "offerer_before_cow"
 
 [node name="wedjat_shrine" type="Sprite2D" parent="Figures/Shrines_and_funerary_scene"]
 position = Vector2(7117, 246)
@@ -328,26 +328,26 @@ centered = false
 metadata/figure_id = "wedjat_shrine"
 metadata/registry_id = "wedjat_shrine"
 
-[node name="seated_god_snout" type="Sprite2D" parent="Figures/Shrines_and_funerary_scene"]
+[node name="thoth_baboon" type="Sprite2D" parent="Figures/Shrines_and_funerary_scene"]
 position = Vector2(7300, 336)
-texture = ExtResource("seated_god_snout")
+texture = ExtResource("thoth_baboon")
 centered = false
-metadata/figure_id = "seated_god_snout"
-metadata/registry_id = "seated_god_snout"
+metadata/figure_id = "thoth_baboon"
+metadata/registry_id = "thoth_baboon"
 
-[node name="snake_shrine" type="Sprite2D" parent="Figures/Shrines_and_funerary_scene"]
+[node name="rosetau_gate" type="Sprite2D" parent="Figures/Shrines_and_funerary_scene"]
 position = Vector2(7429, 191)
-texture = ExtResource("snake_shrine")
+texture = ExtResource("rosetau_gate")
 centered = false
-metadata/figure_id = "snake_shrine"
-metadata/registry_id = "snake_shrine"
+metadata/figure_id = "rosetau_gate"
+metadata/registry_id = "rosetau_gate"
 
-[node name="mourning_women" type="Sprite2D" parent="Figures/Shrines_and_funerary_scene"]
+[node name="heh_and_wadj_wer" type="Sprite2D" parent="Figures/Shrines_and_funerary_scene"]
 position = Vector2(7575, 260)
-texture = ExtResource("mourning_women")
+texture = ExtResource("heh_and_wadj_wer")
 centered = false
-metadata/figure_id = "mourning_women"
-metadata/registry_id = "mourning_women"
+metadata/figure_id = "heh_and_wadj_wer"
+metadata/registry_id = "heh_and_wadj_wer"
 
 [node name="nephthys_kite" type="Sprite2D" parent="Figures/Shrines_and_funerary_scene"]
 position = Vector2(8149, 340)
@@ -370,21 +370,21 @@ centered = false
 metadata/figure_id = "isis_kite"
 metadata/registry_id = "isis_kite"
 
-[node name="benu_heron" type="Sprite2D" parent="Figures/Shrines_and_funerary_scene"]
+[node name="benu" type="Sprite2D" parent="Figures/Shrines_and_funerary_scene"]
 position = Vector2(8960, 376)
-texture = ExtResource("benu_heron")
+texture = ExtResource("benu")
 centered = false
-metadata/figure_id = "benu_heron"
-metadata/registry_id = "benu_heron"
+metadata/figure_id = "benu"
+metadata/registry_id = "benu"
 
 [node name="Lions_and_solar_procession" type="Node2D" parent="Figures"]
 
-[node name="lion_left" type="Sprite2D" parent="Figures/Lions_and_solar_procession"]
+[node name="lion_tomorrow" type="Sprite2D" parent="Figures/Lions_and_solar_procession"]
 position = Vector2(9146, 312)
-texture = ExtResource("lion_left")
+texture = ExtResource("lion_tomorrow")
 centered = false
-metadata/figure_id = "lion_left"
-metadata/registry_id = "lion_left"
+metadata/figure_id = "lion_tomorrow"
+metadata/registry_id = "lion_tomorrow"
 
 [node name="horizon" type="Sprite2D" parent="Figures/Lions_and_solar_procession"]
 position = Vector2(9268, 287)
@@ -400,40 +400,40 @@ centered = false
 metadata/figure_id = "inscriptions_vii"
 metadata/registry_id = "inscriptions_vii"
 
-[node name="lion_right" type="Sprite2D" parent="Figures/Lions_and_solar_procession"]
+[node name="lion_yesterday" type="Sprite2D" parent="Figures/Lions_and_solar_procession"]
 position = Vector2(9372, 308)
-texture = ExtResource("lion_right")
+texture = ExtResource("lion_yesterday")
 centered = false
-metadata/figure_id = "lion_right"
-metadata/registry_id = "lion_right"
+metadata/figure_id = "lion_yesterday"
+metadata/registry_id = "lion_yesterday"
 
-[node name="boat_with_crew" type="Sprite2D" parent="Figures/Lions_and_solar_procession"]
+[node name="sun_boat_with_crew" type="Sprite2D" parent="Figures/Lions_and_solar_procession"]
 position = Vector2(9584, 187)
-texture = ExtResource("boat_with_crew")
+texture = ExtResource("sun_boat_with_crew")
 centered = false
-metadata/figure_id = "boat_with_crew"
-metadata/registry_id = "boat_with_crew"
+metadata/figure_id = "sun_boat_with_crew"
+metadata/registry_id = "sun_boat_with_crew"
 
-[node name="man_with_flowers" type="Sprite2D" parent="Figures/Lions_and_solar_procession"]
+[node name="adorer_with_flowers" type="Sprite2D" parent="Figures/Lions_and_solar_procession"]
 position = Vector2(10721, 187)
-texture = ExtResource("man_with_flowers")
+texture = ExtResource("adorer_with_flowers")
 centered = false
-metadata/figure_id = "man_with_flowers"
-metadata/registry_id = "man_with_flowers"
+metadata/figure_id = "adorer_with_flowers"
+metadata/registry_id = "adorer_with_flowers"
 
-[node name="adorer_vii" type="Sprite2D" parent="Figures/Lions_and_solar_procession"]
+[node name="adorer_before_boat" type="Sprite2D" parent="Figures/Lions_and_solar_procession"]
 position = Vector2(10909, 255)
-texture = ExtResource("adorer_vii")
+texture = ExtResource("adorer_before_boat")
 centered = false
-metadata/figure_id = "adorer_vii"
-metadata/registry_id = "adorer_vii"
+metadata/figure_id = "adorer_before_boat"
+metadata/registry_id = "adorer_before_boat"
 
-[node name="ba_bird" type="Sprite2D" parent="Figures/Lions_and_solar_procession"]
+[node name="ba" type="Sprite2D" parent="Figures/Lions_and_solar_procession"]
 position = Vector2(11037, 240)
-texture = ExtResource("ba_bird")
+texture = ExtResource("ba")
 centered = false
-metadata/figure_id = "ba_bird"
-metadata/registry_id = "ba_bird"
+metadata/figure_id = "ba"
+metadata/registry_id = "ba"
 
 [node name="falcon_on_perch" type="Sprite2D" parent="Figures/Lions_and_solar_procession"]
 position = Vector2(11273, 224)
@@ -455,7 +455,7 @@ script = ExtResource("avatar")
 drawn_facing = 1
 
 [node name="Sprite" type="Sprite2D" parent="Avatar"]
-texture = ExtResource("deceased_standing")
+texture = ExtResource("deceased_with_staff")
 offset = Vector2(0, -147.5)
 
 [node name="Camera" type="Camera2D" parent="."]

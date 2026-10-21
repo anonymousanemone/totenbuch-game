@@ -206,7 +206,7 @@ func _test_feedback() -> void:
 		var f1: Dictionary = level.fight.frame1
 		var lw: float = (level.level.rules[0][1] - level.level.rules[0][0]) * level.fight.cam0.z
 		var vp: Vector2 = level.get_viewport_rect().size
-		var wide: bool = encounter.kind in ["crocs", "roach"]
+		var wide: bool = encounter.kind in ["crocs", "roach", "creep"]
 		expect(is_equal_approx(level.fight.line, lw) and f1.l == 0.0 and f1.r == vp.x and f1.top == f0.top,
 			encounter.id + " the frame opens to the screen's edges, its lines as thick as while walking, the band's top line where it is")
 		expect(f1.bot <= vp.y - level.hud.bottom_height() - level.hud.tag_reach(), encounter.id + " the frame's bottom line stays clear of the speaker's tag")
@@ -224,9 +224,9 @@ func _test_feedback() -> void:
 			var croc: Dictionary = level.fight.crocs[0]
 			croc.s = "crawl"
 			croc.red = true
-			croc.node.position = level.fight.pos + level._tip_offset() - level._croc_head(croc.node, croc.dir)
+			croc.node.position = level.fight.pos + level._tip_offset() - level.crocodiles._croc_head(croc.node, croc.dir)
 			level.fight.force_heka = false
-			level._croc_strike()
+			level.crocodiles._croc_strike()
 			expect(croc.s == "crawl" and not level.hud._text.contains("shift"), encounter.id + " plain bronze does nothing to a red crocodile, and no one says to hold Shift")
 		level.fight.health = 2 if level.fight.has("health") else 0
 		if encounter.kind in ["crocs", "twin", "creep", "apep", "sheaf"]:

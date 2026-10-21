@@ -32,29 +32,28 @@ const ENCOUNTERS := [
 	# (`snap` s) to his front leg. `head_tip`, `head_rect`, `tail_base`: in its picture's pixels.
 	{"id": "e33", "tag": "Snake", "boxes": ["e33"], "kind": "lunge", "spear": "spear33", "task": 1,
 		# `marks`: the red mark's radius (plate px) for each strike in turn, smaller each time
-		"foe": "snake33", "need": 3, "marks": [11.0, 8.0, 5.0], "rest": 33.0, "idle": [1.2, 2.4], "wave": 1.4, "tail": 0.26, "wave_hz": 2.2,
+		"foe": "snake33", "need": 3, "marks": [14.0, 11.0, 8.0], "rest": 33.0, "idle": [1.2, 2.4], "wave": 1.4, "tail": 0.26, "wave_hz": 2.2,
 		"crouch": 0.35, "snap": 0.16, "head_tip": [122, 218], "head_rect": [68, 205, 58, 25], "tail_base": [28, 172],
 		"caption": [3664, 3923]},
-	# the snake on the ground, its back to him: red light, green light. It lies near the far (left)
-	# edge of the opened vignette; he creeps up on it, forward only, at `creep` plate px/s. Every `away`
-	# s it lifts its head (`tell` s, shorter with each strike; after the first strike a `fake` share of
-	# lifts settle again), turns to look at him for `watch` s, and turns away again. Moving or thrusting
-	# while it looks: it strikes. Struck, it slides `flee` plate px on toward the edge.
-	# `head_rect`, `head_pivot` (it turns round on this spot), `eye` (the spear point must come down
-	# here): in its picture's pixels.
-	{"id": "e35", "tag": "Snake", "boxes": ["e35"], "kind": "creep", "spear": "spear35", "task": 1,
-		"foe": "snake35", "need": 3, "flee": 70.0, "creep": 90.0, "away": [1.2, 2.6], "tell": [0.6, 0.35],
-		"watch": [1.0, 2.0], "fake": 0.3, "head_rect": [104, 42, 38, 23], "head_pivot": [123, 55], "eye": [114, 52],
+	# the snakes on the ground, fought like the crocodiles of spell 32 (both sides, no red ones). They
+	# slither in at `slither` plate px/s, a new one every `enter_gap` s, and rest `rest` plate px from
+	# him (never more than `at_once` resting). `first` s after the vignette opens, and `next` s after
+	# each attack ends, one shakes its tail (`shake` s, `tail` rad, `wave_hz`) and darts at him along
+	# its row at `speed` plate px/s. `need` speared in all. `tail_base`, `tail_tip`, `head`: in its
+	# picture's pixels.
+	{"id": "e35", "tag": "Snakes", "boxes": ["e35"], "kind": "creep", "spear": "spear35", "task": 1,
+		"foe": "snake35", "need": 14, "at_once": 5, "slither": 150.0, "enter_gap": 0.7, "rest": [170.0, 250.0],
+		"first": 1.5, "next": [0.0, 1.5], "shake": 0.8, "tail": 0.15, "wave_hz": 4.0, "speed": 240.0,
+		"tail_base": [95, 13], "tail_tip": [0, 45], "head": [123, 55],
 		"caption": [3298, 3643]},
 	# the roach: `count` beetles (the drawn one and copies), each to be pinned once by the spear
 	# point. Each darts at `dart` (plate px/s), rests `rest` s, and every `bait_every` darts stops
 	# by the spear point on his left or right for `bait_rest` s (a `fake` share of those just out
 	# of reach), within `range` either side of him. Each may stop at the spear point and get away
 	# `passes` times (it reddens each time); one more and they multiply over the screen: lost.
-	# `dot`: only a red dot on its back counts
 	{"id": "e36", "tag": "Beetles", "boxes": ["e36"], "kind": "roach", "spear": "spear36", "task": 1,
 		"foe": "beetle36", "count": 5, "passes": 3, "dart": 1100.0, "rest": [0.15, 0.5], "bait_every": 2,
-		"bait_rest": [0.35, 0.75], "fake": 0.3, "range": 480.0, "dot": false,
+		"bait_rest": [0.35, 0.75], "fake": 0.3, "range": 480.0,
 		"caption": [3054, 3277]},
 	# the two Merti snakes: the drawn one on his left and a mirrored copy on his right, both facing him,
 	# coiled `rest` plate px out from where they are drawn. Every `idle` s one of the two snake signs
@@ -64,13 +63,13 @@ const ENCOUNTERS := [
 	# plate px). Each must be struck `need` times. `warn`, `crouch`, `snap` and `reach` go from the
 	# first value to the second over the strikes.
 	{"id": "e37", "tag": "Snakes", "boxes": ["e37"], "kind": "twin", "spear": "spear37", "task": 1,
-		"foe": "snake37", "need": 2, "rest": 90.0, "bite": 30.0, "idle": [0.8, 1.6], "warn": [0.9, 0.45],
-		"crouch": [0.35, 0.22], "snap": [0.24, 0.17], "reach": [12.0, 7.0],
+		"foe": "snake37", "need": 2, "rest": 90.0, "bite": 30.0, "idle": [0.84, 1.68], "warn": [0.945, 0.4725],
+		"crouch": [0.3675, 0.231], "snap": [0.252, 0.1785], "reach": [12.0, 7.0],
 		"signs": ["glyph37_left", "glyph37_right"],
 		"caption": [2803, 3033]},
 	# spell 38: he holds out two signs, the sail (breath) and the ankh (life); only one can be taken
-	# (`items`, the right one first). What taking the ankh leads to is still to be decided: for now
-	# either opens the way on.
+	# (`items`, the right one first). The sail eases later fights; the ankh makes them endless.
+	# Taking neither is allowed after the earlier dangers are overcome.
 	{"id": "e38", "boxes": ["e38"], "kind": "take", "items": ["sail38", "ankh38"], "task": 2, "gate": true,
 		"caption": [2316, 2782]},
 	# Apep: his tail lashes (`lash` s) and a wave runs the length of him to the fold where the spear
@@ -81,7 +80,7 @@ const ENCOUNTERS := [
 	# steps and he lies as drawn. After the first `teach` waves, a `feint` share are smaller and die
 	# out in the drawn hump (`hump`). Crest `height` and `width` (half) in plate px. `head_rect`,
 	# `head_pivot` (it turns on its neck here), `fold`: in his picture's pixels.
-	{"id": "e39", "tag": "Apep", "boxes": ["e39"], "kind": "apep", "spear": "spear39", "task": 3,
+	{"id": "e39", "tag": "Apep", "boxes": ["e39"], "kind": "apep", "hard_ready": false, "spear": "spear39", "task": 3,
 		"foe": "apep", "need": 6, "speed": [220.0, 380.0], "gap": [2.2, 0.9], "min_gap": 0.8, "lash": 0.35,
 		"reach": [10.0, 5.0], "height": 12.0, "width": 30.0, "teach": 2, "feint": 0.35, "hump": [190, 320],
 		"head_rect": [398, 23, 44, 18], "head_pivot": [440, 33], "fold": 492,
@@ -96,27 +95,22 @@ const ENCOUNTERS := [
 	# `warn` s first; it always looks up at least once before each bite, so each bite can be stopped); three bites (the flesh signs count the donkey's) and the donkey is eaten. A
 	# strike sets the bite back. `need` strikes and it falls; each tuple goes from the first strike
 	# to the last. `lift_from`, `lift_to`: where the lift begins and is whole, in its picture's px.
-	{"id": "e40", "tag": "Eater of the Ass", "boxes": ["e40"], "kind": "donkey", "spear": "spear40", "task": 4,
+	{"id": "e40", "tag": "Eater of the Ass", "boxes": ["e40"], "kind": "donkey", "hard_ready": false, "spear": "spear40", "task": 4,
 		"foe": "snake40", "donkey": "donkey40", "tail": "tail40", "need": 3,
 		"swish_gap": [1.0, 2.6], "flick": 0.45, "up": [0.6, 0.38], "bite_every": [4.5, 3.6], "warn": 0.45,
 		"lift": 9.0, "lift_from": 70.0, "lift_to": 96.0, "tail_root": [1230, 529],
 		"caption": [581, 1437]},
-	# the snake in the sheaf (spell 41): the vignette opens out close up; the sheaf's four bands are
-	# undone (faint) and its stalks splay; the snake is hidden inside, and the stalks stir at its
-	# height. Space (or a click on the sheaf) ties the lowest band still loose, taking `tie` s; if the
-	# snake is at that band while it is tied, it bites through the stalks and the band springs loose.
-	# Tied, it can never come below that band again. It stays `dwell` s at a height (it lingers at the
-	# lowest it may), then moves one up or down in `move` s; after the first band, a `feint` share of
-	# moves up turn back halfway. Each tuple goes from the first band to the last. Height 4 is its
-	# head out at the top. Four bands and it is forced out on top, as drawn, its head at the spear
-	# point; it coils `coil` s (shorter after each bite) and strikes at his hand: thrust before then.
-	# Three bites (CROC_HEALTH) and he crumbles. Tuned so that a stand-in player tying 0.35 s after the
-	# stir settles wins almost always, one at 0.55 s about half the time, and tying blindly never
-	# (SHEAF_CURVE=1 with --autotest prints the curve).
-	{"id": "e41", "tag": "Snake", "boxes": ["e41"], "kind": "sheaf", "spear": "spear41", "task": 5,
-		"foe": "snake41", "bundle": "bundle41", "need": 1,
-		"dwell": [[0.9, 1.6], [0.65, 1.2]], "move": [0.3, 0.18], "tie": 0.28, "feint": 0.35, "linger": 0.6,
-		"coil": [1.1, 0.7], "splay": 0.32, "top": 63.0,
+	# the snake in the sheaf (spell 41): the vignette opens out close up; the sheaf stands bound as
+	# drawn, and the snake is inside, on top of one of its four bands: that band shivers and the
+	# stalks stir above it; on top of the top band it is out, as drawn. [↑] [↓] lean the bearer to a
+	# band and Space strikes there: the wrong band and he is bitten. It stays on a band `window` s,
+	# then moves on (in hard mode, see hard(), it bites first), unseen `gap` s before the next band,
+	# at random; `need` strikes, the last always at the top band, and it is pinned there. `window`
+	# goes from the first strike to the last. `top`: the sheaf's top, in its picture's px. Three
+	# bites (CROC_HEALTH) and he crumbles. SHEAF_CURVE=1 with --autotest prints the hard-mode curve.
+	{"id": "e41", "tag": "Snake", "boxes": ["e41"], "kind": "sheaf", "hard_ready": true, "spear": "spear41", "task": 5,
+		"foe": "snake41", "bundle": "bundle41", "need": 5,
+		"window": [1.1, 0.7], "gap": [0.4, 0.9], "top": 63.0,
 		"caption": [50, 560]},
 	{"id": "e42", "boxes": ["e42"], "kind": "end"},
 ]

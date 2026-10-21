@@ -36,6 +36,14 @@ func _ready() -> void:
 	sprite.offset = Vector2(0, -sprite.texture.get_height() / 2.0 + pad)
 
 
+## Attachment frame for carried items: follows the figure's walking bob and facing.
+func carrying_transform() -> Transform2D:
+	var on_you := global_transform * Transform2D(0.0, sprite.position)
+	if sprite.flip_h:
+		on_you *= Transform2D.FLIP_X
+	return on_you
+
+
 func walk_to(x: float, on_arrive := Callable()) -> void:
 	_target = clampf(x, min_x, max_x)
 	_on_arrive = on_arrive

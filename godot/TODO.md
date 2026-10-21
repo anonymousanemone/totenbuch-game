@@ -11,6 +11,9 @@ revamps, anything that plays boring) are also in `../ideas.md`.
 - [ ] **Support players who are unsure what to do:** the playtest observation was “when confused, look around.” Review whether nearby figures, descriptions and NPC clues give enough direction. Keep these in-game clues separate from Hint-button hints.
 - [ ] **Review all Procession minigame instructions:** check that each instruction matches its current objective and controls, and that entry makes the instructions easy to notice. Coordinate this with the placement and appearance review above.
 - [ ] Redo the descriptions for cosmos by matching scholarly sources and actual knowledge of the bod. 
+- [ ] the snap while drag boundary needs to be a little smaller, 
+- [ ] in the game, when clicking on goose man, the description should be "odd that he's holding bread" and only gives you the bread if you click on the bread (whole vs part highlight), and doesn't say "he's missing his goose" but says "get this poor man an offering to carry." all other offerings fall through. only the goose stays and clisks (this should already be true)
+- [ ] move all png into figures in asset, leave the jsons outside. also move animations into their own folder in the level in asset
 
 
 **New games and tools to consider**
@@ -23,11 +26,23 @@ revamps, anything that plays boring) are also in `../ideas.md`.
 - [ ] Research a drawing or 2D rigging tool that lets you select part of an image, set a pivot/reference point and rotate that part around it.
 
 ### Dangers
-- [ ] Spell 35, red light green light: too easy. Maybe one life only, or no hints (undecided).
+- [ ] Spell 35, change the red light green light snake to be like the crocodile game, where snakes will come towards you from both sides to attack, and the player can flip left, right, or move up and down. there are no red snakes. when the screen expands, the one snake that was on screen should move somewhere a distance away from the player (like crocodiles, but only 1). then, snakes slither on screen and stop at a location. one will attack, its tail shaking a little (remove the head shaking animation for this entirely). then, it will move to you at a quick speed (faster than crocodiles, but not too much, because the player should be forced to have to watch for the snake tail signal in order to get there in time). never have more than 5 snakes on screen at once. a snake may shake their tail 0-1.5 seconds after the last snake has been speared (i will want to tune this timing). the losing animation will be snakes appear everywhere, and then move towards the player (sometimes diagonally, but no more than 15 degrees angle) and "bite" (make contact with) every part of the player. the player disintegrates. ask if anything is unclear, and reuse as much code as possible. remember karpathy
 - [ ] **Your call:** spell 37's new Merti wording (nothing may give away that the flashing sign shows which snake strikes): intro "Turn to the snake that strikes ([←] [→]), and thrust as it springs."; hint "Watch the signs above. Striking too soon provokes a snake."; bitten from behind "It sprang from your other side. Turn to face it ([←] [→]). Bitten."
-- [ ] Spell 39, Rekrek (Apep): far too easy. Make it faster, or change the game.
+- [ ] Spell 39, Rekrek (Apep): concept is apophis, who tries to eat the deceased body. can only have one snake. 
 - [ ] Spell 38: life and breath become two separate signs, and only breath is taken: the player must click the breath sign (one choice only). Taking the wrong one makes the following fights nearly impossibly hard. Clicking spell 38's caption title shows "breath" in bold (or similar), which tells the player which to pick. **Art ready (2026-10-16):** in the .mdp the ankh and the sail are separate layers now: `breath38/ankh` is the ankh (life) alone, `breath38/t3` the sail (breath). Still to decide: how "nearly impossibly hard" works after taking the wrong one. *Built (2026-10-16):* they are two sprites (`ankh38`, `sail38`), each clicked on its own; only one can be taken, the other stays in his hand. For now either one opens the way on.
-- [ ] Spells 40–41: both are boring and slow. Rethink their pace (undecided).
+- [x] if breath is taken, the games are 'easy'. if ankh is taken, the games are hard but they never die, but the game never ends. the three flesh signs are replaced by a single ankh sign. every time they lose the ankh sign flashes red.  (they have infinite life, but the snakes aren't repelled, so they keep coming). after a certain amount of time playing with one game, or after a certain amoutn of time for all games combined (whatever is sooner), automatically give the clue "you are living but never free. perhaps that wasn't what you needed." however, if that setting is chosen, do silently save a score board in the journal - each spell has its own entry for dangers, each would say (xxx repelled or speared xxx times or something). if they take neither, it is very hard (same as the ankh sign difficulty), but they only get the three flesh signs, like usual.
+- [ ] all inventory items now sit on the player (there are never more than one or a few items at a time.) this applies to the adze (before the minigame starts/camera zooms in), the ankh/breath. the minigame items that are drag and drop will follow the mouse, as it does now. 
+- spell 41: instead of binding the sheaf, i want the player to have to strike at the band that is wiggling. if they get the wrong band, they get bit. ("your spear slips past/stops just before the snake and you are bit.") you have to strike the snake 5 times. the last time will always be at the top band. the rest can be random. in hard mode, you get bit if you don't strike when a band moves. in the regular/easy mode, the player will not be penalized for not taking action. the figure will lean accordingly and press up and down (to move up and down the sheafs). 
+- crocodile not just snout to hit
+- know to look around environment for clues
+- when clicking heka in game, should be given time to read it
+- roach - know that they will crawl to hitting position (left or right) 3 times, and get redder, if they don't get hit by 3 times they've cralwed by, you lose
+- two snakes - look around for clues
+- when you click the header snakes while playing the game, it should say "the snake that strikes flashes red." it should give look at the two s
+- prevent crocs from slipping past, sometimes you have to block them with your body and make a sacrifice.
+- [ ] dont say "they come again" for the second wave, let the player read the flashign red sign and have the player have that instruction stay there (unless explicitly something is preocessed to include new motion)
+- [ ] move the flesh and ankh signs down a little and to the left a little.
+- [ ] the block is in front of the life and breath thing (the man in front of you irght fullly blocks himself from the menacing creatures. you may not pass until these have been vanquished.)
 
 ## Audit status and approval
 

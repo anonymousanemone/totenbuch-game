@@ -276,10 +276,7 @@ func held_name() -> String:
 ## The pieces on you sit where they are posed, mirrored as you turn and bobbing as you walk; the
 ## one in hand is at the pointer.
 func _follow() -> void:
-	var sprite: Sprite2D = _avatar.sprite
-	var on_you := _avatar.global_transform * Transform2D(0.0, sprite.position)
-	if sprite.flip_h:
-		on_you *= Transform2D.FLIP_X
+	var on_you: Transform2D = _avatar.carrying_transform()
 	for nm in worn:
 		_nodes[nm].global_transform = on_you * pose(nm)
 	if held != "":

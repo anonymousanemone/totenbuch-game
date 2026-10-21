@@ -29,6 +29,7 @@ def main():
     suites.append(("regressions", ["--script", "res://tests/script_regressions.gd"], "REGRESSIONS OK"))
     suites.append(("procession_interactions", ["--script", "res://tests/procession_interaction_regressions.gd"], "PROCESSION INTERACTIONS OK"))
     suites.append(("descriptions", ["--script", "res://tests/description_regressions.gd"], "DESCRIPTION REGRESSIONS OK"))
+    suites.append(("life_mode", ["--script", "res://tests/life_mode_regressions.gd"], "LIFE MODE REGRESSIONS OK"))
     suites.append(("hints", ["--script", "res://tests/hint_regressions.gd"], "HINT REGRESSIONS OK"))
     suites.append(("cosmos", ["--script", "res://tests/cosmos_regressions.gd"], "COSMOS REGRESSIONS OK"))
     suites.append(("mouth", ["--script", "res://tests/opening_mouth_regressions.gd"], "MOUTH REGRESSIONS OK"))

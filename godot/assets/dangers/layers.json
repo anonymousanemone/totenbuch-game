@@ -10,10 +10,10 @@
    "folder": "crocs31",
    "asset": "c31d.png",
    "rect": {
-    "x": 5870,
-    "y": 406,
-    "w": 568,
-    "h": 122
+	"x": 5870,
+	"y": 406,
+	"w": 568,
+	"h": 122
    },
    "static": false
   },
@@ -23,10 +23,10 @@
    "folder": "crocs31",
    "asset": "c31c.png",
    "rect": {
-    "x": 5859,
-    "y": 265,
-    "w": 563,
-    "h": 150
+	"x": 5859,
+	"y": 265,
+	"w": 563,
+	"h": 150
    },
    "static": false
   },
@@ -36,10 +36,10 @@
    "folder": "crocs31",
    "asset": "c31b.png",
    "rect": {
-    "x": 5204,
-    "y": 390,
-    "w": 631,
-    "h": 138
+	"x": 5204,
+	"y": 390,
+	"w": 631,
+	"h": 138
    },
    "static": false
   },
@@ -49,10 +49,10 @@
    "folder": "crocs31",
    "asset": "c31a.png",
    "rect": {
-    "x": 5204,
-    "y": 228,
-    "w": 630,
-    "h": 139
+	"x": 5204,
+	"y": 228,
+	"w": 630,
+	"h": 139
    },
    "static": false
   },
@@ -62,10 +62,10 @@
    "folder": "crocs31",
    "asset": "spear31.png",
    "rect": {
-    "x": 6417,
-    "y": 202,
-    "w": 221,
-    "h": 326
+	"x": 6417,
+	"y": 202,
+	"w": 221,
+	"h": 326
    },
    "static": false
   },
@@ -75,10 +75,10 @@
    "folder": "crocs31",
    "asset": "heka_e31_hekat.png",
    "rect": {
-    "x": 6036,
-    "y": 53,
-    "w": 154,
-    "h": 107
+	"x": 6036,
+	"y": 53,
+	"w": 154,
+	"h": 107
    },
    "static": false
   },
@@ -88,10 +88,10 @@
    "folder": "crocs32",
    "asset": "c32d.png",
    "rect": {
-    "x": 4360,
-    "y": 443,
-    "w": 567,
-    "h": 88
+	"x": 4360,
+	"y": 443,
+	"w": 567,
+	"h": 88
    },
    "static": false
   },
@@ -101,10 +101,10 @@
    "folder": "crocs32",
    "asset": "c32c.png",
    "rect": {
-    "x": 4380,
-    "y": 301,
-    "w": 530,
-    "h": 122
+	"x": 4380,
+	"y": 301,
+	"w": 530,
+	"h": 122
    },
    "static": false
   },
@@ -114,10 +114,10 @@
    "folder": "crocs32",
    "asset": "c32b.png",
    "rect": {
-    "x": 3942,
-    "y": 421,
-    "w": 503,
-    "h": 108
+	"x": 3942,
+	"y": 421,
+	"w": 503,
+	"h": 108
    },
    "static": false
   },
@@ -127,10 +127,10 @@
    "folder": "crocs32",
    "asset": "c32a.png",
    "rect": {
-    "x": 3945,
-    "y": 259,
-    "w": 479,
-    "h": 115
+	"x": 3945,
+	"y": 259,
+	"w": 479,
+	"h": 115
    },
    "static": false
   },
@@ -140,10 +140,10 @@
    "folder": "crocs32",
    "asset": "spear32.png",
    "rect": {
-    "x": 4893,
-    "y": 195,
-    "w": 222,
-    "h": 336
+	"x": 4893,
+	"y": 195,
+	"w": 222,
+	"h": 336
    },
    "static": false
   },
@@ -153,10 +153,10 @@
    "folder": "crocs32",
    "asset": "heka_e32_hekat.png",
    "rect": {
-    "x": 4412,
-    "y": 59,
-    "w": 186,
-    "h": 105
+	"x": 4412,
+	"y": 59,
+	"w": 186,
+	"h": 105
    },
    "static": false
   },
@@ -166,10 +166,10 @@
    "folder": "snake33",
    "asset": "snake33.png",
    "rect": {
-    "x": 3673,
-    "y": 259,
-    "w": 159,
-    "h": 267
+	"x": 3673,
+	"y": 259,
+	"w": 159,
+	"h": 267
    },
    "static": false
   },
@@ -179,10 +179,10 @@
    "folder": "snake33",
    "asset": "spear33.png",
    "rect": {
-    "x": 3748,
-    "y": 187,
-    "w": 182,
-    "h": 342
+	"x": 3748,
+	"y": 187,
+	"w": 182,
+	"h": 342
    },
    "static": false
   },
@@ -192,10 +192,10 @@
    "folder": "snake35",
    "asset": "snake35.png",
    "rect": {
-    "x": 3306,
-    "y": 465,
-    "w": 205,
-    "h": 65
+	"x": 3306,
+	"y": 465,
+	"w": 205,
+	"h": 65
    },
    "static": false
   },
@@ -205,10 +205,10 @@
    "folder": "snake35",
    "asset": "spear35.png",
    "rect": {
-    "x": 3429,
-    "y": 188,
-    "w": 204,
-    "h": 341
+	"x": 3429,
+	"y": 188,
+	"w": 204,
+	"h": 341
    },
    "static": false
   },
@@ -218,10 +218,10 @@
    "folder": "roach36",
    "asset": "beetle36.png",
    "rect": {
-    "x": 3065,
-    "y": 459,
-    "w": 100,
-    "h": 57
+	"x": 3065,
+	"y": 459,
+	"w": 100,
+	"h": 57
    },
    "static": false
   },
@@ -231,10 +231,10 @@
    "folder": "roach36",
    "asset": "spear36.png",
    "rect": {
-    "x": 3133,
-    "y": 174,
-    "w": 142,
-    "h": 355
+	"x": 3133,
+	"y": 174,
+	"w": 142,
+	"h": 355
    },
    "static": false
   },
@@ -244,10 +244,10 @@
    "folder": "snake37",
    "asset": "snake37.png",
    "rect": {
-    "x": 2833,
-    "y": 458,
-    "w": 105,
-    "h": 70
+	"x": 2833,
+	"y": 458,
+	"w": 105,
+	"h": 70
    },
    "static": false
   },
@@ -257,10 +257,10 @@
    "folder": "snake37",
    "asset": "spear37.png",
    "rect": {
-    "x": 2890,
-    "y": 200,
-    "w": 132,
-    "h": 328
+	"x": 2890,
+	"y": 200,
+	"w": 132,
+	"h": 328
    },
    "static": false
   },
@@ -270,10 +270,10 @@
    "folder": "snake37",
    "asset": "glyph37_right.png",
    "rect": {
-    "x": 2842,
-    "y": 57,
-    "w": 33,
-    "h": 72
+	"x": 2842,
+	"y": 57,
+	"w": 33,
+	"h": 72
    },
    "static": false
   },
@@ -283,10 +283,10 @@
    "folder": "snake37",
    "asset": "glyph37_left.png",
    "rect": {
-    "x": 2814,
-    "y": 58,
-    "w": 36,
-    "h": 74
+	"x": 2814,
+	"y": 58,
+	"w": 36,
+	"h": 74
    },
    "static": false
   },
@@ -296,10 +296,10 @@
    "folder": "breath38",
    "asset": "sail38.png",
    "rect": {
-    "x": 2576,
-    "y": 325,
-    "w": 61,
-    "h": 49
+	"x": 2576,
+	"y": 325,
+	"w": 61,
+	"h": 49
    },
    "static": false
   },
@@ -309,10 +309,10 @@
    "folder": "breath38",
    "asset": "ankh38.png",
    "rect": {
-    "x": 2577,
-    "y": 256,
-    "w": 32,
-    "h": 67
+	"x": 2577,
+	"y": 256,
+	"w": 32,
+	"h": 67
    },
    "static": false
   },
@@ -322,10 +322,10 @@
    "folder": "breath38",
    "asset": "figures/layer_1111.png",
    "rect": {
-    "x": 2322,
-    "y": 49,
-    "w": 457,
-    "h": 479
+	"x": 2322,
+	"y": 49,
+	"w": 457,
+	"h": 479
    },
    "static": true
   },
@@ -335,10 +335,10 @@
    "folder": "snake39",
    "asset": "apep.png",
    "rect": {
-    "x": 1569,
-    "y": 486,
-    "w": 493,
-    "h": 41
+	"x": 1569,
+	"y": 486,
+	"w": 493,
+	"h": 41
    },
    "static": false
   },
@@ -348,10 +348,10 @@
    "folder": "snake39",
    "asset": "spear39.png",
    "rect": {
-    "x": 2023,
-    "y": 187,
-    "w": 228,
-    "h": 340
+	"x": 2023,
+	"y": 187,
+	"w": 228,
+	"h": 340
    },
    "static": false
   },
@@ -361,10 +361,10 @@
    "folder": "snakeass40",
    "asset": "snake40.png",
    "rect": {
-    "x": 1075,
-    "y": 376,
-    "w": 116,
-    "h": 91
+	"x": 1075,
+	"y": 376,
+	"w": 116,
+	"h": 91
    },
    "static": false
   },
@@ -374,10 +374,10 @@
    "folder": "snakeass40",
    "asset": "spear40.png",
    "rect": {
-    "x": 1161,
-    "y": 180,
-    "w": 276,
-    "h": 352
+	"x": 1161,
+	"y": 180,
+	"w": 276,
+	"h": 352
    },
    "static": false
   },
@@ -387,10 +387,10 @@
    "folder": "snakeass40",
    "asset": "donkey40.png",
    "rect": {
-    "x": 888,
-    "y": 311,
-    "w": 347,
-    "h": 221
+	"x": 888,
+	"y": 311,
+	"w": 347,
+	"h": 221
    },
    "static": false
   },
@@ -400,10 +400,10 @@
    "folder": "snakeass40",
    "asset": "tail40.png",
    "rect": {
-    "x": 1226,
-    "y": 526,
-    "w": 49,
-    "h": 31
+	"x": 1226,
+	"y": 526,
+	"w": 49,
+	"h": 31
    },
    "static": false
   },
@@ -413,10 +413,10 @@
    "folder": "snake41",
    "asset": "snake41.png",
    "rect": {
-    "x": 181,
-    "y": 365,
-    "w": 139,
-    "h": 116
+	"x": 181,
+	"y": 365,
+	"w": 139,
+	"h": 116
    },
    "static": false
   },
@@ -426,10 +426,10 @@
    "folder": "snake41",
    "asset": "spear41.png",
    "rect": {
-    "x": 288,
-    "y": 192,
-    "w": 205,
-    "h": 339
+	"x": 288,
+	"y": 192,
+	"w": 205,
+	"h": 339
    },
    "static": false
   },
@@ -439,10 +439,10 @@
    "folder": "sheaf41",
    "asset": "sheaf41_stalks.png",
    "rect": {
-    "x": 228,
-    "y": 428,
-    "w": 60,
-    "h": 102
+	"x": 228,
+	"y": 428,
+	"w": 60,
+	"h": 102
    },
    "static": false
   },
@@ -452,10 +452,10 @@
    "folder": "sheaf41",
    "asset": "sheaf41_band4.png",
    "rect": {
-    "x": 202,
-    "y": 473,
-    "w": 99,
-    "h": 11
+	"x": 202,
+	"y": 473,
+	"w": 99,
+	"h": 11
    },
    "static": false
   },
@@ -465,10 +465,10 @@
    "folder": "sheaf41",
    "asset": "sheaf41_band3.png",
    "rect": {
-    "x": 199,
-    "y": 459,
-    "w": 108,
-    "h": 13
+	"x": 199,
+	"y": 459,
+	"w": 108,
+	"h": 13
    },
    "static": false
   },
@@ -478,10 +478,10 @@
    "folder": "sheaf41",
    "asset": "sheaf41_band2.png",
    "rect": {
-    "x": 196,
-    "y": 442,
-    "w": 117,
-    "h": 13
+	"x": 196,
+	"y": 442,
+	"w": 117,
+	"h": 13
    },
    "static": false
   },
@@ -491,10 +491,10 @@
    "folder": "sheaf41",
    "asset": "sheaf41_band1.png",
    "rect": {
-    "x": 193,
-    "y": 428,
-    "w": 122,
-    "h": 12
+	"x": 193,
+	"y": 428,
+	"w": 122,
+	"h": 12
    },
    "static": false
   }

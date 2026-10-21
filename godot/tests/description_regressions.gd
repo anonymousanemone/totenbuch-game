@@ -138,7 +138,7 @@ func _run() -> void:
 	c.record("inscriptions_vii")
 	c.record("inscriptions_viii")
 	expect(c.journal.size() == 2, "Cosmos inscriptions with identical display names journal independently by ID")
-	c.record("god_with_emblem")
+	c.record("spirit_with_emblem")
 	expect(c.hud._text.contains("could not be identified"), "uncertain source identifications remain explicit in the description")
 	c.free()
 	print("DESCRIPTION REGRESSIONS ", "OK" if failures.is_empty() else "FAILED")

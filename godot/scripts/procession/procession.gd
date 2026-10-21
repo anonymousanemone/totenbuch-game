@@ -229,7 +229,7 @@ func _ready() -> void:
 	bulls.said.connect(say_game)
 	bulls.finished.connect(_check)
 	mouth = $pieces/opening_mouth
-	mouth.setup(level, _authored)
+	mouth.setup(level, _authored, avatar)
 	mouth.said.connect(say_game)
 	mouth.changed.connect(func():
 		avatar.keys = not mouth.active

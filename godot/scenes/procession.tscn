@@ -239,6 +239,7 @@ offset_right = 17432.0
 offset_bottom = 1864.0
 mouse_filter = 2
 color = Color(0.906, 0.839, 0.682, 1)
+metadata/_edit_lock_ = true
 
 [node name="Strip" type="Sprite2D" parent="." unique_id=1255206714]
 texture = ExtResource("2_strip")
@@ -1322,6 +1323,10 @@ metadata/piece_id = "kneeler"
 [node name="Avatar" type="Node2D" parent="." unique_id=1309539480]
 position = Vector2(14813, 526)
 script = ExtResource("3_avatar")
+
+[node name="CarryAdze" type="Marker2D" parent="Avatar"]
+position = Vector2(-28, -289.9999)
+rotation = 0.5305801
 
 [node name="Sprite" type="Sprite2D" parent="Avatar" unique_id=1460035153]
 texture = ExtResource("4_avatar_tex")

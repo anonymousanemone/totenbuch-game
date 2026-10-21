@@ -21,7 +21,7 @@
    "layer_id": "119",
    "name": "mourners",
    "folder": "pre-barque",
-   "asset": "figures/layer_119.png",
+   "asset": "figures/mourners.png",
    "rect": {
     "x": 14396,
     "y": 203,
@@ -34,7 +34,7 @@
    "layer_id": "121",
    "name": "mourning women",
    "folder": "pre-barque",
-   "asset": "figures/layer_121.png",
+   "asset": "figures/mourning_women.png",
    "rect": {
     "x": 13697,
     "y": 218,
@@ -47,7 +47,7 @@
    "layer_id": "127",
    "name": "canopy frame",
    "folder": "pre-barque",
-   "asset": "figures/layer_127.png",
+   "asset": "figures/canopy_frame.png",
    "rect": {
     "x": 13527,
     "y": 236,
@@ -60,7 +60,7 @@
    "layer_id": "128",
    "name": "man hauling the canopy",
    "folder": "pre-barque",
-   "asset": "figures/layer_128.png",
+   "asset": "figures/canopy_hauler.png",
    "rect": {
     "x": 13297,
     "y": 245,
@@ -73,7 +73,7 @@
    "layer_id": "129",
    "name": "anubis on a chest",
    "folder": "pre-barque",
-   "asset": "figures/layer_129.png",
+   "asset": "figures/anubis_on_chest.png",
    "rect": {
     "x": 13032,
     "y": 256,
@@ -86,7 +86,7 @@
    "layer_id": "130",
    "name": "man hauling anubis",
    "folder": "pre-barque",
-   "asset": "figures/layer_130.png",
+   "asset": "figures/anubis_hauler.png",
    "rect": {
     "x": 12807,
     "y": 254,
@@ -268,7 +268,7 @@
    "layer_id": "131",
    "name": "standard-bearers",
    "folder": "standards",
-   "asset": "figures/layer_131.png",
+   "asset": "figures/standard_bearers.png",
    "rect": {
     "x": 9006,
     "y": 246,
@@ -281,7 +281,7 @@
    "layer_id": "140",
    "name": "walking woman 1",
    "folder": "front procession",
-   "asset": "figures/layer_140.png",
+   "asset": "figures/two_women.png",
    "rect": {
     "x": 8753,
     "y": 243,
@@ -294,7 +294,7 @@
    "layer_id": "142",
    "name": "yoke-bearer",
    "folder": "front procession",
-   "asset": "figures/layer_142.png",
+   "asset": "figures/yoke_bearer.png",
    "rect": {
     "x": 8484,
     "y": 244,
@@ -307,7 +307,7 @@
    "layer_id": "143",
    "name": "canopy-bearer",
    "folder": "front procession",
-   "asset": "figures/layer_143.png",
+   "asset": "figures/canopy_bearer.png",
    "rect": {
     "x": 8229,
     "y": 199,
@@ -359,7 +359,7 @@
    "layer_id": "163",
    "name": "plumes_wrong",
    "folder": "bulls",
-   "asset": "figures/layer_163.png",
+   "asset": "figures/wrong_plumes.png",
    "rect": {
     "x": 6886,
     "y": 218,
@@ -372,7 +372,7 @@
    "layer_id": "146",
    "name": "sacrifice",
    "folder": "bulls",
-   "asset": "figures/layer_146.png",
+   "asset": "figures/sacrifice.png",
    "rect": {
     "x": 6660,
     "y": 270,
@@ -385,7 +385,7 @@
    "layer_id": "47",
    "name": "trees",
    "folder": "offerings1",
-   "asset": "figures/layer_47.png",
+   "asset": "figures/trees.png",
    "rect": {
     "x": 4834,
     "y": 310,
@@ -398,7 +398,7 @@
    "layer_id": "149",
    "name": "man with a water jar",
    "folder": "offerings1",
-   "asset": "figures/layer_149.png",
+   "asset": "figures/water_jar_bearer.png",
    "rect": {
     "x": 4854,
     "y": 202,
@@ -411,7 +411,7 @@
    "layer_id": "148",
    "name": "lector priest",
    "folder": "offerings1",
-   "asset": "figures/layer_148.png",
+   "asset": "figures/lector_priest.png",
    "rect": {
     "x": 6107,
     "y": 233,
@@ -424,7 +424,7 @@
    "layer_id": "77",
    "name": "goose man",
    "folder": "offerings1",
-   "asset": "figures/layer_77.png",
+   "asset": "figures/goose_bearer.png",
    "rect": {
     "x": 6412,
     "y": 242,
@@ -463,7 +463,7 @@
    "layer_id": "48",
    "name": "table",
    "folder": "table",
-   "asset": "figures/layer_48.png",
+   "asset": "figures/offering_table.png",
    "rect": {
     "x": 5173,
     "y": 351,
@@ -801,7 +801,7 @@
    "layer_id": "153",
    "name": "two obelisks",
    "folder": "offerings2",
-   "asset": "figures/layer_153.png",
+   "asset": "figures/obelisks.png",
    "rect": {
     "x": 3613,
     "y": 209,
@@ -814,7 +814,7 @@
    "layer_id": "151",
    "name": "priest with arm-censer",
    "folder": "offerings2",
-   "asset": "figures/layer_151.png",
+   "asset": "figures/incense_priest.png",
    "rect": {
     "x": 4108,
     "y": 247,
@@ -827,7 +827,7 @@
    "layer_id": "169",
    "name": "offering table",
    "folder": "offerings2",
-   "asset": "figures/layer_169.png",
+   "asset": "figures/offering_heap.png",
    "rect": {
     "x": 2487,
     "y": 244,
@@ -840,7 +840,7 @@
    "layer_id": "150",
    "name": "lector with plumes",
    "folder": "offerings2",
-   "asset": "figures/layer_150.png",
+   "asset": "figures/plumed_lector.png",
    "rect": {
     "x": 4522,
     "y": 190,
@@ -892,7 +892,7 @@
    "layer_id": "152",
    "name": "offering stand",
    "folder": "small stand",
-   "asset": "figures/layer_152.png",
+   "asset": "figures/adze_table.png",
    "rect": {
     "x": 3948,
     "y": 392,
@@ -918,7 +918,7 @@
    "layer_id": "115",
    "name": "man",
    "folder": "water game",
-   "asset": "figures/layer_115.png",
+   "asset": "figures/water_priest_cutout.png",
    "rect": {
     "x": 2221,
     "y": 199,
@@ -944,7 +944,7 @@
    "layer_id": "154",
    "name": "kneeling woman",
    "folder": "opening of mouth",
-   "asset": "figures/layer_154.png",
+   "asset": "figures/kneeling_woman.png",
    "rect": {
     "x": 2122,
     "y": 323,
@@ -996,7 +996,7 @@
    "layer_id": "160",
    "name": "ra enthroned",
    "folder": "tombs and beyond",
-   "asset": "figures/layer_160.png",
+   "asset": "figures/enthroned_sun_god.png",
    "rect": {
     "x": 117,
     "y": 189,
@@ -1022,7 +1022,7 @@
    "layer_id": "158",
    "name": "tomb chapel",
    "folder": "tombs and beyond",
-   "asset": "figures/layer_158.png",
+   "asset": "figures/tomb_chapel.png",
    "rect": {
     "x": 1119,
     "y": 197,
@@ -1035,7 +1035,7 @@
    "layer_id": "157",
    "name": "stela",
    "folder": "tombs and beyond",
-   "asset": "figures/layer_157.png",
+   "asset": "figures/stela.png",
    "rect": {
     "x": 1499,
     "y": 191,

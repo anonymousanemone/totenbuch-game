@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dv6d3b2rfau7"
-path="res://.godot/imported/layer_129.png-6e74ff52ec163644de361ff1c04e019a.ctex"
+uid="uid://c7m8evi0ihxi4"
+path="res://.godot/imported/two_women.png-20d0c3cd051d4e9f2a4d65c005a22dac.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/procession/figures/layer_129.png"
-dest_files=["res://.godot/imported/layer_129.png-6e74ff52ec163644de361ff1c04e019a.ctex"]
+source_file="res://assets/procession/figures/two_women.png"
+dest_files=["res://.godot/imported/two_women.png-20d0c3cd051d4e9f2a4d65c005a22dac.ctex"]
 
 [params]
 

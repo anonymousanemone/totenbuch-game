@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ci6v86f7xa3ft"
-path="res://.godot/imported/layer_47.png-6b2248cb10d18a521a19f943e52f655e.ctex"
+uid="uid://bwml3bvcprrfq"
+path="res://.godot/imported/stela.png-f1052d191ababe0c4d57e0d1aef1faeb.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/procession/figures/layer_47.png"
-dest_files=["res://.godot/imported/layer_47.png-6b2248cb10d18a521a19f943e52f655e.ctex"]
+source_file="res://assets/procession/figures/stela.png"
+dest_files=["res://.godot/imported/stela.png-f1052d191ababe0c4d57e0d1aef1faeb.ctex"]
 
 [params]
 

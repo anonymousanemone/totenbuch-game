@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dk8felh8430lt"
-path="res://.godot/imported/layer_121.png-8513709ee8b54d9dda9f466a10293d15.ctex"
+uid="uid://c81xq58meuwiq"
+path="res://.godot/imported/wrong_plumes.png-ea39d9803b3b7b87cd4beadb740b7ca6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/procession/figures/layer_121.png"
-dest_files=["res://.godot/imported/layer_121.png-8513709ee8b54d9dda9f466a10293d15.ctex"]
+source_file="res://assets/procession/figures/wrong_plumes.png"
+dest_files=["res://.godot/imported/wrong_plumes.png-ea39d9803b3b7b87cd4beadb740b7ca6.ctex"]
 
 [params]
 

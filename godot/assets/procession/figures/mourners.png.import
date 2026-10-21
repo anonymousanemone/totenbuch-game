@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dtxcpqcieirwf"
-path="res://.godot/imported/layer_142.png-04d6c3861a57ade6baaabfefbc093d2e.ctex"
+uid="uid://cehyd07nf00qv"
+path="res://.godot/imported/mourners.png-6e8a056f22b53ea583f8658e569a6399.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/procession/figures/layer_142.png"
-dest_files=["res://.godot/imported/layer_142.png-04d6c3861a57ade6baaabfefbc093d2e.ctex"]
+source_file="res://assets/procession/figures/mourners.png"
+dest_files=["res://.godot/imported/mourners.png-6e8a056f22b53ea583f8658e569a6399.ctex"]
 
 [params]
 

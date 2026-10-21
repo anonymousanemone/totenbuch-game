@@ -1,14 +1,13 @@
 {
   "messages": {
 	"dangers.complete": "Walk left to the end of the scroll.",
-	"dangers.end": "Spell 42 is a list, not a picture: each part of the body is given to a god.",
 	"dangers.defeated": "One bite too many: the spear-bearer crumbles to dust.",
 	"dangers.retry": "The fight is lost. Click the creature to take up the spear again.",
 	"dangers.left_fight": "You step back out of the vignette. Click the creature to take it up again.",
 	"dangers.click_to_fight": "Click the creature to take up the spear.",
-	"dangers.heka_controls": "Hold [shift] while striking to fight off the red crocodiles. Don't use heka on the regular crocodiles, or they'll make off with it!",
-	"dangers.start": "The road to the hall of judgment begins here. Walk left, toward the crocodiles.",
-	"dangers.blocked": "The way on opens only once every danger up to the breath of life is overcome. Still to do: spell %s.",
+	"dangers.heka_controls": "Hold [shift] to use heka while striking to fight off the red crocodiles. Don't use heka on the regular crocodiles, or they'll make off with it!",
+	"dangers.start": "",
+	"dangers.blocked": "The way on opens only once every danger up to the breath of life is overcome.",
 	"dangers.unfinished": "Spell 42 waits until every danger behind you is overcome. Still to do: spell %s.",
 	"dangers.finished": "The road is clear. You carry the breath of life.",
 	"dangers.life_clue": "you are living but never free. perhaps that wasn't what you needed.",

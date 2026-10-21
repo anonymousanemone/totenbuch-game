@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bwnt6e0iw6dae"
-path="res://.godot/imported/layer_149.png-19ebeafe661992e6f9872dc75addeade.ctex"
+uid="uid://cagsa8n3i38hy"
+path="res://.godot/imported/tomb_chapel.png-320b7b02193792bcd4cde4eec7bd3af9.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/procession/figures/layer_149.png"
-dest_files=["res://.godot/imported/layer_149.png-19ebeafe661992e6f9872dc75addeade.ctex"]
+source_file="res://assets/procession/figures/tomb_chapel.png"
+dest_files=["res://.godot/imported/tomb_chapel.png-320b7b02193792bcd4cde4eec7bd3af9.ctex"]
 
 [params]
 

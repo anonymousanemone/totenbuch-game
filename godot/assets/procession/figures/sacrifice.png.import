@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c6prd4yhex0v5"
-path="res://.godot/imported/layer_169.png-18c1614c09f2308d2601db109e8e666e.ctex"
+uid="uid://llrfm2tnive6"
+path="res://.godot/imported/sacrifice.png-59a01ac7022ec0128fa0351c20ac0f96.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/procession/figures/layer_169.png"
-dest_files=["res://.godot/imported/layer_169.png-18c1614c09f2308d2601db109e8e666e.ctex"]
+source_file="res://assets/procession/figures/sacrifice.png"
+dest_files=["res://.godot/imported/sacrifice.png-59a01ac7022ec0128fa0351c20ac0f96.ctex"]
 
 [params]
 

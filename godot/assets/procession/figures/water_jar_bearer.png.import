@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://utk8so6kj8fd"
-path="res://.godot/imported/layer_77.png-133644e37e216d998022dbb0e3842e18.ctex"
+uid="uid://bwnt6e0iw6dae"
+path="res://.godot/imported/water_jar_bearer.png-b41b903025952766ef5a575f053668ab.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/procession/figures/layer_77.png"
-dest_files=["res://.godot/imported/layer_77.png-133644e37e216d998022dbb0e3842e18.ctex"]
+source_file="res://assets/procession/figures/water_jar_bearer.png"
+dest_files=["res://.godot/imported/water_jar_bearer.png-b41b903025952766ef5a575f053668ab.ctex"]
 
 [params]
 

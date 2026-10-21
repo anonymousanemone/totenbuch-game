@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dsmibta0mkwc5"
-path="res://.godot/imported/layer_148.png-f2fae415100c132c8037c2ca988e9477.ctex"
+uid="uid://6s66h2j0p5rp"
+path="res://.godot/imported/breath_giver_cutout.png-61526be72c34fc6f03b0a0811acc47bc.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/procession/figures/layer_148.png"
-dest_files=["res://.godot/imported/layer_148.png-f2fae415100c132c8037c2ca988e9477.ctex"]
+source_file="res://assets/dangers/figures/breath_giver_cutout.png"
+dest_files=["res://.godot/imported/breath_giver_cutout.png-61526be72c34fc6f03b0a0811acc47bc.ctex"]
 
 [params]
 

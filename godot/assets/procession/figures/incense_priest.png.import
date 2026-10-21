@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://llrfm2tnive6"
-path="res://.godot/imported/layer_146.png-d851eadda6c19707dff95efbd1adf4ef.ctex"
+uid="uid://cq3v1bbpgl2qo"
+path="res://.godot/imported/incense_priest.png-b376bc2cf1f4177623a22e0b2d8237af.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/procession/figures/layer_146.png"
-dest_files=["res://.godot/imported/layer_146.png-d851eadda6c19707dff95efbd1adf4ef.ctex"]
+source_file="res://assets/procession/figures/incense_priest.png"
+dest_files=["res://.godot/imported/incense_priest.png-b376bc2cf1f4177623a22e0b2d8237af.ctex"]
 
 [params]
 

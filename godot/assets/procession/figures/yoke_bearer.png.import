@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://isgnbvw6sr36"
-path="res://.godot/imported/layer_130.png-f71982f876509815ab13107be78a2944.ctex"
+uid="uid://dtxcpqcieirwf"
+path="res://.godot/imported/yoke_bearer.png-aa7d576fcb857d1510a11c62390c4705.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/procession/figures/layer_130.png"
-dest_files=["res://.godot/imported/layer_130.png-f71982f876509815ab13107be78a2944.ctex"]
+source_file="res://assets/procession/figures/yoke_bearer.png"
+dest_files=["res://.godot/imported/yoke_bearer.png-aa7d576fcb857d1510a11c62390c4705.ctex"]
 
 [params]
 

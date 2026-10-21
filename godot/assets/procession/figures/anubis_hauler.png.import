@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://v2vqwk83he55"
-path="res://.godot/imported/layer_131.png-aaac6d0cb7466b59aaf048b7c61e36b5.ctex"
+uid="uid://isgnbvw6sr36"
+path="res://.godot/imported/anubis_hauler.png-484576a5c545f59e12e51792d61f62c1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/procession/figures/layer_131.png"
-dest_files=["res://.godot/imported/layer_131.png-aaac6d0cb7466b59aaf048b7c61e36b5.ctex"]
+source_file="res://assets/procession/figures/anubis_hauler.png"
+dest_files=["res://.godot/imported/anubis_hauler.png-484576a5c545f59e12e51792d61f62c1.ctex"]
 
 [params]
 

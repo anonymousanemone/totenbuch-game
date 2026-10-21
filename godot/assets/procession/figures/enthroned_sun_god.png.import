@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://rxtema4m1v36"
-path="res://.godot/imported/layer_154.png-b4259bd65df7bfa5b5221722125f0e1c.ctex"
+uid="uid://cgr3yi4syfa0u"
+path="res://.godot/imported/enthroned_sun_god.png-833fe79568ae3c7043cd864732933a88.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/procession/figures/layer_154.png"
-dest_files=["res://.godot/imported/layer_154.png-b4259bd65df7bfa5b5221722125f0e1c.ctex"]
+source_file="res://assets/procession/figures/enthroned_sun_god.png"
+dest_files=["res://.godot/imported/enthroned_sun_god.png-833fe79568ae3c7043cd864732933a88.ctex"]
 
 [params]
 

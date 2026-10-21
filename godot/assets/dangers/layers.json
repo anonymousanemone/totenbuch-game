@@ -320,7 +320,7 @@
    "layer_id": "1111",
    "name": "giver",
    "folder": "breath38",
-   "asset": "figures/layer_1111.png",
+   "asset": "figures/breath_giver_cutout.png",
    "rect": {
 	"x": 2322,
 	"y": 49,

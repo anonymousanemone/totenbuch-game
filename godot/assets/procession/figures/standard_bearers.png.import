@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cehyd07nf00qv"
-path="res://.godot/imported/layer_119.png-5953d5a5c277a9eaea220c32dc09a9bf.ctex"
+uid="uid://v2vqwk83he55"
+path="res://.godot/imported/standard_bearers.png-66f22f22e1fbbad857e2dbd0c8a2f5c8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/procession/figures/layer_119.png"
-dest_files=["res://.godot/imported/layer_119.png-5953d5a5c277a9eaea220c32dc09a9bf.ctex"]
+source_file="res://assets/procession/figures/standard_bearers.png"
+dest_files=["res://.godot/imported/standard_bearers.png-66f22f22e1fbbad857e2dbd0c8a2f5c8.ctex"]
 
 [params]
 

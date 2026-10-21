@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cq3v1bbpgl2qo"
-path="res://.godot/imported/layer_151.png-693aa4e045fe32dd926bb06b94e5f433.ctex"
+uid="uid://dsmibta0mkwc5"
+path="res://.godot/imported/lector_priest.png-1d27c481c38fe70ace72c3dad28282bb.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/procession/figures/layer_151.png"
-dest_files=["res://.godot/imported/layer_151.png-693aa4e045fe32dd926bb06b94e5f433.ctex"]
+source_file="res://assets/procession/figures/lector_priest.png"
+dest_files=["res://.godot/imported/lector_priest.png-1d27c481c38fe70ace72c3dad28282bb.ctex"]
 
 [params]
 

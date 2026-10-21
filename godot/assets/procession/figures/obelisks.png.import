@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c81xq58meuwiq"
-path="res://.godot/imported/layer_163.png-68605ef7829031fd2be05cc29dc3d9a9.ctex"
+uid="uid://but5x60si86uh"
+path="res://.godot/imported/obelisks.png-7cc7afa7424a7e5e3a1fe8f8fc8a39b2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/procession/figures/layer_163.png"
-dest_files=["res://.godot/imported/layer_163.png-68605ef7829031fd2be05cc29dc3d9a9.ctex"]
+source_file="res://assets/procession/figures/obelisks.png"
+dest_files=["res://.godot/imported/obelisks.png-7cc7afa7424a7e5e3a1fe8f8fc8a39b2.ctex"]
 
 [params]
 

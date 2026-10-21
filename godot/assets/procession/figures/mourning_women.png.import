@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c7m8evi0ihxi4"
-path="res://.godot/imported/layer_140.png-9c1909998185b6cf47d66710d63c691a.ctex"
+uid="uid://dk8felh8430lt"
+path="res://.godot/imported/mourning_women.png-6dfde6db3a8e396372ec94b3413c6869.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/procession/figures/layer_140.png"
-dest_files=["res://.godot/imported/layer_140.png-9c1909998185b6cf47d66710d63c691a.ctex"]
+source_file="res://assets/procession/figures/mourning_women.png"
+dest_files=["res://.godot/imported/mourning_women.png-6dfde6db3a8e396372ec94b3413c6869.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cgr3yi4syfa0u"
-path="res://.godot/imported/layer_160.png-f826904d2e2180df3feb789265809abc.ctex"
+uid="uid://rxtema4m1v36"
+path="res://.godot/imported/kneeling_woman.png-03610826356197a315cb9204846a5f41.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/procession/figures/layer_160.png"
-dest_files=["res://.godot/imported/layer_160.png-f826904d2e2180df3feb789265809abc.ctex"]
+source_file="res://assets/procession/figures/kneeling_woman.png"
+dest_files=["res://.godot/imported/kneeling_woman.png-03610826356197a315cb9204846a5f41.ctex"]
 
 [params]
 

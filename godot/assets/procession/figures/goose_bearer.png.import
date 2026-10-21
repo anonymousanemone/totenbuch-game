@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://db13uvphiv2qr"
-path="res://.godot/imported/layer_115.png-8c04972f4aef1dbf2de80b679867f4b9.ctex"
+uid="uid://utk8so6kj8fd"
+path="res://.godot/imported/goose_bearer.png-58562b24f2d012f1b1c00fd15b2a0195.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/procession/figures/layer_115.png"
-dest_files=["res://.godot/imported/layer_115.png-8c04972f4aef1dbf2de80b679867f4b9.ctex"]
+source_file="res://assets/procession/figures/goose_bearer.png"
+dest_files=["res://.godot/imported/goose_bearer.png-58562b24f2d012f1b1c00fd15b2a0195.ctex"]
 
 [params]
 

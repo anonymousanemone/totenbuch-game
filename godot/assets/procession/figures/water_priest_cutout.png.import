@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dmbmlanvr3ov7"
-path="res://.godot/imported/layer_127.png-c4db99c349a2a43c1add77a935c5f0c9.ctex"
+uid="uid://db13uvphiv2qr"
+path="res://.godot/imported/water_priest_cutout.png-4447e58c207f2d3ac5882dac57c1717c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/procession/figures/layer_127.png"
-dest_files=["res://.godot/imported/layer_127.png-c4db99c349a2a43c1add77a935c5f0c9.ctex"]
+source_file="res://assets/procession/figures/water_priest_cutout.png"
+dest_files=["res://.godot/imported/water_priest_cutout.png-4447e58c207f2d3ac5882dac57c1717c.ctex"]
 
 [params]
 

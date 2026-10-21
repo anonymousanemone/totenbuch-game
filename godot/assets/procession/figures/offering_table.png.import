@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dhcf42pclorn0"
-path="res://.godot/imported/layer_152.png-eb739a3e7bbe626d35fb920644278d65.ctex"
+uid="uid://dkuup2ecfbjib"
+path="res://.godot/imported/offering_table.png-557f29c9122616ffb13c16571c60eec7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/procession/figures/layer_152.png"
-dest_files=["res://.godot/imported/layer_152.png-eb739a3e7bbe626d35fb920644278d65.ctex"]
+source_file="res://assets/procession/figures/offering_table.png"
+dest_files=["res://.godot/imported/offering_table.png-557f29c9122616ffb13c16571c60eec7.ctex"]
 
 [params]
 

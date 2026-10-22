@@ -224,7 +224,7 @@ func _test_dangers_scene_actors() -> void:
 			ink_opacity = maxf(ink_opacity, image.get_pixel(x, y).a)
 	_expect(ink_opacity == 1.0, "Dangers avatar retains fully opaque ink instead of a faded export")
 	var data = JSON.parse_string(FileAccess.get_file_as_string("res://assets/dangers/level.json"))
-	var sheet_data = JSON.parse_string(FileAccess.get_file_as_string("res://assets/dangers/spearers.json"))
+	var sheet_data = JSON.parse_string(FileAccess.get_file_as_string("res://assets/dangers/animation/spearers.json"))
 	var ids := {}
 	var aligned := true
 	for actor in scene.get_node("actors").find_children("*", "Node2D", true, false):

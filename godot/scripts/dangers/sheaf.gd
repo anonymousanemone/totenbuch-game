@@ -23,7 +23,7 @@ func _init(level) -> void:
 # band, it is pinned there. Bitten CROC_HEALTH times, he crumbles.
 const SHEAF_BANDS := ["sheaf41_band1", "sheaf41_band2", "sheaf41_band3", "sheaf41_band4"]   ## top to bottom
 const SHEAF_STALKS := "sheaf41_stalks"
-const LEAN_PATH := "res://assets/dangers/spear41_lean.json"
+const LEAN_PATH := "res://assets/dangers/animation/spear41_lean.json"
 const LEAN_TEX := preload("res://assets/dangers/animation/spear41_lean.png")          ## a row per band: poses, then the spear alone
 const STEPS_TEX := preload("res://assets/dangers/animation/spear41_lean_steps.png")   ## the in-betweens, drawn back, then the spear alone
 const SHEAF_LEAN := 0.12        ## he leans from one band to the next (s)

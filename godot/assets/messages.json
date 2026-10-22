@@ -1,4 +1,5 @@
 {
+  "interaction.pick_up": "You pick up %s.",
   "interaction.already_carrying": "You are already carrying %s.",
   "interaction.put_back": "You put %s back.",
   "interaction.hands_full": "You carry %s. Put it back where you took it to free your hands."

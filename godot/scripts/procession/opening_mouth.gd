@@ -203,7 +203,7 @@ func take_adze() -> void:
 		return
 	phase = Phase.ADZE
 	adze_object.wear(_avatar, _adze_carry_pose)
-	said.emit("Scribe", PUZZLES.text("procession.opening_mouth", "feedback", "adze_taken"))
+	said.emit("Scribe", PUZZLES.message("interaction.pick_up") % "the adze")
 	changed.emit()
 
 

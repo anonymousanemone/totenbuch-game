@@ -33,7 +33,7 @@ var sheaf = SHEAF.new(self)
 const SCROLL_CAMERA := preload("res://scripts/scroll_camera.gd")
 const VIEW_TOP := 36.0   ## the row under the top register's upper rule: the title bar's band takes its place
 const DATA_PATH := "res://assets/dangers/level.json"
-const SHEET_PATH := "res://assets/dangers/spearers.json"   ## the spear-bearers' thrust (tools/spearer_sheet.py)
+const SHEET_PATH := "res://assets/dangers/animation/spearers.json"   ## the spear-bearers' thrust (tools/spearer_sheet.py)
 const FIGURE_MASK := preload("res://scripts/figure_mask.gd")
 const SHEET_TEX := "res://assets/dangers/animation/spearers.png"
 const ASSET := "res://assets/dangers/figures/%s.png"
@@ -677,7 +677,11 @@ func _follow_items() -> void:
 ## `item`: what was taken (its picture goes in the Journal, and `won` may say per item).
 func _solve(e: Dictionary, item := "") -> void:
 	solved[e.id] = true
-	say("Scribe", (_hints.text("dangers." + e.id, "feedback", "success_" + item) if item != "" else _hints.text("dangers." + e.id, "success")))
+	if item != "":
+		var item_name: String = {"ankh38": "the ankh", "sail38": "the breath sign"}[item]
+		say("Scribe", _hints.message("interaction.pick_up") % item_name)
+	else:
+		say("Scribe", _hints.text("dangers." + e.id, "success"))
 	var pic: String = e.foes[0] if e.kind == "crocs" else e.get("foe", item)
 	var tex: Texture2D = load(ASSET % pic)
 	_descriptions.remember(e.id, hud, journal, tex, _descriptions.journal_total(), "settled")

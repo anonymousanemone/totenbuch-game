@@ -3,6 +3,13 @@
 - Only create or save files in `mockups/` when the user explicitly requests it. Put temporary screenshots, previews, and verification artifacts in a temporary directory outside the repository instead.
 - Leave existing files in `mockups/` untouched unless the user requests changes or cleanup.
 
+## Movable objects
+
+- Reuse `godot/scripts/moveable_object.gd` and existing puzzle validation/recovery code; do not duplicate movement logic.
+- Default to press-drag-release, never click-follow. Only carriable objects attach to the avatar on a world click; clicking an attached object reads its description, which remains visible during dragging unless game-state feedback replaces it.
+- Accept only valid placements; otherwise restore the valid attachment/location using the puzzle's recovery rules. Preserve object size and lock final placements against further dragging.
+- Ask before adding exceptions. Existing approved exceptions are the words' click-follow/appearance animation, adze tool controls at 50% scale during carving, and offering-table automatic snapping/physics. Starting carving requires dragging the adze onto the mummy. Calf/jar gestures transform in place and are outside this system.
+
 
 Behavioral guidelines to reduce common LLM coding mistakes. Merge with project-specific instructions as needed.
 

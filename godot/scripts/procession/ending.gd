@@ -182,6 +182,7 @@ func take(nm: String) -> void:
 	objects[nm].wear(_avatar, pose(nm))
 	_follow()
 	changed.emit()
+	said.emit("Scribe", PUZZLES.message("interaction.pick_up") % NAMES[nm])
 
 
 ## Take a piece off you: it follows the pointer.

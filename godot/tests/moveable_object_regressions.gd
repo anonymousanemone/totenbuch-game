@@ -29,12 +29,16 @@ func _run() -> void:
 	var item: MoveableObject = scene.ending.objects.lotus
 	expect(item.base_world_scale.is_equal_approx(Vector2.ONE), "lotus starts at full scale")
 	scene.ending.take("lotus")
+	expect(scene.hud._text == "You pick up the lotus.", "scene-to-avatar collection shows pickup message")
 	var worn_scale := item.sprite.global_scale.abs()
+	scene.hud.say("Scribe", "Existing description.")
 	scene.ending.hold("lotus")
+	expect(scene.hud._text == "Existing description.", "dragging from avatar does not announce pickup")
 	item.move_held(Vector2(500, 120))
 	expect(item.sprite.global_scale.abs().is_equal_approx(worn_scale), "dragging preserves worn lotus size")
 	scene.avatar.position.x += 120
 	scene.ending.unhold()
+	expect(scene.hud._text == "Existing description.", "returning to avatar does not announce pickup")
 	var expected: Transform2D = scene.avatar.carrying_transform() * scene.ending.pose("lotus")
 	expect(item.state == MoveableObject.State.WORN and item.sprite.global_transform.is_equal_approx(expected), "cancel returns to current moving avatar attachment")
 	scene._descriptions.entries.lotus = {"name": "Lotus", "descriptions": {"default": "The lotus description."}}
@@ -119,6 +123,7 @@ func _run() -> void:
 	scene.bulls.press("plumes", scene.bulls._right)
 	expect(scene.bulls.held == "" and plumes.state == MoveableObject.State.PLACED, "placed plumes cannot be dragged again")
 	scene.mouth.take_adze()
+	expect(scene.hud._text == "You pick up the adze.", "adze collection shows pickup message")
 	scene._click_world(scene.mouth.mummy_rect().get_center())
 	expect(not scene.avatar.is_walking() and not scene.mouth.active, "clicking mummy does not approach or start carving")
 	scene._begin_carried(scene.mouth.adze_object, scene.get_global_mouse_position())
@@ -159,6 +164,7 @@ func _run() -> void:
 	dangers.avatar.set_process(false)
 	var encounter: Dictionary = dangers.ENCOUNTERS.filter(func(e): return e.id == "e38")[0]
 	dangers.take(encounter, "ankh38")
+	expect(dangers.hud._text == "You pick up the ankh.", "ankh collection shows pickup message")
 	var sign: MoveableObject = dangers.objects.ankh38
 	sign.hold()
 	sign.move_held(Vector2(40, 40))
@@ -167,6 +173,8 @@ func _run() -> void:
 	expect(sign.state == MoveableObject.State.WORN and sign.sprite.global_transform.is_equal_approx(dangers.avatar.carrying_transform() * dangers._item_poses.ankh38.transform), "Dangers sign returns to current avatar with no destination")
 	dangers.reset()
 	expect(sign.state == MoveableObject.State.WORLD and sign.sprite.transform.is_equal_approx(sign.from_loc_transform), "Dangers reset restores authored source")
+	dangers.take(encounter, "sail38")
+	expect(dangers.hud._text == "You pick up the breath sign.", "breath collection shows pickup message")
 	dangers.free()
 	print("MOVEABLE OBJECT REGRESSIONS ", "OK" if failures.is_empty() else "FAILED")
 	quit(0 if failures.is_empty() else 1)

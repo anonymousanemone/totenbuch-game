@@ -1353,7 +1353,7 @@ func _drawn_image(nm: String) -> Image:
 
 
 func _sheet(nm: String) -> Dictionary:
-	return JSON.parse_string(FileAccess.get_file_as_string("res://assets/procession/%s.json" % SHEETS[nm]))
+	return JSON.parse_string(FileAccess.get_file_as_string("res://assets/procession/animation/%s.json" % SHEETS[nm]))
 
 
 ## Everything is in order: you walk to the adorer's place before Ra and kneel there, and the light

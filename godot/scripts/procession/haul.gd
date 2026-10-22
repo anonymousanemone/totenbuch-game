@@ -12,7 +12,9 @@
 ## The figures are the layers of the `haul` folder of art/procession1-15.mdp, cut by
 ## tools/cut_procession300.py (sprites haul_*); positions are strip pixels. The driver is his body
 ## and his whip arm (haul_driver_body, haul_driver_arm, from tools/arm_sheets.py --parts): the arm
-## is a child of the body, placed at the elbow (drawn on both), and turns about it.
+## is a child of the body, placed at the elbow (drawn on both), and turns about it. The empty rope in
+## front of the censer priest is cut from the sledge's drawing at setup, so it can shudder on its own
+## until the rope is taken up (as the calf does, see bulls.gd).
 class_name HaulSledge
 extends Node2D
 
@@ -26,6 +28,7 @@ enum Phase { IDLE, OPENING, READY, PLAYING, CLOSING }
 const BEAT := 0.9             ## s between beats
 const WINDOW := 0.17          ## s either side of a beat that a press still counts
 const COUNT_IN := 2           ## beats the driver calls before the first pull counts
+const COUNT_SWING := 0.35     ## on the count-in the whip only flicks: this much of a full fall
 const BACK := 260.0           ## strip px the train stands behind its drawn place at the start
 const PULLS := 12             ## good pulls that bring it home
 const SLIP := 14.0            ## strip px it slips back when the rope goes slack
@@ -34,6 +37,9 @@ const OPEN := 0.8             ## s for the vignette to open out, and to close ag
 const STRIKE := 0.55          ## the whip comes down this far (radians) below where it is drawn ...
 const WIND := 0.2             ## ... having been drawn back this far above it
 const COVER := Rect2(12462, 186, 373, 339)  ## the start of plate I, covered while the vignette is open
+const ROPE_END := Vector2(255, 211)  ## sledge-sprite px where the empty rope reaches the censer priest
+const SHY_EVERY := Vector2(1.2, 2.6) ## s between the empty rope's shudders
+const SHY := 0.35             ## s a shudder lasts
 const PIECES := ["haul_sledge", "haul_hauler", "haul_driver"]
 const RATE := 22050
 
@@ -54,6 +60,9 @@ var _faulted := false         ## a miss or a slip was said, and no good pull has
 var _nodes := {}              ## piece -> Node2D
 var _home := {}               ## piece -> Node2D position as drawn
 var _arm: Sprite2D            ## the driver's whip arm, turning about his elbow
+var _rope: Sprite2D           ## the empty rope, turning about ROPE_END
+var _shy_in := 0.0
+var _shy_t := 0.0
 var _ox: Node2D
 var _ox_home := Vector2.ZERO
 var _cover: ColorRect
@@ -68,6 +77,7 @@ func setup(ox: Node2D, papyrus: Material, cover_parent: Node, cover_index: int, 
 		_nodes[nm] = pivot
 		_home[nm] = pivot.position
 	_arm = nodes.haul_driver_arm
+	_rope = _cut_rope(_nodes.haul_sledge.get_child(0))
 	_ox = ox
 	_cover = ColorRect.new()
 	_cover.material = papyrus
@@ -91,6 +101,9 @@ func reset() -> void:
 	target = 0.0
 	_cover.visible = false
 	_nodes.haul_hauler.visible = false
+	_shy_in = SHY_EVERY.x
+	_shy_t = 0.0
+	_rope.rotation = 0.0
 	_place()
 
 
@@ -100,10 +113,12 @@ func hauler_shown() -> bool:
 
 
 ## The drawing of a figure of the hauling ("haul_sledge", "haul_hauler", ...; the driver's whip
-## arm is "haul_driver_arm"), for the hover glow.
+## arm is "haul_driver_arm", the empty rope "haul_rope"), for the hover glow.
 func sprite_of(piece: String) -> Sprite2D:
 	if piece == "haul_driver_arm":
 		return _arm
+	if piece == "haul_rope":
+		return _rope
 	return _nodes[piece].get_child(0) if _nodes.has(piece) else null
 
 
@@ -174,6 +189,7 @@ func to_next_beat() -> float:
 
 
 func _process(delta: float) -> void:
+	_shudder(delta)
 	if not active:
 		return
 	if phase == Phase.PLAYING:
@@ -292,15 +308,54 @@ func _place() -> void:
 
 
 ## The whip on the beat: just struck at the beat, back to where it is drawn, drawn back a little
-## further, and down again on the next beat.
+## further, and down again on the next beat. On the count-in it only flicks; the first full fall is
+## the first beat to pull on.
 func _whip_angle() -> float:
 	var u := fposmod(clock, BEAT) / BEAT
+	var k := floori(clock / BEAT)   # the beat just struck (k + 1 comes next)
 	if u < 0.35:
-		return lerpf(-STRIKE, 0.0, ease(u / 0.35, 0.4))
+		return lerpf(-STRIKE * _swing(k), 0.0, ease(u / 0.35, 0.4))
 	if u < 0.8:
-		return lerpf(0.0, WIND, ease((u - 0.35) / 0.45, -1.6))
+		return lerpf(0.0, WIND * _swing(k + 1), ease((u - 0.35) / 0.45, -1.6))
 	var v := (u - 0.8) / 0.2
-	return lerpf(WIND, -STRIKE, v * v)
+	return lerpf(WIND, -STRIKE, v * v) * _swing(k + 1)
+
+
+func _swing(k: int) -> float:
+	return COUNT_SWING if k < COUNT_IN else 1.0
+
+
+## The empty rope, until it is taken up, shudders now and then: a quick shake about where it
+## reaches the censer priest.
+func _shudder(delta: float) -> void:
+	if not active and not done:
+		_shy_in -= delta
+		if _shy_in <= 0.0:
+			_shy_in = randf_range(SHY_EVERY.x, SHY_EVERY.y)
+			_shy_t = SHY
+	else:
+		_shy_t = 0.0
+	_shy_t = maxf(0.0, _shy_t - delta)
+	_rope.rotation = 0.04 * sin(_shy_t * 40.0) * (_shy_t / SHY)
+
+
+## Cut the empty rope (left of ROPE_END) out of the sledge's drawing into its own sprite on it,
+## pivoted at ROPE_END.
+static func _cut_rope(sledge: Sprite2D) -> Sprite2D:
+	var img := sledge.texture.get_image()
+	if img.is_compressed():
+		img.decompress()
+	img.convert(Image.FORMAT_RGBA8)
+	var r := Rect2i(0, 0, int(ROPE_END.x), img.get_height())
+	var rope := Sprite2D.new()
+	rope.texture = ImageTexture.create_from_image(img.get_region(r))
+	rope.centered = false
+	rope.position = ROPE_END
+	rope.offset = -ROPE_END
+	img.fill_rect(r, Color(0, 0, 0, 0))
+	sledge.texture = ImageTexture.create_from_image(img)
+	sledge.add_child(rope)
+	return rope
 
 
 func _say(who: String, text: String) -> void:

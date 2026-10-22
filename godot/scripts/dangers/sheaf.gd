@@ -268,10 +268,7 @@ func _sheaf_hurt() -> void:
 	if not game._life_mistake():
 		game.fight.health -= 1
 	game.bites += 1
-	var t = game._fight_tween()
-	for i in 6:
-		t.tween_property(game.camera, "offset", Vector2(randf_range(-6, 6), randf_range(-4, 4)) * game.unit, 0.04)
-	t.tween_property(game.camera, "offset", Vector2.ZERO, 0.05)
+	game._damage_shake()
 	if game.fight.health <= 0:
 		_sheaf_dies()
 
@@ -425,6 +422,10 @@ func _sheaf_trial(e: Dictionary, react: float, careless: bool, hard: bool, seed:
 
 
 func autotest(e: Dictionary, expect: Callable) -> void:
+	for hits in int(e.need):
+		game.fight.hits = hits
+		expect.call(is_equal_approx(_sheaf_tune("window"), 1.2), e.id + " keeps a 1.2 s strike window after " + str(hits) + " hits")
+	game.fight.hits = 0
 	var sn: Dictionary = game.fight.sn
 	var band = func(i: int) -> Node2D: return game.actors[SHEAF_BANDS[i]]
 	var fig = func() -> AtlasTexture: return game._picture(game.actors[e.spear]).texture as AtlasTexture
@@ -538,12 +539,12 @@ func autotest(e: Dictionary, expect: Callable) -> void:
 		for r in [0.25, 0.35, 0.45, 0.55, 0.65, 0.75]:
 			print("spell 41 curve (hard): react %.2f s -> %d%% won" % [r, rate.call(r, false, true) * 100])
 	var quick: float = rate.call(0.35, false, true)
-	var slow: float = rate.call(0.65, false, true)
+	var slow: float = rate.call(1.15, false, true)
 	var careless: float = rate.call(0.0, true, true)
 	var gentle: float = rate.call(0.35, false, false)
-	print("spell 41 wins: hard, striking 0.35 s after the shiver %d%%, 0.65 s after %d%%, blindly %d%%; with the breath of life %d%%" % [quick * 100, slow * 100, careless * 100, gentle * 100])
+	print("spell 41 wins: hard, striking 0.35 s after the shiver %d%%, 1.15 s after %d%%, blindly %d%%; with the breath of life %d%%" % [quick * 100, slow * 100, careless * 100, gentle * 100])
 	expect.call(quick >= 0.9 and gentle >= 0.9, e.id + " an attentive player (0.35 s) wins nearly every fight")
-	expect.call(slow <= 0.5, e.id + " in hard mode a slow one (0.65 s) loses at least half")
+	expect.call(slow <= 0.5, e.id + " in hard mode a slow one (1.15 s) loses at least half")
 	expect.call(careless <= 0.1, e.id + " striking blindly loses")
 	game.start_fight(e)
 	game.fight.pinned = true

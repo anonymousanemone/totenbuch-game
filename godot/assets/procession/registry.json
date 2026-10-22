@@ -59,8 +59,7 @@
   "hauler": {
    "name": "Hauler",
    "descriptions": {
-    "default": "A man hauls the sledge rope.",
-    "stalled": "A man hauls the sledge rope. The bier is stalled. Ask the ox-driver how to haul it."
+    "default": "A man hauls the sledge rope."
    },
    "journal": true
   },
@@ -127,6 +126,13 @@
    "name": "Lector priest",
    "descriptions": {
     "default": "The lector priest reads from a scroll."
+   },
+   "journal": true
+  },
+  "second_offering_table": {
+   "name": "Offering table",
+   "descriptions": {
+    "default": "Another large pile of offerings, with more architectural integrity."
    },
    "journal": true
   },

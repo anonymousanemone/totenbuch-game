@@ -110,7 +110,7 @@ const ENCOUNTERS := [
 	# bites (CROC_HEALTH) and he crumbles. SHEAF_CURVE=1 with --autotest prints the hard-mode curve.
 	{"id": "e41", "tag": "Snake", "boxes": ["e41"], "kind": "sheaf", "hard_ready": true, "spear": "spear41", "task": 5,
 		"foe": "snake41", "bundle": "bundle41", "need": 5,
-		"window": [1.1, 0.7], "gap": [0.4, 0.9], "top": 63.0,
+		"window": [1.2, 1.2], "gap": [0.4, 0.9], "top": 63.0,
 		"caption": [50, 560]},
 	{"id": "e42", "boxes": ["e42"], "kind": "end"},
 ]

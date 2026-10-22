@@ -38,6 +38,7 @@
       "instructions": "Can you help us? Our standards are all mixed up. Drag each standard its rightful place.",
       "success": "All eight standards are in order.",
       "feedback": {
+        "speaking": "He speaks to you.",
         "empty_pole": "Take a standard from another bearer first.",
         "standard_taken": "You take %s from %s.",
         "wrong_pole": "%s doesn't belong at %s.",
@@ -67,7 +68,7 @@
       "success": "The offering table is whole again.",
       "feedback": {
         "missing_support": "It needs support. Place the lower offerings first.",
-        "goose_on_table": "The goose is not an offering for this table. Its bearer is beside the lector."
+        "speaking": "He tells you the next offering to place."
       },
       "hints": {
         "find": {
@@ -98,7 +99,8 @@
         "success_swapped": "He takes his goose, letting the bread loaf fall.",
         "success_carrying": "He carries his goose with joy and purpose.",
         "goose_refuses": "He clings to his goose, refusing to give it up again.",
-        "holding_loaf": "Odd that he's holding a loaf of bread.",
+        "holding_loaf": "Odd that he's holding bread.",
+        "instructions_empty": "He stares forlornly at his empty hands.",
         "wrong_item": "This doesn't belong in his arms.",
         "loaf_returned": "He takes the loaf back."
       },

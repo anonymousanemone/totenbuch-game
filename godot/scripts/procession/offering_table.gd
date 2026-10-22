@@ -14,7 +14,7 @@ extends Node2D
 
 signal changed
 
-const SNAP := 45.0           ## how near its place a piece must be set down to go in
+const SNAP := 35.0           ## how near its place a piece must be set down to go in
 const SPEAK_FADE_IN := 0.3   ## the lector beside the table shows a piece that can go on now
 const SPEAK_HOLD := 2.5
 const SPEAK_FADE_OUT := 0.6
@@ -508,6 +508,10 @@ func placed_at(p: Vector2) -> String:
 		if objects[id].contains_point(p):
 			return id
 	return ""
+
+
+func loaf_at(p: Vector2) -> bool:
+	return bearer != "" and bearer != "goose" and _descriptions.hit(_bearer_sprite, p)
 
 
 func goose_at(p: Vector2) -> bool:

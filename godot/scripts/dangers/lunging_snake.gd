@@ -346,6 +346,7 @@ func _lunge_bites() -> void:
 	game.fight.red = 0.8
 	game.fight.health -= 1
 	game.bites += 1
+	game._damage_shake()
 	if game.fight.health <= 0:
 		_lunge_dies()
 		return

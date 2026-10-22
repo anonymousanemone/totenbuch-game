@@ -19,27 +19,10 @@
 
 #### Hauling
 
-- [ ] hauling game: lead shakes (like the calf). 
-- [ ] pull when my whip falls - the count down are small falls, then the first real one is the regular sized 
-- [ ] processional boat description - remove the talk to ox driver part.
-- [ ] allow clicking on the empty rope to start game
-
-#### Standards
-
-- [ ] standards hint giver plumed priest - "he speaks to you"
-- [ ] plumed lector priest's default description is never shown, and when clicked on, he gives no corresponding text on the bottom. 
-
-#### Offering table
-
-- [ ] offering table game: "he speaks to you (look up)"
-- [ ] offering table stuff is not in the right place
-- [ ] when offering table is done, only clicking the offering tbale should say - it is whole again.
-- [ ] second offering table should be clickable, with its own description.
-- [ ] the snap while drag boundary needs to be a little smaller, for offering table.
-- [ ] goose message only appears after you click the goose and drop it. delete that entirely. just say when taking the bread from the goose bearer or clicking on the goose bearer that "get this poor man something to carry"
-- [ ] when clicking on goose bearer, give the default message, which is him carrying his goose
-- [ ] and do not prompt can you help again once the game is done.
-- [ ] in the game, when clicking on goose man, the description should be "odd that he's holding bread" and only gives you the bread if you click on the bread (whole vs part highlight), and doesn't say "he's missing his goose" but says "get this poor man an offering to carry." all other offerings fall through. only the goose stays and clisks (this should already be true)
+- [x] hauling game: lead shakes (like the calf). 
+- [x] pull when my whip falls - the count down are small falls, then the first real one is the regular sized 
+- [x] processional boat description - remove the talk to ox driver part.
+- [x] allow clicking on the empty rope to start game
 
 #### Opening of the Mouth
 
@@ -48,7 +31,6 @@
 #### Offering stand
 
 - [ ] procession is in order - chnage to "Off to the left, something glows." (because the procession is not in order, you still have to assemble the offering stand)
-- [ ] in the end when you drag and drop the items for the offering stands in place (it should be dragged, not click and pick up, dont move the player.)
 
 ### Dangers
 
@@ -58,7 +40,7 @@
 - [ ] the striker in dangers after completing a levels says - "you have turned away the crocodiles" or whatever
 - know to look around environment for clues
 - when clicking heka in game, should be given time to read it
-- [ ] move the flesh and ankh signs down a little and to the left a little.
+- [x] move the flesh and ankh signs down a little and to the left a little.
 
 #### Crocodiles — spells 31–32
 
@@ -188,7 +170,6 @@ Ghosts and sprite modulation are tint multipliers, not directly comparable displ
 
 | Situation | Draft |
 | --- | --- |
-| Boat | The bier is stalled. Ask the ox-driver how to haul it. |
 | Hauling | Heave when my whip falls. [space] to begin; [esc] or arrows to leave. |
 | Standards | Return each standard to its bearer. Click to take or swap. Empty poles show what belongs there. |
 | Offerings | Drag offerings into place, lowest first. Use the upper shelf to clear space. Ask the lector what can go next. |
@@ -561,3 +542,21 @@ Keep placement rules, completion, hands-full checks, dialogue, hints, journal up
 2. [x] Migrate Dangers. Verify both collectible choices retain their marker poses and follow the avatar; clicking reads their descriptions and dragging them anywhere without an accepted destination returns them to the avatar.
 3. [x] Migrate the plumes. Verify grab offset, invalid drop/leave return to the slaughtered bull, and valid snap to the walking ox. Verify they cannot be dragged again immediately after acceptance, even while the calf remains unresolved. Verify the accepted goose and assembled offerings also refuse pickup/dragging, descriptions remain readable, and reset restores movability. Keep calf and water-jar gestures outside the movable-object class.
 4. [x] Migrate the adze, words, standards, and offerings one interaction at a time, using the existing regression tests. Verify words alone retain click-follow transport, carving stays unchanged, non-carriable pieces never attach through a world click, and standards return on invalid drops. Verify table automatic snapping, support/topple rules, clamped gravity drops, shelf handling, and removal of click-follow controls. Verify expanded bounds, lector exclusion, rejected-item floor drops, and displaced-loaf floor drops. Test cancelling a loaf drag directly from the bearer versus cancelling a new drag after that same loaf was dropped onto the table.
+
+#### Offering table
+
+- [x] offering table game: "he speaks to you (look up)"
+- [x] offering table stuff is not in the right place
+- [x] when offering table is done, only clicking the offering tbale should say - it is whole again.
+- [x] second offering table should be clickable, with its own description.
+- [x] the snap while drag boundary needs to be a little smaller, for offering table.
+- [x] goose message only appears after you click the goose and drop it. delete that entirely. just say when taking the bread from the goose bearer or clicking on the goose bearer that "get this poor man something to carry"
+- [x] when clicking on goose bearer, give the default message, which is him carrying his goose
+- [x] and do not prompt can you help again once the game is done.
+- [x] in the game, when clicking on goose man, the description should be "odd that he's holding bread" and only gives you the bread if you click on the bread (whole vs part highlight), and doesn't say "he's missing his goose" but says "get this poor man an offering to carry." all other offerings fall through. only the goose stays and clisks (this should already be true)
+
+Completed with the revised wording: the priest says "He tells you the next offering to place."; the empty bearer stares forlornly at his empty hands. The second table says "Another large pile of offerings, with more architectural integrity." Restored offering offsets were reset, preserving the large palm frond and the goose/bread swap.
+#### Standards
+
+- [x] standards plumed priest when giving hint. - "he speaks to you" (append this to the description)
+- [x] plumed lector priest's default description is never shown, and when clicked on, he gives no corresponding text on the bottom.

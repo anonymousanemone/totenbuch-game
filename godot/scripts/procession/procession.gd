@@ -55,7 +55,7 @@ const START := {
 const POLES := ["pole1", "pole2", "pole3", "pole4", "pole5", "pole6", "pole7", "pole8"]
 ## Pieces that stay where they are drawn (the ox walks with the hauling, see haul.gd).
 const FIXED := ["ox"]
-## Only the ox-driver starts hauling; the other figures direct the player to him.
+## The ox-driver, or the empty rope where the hauler stands once it is home, starts hauling.
 const HAUL_FIGURES := ["hauler", "ox_driver", "funerary_bier"]
 const INTO_POSE := 0.5        ## s for you to fade into the hauler's pose on the rope (and out again)
 const HAUL_AHEAD := 200.0     ## plate px of the road ahead of the ox the camera shows while hauling
@@ -91,7 +91,7 @@ const CAPTIONS := [
 ## as drawn of their (hand-drawn) sheet, each frame the whole figure.
 const SHEETS := {"haul_driver": "haul_driver_sheet", "water_priest": "water_sheet"}
 ## Journal figures that are sprites of the hauling now: they glow as those drawings.
-const HAUL_GLOW := {"hauler": ["haul_hauler"], "ox_driver": ["haul_driver", "haul_driver_arm"]}
+const HAUL_GLOW := {"hauler": ["haul_hauler", "haul_rope"], "ox_driver": ["haul_driver", "haul_driver_arm"]}
 ## Journal figures that are pieces (sprites, not in the strip): they glow as those drawings.
 const PIECE_GLOW := {"ox": "ox"}
 ## The figures of the three bulls (see bulls.gd); clicking one steps up to them until they are set right.
@@ -452,11 +452,9 @@ func _click_world(p: Vector2) -> void:
 	elif h.type == "ending":
 		walk_then(_reach(ending.place_rect() if h.id == "place" else ending.rect_of(h.id), p), act_ending.bind(h.id))
 	elif h.type == "bearer":   # observe him after approaching; the lector starts the puzzle
-		walk_then(_reach(_bearer_rect, p), func():
-			if offerings.bearer == "goose":
-				say_game("Goose-bearer", PUZZLES.text("procession.goose", "feedback", "success_carrying"))
-			else:
-				say_game("Scribe", PUZZLES.text("procession.goose", "feedback", "holding_loaf")))
+		walk_then(_reach(_bearer_rect, p), _describe_bearer)
+	elif h.type == "hot" and h.spot == _table and solved.t3:
+		walk_then(_reach(h.spot.rect, p), record.bind(h.spot))
 	elif h.type == "piece" or (h.type == "hot" and (h.spot == _table or h.spot == _reader)):
 		enter_table(h.get("spot", {}) == _reader)
 	elif h.type == "mouth":
@@ -476,7 +474,7 @@ func _click_world(p: Vector2) -> void:
 		else:
 			enter_standards()
 	elif h.spot.id in HAUL_FIGURES and not haul.done:
-		if h.spot.id == "ox_driver":   # you walk to the hauler's place and take up his rope
+		if h.spot.id in ["ox_driver", "hauler"]:   # you walk to the hauler's place and take up his rope
 			var hl: Dictionary = level.sprites.haul_hauler
 			walk_then(hl.x + hl.w / 2.0, take_rope.bind(h.spot))
 		else:
@@ -496,6 +494,8 @@ func _click_world(p: Vector2) -> void:
 func _pick(p: Vector2) -> Dictionary:
 	if mouth.phase == OpeningMouth.Phase.ADZE and not mouth.active and mouth.adze_object.contains_point(p):
 		return {"type": "worn_adze", "id": "mouth_adze"}
+	if in_table and offerings.loaf_at(p):
+		return {"type": "bearer_loaf", "id": offerings.bearer}
 	if offerings.goose_at(p):
 		return {"type": "goose_locked", "id": "goose"}
 	if bulls.plumes_object.locked_in_place and bulls.plumes_object.contains_point(p):
@@ -530,8 +530,6 @@ func _pick(p: Vector2) -> Dictionary:
 			return {"type": "slot", "id": id, "rect": r}
 	for h in hotspots:
 		h.rect = _descriptions.region_bounds(_inspection_regions[h.id])
-		if h.id == "hauler" and not haul.hauler_shown():   # absent while exploring before the first haul
-			continue
 		if h.rect.has_point(p):
 			return {"type": "hot", "spot": h, "rect": h.rect}
 	for c in CAPTIONS:
@@ -572,6 +570,8 @@ func _glow_targets(h: Dictionary) -> Array:
 			return [ending.sprite_of(h.id)]
 		"worn_adze":
 			return [mouth.adze_object.sprite]
+		"bearer_loaf":
+			return [offerings._bearer_sprite]
 		"goose_locked":
 			return offerings.bearer_sprites()
 		"offering_placed":
@@ -794,7 +794,8 @@ func _table_now() -> void:
 	avatar.stop()
 	avatar.facing = -1
 	_set_hover({"type": "hot", "spot": _reader, "rect": _reader.rect})
-	say_game("Lector priest", PUZZLES.text("procession.offerings", "instructions"))
+	if not solved.t3:
+		say_game("Lector priest", PUZZLES.text("procession.offerings", "instructions"))
 
 
 ## Step away from the table (Esc, or walking off): what you hold goes back; nothing is lost.
@@ -810,10 +811,10 @@ func leave_table() -> void:
 
 ## At the table: press-drag-release a piece to set it down: in its place, in the band above, back to the
 ## goose-bearer, or onto the floor.
-## At the table, the table itself (the scene you are in) is not something to point at.
+## While rebuilding, the table itself is not something to point at.
 func _table_pick(p: Vector2) -> Dictionary:
 	var h := _pick(p)
-	return {} if h.get("spot", {}) == _table else h
+	return {} if h.get("spot", {}) == _table and not solved.t3 else h
 
 
 func _table_input(event: InputEvent) -> void:
@@ -837,13 +838,16 @@ func _table_input(event: InputEvent) -> void:
 					offerings.objects[h.id].request_description()
 				"piece":
 					_take_offering(h.id)
-				"bearer":
+				"bearer_loaf":
 					_act_bearer()
+				"bearer":
+					_describe_bearer()
 				"hot":
 					record(h.spot)
 			if offerings.holding() != "":
 				_drag_from = event.position
-				offerings.objects[offerings.holding()].request_description()
+				if h.get("type") != "bearer_loaf":
+					offerings.objects[offerings.holding()].request_description()
 				_set_hover({})
 		else:
 			if offerings.holding() != "":
@@ -920,13 +924,14 @@ func _take_offering(id: String) -> void:
 
 
 func _drop_offering(p: Vector2) -> void:
-	var what := offerings.holding()
 	match offerings.drop_at(p):
 		"toppled":
 			_tell_once("support", PUZZLES.text("procession.offerings", "feedback", "missing_support"))
-		"dropped":
-			if what == "goose":
-				say_game("Scribe", PUZZLES.text("procession.offerings", "feedback", "goose_on_table"))
+
+
+func _describe_bearer() -> void:
+	var key := "success_carrying" if offerings.bearer == "goose" else ("holding_loaf" if offerings.bearer != "" else "instructions_empty")
+	say_game("Goose-bearer", PUZZLES.text("procession.goose", "feedback", key))
 
 
 func _act_bearer() -> void:
@@ -941,12 +946,7 @@ func _act_bearer() -> void:
 		"swapped":
 			say_game("Goose-bearer", PUZZLES.text("procession.goose", "feedback", "success_swapped"))
 		"wrong":
-			if offerings.bearer == "" and offerings.held_from() == "bearer":
-				offerings.put_back()
-				say_game("Goose-bearer", PUZZLES.text("procession.goose", "feedback", "loaf_returned"))
-			else:
-				say_game("Scribe", PUZZLES.text("procession.goose", "feedback", "offering_in_arms"))
-				offerings.reject_held()
+			offerings.reject_held()
 		"empty":
 			say_game("Scribe", PUZZLES.text("procession.goose", "feedback", "instructions_empty"))
 		"has_goose":
@@ -1233,14 +1233,13 @@ func _check() -> void:
 		var o: Dictionary = level.sprites.ox
 		var sl: Dictionary = level.sprites.haul_sledge
 		_kick_dust(Rect2(o.x, 0, sl.x + sl.w - o.x, 0))
-		_success([_pieces.ox] + ["haul_sledge", "haul_hauler", "haul_driver", "haul_driver_arm"].map(haul.sprite_of))
+		_success([_pieces.ox] + ["haul_sledge", "haul_rope", "haul_hauler", "haul_driver", "haul_driver_arm"].map(haul.sprite_of))
 		avatar.position.x = level.sprites.haul_hauler.x + level.sprites.haul_hauler.w + BESIDE * unit
 		_off_rope()
 	if solved.t2 and not was.t2:
 		say_game("Standard-bearers", PUZZLES.text("procession.standards", "success"))
 		_success(POLES.map(func(p): return _pieces[slot[p]]))
 	if solved.t3 and not was.t3:
-		say_game("Scribe", PUZZLES.text("procession.offerings", "success"))
 		_success([_table.rect] + offerings.placed_sprites())
 	if solved.t4 and not was.t4:
 		_success(offerings.bearer_sprites())
@@ -1267,14 +1266,18 @@ func _check() -> void:
 func record(h: Dictionary) -> void:
 	if h.id == "ra_enthroned":
 		ending.show_base_clue()
-	if h == _lector:  # no words, only the signs he reads out; you stand before him, facing him
+	if h == _lector:  # describe him as he reads out the signs; stand before him, facing him
 		_add_journal(h)
+		say_game(h.label, _descriptions.text(h.id) + " " + PUZZLES.text("procession.standards", "feedback", "speaking"))
 		avatar.facing = 1
 		recite()
 		return
-	if h == _reader:  # he shows, in front of him, an offering that can go on now
+	if h == _table and solved.t3:
+		say_game("Scribe", PUZZLES.text("procession.offerings", "success"))
+		return
+	if h == _reader and not solved.t3:  # he shows, in front of him, an offering that can go on now
 		_add_journal(h)
-		say_game("Lector priest", PUZZLES.text("procession.offerings", "instructions"))
+		say_game("Lector priest", PUZZLES.text("procession.offerings", "feedback", "speaking"))
 		offerings.speak()
 		return
 	_descriptions.inspect(h.id, hud, journal, _inspection_picture(h), hotspots.size(), _description_variant(h.id))
@@ -1292,8 +1295,6 @@ func _description_variant(id: String) -> String:
 			return "settled" if bulls.calf_turned() else "unsettled"
 		"sacrifice", "plumed_ox":
 			return "default" if bulls.done else "unresolved"
-		"funerary_bier", "hauler":
-			return "default" if haul.done else "stalled"
 	return "default"
 
 
@@ -1785,7 +1786,7 @@ func _autotest() -> void:
 			missed.append(id)
 	for spot in hotspots:
 		var h := _pick(spot.rect.get_center())
-		if h.get("type") in ["piece", "ending", "water"] or (spot.label == "Hauler" and not haul.hauler_shown()):
+		if h.get("type") in ["piece", "ending", "water"]:
 			continue
 		if h.get("type") != "hot" or h.spot != spot:
 			missed.append(spot.label)
@@ -1851,11 +1852,21 @@ func _autotest_haul(expect: Callable) -> void:
 	haul.instant = true
 	expect.call(not haul.hauler_shown(), "nobody hauls the sledge until you take up the rope")
 	var hauler: Dictionary = hotspots.filter(func(h): return h.label == "Hauler")[0]
+	expect.call(_pick(hauler.rect.get_center()).get("spot") == hauler, "the empty rope can be clicked")
+	var rope := haul.sprite_of("haul_rope")
+	var shook := false
+	for i in 240:
+		step.call(1.0 / 60.0)
+		shook = shook or rope.rotation != 0.0
+	expect.call(shook, "the empty rope shudders now and then")
 	take_rope(hauler)
 	expect.call(haul.active and is_equal_approx(haul.offset, HaulSledge.BACK), "taking up the rope sets the sledge back and opens the vignette")
 	expect.call(avatar.modulate.a == 0.0 and haul.hauler_shown(), "you become the original hauler while holding the rope")
-	step.call(haul.to_next_beat())
+	expect.call(rope.rotation == 0.0, "held, the rope is still")
 	var whip := haul.sprite_of("haul_driver_arm")
+	step.call(0.002)
+	expect.call(absf(whip.rotation + HaulSledge.STRIKE * HaulSledge.COUNT_SWING) < 0.02, "on the count the whip only flicks")
+	step.call(haul.to_next_beat())
 	expect.call(is_equal_approx(whip.rotation, -HaulSledge.STRIKE), "on the beat the driver's whip is struck down")
 	haul.press()
 	expect.call(is_equal_approx(haul.target, HaulSledge.BACK - HaulSledge.BACK / HaulSledge.PULLS), "a pull on the beat gains a step")

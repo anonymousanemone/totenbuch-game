@@ -428,6 +428,14 @@
    "id": "offering_table"
   },
   {
+   "x": 2487,
+   "y": 244,
+   "w": 1120,
+   "h": 291,
+   "plate": "V",
+   "id": "second_offering_table"
+  },
+  {
    "x": 4854,
    "y": 202,
    "w": 219,

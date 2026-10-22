@@ -162,6 +162,9 @@ size = Vector2(148, 293)
 [sub_resource type="RectangleShape2D" id="hit_GooseBearerHit"]
 size = Vector2(175, 286)
 
+[sub_resource type="RectangleShape2D" id="inspection_second_offering_table"]
+size = Vector2(1120, 291)
+
 [sub_resource type="RectangleShape2D" id="inspection_offering_table"]
 size = Vector2(724, 295)
 
@@ -651,6 +654,18 @@ position = Vector2(2487, 244)
 texture = ExtResource("layer_169")
 centered = false
 metadata/source_layer_id = "169"
+metadata/registry_id = "second_offering_table"
+
+[node name="second_offering_table" type="Area2D" parent="ArtworkLayers/offering_table_169"]
+position = Vector2(560, 145.5)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "second_offering_table"
+
+[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/offering_table_169/second_offering_table"]
+shape = SubResource("inspection_second_offering_table")
 
 [node name="lector_with_plumes_150" type="Sprite2D" parent="ArtworkLayers" unique_id=2016452678]
 position = Vector2(4522, 190)
@@ -959,14 +974,12 @@ metadata/piece_id = "t03"
 position = Vector2(5656, 468)
 texture = ExtResource("tex_t04")
 centered = false
-offset = Vector2(-52, 0)
 metadata/piece_id = "t04"
 
 [node name="t05_round_loaf3" type="Sprite2D" parent="pieces/offering_table/layout" unique_id=1599934757]
 position = Vector2(5603, 468)
 texture = ExtResource("tex_t05")
 centered = false
-offset = Vector2(-52, -1)
 metadata/piece_id = "t05"
 
 [node name="t06_round_loaf1" type="Sprite2D" parent="pieces/offering_table/layout" unique_id=1925550935]
@@ -1064,7 +1077,6 @@ metadata/piece_id = "t20"
 position = Vector2(5567, 316)
 texture = ExtResource("tex_t21")
 centered = false
-offset = Vector2(-108, -6)
 metadata/piece_id = "t21"
 
 [node name="t22_goose2" type="Sprite2D" parent="pieces/offering_table/layout" unique_id=2122265733]

@@ -346,6 +346,7 @@ func _apep_bites() -> void:
 	if not game._life_mistake():
 		game.fight.health -= 1
 	game.bites += 1
+	game._damage_shake()
 	if game.fight.health <= 0:
 		_apep_dies()
 

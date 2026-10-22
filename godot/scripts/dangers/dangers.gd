@@ -301,13 +301,14 @@ func here(kinds: Array = FIGHTS) -> Dictionary:
 	return {}
 
 
-## The item at `p` that can be taken (of an unsolved "take" encounter; the nearest, where two are
-## close together), or "".
+## The uncarried item at `p` that can be taken (the nearest, where two are close together), or "".
 func _item_at(p: Vector2) -> String:
 	var best := ""
 	for e in ENCOUNTERS:
-		if e.kind == "take" and not solved.has(e.id):
+		if e.kind == "take":
 			for it in e.items:
+				if it in items:
+					continue
 				var r := actor_rect(it)
 				if r.grow(12 * unit).has_point(p) and (best == "" or r.get_center().distance_to(p) < actor_rect(best).get_center().distance_to(p)):
 					best = it
@@ -649,13 +650,15 @@ func _check_position() -> void:
 			say("Scribe", _hints.message("dangers.unfinished") % current.id.trim_prefix("e"))
 
 
-## Take `item` from encounter `e` (the first of its items if none is named); only one is taken, the
-## others stay where they are drawn.
+## Take `item` from encounter `e`, returning the previous sign to the giver's hand.
 func take(e: Dictionary, item := "") -> void:
-	if solved.has(e.id):
-		return
 	if item == "":
 		item = e.items[0]
+	if item in items:
+		return
+	for previous in items:
+		objects[previous].reset()
+	items.clear()
 	items.append(item)
 	objects[item].wear(avatar, _item_poses[item].transform)
 	_follow_items()
@@ -1419,6 +1422,10 @@ func _thrust_down_span() -> Vector2:
 func _bite(text: String) -> void:
 	bites += 1
 	say("Scribe", text)
+	_damage_shake()
+
+
+func _damage_shake() -> void:
 	var t := _fight_tween()
 	for i in 6:
 		t.tween_property(camera, "offset", Vector2(randf_range(-6, 6), randf_range(-4, 4)) * unit, 0.04)
@@ -1587,7 +1594,7 @@ func _draw_flesh_health() -> void:
 	if endless():
 		var image: Texture2D = _picture(actors.ankh38).texture
 		var size := image.get_size()
-		var at := _arena_rect().position + Vector2(40.0, 14.0)
+		var at := _arena_rect().position + Vector2(28.0, 26.0)
 		var flash := float(fight.get("ankh_flash", 0.0))
 		var tint := Color.WHITE.lerp(RED_CROC, flash / LIFE_FLASH)
 		overlay.draw_texture_rect(image, Rect2(at, size), false, Color(tint, fight.open))
@@ -1598,7 +1605,7 @@ func _draw_flesh_health() -> void:
 	var ar := _arena_rect()
 	var fs := _flesh_tex.get_size() if _flesh_tex else Vector2(28.0, 28.0)
 	for i in CROC_HEALTH:
-		var at := Vector2(ar.position.x + 40.0 + i * (fs.x + FLESH_GAP), ar.position.y + 14.0)
+		var at := Vector2(ar.position.x + 28.0 + i * (fs.x + FLESH_GAP), ar.position.y + 26.0)
 		var a: float = (1.0 if i < health else 0.22) * fight.open
 		if _flesh_tex:
 			# the picture as given, its dark ink turned red: shown through a red silhouette
@@ -1640,8 +1647,8 @@ func _autotest() -> void:
 	expect.call(_item_at(actor_rect("sail38").get_center()) == "sail38" and _item_at(actor_rect("ankh38").get_center()) == "ankh38",
 		"the sail and the ankh can each be taken, before the way on opens")
 	take(e38, "ankh38")
-	expect.call(solved.has("e38") and items == ["ankh38"] and actors.sail38.visible and _item_at(actor_rect("sail38").get_center()) == "",
-		"only one sign is taken: the other stays in his hand and can no longer be taken")
+	expect.call(solved.has("e38") and items == ["ankh38"] and actors.sail38.visible and _item_at(actor_rect("sail38").get_center()) == "sail38",
+		"only one sign is carried: the other stays available in the giver's hand")
 	reset()
 
 	for e in ENCOUNTERS:

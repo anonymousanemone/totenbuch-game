@@ -26,6 +26,7 @@ func _run() -> void:
 	_test_procession_scene_pieces()
 	_test_dangers_scene_actors()
 	_test_dangers_inventory()
+	_test_dangers_damage_shake()
 	_test_donkey_hover()
 	_test_hover_glow()
 	print("REGRESSIONS ", "OK" if _failures.is_empty() else "FAILED")
@@ -115,7 +116,7 @@ func _test_procession_hitboxes() -> void:
 		_expect(not shape.disabled and actual.size.x > 0.0 and actual.size.y > 0.0
 			and actual.position.is_finite() and actual.size.is_finite(),
 			"manually authored figure box is enabled and has valid bounds: " + id)
-	_expect(count == 39, "all 30 describable figures, eight bearers and the goose-bearer own saved boxes")
+	_expect(count == 40, "all 31 describable figures, eight bearers and the goose-bearer own saved boxes")
 	scene.free()
 	var image := Image.create(20, 15, false, Image.FORMAT_RGBA8)
 	image.fill(Color.TRANSPARENT)
@@ -297,13 +298,18 @@ func _test_dangers_inventory() -> void:
 		scene._process(0.0)
 		var pose := Vector2(-38, -233) if item == "ankh38" else Vector2(-35, -236)
 		_expect(sign.visible and sign.global_position.is_equal_approx(scene.avatar.global_position + pose + Vector2(0, -3)), item + " is worn at the reference pose and follows the walking bob")
+		_expect(scene.column.z_index > sign.z_index, item + " passes behind the text column while carried")
 		_expect(scene.actors[other].visible and scene.actors[other].position == other_home, "the unchosen sign stays in the giver's hand")
 		scene.avatar.position.x -= 60.0
 		scene.avatar.sprite.flip_h = true
 		scene._process(0.0)
 		_expect(sign.global_position.is_equal_approx(scene.avatar.global_position + Vector2(-pose.x, pose.y - 3)) and sign.global_transform.determinant() < 0.0, item + " travels and mirrors with the player")
 		scene.take(encounter, other)
-		_expect(scene.items == [item], "carrying a sign does not allow taking the other one")
+		_expect(scene.items == [other] and scene.objects[other].state == MoveableObject.State.WORN, "the other sign replaces the carried sign")
+		_expect(sign.position == home and sign.visible and sign.scale == Vector2.ONE and sign.rotation == 0.0 and sign.z_index == 0 and scene.objects[item].state == MoveableObject.State.WORLD, "the replaced sign returns to its original pose in the giver's hand")
+		_expect(scene._item_at(scene.actor_rect(item).get_center()) == item, "the returned sign can be clicked again")
+		scene.take(encounter, item)
+		_expect(scene.items == [item] and scene.actors[other].position == other_home, "the signs can be swapped back")
 		scene.start_fight(scene.ENCOUNTERS[0])
 		scene._process(0.0)
 		_expect(not sign.visible, item + " hides with the player during combat")
@@ -313,6 +319,32 @@ func _test_dangers_inventory() -> void:
 		scene.reset()
 		_expect(scene.items.is_empty() and sign.visible and sign.position == home and sign.scale == Vector2.ONE and sign.rotation == 0.0 and sign.z_index == 0, item + " returns to its original pose on restart")
 		scene.free()
+
+
+func _test_dangers_damage_shake() -> void:
+	var scene = load("res://scenes/dangers.tscn").instantiate()
+	root.add_child(scene)
+	scene.hud.dismiss_intro()
+	scene._instant = true
+	for id in ["e33", "e37", "e39", "e41"]:
+		var encounter: Dictionary = scene.ENCOUNTERS.filter(func(e): return e.id == id)[0]
+		scene.start_fight(encounter)
+		var count: int = scene._fight_tweens.size()
+		match id:
+			"e33": scene.lunging_snake._lunge_bites()
+			"e37":
+				scene.fight.snakes[0]["for"] = encounter.snap[0]
+				scene.two_snakes._twin_bites(scene.fight.snakes[0])
+			"e39": scene.apep._apep_bites()
+			"e41": scene.sheaf._sheaf_hurt()
+		_expect(scene._fight_tweens.size() > count, id + " damage starts a managed screen shake")
+		var shake: Tween = scene._fight_tweens.back()
+		shake.custom_step(0.04)
+		_expect(not scene.camera.offset.is_zero_approx(), id + " damage moves the camera")
+		shake.custom_step(1.0)
+		_expect(scene.camera.offset.is_zero_approx(), id + " screen shake settles back to zero")
+		scene.leave_fight()
+	scene.free()
 
 
 ## A real click opens the fight before subsequent mouse motion asks for hover targets.

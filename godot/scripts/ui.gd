@@ -28,7 +28,7 @@ const PREVIEW := Color(1.9, 1.0, 0.6, 0.2)
 enum Glow { DEFAULT, PROCESSION, DANGER, SUCCESS }
 const SUCCESS_GLOW := Color(148.0 / 255.0, 162.0 / 255.0, 128.0 / 255.0, 0.4)  ## UI band light green #94a280
 const SUCCESS_IN := 0.8       ## s for a success glow to come up ...
-const SUCCESS_OUT := 1.8      ## ... and to fade
+const SUCCESS_OUT := 3.2      ## ... and to fade
 const DIM := Color(0.12, 0.08, 0.04, 0.5)
 const INK_TINT := Color(DANGER.r / INK.r, DANGER.g / INK.g, DANGER.b / INK.b)
 const GLOW_SHADER := preload("res://scripts/glow.gdshader")
@@ -109,7 +109,7 @@ static func glow_material(texture: Texture2D, level: Glow = Glow.DEFAULT) -> Sha
 	mat.set_shader_parameter("level", level)
 	mat.set_shader_parameter("success", SUCCESS_GLOW)
 	if level == Glow.SUCCESS:
-		mat.set_shader_parameter("pad", 12.0)
+		mat.set_shader_parameter("pad", 20.0)
 	mat.set_shader_parameter("strength", 0.0)
 	if texture is AtlasTexture:
 		var atlas := texture as AtlasTexture

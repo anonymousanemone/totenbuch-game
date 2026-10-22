@@ -428,7 +428,7 @@ func _test_success_glow() -> void:
 	var material := glow.material as ShaderMaterial
 	var color: Color = material.get_shader_parameter("success")
 	_expect(Vector3(color.r, color.g, color.b).distance_to(Vector3(148.0, 162.0, 128.0) / 255.0) < 0.00001 and is_equal_approx(color.a, 0.4), "success glow uses the UI band light green at 40 percent opacity")
-	_expect(is_equal_approx(material.get_shader_parameter("pad"), 12.0), "success glow reaches slightly further around the drawing")
+	_expect(is_equal_approx(material.get_shader_parameter("pad"), 20.0), "success glow extends 20 texture pixels around the drawing")
 	_expect(material.get_shader_parameter("level") == UI.Glow.SUCCESS and sprite.modulate == Color.WHITE, "placement success uses the shared success glow and preserves the drawing")
 	var tween: Tween = get_processed_tweens().back()
 	tween.custom_step(0.4)
@@ -436,9 +436,9 @@ func _test_success_glow() -> void:
 	_expect(rising > 0.0 and rising < 1.0, "success glow rises gradually instead of flashing immediately")
 	tween.custom_step(0.4)
 	_expect(is_equal_approx(material.get_shader_parameter("strength"), 1.0), "success glow reaches full strength after 0.8 seconds")
-	tween.custom_step(0.9)
+	tween.custom_step(1.6)
 	var fading: float = material.get_shader_parameter("strength")
-	_expect(fading > 0.0 and fading < 1.0, "success glow fades gently over 1.8 seconds")
+	_expect(fading > 0.0 and fading < 1.0, "success glow fades gently over 3.2 seconds")
 	sprite.free()
 
 

@@ -33,8 +33,10 @@ def main():
     suites.append(("life_mode", ["--script", "res://tests/life_mode_regressions.gd"], "LIFE MODE REGRESSIONS OK"))
     suites.append(("hints", ["--script", "res://tests/hint_regressions.gd"], "HINT REGRESSIONS OK"))
     suites.append(("cosmos", ["--script", "res://tests/cosmos_regressions.gd"], "COSMOS REGRESSIONS OK"))
+    suites.append(("survival", ["--script", "res://tests/survival_regressions.gd"], "SURVIVAL REGRESSIONS OK"))
     suites.append(("mouth", ["--script", "res://tests/opening_mouth_regressions.gd"], "MOUTH REGRESSIONS OK"))
     suites.append(("ui", ["--script", "res://tests/ui_regressions.gd"], "UI REGRESSIONS OK"))
+    suites.append(("menu_scenes", ["--script", "res://tests/menu_scene_regressions.gd"], "MENU SCENE REGRESSIONS OK"))
     # These also occur in the committed baseline. The sampler diagnostic is specific
     # to compiling the existing glow shader with Godot's headless dummy renderer.
     baseline_diagnostics = (

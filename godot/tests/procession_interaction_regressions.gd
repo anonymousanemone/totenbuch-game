@@ -220,33 +220,33 @@ func _run() -> void:
 	root.add_child(menu)
 	var scroll = root.get_node("Scroll")
 	for entry in scroll.SCENES:
-		var card: Control = menu._card(entry)
+		var card: Control = menu._cards.find_child(entry.key, true, false)
 		var picture: Control = card.get_node("Frame").get_child(0)
 		expect((picture.modulate.a == 1.0) == scroll.is_built(entry.key), "map ink follows playable scene availability: " + entry.key)
 		menu._choose(entry.key)
 		expect(menu._chosen_go.disabled == not scroll.is_built(entry.key), "playable map scenes are unlocked: " + entry.key)
-		card.free()
 	var saved_progress: Array[String] = scroll.restored.duplicate()
 	for sample in [
 		{"finished": [], "current": "procession"},
 		{"finished": ["dangers"], "current": "procession"},
 		{"finished": ["procession"], "current": "cosmos"},
 		{"finished": ["procession", "cosmos"], "current": "dangers"},
-		{"finished": ["procession", "cosmos", "dangers"], "current": ""}
+		{"finished": ["procession", "cosmos", "dangers"], "current": "survival"},
+		{"finished": ["procession", "cosmos", "dangers", "survival"], "current": ""}
 	]:
 		scroll.restored.assign(sample.finished)
+		menu._refresh_map()
 		expect(scroll.current() == sample.current, "map progress selects the first unfinished playable chapter: " + str(sample.finished))
 		expect(menu._play_key() == (sample.current if sample.current != "" else "procession"),
 			"Play agrees with saved progress, with replay available after completion")
 		var markers: Array[String] = []
 		var unlocked := true
 		for entry in scroll.SCENES:
-			var card: Control = menu._card(entry)
-			if card.find_children("*", "Label", true, false).any(func(label): return label.text == "You are here"):
+			var card: Control = menu._cards.find_child(entry.key, true, false)
+			if card.get_node("Frame/Picture/Current").visible:
 				markers.append(entry.key)
 			menu._choose(entry.key)
 			unlocked = unlocked and menu._chosen_go.disabled == not scroll.is_built(entry.key)
-			card.free()
 		expect(unlocked, "all implemented chapters stay unlocked regardless of progress")
 		expect(markers == ([sample.current] if sample.current != "" else []),
 			"You are here marks only unfinished progress, and disappears once everything is complete")

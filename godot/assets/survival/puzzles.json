@@ -1,0 +1,7 @@
+{
+ "messages": {
+  "survival.explore": "Walk with [←] [→] or click the papyrus. Click a glowing figure to look; the whole scroll is open to explore.",
+  "survival.start": "Walk left through the scroll of food, water and breath. Click a figure to look, or open the Journal to read what you have seen."
+ },
+ "puzzles": {}
+}

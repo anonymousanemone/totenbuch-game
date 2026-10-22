@@ -10,7 +10,7 @@ var _steps := {}
 
 static func _load_catalog() -> Dictionary:
 	var catalog := {"messages": JSON.parse_string(FileAccess.get_file_as_string("res://assets/messages.json")), "puzzles": {}}
-	for level in ["procession", "dangers", "cosmos"]:
+	for level in ["procession", "dangers", "cosmos", "survival"]:
 		var content: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://assets/%s/puzzles.json" % level))
 		catalog.messages.merge(content.messages)
 		catalog.puzzles.merge(content.puzzles)

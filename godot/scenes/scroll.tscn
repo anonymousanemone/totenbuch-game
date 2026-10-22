@@ -1,0 +1,2344 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/menu/scroll_screen.gd" id="scroll_logic"]
+
+[ext_resource type="FontFile" path="res://assets/fonts/OldFax.ttf" id="1_apkfn"]
+[ext_resource type="Texture2D" path="res://assets/ui/icon_back.png" id="2_ai4fp"]
+[ext_resource type="Texture2D" path="res://assets/ui/band_top.png" id="3_0daod"]
+[ext_resource type="Texture2D" path="res://assets/menu/procession.png" id="4_p1t5q"]
+[ext_resource type="Texture2D" path="res://assets/ui/icon_ankh.png" id="5_4wg3f"]
+[ext_resource type="Texture2D" path="res://assets/menu/cosmos.png" id="6_yt8p8"]
+[ext_resource type="Texture2D" path="res://assets/menu/councils.png" id="7_2l4wu"]
+[ext_resource type="Texture2D" path="res://assets/menu/mouth.png" id="8_tn0x0"]
+[ext_resource type="Texture2D" path="res://assets/menu/dangers.png" id="9_p4842"]
+[ext_resource type="Texture2D" path="res://assets/menu/survival.png" id="10_e3ks8"]
+[ext_resource type="Texture2D" path="res://assets/menu/forth.png" id="11_dt7y3"]
+[ext_resource type="Texture2D" path="res://assets/menu/forms.png" id="12_dpgsj"]
+[ext_resource type="Texture2D" path="res://assets/menu/ba.png" id="13_y5jyt"]
+[ext_resource type="Texture2D" path="res://assets/menu/boats.png" id="14_f3wiw"]
+[ext_resource type="Texture2D" path="res://assets/menu/field.png" id="15_nmfc1"]
+[ext_resource type="Texture2D" path="res://assets/menu/souls.png" id="16_nimr0"]
+[ext_resource type="Texture2D" path="res://assets/menu/lake.png" id="17_ompfu"]
+[ext_resource type="Texture2D" path="res://assets/menu/gates.png" id="18_pf3rn"]
+[ext_resource type="Texture2D" path="res://assets/menu/baboons.png" id="19_wnmsu"]
+[ext_resource type="Texture2D" path="res://assets/menu/cows.png" id="20_3lhee"]
+[ext_resource type="Texture2D" path="res://assets/menu/mounds.png" id="21_eq53r"]
+[ext_resource type="Texture2D" path="res://assets/menu/chamber.png" id="22_pxhfl"]
+[ext_resource type="Texture2D" path="res://assets/menu/creatures.png" id="23_4f1q7"]
+[ext_resource type="Texture2D" path="res://assets/menu/doors.png" id="24_w0u2i"]
+[ext_resource type="Texture2D" path="res://assets/menu/hall.png" id="25_lo0pm"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pbf8f"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uu2ls"]
+content_margin_left = 16.0
+content_margin_top = 8.0
+content_margin_right = 16.0
+content_margin_bottom = 8.0
+bg_color = Color(0.9372549, 0.8784314, 0.73333335, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_iuf6s"]
+content_margin_left = 16.0
+content_margin_top = 8.0
+content_margin_right = 16.0
+content_margin_bottom = 8.0
+bg_color = Color(0.8862745, 0.8156863, 0.6509804, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8b48n"]
+content_margin_left = 16.0
+content_margin_top = 8.0
+content_margin_right = 16.0
+content_margin_bottom = 8.0
+bg_color = Color(0.79607844, 0.6901961, 0.4862745, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1r33x"]
+content_margin_left = 8.0
+content_margin_top = 4.0
+content_margin_right = 8.0
+content_margin_bottom = 4.0
+bg_color = Color(0.8862745, 0.8156863, 0.6509804, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[sub_resource type="Theme" id="Theme_irvca"]
+default_font = ExtResource("1_apkfn")
+default_font_size = 16
+Button/colors/font_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+Button/colors/font_focus_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+Button/colors/font_hover_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+Button/colors/font_pressed_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+Button/styles/focus = SubResource("StyleBoxEmpty_pbf8f")
+Button/styles/hover = SubResource("StyleBoxFlat_uu2ls")
+Button/styles/normal = SubResource("StyleBoxFlat_iuf6s")
+Button/styles/pressed = SubResource("StyleBoxFlat_8b48n")
+Label/colors/font_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+Label/constants/line_spacing = 6
+RichTextLabel/colors/default_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+RichTextLabel/constants/line_separation = 6
+RichTextLabel/constants/paragraph_separation = 10
+TooltipLabel/colors/font_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+TooltipPanel/styles/panel = SubResource("StyleBoxFlat_1r33x")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uw31b"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.8862745, 0.8156863, 0.6509804, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.5882353, 0.24313726, 0.15686275, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8o6vq"]
+content_margin_left = 8.0
+content_margin_top = 0.0
+content_margin_right = 8.0
+content_margin_bottom = 0.0
+bg_color = Color(0.5882353, 0.24313726, 0.15686275, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_adbhe"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.8862745, 0.8156863, 0.6509804, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xlf1g"]
+content_margin_left = 8.0
+content_margin_top = 0.0
+content_margin_right = 8.0
+content_margin_bottom = 0.0
+bg_color = Color(0.5882353, 0.24313726, 0.15686275, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lcyyb"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.8862745, 0.8156863, 0.6509804, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cegp7"]
+content_margin_left = 8.0
+content_margin_top = 0.0
+content_margin_right = 8.0
+content_margin_bottom = 0.0
+bg_color = Color(0.5882353, 0.24313726, 0.15686275, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rj12l"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.8862745, 0.8156863, 0.6509804, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uhlsy"]
+content_margin_left = 8.0
+content_margin_top = 0.0
+content_margin_right = 8.0
+content_margin_bottom = 0.0
+bg_color = Color(0.5882353, 0.24313726, 0.15686275, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hxuea"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.8862745, 0.8156863, 0.6509804, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bqy3d"]
+content_margin_left = 8.0
+content_margin_top = 0.0
+content_margin_right = 8.0
+content_margin_bottom = 0.0
+bg_color = Color(0.5882353, 0.24313726, 0.15686275, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yppf6"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.8862745, 0.8156863, 0.6509804, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_utbis"]
+content_margin_left = 8.0
+content_margin_top = 0.0
+content_margin_right = 8.0
+content_margin_bottom = 0.0
+bg_color = Color(0.5882353, 0.24313726, 0.15686275, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qcrfk"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.8862745, 0.8156863, 0.6509804, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4muor"]
+content_margin_left = 8.0
+content_margin_top = 0.0
+content_margin_right = 8.0
+content_margin_bottom = 0.0
+bg_color = Color(0.5882353, 0.24313726, 0.15686275, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w0smp"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.8862745, 0.8156863, 0.6509804, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vfivh"]
+content_margin_left = 8.0
+content_margin_top = 0.0
+content_margin_right = 8.0
+content_margin_bottom = 0.0
+bg_color = Color(0.5882353, 0.24313726, 0.15686275, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ydb1m"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.8862745, 0.8156863, 0.6509804, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2qlsw"]
+content_margin_left = 8.0
+content_margin_top = 0.0
+content_margin_right = 8.0
+content_margin_bottom = 0.0
+bg_color = Color(0.5882353, 0.24313726, 0.15686275, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o0ejj"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.8862745, 0.8156863, 0.6509804, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pt5da"]
+content_margin_left = 8.0
+content_margin_top = 0.0
+content_margin_right = 8.0
+content_margin_bottom = 0.0
+bg_color = Color(0.5882353, 0.24313726, 0.15686275, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dlci3"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.8862745, 0.8156863, 0.6509804, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2g65i"]
+content_margin_left = 8.0
+content_margin_top = 0.0
+content_margin_right = 8.0
+content_margin_bottom = 0.0
+bg_color = Color(0.5882353, 0.24313726, 0.15686275, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_u51n0"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.8862745, 0.8156863, 0.6509804, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mhgs7"]
+content_margin_left = 8.0
+content_margin_top = 0.0
+content_margin_right = 8.0
+content_margin_bottom = 0.0
+bg_color = Color(0.5882353, 0.24313726, 0.15686275, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_66my3"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.8862745, 0.8156863, 0.6509804, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sveu3"]
+content_margin_left = 8.0
+content_margin_top = 0.0
+content_margin_right = 8.0
+content_margin_bottom = 0.0
+bg_color = Color(0.5882353, 0.24313726, 0.15686275, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uwtk7"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.8862745, 0.8156863, 0.6509804, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pvy0f"]
+content_margin_left = 8.0
+content_margin_top = 0.0
+content_margin_right = 8.0
+content_margin_bottom = 0.0
+bg_color = Color(0.5882353, 0.24313726, 0.15686275, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hed7u"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.8862745, 0.8156863, 0.6509804, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0kt6l"]
+content_margin_left = 8.0
+content_margin_top = 0.0
+content_margin_right = 8.0
+content_margin_bottom = 0.0
+bg_color = Color(0.5882353, 0.24313726, 0.15686275, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_83jnf"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.8862745, 0.8156863, 0.6509804, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k5y8j"]
+content_margin_left = 8.0
+content_margin_top = 0.0
+content_margin_right = 8.0
+content_margin_bottom = 0.0
+bg_color = Color(0.5882353, 0.24313726, 0.15686275, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x20ea"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.8862745, 0.8156863, 0.6509804, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r1eub"]
+content_margin_left = 8.0
+content_margin_top = 0.0
+content_margin_right = 8.0
+content_margin_bottom = 0.0
+bg_color = Color(0.5882353, 0.24313726, 0.15686275, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_koduq"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.8862745, 0.8156863, 0.6509804, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hweyd"]
+content_margin_left = 8.0
+content_margin_top = 0.0
+content_margin_right = 8.0
+content_margin_bottom = 0.0
+bg_color = Color(0.5882353, 0.24313726, 0.15686275, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yagbt"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.8862745, 0.8156863, 0.6509804, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ax5sy"]
+content_margin_left = 8.0
+content_margin_top = 0.0
+content_margin_right = 8.0
+content_margin_bottom = 0.0
+bg_color = Color(0.5882353, 0.24313726, 0.15686275, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tn2lx"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.8862745, 0.8156863, 0.6509804, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bbsab"]
+content_margin_left = 8.0
+content_margin_top = 0.0
+content_margin_right = 8.0
+content_margin_bottom = 0.0
+bg_color = Color(0.5882353, 0.24313726, 0.15686275, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yac5k"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.8862745, 0.8156863, 0.6509804, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2yvm4"]
+content_margin_left = 8.0
+content_margin_top = 0.0
+content_margin_right = 8.0
+content_margin_bottom = 0.0
+bg_color = Color(0.5882353, 0.24313726, 0.15686275, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0emas"]
+content_margin_left = 16.0
+content_margin_top = 8.0
+content_margin_right = 16.0
+content_margin_bottom = 8.0
+bg_color = Color(0.79607844, 0.6901961, 0.4862745, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_34pe2"]
+content_margin_left = 16.0
+content_margin_top = 8.0
+content_margin_right = 16.0
+content_margin_bottom = 8.0
+bg_color = Color(0.8862745, 0.8156863, 0.6509804, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ejt37"]
+content_margin_left = 16.0
+content_margin_top = 8.0
+content_margin_right = 16.0
+content_margin_bottom = 8.0
+bg_color = Color(0.8862745, 0.8156863, 0.6509804, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_drs81"]
+content_margin_left = 16.0
+content_margin_top = 8.0
+content_margin_right = 16.0
+content_margin_bottom = 8.0
+bg_color = Color(0.79607844, 0.6901961, 0.4862745, 0.5)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.56078434, 0.44313726, 0.25882354, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ptxi0"]
+content_margin_left = 16.0
+content_margin_top = 8.0
+content_margin_right = 16.0
+content_margin_bottom = 8.0
+bg_color = Color(0.5882353, 0.24313726, 0.15686275, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="Scroll" type="ColorRect" unique_id=1992633067]
+script = ExtResource("scroll_logic")
+offset_right = 1280.0
+offset_bottom = 1686.0
+mouse_filter = 2
+theme = SubResource("Theme_irvca")
+color = Color(0.8862745, 0.8156863, 0.6509804, 1)
+
+[node name="Header" type="HBoxContainer" parent="." unique_id=75676494]
+layout_mode = 0
+anchor_right = 1.0
+offset_left = 40.0
+offset_top = 16.0
+offset_right = -40.0
+theme_override_constants/separation = 22
+metadata/_edit_lock_ = true
+
+[node name="Heading" type="Label" parent="Header" unique_id=1233315948]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5882353, 0.24313726, 0.15686275, 1)
+theme_override_font_sizes/font_size = 32
+text = "The Scroll"
+metadata/font_size = 32
+
+[node name="Spacer" type="Control" parent="Header" unique_id=1619351765]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Count" type="Label" parent="Header" unique_id=1139189257]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
+theme_override_font_sizes/font_size = 16
+text = "0 of 21 restored — right to left"
+metadata/font_size = 16
+
+[node name="Back" type="TextureButton" parent="Header" unique_id=1217986272]
+modulate = Color(1.8, 1.4, 0.6, 1)
+texture_filter = 1
+layout_mode = 2
+size_flags_vertical = 4
+tooltip_text = "Back"
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("2_ai4fp")
+
+[node name="Levels" type="ScrollContainer" parent="." unique_id=1374267677]
+clip_contents = false
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 40.0
+offset_top = 70.0
+offset_right = -40.0
+offset_bottom = -100.0
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 3
+
+[node name="Acts" type="VBoxContainer" parent="Levels" unique_id=1827067652]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="ActIHeading" type="HBoxContainer" parent="Levels/Acts" unique_id=906010679]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Title" type="Label" parent="Levels/Acts/ActIHeading" unique_id=971822738]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5882353, 0.24313726, 0.15686275, 1)
+theme_override_font_sizes/font_size = 16
+text = "Act I — Burial and going forth"
+metadata/font_size = 16
+
+[node name="Band" type="Control" parent="Levels/Acts/ActIHeading" unique_id=1359066430]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+
+[node name="Pattern" type="TextureRect" parent="Levels/Acts/ActIHeading/Band" unique_id=2109752741]
+texture_filter = 1
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+texture = ExtResource("3_0daod")
+stretch_mode = 1
+
+[node name="ActI" type="HFlowContainer" parent="Levels/Acts" unique_id=399518481]
+layout_mode = 2
+layout_direction = 3
+theme_override_constants/h_separation = 14
+theme_override_constants/v_separation = 18
+
+[node name="procession" type="VBoxContainer" parent="Levels/Acts/ActI" unique_id=1342702796]
+layout_mode = 2
+layout_direction = 2
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+theme_override_constants/separation = 2
+metadata/key = "procession"
+
+[node name="Frame" type="PanelContainer" parent="Levels/Acts/ActI/procession" unique_id=1675191458]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_uw31b")
+
+[node name="Picture" type="TextureRect" parent="Levels/Acts/ActI/procession/Frame" unique_id=213666003]
+custom_minimum_size = Vector2(220, 140)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("4_p1t5q")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Restored" type="TextureRect" parent="Levels/Acts/ActI/procession/Frame/Picture" unique_id=165490428]
+visible = false
+layout_mode = 0
+offset_left = 184.0
+offset_top = 6.0
+offset_right = 184.0
+offset_bottom = 6.0
+mouse_filter = 2
+texture = ExtResource("5_4wg3f")
+
+[node name="Current" type="PanelContainer" parent="Levels/Acts/ActI/procession/Frame/Picture" unique_id=922262290]
+layout_mode = 0
+offset_left = 10.0
+offset_top = -16.0
+offset_right = 10.0
+offset_bottom = -16.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_8o6vq")
+
+[node name="Label" type="Label" parent="Levels/Acts/ActI/procession/Frame/Picture/Current" unique_id=136721083]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
+theme_override_font_sizes/font_size = 16
+text = "You are here"
+metadata/font_size = 16
+
+[node name="Title" type="Label" parent="Levels/Acts/ActI/procession" unique_id=805781761]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+theme_override_font_sizes/font_size = 16
+text = "The Funeral Procession"
+metadata/font_size = 16
+
+[node name="Spells" type="Label" parent="Levels/Acts/ActI/procession" unique_id=354104778]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
+theme_override_font_sizes/font_size = 16
+text = "Spells 1–15"
+metadata/font_size = 16
+
+[node name="cosmos" type="VBoxContainer" parent="Levels/Acts/ActI" unique_id=1480835204]
+layout_mode = 2
+layout_direction = 2
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+theme_override_constants/separation = 2
+metadata/key = "cosmos"
+
+[node name="Frame" type="PanelContainer" parent="Levels/Acts/ActI/cosmos" unique_id=1643427837]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_adbhe")
+
+[node name="Picture" type="TextureRect" parent="Levels/Acts/ActI/cosmos/Frame" unique_id=234936725]
+custom_minimum_size = Vector2(220, 140)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("6_yt8p8")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Restored" type="TextureRect" parent="Levels/Acts/ActI/cosmos/Frame/Picture" unique_id=1947869579]
+visible = false
+layout_mode = 0
+offset_left = 184.0
+offset_top = 6.0
+offset_right = 184.0
+offset_bottom = 6.0
+mouse_filter = 2
+texture = ExtResource("5_4wg3f")
+
+[node name="Current" type="PanelContainer" parent="Levels/Acts/ActI/cosmos/Frame/Picture" unique_id=1655181020]
+visible = false
+layout_mode = 0
+offset_left = 10.0
+offset_top = -16.0
+offset_right = 10.0
+offset_bottom = -16.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_xlf1g")
+
+[node name="Label" type="Label" parent="Levels/Acts/ActI/cosmos/Frame/Picture/Current" unique_id=1734051057]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
+theme_override_font_sizes/font_size = 16
+text = "You are here"
+metadata/font_size = 16
+
+[node name="Title" type="Label" parent="Levels/Acts/ActI/cosmos" unique_id=1887072189]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+theme_override_font_sizes/font_size = 16
+text = "The Night Journey"
+metadata/font_size = 16
+
+[node name="Spells" type="Label" parent="Levels/Acts/ActI/cosmos" unique_id=1407910758]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
+theme_override_font_sizes/font_size = 16
+text = "Spells 17"
+metadata/font_size = 16
+
+[node name="councils" type="VBoxContainer" parent="Levels/Acts/ActI" unique_id=791874302]
+layout_mode = 2
+layout_direction = 2
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+theme_override_constants/separation = 2
+metadata/key = "councils"
+
+[node name="Frame" type="PanelContainer" parent="Levels/Acts/ActI/councils" unique_id=281393792]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_lcyyb")
+
+[node name="Picture" type="TextureRect" parent="Levels/Acts/ActI/councils/Frame" unique_id=2002935027]
+modulate = Color(1, 1, 1, 0.22)
+custom_minimum_size = Vector2(220, 140)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("7_2l4wu")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Restored" type="TextureRect" parent="Levels/Acts/ActI/councils/Frame/Picture" unique_id=1220227525]
+visible = false
+layout_mode = 0
+offset_left = 184.0
+offset_top = 6.0
+offset_right = 184.0
+offset_bottom = 6.0
+mouse_filter = 2
+texture = ExtResource("5_4wg3f")
+
+[node name="Current" type="PanelContainer" parent="Levels/Acts/ActI/councils/Frame/Picture" unique_id=1189718837]
+visible = false
+layout_mode = 0
+offset_left = 10.0
+offset_top = -16.0
+offset_right = 10.0
+offset_bottom = -16.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_cegp7")
+
+[node name="Label" type="Label" parent="Levels/Acts/ActI/councils/Frame/Picture/Current" unique_id=1049092481]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
+theme_override_font_sizes/font_size = 16
+text = "You are here"
+metadata/font_size = 16
+
+[node name="Title" type="Label" parent="Levels/Acts/ActI/councils" unique_id=1400593689]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.56078434, 0.44313726, 0.25882354, 1)
+theme_override_font_sizes/font_size = 16
+text = "The Councils"
+metadata/font_size = 16
+
+[node name="Spells" type="Label" parent="Levels/Acts/ActI/councils" unique_id=1765845394]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
+theme_override_font_sizes/font_size = 16
+text = "Spells 18"
+metadata/font_size = 16
+
+[node name="mouth" type="VBoxContainer" parent="Levels/Acts/ActI" unique_id=627054334]
+layout_mode = 2
+layout_direction = 2
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+theme_override_constants/separation = 2
+metadata/key = "mouth"
+
+[node name="Frame" type="PanelContainer" parent="Levels/Acts/ActI/mouth" unique_id=1277876332]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_rj12l")
+
+[node name="Picture" type="TextureRect" parent="Levels/Acts/ActI/mouth/Frame" unique_id=1859125436]
+modulate = Color(1, 1, 1, 0.22)
+custom_minimum_size = Vector2(220, 140)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("8_tn0x0")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Restored" type="TextureRect" parent="Levels/Acts/ActI/mouth/Frame/Picture" unique_id=146263225]
+visible = false
+layout_mode = 0
+offset_left = 184.0
+offset_top = 6.0
+offset_right = 184.0
+offset_bottom = 6.0
+mouse_filter = 2
+texture = ExtResource("5_4wg3f")
+
+[node name="Current" type="PanelContainer" parent="Levels/Acts/ActI/mouth/Frame/Picture" unique_id=1438314518]
+visible = false
+layout_mode = 0
+offset_left = 10.0
+offset_top = -16.0
+offset_right = 10.0
+offset_bottom = -16.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_uhlsy")
+
+[node name="Label" type="Label" parent="Levels/Acts/ActI/mouth/Frame/Picture/Current" unique_id=1113729473]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
+theme_override_font_sizes/font_size = 16
+text = "You are here"
+metadata/font_size = 16
+
+[node name="Title" type="Label" parent="Levels/Acts/ActI/mouth" unique_id=654862505]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.56078434, 0.44313726, 0.25882354, 1)
+theme_override_font_sizes/font_size = 16
+text = "Mouth and Heart"
+metadata/font_size = 16
+
+[node name="Spells" type="Label" parent="Levels/Acts/ActI/mouth" unique_id=1636963767]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
+theme_override_font_sizes/font_size = 16
+text = "Spells 21–29"
+metadata/font_size = 16
+
+[node name="ActIIHeading" type="HBoxContainer" parent="Levels/Acts" unique_id=284660088]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Title" type="Label" parent="Levels/Acts/ActIIHeading" unique_id=901385543]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5882353, 0.24313726, 0.15686275, 1)
+theme_override_font_sizes/font_size = 16
+text = "Act II — Survival"
+metadata/font_size = 16
+
+[node name="Band" type="Control" parent="Levels/Acts/ActIIHeading" unique_id=1913347894]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+
+[node name="Pattern" type="TextureRect" parent="Levels/Acts/ActIIHeading/Band" unique_id=634616964]
+texture_filter = 1
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+texture = ExtResource("3_0daod")
+stretch_mode = 1
+
+[node name="ActII" type="HFlowContainer" parent="Levels/Acts" unique_id=329041973]
+layout_mode = 2
+layout_direction = 3
+theme_override_constants/h_separation = 14
+theme_override_constants/v_separation = 18
+
+[node name="dangers" type="VBoxContainer" parent="Levels/Acts/ActII" unique_id=1934733774]
+layout_mode = 2
+layout_direction = 2
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+theme_override_constants/separation = 2
+metadata/key = "dangers"
+
+[node name="Frame" type="PanelContainer" parent="Levels/Acts/ActII/dangers" unique_id=280866903]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_hxuea")
+
+[node name="Picture" type="TextureRect" parent="Levels/Acts/ActII/dangers/Frame" unique_id=171164529]
+custom_minimum_size = Vector2(220, 140)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("9_p4842")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Restored" type="TextureRect" parent="Levels/Acts/ActII/dangers/Frame/Picture" unique_id=1240202771]
+visible = false
+layout_mode = 0
+offset_left = 184.0
+offset_top = 6.0
+offset_right = 184.0
+offset_bottom = 6.0
+mouse_filter = 2
+texture = ExtResource("5_4wg3f")
+
+[node name="Current" type="PanelContainer" parent="Levels/Acts/ActII/dangers/Frame/Picture" unique_id=2118557470]
+visible = false
+layout_mode = 0
+offset_left = 10.0
+offset_top = -16.0
+offset_right = 10.0
+offset_bottom = -16.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_bqy3d")
+
+[node name="Label" type="Label" parent="Levels/Acts/ActII/dangers/Frame/Picture/Current" unique_id=1299174862]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
+theme_override_font_sizes/font_size = 16
+text = "You are here"
+metadata/font_size = 16
+
+[node name="Title" type="Label" parent="Levels/Acts/ActII/dangers" unique_id=656999827]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+theme_override_font_sizes/font_size = 16
+text = "Dangers on the Road"
+metadata/font_size = 16
+
+[node name="Spells" type="Label" parent="Levels/Acts/ActII/dangers" unique_id=1700620594]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
+theme_override_font_sizes/font_size = 16
+text = "Spells 31–42"
+metadata/font_size = 16
+
+[node name="survival" type="VBoxContainer" parent="Levels/Acts/ActII" unique_id=854717571]
+layout_mode = 2
+layout_direction = 2
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+theme_override_constants/separation = 2
+metadata/key = "survival"
+
+[node name="Frame" type="PanelContainer" parent="Levels/Acts/ActII/survival" unique_id=1747533486]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_yppf6")
+
+[node name="Picture" type="TextureRect" parent="Levels/Acts/ActII/survival/Frame" unique_id=1215790341]
+custom_minimum_size = Vector2(220, 140)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("10_e3ks8")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Restored" type="TextureRect" parent="Levels/Acts/ActII/survival/Frame/Picture" unique_id=1545210174]
+visible = false
+layout_mode = 0
+offset_left = 184.0
+offset_top = 6.0
+offset_right = 184.0
+offset_bottom = 6.0
+mouse_filter = 2
+texture = ExtResource("5_4wg3f")
+
+[node name="Current" type="PanelContainer" parent="Levels/Acts/ActII/survival/Frame/Picture" unique_id=616619670]
+visible = false
+layout_mode = 0
+offset_left = 10.0
+offset_top = -16.0
+offset_right = 10.0
+offset_bottom = -16.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_utbis")
+
+[node name="Label" type="Label" parent="Levels/Acts/ActII/survival/Frame/Picture/Current" unique_id=1534468548]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
+theme_override_font_sizes/font_size = 16
+text = "You are here"
+metadata/font_size = 16
+
+[node name="Title" type="Label" parent="Levels/Acts/ActII/survival" unique_id=401576738]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+theme_override_font_sizes/font_size = 16
+text = "Survival and Sustenance"
+metadata/font_size = 16
+
+[node name="Spells" type="Label" parent="Levels/Acts/ActII/survival" unique_id=1659719546]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
+theme_override_font_sizes/font_size = 16
+text = "Spells 43–63"
+metadata/font_size = 16
+
+[node name="ActIIIHeading" type="HBoxContainer" parent="Levels/Acts" unique_id=1489961101]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Title" type="Label" parent="Levels/Acts/ActIIIHeading" unique_id=1915584078]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5882353, 0.24313726, 0.15686275, 1)
+theme_override_font_sizes/font_size = 16
+text = "Act III — Food, breath and transformations"
+metadata/font_size = 16
+
+[node name="Band" type="Control" parent="Levels/Acts/ActIIIHeading" unique_id=2047924734]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+
+[node name="Pattern" type="TextureRect" parent="Levels/Acts/ActIIIHeading/Band" unique_id=2116401925]
+texture_filter = 1
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+texture = ExtResource("3_0daod")
+stretch_mode = 1
+
+[node name="ActIII" type="HFlowContainer" parent="Levels/Acts" unique_id=255004310]
+layout_mode = 2
+layout_direction = 3
+theme_override_constants/h_separation = 14
+theme_override_constants/v_separation = 18
+
+[node name="forth" type="VBoxContainer" parent="Levels/Acts/ActIII" unique_id=645110088]
+layout_mode = 2
+layout_direction = 2
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+theme_override_constants/separation = 2
+metadata/key = "forth"
+
+[node name="Frame" type="PanelContainer" parent="Levels/Acts/ActIII/forth" unique_id=603974499]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_qcrfk")
+
+[node name="Picture" type="TextureRect" parent="Levels/Acts/ActIII/forth/Frame" unique_id=1491969344]
+modulate = Color(1, 1, 1, 0.22)
+custom_minimum_size = Vector2(220, 140)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("11_dt7y3")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Restored" type="TextureRect" parent="Levels/Acts/ActIII/forth/Frame/Picture" unique_id=300608724]
+visible = false
+layout_mode = 0
+offset_left = 184.0
+offset_top = 6.0
+offset_right = 184.0
+offset_bottom = 6.0
+mouse_filter = 2
+texture = ExtResource("5_4wg3f")
+
+[node name="Current" type="PanelContainer" parent="Levels/Acts/ActIII/forth/Frame/Picture" unique_id=1392054276]
+visible = false
+layout_mode = 0
+offset_left = 10.0
+offset_top = -16.0
+offset_right = 10.0
+offset_bottom = -16.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_4muor")
+
+[node name="Label" type="Label" parent="Levels/Acts/ActIII/forth/Frame/Picture/Current" unique_id=1480754942]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
+theme_override_font_sizes/font_size = 16
+text = "You are here"
+metadata/font_size = 16
+
+[node name="Title" type="Label" parent="Levels/Acts/ActIII/forth" unique_id=1776020963]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.56078434, 0.44313726, 0.25882354, 1)
+theme_override_font_sizes/font_size = 16
+text = "Coming Forth by Day"
+metadata/font_size = 16
+
+[node name="Spells" type="Label" parent="Levels/Acts/ActIII/forth" unique_id=727903726]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
+theme_override_font_sizes/font_size = 16
+text = "Spells 64–75"
+metadata/font_size = 16
+
+[node name="forms" type="VBoxContainer" parent="Levels/Acts/ActIII" unique_id=900080900]
+layout_mode = 2
+layout_direction = 2
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+theme_override_constants/separation = 2
+metadata/key = "forms"
+
+[node name="Frame" type="PanelContainer" parent="Levels/Acts/ActIII/forms" unique_id=1917421785]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_w0smp")
+
+[node name="Picture" type="TextureRect" parent="Levels/Acts/ActIII/forms/Frame" unique_id=722810789]
+modulate = Color(1, 1, 1, 0.22)
+custom_minimum_size = Vector2(220, 140)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("12_dpgsj")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Restored" type="TextureRect" parent="Levels/Acts/ActIII/forms/Frame/Picture" unique_id=1382478998]
+visible = false
+layout_mode = 0
+offset_left = 184.0
+offset_top = 6.0
+offset_right = 184.0
+offset_bottom = 6.0
+mouse_filter = 2
+texture = ExtResource("5_4wg3f")
+
+[node name="Current" type="PanelContainer" parent="Levels/Acts/ActIII/forms/Frame/Picture" unique_id=619473835]
+visible = false
+layout_mode = 0
+offset_left = 10.0
+offset_top = -16.0
+offset_right = 10.0
+offset_bottom = -16.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_vfivh")
+
+[node name="Label" type="Label" parent="Levels/Acts/ActIII/forms/Frame/Picture/Current" unique_id=1384156609]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
+theme_override_font_sizes/font_size = 16
+text = "You are here"
+metadata/font_size = 16
+
+[node name="Title" type="Label" parent="Levels/Acts/ActIII/forms" unique_id=1957934949]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.56078434, 0.44313726, 0.25882354, 1)
+theme_override_font_sizes/font_size = 16
+text = "Transformations"
+metadata/font_size = 16
+
+[node name="Spells" type="Label" parent="Levels/Acts/ActIII/forms" unique_id=14829160]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
+theme_override_font_sizes/font_size = 16
+text = "Spells 76–88"
+metadata/font_size = 16
+
+[node name="ba" type="VBoxContainer" parent="Levels/Acts/ActIII" unique_id=649749390]
+layout_mode = 2
+layout_direction = 2
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+theme_override_constants/separation = 2
+metadata/key = "ba"
+
+[node name="Frame" type="PanelContainer" parent="Levels/Acts/ActIII/ba" unique_id=1684284366]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ydb1m")
+
+[node name="Picture" type="TextureRect" parent="Levels/Acts/ActIII/ba/Frame" unique_id=376350349]
+modulate = Color(1, 1, 1, 0.22)
+custom_minimum_size = Vector2(220, 140)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("13_y5jyt")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Restored" type="TextureRect" parent="Levels/Acts/ActIII/ba/Frame/Picture" unique_id=1895813323]
+visible = false
+layout_mode = 0
+offset_left = 184.0
+offset_top = 6.0
+offset_right = 184.0
+offset_bottom = 6.0
+mouse_filter = 2
+texture = ExtResource("5_4wg3f")
+
+[node name="Current" type="PanelContainer" parent="Levels/Acts/ActIII/ba/Frame/Picture" unique_id=542137338]
+visible = false
+layout_mode = 0
+offset_left = 10.0
+offset_top = -16.0
+offset_right = 10.0
+offset_bottom = -16.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_2qlsw")
+
+[node name="Label" type="Label" parent="Levels/Acts/ActIII/ba/Frame/Picture/Current" unique_id=924890320]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
+theme_override_font_sizes/font_size = 16
+text = "You are here"
+metadata/font_size = 16
+
+[node name="Title" type="Label" parent="Levels/Acts/ActIII/ba" unique_id=700835604]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.56078434, 0.44313726, 0.25882354, 1)
+theme_override_font_sizes/font_size = 16
+text = "Ba and Tomb"
+metadata/font_size = 16
+
+[node name="Spells" type="Label" parent="Levels/Acts/ActIII/ba" unique_id=1731730611]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
+theme_override_font_sizes/font_size = 16
+text = "Spells 89–92"
+metadata/font_size = 16
+
+[node name="boats" type="VBoxContainer" parent="Levels/Acts/ActIII" unique_id=1183770987]
+layout_mode = 2
+layout_direction = 2
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+theme_override_constants/separation = 2
+metadata/key = "boats"
+
+[node name="Frame" type="PanelContainer" parent="Levels/Acts/ActIII/boats" unique_id=1073975761]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_o0ejj")
+
+[node name="Picture" type="TextureRect" parent="Levels/Acts/ActIII/boats/Frame" unique_id=761161157]
+modulate = Color(1, 1, 1, 0.22)
+custom_minimum_size = Vector2(220, 140)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("14_f3wiw")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Restored" type="TextureRect" parent="Levels/Acts/ActIII/boats/Frame/Picture" unique_id=1604773610]
+visible = false
+layout_mode = 0
+offset_left = 184.0
+offset_top = 6.0
+offset_right = 184.0
+offset_bottom = 6.0
+mouse_filter = 2
+texture = ExtResource("5_4wg3f")
+
+[node name="Current" type="PanelContainer" parent="Levels/Acts/ActIII/boats/Frame/Picture" unique_id=1152769813]
+visible = false
+layout_mode = 0
+offset_left = 10.0
+offset_top = -16.0
+offset_right = 10.0
+offset_bottom = -16.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_pt5da")
+
+[node name="Label" type="Label" parent="Levels/Acts/ActIII/boats/Frame/Picture/Current" unique_id=170396399]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
+theme_override_font_sizes/font_size = 16
+text = "You are here"
+metadata/font_size = 16
+
+[node name="Title" type="Label" parent="Levels/Acts/ActIII/boats" unique_id=1703346180]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.56078434, 0.44313726, 0.25882354, 1)
+theme_override_font_sizes/font_size = 16
+text = "Thoth and the Boats"
+metadata/font_size = 16
+
+[node name="Spells" type="Label" parent="Levels/Acts/ActIII/boats" unique_id=95266749]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
+theme_override_font_sizes/font_size = 16
+text = "Spells 93–109"
+metadata/font_size = 16
+
+[node name="ActIVHeading" type="HBoxContainer" parent="Levels/Acts" unique_id=1915909315]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Title" type="Label" parent="Levels/Acts/ActIVHeading" unique_id=1258032722]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5882353, 0.24313726, 0.15686275, 1)
+theme_override_font_sizes/font_size = 16
+text = "Act IV — The Field of Reeds"
+metadata/font_size = 16
+
+[node name="Band" type="Control" parent="Levels/Acts/ActIVHeading" unique_id=928983144]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+
+[node name="Pattern" type="TextureRect" parent="Levels/Acts/ActIVHeading/Band" unique_id=2130639229]
+texture_filter = 1
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+texture = ExtResource("3_0daod")
+stretch_mode = 1
+
+[node name="ActIV" type="HFlowContainer" parent="Levels/Acts" unique_id=1214582612]
+layout_mode = 2
+layout_direction = 3
+theme_override_constants/h_separation = 14
+theme_override_constants/v_separation = 18
+
+[node name="field" type="VBoxContainer" parent="Levels/Acts/ActIV" unique_id=662729085]
+layout_mode = 2
+layout_direction = 2
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+theme_override_constants/separation = 2
+metadata/key = "field"
+
+[node name="Frame" type="PanelContainer" parent="Levels/Acts/ActIV/field" unique_id=1289518424]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_dlci3")
+
+[node name="Picture" type="TextureRect" parent="Levels/Acts/ActIV/field/Frame" unique_id=1186553945]
+modulate = Color(1, 1, 1, 0.22)
+custom_minimum_size = Vector2(220, 140)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("15_nmfc1")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Restored" type="TextureRect" parent="Levels/Acts/ActIV/field/Frame/Picture" unique_id=1146978633]
+visible = false
+layout_mode = 0
+offset_left = 184.0
+offset_top = 6.0
+offset_right = 184.0
+offset_bottom = 6.0
+mouse_filter = 2
+texture = ExtResource("5_4wg3f")
+
+[node name="Current" type="PanelContainer" parent="Levels/Acts/ActIV/field/Frame/Picture" unique_id=1327253092]
+visible = false
+layout_mode = 0
+offset_left = 10.0
+offset_top = -16.0
+offset_right = 10.0
+offset_bottom = -16.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_2g65i")
+
+[node name="Label" type="Label" parent="Levels/Acts/ActIV/field/Frame/Picture/Current" unique_id=791746542]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
+theme_override_font_sizes/font_size = 16
+text = "You are here"
+metadata/font_size = 16
+
+[node name="Title" type="Label" parent="Levels/Acts/ActIV/field" unique_id=1542283031]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.56078434, 0.44313726, 0.25882354, 1)
+theme_override_font_sizes/font_size = 16
+text = "The Field of Offerings"
+metadata/font_size = 16
+
+[node name="Spells" type="Label" parent="Levels/Acts/ActIV/field" unique_id=112779322]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
+theme_override_font_sizes/font_size = 16
+text = "Spells 110"
+metadata/font_size = 16
+
+[node name="souls" type="VBoxContainer" parent="Levels/Acts/ActIV" unique_id=2078417548]
+layout_mode = 2
+layout_direction = 2
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+theme_override_constants/separation = 2
+metadata/key = "souls"
+
+[node name="Frame" type="PanelContainer" parent="Levels/Acts/ActIV/souls" unique_id=1616896334]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_u51n0")
+
+[node name="Picture" type="TextureRect" parent="Levels/Acts/ActIV/souls/Frame" unique_id=2012369150]
+modulate = Color(1, 1, 1, 0.22)
+custom_minimum_size = Vector2(220, 140)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("16_nimr0")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Restored" type="TextureRect" parent="Levels/Acts/ActIV/souls/Frame/Picture" unique_id=835632607]
+visible = false
+layout_mode = 0
+offset_left = 184.0
+offset_top = 6.0
+offset_right = 184.0
+offset_bottom = 6.0
+mouse_filter = 2
+texture = ExtResource("5_4wg3f")
+
+[node name="Current" type="PanelContainer" parent="Levels/Acts/ActIV/souls/Frame/Picture" unique_id=2146931318]
+visible = false
+layout_mode = 0
+offset_left = 10.0
+offset_top = -16.0
+offset_right = 10.0
+offset_bottom = -16.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_mhgs7")
+
+[node name="Label" type="Label" parent="Levels/Acts/ActIV/souls/Frame/Picture/Current" unique_id=2061090334]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
+theme_override_font_sizes/font_size = 16
+text = "You are here"
+metadata/font_size = 16
+
+[node name="Title" type="Label" parent="Levels/Acts/ActIV/souls" unique_id=1105507160]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.56078434, 0.44313726, 0.25882354, 1)
+theme_override_font_sizes/font_size = 16
+text = "The Souls of the Towns"
+metadata/font_size = 16
+
+[node name="Spells" type="Label" parent="Levels/Acts/ActIV/souls" unique_id=88480692]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
+theme_override_font_sizes/font_size = 16
+text = "Spells 112–124"
+metadata/font_size = 16
+
+[node name="ActVHeading" type="HBoxContainer" parent="Levels/Acts" unique_id=1208458186]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Title" type="Label" parent="Levels/Acts/ActVHeading" unique_id=383837340]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5882353, 0.24313726, 0.15686275, 1)
+theme_override_font_sizes/font_size = 16
+text = "Act V — Gates and guardians"
+metadata/font_size = 16
+
+[node name="Band" type="Control" parent="Levels/Acts/ActVHeading" unique_id=661352740]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+
+[node name="Pattern" type="TextureRect" parent="Levels/Acts/ActVHeading/Band" unique_id=1799589044]
+texture_filter = 1
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+texture = ExtResource("3_0daod")
+stretch_mode = 1
+
+[node name="ActV" type="HFlowContainer" parent="Levels/Acts" unique_id=326657169]
+layout_mode = 2
+layout_direction = 3
+theme_override_constants/h_separation = 14
+theme_override_constants/v_separation = 18
+
+[node name="lake" type="VBoxContainer" parent="Levels/Acts/ActV" unique_id=1834705803]
+layout_mode = 2
+layout_direction = 2
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+theme_override_constants/separation = 2
+metadata/key = "lake"
+
+[node name="Frame" type="PanelContainer" parent="Levels/Acts/ActV/lake" unique_id=1715885361]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_66my3")
+
+[node name="Picture" type="TextureRect" parent="Levels/Acts/ActV/lake/Frame" unique_id=1817136433]
+modulate = Color(1, 1, 1, 0.22)
+custom_minimum_size = Vector2(220, 140)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("17_ompfu")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Restored" type="TextureRect" parent="Levels/Acts/ActV/lake/Frame/Picture" unique_id=91722408]
+visible = false
+layout_mode = 0
+offset_left = 184.0
+offset_top = 6.0
+offset_right = 184.0
+offset_bottom = 6.0
+mouse_filter = 2
+texture = ExtResource("5_4wg3f")
+
+[node name="Current" type="PanelContainer" parent="Levels/Acts/ActV/lake/Frame/Picture" unique_id=488396972]
+visible = false
+layout_mode = 0
+offset_left = 10.0
+offset_top = -16.0
+offset_right = 10.0
+offset_bottom = -16.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_sveu3")
+
+[node name="Label" type="Label" parent="Levels/Acts/ActV/lake/Frame/Picture/Current" unique_id=135763649]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
+theme_override_font_sizes/font_size = 16
+text = "You are here"
+metadata/font_size = 16
+
+[node name="Title" type="Label" parent="Levels/Acts/ActV/lake" unique_id=1890935916]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.56078434, 0.44313726, 0.25882354, 1)
+theme_override_font_sizes/font_size = 16
+text = "The Lake of Fire"
+metadata/font_size = 16
+
+[node name="Spells" type="Label" parent="Levels/Acts/ActV/lake" unique_id=1754523537]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
+theme_override_font_sizes/font_size = 16
+text = "Spells 126–143"
+metadata/font_size = 16
+
+[node name="gates" type="VBoxContainer" parent="Levels/Acts/ActV" unique_id=60693755]
+layout_mode = 2
+layout_direction = 2
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+theme_override_constants/separation = 2
+metadata/key = "gates"
+
+[node name="Frame" type="PanelContainer" parent="Levels/Acts/ActV/gates" unique_id=1135290379]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_uwtk7")
+
+[node name="Picture" type="TextureRect" parent="Levels/Acts/ActV/gates/Frame" unique_id=977449149]
+modulate = Color(1, 1, 1, 0.22)
+custom_minimum_size = Vector2(220, 140)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("18_pf3rn")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Restored" type="TextureRect" parent="Levels/Acts/ActV/gates/Frame/Picture" unique_id=1343584828]
+visible = false
+layout_mode = 0
+offset_left = 184.0
+offset_top = 6.0
+offset_right = 184.0
+offset_bottom = 6.0
+mouse_filter = 2
+texture = ExtResource("5_4wg3f")
+
+[node name="Current" type="PanelContainer" parent="Levels/Acts/ActV/gates/Frame/Picture" unique_id=1112867141]
+visible = false
+layout_mode = 0
+offset_left = 10.0
+offset_top = -16.0
+offset_right = 10.0
+offset_bottom = -16.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_pvy0f")
+
+[node name="Label" type="Label" parent="Levels/Acts/ActV/gates/Frame/Picture/Current" unique_id=1889893518]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
+theme_override_font_sizes/font_size = 16
+text = "You are here"
+metadata/font_size = 16
+
+[node name="Title" type="Label" parent="Levels/Acts/ActV/gates" unique_id=423966989]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.56078434, 0.44313726, 0.25882354, 1)
+theme_override_font_sizes/font_size = 16
+text = "The Gates"
+metadata/font_size = 16
+
+[node name="Spells" type="Label" parent="Levels/Acts/ActV/gates" unique_id=351440054]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
+theme_override_font_sizes/font_size = 16
+text = "Spells 144–146"
+metadata/font_size = 16
+
+[node name="baboons" type="VBoxContainer" parent="Levels/Acts/ActV" unique_id=491544218]
+layout_mode = 2
+layout_direction = 2
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+theme_override_constants/separation = 2
+metadata/key = "baboons"
+
+[node name="Frame" type="PanelContainer" parent="Levels/Acts/ActV/baboons" unique_id=1901704631]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_hed7u")
+
+[node name="Picture" type="TextureRect" parent="Levels/Acts/ActV/baboons/Frame" unique_id=160391203]
+modulate = Color(1, 1, 1, 0.22)
+custom_minimum_size = Vector2(220, 140)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("19_wnmsu")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Restored" type="TextureRect" parent="Levels/Acts/ActV/baboons/Frame/Picture" unique_id=1953101240]
+visible = false
+layout_mode = 0
+offset_left = 184.0
+offset_top = 6.0
+offset_right = 184.0
+offset_bottom = 6.0
+mouse_filter = 2
+texture = ExtResource("5_4wg3f")
+
+[node name="Current" type="PanelContainer" parent="Levels/Acts/ActV/baboons/Frame/Picture" unique_id=357837302]
+visible = false
+layout_mode = 0
+offset_left = 10.0
+offset_top = -16.0
+offset_right = 10.0
+offset_bottom = -16.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_0kt6l")
+
+[node name="Label" type="Label" parent="Levels/Acts/ActV/baboons/Frame/Picture/Current" unique_id=287709997]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
+theme_override_font_sizes/font_size = 16
+text = "You are here"
+metadata/font_size = 16
+
+[node name="Title" type="Label" parent="Levels/Acts/ActV/baboons" unique_id=1132129544]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.56078434, 0.44313726, 0.25882354, 1)
+theme_override_font_sizes/font_size = 16
+text = "The Baboon Gods"
+metadata/font_size = 16
+
+[node name="Spells" type="Label" parent="Levels/Acts/ActV/baboons" unique_id=844358361]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
+theme_override_font_sizes/font_size = 16
+text = "Spells 147"
+metadata/font_size = 16
+
+[node name="cows" type="VBoxContainer" parent="Levels/Acts/ActV" unique_id=897865397]
+layout_mode = 2
+layout_direction = 2
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+theme_override_constants/separation = 2
+metadata/key = "cows"
+
+[node name="Frame" type="PanelContainer" parent="Levels/Acts/ActV/cows" unique_id=1893176437]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_83jnf")
+
+[node name="Picture" type="TextureRect" parent="Levels/Acts/ActV/cows/Frame" unique_id=1080746398]
+modulate = Color(1, 1, 1, 0.22)
+custom_minimum_size = Vector2(220, 140)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("20_3lhee")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Restored" type="TextureRect" parent="Levels/Acts/ActV/cows/Frame/Picture" unique_id=575859128]
+visible = false
+layout_mode = 0
+offset_left = 184.0
+offset_top = 6.0
+offset_right = 184.0
+offset_bottom = 6.0
+mouse_filter = 2
+texture = ExtResource("5_4wg3f")
+
+[node name="Current" type="PanelContainer" parent="Levels/Acts/ActV/cows/Frame/Picture" unique_id=564073866]
+visible = false
+layout_mode = 0
+offset_left = 10.0
+offset_top = -16.0
+offset_right = 10.0
+offset_bottom = -16.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_k5y8j")
+
+[node name="Label" type="Label" parent="Levels/Acts/ActV/cows/Frame/Picture/Current" unique_id=1448590527]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
+theme_override_font_sizes/font_size = 16
+text = "You are here"
+metadata/font_size = 16
+
+[node name="Title" type="Label" parent="Levels/Acts/ActV/cows" unique_id=174573574]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.56078434, 0.44313726, 0.25882354, 1)
+theme_override_font_sizes/font_size = 16
+text = "The Seven Cows"
+metadata/font_size = 16
+
+[node name="Spells" type="Label" parent="Levels/Acts/ActV/cows" unique_id=1964126576]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
+theme_override_font_sizes/font_size = 16
+text = "Spells 148"
+metadata/font_size = 16
+
+[node name="mounds" type="VBoxContainer" parent="Levels/Acts/ActV" unique_id=617150918]
+layout_mode = 2
+layout_direction = 2
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+theme_override_constants/separation = 2
+metadata/key = "mounds"
+
+[node name="Frame" type="PanelContainer" parent="Levels/Acts/ActV/mounds" unique_id=165833056]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_x20ea")
+
+[node name="Picture" type="TextureRect" parent="Levels/Acts/ActV/mounds/Frame" unique_id=1653912872]
+modulate = Color(1, 1, 1, 0.22)
+custom_minimum_size = Vector2(220, 140)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("21_eq53r")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Restored" type="TextureRect" parent="Levels/Acts/ActV/mounds/Frame/Picture" unique_id=666935555]
+visible = false
+layout_mode = 0
+offset_left = 184.0
+offset_top = 6.0
+offset_right = 184.0
+offset_bottom = 6.0
+mouse_filter = 2
+texture = ExtResource("5_4wg3f")
+
+[node name="Current" type="PanelContainer" parent="Levels/Acts/ActV/mounds/Frame/Picture" unique_id=680095602]
+visible = false
+layout_mode = 0
+offset_left = 10.0
+offset_top = -16.0
+offset_right = 10.0
+offset_bottom = -16.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_r1eub")
+
+[node name="Label" type="Label" parent="Levels/Acts/ActV/mounds/Frame/Picture/Current" unique_id=533599243]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
+theme_override_font_sizes/font_size = 16
+text = "You are here"
+metadata/font_size = 16
+
+[node name="Title" type="Label" parent="Levels/Acts/ActV/mounds" unique_id=663702866]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.56078434, 0.44313726, 0.25882354, 1)
+theme_override_font_sizes/font_size = 16
+text = "The Fourteen Mounds"
+metadata/font_size = 16
+
+[node name="Spells" type="Label" parent="Levels/Acts/ActV/mounds" unique_id=2073209664]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
+theme_override_font_sizes/font_size = 16
+text = "Spells 149–150"
+metadata/font_size = 16
+
+[node name="ActVIHeading" type="HBoxContainer" parent="Levels/Acts" unique_id=1965883599]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Title" type="Label" parent="Levels/Acts/ActVIHeading" unique_id=1036341739]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5882353, 0.24313726, 0.15686275, 1)
+theme_override_font_sizes/font_size = 16
+text = "Act VI — Amulets and strange creatures"
+metadata/font_size = 16
+
+[node name="Band" type="Control" parent="Levels/Acts/ActVIHeading" unique_id=765934877]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+
+[node name="Pattern" type="TextureRect" parent="Levels/Acts/ActVIHeading/Band" unique_id=359379226]
+texture_filter = 1
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+texture = ExtResource("3_0daod")
+stretch_mode = 1
+
+[node name="ActVI" type="HFlowContainer" parent="Levels/Acts" unique_id=180357591]
+layout_mode = 2
+layout_direction = 3
+theme_override_constants/h_separation = 14
+theme_override_constants/v_separation = 18
+
+[node name="chamber" type="VBoxContainer" parent="Levels/Acts/ActVI" unique_id=831491698]
+layout_mode = 2
+layout_direction = 2
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+theme_override_constants/separation = 2
+metadata/key = "chamber"
+
+[node name="Frame" type="PanelContainer" parent="Levels/Acts/ActVI/chamber" unique_id=318314942]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_koduq")
+
+[node name="Picture" type="TextureRect" parent="Levels/Acts/ActVI/chamber/Frame" unique_id=570961793]
+modulate = Color(1, 1, 1, 0.22)
+custom_minimum_size = Vector2(220, 140)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("22_pxhfl")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Restored" type="TextureRect" parent="Levels/Acts/ActVI/chamber/Frame/Picture" unique_id=2082577364]
+visible = false
+layout_mode = 0
+offset_left = 184.0
+offset_top = 6.0
+offset_right = 184.0
+offset_bottom = 6.0
+mouse_filter = 2
+texture = ExtResource("5_4wg3f")
+
+[node name="Current" type="PanelContainer" parent="Levels/Acts/ActVI/chamber/Frame/Picture" unique_id=2072313985]
+visible = false
+layout_mode = 0
+offset_left = 10.0
+offset_top = -16.0
+offset_right = 10.0
+offset_bottom = -16.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_hweyd")
+
+[node name="Label" type="Label" parent="Levels/Acts/ActVI/chamber/Frame/Picture/Current" unique_id=1842432921]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
+theme_override_font_sizes/font_size = 16
+text = "You are here"
+metadata/font_size = 16
+
+[node name="Title" type="Label" parent="Levels/Acts/ActVI/chamber" unique_id=1880464959]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.56078434, 0.44313726, 0.25882354, 1)
+theme_override_font_sizes/font_size = 16
+text = "Guarding the Body"
+metadata/font_size = 16
+
+[node name="Spells" type="Label" parent="Levels/Acts/ActVI/chamber" unique_id=2037294925]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
+theme_override_font_sizes/font_size = 16
+text = "Spells 151–154"
+metadata/font_size = 16
+
+[node name="creatures" type="VBoxContainer" parent="Levels/Acts/ActVI" unique_id=2027702128]
+layout_mode = 2
+layout_direction = 2
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+theme_override_constants/separation = 2
+metadata/key = "creatures"
+
+[node name="Frame" type="PanelContainer" parent="Levels/Acts/ActVI/creatures" unique_id=622785704]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_yagbt")
+
+[node name="Picture" type="TextureRect" parent="Levels/Acts/ActVI/creatures/Frame" unique_id=2072687028]
+modulate = Color(1, 1, 1, 0.22)
+custom_minimum_size = Vector2(220, 140)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("23_4f1q7")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Restored" type="TextureRect" parent="Levels/Acts/ActVI/creatures/Frame/Picture" unique_id=568232603]
+visible = false
+layout_mode = 0
+offset_left = 184.0
+offset_top = 6.0
+offset_right = 184.0
+offset_bottom = 6.0
+mouse_filter = 2
+texture = ExtResource("5_4wg3f")
+
+[node name="Current" type="PanelContainer" parent="Levels/Acts/ActVI/creatures/Frame/Picture" unique_id=1595662503]
+visible = false
+layout_mode = 0
+offset_left = 10.0
+offset_top = -16.0
+offset_right = 10.0
+offset_bottom = -16.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ax5sy")
+
+[node name="Label" type="Label" parent="Levels/Acts/ActVI/creatures/Frame/Picture/Current" unique_id=618677820]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
+theme_override_font_sizes/font_size = 16
+text = "You are here"
+metadata/font_size = 16
+
+[node name="Title" type="Label" parent="Levels/Acts/ActVI/creatures" unique_id=1826716491]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.56078434, 0.44313726, 0.25882354, 1)
+theme_override_font_sizes/font_size = 16
+text = "Strange Creatures"
+metadata/font_size = 16
+
+[node name="Spells" type="Label" parent="Levels/Acts/ActVI/creatures" unique_id=408897916]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
+theme_override_font_sizes/font_size = 16
+text = "Spells 162–165"
+metadata/font_size = 16
+
+[node name="ActFHeading" type="HBoxContainer" parent="Levels/Acts" unique_id=1257167220]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Title" type="Label" parent="Levels/Acts/ActFHeading" unique_id=826067985]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5882353, 0.24313726, 0.15686275, 1)
+theme_override_font_sizes/font_size = 16
+text = "Finale"
+metadata/font_size = 16
+
+[node name="Band" type="Control" parent="Levels/Acts/ActFHeading" unique_id=1045664254]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+
+[node name="Pattern" type="TextureRect" parent="Levels/Acts/ActFHeading/Band" unique_id=994020104]
+texture_filter = 1
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+texture = ExtResource("3_0daod")
+stretch_mode = 1
+
+[node name="ActF" type="HFlowContainer" parent="Levels/Acts" unique_id=505180426]
+layout_mode = 2
+layout_direction = 3
+theme_override_constants/h_separation = 14
+theme_override_constants/v_separation = 18
+
+[node name="doors" type="VBoxContainer" parent="Levels/Acts/ActF" unique_id=590352165]
+layout_mode = 2
+layout_direction = 2
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+theme_override_constants/separation = 2
+metadata/key = "doors"
+
+[node name="Frame" type="PanelContainer" parent="Levels/Acts/ActF/doors" unique_id=1659901524]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_tn2lx")
+
+[node name="Picture" type="TextureRect" parent="Levels/Acts/ActF/doors/Frame" unique_id=1786581188]
+modulate = Color(1, 1, 1, 0.22)
+custom_minimum_size = Vector2(220, 140)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("24_w0u2i")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Restored" type="TextureRect" parent="Levels/Acts/ActF/doors/Frame/Picture" unique_id=1437349404]
+visible = false
+layout_mode = 0
+offset_left = 184.0
+offset_top = 6.0
+offset_right = 184.0
+offset_bottom = 6.0
+mouse_filter = 2
+texture = ExtResource("5_4wg3f")
+
+[node name="Current" type="PanelContainer" parent="Levels/Acts/ActF/doors/Frame/Picture" unique_id=1334418846]
+visible = false
+layout_mode = 0
+offset_left = 10.0
+offset_top = -16.0
+offset_right = 10.0
+offset_bottom = -16.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_bbsab")
+
+[node name="Label" type="Label" parent="Levels/Acts/ActF/doors/Frame/Picture/Current" unique_id=279420324]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
+theme_override_font_sizes/font_size = 16
+text = "You are here"
+metadata/font_size = 16
+
+[node name="Title" type="Label" parent="Levels/Acts/ActF/doors" unique_id=96150837]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.56078434, 0.44313726, 0.25882354, 1)
+theme_override_font_sizes/font_size = 16
+text = "Thoth Opens the Sky"
+metadata/font_size = 16
+
+[node name="Spells" type="Label" parent="Levels/Acts/ActF/doors" unique_id=1430717141]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
+theme_override_font_sizes/font_size = 16
+text = "Spells 161"
+metadata/font_size = 16
+
+[node name="hall" type="VBoxContainer" parent="Levels/Acts/ActF" unique_id=674253429]
+layout_mode = 2
+layout_direction = 2
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+theme_override_constants/separation = 2
+metadata/key = "hall"
+
+[node name="Frame" type="PanelContainer" parent="Levels/Acts/ActF/hall" unique_id=1871329977]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_yac5k")
+
+[node name="Picture" type="TextureRect" parent="Levels/Acts/ActF/hall/Frame" unique_id=586119413]
+modulate = Color(1, 1, 1, 0.22)
+custom_minimum_size = Vector2(220, 140)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("25_lo0pm")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Restored" type="TextureRect" parent="Levels/Acts/ActF/hall/Frame/Picture" unique_id=575548708]
+visible = false
+layout_mode = 0
+offset_left = 184.0
+offset_top = 6.0
+offset_right = 184.0
+offset_bottom = 6.0
+mouse_filter = 2
+texture = ExtResource("5_4wg3f")
+
+[node name="Current" type="PanelContainer" parent="Levels/Acts/ActF/hall/Frame/Picture" unique_id=1782817872]
+visible = false
+layout_mode = 0
+offset_left = 10.0
+offset_top = -16.0
+offset_right = 10.0
+offset_bottom = -16.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_2yvm4")
+
+[node name="Label" type="Label" parent="Levels/Acts/ActF/hall/Frame/Picture/Current" unique_id=1908417401]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
+theme_override_font_sizes/font_size = 16
+text = "You are here"
+metadata/font_size = 16
+
+[node name="Title" type="Label" parent="Levels/Acts/ActF/hall" unique_id=497516359]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.56078434, 0.44313726, 0.25882354, 1)
+theme_override_font_sizes/font_size = 16
+text = "The Weighing of the Heart"
+metadata/font_size = 16
+
+[node name="Spells" type="Label" parent="Levels/Acts/ActF/hall" unique_id=1927352352]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
+theme_override_font_sizes/font_size = 16
+text = "Spells 125"
+metadata/font_size = 16
+
+[node name="Footer" type="ColorRect" parent="." unique_id=1175567561]
+layout_mode = 0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -96.0
+mouse_filter = 2
+color = Color(0.79607844, 0.6901961, 0.4862745, 1)
+metadata/_edit_lock_ = true
+
+[node name="Rule" type="ColorRect" parent="Footer" unique_id=1131015877]
+layout_mode = 0
+anchor_right = 1.0
+offset_bottom = 4.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="Selection" type="HBoxContainer" parent="Footer" unique_id=679538616]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 40.0
+offset_top = 4.0
+offset_right = -40.0
+theme_override_constants/separation = 24
+
+[node name="Name" type="Label" parent="Footer/Selection" unique_id=644725930]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5882353, 0.24313726, 0.15686275, 1)
+theme_override_font_sizes/font_size = 32
+text = "The Funeral Procession"
+metadata/font_size = 32
+
+[node name="About" type="Label" parent="Footer/Selection" unique_id=1043668747]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+theme_override_font_sizes/font_size = 16
+text = "Haul the sledge, restore the standards, rebuild the offering table, pour the water, open the mouth, and set up the stand before Ra."
+autowrap_mode = 2
+metadata/font_size = 16
+
+[node name="Play" type="Button" parent="Footer/Selection" unique_id=455900959]
+custom_minimum_size = Vector2(240, 52)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+theme_override_colors/font_focus_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
+theme_override_colors/font_hover_color = Color(0.5882353, 0.24313726, 0.15686275, 1)
+theme_override_colors/font_disabled_color = Color(0.56078434, 0.44313726, 0.25882354, 1)
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_0emas")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_34pe2")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ejt37")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_drs81")
+theme_override_styles/focus = SubResource("StyleBoxFlat_ptxi0")
+text = "Play"

@@ -17,8 +17,6 @@ const ACTS := {
 const SCENES := [
 	{"key": "procession", "act": "I", "title": "The Funeral Procession", "spells": "1–15", "plates": "I–VI",
 		"about": "Haul the sledge, restore the standards, rebuild the offering table, pour the water, open the mouth, and set up the stand before Ra."},
-	{"key": "sun", "act": "I", "title": "The Three-Tier Sun", "spells": "16", "plates": "VI",
-		"about": "The sun in three tiers, adored above and below."},
 	{"key": "cosmos", "act": "I", "title": "The Night Journey", "spells": "17", "plates": "VII–XI",
 		"about": "The lions of the horizon, the ba, the cat and the snake, the sun in Ra's boat."},
 	{"key": "councils", "act": "I", "title": "The Councils", "spells": "18", "plates": "XI–XIII",
@@ -53,8 +51,6 @@ const SCENES := [
 		"about": "The fourteen mounds and their key."},
 	{"key": "chamber", "act": "VI", "title": "Guarding the Body", "spells": "151–154", "plates": "LXXIV–LXXV",
 		"about": "The burial chamber and its guardians."},
-	{"key": "amulets", "act": "VI", "title": "The Amulets", "spells": "155–160", "plates": "LXXV–LXXVI",
-		"about": "The djed, the knot of Isis, the vulture, the collar and the papyrus column."},
 	{"key": "creatures", "act": "VI", "title": "Strange Creatures", "spells": "162–165", "plates": "LXXVII–LXXIX",
 		"about": "The Ihet cow and the strange creatures of the last spells."},
 	{"key": "doors", "act": "F", "title": "Thoth Opens the Sky", "spells": "161", "plates": "LXXVI",

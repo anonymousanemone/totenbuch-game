@@ -3,28 +3,28 @@
   "isis_nephthys_kneeling": {
    "name": "Nephthys and Isis",
    "descriptions": {
-    "default": "Nephthys and Isis kneel side by side, their name signs on their heads, at the end of the night journey."
+    "default": "Nephthys and Isis kneel side by side, their name signs on their heads: the basket on a house for Nephthys, the throne for Isis."
    },
    "journal": true
   },
   "nut_over_scarab": {
    "name": "Nut",
    "descriptions": {
-    "default": "Nut, the sky goddess, bends low over the earth. Beneath her lie a lion and a scarab: the sun, soon to be born again from her body."
+    "default": "A goddess, probably Nut, the sky, bends low over a lying lion and a scarab: the sun, soon to be born again from her body."
    },
    "journal": true
   },
   "osiris_enthroned": {
    "name": "Osiris enthroned",
    "descriptions": {
-    "default": "Osiris sits on his throne in the tall atef crown, holding a sceptre. \"My fair goal is with Osiris,\" says the dead man."
+    "default": "Osiris sits on his throne in the tall atef crown, holding his sceptre, as the dead man comes before him."
    },
    "journal": true
   },
   "offering_stand": {
    "name": "Offering stand",
    "descriptions": {
-    "default": "A tall stand with a loaf and a lotus flower, set before Osiris."
+    "default": "A tall stand with a round loaf and a lotus flower, set before Osiris."
    },
    "journal": true
   },
@@ -45,63 +45,63 @@
   "chest_bearer": {
    "name": "Bearer of the chest",
    "descriptions": {
-    "default": "A man carries a chest high on one hand. It may be the burial chest named near the end of the spell."
+    "default": "A man carries a chest high on one hand. It may be the funeral chest \"containing the bowels of Osiris\", which Anubis guards."
    },
    "journal": true
   },
   "isis_nephthys_standing_1": {
    "name": "Nephthys and Isis",
    "descriptions": {
-    "default": "Nephthys and Isis raise a hand toward the boat; Isis holds an ankh. Isis destroys what is wrong in the dead man, and Nephthys cuts away what rebels."
+    "default": "Nephthys and Isis raise a hand toward the boat; Isis holds an ankh. \"Isis cast away his impurities, Nephthys cut off his sins.\""
    },
    "journal": true
   },
   "baboons_praising_1": {
    "name": "Two baboons",
    "descriptions": {
-    "default": "Two baboons stand upright and raise their paws in praise of the evening sun."
+    "default": "Two baboons stand upright and raise their paws in praise of the sun in its boat."
    },
    "journal": true
   },
   "atum_evening_boat": {
    "name": "Atum's boat",
    "descriptions": {
-    "default": "Atum, the evening sun, crowned with the sun disc, sits in his boat before a stand with a lotus. Spell 17 opens in his voice: \"I am Atum.\""
+    "default": "A god crowned with the sun disc sits in his boat before a stand with a lotus. He is probably Atum, the evening sun, who in the text \"built thy house\" and crosses to the eastern horizon."
    },
    "journal": true
   },
   "baboons_praising_2": {
    "name": "Two baboons",
    "descriptions": {
-    "default": "Two baboons stand upright and raise their paws in praise of the evening sun."
+    "default": "Two baboons stand upright and raise their paws in praise of the sun in its boat."
    },
    "journal": true
   },
   "isis_nephthys_standing_2": {
    "name": "Isis and Nephthys",
    "descriptions": {
-    "default": "Isis and Nephthys stand with a hand raised, each holding an ankh. \"I was conceived by Isis and begotten by Nephthys,\" says the dead man."
+    "default": "Isis and Nephthys stand with a hand raised, each holding an ankh. The dead man \"was conceived by Isis, begotten by Nephthys.\""
    },
    "journal": true
   },
   "baboons_seated_x": {
    "name": "Two seated baboons",
    "descriptions": {
-    "default": "Two baboons squat on their haunches facing Khepri's boat, greeting the rising sun."
+    "default": "Two baboons squat on their haunches, greeting the sun."
    },
    "journal": true
   },
   "khepri_boat": {
    "name": "Khepri's boat",
    "descriptions": {
-    "default": "Khepri, the god with a scarab for a head, rides in the boat of the rising sun. \"O Khepri in the midst of your boat,\" the dead man prays, \"deliver me.\""
+    "default": "Khepri, the rising sun, rides in his boat. \"O Chepera in his bark! ... Chepera in his bark is Harmachis himself.\""
    },
    "journal": true
   },
   "inscriptions_ix": {
    "name": "Inscriptions",
    "descriptions": {
-    "default": "The running caption of Spell 17 above plate IX, with remnants of signs."
+    "default": "The heading of the chapter continues: \"May the living soul of the Osiris N be, among the devotees, near the great company of the gods in the Amenti, after the burying.\""
    },
    "journal": true
   },
@@ -115,21 +115,21 @@
   "two_apes_isis_nephthys": {
    "name": "Two apes",
    "descriptions": {
-    "default": "Two baboons squat facing the scarab god's boat. In another copy such apes stand for Isis and Nephthys."
+    "default": "Two baboons squat facing the boat of the rising sun. They may stand for Isis and Nephthys, whom the text calls the two guardians beside Khepri's bark."
    },
    "journal": true
   },
   "falcon_on_standard": {
    "name": "Falcon on a standard",
    "descriptions": {
-    "default": "A falcon perches on a tall standard, a flail at its back. Perhaps it shows the words \"I fly like a falcon.\""
+    "default": "A falcon perches on a tall standard, a flail at its back. It looks like the sign for the West, but why it stands here is not known. The dead man \"flies away like a hawk.\""
    },
    "journal": true
   },
   "great_cat_and_apep": {
    "name": "The great cat",
    "descriptions": {
-    "default": "\"I am the great Cat by the Persea tree in Heliopolis.\" The cat is Ra himself, cutting off the head of the snake Apep, enemy of the sun."
+    "default": "\"I am this great cat who frequenteth the Persea tree in Heliopolis.\" The cat is Ra himself, holding down the snake, the enemy of the sun, on the night of battle."
    },
    "journal": true
   },
@@ -143,14 +143,14 @@
   "small_seated_god": {
    "name": "Small seated figure",
    "descriptions": {
-    "default": "A small figure sits beside the tree with one knee drawn up. Who it is is not known."
+    "default": "A small figure with a beaked head sits beside the tree with one knee drawn up. Who it is is not known."
    },
    "journal": true
   },
   "twin_souls": {
    "name": "The twin souls",
    "descriptions": {
-    "default": "Two bearded gods sit on thrones: probably the pair in whom one soul dwells, Osiris and Ra, who meet in Djedu and embrace."
+    "default": "Two bearded gods sit on thrones: Osiris and Ra. Osiris enters Djedu and meets the soul of Ra there, and \"the soul of the one embraces the soul of the other.\""
    },
    "journal": true
   },
@@ -164,98 +164,98 @@
   "horus_khenty_irty": {
    "name": "Horus of the two eyes",
    "descriptions": {
-    "default": "A god stands beneath a pair of eyes: Horus Khenty-irty, \"Horus foremost of the two eyes\", one of the Seven Spirits."
+    "default": "A god stands beneath a pair of eyes: Horus Khenty-irty, \"Horus foremost of the two eyes\", one of the Seven Glorious Ones whom Anubis set to protect the sarcophagus of Osiris."
    },
    "journal": true
   },
   "spirit_with_emblem": {
    "name": "Spirit with a sign on his head",
    "descriptions": {
-    "default": "A bearded god with a curled sign on his head: one of the Seven Spirits who, with the sons of Horus, follow the coffin of Osiris. Which of the Seven he is could not be identified."
+    "default": "A bearded god with a curled sign on his head: one of the Seven Glorious Ones, with the sons of Horus, who protect the sarcophagus of Osiris. Which of the Seven he is is not known."
    },
    "journal": true
   },
   "duamutef": {
    "name": "Duamutef",
    "descriptions": {
-    "default": "A mummy-shaped god with a jackal's head: Duamutef, one of the four sons of Horus who guard the burial."
+    "default": "A mummy-shaped god with a jackal's head: Duamutef, one of the four sons of Horus who protect the sarcophagus of Osiris."
    },
    "journal": true
   },
   "imsety": {
    "name": "Imsety",
    "descriptions": {
-    "default": "A mummy-shaped god with a human head: Imsety, one of the four sons of Horus who guard the burial."
+    "default": "A mummy-shaped god with a human head: Imsety, one of the four sons of Horus who protect the sarcophagus of Osiris."
    },
    "journal": true
   },
   "chest_with_head_of_ra": {
    "name": "Head rising from the chest",
    "descriptions": {
-    "default": "A head rises from the top of a tall burial chest guarded by the four sons of Horus: the sun god coming up out of the burial."
+    "default": "A head rises from the top of a tall chest between the four sons of Horus. The chest may be the funeral chest of Osiris; the head may be the sun god's."
    },
    "journal": true
   },
   "hapy": {
    "name": "Hapy",
    "descriptions": {
-    "default": "A mummy-shaped god with a baboon's head: Hapy, one of the four sons of Horus who guard the burial."
+    "default": "A mummy-shaped god with a baboon's head: Hapy, one of the four sons of Horus who protect the sarcophagus of Osiris."
    },
    "journal": true
   },
   "qebehsenuef": {
    "name": "Qebehsenuef",
    "descriptions": {
-    "default": "A mummy-shaped god with a falcon's head: Qebehsenuef, one of the four sons of Horus who guard the burial."
+    "default": "A mummy-shaped god with a falcon's head: Qebehsenuef, one of the four sons of Horus who protect the sarcophagus of Osiris."
    },
    "journal": true
   },
   "mehet_weret": {
    "name": "Mehet-weret",
    "descriptions": {
-    "default": "The great cow of the sky lies on a shrine, a flail on her back and a sun disc with plumes on her head. At her udders, the spell says, Ra is born again each day."
+    "default": "The great cow of the sky lies on a shrine, a flail on her back and a sun disc with plumes on her head. The dead man \"sees the sun born of Yesterday above the thigh of the cow Mehurit.\""
    },
    "journal": true
   },
   "inscriptions_viii": {
    "name": "Inscriptions",
    "descriptions": {
-    "default": "The running caption of Spell 17 above plate VIII, with remnants of signs."
+    "default": "The heading of the chapter continues: \"about going out by day, about performing all the transformations in which one is pleased to be, about playing at draughts, about being in the sacred place.\""
    },
    "journal": true
   },
   "offerer_before_cow": {
    "name": "Offering to the cow",
    "descriptions": {
-    "default": "A man holds up a small offering to the great cow. In another copy Thoth offers her the Eye of Horus."
+    "default": "A man raises one hand and holds up a small offering toward the great cow."
    },
    "journal": true
   },
   "wedjat_shrine": {
    "name": "The Eye of Horus",
    "descriptions": {
-    "default": "The wedjat eye rests on a shrine: the Eye of Horus, made whole again after his battle with Seth."
+    "default": "The wedjat eye rests on a shrine: the sacred Eye, made whole again after the fight of Horus with Seth."
    },
    "journal": true
   },
   "thoth_baboon": {
    "name": "Thoth as a baboon",
    "descriptions": {
-    "default": "A baboon squats facing the Eye of Horus. It is probably Thoth, who in the spell lifts the veil of darkness from the Eye."
+    "default": "A baboon squats facing the Eye of Horus. It is probably Thoth, who sets the Eye's hair in order and washes it when it weeps, giving back its life and health."
    },
    "journal": true
   },
   "rosetau_gate": {
-   "name": "The gate of Rosetau",
+   "name": "The gate",
    "descriptions": {
-    "default": "A tall gate with a snake inside and three blades on its roof: the gate through which the sun god goes out to the eastern horizon."
+    "default": "A tall gate with a snake inside and three blades on its roof: the gate through which Atum passes to reach the eastern horizon. Other copies name it the gate of Rosetau."
    },
    "journal": true
   },
   "heh_and_wadj_wer": {
    "name": "Heh and Wadj-wer",
    "descriptions": {
-    "default": "Two gods kneel, each reaching a hand over a small pool: Heh, god of millions of years, and Wadj-wer, the Great Green. In the two lakes, of Natron and of Maat, the dead man is purified."
+    "default": "Two figures kneel, each reaching a hand over a small pool: Heh, \"Passing over Millions of Years\", and Wadj-wer, the \"Great Green\". Their pools are the basin of natron and the basin of nitre, where the dead man is purified."
    },
    "journal": true
   },
@@ -283,14 +283,14 @@
   "benu": {
    "name": "The Benu",
    "descriptions": {
-    "default": "The Benu heron. \"I am the great Heron who is in Heliopolis,\" says the dead man: Osiris, who keeps the account of all that is and all that will be."
+    "default": "The Benu heron. \"I am this great Bennou who is in Heliopolis\": Osiris, whose body is the law of all that exists, of endless time and eternity."
    },
    "journal": true
   },
   "lion_tomorrow": {
    "name": "Lion of Tomorrow",
    "descriptions": {
-    "default": "The other lion of the horizon, named Tomorrow in other copies: Ra, who rises again each morning."
+    "default": "The other lion of the horizon. \"I am Yesterday and I know To-morrow\": Tomorrow is Ra, who rises again each morning."
    },
    "journal": true
   },
@@ -304,63 +304,63 @@
   "inscriptions_vii": {
    "name": "Inscriptions",
    "descriptions": {
-    "default": "The running caption of Spell 17 above plate VII, with remnants of signs."
+    "default": "The heading of the chapter: \"A chapter concerning the resurrection of the shades, about going out by day of the Netherworld, about being one of the retinue of Osiris, about feeding upon the loaves of the Good Being,\""
    },
    "journal": true
   },
   "lion_yesterday": {
    "name": "Lion of Yesterday",
    "descriptions": {
-    "default": "One of the two lions that hold up the horizon. In other copies this one is named Yesterday, which the spell explains as Osiris."
+    "default": "One of the two lions that hold up the horizon. \"Yesterday is Osiris,\" the text explains."
    },
    "journal": true
   },
   "sun_boat_with_crew": {
    "name": "Sun boat with its crew",
    "descriptions": {
-    "default": "The sun boat sails with six gods standing in it, spears in hand. On a stand in the middle lies a crowned creature beneath the sun disc; what it is could not be identified."
+    "default": "The sun boat sails with six gods standing in it, spears in hand. On a stand in the middle lies a crowned creature beneath the sun disc; what it is is not known."
    },
    "journal": true
   },
   "adorer_with_flowers": {
-   "name": "Adorer with flowers",
+   "name": "Bearer of Min",
    "descriptions": {
-    "default": "A man holds up a lotus flower and a bunch of flowers before the sun boat."
+    "default": "A man holds up a small statue of Min (Khem) on his arm and presents a lotus flower to the dead man."
    },
    "journal": true
   },
   "adorer_before_boat": {
-   "name": "Adorer",
+   "name": "The deceased adoring",
    "descriptions": {
-    "default": "A man raises both hands in praise before the sun boat."
+    "default": "The dead man raises both hands in praise before the man who carries the statue of Min and the lotus."
    },
    "journal": true
   },
   "ba": {
    "name": "The ba",
    "descriptions": {
-    "default": "A bird with a man's head and a god's beard stands on a low stand: the ba, the soul of the deceased, free to leave the tomb by day."
+    "default": "A bird with a man's head and a god's beard stands on a low stand: the ba, the soul of the deceased, free to leave the tomb by day. It carries a djed, the sign of stability, and beside it stands the sign for the West."
    },
    "journal": true
   },
   "falcon_on_perch": {
-   "name": "Falcon on a perch",
+   "name": "Sign of the West",
    "descriptions": {
-    "default": "A falcon stands on a perch. The papyri give it no name."
+    "default": "A falcon with a flail stands on a perch beside the ba: the sign for the West, the Amenti, the land of the dead."
    },
    "journal": true
   },
   "senet_booth": {
    "name": "The booth",
    "descriptions": {
-    "default": "The deceased sits in a booth before a senet board. The spell's title promises that he will play senet and sit in a booth in the afterlife."
+    "default": "The deceased sits in a booth with his staff, before a small altar of loaves. The heading promises him the sacred place and a game of draughts (senet)."
    },
    "journal": true
   },
   "deceased_with_staff": {
    "name": "The deceased",
    "descriptions": {
-    "default": "The dead man stands with his staff, ready to set out. Spell 17 lets him come forth by day in any form he wishes."
+    "default": "The dead man stands with his staff, ready to set out: he goes out by day in any form he pleases."
    },
    "journal": false
   }

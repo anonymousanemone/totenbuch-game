@@ -1,0 +1,395 @@
+{
+ "source": "art/survival43-63.mdp",
+ "sha256": "650e26ba7f7a7a2457a0134cb325a84528326694c29751dc65faa9231cf69842",
+ "width": 9400,
+ "height": 1500,
+ "ground": 534,
+ "view_height": 701,
+ "scale": 1.5,
+ "figures": {
+  "spell47_bird_shrine": {
+   "x": 7248,
+   "y": 288,
+   "w": 364,
+   "h": 241,
+   "spell": 47,
+   "source_layer": 1039
+  },
+  "spell47_caption_1038": {
+   "x": 7239,
+   "y": 53,
+   "w": 378,
+   "h": 122,
+   "spell": 47,
+   "source_layer": 1038
+  },
+  "spell46_staff_bearer": {
+   "x": 7712,
+   "y": 291,
+   "w": 139,
+   "h": 237,
+   "spell": 46,
+   "source_layer": 1037
+  },
+  "spell46_caption_1036": {
+   "x": 7645,
+   "y": 187,
+   "w": 263,
+   "h": 95,
+   "spell": 46,
+   "source_layer": 1036
+  },
+  "spell46_caption_1035": {
+   "x": 7650,
+   "y": 54,
+   "w": 258,
+   "h": 120,
+   "spell": 46,
+   "source_layer": 1035
+  },
+  "spell45_mummy": {
+   "x": 7976,
+   "y": 225,
+   "w": 171,
+   "h": 303,
+   "spell": 45,
+   "source_layer": 1034
+  },
+  "spell45_caption_1033": {
+   "x": 7940,
+   "y": 52,
+   "w": 241,
+   "h": 118,
+   "spell": 45,
+   "source_layer": 1033
+  },
+  "spell44_shrine": {
+   "x": 8252,
+   "y": 202,
+   "w": 205,
+   "h": 328,
+   "spell": 44,
+   "source_layer": 1032
+  },
+  "spell44_caption_1031": {
+   "x": 8315,
+   "y": 57,
+   "w": 386,
+   "h": 113,
+   "spell": 44,
+   "source_layer": 1031
+  },
+  "spell44_staff_bearer": {
+   "x": 8529,
+   "y": 252,
+   "w": 157,
+   "h": 277,
+   "spell": 44,
+   "source_layer": 1030
+  },
+  "spell43_osiris": {
+   "x": 8787,
+   "y": 260,
+   "w": 167,
+   "h": 270,
+   "spell": 43,
+   "source_layer": 1029
+  },
+  "spell43_worshipper": {
+   "x": 9002,
+   "y": 285,
+   "w": 104,
+   "h": 251,
+   "spell": 43,
+   "source_layer": 1028
+  },
+  "spell43_caption_1027": {
+   "x": 8768,
+   "y": 49,
+   "w": 348,
+   "h": 119,
+   "spell": 43,
+   "source_layer": 1027
+  },
+  "spell52_seated_man": {
+   "x": 5222,
+   "y": 258,
+   "w": 276,
+   "h": 270,
+   "spell": 52,
+   "source_layer": 1050
+  },
+  "spell52_caption_1049": {
+   "x": 5044,
+   "y": 50,
+   "w": 413,
+   "h": 120,
+   "spell": 52,
+   "source_layer": 1049
+  },
+  "spell51_walking_man": {
+   "x": 5604,
+   "y": 258,
+   "w": 125,
+   "h": 272,
+   "spell": 51,
+   "source_layer": 1048
+  },
+  "spell51_caption_1047": {
+   "x": 5539,
+   "y": 43,
+   "w": 220,
+   "h": 135,
+   "spell": 51,
+   "source_layer": 1047
+  },
+  "spell50_caption_1046": {
+   "x": 5955,
+   "y": 42,
+   "w": 288,
+   "h": 131,
+   "spell": 50,
+   "source_layer": 1046
+  },
+  "spell50_walking_man": {
+   "x": 5835,
+   "y": 234,
+   "w": 152,
+   "h": 295,
+   "spell": 50,
+   "source_layer": 1045
+  },
+  "spell50_mound": {
+   "x": 6032,
+   "y": 204,
+   "w": 183,
+   "h": 326,
+   "spell": 50,
+   "source_layer": 1044
+  },
+  "spell49_staff_bearer": {
+   "x": 6460,
+   "y": 262,
+   "w": 164,
+   "h": 266,
+   "spell": 49,
+   "source_layer": 1043
+  },
+  "spell49_caption_1042": {
+   "x": 6375,
+   "y": 52,
+   "w": 405,
+   "h": 117,
+   "spell": 49,
+   "source_layer": 1042
+  },
+  "spell48_caption_1041": {
+   "x": 6957,
+   "y": 57,
+   "w": 213,
+   "h": 110,
+   "spell": 48,
+   "source_layer": 1041
+  },
+  "spell48_walking_man": {
+   "x": 6982,
+   "y": 258,
+   "w": 104,
+   "h": 270,
+   "spell": 48,
+   "source_layer": 1040
+  },
+  "spell53_offerings": {
+   "x": 4367,
+   "y": 58,
+   "w": 481,
+   "h": 474,
+   "spell": 53,
+   "source_layer": 1007
+  },
+  "spell63_water": {
+   "x": 130,
+   "y": 55,
+   "w": 482,
+   "h": 477,
+   "spell": 63,
+   "source_layer": 1026
+  },
+  "spell59_tree": {
+   "x": 1666,
+   "y": 153,
+   "w": 288,
+   "h": 380,
+   "spell": 59,
+   "source_layer": 1055
+  },
+  "spell59_caption_1071": {
+   "x": 1698,
+   "y": 49,
+   "w": 217,
+   "h": 212,
+   "spell": 59,
+   "source_layer": 1071
+  },
+  "spell57_tree": {
+   "x": 2935,
+   "y": 187,
+   "w": 383,
+   "h": 343,
+   "spell": 57,
+   "source_layer": 1056
+  },
+  "spell57_caption_1070": {
+   "x": 2585,
+   "y": 49,
+   "w": 749,
+   "h": 135,
+   "spell": 57,
+   "source_layer": 1070
+  },
+  "spell62_breath": {
+   "x": 739,
+   "y": 238,
+   "w": 185,
+   "h": 289,
+   "spell": 62,
+   "source_layer": 1068
+  },
+  "spell61_caption_1067": {
+   "x": 1119,
+   "y": 69,
+   "w": 80,
+   "h": 92,
+   "spell": 61,
+   "source_layer": 1067
+  },
+  "spell61_breath": {
+   "x": 1075,
+   "y": 238,
+   "w": 171,
+   "h": 291,
+   "spell": 61,
+   "source_layer": 1066
+  },
+  "spell60_caption_1065": {
+   "x": 1410,
+   "y": 74,
+   "w": 74,
+   "h": 82,
+   "spell": 60,
+   "source_layer": 1065
+  },
+  "spell60_breath": {
+   "x": 1394,
+   "y": 240,
+   "w": 173,
+   "h": 289,
+   "spell": 60,
+   "source_layer": 1064
+  },
+  "spell56_caption_1063": {
+   "x": 3461,
+   "y": 82,
+   "w": 82,
+   "h": 75,
+   "spell": 56,
+   "source_layer": 1063
+  },
+  "spell56_ankh": {
+   "x": 3459,
+   "y": 229,
+   "w": 172,
+   "h": 302,
+   "spell": 56,
+   "source_layer": 1062
+  },
+  "spell55_caption_1061": {
+   "x": 3749,
+   "y": 88,
+   "w": 82,
+   "h": 79,
+   "spell": 55,
+   "source_layer": 1061
+  },
+  "spell55_breath": {
+   "x": 3719,
+   "y": 247,
+   "w": 176,
+   "h": 284,
+   "spell": 55,
+   "source_layer": 1060
+  },
+  "spell54_caption_1059": {
+   "x": 3968,
+   "y": 58,
+   "w": 360,
+   "h": 117,
+   "spell": 54,
+   "source_layer": 1059
+  },
+  "spell54_breath": {
+   "x": 4155,
+   "y": 247,
+   "w": 169,
+   "h": 281,
+   "spell": 54,
+   "source_layer": 1058
+  },
+  "spell58_drinking": {
+   "x": 2302,
+   "y": 235,
+   "w": 170,
+   "h": 293,
+   "spell": 58,
+   "source_layer": 1054
+  },
+  "spell58_caption_1069": {
+   "x": 1954,
+   "y": 60,
+   "w": 582,
+   "h": 113,
+   "spell": 58,
+   "source_layer": 1069
+  },
+  "spell62_caption": {
+   "x": 699,
+   "y": 48,
+   "w": 291,
+   "h": 130,
+   "spell": 62,
+   "source_layer": 1053
+  }
+ },
+ "columns": [
+  {
+   "x": 123,
+   "y": 180,
+   "w": 112,
+   "h": 357
+  },
+  {
+   "x": 1954,
+   "y": 180,
+   "w": 218,
+   "h": 357
+  },
+  {
+   "x": 2585,
+   "y": 180,
+   "w": 250,
+   "h": 357
+  },
+  {
+   "x": 3935,
+   "y": 180,
+   "w": 145,
+   "h": 357
+  },
+  {
+   "x": 4880,
+   "y": 180,
+   "w": 245,
+   "h": 357
+  }
+ ]
+}

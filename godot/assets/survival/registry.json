@@ -1,0 +1,312 @@
+{
+ "entries": {
+  "spell47_bird_shrine": {
+   "name": "Pylon and birds",
+   "descriptions": {
+    "default": "A pylon gate stands between the benu heron (the phoenix) and a hawk with a human head, the ba. The deceased claims his dwelling: \"The dwelling of Tmu, Lord of Heliopolis, is my dwelling.\""
+   },
+   "journal": true
+  },
+  "spell47_caption_1038": {
+   "name": "Spell 47",
+   "descriptions": {
+    "default": "A chapter about not letting the man be deprived of his dwelling in the Netherworld."
+   },
+   "journal": false
+  },
+  "spell46_staff_bearer": {
+   "name": "Staff bearer",
+   "descriptions": {
+    "default": "The deceased stands with a long staff in his hand. The spell lets him who lives in the Netherworld arise and walk unharmed."
+   },
+   "journal": true
+  },
+  "spell46_caption_1036": {
+   "name": "Spell 46",
+   "descriptions": {
+    "default": "A different reading of the title: about not being detrimental to the hour of life in the Netherworld."
+   },
+   "journal": false
+  },
+  "spell46_caption_1035": {
+   "name": "Spell 46",
+   "descriptions": {
+    "default": "A chapter about not letting injure him who is living in the Netherworld."
+   },
+   "journal": false
+  },
+  "spell45_mummy": {
+   "name": "Anubis and the mummy",
+   "descriptions": {
+    "default": "Jackal-headed Anubis holds up and protects a standing mummy, so that the body does not decay."
+   },
+   "journal": true
+  },
+  "spell45_caption_1033": {
+   "name": "Spell 45",
+   "descriptions": {
+    "default": "A chapter about escaping corruption in the Netherworld."
+   },
+   "journal": false
+  },
+  "spell44_shrine": {
+   "name": "Gate",
+   "descriptions": {
+    "default": "A tall gate with a ribbed cornice. Through it lies the dark retreat where the shades fall, but the deceased passes and does not die again."
+   },
+   "journal": true
+  },
+  "spell44_caption_1031": {
+   "name": "Spell 44",
+   "descriptions": {
+    "default": "A chapter about not dying again in the Netherworld."
+   },
+   "journal": false
+  },
+  "spell44_staff_bearer": {
+   "name": "Staff bearer",
+   "descriptions": {
+    "default": "The deceased stands before the gate with a staff in his hand."
+   },
+   "journal": true
+  },
+  "spell43_osiris": {
+   "name": "Standing god",
+   "descriptions": {
+    "default": "A god with a long wig and beard holds two tall sceptres. The deceased adores him so that his head will not be cut off: \"They gave me back my head after cutting it off.\""
+   },
+   "journal": true
+  },
+  "spell43_worshipper": {
+   "name": "Worshipper",
+   "descriptions": {
+    "default": "The deceased stands with his hands raised in adoration before the god."
+   },
+   "journal": true
+  },
+  "spell43_caption_1027": {
+   "name": "Spell 43",
+   "descriptions": {
+    "default": "A chapter about not letting the man's head be cut off in the Netherworld."
+   },
+   "journal": false
+  },
+  "spell52_seated_man": {
+   "name": "Seated man",
+   "descriptions": {
+    "default": "The deceased sits on a chair before an altar heaped with loaves. He refuses filth and lives on bread, wheat and beer from the sycamore of Hathor."
+   },
+   "journal": true
+  },
+  "spell52_caption_1049": {
+   "name": "Spell 52",
+   "descriptions": {
+    "default": "A chapter about not eating any excrement in the Netherworld."
+   },
+   "journal": false
+  },
+  "spell51_walking_man": {
+   "name": "Walking man",
+   "descriptions": {
+    "default": "The deceased stands upright, so that he does not go headlong in the Netherworld, where he would have to eat filth."
+   },
+   "journal": true
+  },
+  "spell51_caption_1047": {
+   "name": "Spell 51",
+   "descriptions": {
+    "default": "A chapter about not going headlong in the Netherworld."
+   },
+   "journal": false
+  },
+  "spell50_caption_1046": {
+   "name": "Spell 50",
+   "descriptions": {
+    "default": "A chapter about not entering the place of execution."
+   },
+   "journal": false
+  },
+  "spell50_walking_man": {
+   "name": "Walking man",
+   "descriptions": {
+    "default": "The deceased stands near the execution block and keeps away from it."
+   },
+   "journal": true
+  },
+  "spell50_mound": {
+   "name": "Execution block",
+   "descriptions": {
+    "default": "The block of the place of execution, with a long blade laid across its top. The gods fasten the bones of his neck so that he never comes to it."
+   },
+   "journal": true
+  },
+  "spell49_staff_bearer": {
+   "name": "Staff bearer",
+   "descriptions": {
+    "default": "The deceased goes out with his staff. The spell repeats chapter 11: he goes out against his foes like Ra rising from the horizon."
+   },
+   "journal": true
+  },
+  "spell49_caption_1042": {
+   "name": "Spell 49",
+   "descriptions": {
+    "default": "A chapter about going out against one's foes in the Netherworld. Its text is the same as chapter 11."
+   },
+   "journal": false
+  },
+  "spell48_caption_1041": {
+   "name": "Spell 48",
+   "descriptions": {
+    "default": "A chapter about going out with the gift of the word being truth. Its text is the same as chapter 10."
+   },
+   "journal": false
+  },
+  "spell48_walking_man": {
+   "name": "Walking man",
+   "descriptions": {
+    "default": "The deceased stands ready to go out. The spell repeats chapter 10: he goes out justified, across heaven and earth."
+   },
+   "journal": true
+  },
+  "spell53_offerings": {
+   "name": "Seated man with a cup",
+   "descriptions": {
+    "default": "The deceased sits before an altar of loaves and holds out a cup. He drinks nothing foul and eats the loaves of the Lord of offerings. The spell's heading is written above him."
+   },
+   "journal": true
+  },
+  "spell63_water": {
+   "name": "Libation before fire",
+   "descriptions": {
+    "default": "The deceased pours a libation from two bowls before the tall hieroglyph for fire, so that he drinks water and is not dried up by flame. The spell's heading is written above."
+   },
+   "journal": true
+  },
+  "spell59_tree": {
+   "name": "Sycamore goddess",
+   "descriptions": {
+    "default": "A goddess hidden in Nut's sycamore pours water onto the hands of the seated deceased: \"O this Nut's sycamore, give me the water which is in thee.\""
+   },
+   "journal": true
+  },
+  "spell59_caption_1071": {
+   "name": "Spell 59",
+   "descriptions": {
+    "default": "A chapter about drinking water in the Netherworld."
+   },
+   "journal": false
+  },
+  "spell57_tree": {
+   "name": "Sycamore goddess",
+   "descriptions": {
+    "default": "From inside a sycamore, a hidden goddess pours water onto the hands of the bowing deceased and holds out a tray of food."
+   },
+   "journal": true
+  },
+  "spell57_caption_1070": {
+   "name": "Spell 57",
+   "descriptions": {
+    "default": "A chapter about breathing air, about being in possession of the water in the Netherworld."
+   },
+   "journal": false
+  },
+  "spell62_breath": {
+   "name": "Breath bearer",
+   "descriptions": {
+    "default": "The deceased carries the sail of breath. He asks for the water as he crosses heaven to the Aarru field."
+   },
+   "journal": true
+  },
+  "spell61_caption_1067": {
+   "name": "Spell 61",
+   "descriptions": {
+    "default": "Another chapter, about being in possession of the water."
+   },
+   "journal": false
+  },
+  "spell61_breath": {
+   "name": "Breath bearer",
+   "descriptions": {
+    "default": "The deceased holds up the sail of breath. He comes out of the water and has power over it like the Nile god."
+   },
+   "journal": true
+  },
+  "spell60_caption_1065": {
+   "name": "Spell 60",
+   "descriptions": {
+    "default": "Another chapter, about being in possession of the water."
+   },
+   "journal": false
+  },
+  "spell60_breath": {
+   "name": "Breath bearer",
+   "descriptions": {
+    "default": "The deceased raises the sail of breath. He opens the gates of heaven and asks to have the water in his power."
+   },
+   "journal": true
+  },
+  "spell56_caption_1063": {
+   "name": "Spell 56",
+   "descriptions": {
+    "default": "Another chapter of breathing."
+   },
+   "journal": false
+  },
+  "spell56_ankh": {
+   "name": "Breath and life",
+   "descriptions": {
+    "default": "The deceased raises the sail of breath and carries an ankh, the sign of life, in his lowered hand. Again he asks Tmu for the breath of his nostrils."
+   },
+   "journal": true
+  },
+  "spell55_caption_1061": {
+   "name": "Spell 55",
+   "descriptions": {
+    "default": "Another chapter whereby air is given."
+   },
+   "journal": false
+  },
+  "spell55_breath": {
+   "name": "Breath bearer",
+   "descriptions": {
+    "default": "The deceased holds up the sail of breath. Speaking as Shu, god of the air, he draws breezes from the borders of heaven to the borders of earth."
+   },
+   "journal": true
+  },
+  "spell54_caption_1059": {
+   "name": "Spell 54",
+   "descriptions": {
+    "default": "A chapter about giving air to the man in the Netherworld."
+   },
+   "journal": false
+  },
+  "spell54_breath": {
+   "name": "Breath bearer",
+   "descriptions": {
+    "default": "The deceased raises the sail, the hieroglyph for breath. He asks Tmu for the sweet breath of his nostrils."
+   },
+   "journal": true
+  },
+  "spell58_drinking": {
+   "name": "Breath and vase",
+   "descriptions": {
+    "default": "The deceased holds the sail of breath and a vase. He asks for a door to open, names the parts of his boat, and asks for vases of milk and wine, cakes and meat."
+   },
+   "journal": true
+  },
+  "spell58_caption_1069": {
+   "name": "Spell 58",
+   "descriptions": {
+    "default": "A chapter about breathing air and about being in possession of the water in the Netherworld."
+   },
+   "journal": false
+  },
+  "spell62_caption": {
+   "name": "Spell 62",
+   "descriptions": {
+    "default": "Another chapter, about being in possession of the water."
+   },
+   "journal": false
+  }
+ }
+}

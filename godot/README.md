@@ -12,10 +12,33 @@ the strip shows its translation, from C. H. S. Davis, *The Egyptian Book of the 
 translates this same papyrus: `CAPTIONS` in `scripts/procession/procession.gd`, and each danger's `caption` and
 `title` in `scripts/dangers/danger_encounters.gd`.
 
-Only the procession and the dangers are in play; the Night Journey, the Field of Offerings and the
-Weighing of the Heart are set aside in `../archive/` (see its README), left out of the game and the tests.
+The procession, Night Journey, dangers, and Survival and Sustenance are playable from the map.
+The Field of Offerings and Weighing of the Heart remain in `../archive/` (see its README).
+
+## Survival and Sustenance (spells 43–63, pl. XX–XXIII)
+
+The full scroll is open for navigation and inspection, without puzzles or barriers.
+Walk right to left with the arrows or by clicking the papyrus. Click a glowing figure
+to approach it, read its description, and record it in the Journal. Captions can be
+inspected without adding journal entries. Tall text columns have papyrus-backed
+foreground nodes, so the avatar passes behind them.
+
+`scenes/survival.tscn` holds the artwork in spell groups, the avatar, camera, and five
+foreground text sections. `assets/survival/level.json` records source-layer IDs and bounds;
+saved scene positions remain authoritative. The source is `../art/survival43-63.mdp`.
+`../tools/build_survival_scene.py` exports the source and initially authors the scene;
+rerunning it replaces the generated scene, so preserve deliberate editor changes first.
+Use `-- --level=survival --at=5000 --screenshot=/tmp/survival.png` for a rendered preview.
 
 ## Visual scene workflow
+
+The title page is authored in `scenes/menus.tscn`, including its frame, frontispiece,
+text, and four buttons. `scenes/menu.tscn` instances it for existing menu links.
+`scenes/scroll.tscn` contains the complete map at 1280 × 1686 pixels for editing:
+all 21 level cards, grouped by act, with the locked header and footer at its ends.
+In play it fits the viewport and clips the scrolling level list between the fixed bars.
+Edit the saved nodes directly; scripts connect actions and update selection and progress.
+Keep map cards' `key` metadata in sync with `Scroll.SCENES` when adding or removing entries.
 
 The project is moving toward visual editing in Godot. Major visual elements are being moved
 from runtime construction into saved scene nodes so levels can be inspected and maintained

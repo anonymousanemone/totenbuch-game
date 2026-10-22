@@ -1,5 +1,119 @@
 # TODO
 
+## Centralized movable objects class — implementation plan
+
+- [ ] Add `godot/scripts/moveable_object.gd`, with `class_name MoveableObject` extending `Node2D`. Give each movable item an instance that controls its existing sprite, carrying state, and position.
+
+Scope: standardize movable-object interaction using the rules below. This class handles movement and attachment; puzzle scripts decide whether pickup or placement is allowed. Calf turning, water-jar tipping, and adze carving remain separate mechanics with their current controls. Only this TODO is being updated; implementation is a later task.
+
+### Required interaction behavior
+
+- [ ] Only objects marked `carriable` can be collected from the world by clicking and attached to the avatar. Puzzle eligibility checks still apply. Non-carriable puzzle pieces can be dragged directly without attaching to the avatar.
+- [ ] Clicking an attached object shows its description and leaves it attached. Pressing and moving beyond the drag threshold starts dragging it off the avatar; a simple click never leaves it following the pointer.
+- [ ] Show the object's description when its drag begins and keep it visible during the drag. Resolve the description from current game state, allowing explicit puzzle feedback or a state-dependent description to replace/modify it. Generic hover text must not overwrite it during dragging.
+- [ ] Every attached object can be dragged off the avatar, including items with no usable destination. Only a valid destination accepts it; otherwise it returns to its attachment on the avatar, following the avatar's current position and facing. An item with no destination always returns.
+- [ ] All movable objects use press-drag-release, with no click-to-pick-up-and-follow or click-again-to-place mode. Clicking a carriable world object to collect it onto the avatar is distinct from pointer dragging. The words are the sole movable-object exception: preserve their current click-to-follow and click-to-place behavior.
+- [ ] Invalid drops return objects to a valid location. For an avatar-origin drag this is the avatar; for other objects the puzzle resolves the valid return location. Preserve the original valid location until a placement is accepted; reset-to-source and cancel-drag are distinct operations.
+- [ ] Preserve the offering table's existing placement validation, support dependencies, automatic snap while dragging, shelf parking, and loose-piece gravity. Remove click-and-follow input. Apply the revised bounds, goose-bearer drops, and recovery rules below. Automatic snapping before mouse release is an explicitly retained table behavior.
+- [ ] Expand the offering floor/drop region's right boundary to the goose-bearer's rightmost bound. Update the floor, right wall, drop clamping, and relevant zone checks together so rejected offerings can fall in front of him.
+- [ ] Add a physical blocker covering the lector priest so loose offerings cannot fall onto or cover him. He currently has an inspection `Area2D`, not a physical barrier; `_build_floor()` currently creates only the floor, side walls, and upper shelf. Ensure release/spawn positions do not start inside the new blocker, including fallback drops.
+- [ ] Rejecting an item dropped on the goose-bearer releases it onto the floor in front of him with gravity; it must not remain attached to the pointer. Preserve his acceptance of the goose and return of his own loaf when his arms are empty.
+- [ ] Giving the goose to the bearer while he holds the loaf replaces the loaf with the goose and drops the displaced loaf onto the floor in front of him with gravity. Do not put the displaced loaf in the player's hand or leave it following the pointer.
+- [ ] Esc or leaving the table mid-drag returns an item directly taken from the bearer to him. Once an item has been released into the table's physics region, it belongs to the table for recovery purposes, even if it originally came from the bearer (including the long loaf). A subsequent cancelled drag returns it to the table using the table fallback calculation, not to the bearer. Shelf-origin cancellation retains the shelf recovery rule. Track the origin of the current drag rather than the item's historical source.
+- [ ] Preserve adze carving controls: pointer-following tool positioning and click-to-strike are tool use, separate from object transport. They do not become drag-to-strike.
+
+Verified offering-table behavior: `_fall()` clamps the release x to `[floor_x.x + min(half_width, 60), floor_x.y - min(half_width, 60)]`, and sets y to `min(release_y, ground - 20)` before spawning a gravity-driven rigid body. Thus the release y is preserved only when above that ground limit. Near a supported target, the piece snaps into its authored position; near an unsupported target, it spawns at the target center with sideways/upward velocity and rotation, then topples. Shelf parking clamps both x and y to the shelf region using the piece's half dimensions. Esc currently restores bearer/shelf items specially, while ordinary loose pieces fall from the table's horizontal midpoint at `ground - 200`. Keep these calculations with the expanded bounds and revised bearer/recovery rules above, avoiding the lector blocker when spawning fallback items.
+
+### Attributes
+
+| Attribute | Type | Purpose |
+|---|---|---|
+| `id` | `String` | Existing item ID, such as `sun` or `ankh38`. |
+| `sprite` | `Sprite2D` | Existing drawing controlled by this object. |
+| `state` | `State` enum | `WORLD`, `WORN`, `HELD`, or `PLACED`. |
+| `carriable` | `bool` | Whether a world click may collect this object onto the avatar; does not restrict dragging an attached object. |
+| `description_id` | `String` | Key used by the description system; puzzle state may select alternate text. |
+| `click_follow` | `bool` | False for every object except the words; never enables this mode for ordinary carried items. |
+| `carrier` | `Node2D` | Avatar providing `carrying_transform()`. |
+| `carry_pose` | `Transform2D` | Position, rotation, scale, and mirroring relative to the avatar. |
+| `held_pose` | `Transform2D` | Drawing offset, rotation, and scale relative to the pointer. |
+| `from_loc_parent` | `Node2D` | Authored source parent. |
+| `from_loc_transform` | `Transform2D` | Source pose relative to `from_loc_parent`. |
+| `from_loc_z_index` | `int` | Source drawing order. |
+| `to_loc_parent` | `Node2D` | Destination parent, supplied by the puzzle controller. |
+| `to_loc_transform` | `Transform2D` | Destination pose relative to `to_loc_parent`. |
+| `to_loc_z_index` | `int` | Destination drawing order. |
+| `_return_state` | `State` | State before entering `HELD`. |
+| `_return_parent` | `Node2D` | Parent of the last valid location before dragging. |
+| `_return_transform` | `Transform2D` | Parent-relative pose of the last valid location before dragging. |
+| `_return_z_index` | `int` | Drawing order to restore when cancelling. |
+
+Use the existing authored sprite rather than creating another copy. Preserve its original parent so objects can ride on moving scenery, such as the sun on the bier.
+
+`from_loc` and `to_loc` are the source and destination field groups above. Store transforms relative to their respective parents so both locations follow moving scenery. `setup()` captures `from_loc`; the puzzle configures `to_loc` before placement. For standards, update `to_loc` when the controller selects a pole. Wearing and pointer holding are intermediate states: they do not overwrite either location. Keep cancellation's temporary return state separate from the authored source, so cancelling a drag from the body returns the item to the body while resetting returns it to `from_loc`.
+
+### Functions and parameters
+
+| Function | Parameters | Behavior |
+|---|---|---|
+| `setup()` | `object_id: String, drawing: Sprite2D` | Store identity and capture `from_loc_parent`, `from_loc_transform`, and `from_loc_z_index` from the drawing. |
+| `set_to_loc()` | `parent: Node2D, pose: Transform2D, z_index: int` | Configure `to_loc_parent`, `to_loc_transform`, and `to_loc_z_index` without moving the object. |
+| `contains_point()` | `world_point: Vector2` | Test the transformed sprite, including its visible pixels, for picking. |
+| `world_rect()` | None | Return the current bounding rectangle for walking approach, hover, and clues. |
+| `wear()` | `avatar: Node2D, pose: Transform2D` | Require `carriable`; enter `WORN` and attach the drawing to the avatar's carrying frame after controller eligibility checks. |
+| `hold()` | `pointer_pose: Transform2D` | Save the previous state and enter `HELD`. Preserve a grab offset or set a specific grip. Ignore repeated calls while already held so the return state is preserved. |
+| `move_held()` | `world_point: Vector2` | Update the held drawing from the pointer position. |
+| `request_description()` | None | Emit `description_requested(id, description_id)`; the controller resolves current game-state text through the existing description/HUD system. |
+| `place()` | None | Enter `PLACED`; apply the configured `to_loc` parent, transform, and drawing order. The controller must configure the destination first. |
+| `cancel_hold()` | None | Restore the previous worn attachment using the avatar's current carrying frame, or the saved parent-relative valid location. Physics-based table recovery remains controller-owned. |
+| `reset()` | None | Apply `from_loc_parent`, `from_loc_transform`, and `from_loc_z_index`; restore `WORLD` state. |
+| `_process()` | `delta: float` | Update worn objects using `carrier.carrying_transform()`. |
+
+Signals: `state_changed(previous: State, current: State)` and `description_requested(object_id: String, description_id: String)`. Puzzle controllers resolve descriptions, refresh hover effects or UI, and retain responsibility for completion and dialogue.
+
+### Call sites and ownership
+
+| Existing caller | New calls and responsibility |
+|---|---|
+| `EndingStand.setup()` | Create stand, sun, and lotus objects; call `setup()` to capture each `from_loc` and `set_to_loc()` for its assembled position before Ra. Convert `WORN` entries into carry transforms. |
+| `EndingStand.pick()` / `worn_at()` | Call `contains_point()` on objects in the appropriate state. |
+| `EndingStand.take()` | Call `wear(avatar, pose)` after pickup is approved. |
+| `EndingStand.hold()` | Call `hold(pointer_pose)` only once an avatar-object press crosses the drag threshold. |
+| `EndingStand.unhold()` | Call `cancel_hold()`. |
+| `EndingStand.set_down()` | Check `RESTS_ON`, then call `place()` for an accepted piece. |
+| `procession._click_world()` / `_stand_piece_input()` | On an attached-object press, request its description and record the press. Cross the drag threshold to call `hold()`; release over a valid destination to place, otherwise cancel. A simple click only reads the description. Remove click-again placement and automatic walking to place a dragged stand piece. |
+| `procession` mouse-motion handling | Pass the world pointer position to the active object's `move_held()`. |
+| `procession` / `dangers` object input and description handlers | Apply the same attached-object click/drag rules to all carried objects; request descriptions on click and drag start, resolve state-specific text, and preserve it during the drag unless explicit game feedback replaces it. |
+| `dangers.take()` | Call `wear()` using the existing `CarryAnkh` or `CarryBreath` marker transform. |
+| `OpeningMouth.take_adze()` | Call `wear()` with the adze's hand attachment pose. |
+| `OpeningMouth.take_words()` | Call `hold()` with the words' pointer pose. |
+| `OpeningMouth.touch()` | Enter the existing carving tool mode. Pointer tracking and strike animation stay in `OpeningMouth`; transporting the adze remains subject to the shared drag/drop rules. |
+| `OpeningMouth.put_back()` | Call `reset()` for the carried object. |
+| `OpeningMouth.setup()` | Capture each object's `from_loc`; call `set_to_loc()` for the words' destination over Ra. |
+| `OpeningMouth.place_words()` | Call `place()` to apply the words' configured `to_loc`. |
+| `OfferingTable.take()` | Remove or disable the loose physics body, then call `hold()`. |
+| `OfferingTable.setup()` | Capture each object's `from_loc`; call `set_to_loc()` for each offering's assembled position. |
+| `OfferingTable.drop_at()` | Validate support and snapping, then call `place()` if accepted; otherwise resume existing physics behavior. |
+| `OfferingTable._build_floor()` / `_fall()` / `in_zone()` | Use the expanded right boundary and add the lector's physical blocker; keep physics and spawn positions consistent. |
+| `OfferingTable.bearer_act()` / `procession._act_bearer()` | Drop rejected items and any loaf displaced by the goose onto the floor in front of the bearer; never leave them following the pointer after release. |
+| `OfferingTable.take()` / `put_back()` / `procession.leave_table()` | Track current-drag origin: return directly borrowed items to the bearer on cancellation, table-origin items to the table, and shelf-origin items to the shelf. Releasing a borrowed loaf onto the table changes its subsequent recovery origin to the table. |
+| `procession._table_input()` | Start holding on press, keep existing automatic snapping during motion, and resolve unsnapped placement on release. A release without a drag must not leave an item following the pointer. Preserve table fallback calculations and bearer interactions. |
+| `procession.act_slot()` | Call `hold()` for a standard. |
+| `procession._drop_standard()` | Choose the pole, call `set_to_loc()` with its parent, pose, and drawing order, then `place()`; call `cancel_hold()` for an invalid drop. |
+| Each puzzle's `reset()` | Call every owned object's `reset()`, then apply puzzle-specific initial state. |
+
+For offerings, physics remains owned by `OfferingTable`: the movable object controls the drawing while held or placed, and the existing rigid body controls it when loose. Make that handoff explicit so both systems cannot update the sprite simultaneously.
+
+Input stays in the level controller. Objects do not implement `_unhandled_input()`: `procession.gd` decides which minigame owns the mouse, whether the player must approach first, and whether a release counts as a drag.
+
+Keep placement rules, completion, hands-full checks, dialogue, hints, journal updates, hover glow, offering gravity, calf turning, jar tipping, and spear combat outside the class.
+
+### Migration and verification
+
+1. [ ] Migrate the ending stand first. Verify carriable-only click collection, body poses, mirroring, click-to-describe without detachment, description persistence/state overrides during drag, valid drag placement, invalid-drop return to a moving avatar, cancellation, and reset.
+2. [ ] Migrate Dangers. Verify both collectible choices retain their marker poses and follow the avatar; clicking reads their descriptions and dragging them anywhere without an accepted destination returns them to the avatar.
+3. [ ] Migrate the adze, words, standards, and offerings one interaction at a time, using the existing regression tests. Verify words alone retain click-follow transport, carving stays unchanged, non-carriable pieces never attach through a world click, and standards return on invalid drops. Verify table automatic snapping, support/topple rules, clamped gravity drops, shelf handling, and removal of click-follow controls. Verify expanded bounds, lector exclusion, rejected-item floor drops, and displaced-loaf floor drops. Test cancelling a loaf drag directly from the bearer versus cancelling a new drag after that same loaf was dropped onto the table.
+
 ## Open — to resolve
 
 Everything still undecided or waiting, from the 2026-10-15 playtest. Design ideas (new games,
@@ -8,6 +122,29 @@ revamps, anything that plays boring) are also in `../ideas.md`.
 ### Procession
 
 - [ ] **Put minigame instructions near the action:** the playtest suggests players expect instructions at the bottom and rarely look up. Review their placement and give instructions a slightly different appearance when entering a minigame; the visual treatment is still undecided.
+- [ ] offering table game: "he speaks to you (look up)"
+- [ ] hauling game: lead shakes (like the calf). 
+- [ ] pull when my whip falls - the count down are small falls, then the first real one is the regular sized 
+- [ ] in dangers, press enter to start - maybe put a frame? some papyrus scrap shape? with hints in a damaged area
+- [ ] processional boat description - remove the talk to ox driver part.
+- [ ] standards hin giver - "he speaks to you"
+- [ ] allow clicking on the empty rope to start game
+- [ ] the striker in dangers after completing a levels says - "you have turned away the crocodiles" or whatever
+- [ ] goose and long line bread should also be drag only. (NO CLICK AND FOLLOW)
+- [ ] goose message only appears after you click the goose and drop it. delete that entirely. just say when taking the bread from the goose bearer or clicking on the goose bearer that "get this poor man something to carry"
+- [ ] offering table stuff is not in the right place
+- [ ] when offering table is done, only clicking the offering tbale should say - it is whole again.
+- [ ] when clicking on goose bearer, give the default message, which is him carrying his goose
+- [ ] and do not prompt can you help again once the game is done.
+-  green flashes of success!!! in both the text and the "game" parts!!!
+- [ ] procession has no changing text depending on walking location.
+- [ ] plumed lector priest's default description is never shown, and when clicked on, he gives no corresponding text on the bottom. 
+- [ ] second offering table should be clickable, with its own description.
+- [ ] success message for words in place is bad. also, should read what it says (like scenery) once the words are in place. 
+- [ ] procession is in order - chnage to "Off to the left, something glows." (because the procession is not in order, you still have to assemble the offering stand)
+- [ ] allow description reading even when the object is placed on the player.
+- [ ] for each object you pick up - "you pick up the %s"
+- [ ] in the end when you drag and drop the items (it should be dragged, not click and pick up, dont move the player.)
 - [ ] **Support players who are unsure what to do:** the playtest observation was “when confused, look around.” Review whether nearby figures, descriptions and NPC clues give enough direction. Keep these in-game clues separate from Hint-button hints.
 - [ ] **Review all Procession minigame instructions:** check that each instruction matches its current objective and controls, and that entry makes the instructions easy to notice. Coordinate this with the placement and appearance review above.
 - [ ] Redo the descriptions for cosmos by matching scholarly sources and actual knowledge of the bod. 
@@ -15,15 +152,6 @@ revamps, anything that plays boring) are also in `../ideas.md`.
 - [ ] in the game, when clicking on goose man, the description should be "odd that he's holding bread" and only gives you the bread if you click on the bread (whole vs part highlight), and doesn't say "he's missing his goose" but says "get this poor man an offering to carry." all other offerings fall through. only the goose stays and clisks (this should already be true)
 - [ ] move all png into figures in asset, leave the jsons outside. also move animations into their own folder in the level in asset
 
-
-**New games and tools to consider**
-
-- [ ] Consider a minigame for the barque.
-- [ ] Consider a minigame for the mourning women.
-- [ ] Consider a minigame for the two object carriers immediately behind the Apis bull.
-- [ ] Consider a minigame involving the incense.
-- [ ] Decide whether the second offering table should have its own minigame.
-- [ ] Research a drawing or 2D rigging tool that lets you select part of an image, set a pivot/reference point and rotate that part around it.
 
 ### Dangers
 - [ ] Spell 35, change the red light green light snake to be like the crocodile game, where snakes will come towards you from both sides to attack, and the player can flip left, right, or move up and down. there are no red snakes. when the screen expands, the one snake that was on screen should move somewhere a distance away from the player (like crocodiles, but only 1). then, snakes slither on screen and stop at a location. one will attack, its tail shaking a little (remove the head shaking animation for this entirely). then, it will move to you at a quick speed (faster than crocodiles, but not too much, because the player should be forced to have to watch for the snake tail signal in order to get there in time). never have more than 5 snakes on screen at once. a snake may shake their tail 0-1.5 seconds after the last snake has been speared (i will want to tune this timing). the losing animation will be snakes appear everywhere, and then move towards the player (sometimes diagonally, but no more than 15 degrees angle) and "bite" (make contact with) every part of the player. the player disintegrates. ask if anything is unclear, and reuse as much code as possible. remember karpathy

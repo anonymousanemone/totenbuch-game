@@ -200,7 +200,7 @@ Temporary fight effects and spawned copies remain generated at runtime. Art expo
 automatically replace the saved scene layout.
 
 Both crocodile fights: three bites and the bearer crumbles and you are back on the scroll (never an automatic restart); the flesh
-sign (your picture at `assets/dangers/flesh.png`, cropped to the sign; native image size, `FLESH_GAP` apart; red dots until it is there) counts his health in red at the
+sign (your picture at `assets/dangers/figures/flesh.png`, cropped to the sign; native image size, `FLESH_GAP` apart; red dots until it is there) counts his health in red at the
 top left. Spell 32 speeds up with every crocodile (`ramp`) but keeps arrivals `min_gap` apart so it
 can always be won. `-- --croc-bot` lets a stand-in player (0.35 s reaction, `BOT_REACT=0.7` for a
 slower one) fight the next crocodile vignette and prints how many tries it needed.

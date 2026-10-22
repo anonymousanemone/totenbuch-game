@@ -45,8 +45,7 @@
   "funerary_bier": {
    "name": "The funerary bier",
    "descriptions": {
-    "default": "A processional boat with the funerary bier.",
-    "stalled": "A processional boat with the funerary bier. The bier is stalled. Ask the ox-driver how to haul it."
+    "default": "A processional boat with the funerary bier."
    },
    "journal": true
   },
@@ -82,8 +81,8 @@
   "plumed_ox": {
    "name": "Plumed ox",
    "descriptions": {
-    "default": "An ox crowned with plumes, led toward the sacrifice.",
-    "unresolved": "A bull."
+    "default": "The sacred apis bull, crowned with plumes, walking along the procession.",
+    "unresolved": "A bull walking towards the sacrifice."
    },
    "journal": true
   },
@@ -91,8 +90,7 @@
    "name": "Calf",
    "descriptions": {
     "default": "A young calf leaps toward the plumed ox.",
-    "unsettled": "The young calf shakes at the sight of the sacrifice.",
-    "settled": "A young calf leaps toward the plumed ox."
+    "unsettled": "The young calf shakes at the sight of the sacrifice."
    },
    "journal": true
   },
@@ -171,7 +169,7 @@
   "lector_with_plumes": {
    "name": "Lector with plumes",
    "descriptions": {
-    "default": "A lector priest in a two-feather headdress holds up a sheet: he reads out the order of the gods' standards."
+    "default": "A lector priest in a two-feather headdress reads something from a sheet."
    },
    "journal": true
   },
@@ -229,7 +227,7 @@
   "caption_2": {
    "name": "Spell 1",
    "descriptions": {
-    "default": "To be said on the day of burial (in order to) go in after coming forth."
+    "default": "To be said on the day of burial in order to go in after coming forth."
    },
    "journal": false
   },

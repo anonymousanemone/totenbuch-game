@@ -8,7 +8,7 @@
    "layer_id": "80",
    "name": "avatar",
    "folder": "pre-barque",
-   "asset": "avatar.png",
+   "asset": "figures/avatar.png",
    "rect": {
     "x": 14743,
     "y": 238,
@@ -99,7 +99,7 @@
    "layer_id": "99",
    "name": "sledge",
    "folder": "haul",
-   "asset": "haul_sledge.png",
+   "asset": "figures/haul_sledge.png",
    "rect": {
     "x": 11287,
     "y": 185,
@@ -112,7 +112,7 @@
    "layer_id": "100",
    "name": "hauler",
    "folder": "haul",
-   "asset": "haul_hauler.png",
+   "asset": "figures/haul_hauler.png",
    "rect": {
     "x": 11337,
     "y": 221,
@@ -125,7 +125,7 @@
    "layer_id": "101",
    "name": "driver",
    "folder": "haul",
-   "asset": "haul_driver.png",
+   "asset": "figures/haul_driver.png",
    "rect": {
     "x": 11071,
     "y": 207,
@@ -138,7 +138,7 @@
    "layer_id": "102",
    "name": "whip+arm",
    "folder": "haul",
-   "asset": "haul_whip.png",
+   "asset": "figures/haul_whip.png",
    "rect": {
     "x": 10989,
     "y": 207,
@@ -151,7 +151,7 @@
    "layer_id": "135",
    "name": "ox",
    "folder": "haul",
-   "asset": "ox.png",
+   "asset": "figures/ox.png",
    "rect": {
     "x": 10604,
     "y": 227,
@@ -164,7 +164,7 @@
    "layer_id": "94",
    "name": "vulture",
    "folder": "standards",
-   "asset": "emb_e5.png",
+   "asset": "figures/emb_e5.png",
    "rect": {
     "x": 9880,
     "y": 194,
@@ -177,7 +177,7 @@
    "layer_id": "93",
    "name": "placenta",
    "folder": "standards",
-   "asset": "emb_e6.png",
+   "asset": "figures/emb_e6.png",
    "rect": {
     "x": 10049,
     "y": 201,
@@ -190,7 +190,7 @@
    "layer_id": "92",
    "name": "plumes",
    "folder": "standards",
-   "asset": "emb_e7.png",
+   "asset": "figures/emb_e7.png",
    "rect": {
     "x": 10258,
     "y": 182,
@@ -203,7 +203,7 @@
    "layer_id": "91",
    "name": "falcon2",
    "folder": "standards",
-   "asset": "emb_e8.png",
+   "asset": "figures/emb_e8.png",
    "rect": {
     "x": 10426,
     "y": 192,
@@ -216,7 +216,7 @@
    "layer_id": "98",
    "name": "wepwawet",
    "folder": "standards",
-   "asset": "emb_e1.png",
+   "asset": "figures/emb_e1.png",
    "rect": {
     "x": 9069,
     "y": 184,
@@ -229,7 +229,7 @@
    "layer_id": "97",
    "name": "thoth",
    "folder": "standards",
-   "asset": "emb_e2.png",
+   "asset": "figures/emb_e2.png",
    "rect": {
     "x": 9276,
     "y": 184,
@@ -242,7 +242,7 @@
    "layer_id": "96",
    "name": "falcon1",
    "folder": "standards",
-   "asset": "emb_e3.png",
+   "asset": "figures/emb_e3.png",
    "rect": {
     "x": 9487,
     "y": 189,
@@ -255,7 +255,7 @@
    "layer_id": "95",
    "name": "bull",
    "folder": "standards",
-   "asset": "emb_e4.png",
+   "asset": "figures/emb_e4.png",
    "rect": {
     "x": 9669,
     "y": 187,
@@ -320,7 +320,7 @@
    "layer_id": "144",
    "name": "plumed ox",
    "folder": "bulls",
-   "asset": "plumed_ox.png",
+   "asset": "figures/plumed_ox.png",
    "rect": {
     "x": 7675,
     "y": 240,
@@ -333,7 +333,7 @@
    "layer_id": "164",
    "name": "plumes",
    "folder": "bulls",
-   "asset": "plumes.png",
+   "asset": "figures/plumes.png",
    "rect": {
     "x": 7718,
     "y": 209,
@@ -346,7 +346,7 @@
    "layer_id": "145",
    "name": "calf",
    "folder": "bulls",
-   "asset": "calf.png",
+   "asset": "figures/calf.png",
    "rect": {
     "x": 7367,
     "y": 383,
@@ -437,7 +437,7 @@
    "layer_id": "79",
    "name": "clothes",
    "folder": "offerings1",
-   "asset": "clothes.png",
+   "asset": "figures/clothes.png",
    "rect": {
     "x": 6460,
     "y": 368,
@@ -450,7 +450,7 @@
    "layer_id": "78",
    "name": "goose",
    "folder": "offerings1",
-   "asset": "goose.png",
+   "asset": "figures/goose.png",
    "rect": {
     "x": 6319,
     "y": 354,
@@ -476,7 +476,7 @@
    "layer_id": "54",
    "name": "t line",
    "folder": "table",
-   "asset": "t08.png",
+   "asset": "figures/t08.png",
    "rect": {
     "x": 5698,
     "y": 428,
@@ -489,7 +489,7 @@
    "layer_id": "62",
    "name": "t long",
    "folder": "table",
-   "asset": "t02.png",
+   "asset": "figures/t02.png",
    "rect": {
     "x": 5756,
     "y": 465,
@@ -502,7 +502,7 @@
    "layer_id": "61",
    "name": "t round",
    "folder": "table",
-   "asset": "t06.png",
+   "asset": "figures/t06.png",
    "rect": {
     "x": 5708,
     "y": 472,
@@ -515,7 +515,7 @@
    "layer_id": "60",
    "name": "pom",
    "folder": "table",
-   "asset": "t17.png",
+   "asset": "figures/t17.png",
    "rect": {
     "x": 5687,
     "y": 313,
@@ -528,7 +528,7 @@
    "layer_id": "59",
    "name": "leaf",
    "folder": "table",
-   "asset": "t12.png",
+   "asset": "figures/t12.png",
    "rect": {
     "x": 5725,
     "y": 358,
@@ -541,7 +541,7 @@
    "layer_id": "58",
    "name": "leaf",
    "folder": "table",
-   "asset": "t10.png",
+   "asset": "figures/t10.png",
    "rect": {
     "x": 5660,
     "y": 347,
@@ -554,7 +554,7 @@
    "layer_id": "57",
    "name": "grain",
    "folder": "table",
-   "asset": "t13.png",
+   "asset": "figures/t13.png",
    "rect": {
     "x": 5785,
     "y": 374,
@@ -567,7 +567,7 @@
    "layer_id": "56",
    "name": "grain",
    "folder": "table",
-   "asset": "t11.png",
+   "asset": "figures/t11.png",
    "rect": {
     "x": 5823,
     "y": 388,
@@ -580,7 +580,7 @@
    "layer_id": "55",
    "name": "cob",
    "folder": "table",
-   "asset": "t19.png",
+   "asset": "figures/t19.png",
    "rect": {
     "x": 5776,
     "y": 310,
@@ -593,7 +593,7 @@
    "layer_id": "53",
    "name": "t line",
    "folder": "table",
-   "asset": "t07.png",
+   "asset": "figures/t07.png",
    "rect": {
     "x": 5555,
     "y": 428,
@@ -606,7 +606,7 @@
    "layer_id": "76",
    "name": "t round",
    "folder": "table",
-   "asset": "t04.png",
+   "asset": "figures/t04.png",
    "rect": {
     "x": 5656,
     "y": 468,
@@ -619,7 +619,7 @@
    "layer_id": "75",
    "name": "t round",
    "folder": "table",
-   "asset": "t05.png",
+   "asset": "figures/t05.png",
    "rect": {
     "x": 5603,
     "y": 468,
@@ -632,7 +632,7 @@
    "layer_id": "74",
    "name": "t round",
    "folder": "table",
-   "asset": "t03.png",
+   "asset": "figures/t03.png",
    "rect": {
     "x": 5551,
     "y": 467,
@@ -645,7 +645,7 @@
    "layer_id": "73",
    "name": "t vertical",
    "folder": "table",
-   "asset": "t01.png",
+   "asset": "figures/t01.png",
    "rect": {
     "x": 5507,
     "y": 400,
@@ -658,7 +658,7 @@
    "layer_id": "72",
    "name": "leaf",
    "folder": "table",
-   "asset": "t14.png",
+   "asset": "figures/t14.png",
    "rect": {
     "x": 5582,
     "y": 353,
@@ -671,7 +671,7 @@
    "layer_id": "71",
    "name": "leaf",
    "folder": "table",
-   "asset": "t21.png",
+   "asset": "figures/t21.png",
    "rect": {
     "x": 5567,
     "y": 316,
@@ -684,7 +684,7 @@
    "layer_id": "70",
    "name": "leaf",
    "folder": "table",
-   "asset": "t20.png",
+   "asset": "figures/t20.png",
    "rect": {
     "x": 5459,
     "y": 310,
@@ -697,7 +697,7 @@
    "layer_id": "69",
    "name": "fruit",
    "folder": "table",
-   "asset": "t15.png",
+   "asset": "figures/t15.png",
    "rect": {
     "x": 5548,
     "y": 355,
@@ -710,7 +710,7 @@
    "layer_id": "68",
    "name": "fruit",
    "folder": "table",
-   "asset": "t09.png",
+   "asset": "figures/t09.png",
    "rect": {
     "x": 5467,
     "y": 364,
@@ -723,7 +723,7 @@
    "layer_id": "67",
    "name": "leaf",
    "folder": "table",
-   "asset": "t23.png",
+   "asset": "figures/t23.png",
    "rect": {
     "x": 5665,
     "y": 277,
@@ -736,7 +736,7 @@
    "layer_id": "66",
    "name": "goose",
    "folder": "table",
-   "asset": "t24.png",
+   "asset": "figures/t24.png",
    "rect": {
     "x": 5501,
     "y": 265,
@@ -749,7 +749,7 @@
    "layer_id": "52",
    "name": "goose",
    "folder": "table",
-   "asset": "t22.png",
+   "asset": "figures/t22.png",
    "rect": {
     "x": 5296,
     "y": 274,
@@ -762,7 +762,7 @@
    "layer_id": "65",
    "name": "cob",
    "folder": "table",
-   "asset": "t18.png",
+   "asset": "figures/t18.png",
    "rect": {
     "x": 5257,
     "y": 346,
@@ -775,7 +775,7 @@
    "layer_id": "64",
    "name": "ti",
    "folder": "table",
-   "asset": "t16.png",
+   "asset": "figures/t16.png",
    "rect": {
     "x": 5212,
     "y": 310,
@@ -788,7 +788,7 @@
    "layer_id": "51",
    "name": "leaf",
    "folder": "table",
-   "asset": "t25.png",
+   "asset": "figures/t25.png",
    "rect": {
     "x": 5272,
     "y": 227,
@@ -853,7 +853,7 @@
    "layer_id": "112",
    "name": "adze",
    "folder": "small stand",
-   "asset": "mouth_adze.png",
+   "asset": "figures/mouth_adze.png",
    "rect": {
     "x": 3967,
     "y": 359,
@@ -866,7 +866,7 @@
    "layer_id": "118",
    "name": "aa column",
    "folder": "small stand",
-   "asset": "mouth_column.png",
+   "asset": "figures/mouth_column.png",
    "rect": {
     "x": 3961,
     "y": 312,
@@ -879,7 +879,7 @@
    "layer_id": "117",
    "name": "spoon??",
    "folder": "small stand",
-   "asset": "mouth_spoon.png",
+   "asset": "figures/mouth_spoon.png",
    "rect": {
     "x": 3960,
     "y": 332,
@@ -905,7 +905,7 @@
    "layer_id": "108",
    "name": "stream",
    "folder": "water game",
-   "asset": "water_stream.png",
+   "asset": "figures/water_stream.png",
    "rect": {
     "x": 1771,
     "y": 188,
@@ -931,7 +931,7 @@
    "layer_id": "109",
    "name": "arms",
    "folder": "water game",
-   "asset": "water_arm.png",
+   "asset": "figures/water_arm.png",
    "rect": {
     "x": 2219,
     "y": 198,
@@ -957,7 +957,7 @@
    "layer_id": "155",
    "name": "anubis and the mummy",
    "folder": "mouth game",
-   "asset": "mouth_mummy.png",
+   "asset": "figures/mouth_mummy.png",
    "rect": {
     "x": 1743,
     "y": 200,
@@ -970,7 +970,7 @@
    "layer_id": "175",
    "name": "features",
    "folder": "mouth game",
-   "asset": "mouth_features.png",
+   "asset": "figures/mouth_features.png",
    "rect": {
     "x": 1930,
     "y": 246,
@@ -983,7 +983,7 @@
    "layer_id": "111",
    "name": "words",
    "folder": "mouth game",
-   "asset": "mouth_words.png",
+   "asset": "figures/mouth_words.png",
    "rect": {
     "x": 160,
     "y": 62,
@@ -1009,7 +1009,7 @@
    "layer_id": "159",
    "name": "kneeler",
    "folder": "tombs and beyond",
-   "asset": "kneeler.png",
+   "asset": "figures/kneeler.png",
    "rect": {
     "x": 790,
     "y": 248,
@@ -1048,7 +1048,7 @@
    "layer_id": "104",
    "name": "stand",
    "folder": "lotus stand",
-   "asset": "stand.png",
+   "asset": "figures/stand.png",
    "rect": {
     "x": 572,
     "y": 343,
@@ -1061,7 +1061,7 @@
    "layer_id": "105",
    "name": "lotus",
    "folder": "lotus stand",
-   "asset": "lotus.png",
+   "asset": "figures/lotus.png",
    "rect": {
     "x": 565,
     "y": 224,
@@ -1074,7 +1074,7 @@
    "layer_id": "106",
    "name": "sun",
    "folder": "lotus stand",
-   "asset": "sun.png",
+   "asset": "figures/sun.png",
    "rect": {
     "x": 579,
     "y": 303,

@@ -1,6 +1,6 @@
 ## Spells 1-15: the funeral procession (Lepsius, Todtenbuch pl. I-VI).
 ##
-## World coordinates are pixels of the strip (assets/procession/strip.png), which reads right
+## World coordinates are pixels of the strip (assets/procession/figures/strip.png), which reads right
 ## to left: the player starts at the head of plate I (far right) and walks left. The strip is
 ## art/procession1-15.mdp as drawn. Saved nodes own piece placement; level.json, exported by
 ## tools/cut_procession300.py, retains source-art data and interaction geometry; registry.json owns descriptions.
@@ -15,7 +15,7 @@ const VIEW_TOP := 36.0   ## the row under the top register's upper rule: the tit
 ## (At the usual zoom the two are the same.)
 const FRAME_FROM_TOP := true
 const DATA_PATH := "res://assets/procession/level.json"
-const ILLUSTRATION := preload("res://assets/procession/illustration.png")
+const ILLUSTRATION := preload("res://assets/procession/figures/illustration.png")
 const BESIDE := 70.0         ## stand just behind (right of) what you interact with, not on top of it
 const STAND_GAP := 6.0       ## plate px between you and the plumed lector, whom you stand in front of
 
@@ -221,7 +221,7 @@ func _ready() -> void:
 		_render())
 	ending.ended.connect(_ended)
 	water = $pieces/water
-	water.setup(level, "res://assets/procession/%s.png", _authored)
+	water.setup(level, "res://assets/procession/figures/%s.png", _authored)
 	water.said.connect(say_game)
 	water.finished.connect(_check)
 	bulls = $pieces/bulls
@@ -1225,7 +1225,8 @@ func _drawn_rect(nm: String) -> Rect2:
 
 ## A figure's drawing as drawn (of a sheet, its frame as drawn).
 func _drawn_image(nm: String) -> Image:
-	var src: Image = load("res://assets/procession/%s.png" % SHEETS.get(nm, nm)).get_image()
+	var folder := "animation" if SHEETS.has(nm) else "figures"
+	var src: Image = load("res://assets/procession/%s/%s.png" % [folder, SHEETS.get(nm, nm)]).get_image()
 	if src.is_compressed():
 		src.decompress()
 	src.convert(Image.FORMAT_RGBA8)

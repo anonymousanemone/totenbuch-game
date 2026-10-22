@@ -1,7 +1,7 @@
 {
   "messages": {
     "procession.complete": "The procession is in order. Head over to Ra on his throne.",
-    "procession.start": "The procession has stalled at the head of the scroll. Walk left (the scroll reads right to left) and see what is wrong.",
+    "procession.start": "The procession has stalled. Walk left and see what is wrong. Click on things to examine them.",
     "procession.kneel": "The procession has arrived. Kneel before Ra as he sets."
   },
   "puzzles": {
@@ -35,7 +35,7 @@
       }
     },
     "procession.standards": {
-      "instructions": "Can you help us? We carry each other's gods. Drag each standard to the bearer it belongs to.",
+      "instructions": "Can you help us? Our standards are all mixed up. Drag each standard its rightful place.",
       "success": "All eight standards are in order.",
       "feedback": {
         "empty_pole": "Take a standard from another bearer first.",
@@ -92,16 +92,14 @@
       }
     },
     "procession.goose": {
-      "instructions": "He hands you the loaf. It belongs on the offering table, and he is still missing his goose.",
-      "success": "He takes his goose back in his arms, as it is drawn.",
+      "instructions": "He hands you the loaf, looking forlornly at his empty hands.",
+      "success": "He takes his goose back in his arms.",
       "feedback": {
-        "instructions_empty": "His arms are empty. He carried a goose; it must be among the fallen offerings.",
-        "success_swapped": "He takes his goose and hands you the loaf. It belongs on the offering table.",
-        "success_carrying": "He carries his goose to the tomb.",
+        "success_swapped": "He takes his goose and hands you the bread loaf.",
+        "success_carrying": "He carries his goose with joy and purpose.",
         "holding_loaf": "Odd that he's holding a loaf of bread.",
-        "wrong_item": "%s doesn't belong in his arms.",
-        "loaf_returned": "He takes the loaf back.",
-        "offering_in_arms": "He has no use for that. It belongs on the offering table."
+        "wrong_item": "This doesn't belong in his arms.",
+        "loaf_returned": "He takes the loaf back."
       },
       "hints": {
         "find": {
@@ -136,7 +134,7 @@
     },
     "procession.water": {
       "instructions": "Can you help me pour? My arm is tired and the jar droops. Hold [space] to lift it, and keep the water running along the line.",
-      "success": "The water arches over Anubis and the mummy and runs down to their base, as it is drawn.",
+      "success": "The water arches over Anubis and the mummy and runs down to their base.",
       "feedback": {
         "pouring": "The water runs along the line. Keep it there.",
         "dripping": "Too high: the jar only drips. Let it sink a little.",
@@ -165,7 +163,7 @@
       }
     },
     "procession.bulls": {
-      "instructions": "Fix what is wrong!",
+      "instructions": "Things are not in their rightful place. Examine each figure to see what's wrong.",
       "success": "The plumed ox lowers his head to the calf. All three are as they should be.",
       "feedback": {
         "plumes_restored": "The disc and plumes sit on the living ox again.",

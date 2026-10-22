@@ -35,8 +35,8 @@ const VIEW_TOP := 36.0   ## the row under the top register's upper rule: the tit
 const DATA_PATH := "res://assets/dangers/level.json"
 const SHEET_PATH := "res://assets/dangers/spearers.json"   ## the spear-bearers' thrust (tools/spearer_sheet.py)
 const FIGURE_MASK := preload("res://scripts/figure_mask.gd")
-const SHEET_TEX := "res://assets/dangers/spearers.png"
-const ASSET := "res://assets/dangers/%s.png"
+const SHEET_TEX := "res://assets/dangers/animation/spearers.png"
+const ASSET := "res://assets/dangers/figures/%s.png"
 const AFTER_CHOICE := ["e39", "e40", "e41"]
 const LIFE_GAME_CLUE := 60.0       ## active seconds in one encounter, across visits
 const LIFE_TOTAL_CLUE := 120.0     ## active seconds across all three encounters
@@ -88,7 +88,7 @@ var _band_cover: ColorRect    ## papyrus over the caption band inside the fight'
 var _caption_art: Sprite2D    ## the fight's caption, drawn again where the frame shows it
 var _strip_img: Image         ## the strip, read once to find where a caption's ink lies
 var heka_known := false        ## the player has clicked a flashing heka sign
-const FLESH_PATH := "res://assets/dangers/flesh.png"   ## the flesh sign that counts his health (supplied, not cut)
+const FLESH_PATH := "res://assets/dangers/figures/flesh.png"   ## the flesh sign that counts his health (supplied, not cut)
 const FLESH_GAP := 6.0          ## strip px between signs, drawn at their native asset size
 var _flesh_tex: Texture2D = _ink_from(load(FLESH_PATH)) if ResourceLoader.exists(FLESH_PATH) else null
 var _told_unsolved := -10.0   ## when the end of the scroll last said what is still undone

@@ -1,39 +1,31 @@
 {
   "messages": {
-	"dangers.complete": "Walk left to the end of the scroll.",
 	"dangers.defeated": "One bite too many: the spear-bearer crumbles to dust.",
-	"dangers.retry": "The fight is lost. Click the creature to take up the spear again.",
-	"dangers.left_fight": "You step back out of the vignette. Click the creature to take it up again.",
+	"dangers.retry": "The fight is lost, but the dead are nothing if not patient. Click the creature to fight again.",
+	"dangers.left_fight": "You back out of the vignette. %s awaits your next visit.",
 	"dangers.click_to_fight": "Click the creature to take up the spear.",
-	"dangers.heka_controls": "Hold [shift] to use heka while striking to fight off the red crocodiles. Don't use heka on the regular crocodiles, or they'll make off with it!",
+	"dangers.heka_controls": "Hold [shift] while striking to use heka on the red crocodiles. Don't waste it on the plain ones: they'll make off with your heka.",
 	"dangers.start": "",
-	"dangers.blocked": "The way on opens only once every danger up to the breath of life is overcome.",
-	"dangers.unfinished": "Spell 42 waits until every danger behind you is overcome. Still to do: spell %s.",
+	"dangers.blocked": "He won't let you pass through with those creatures still loose behind you, and frankly, who could blame him. Still to do: spell %s.",
 	"dangers.finished": "The road is clear. You carry the breath of life.",
-	"dangers.life_clue": "you are living but never free. perhaps that wasn't what you needed.",
-	"dangers.finished_without_breath": "The road is clear.",
-	"dangers.outro_without_breath": "The dangers are overcome.",
-	"dangers.outro": "The dangers are overcome. You carry [b]the breath of life[/b]."
+	"dangers.life_clue": "Alive, yes. Free, no. Perhaps life alone wasn't the thing to take.",
+	"dangers.outro": "The dangers are overcome."
   },
   "puzzles": {
 	"dangers.e31": {
-	  "instructions": "Meet each snout with your spear tip. Strike as they touch. Three bites end the attempt. Don't let any crocodiles slip past you or it'll take your words of power.",
+	  "instructions": "Spear each crocodile before it reaches you. Any that slip past make off with your words of power, and crocodiles do not give things back.",
 	  "success": "The crocodiles turn away.",
 	  "feedback": {
-		"controls_both": "Press [space] to thrust the spear; [↑] [↓] (or [w] [s]) move you; [←] [→] turn you.",
-		"controls": "Press [space] to thrust the spear; [↑] [↓] (or [w] [s]) move you.",
-		"first_crocodile": "Here one comes. Meet its snout with the spear tip, and press [space] as they touch.",
-		"first_strike": "Well struck. More are coming, at different heights.",
+		"controls": "Press [space] to strike; [↑] [↓] move you.",
+		"first_crocodile": "Here comes one. Press [space] to strike.",
+		"first_strike": "Well struck. Its friends are coming, at different heights.",
 		"crocodile_defeated": "The crocodile turns away.",
 		"heka_break": "The crocodiles draw back. Above, signs begin to glow red.",
-		"next_wave": "They come again.",
 		"heka_on_normal_crocodile": "Heka spent on an ordinary crocodile! It seizes the word of power and makes off with it. The crocodiles are not turned back.",
-		"crocodile_escaped": "A crocodile slipped past you to the wall. It laughs, and the word of heka falls to it.",
-		"red_crocodile": "Bronze alone will not turn the red ones. The signs glowing above may tell you how.",
-		"tutorial_bite": "The crocodile reached you. Line the spear tip up with its snout, and strike as they touch.",
-		"bitten": "A crocodile reached you.",
-		"behind_you": "One comes from behind! [←] [→] turn you to face either way.",
-		"movement_lesson": "Good. Now move: [↑] [↓] (or [w] [s]) take you up and down."
+		"crocodile_escaped": "A crocodile slips past you to the wall and gleefully steals away with your word of power.",
+		"red_crocodile": "A red crocodile needs a red spear. The signs glowing above may say how.",
+		"tutorial_bite": "The crocodile reached you. Your spear is supposed to reach it first.",
+		"bitten": "A crocodile earns a snack."
 	  },
 	  "hints": {
 		"find": {
@@ -45,34 +37,33 @@
 		  "fight": [
 			{
 			  "level": "act",
-			  "text": "Aim with [↑] [↓]. Press [space] when the snout meets the spear tip."
+			  "text": "Aim with [↑] [↓]. Press [space] when the spear tip touches a crocodile."
 			}
 		  ],
 		  "heka": [
 			{
 			  "level": "act",
-			  "text": "Aim with [↑] [↓]. Press [space] when the snout meets the spear tip. Hold [shift] only for red crocodiles."
+			  "text": "Aim with [↑] [↓]. Press [space] when the spear tip touches a crocodile. Hold [shift] only for red crocodiles."
 			}
 		  ]
 		}
 	  }
 	},
 	"dangers.e32": {
-	  "instructions": "Face the approaching crocodile and meet its snout with your spear. Use heka only against red ones. Don't let any crocodiles slip past you or it'll take your words of power.",
+	  "instructions": "Crocodiles, now from both sides. Turn to meet each one with your spear. Any that slip past make off with your words of power.",
 	  "success": "The crocodiles of the four quarters are turned back.",
 	  "feedback": {
 		"controls_both": "Press [space] to thrust the spear; [↑] [↓] (or [w] [s]) move you; [←] [→] turn you.",
 		"controls": "Press [space] to thrust the spear; [↑] [↓] (or [w] [s]) move you.",
-		"first_crocodile": "Here one comes. Meet its snout with the spear tip, and press [space] as they touch.",
-		"first_strike": "Well struck. More are coming, at different heights.",
+		"first_crocodile": "Here comes one. Press [space] to strike.",
+		"first_strike": "Well struck. Its friends are coming, at different heights.",
 		"crocodile_defeated": "The crocodile turns away.",
 		"heka_break": "The crocodiles draw back. Above, signs begin to glow red.",
-		"next_wave": "They come again.",
 		"heka_on_normal_crocodile": "Heka spent on an ordinary crocodile! It seizes the word of power and makes off with it. The crocodiles are not turned back.",
-		"crocodile_escaped": "A crocodile slipped past you to the wall. It laughs, and the word of heka falls to it.",
-		"red_crocodile": "Bronze alone will not turn the red ones. The signs glowing above may tell you how.",
-		"tutorial_bite": "The crocodile reached you. Line the spear tip up with its snout, and strike as they touch.",
-		"bitten": "A crocodile reached you.",
+		"crocodile_escaped": "A crocodile slips past you and gleefully steals away with your word of power.",
+		"red_crocodile": "A red crocodile needs a red spear. The signs glowing above may say how.",
+		"tutorial_bite": "The crocodile reached you. Your spear is supposed to reach it first.",
+		"bitten": "A crocodile earns a snack.",
 		"behind_you": "One comes from behind! [←] [→] turn you to face either way.",
 		"movement_lesson": "Good. Now move: [↑] [↓] (or [w] [s]) take you up and down."
 	  },

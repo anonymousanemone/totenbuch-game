@@ -32,6 +32,8 @@ var active := false           ## stepped up: the camera holds on the scene
 var done := false
 var instant := false          ## the autotest: no waiting
 var held := ""                ## "calf" or "plumes" while it is dragged
+var plumes_object: MoveableObject
+
 var _calf: Sprite2D           ## centred: it turns about its own middle (scale.x: 1 faces the plumed ox, as drawn)
 var _ox: Sprite2D             ## his pivot at his hind hooves, so he bows from there
 var _plumes: Sprite2D
@@ -58,6 +60,12 @@ func setup(level: Dictionary, nodes: Dictionary) -> void:
 	_stand = ox_end + MARGIN + half
 	# from the sacrifice to you, standing right of the plumed ox: all of it in view
 	_view = Vector2(sacrifice.x - MARGIN, _stand + half + MARGIN)
+	plumes_object = MoveableObject.new()
+	add_child(plumes_object)
+	plumes_object.setup("plumes", _plumes)
+	plumes_object.from_loc_parent = self
+	plumes_object.from_loc_transform = Transform2D(0.0, _wrong)
+	plumes_object.set_to_loc(_ox, Transform2D(0.0, _right - _ox.position), 0)
 
 
 func reset() -> void:
@@ -68,7 +76,7 @@ func reset() -> void:
 	_calf.scale = Vector2(-1.0, 1.0)      # facing the block
 	_calf.rotation = 0.0
 	_ox.rotation = 0.0
-	_set_plumes_on(false)
+	plumes_object.reset()
 	_shy_in = SHY_EVERY.x
 
 
@@ -120,7 +128,7 @@ func leave() -> void:
 func pick(p: Vector2) -> String:
 	if not active or done:
 		return ""
-	if _rect(_plumes).has_point(p):
+	if not plumes_object.locked_in_place and _rect(_plumes).has_point(p):
 		return "plumes"
 	if _rect(_calf).has_point(p):
 		return "calf"
@@ -131,12 +139,11 @@ func pick(p: Vector2) -> String:
 func press(what: String, p: Vector2) -> void:
 	held = what
 	if what == "plumes":
-		if crowned():     # taken off his head again, from where they sit
-			var at := _plumes.global_position
-			_set_plumes_on(false)
-			_plumes.global_position = at
+		if plumes_object.locked_in_place:
+			held = ""
+			return
 		_grab = p - _plumes.global_position
-		_plumes.z_index = 10
+		plumes_object.hold(Transform2D(0.0, -_grab))
 	else:
 		_grab = p
 		_turn_from = _calf.scale.x
@@ -146,7 +153,7 @@ func press(what: String, p: Vector2) -> void:
 func drag(p: Vector2) -> void:
 	match held:
 		"plumes":
-			_plumes.global_position = p - _grab
+			plumes_object.move_held(p)
 		"calf":   # sideways turns it about its middle: across half its width turns it right round
 			var w := _calf.texture.get_width() * 0.5
 			_calf.scale.x = clampf(_turn_from + 2.0 * (p.x - _grab.x) / w, -1.0, 1.0)
@@ -173,13 +180,10 @@ func release(p: Vector2) -> void:
 
 func _set_plumes_on(on: bool) -> void:
 	if on:
-		if _plumes.get_parent() != _ox:
-			_plumes.reparent(_ox, false)
-		_plumes.transform = Transform2D(0.0, _right - _ox.position)
+		plumes_object.place()
+		plumes_object.lock_in_place()
 	else:
-		if _plumes.get_parent() != self:
-			_plumes.reparent(self, false)
-		_plumes.transform = Transform2D(0.0, _wrong)
+		plumes_object.reset()
 
 
 func _check() -> void:

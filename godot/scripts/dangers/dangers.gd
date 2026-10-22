@@ -65,6 +65,11 @@ var _descriptions = preload("res://scripts/descriptions.gd").new("dangers")
 var _hints = preload("res://scripts/puzzles.gd").new()
 var solved := {}         ## encounter id -> true
 var _section := ""       ## the encounter whose vignette you are walking through
+var objects := {}
+var _object_press: MoveableObject
+var _object_press_screen := Vector2.ZERO
+var _object_dragging := false
+
 var items: Array[String] = []
 var bites := 0
 var finished := false
@@ -133,6 +138,13 @@ func _ready() -> void:
 		actor.set_meta("home", actor.position)
 		var size: Vector2 = actor.get_meta("size")
 		rects[id] = Rect2(actor.position - Vector2(size.x / 2.0, size.y), size)
+	for id in _item_poses:
+		var item := MoveableObject.new()
+		add_child(item)
+		item.setup(id, _picture(actors[id]))
+		item.carriable = true
+		item.description_requested.connect(_describe_item)
+		objects[id] = item
 	var avatar_size: Vector2 = avatar.get_meta("size")
 	rects.avatar = Rect2(avatar.position - Vector2(avatar_size.x / 2.0, avatar_size.y), avatar_size)
 	for b in level.boxes:
@@ -215,6 +227,10 @@ func reset() -> void:
 	heka_known = false
 	solved.clear()
 	_section = ""
+	_object_press = null
+	_object_dragging = false
+	for item in objects.values():
+		item.reset()
 	items.clear()
 	journal.clear()
 	_life_scores.clear()
@@ -331,12 +347,55 @@ func _blocked() -> void:
 	say("Scribe", _hints.message("dangers.blocked") % current.id.trim_prefix("e"))
 
 
+func _describe_item(object_id: String, description_key: String) -> void:
+	if _descriptions.entries.has(description_key):
+		_descriptions.show(description_key, hud)
+	else:
+		# Individual item descriptions are not currently in the registry.
+		var label: String = {"ankh38": "Ankh", "sail38": "Breath"}[object_id]
+		say(label, label)
+
+
+func _carried_item_input(event: InputEvent) -> bool:
+	if _object_press != null:
+		if event.is_action_pressed("ui_cancel"):
+			_object_press.cancel_hold()
+			_object_press = null
+			_object_dragging = false
+			return true
+		if event is InputEventMouseMotion:
+			if not _object_dragging and event.position.distance_to(_object_press_screen) > 8.0:
+				_object_press.hold()
+				_object_dragging = true
+				_object_press.request_description()
+			if _object_dragging:
+				_object_press.move_held(get_global_mouse_position())
+			return true
+		if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+			if not event.pressed:
+				_object_press.cancel_hold()
+				_object_press = null
+				_object_dragging = false
+			return true
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		for id in items:
+			if objects[id].contains_point(get_global_mouse_position()):
+				_object_press = objects[id]
+				_object_press_screen = event.position
+				_object_dragging = false
+				_object_press.request_description()
+				return true
+	return false
+
+
 func _unhandled_input(event: InputEvent) -> void:
 	if hud.is_blocking() or finished:
 		return
 	if event.is_action_pressed("ui_cancel") and not fight.is_empty():   # Esc always steps out of a fight
 		leave_fight()
 		get_viewport().set_input_as_handled()
+		return
+	if fight.is_empty() and _carried_item_input(event):
 		return
 	# Space thrusts in the fights that open out (holding Shift lends the thrust heka)
 	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_SPACE:
@@ -598,18 +657,21 @@ func take(e: Dictionary, item := "") -> void:
 	if item == "":
 		item = e.items[0]
 	items.append(item)
+	objects[item].wear(avatar, _item_poses[item].transform)
 	_follow_items()
 	_solve(e, item)
 
 
 ## Signs sit on the walking figure at their authored poses, mirrored and bobbing with him.
 func _follow_items() -> void:
-	var on_you: Transform2D = avatar.carrying_transform()
 	for item in items:
-		var sign: Node2D = actors[item]
-		sign.global_transform = on_you * _item_poses[item].transform
-		sign.z_index = avatar.z_index
-		sign.visible = avatar.visible
+		var object: MoveableObject = objects[item]
+		if object.state == MoveableObject.State.WORLD:
+			object.wear(avatar, _item_poses[item].transform)
+		object.follow()
+		if object.state == MoveableObject.State.HELD:
+			object.move_held(get_global_mouse_position())
+		object.sprite.visible = avatar.visible
 
 
 ## `item`: what was taken (its picture goes in the Journal, and `won` may say per item).

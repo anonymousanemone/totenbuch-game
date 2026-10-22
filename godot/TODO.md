@@ -1,26 +1,34 @@
 # TODO
 
-## Centralized movable objects class — implementation plan
+## Centralized movable objects class — implemented
 
-- [ ] Add `godot/scripts/moveable_object.gd`, with `class_name MoveableObject` extending `Node2D`. Give each movable item an instance that controls its existing sprite, carrying state, and position.
+- [x] Add `godot/scripts/moveable_object.gd`, with `class_name MoveableObject` extending `Node2D`. Give each movable item an instance that controls its existing sprite, carrying state, and position.
 
-Scope: standardize movable-object interaction using the rules below. This class handles movement and attachment; puzzle scripts decide whether pickup or placement is allowed. Calf turning, water-jar tipping, and adze carving remain separate mechanics with their current controls. Only this TODO is being updated; implementation is a later task.
+Scope: standardize movable-object interaction using the rules below. This class handles movement and attachment; puzzle scripts decide whether pickup or placement is allowed. Calf turning, water-jar tipping, and adze carving remain separate mechanics with their current controls. Implemented in `scripts/moveable_object.gd` and the Procession/Dangers controllers. `tests/moveable_object_regressions.gd` covers shared movement and puzzle-specific recovery; existing suites also exercise the migrated interactions.
 
 ### Required interaction behavior
 
-- [ ] Only objects marked `carriable` can be collected from the world by clicking and attached to the avatar. Puzzle eligibility checks still apply. Non-carriable puzzle pieces can be dragged directly without attaching to the avatar.
-- [ ] Clicking an attached object shows its description and leaves it attached. Pressing and moving beyond the drag threshold starts dragging it off the avatar; a simple click never leaves it following the pointer.
-- [ ] Show the object's description when its drag begins and keep it visible during the drag. Resolve the description from current game state, allowing explicit puzzle feedback or a state-dependent description to replace/modify it. Generic hover text must not overwrite it during dragging.
-- [ ] Every attached object can be dragged off the avatar, including items with no usable destination. Only a valid destination accepts it; otherwise it returns to its attachment on the avatar, following the avatar's current position and facing. An item with no destination always returns.
-- [ ] All movable objects use press-drag-release, with no click-to-pick-up-and-follow or click-again-to-place mode. Clicking a carriable world object to collect it onto the avatar is distinct from pointer dragging. The words are the sole movable-object exception: preserve their current click-to-follow and click-to-place behavior.
-- [ ] Invalid drops return objects to a valid location. For an avatar-origin drag this is the avatar; for other objects the puzzle resolves the valid return location. Preserve the original valid location until a placement is accepted; reset-to-source and cancel-drag are distinct operations.
-- [ ] Preserve the offering table's existing placement validation, support dependencies, automatic snap while dragging, shelf parking, and loose-piece gravity. Remove click-and-follow input. Apply the revised bounds, goose-bearer drops, and recovery rules below. Automatic snapping before mouse release is an explicitly retained table behavior.
-- [ ] Expand the offering floor/drop region's right boundary to the goose-bearer's rightmost bound. Update the floor, right wall, drop clamping, and relevant zone checks together so rejected offerings can fall in front of him.
-- [ ] Add a physical blocker covering the lector priest so loose offerings cannot fall onto or cover him. He currently has an inspection `Area2D`, not a physical barrier; `_build_floor()` currently creates only the floor, side walls, and upper shelf. Ensure release/spawn positions do not start inside the new blocker, including fallback drops.
-- [ ] Rejecting an item dropped on the goose-bearer releases it onto the floor in front of him with gravity; it must not remain attached to the pointer. Preserve his acceptance of the goose and return of his own loaf when his arms are empty.
-- [ ] Giving the goose to the bearer while he holds the loaf replaces the loaf with the goose and drops the displaced loaf onto the floor in front of him with gravity. Do not put the displaced loaf in the player's hand or leave it following the pointer.
-- [ ] Esc or leaving the table mid-drag returns an item directly taken from the bearer to him. Once an item has been released into the table's physics region, it belongs to the table for recovery purposes, even if it originally came from the bearer (including the long loaf). A subsequent cancelled drag returns it to the table using the table fallback calculation, not to the bearer. Shelf-origin cancellation retains the shelf recovery rule. Track the origin of the current drag rather than the item's historical source.
-- [ ] Preserve adze carving controls: pointer-following tool positioning and click-to-strike are tool use, separate from object transport. They do not become drag-to-strike.
+- [x] Preserve each movable object's authored world-scale magnitude across world, avatar attachment, dragging, accepted placement, cancellation, and reset. Rotation and facing/mirroring may change, but object size must not change due to carry poses, destination transforms, or scaled parents. Camera zoom changes screen size normally. Remove the lotus's current carry-only `0.7` scale; it must retain its world size on the avatar and while dragged/placed. Check composed global transforms, not just the sprite's local scale.
+- [x] Approved scale exceptions: change the adze's carving scale from `0.35` to `0.5` (50%) in `TOOL_USE`, restoring its normal size on exit, and preserve the words' appearance/rise/unroll scale animation. Update the carving grip/tip calculations consistently with the new adze scale. Words retain their normal size during subsequent transport. The lector's scaled hint preview is a separate display copy, not the movable object; leave that preview unchanged.
+- [x] Only objects marked `carriable` can be collected from the world by clicking and attached to the avatar. Puzzle eligibility checks still apply. Non-carriable puzzle pieces can be dragged directly without attaching to the avatar.
+- [x] Clicking an attached object shows its description and leaves it attached. Pressing and moving beyond the drag threshold starts dragging it off the avatar; a simple click never leaves it following the pointer.
+- [x] Show the object's description when its drag begins and keep it visible during the drag. Resolve the description from current game state, allowing explicit puzzle feedback or a state-dependent description to replace/modify it. Generic hover text must not overwrite it during dragging.
+- [x] Every attached object can be dragged off the avatar, including items with no usable destination. Only a valid destination accepts it; otherwise it returns to its attachment on the avatar, following the avatar's current position and facing. An item with no destination always returns.
+- [x] All movable objects use press-drag-release, with no click-to-pick-up-and-follow or click-again-to-place mode. Clicking a carriable world object to collect it onto the avatar is distinct from pointer dragging. The words are the sole movable-object exception: preserve their current click-to-follow and click-to-place behavior.
+- [x] Invalid drops return objects to a valid location. For an avatar-origin drag this is the avatar; for other objects the puzzle resolves the valid return location. Preserve the original valid location until a placement is accepted; reset-to-source and cancel-drag are distinct operations.
+- [x] Preserve the offering table's existing placement validation, support dependencies, automatic snap while dragging, shelf parking, and loose-piece gravity. Remove click-and-follow input. Apply the revised bounds, goose-bearer drops, and recovery rules below. Automatic snapping before mouse release is an explicitly retained table behavior.
+- [x] Expand the offering floor/drop region's right boundary to the goose-bearer's rightmost bound. Update the floor, right wall, drop clamping, and relevant zone checks together so rejected offerings can fall in front of him.
+- [x] Add a physical blocker covering the lector priest so loose offerings cannot fall onto or cover him. He currently has an inspection `Area2D`, not a physical barrier; `_build_floor()` currently creates only the floor, side walls, and upper shelf. Ensure release/spawn positions do not start inside the new blocker, including fallback drops.
+- [x] Rejecting an item dropped on the goose-bearer releases it onto the floor in front of him with gravity; it must not remain attached to the pointer. Preserve his acceptance of the goose and return of his own loaf when his arms are empty.
+- [x] the falcons in the standrards are not interchangeable.
+- [x] Giving the goose to the bearer while  he holds the loaf replaces the loaf with the goose and drops the displaced loaf onto the floor in front of him with gravity. Do not put the displaced loaf in the player's hand or leave it following the pointer.
+- [x] Esc or leaving the table mid-drag returns an item directly taken from the bearer to him. Once an item has been released into the table's physics region, it belongs to the table for recovery purposes, even if it originally came from the bearer (including the long loaf). A subsequent cancelled drag returns it to the table using the table fallback calculation, not to the bearer. Shelf-origin cancellation retains the shelf recovery rule. Track the origin of the current drag rather than the item's historical source.
+- [x] Preserve adze carving controls: pointer-following tool positioning and click-to-strike are tool use, separate from object transport. They do not become drag-to-strike.
+- [x] Words and the carving adze remain `MoveableObject` instances with explicit behavior overrides. Words use `CLICK_FOLLOW`: clicking their valid destination places them; clicking anything invalid returns them to where they appeared above the mummy, ending pointer-following. Configure their `from_loc` at that appearance location. Enter carving only by dragging the carried adze onto the mummy and releasing it. Clicking the mummy or empty tool stand only describes it. The adze switches to `TOOL_USE` during carving and back to `TRANSPORT` on exit; `OpeningMouth` owns pointer positioning and strikes during tool use, and the ordinary transport handler is suspended.
+- [x] `CLICK_FOLLOW` is an extremely rare exception, currently approved only for the magical words. Before proposing any other use, check drag/drop and other alternatives; do not introduce another use without explicit user approval.
+- [x] Include the plumes as a non-carriable movable object, preserving their press-drag-release behavior, grab offset, and destination/snap calculation. A valid release attaches them to the walking ox and immediately locks them against further pickup/dragging, even before the calf is turned or the whole bull puzzle is complete. An invalid release or leaving before placement returns them to their original position on the slaughtered bull. `Bulls` retains puzzle completion rules. Water jars and the calf are excluded from this class because their restricted gestures transform them in place.
+- [x] Lock the goose against further pickup/dragging as soon as the goose-bearer accepts it, matching offerings locked into their assembled places. Apply the same placement lock to the plumes on the walking ox. The lock prevents movement, not description clicks; puzzle reset clears the lock and restores the starting state.
+- [x] Distinguish clicks on the goose-bearer from clicks on the goose once he holds it. Clicking the bearer uses existing `procession.goose.feedback.success_carrying` in `godot/assets/procession/puzzles.json`: "He carries his goose with joy and purpose." Clicking his goose says exactly "He clings to his goose, refusing to give it up again." Add that goose-specific text to the JSON during implementation. Give the goose's visible pixels priority over the bearer's larger hit region; neither click permits taking or dragging the accepted goose.
 
 Verified offering-table behavior: `_fall()` clamps the release x to `[floor_x.x + min(half_width, 60), floor_x.y - min(half_width, 60)]`, and sets y to `min(release_y, ground - 20)` before spawning a gravity-driven rigid body. Thus the release y is preserved only when above that ground limit. Near a supported target, the piece snaps into its authored position; near an unsupported target, it spawns at the target center with sideways/upward velocity and rotation, then topples. Shelf parking clamps both x and y to the shelf region using the piece's half dimensions. Esc currently restores bearer/shelf items specially, while ordinary loose pieces fall from the table's horizontal midpoint at `ground - 200`. Keep these calculations with the expanded bounds and revised bearer/recovery rules above, avoiding the lector blocker when spawning fallback items.
 
@@ -30,21 +38,24 @@ Verified offering-table behavior: `_fall()` clamps the release x to `[floor_x.x 
 |---|---|---|
 | `id` | `String` | Existing item ID, such as `sun` or `ankh38`. |
 | `sprite` | `Sprite2D` | Existing drawing controlled by this object. |
+| `base_world_scale` | `Vector2` | Authored world-scale magnitude captured during setup and preserved across ordinary movement states, compensating for parent scale. Facing reflection is handled separately. Only approved tool/appearance effects may override this temporarily. |
 | `state` | `State` enum | `WORLD`, `WORN`, `HELD`, or `PLACED`. |
 | `carriable` | `bool` | Whether a world click may collect this object onto the avatar; does not restrict dragging an attached object. |
 | `description_id` | `String` | Key used by the description system; puzzle state may select alternate text. |
-| `click_follow` | `bool` | False for every object except the words; never enables this mode for ordinary carried items. |
+| `transport_mode` | `TransportMode` enum | `DRAG_DROP` by default; `CLICK_FOLLOW` only for the approved magical-words exception. |
+| `interaction_mode` | `InteractionMode` enum | `TRANSPORT` by default; the adze uses `TOOL_USE` during carving while remaining a movable object. |
+| `locked_in_place` | `bool` | Prevent pickup/holding after final accepted placement (goose, assembled offerings, plumes). Description clicks remain available; reset clears the lock. |
 | `carrier` | `Node2D` | Avatar providing `carrying_transform()`. |
-| `carry_pose` | `Transform2D` | Position, rotation, scale, and mirroring relative to the avatar. |
-| `held_pose` | `Transform2D` | Drawing offset, rotation, and scale relative to the pointer. |
-| `from_loc_parent` | `Node2D` | Authored source parent. |
+| `carry_pose` | `Transform2D` | Position, rotation, and mirroring relative to the avatar; preserve `base_world_scale` rather than applying carry-only resizing. |
+| `held_pose` | `Transform2D` | Drawing offset, rotation, and mirroring relative to the pointer; preserve `base_world_scale` outside approved exceptions. |
+| `from_loc_parent` | `Node` | Authored source parent. |
 | `from_loc_transform` | `Transform2D` | Source pose relative to `from_loc_parent`. |
 | `from_loc_z_index` | `int` | Source drawing order. |
-| `to_loc_parent` | `Node2D` | Destination parent, supplied by the puzzle controller. |
+| `to_loc_parent` | `Node` | Destination parent, supplied by the puzzle controller. |
 | `to_loc_transform` | `Transform2D` | Destination pose relative to `to_loc_parent`. |
 | `to_loc_z_index` | `int` | Destination drawing order. |
 | `_return_state` | `State` | State before entering `HELD`. |
-| `_return_parent` | `Node2D` | Parent of the last valid location before dragging. |
+| `_return_parent` | `Node` | Parent of the last valid location before dragging. |
 | `_return_transform` | `Transform2D` | Parent-relative pose of the last valid location before dragging. |
 | `_return_z_index` | `int` | Drawing order to restore when cancelling. |
 
@@ -52,21 +63,24 @@ Use the existing authored sprite rather than creating another copy. Preserve its
 
 `from_loc` and `to_loc` are the source and destination field groups above. Store transforms relative to their respective parents so both locations follow moving scenery. `setup()` captures `from_loc`; the puzzle configures `to_loc` before placement. For standards, update `to_loc` when the controller selects a pole. Wearing and pointer holding are intermediate states: they do not overwrite either location. Keep cancellation's temporary return state separate from the authored source, so cancelling a drag from the body returns the item to the body while resetting returns it to `from_loc`.
 
+All location/carry transforms must preserve the captured world-scale magnitude when composed with their parents. Normalize or compensate their scale during application; stored destination poses must not silently resize objects. Verify that replacing offering sprites with held drawings and physics bodies also preserves the same size.
+
 ### Functions and parameters
 
 | Function | Parameters | Behavior |
 |---|---|---|
 | `setup()` | `object_id: String, drawing: Sprite2D` | Store identity and capture `from_loc_parent`, `from_loc_transform`, and `from_loc_z_index` from the drawing. |
-| `set_to_loc()` | `parent: Node2D, pose: Transform2D, z_index: int` | Configure `to_loc_parent`, `to_loc_transform`, and `to_loc_z_index` without moving the object. |
+| `set_to_loc()` | `parent: Node, pose: Transform2D, z_index: int` | Configure `to_loc_parent`, `to_loc_transform`, and `to_loc_z_index` without moving the object. |
 | `contains_point()` | `world_point: Vector2` | Test the transformed sprite, including its visible pixels, for picking. |
 | `world_rect()` | None | Return the current bounding rectangle for walking approach, hover, and clues. |
 | `wear()` | `avatar: Node2D, pose: Transform2D` | Require `carriable`; enter `WORN` and attach the drawing to the avatar's carrying frame after controller eligibility checks. |
-| `hold()` | `pointer_pose: Transform2D` | Save the previous state and enter `HELD`. Preserve a grab offset or set a specific grip. Ignore repeated calls while already held so the return state is preserved. |
+| `hold()` | `pointer_pose: Transform2D` | Refuse when `locked_in_place`. Otherwise save the previous state and enter `HELD`. Preserve a grab offset or set a specific grip. Ignore repeated calls while already held so the return state is preserved. |
 | `move_held()` | `world_point: Vector2` | Update the held drawing from the pointer position. |
 | `request_description()` | None | Emit `description_requested(id, description_id)`; the controller resolves current game-state text through the existing description/HUD system. |
 | `place()` | None | Enter `PLACED`; apply the configured `to_loc` parent, transform, and drawing order. The controller must configure the destination first. |
+| `lock_in_place()` | None | Set `locked_in_place` after the controller accepts a final placement; leave description access intact. |
 | `cancel_hold()` | None | Restore the previous worn attachment using the avatar's current carrying frame, or the saved parent-relative valid location. Physics-based table recovery remains controller-owned. |
-| `reset()` | None | Apply `from_loc_parent`, `from_loc_transform`, and `from_loc_z_index`; restore `WORLD` state. |
+| `reset()` | None | Apply `from_loc_parent`, `from_loc_transform`, and `from_loc_z_index`; restore `WORLD` state and clear `locked_in_place`. |
 | `_process()` | `delta: float` | Update worn objects using `carrier.carrying_transform()`. |
 
 Signals: `state_changed(previous: State, current: State)` and `description_requested(object_id: String, description_id: String)`. Puzzle controllers resolve descriptions, refresh hover effects or UI, and retain responsibility for completion and dialogue.
@@ -76,7 +90,7 @@ Signals: `state_changed(previous: State, current: State)` and `description_reque
 | Existing caller | New calls and responsibility |
 |---|---|
 | `EndingStand.setup()` | Create stand, sun, and lotus objects; call `setup()` to capture each `from_loc` and `set_to_loc()` for its assembled position before Ra. Convert `WORN` entries into carry transforms. |
-| `EndingStand.pick()` / `worn_at()` | Call `contains_point()` on objects in the appropriate state. |
+| `EndingStand.pick()` / `worn_at()` | Keep existing bounds picking on objects in the appropriate state; the shared class also provides ink picking. |
 | `EndingStand.take()` | Call `wear(avatar, pose)` after pickup is approved. |
 | `EndingStand.hold()` | Call `hold(pointer_pose)` only once an avatar-object press crosses the drag threshold. |
 | `EndingStand.unhold()` | Call `cancel_hold()`. |
@@ -86,11 +100,12 @@ Signals: `state_changed(previous: State, current: State)` and `description_reque
 | `procession` / `dangers` object input and description handlers | Apply the same attached-object click/drag rules to all carried objects; request descriptions on click and drag start, resolve state-specific text, and preserve it during the drag unless explicit game feedback replaces it. |
 | `dangers.take()` | Call `wear()` using the existing `CarryAnkh` or `CarryBreath` marker transform. |
 | `OpeningMouth.take_adze()` | Call `wear()` with the adze's hand attachment pose. |
-| `OpeningMouth.take_words()` | Call `hold()` with the words' pointer pose. |
+| `OpeningMouth.take_words()` | Configure `CLICK_FOLLOW` and the appearance location as `from_loc`; call `hold()` with the words' pointer pose. |
 | `OpeningMouth.touch()` | Enter the existing carving tool mode. Pointer tracking and strike animation stay in `OpeningMouth`; transporting the adze remains subject to the shared drag/drop rules. |
 | `OpeningMouth.put_back()` | Call `reset()` for the carried object. |
 | `OpeningMouth.setup()` | Capture each object's `from_loc`; call `set_to_loc()` for the words' destination over Ra. |
 | `OpeningMouth.place_words()` | Call `place()` to apply the words' configured `to_loc`. |
+| Words input handling in `procession` / `OpeningMouth` | While words follow the pointer, a valid destination click calls `place_words()`; any invalid click restores their appearance location using `reset()` and restores the spoken/available puzzle phase. |
 | `OfferingTable.take()` | Remove or disable the loose physics body, then call `hold()`. |
 | `OfferingTable.setup()` | Capture each object's `from_loc`; call `set_to_loc()` for each offering's assembled position. |
 | `OfferingTable.drop_at()` | Validate support and snapping, then call `place()` if accepted; otherwise resume existing physics behavior. |
@@ -100,6 +115,8 @@ Signals: `state_changed(previous: State, current: State)` and `description_reque
 | `procession._table_input()` | Start holding on press, keep existing automatic snapping during motion, and resolve unsnapped placement on release. A release without a drag must not leave an item following the pointer. Preserve table fallback calculations and bearer interactions. |
 | `procession.act_slot()` | Call `hold()` for a standard. |
 | `procession._drop_standard()` | Choose the pole, call `set_to_loc()` with its parent, pose, and drawing order, then `place()`; call `cancel_hold()` for an invalid drop. |
+| `Bulls.setup()` / `press()` / `drag()` / `release()` / `leave()` | Configure the plumes' slaughtered-bull `from_loc` and walking-ox `to_loc`. Delegate sprite holding/movement/placement to the movable object while preserving grab offset, `SNAP` validation, and invalid-release/leave return to `from_loc`. Keep calf controls and puzzle completion in `Bulls`. |
+| `OfferingTable._place()` / goose acceptance in `bearer_act()` / accepted plumes in `Bulls.release()` | Call `lock_in_place()` immediately on final accepted placement. Exclude locked objects from pickup/drag targeting while retaining description targeting. |
 | Each puzzle's `reset()` | Call every owned object's `reset()`, then apply puzzle-specific initial state. |
 
 For offerings, physics remains owned by `OfferingTable`: the movable object controls the drawing while held or placed, and the existing rigid body controls it when loose. Make that handoff explicit so both systems cannot update the sprite simultaneously.
@@ -110,9 +127,11 @@ Keep placement rules, completion, hands-full checks, dialogue, hints, journal up
 
 ### Migration and verification
 
-1. [ ] Migrate the ending stand first. Verify carriable-only click collection, body poses, mirroring, click-to-describe without detachment, description persistence/state overrides during drag, valid drag placement, invalid-drop return to a moving avatar, cancellation, and reset.
-2. [ ] Migrate Dangers. Verify both collectible choices retain their marker poses and follow the avatar; clicking reads their descriptions and dragging them anywhere without an accepted destination returns them to the avatar.
-3. [ ] Migrate the adze, words, standards, and offerings one interaction at a time, using the existing regression tests. Verify words alone retain click-follow transport, carving stays unchanged, non-carriable pieces never attach through a world click, and standards return on invalid drops. Verify table automatic snapping, support/topple rules, clamped gravity drops, shelf handling, and removal of click-follow controls. Verify expanded bounds, lector exclusion, rejected-item floor drops, and displaced-loaf floor drops. Test cancelling a loaf drag directly from the bearer versus cancelling a new drag after that same loaf was dropped onto the table.
+- [x] Verify constant world-scale magnitude through every ordinary state transition and differently scaled parents, especially lotus world-to-avatar-to-pointer-to-placement. Verify the two approved visual exceptions restore normal scale afterward. Keep hint-preview scaling and camera zoom separate from object scale.
+1. [x] Migrate the ending stand first. Verify carriable-only click collection, body poses, mirroring, click-to-describe without detachment, description persistence/state overrides during drag, valid drag placement, invalid-drop return to a moving avatar, cancellation, and reset.
+2. [x] Migrate Dangers. Verify both collectible choices retain their marker poses and follow the avatar; clicking reads their descriptions and dragging them anywhere without an accepted destination returns them to the avatar.
+3. [x] Migrate the plumes. Verify grab offset, invalid drop/leave return to the slaughtered bull, and valid snap to the walking ox. Verify they cannot be dragged again immediately after acceptance, even while the calf remains unresolved. Verify the accepted goose and assembled offerings also refuse pickup/dragging, descriptions remain readable, and reset restores movability. Keep calf and water-jar gestures outside the movable-object class.
+4. [x] Migrate the adze, words, standards, and offerings one interaction at a time, using the existing regression tests. Verify words alone retain click-follow transport, carving stays unchanged, non-carriable pieces never attach through a world click, and standards return on invalid drops. Verify table automatic snapping, support/topple rules, clamped gravity drops, shelf handling, and removal of click-follow controls. Verify expanded bounds, lector exclusion, rejected-item floor drops, and displaced-loaf floor drops. Test cancelling a loaf drag directly from the bearer versus cancelling a new drag after that same loaf was dropped onto the table.
 
 ## Open — to resolve
 

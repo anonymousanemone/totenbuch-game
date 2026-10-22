@@ -1306,7 +1306,6 @@ metadata/piece_id = "stand"
 [node name="lotus" type="Sprite2D" parent="pieces/ending" unique_id=1177462859]
 position = Vector2(2980, 223.1)
 rotation = 1.5707964
-scale = Vector2(0.7, 0.7)
 texture = ExtResource("tex_lotus")
 metadata/piece_id = "lotus"
 

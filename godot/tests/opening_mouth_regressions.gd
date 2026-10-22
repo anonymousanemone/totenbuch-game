@@ -62,10 +62,10 @@ func _run() -> void:
 			and stand > level.mouth.face_view().end.x and stand < woman.position.x,
 			"mouth approach position lies between the mummy and kneeling woman")
 		level.avatar.position.x = stand + 250.0
-		level.act_mouth("mummy", level.mouth.mummy_rect().get_center())
+		level.enter_mouth()
 		level._update_camera(1.0)
 		expect(level.avatar.is_walking() and not level.mouth.active and level._focus != "mouth",
-			"clicking the mummy starts walking before the face zoom")
+			"placing the adze starts walking before the face zoom")
 		level.avatar._process(0.25)
 		expect(not level.mouth.active, "the face view stays closed during the approach")
 		for i in 100:

@@ -22,6 +22,12 @@ const SEED := 7              ## the same scatter every time
 const PIECE_LAYER := 2       ## loose pieces collide with each other and the floor, nothing else
 const SHELF_LAYER := 4       ## the upper register line, a platform
 
+var _descriptions = preload("res://scripts/descriptions.gd").new("procession")
+var objects := {}
+var bearer_rect := Rect2()
+var lector_rect := Rect2()
+var _centered := {}
+
 var pieces := {}             ## id -> {rect, kind, name, rests_on, hull}
 var placed := {}             ## id -> true
 var bearer := ""             ## what the goose-bearer holds: a table piece id, "goose" or ""
@@ -52,9 +58,11 @@ var _speak: Sprite2D
 var _placement_imprint: Sprite2D
 
 
-func setup(table: Dictionary, goose: Rect2, ground_y: float, nodes: Dictionary) -> void:
+func setup(table: Dictionary, goose: Rect2, ground_y: float, nodes: Dictionary, bearer_bounds := Rect2(), lector_bounds := Rect2()) -> void:
 	ground = ground_y
-	floor_x = Vector2(table.floor[0], table.floor[1])
+	bearer_rect = bearer_bounds
+	lector_rect = lector_bounds
+	floor_x = Vector2(table.floor[0], maxf(table.floor[1], bearer_rect.end.x))
 	_goose_rect = goose
 	_clothes_rect = Rect2(nodes.clothes.position, nodes.clothes.texture.get_size())
 	var s: Dictionary = table.speech
@@ -84,6 +92,14 @@ func setup(table: Dictionary, goose: Rect2, ground_y: float, nodes: Dictionary) 
 
 	_placed_layer = $layout
 	_bodies = $bodies
+	for id in pieces.keys() + ["goose"]:
+		var item := MoveableObject.new()
+		add_child(item)
+		item.setup(id, nodes[id])
+		_centered[id] = nodes[id].centered
+		if id != "goose":
+			item.set_to_loc(nodes[id].get_parent(), Transform2D(0.0, pieces[id].rect.position), 0)
+		objects[id] = item
 	_build_floor()
 	_clothes = nodes.clothes
 	_bearer_sprite = nodes.held_loaf
@@ -108,8 +124,12 @@ func reset() -> void:
 		c.visible = false
 	for b in _bodies.get_children():
 		b.queue_free()
-	placed.clear()
 	_let_go()
+	for item in objects.values():
+		item.reset()
+		item.sprite.visible = false
+		item.sprite.centered = _centered[item.id]
+	placed.clear()
 	_speak_i = 0
 	_stop_speaking()
 	bearer = ""
@@ -294,10 +314,10 @@ func put_back() -> void:
 
 ## The pieces set back in place, as drawn (with the `table` layer of the picture: the table whole).
 func placed_sprites() -> Array:
-	return _placed_layer.get_children().filter(func(s): return s.visible)
+	return placed.keys().map(func(id): return _authored[id]).filter(func(s): return s.visible)
 
 
-## The goose-bearer: take the loaf from him, or give him back his goose (taking the loaf).
+## The goose-bearer: borrow/return his loaf, or return his goose and drop any displaced loaf.
 ## Returns what happened: "took", "gave", "swapped", "full", "wrong", "empty", "has_goose".
 func bearer_act() -> String:
 	if _held == "":
@@ -316,8 +336,11 @@ func bearer_act() -> String:
 	var had := bearer
 	bearer = "goose"
 	_show_bearer()
+	objects.goose.set_to_loc(_bearer_sprite.get_parent(), _bearer_sprite.transform, 0)
+	objects.goose.place()
+	objects.goose.lock_in_place()
 	if had != "":
-		_hold(had, "bearer")
+		drop_before_bearer(had)
 		return "swapped"
 	changed.emit()
 	return "gave"
@@ -363,7 +386,7 @@ func speaking() -> String:
 
 func _process(_delta: float) -> void:
 	if _held != "":
-		_held_sprite.position = get_global_mouse_position()
+		objects[_held].move_held(get_global_mouse_position())
 	# a piece scattered at the start takes up the shelf once it has fallen wholly below it
 	for b in _bodies.get_children():
 		if b.has_meta("through") and b.position.y - b.get_meta("through") > header.y + 8.0:
@@ -374,27 +397,38 @@ func _process(_delta: float) -> void:
 # ---------------------------------------------------------------- internals
 
 func _hold(id: String, from: String) -> void:
+	if objects[id].locked_in_place:
+		return
 	_held = id
 	_held_from = from
-	_held_sprite.texture = _tex[id]
-	_held_sprite.position = get_global_mouse_position()
+	var item: MoveableObject = objects[id]
+	_held_sprite = item.sprite
+	_held_sprite.centered = true
+	item.hold()
+	item.move_held(get_global_mouse_position())
 	_held_sprite.visible = true
 	changed.emit()
 
 
 func _let_go() -> void:
+	if _held != "":
+		objects[_held].cancel_hold()
+		_held_sprite.centered = _centered[_held]
+		_held_sprite.visible = false
 	_held = ""
 	_held_from = ""
-	_held_sprite.visible = false
+	if is_instance_valid(_held_sprite):
+		_held_sprite.visible = false
 
 
 func _place(id: String) -> void:
 	if speaking() == id:
 		_stop_speaking()
 	placed[id] = true
+	objects[id].place()
+	objects[id].lock_in_place()
 	var s: Sprite2D = _authored[id]
 	s.visible = true
-	s.position = pieces[id].rect.position
 	UI.flash(s)
 	changed.emit()
 
@@ -420,7 +454,7 @@ func _spawn(id: String, at: Vector2, rot: float, through := false) -> RigidBody2
 	b.collision_mask = PIECE_LAYER if through else PIECE_LAYER | SHELF_LAYER
 	if through:   # how far its drawing can reach above its centre, at any angle
 		b.set_meta("through", _tex[id].get_size().length() / 2.0)
-	b.position = at
+	b.position = _clear_lector(id, at)
 	b.rotation = rot
 	var mat := PhysicsMaterial.new()
 	mat.friction = 0.9
@@ -444,17 +478,59 @@ func _spawn(id: String, at: Vector2, rot: float, through := false) -> RigidBody2
 	return b
 
 
+func _clear_lector(id: String, at: Vector2) -> Vector2:
+	if not lector_rect.has_area():
+		return at
+	var half: Vector2 = _tex[id].get_size() / 2.0
+	var blocked := lector_rect.grow(half.length() + 4.0)
+	if blocked.has_point(at):
+		var left := blocked.position.x
+		var right := blocked.end.x
+		at.x = left if absf(at.x - left) < absf(at.x - right) else right
+		at.x = clampf(at.x, floor_x.x + minf(half.x, 60.0), floor_x.y - minf(half.x, 60.0))
+	return at
+
+
+func drop_before_bearer(id: String) -> void:
+	_fall(id, Vector2(bearer_rect.get_center().x, ground - 80.0), false)
+
+
+func reject_held() -> void:
+	var id := _held
+	if id == "":
+		return
+	_let_go()
+	drop_before_bearer(id)
+
+
+func placed_at(p: Vector2) -> String:
+	for id in placed:
+		if objects[id].contains_point(p):
+			return id
+	return ""
+
+
+func goose_at(p: Vector2) -> bool:
+	if bearer != "goose":
+		return false
+	# The bearer display is a separate sprite; inspect its ink before the whole figure.
+	return _descriptions.hit(_bearer_sprite, p)
+
+
 func _build_floor() -> void:
 	var body := StaticBody2D.new()
 	body.collision_layer = PIECE_LAYER
 	body.collision_mask = 0
 	add_child(body)
 	var w := floor_x.y - floor_x.x
-	for r in [
+	var barriers := [
 		Rect2(floor_x.x - 40.0, ground, w + 80.0, 60.0),        # the floor
 		Rect2(floor_x.x - 40.0, -600.0, 40.0, ground + 660.0),   # the bouquets on the left ...
 		Rect2(floor_x.y, -600.0, 40.0, ground + 660.0),          # ... and on the right
-	]:
+	]
+	if lector_rect.has_area():
+		barriers.append(lector_rect)
+	for r in barriers:
 		var c := CollisionShape2D.new()
 		var shape := RectangleShape2D.new()
 		shape.size = r.size
@@ -487,9 +563,11 @@ func _park(id: String, at: Vector2) -> void:
 
 func _show_bearer() -> void:
 	_clothes.visible = bearer == ""
-	_bearer_sprite.visible = bearer != ""
+	_bearer_sprite.visible = false
 	if bearer != "":
-		_bearer_sprite.texture = _tex[bearer]
+		_bearer_sprite = objects[bearer].sprite
+		_bearer_sprite.centered = true
+		_bearer_sprite.visible = true
 		_bearer_sprite.position = _goose_rect.get_center()
 		if bearer != "goose":  # a loaf sits in his hands, where the goose's body is (not its neck)
 			var w: float = _tex[bearer].get_size().x

@@ -95,8 +95,9 @@
       "instructions": "He hands you the loaf, looking forlornly at his empty hands.",
       "success": "He takes his goose back in his arms.",
       "feedback": {
-        "success_swapped": "He takes his goose and hands you the bread loaf.",
+        "success_swapped": "He takes his goose, letting the bread loaf fall.",
         "success_carrying": "He carries his goose with joy and purpose.",
+        "goose_refuses": "He clings to his goose, refusing to give it up again.",
         "holding_loaf": "Odd that he's holding a loaf of bread.",
         "wrong_item": "This doesn't belong in his arms.",
         "loaf_returned": "He takes the loaf back."

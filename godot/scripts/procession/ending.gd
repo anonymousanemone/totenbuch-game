@@ -8,7 +8,7 @@
 ## other rites are done (`show_imprint`) the stela by the tomb shows a faint imprint of the three as
 ## they stand; until then its face is blank. A piece found is worn: it goes onto you, posed as in
 ## WORN (the stand held before you, the sun disc on your head, the lotus over your shoulder),
-## mirrored as you turn. Take one off you (drag it, or click it and click again) and it
+## mirrored as you turn. Take one off you (drag it) and it
 ## follows the pointer, one at a time; let go of it on its place before Ra and it goes on there,
 ## anywhere else and it goes back onto you. Each goes on only once what it rests on is there: the
 ## stand, then the sun, then the lotus. The kneeling adorer before Ra is absent until the player
@@ -40,8 +40,10 @@ const LIGHT := preload("res://scripts/procession/light.gdshader")
 const WORN := {
 	"stand": {"at": Vector2(-36.0, -172.0), "turn": 0.0, "scale": 1.0, "flip": false},
 	"sun": {"at": Vector2(32.0, -314.0), "turn": 0.0, "scale": 1.0, "flip": false},
-	"lotus": {"at": Vector2(66.0, -235.0), "turn": 0.5323, "scale": 0.7, "flip": true},
+	"lotus": {"at": Vector2(66.0, -235.0), "turn": 0.5323, "scale": 1.0, "flip": true},
 }
+
+var objects := {}
 
 var worn: Array[String] = []      ## found, on you, not yet at its place
 var held := ""                    ## the piece taken off you, following the pointer
@@ -51,7 +53,6 @@ var imprint_shown := false        ## the stela shows the stand (only once the ot
 var instant := false              ## the autotest: no waiting
 var _data: Dictionary
 var _rects := {}                  ## piece -> Rect2 where it is drawn
-var _hidden_homes := {}       ## authored starting parent and transform
 var _nodes := {}                  ## piece -> Sprite2D (centred)
 var _avatar: Node2D
 var _imprint: Node2D
@@ -70,9 +71,14 @@ func setup(level: Dictionary, nodes: Dictionary, avatar: Node2D) -> void:
 	for nm in PIECES:
 		var sp: Sprite2D = nodes[nm]
 		_nodes[nm] = sp
-		_hidden_homes[nm] = {"parent": sp.get_parent(), "transform": sp.transform}
 		var target: Sprite2D = nodes[nm + "_place"]
 		_rects[nm] = Rect2(target.position, target.texture.get_size())
+		var item := MoveableObject.new()
+		add_child(item)
+		item.setup(nm, sp)
+		item.carriable = true
+		item.set_to_loc(self, Transform2D(0.0, _rects[nm].get_center()), 0)
+		objects[nm] = item
 	_base_clue = Sprite2D.new()
 	_base_clue.texture = _nodes.stand.texture
 	_base_clue.centered = false
@@ -115,24 +121,15 @@ func reset() -> void:
 
 ## Where a piece lies hidden: on the scroll, or (the sun disc) on the bier.
 func _hide(nm: String) -> void:
-	var sp: Sprite2D = _nodes[nm]
-	var home: Dictionary = _hidden_homes[nm]
-	if sp.get_parent() != home.parent:
-		sp.reparent(home.parent, false)
-	sp.transform = home.transform
-	sp.z_index = 0
-	sp.flip_h = false
-	sp.visible = true
+	objects[nm].reset()
+	_nodes[nm].visible = true
 
 
 func _set_at_place(nm: String) -> void:
-	var sp: Sprite2D = _nodes[nm]
-	if sp.get_parent() != self:
-		sp.reparent(self, false)
-	sp.visible = true
-	sp.z_index = 0
-	sp.flip_h = false
-	sp.transform = Transform2D(0.0, _rects[nm].get_center())
+	_nodes[nm].flip_h = false
+	objects[nm].place()
+	objects[nm].lock_in_place()
+	_nodes[nm].visible = true
 
 
 ## A hidden piece under the pointer, or "place" for the stand's place before Ra (empty, part set
@@ -182,6 +179,7 @@ func take(nm: String) -> void:
 	sp.reparent(self, false)
 	sp.z_index = 5    # over you: you hold it
 	sp.flip_h = WORN[nm].flip
+	objects[nm].wear(_avatar, pose(nm))
 	_follow()
 	changed.emit()
 
@@ -190,6 +188,7 @@ func take(nm: String) -> void:
 func hold(nm: String) -> void:
 	if held != "" or not nm in worn:
 		return
+	objects[nm].hold()
 	worn.erase(nm)
 	held = nm
 	_nodes[nm].z_index = 10
@@ -201,6 +200,7 @@ func hold(nm: String) -> void:
 func unhold() -> void:
 	if held == "":
 		return
+	objects[held].cancel_hold()
 	worn.append(held)
 	_nodes[held].z_index = 5
 	held = ""
@@ -276,11 +276,10 @@ func held_name() -> String:
 ## The pieces on you sit where they are posed, mirrored as you turn and bobbing as you walk; the
 ## one in hand is at the pointer.
 func _follow() -> void:
-	var on_you: Transform2D = _avatar.carrying_transform()
 	for nm in worn:
-		_nodes[nm].global_transform = on_you * pose(nm)
+		objects[nm].follow()
 	if held != "":
-		_nodes[held].global_transform = Transform2D(0.0, get_global_mouse_position())
+		objects[held].move_held(get_global_mouse_position())
 
 
 ## Where you kneel: the adorer's place before Ra.

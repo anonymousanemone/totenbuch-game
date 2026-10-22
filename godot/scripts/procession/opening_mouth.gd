@@ -22,7 +22,7 @@ const RISE := 0.6             ## s for the ball to rise out of the mouth ...
 const UNROLL := 0.9           ## ... and to unroll into the line of signs
 const DROP_PAD := 40.0        ## strip px round the imprint that still take the line
 const CHIP_STEP := 3.0
-const CARVING_SCALE := 0.35   ## keep the carried handle clear of the small face
+const CARVING_SCALE := 0.5   ## keep the carried handle clear of the small face
 const ADZE_GRIP := Vector2(83.0, 37.0)  ## where on the adze the pointer holds it: the end of its handle
 const ADZE_TIP := Vector2(4.0, 27.0)    ## the tip of its blade, where it chips
 const SWING := 0.08           ## rad the adze comes down about the pointer on a click ...
@@ -51,6 +51,9 @@ var _props: Array             ## the rest of what lies on the stand with the adz
 var _words: Sprite2D          ## centred, so it can grow from a ball
 var _imprint: Sprite2D
 var _adze_home := Rect2()
+var adze_object: MoveableObject
+var words_object: MoveableObject
+
 var _adze_home_transform := Transform2D.IDENTITY
 var _adze_carry_pose := Transform2D.IDENTITY
 var _words_home := Rect2()
@@ -74,12 +77,24 @@ func setup(level: Dictionary, nodes: Dictionary, avatar: Node2D) -> void:
 	_adze_carry_pose = (_avatar.get_node("CarryAdze") as Marker2D).transform
 	_words_home = Rect2(_words.position - _words.texture.get_size() / 2.0, _words.texture.get_size())
 	_spoken = Vector2(m.speak_right - _words_home.size.x / 2.0, _words_home.get_center().y)
+	adze_object = MoveableObject.new()
+	add_child(adze_object)
+	adze_object.setup("mouth_adze", _adze)
+	adze_object.carriable = true
+	words_object = MoveableObject.new()
+	add_child(words_object)
+	words_object.setup("mouth_words", _words)
+	words_object.transport_mode = MoveableObject.TransportMode.CLICK_FOLLOW
+	words_object.from_loc_transform.origin = _spoken
+	words_object.set_to_loc(_words.get_parent(), Transform2D(0.0, _words_home.get_center()), 0)
 	_setup_face(level, nodes)
 
 
 func reset() -> void:
 	if _tween and _tween.is_valid():
 		_tween.kill()
+	adze_object.reset()
+	words_object.reset()
 	active = false
 	phase = Phase.START
 	_body.position = _body_home
@@ -187,6 +202,7 @@ func take_adze() -> void:
 	if phase != Phase.START:
 		return
 	phase = Phase.ADZE
+	adze_object.wear(_avatar, _adze_carry_pose)
 	said.emit("Scribe", PUZZLES.text("procession.opening_mouth", "feedback", "adze_taken"))
 	changed.emit()
 
@@ -195,6 +211,7 @@ func take_words() -> void:
 	if phase != Phase.SPOKEN or (_tween and _tween.is_running()):
 		return
 	phase = Phase.WORDS
+	words_object.hold()
 	_words.scale = Vector2.ONE
 	said.emit("Scribe", PUZZLES.text("procession.opening_mouth", "feedback", "words_taken"))
 	changed.emit()
@@ -204,10 +221,12 @@ func take_words() -> void:
 func put_back() -> void:
 	match phase:
 		Phase.ADZE:
+			adze_object.reset()
 			phase = Phase.START
 			_adze.transform = _adze_home_transform
 			_adze.self_modulate.a = 1.0
 		Phase.WORDS:
+			words_object.reset()
 			phase = Phase.SPOKEN
 			_words.position = _spoken
 		_:
@@ -219,6 +238,7 @@ func put_back() -> void:
 func touch() -> void:
 	if phase != Phase.ADZE or active or (_tween and _tween.is_running()):
 		return
+	adze_object.interaction_mode = MoveableObject.InteractionMode.TOOL_USE
 	active = true
 	_clear_face()
 	said.emit("Anubis", PUZZLES.text("procession.opening_mouth", "instructions"))
@@ -228,6 +248,7 @@ func touch() -> void:
 func _speak() -> void:
 	active = false
 	phase = Phase.SPOKEN
+	adze_object.reset()
 	_imprint.visible = true
 	_adze.transform = _adze_home_transform
 	_adze.self_modulate.a = 1.0
@@ -258,6 +279,8 @@ func place_words() -> void:
 	if phase != Phase.WORDS:
 		return
 	phase = Phase.DONE
+	words_object.place()
+	words_object.lock_in_place()
 	_words.position = _words_home.get_center()
 	_words.scale = Vector2.ONE
 	_imprint.visible = false
@@ -279,9 +302,9 @@ func _process(_delta: float) -> void:
 				_adze.rotation = -SWING * sin(_swing * PI)
 				_adze.position = p - (ADZE_GRIP * _adze.scale).rotated(_adze.rotation)
 			else:
-				_adze.global_transform = _avatar.carrying_transform() * _adze_carry_pose
+				adze_object.follow()
 		Phase.WORDS:
-			_words.position = p
+			words_object.move_held(p)
 
 
 func _setup_face(level: Dictionary, nodes: Dictionary) -> void:
@@ -378,6 +401,8 @@ func leave() -> void:
 	if not active:
 		return
 	active = false
+	adze_object.interaction_mode = MoveableObject.InteractionMode.TRANSPORT
+	adze_object.follow()
 	_clear_face()
 	said.emit("Anubis", PUZZLES.text("procession.opening_mouth", "feedback", "left_carving"))
 	changed.emit()

@@ -271,7 +271,8 @@ func _past(c: Dictionary) -> bool:
 	return c.node.position.x - half >= b.end.x if c.dir > 0 else c.node.position.x + half <= b.position.x
 
 
-## Does its drawing touch his (any part of him: his inked pixels, as he stands now)?
+## Does its drawing touch him (his inked pixels as he stands now; not his spear: one that runs onto its
+## point has not bitten him, and a thrust can still meet it)?
 func _touches(c: Dictionary) -> bool:
 	var bearer: Node2D = game.actors[game.fight.e.spear]
 	if not _rect_at(c, c.node.position).intersects(game.actor_rect(game.fight.e.spear)):
@@ -285,6 +286,7 @@ func _touches(c: Dictionary) -> bool:
 		_sheets[atlas.atlas] = img
 	var sheet: Image = _sheets[atlas.atlas]
 	var region := Rect2i(atlas.region)
+	var spear_dx := int(game.sheet.poses.size() * float(game.sheet.cell[0]))    # the spear alone, beside each pose
 	var sp: Sprite2D = game._picture(c.node)
 	var w := sp.texture.get_width()
 	var to_him := bs.get_global_transform().affine_inverse() * sp.get_global_transform()
@@ -294,7 +296,9 @@ func _touches(c: Dictionary) -> bool:
 		if bs.flip_h:
 			x = region.size.x - 1 - x
 		var y := int(q.y)
-		if x >= 0 and y >= 0 and x < region.size.x and y < region.size.y and sheet.get_pixel(region.position.x + x, region.position.y + y).a > 0.5:
+		if x >= 0 and y >= 0 and x < region.size.x and y < region.size.y \
+				and sheet.get_pixel(region.position.x + x, region.position.y + y).a > 0.5 \
+				and sheet.get_pixel(region.position.x + spear_dx + x, region.position.y + y).a <= 0.5:
 			return true
 	return false
 
@@ -589,10 +593,19 @@ func autotest(e: Dictionary, expect: Callable) -> void:
 		_creep(0.05)
 	resting = _snakes().filter(func(o): return o.s != "gone" and not o.slipped)
 	expect.call(resting.size() == int(e.at_once), e.id + " one that slipped past does not count: another slithers in")
-	# the point on a darting snake spears it
+	# the point on a darting snake spears it; one that has only run onto his spear's point has not bitten him
 	var d: Dictionary = resting[0]
 	d.s = "dart"
 	game.fight.facing = -d.dir
+	var rest_tip: Vector2 = game.fight.pos + game._tip_offset() + game._spear_dir() * game._spear_rest() * game.unit
+	d.node.position = rest_tip - _front(d.node, d.dir) - Vector2(d.dir * 30.0 * game.unit, 0.0)
+	game._place_bearer()
+	var b1 = game.bites
+	for i in 200:              # it darts on along his row, onto his spear's point and a little past it
+		_creep(0.005)
+		if (d.node.position.x + _front(d.node, d.dir).x - rest_tip.x) * d.dir > 6.0 * game.unit or d.s != "dart":
+			break
+	expect.call(d.s == "dart" and game.bites == b1, e.id + " a snake that runs onto his spear's point has not bitten him")
 	d.node.position = game.fight.pos + game._tip_offset() + game._spear_dir() * game.CROC_THRUST * game.unit - _front(d.node, d.dir) \
 		+ Vector2(d.dir * 4.0 * game.unit, 0.0)
 	_creep_strike()

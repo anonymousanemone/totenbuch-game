@@ -76,6 +76,12 @@
 
 - spell 41: instead of binding the sheaf, i want the player to have to strike at the band that is wiggling. if they get the wrong band, they get bit. ("your spear slips past/stops just before the snake and you are bit.") you have to strike the snake 5 times. the last time will always be at the top band. the rest can be random. in hard mode, you get bit if you don't strike when a band moves. in the regular/easy mode, the player will not be penalized for not taking action. the figure will lean accordingly and press up and down (to move up and down the sheafs). 
 
+#### Gates — spells 145–146
+
+- [ ] **Spell 145, name-and-god matching game:** the player carries a name over their head and must match it to the right god. They walk to the correct god and drag the name onto it; the god lights up and a version of the adorer appears. A different name then appears over the player's head, until every name and god is matched. Reuse `moveable_object.gd` (press-drag-release; check the name-over-head carry against the movable-objects rules in AGENTS.md before building).
+- [ ] **Spell 146, same game, now lethal:** the gods are dangerous spirits, so a wrong match kills the player and they start over. The names always come in the same order, so a restart is learnable rather than random.
+- [ ] **Spell 145 wrong-match response:** TBD.
+
 ### Cosmos
 
 #### General

@@ -71,13 +71,25 @@ func _run() -> void:
 	arrive(level)
 	expect(level.hud._text == level._descriptions.text("lector_with_plumes") + " He speaks to you.", "plumed lector click shows default description with speaking cue at the bottom")
 	expect(level._recital.get_child_count() == 8, "plumed lector still recites all eight standards")
+	expect(level._recital.get_children().all(func(glyph): return Color(glyph.modulate, 1.0).is_equal_approx(UI.INK_TINT)), "plumed lector's spoken signs use heka red")
 	expect(level.journal.has("lector_with_plumes"), "plumed lector click records his default description")
 	expect(level._hints._steps == hints_before_recital, "plumed lector clue does not advance Hint-button hints")
 	level.enter_table(true)
 	arrive(level)
-	expect(level.in_table and level.hud._text == level.PUZZLES.text("procession.offerings", "feedback", "speaking")
-		and level.offerings.speaking() != "", "clicking the table priest opens instructions and the current piece clue")
+	expect(level.in_table and level.hud._text == level.PUZZLES.text("procession.offerings", "instructions")
+		and level.offerings.speaking() == "", "first priest click keeps instructions visible before offering clues")
+	level.enter_table(true)
+	expect(level.hud._text == level.PUZZLES.text("procession.offerings", "feedback", "speaking")
+		and level.offerings.speaking() != "", "clicking the priest again shows the offering clue after instructions")
 	var offerings = level.offerings
+	var starts_over_table := true
+	for body in offerings._bodies.get_children():
+		var piece_id: String = body.get_meta("id")
+		if piece_id != "goose" and offerings.pieces[piece_id].kind != "loose":
+			continue
+		starts_over_table = starts_over_table and body.position.x >= level.level.table.floor[0] and body.position.x <= level.level.table.floor[1]
+	expect(starts_over_table, "loose offerings start over the table within its original bounds")
+	expect(offerings.floor_x.y >= offerings.bearer_rect.end.x, "offering physics still extends to the goose-bearer")
 	for restored_id in ["t04", "t05", "t21"]:
 		var drawing: Sprite2D = offerings.objects[restored_id].sprite
 		var source: Dictionary = level.level.table.pieces[restored_id]
@@ -97,6 +109,7 @@ func _run() -> void:
 		and imprint.texture == offerings._tex[id], "priest clue shows the same piece at its destination")
 	offerings._speak_tween.custom_step(offerings.SPEAK_FADE_IN)
 	expect(imprint.modulate.is_equal_approx(UI.PREVIEW) and offerings._speak.modulate.a == 1.0, "piece clue and faint imprint fade in together")
+	expect(offerings._speak.modulate.is_equal_approx(UI.INK_TINT), "lector's spoken offering uses heka red after fading in")
 	offerings._speak_tween.custom_step(offerings.SPEAK_HOLD + offerings.SPEAK_FADE_OUT + 0.1)
 	expect(not imprint.visible and not offerings._speak.visible, "piece clue and imprint fade out together")
 	level.enter_table(true)
@@ -164,6 +177,20 @@ func _run() -> void:
 	level._drop_standard(Vector2(-100, -100))
 	expect(level.held == "" and level.slot.pole1 != "", "releasing outside a pole returns the standard")
 	level.leave_standards()
+	var bull_center: float = (level.bulls.view().x + level.bulls.view().y) / 2.0
+	var sacrifice: Dictionary = level.hotspots.filter(func(h): return h.id == "sacrifice")[0]
+	for side in [level.bulls.view().x, level.bulls.view().y]:
+		level.avatar.position.x = side
+		var destination: float = level.bulls.stand_x(side)
+		level.enter_bulls(sacrifice)
+		arrive(level)
+		expect(level.bulls.active and is_equal_approx(level.avatar.position.x, destination), "player stands at the nearer end of the bull scene")
+		var half: float = level.sprite_rects.avatar.size.x / 2.0
+		var ox: Sprite2D = level.bulls.ox_sprite()
+		expect(destination + half < sacrifice.rect.position.x or destination - half > ox.position.x + ox.offset.x + ox.texture.get_width(), "player stands outside the animals on either side")
+		level._update_camera(1.0)
+		expect(is_equal_approx(level.camera.position.x, bull_center), "bull camera stays centered from either end")
+		level.leave_bulls()
 	level.bulls.enter()
 	var hints_before: Dictionary = level._hints._steps.duplicate()
 	var expected := {

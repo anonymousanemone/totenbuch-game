@@ -23,12 +23,12 @@ const CREAM := Color("f1e7cd")
 # Display colors and ink multipliers are deliberately separate.
 const DANGER := Color("b55b3c")
 const SUCCESS := Color(1.8, 1.4, 0.6)
-const FLASH := Color(1.25, 1.12, 0.88)   ## what was set right lights up, softly, and fades (flash())
 const PREVIEW := Color(1.9, 1.0, 0.6, 0.2)
 ## Matches the level selector in glow.gdshader; all hover glow colors live there.
 enum Glow { DEFAULT, PROCESSION, DANGER, SUCCESS }
-const SUCCESS_IN := 0.25      ## s for a success flash to come up ...
-const SUCCESS_OUT := 1.0      ## ... and to fade
+const SUCCESS_GLOW := Color(148.0 / 255.0, 162.0 / 255.0, 128.0 / 255.0, 0.4)  ## UI band light green #94a280
+const SUCCESS_IN := 0.8       ## s for a success glow to come up ...
+const SUCCESS_OUT := 1.8      ## ... and to fade
 const DIM := Color(0.12, 0.08, 0.04, 0.5)
 const INK_TINT := Color(DANGER.r / INK.r, DANGER.g / INK.g, DANGER.b / INK.b)
 const GLOW_SHADER := preload("res://scripts/glow.gdshader")
@@ -107,6 +107,9 @@ static func glow_material(texture: Texture2D, level: Glow = Glow.DEFAULT) -> Sha
 	var mat := ShaderMaterial.new()
 	mat.shader = GLOW_SHADER
 	mat.set_shader_parameter("level", level)
+	mat.set_shader_parameter("success", SUCCESS_GLOW)
+	if level == Glow.SUCCESS:
+		mat.set_shader_parameter("pad", 12.0)
 	mat.set_shader_parameter("strength", 0.0)
 	if texture is AtlasTexture:
 		var atlas := texture as AtlasTexture
@@ -174,16 +177,8 @@ static func flash_glow(g: Sprite2D) -> void:
 	t.tween_callback(g.queue_free)
 
 
-static func flash(node: CanvasItem, duration := 0.6) -> void:
-	var previous: Tween = node.get_meta("success_flash") if node.has_meta("success_flash") else null
-	if previous and previous.is_valid():
-		previous.kill()
-	var keep: Color = node.get_meta("resting_color", node.modulate)
-	node.set_meta("resting_color", keep)
-	node.modulate = Color(FLASH, keep.a)
-	var tween := node.create_tween()
-	node.set_meta("success_flash", tween)
-	tween.tween_property(node, "modulate", keep, duration)
+static func flash(node: CanvasItem) -> void:
+	success_flash(node as Sprite2D)
 
 
 static func plain(text: String) -> String:

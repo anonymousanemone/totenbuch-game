@@ -699,7 +699,7 @@ func walk_then(x: float, then := Callable()) -> void:
 
 # ---------------------------------------------------------------- the three bulls
 
-## Step up to the three bulls: you stand right of the plumed ox and the camera holds all three.
+## Stand at the nearer end of the three bulls while the camera holds the whole scene.
 ## `h` is the figure clicked, recorded on arrival.
 func enter_bulls(h := {}) -> void:
 	if bulls.active or bulls.done:
@@ -708,11 +708,11 @@ func enter_bulls(h := {}) -> void:
 		say_game("Scribe", _hands_message())
 		return
 	_set_hover({})
-	walk_then(bulls.stand_x(), func():
+	walk_then(bulls.stand_x(avatar.position.x), func():
 		if not h.is_empty():
 			_add_journal(h)
 		avatar.stop()
-		avatar.facing = -1
+		avatar.facing = 1 if avatar.position.x < (bulls.view().x + bulls.view().y) / 2.0 else -1
 		bulls.enter())
 
 
@@ -776,7 +776,7 @@ func _bulls_input(event: InputEvent) -> void:
 # ---------------------------------------------------------------- the offering table scene
 
 ## Step up to the offering table: you stand just behind the lector and the camera holds on the
-## table, from the man with the jar to the goose-bearer. `ask` has the lector show a piece at once.
+## table, from the man with the jar to the goose-bearer. Ask again for an offering clue.
 func enter_table(ask := false) -> void:
 	if in_table:
 		if ask:
@@ -786,7 +786,9 @@ func enter_table(ask := false) -> void:
 	walk_then(level.table.stand, func():
 		_table_now()
 		if ask:
-			record(_reader))
+			_add_journal(_reader)
+			if solved.t3:
+				record(_reader))
 
 
 func _table_now() -> void:
@@ -1640,7 +1642,7 @@ func recite() -> void:
 		glyph.centered = false
 		glyph.scale = Vector2(s, s)
 		glyph.position = Vector2(r.centre - size.x / 2.0, r.bottom - size.y)   # over the top of his sheet
-		glyph.modulate.a = 0.0
+		glyph.modulate = Color(UI.INK_TINT, 0.0)
 		_recital.add_child(glyph)
 		_recital_tween.tween_property(glyph, "modulate:a", 1.0, RECITE_FADE_IN)
 		_recital_tween.tween_interval(RECITE_STEP - RECITE_FADE_IN - RECITE_FADE_OUT)
@@ -2039,9 +2041,8 @@ func _autotest_mouth(expect: Callable) -> void:
 ## Set the three bulls right through the calls a drag makes.
 func _autotest_bulls(expect: Callable) -> void:
 	bulls.instant = true
-	var half: float = sprite_rects.avatar.size.x / 2.0
-	expect.call(bulls.stand_x() - half > bulls.ox_sprite().position.x and bulls.stand_x() + half < bulls.view().y,
-		"the bulls' view takes in where you stand, right of the plumed ox")
+	expect.call(bulls.stand_x(bulls.view().x) > bulls.view().x and bulls.stand_x(bulls.view().y) < bulls.view().y,
+		"the bulls' view includes standing positions at both ends")
 	var calf := bulls.calf_sprite()
 	var plumes := bulls.plumes_sprite()
 	expect.call(not bulls.calf_turned() and not bulls.crowned(), "the calf faces the sacrifice and the plumes are on the bull at the block")

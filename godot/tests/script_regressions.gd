@@ -26,9 +26,11 @@ func _run() -> void:
 	_test_procession_scene_pieces()
 	_test_dangers_scene_actors()
 	_test_dangers_inventory()
+	_test_calf_turn_gestures()
 	_test_dangers_damage_shake()
 	_test_donkey_hover()
 	_test_hover_glow()
+	_test_success_glow()
 	print("REGRESSIONS ", "OK" if _failures.is_empty() else "FAILED")
 	quit(0 if _failures.is_empty() else 1)
 
@@ -415,3 +417,54 @@ func _test_hover_glow() -> void:
 	_expect(glow.visible and is_equal_approx(glow.material.get_shader_parameter("strength"), 1.0),
 		"rapid hover changes leave the drawing glowing")
 	level.free()
+
+
+func _test_success_glow() -> void:
+	var sprite := Sprite2D.new()
+	sprite.texture = load("res://assets/ui/icon_ankh.png")
+	root.add_child(sprite)
+	UI.flash(sprite)
+	var glow := sprite.get_child(0) as Sprite2D
+	var material := glow.material as ShaderMaterial
+	var color: Color = material.get_shader_parameter("success")
+	_expect(Vector3(color.r, color.g, color.b).distance_to(Vector3(148.0, 162.0, 128.0) / 255.0) < 0.00001 and is_equal_approx(color.a, 0.4), "success glow uses the UI band light green at 40 percent opacity")
+	_expect(is_equal_approx(material.get_shader_parameter("pad"), 12.0), "success glow reaches slightly further around the drawing")
+	_expect(material.get_shader_parameter("level") == UI.Glow.SUCCESS and sprite.modulate == Color.WHITE, "placement success uses the shared success glow and preserves the drawing")
+	var tween: Tween = get_processed_tweens().back()
+	tween.custom_step(0.4)
+	var rising: float = material.get_shader_parameter("strength")
+	_expect(rising > 0.0 and rising < 1.0, "success glow rises gradually instead of flashing immediately")
+	tween.custom_step(0.4)
+	_expect(is_equal_approx(material.get_shader_parameter("strength"), 1.0), "success glow reaches full strength after 0.8 seconds")
+	tween.custom_step(0.9)
+	var fading: float = material.get_shader_parameter("strength")
+	_expect(fading > 0.0 and fading < 1.0, "success glow fades gently over 1.8 seconds")
+	sprite.free()
+
+
+func _test_calf_turn_gestures() -> void:
+	var scene = load("res://scenes/procession.tscn").instantiate()
+	root.add_child(scene)
+	var bulls = scene.bulls
+	var calf: Sprite2D = bulls.calf_sprite()
+	var home := calf.global_position
+	var half: float = calf.texture.get_width() * 0.5
+	for side in [-1.0, 1.0]:
+		for distance in [0.2, 0.8]:
+			bulls.reset()
+			bulls.enter()
+			var start := home + Vector2(side * half * 0.6, 0)
+			var end := start + Vector2(-side * half * distance, 0)
+			bulls.press(bulls.pick(start), start)
+			bulls.drag(end)
+			bulls.release(end)
+			_expect(bulls.calf_turned() == (distance > 0.5), "head-right and rump-left calf drags share the halfway threshold: " + str(side) + ", " + str(distance))
+			_expect(calf.global_position == home and calf.scale.abs() == Vector2.ONE, "calf gesture turns in place and restores full size")
+		bulls.reset()
+		bulls.enter()
+		var start := home + Vector2(side * half * 0.6, 0)
+		bulls.press(bulls.pick(start), start)
+		bulls.drag(start + Vector2(-side * half, 0))
+		bulls.release(Vector2.INF)
+		_expect(not bulls.calf_turned(), "cancelled calf gesture restores its starting direction")
+	scene.free()

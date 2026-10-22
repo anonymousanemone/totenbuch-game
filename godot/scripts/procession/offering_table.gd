@@ -31,7 +31,8 @@ var _centered := {}
 var pieces := {}             ## id -> {rect, kind, name, rests_on, hull}
 var placed := {}             ## id -> true
 var bearer := ""             ## what the goose-bearer holds: a table piece id, "goose" or ""
-var floor_x := Vector2.ZERO  ## the floor between the bouquets (x from, x to)
+var floor_x := Vector2.ZERO  ## the physics floor, extending to the goose-bearer (x from, x to)
+var _scatter_x := Vector2.ZERO  ## starting positions over the table between the bouquets
 var view := Vector2.ZERO     ## the table scene (x from, x to)
 var header := Vector2(50.0, 178.0)  ## the empty band above the picture (rows), where pieces can lie
 var ground := 526.0
@@ -62,6 +63,7 @@ func setup(table: Dictionary, goose: Rect2, ground_y: float, nodes: Dictionary, 
 	ground = ground_y
 	bearer_rect = bearer_bounds
 	lector_rect = lector_bounds
+	_scatter_x = Vector2(table.floor[0], table.floor[1])
 	floor_x = Vector2(table.floor[0], maxf(table.floor[1], bearer_rect.end.x))
 	_goose_rect = goose
 	_clothes_rect = Rect2(nodes.clothes.position, nodes.clothes.texture.get_size())
@@ -144,7 +146,7 @@ func reset() -> void:
 	rng.seed = SEED
 	var per_row := 6
 	for i in loose.size():
-		var x := lerpf(floor_x.x + 50.0, floor_x.y - 50.0, (float(i % per_row) + rng.randf_range(0.1, 0.9)) / per_row)
+		var x := lerpf(_scatter_x.x + 50.0, _scatter_x.y - 50.0, (float(i % per_row) + rng.randf_range(0.1, 0.9)) / per_row)
 		var y := ground - 60.0 - 110.0 * floorf(i / float(per_row))
 		_spawn(loose[i], Vector2(x, y), rng.randf_range(-PI, PI), true)
 	for id in pieces:
@@ -364,7 +366,7 @@ func speak() -> bool:
 	_speak.texture = _tex[id]
 	_speak.scale = Vector2(s, s)
 	_speak.position = _speech.get_center()
-	_speak.modulate.a = 0.0
+	_speak.modulate = Color(UI.INK_TINT, 0.0)
 	_speak.visible = true
 	_speak.set_meta("id", id)
 	_speak_tween = create_tween()

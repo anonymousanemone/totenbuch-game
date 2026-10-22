@@ -40,7 +40,7 @@ var _plumes: Sprite2D
 var _right := Vector2.ZERO    ## the plumes' top-left on his head (world)
 var _wrong := Vector2.ZERO    ## ... and on the sacrifice
 var _view := Vector2.ZERO
-var _stand := 0.0
+var _stand := Vector2.ZERO
 var _grab := Vector2.ZERO     ## the pointer's offset from the plumes' top-left, or where a calf drag began
 var _turn_from := -1.0
 var _shy_in := 0.0
@@ -57,9 +57,9 @@ func setup(level: Dictionary, nodes: Dictionary) -> void:
 	var sacrifice: Dictionary = level.hotspots.filter(func(h): return h.id == "sacrifice")[0]
 	var ox_end: float = _ox.position.x + _ox.offset.x + _ox.texture.get_width()
 	var half: float = level.sprites.avatar.w / 2.0
-	_stand = ox_end + MARGIN + half
-	# from the sacrifice to you, standing right of the plumed ox: all of it in view
-	_view = Vector2(sacrifice.x - MARGIN, _stand + half + MARGIN)
+	_stand = Vector2(sacrifice.x - MARGIN - half, ox_end + MARGIN + half)
+	# Include room for the player at either end, with equal margins around the animals.
+	_view = Vector2(_stand.x - half - MARGIN, _stand.y + half + MARGIN)
 	plumes_object = MoveableObject.new()
 	add_child(plumes_object)
 	plumes_object.setup("plumes", _plumes)
@@ -80,14 +80,13 @@ func reset() -> void:
 	_shy_in = SHY_EVERY.x
 
 
-## The scene's extent on the strip (from, to), you included, and where you stand to it (right of
-## the plumed ox).
+## The whole bull scene on the strip (from, to), with equal margins.
 func view() -> Vector2:
 	return _view
 
 
-func stand_x() -> float:
-	return _stand
+func stand_x(from_x := INF) -> float:
+	return _stand.x if absf(from_x - _stand.x) < absf(from_x - _stand.y) else _stand.y
 
 
 func calf_turned() -> bool:
@@ -156,7 +155,8 @@ func drag(p: Vector2) -> void:
 			plumes_object.move_held(p)
 		"calf":   # sideways turns it about its middle: across half its width turns it right round
 			var w := _calf.texture.get_width() * 0.5
-			_calf.scale.x = clampf(_turn_from + 2.0 * (p.x - _grab.x) / w, -1.0, 1.0)
+			var direction := 1.0 if _grab.x <= _calf.global_position.x else -1.0
+			_calf.scale.x = clampf(_turn_from + 2.0 * (p.x - _grab.x) * direction / w, -1.0, 1.0)
 
 
 ## Let go at `p` (Vector2.INF: stepping away).

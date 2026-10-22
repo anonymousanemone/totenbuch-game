@@ -39,12 +39,11 @@ const ENCOUNTERS := [
 	# slither in at `slither` plate px/s, a new one every `enter_gap` s, and rest `rest` plate px from
 	# him (never more than `at_once` resting). `first` s after the vignette opens, and `next` s after
 	# each attack ends, one shakes its tail (`shake` s, `tail` rad, `wave_hz`) and darts at him along
-	# its row at `speed` plate px/s. `need` speared in all. `tail_base`, `tail_tip`, `head`: in its
-	# picture's pixels.
+	# its row at `speed` plate px/s. `need` speared in all. (Its tail and head as it creeps, and the
+	# pinning: creeping_snake.gd's TURN and STRIKE sheets.)
 	{"id": "e35", "tag": "Snakes", "boxes": ["e35"], "kind": "creep", "spear": "spear35", "task": 1,
 		"foe": "snake35", "need": 14, "at_once": 5, "slither": 150.0, "enter_gap": 0.7, "rest": [170.0, 250.0],
 		"first": 1.5, "next": [0.0, 1.5], "shake": 0.8, "tail": 0.15, "wave_hz": 4.0, "speed": 240.0,
-		"tail_base": [95, 13], "tail_tip": [0, 45], "head": [123, 55],
 		"caption": [3298, 3643]},
 	# the roach: `count` beetles (the drawn one and copies), each to be pinned once by the spear
 	# point. Each darts at `dart` (plate px/s), rests `rest` s, and every `bait_every` darts stops

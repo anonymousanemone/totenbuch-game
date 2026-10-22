@@ -6,14 +6,19 @@ var game
 
 func _init(level) -> void:
 	game = level
+	turn = JSON.parse_string(FileAccess.get_file_as_string(TURN_PATH))
+	strike = JSON.parse_string(FileAccess.get_file_as_string(STRIKE_PATH))
 
 
 # the snakes on the ground (spell 35), fought like the crocodiles of spell 32: the vignette opens out
 # across the screen and he stands in the middle; ← → turn him, ↑ ↓ move him, Space thrusts. The drawn
-# snake moves off to rest a way from him; more slither in from the edges and stop (never more than
-# `at_once` resting, and never more than are still to be speared). One at a time, a resting snake
-# shakes its tail (the only warning) and darts at him along its row. The spear point anywhere on a
-# snake spears it: it turns and is gone. A snake that touches any part of him bites, then slinks back
+# snake comes alive (creeping, its head raised: the first frame of TURN) and moves off to rest a way
+# from him; more slither in from the edges and stop (never more than `at_once` resting, and never more
+# than are still to be speared). One at a time, a resting snake shakes its tail (the only warning) and
+# darts at him along its row. The spear point anywhere on a snake spears it: everything stops, its head
+# is pinned under the point, and frame for frame it turns its head back and lies as drawn (TURN) while
+# he presses the spear on down (STRIKE); it lies so a moment, and is gone. A snake that touches any part
+# of him bites, then slinks back
 # to rest somewhere else; one that misses him (he is off its row) slips past, turns and rests on the
 # far side (those no longer count toward `at_once`). Bitten CROC_HEALTH times: snakes come in from
 # everywhere, bite him all over, and he crumbles.
@@ -22,6 +27,16 @@ const SNAKE_GAP := 20.0         ## resting snakes keep at least this far apart (
 const SWARM_ANGLE := 15.0       ## the losing swarm comes in at most this steeply (degrees)
 const SWARM_ROW := 14.0         ## ...one snake on each side for every this much of his height (plate px)
 const SNAKE_TAIL := preload("res://scripts/dangers/snake_tail.gdshader")
+const TURN := preload("res://assets/dangers/animation/snake35_turn_over.png")    ## creeping, then pinned (tools/snake35_turn_over.py)
+const TURN_PATH := "res://assets/dangers/animation/snake35_turn_over.json"
+const STRIKE := preload("res://assets/dangers/animation/spear35_strike.png")     ## the bearer pinning it (tools/spearer35_strike.py)
+const STRIKE_PATH := "res://assets/dangers/animation/spear35_strike.json"
+const PIN_FRAME := 0.08         ## each frame of the pinning (s)
+const PIN_HOLD := 0.35          ## then it lies pinned as drawn this long (s)
+const PIN_FADE := 0.4           ## and fades (s)
+
+var turn: Dictionary     ## snake35_turn_over.json: the cell, the head's place in each frame, the creeping frame's box and points
+var strike: Dictionary   ## spear35_strike.json: the cell, and `along`: where the snake lies to be pinned (strip px)
 
 var _ink := {}           ## texture -> its inked pixels, every third (for touching him)
 var _sheets := {}        ## the bearer's sheet texture -> its Image
@@ -38,7 +53,7 @@ func _creep_start(e: Dictionary) -> void:
 	var a: Node2D = game.actors[e.foe]
 	var size: Vector2 = a.get_meta("size")
 	var full: Rect2 = game.fight.full
-	# the heights the snakes come at (their tail tips lead): wherever the spear point reaches at the
+	# the heights the snakes come at (their heads lead): wherever the spear point reaches at the
 	# full thrust, with the whole snake inside the frame
 	var front_y: float = _front(a, 1).y
 	var point_y: float = game.fight.tip.y + game._spear_dir().y * game.CROC_THRUST * game.unit
@@ -51,22 +66,30 @@ func _creep_start(e: Dictionary) -> void:
 	# the drawn snake turns to face him and moves off to rest a way from him
 	var c := {"node": a, "s": "wait", "dir": 1 if a.get_meta("home").x < game.fight.stand.x else -1,
 		"slipped": false, "t": 0.0, "home": a.get_meta("home")}
-	game._picture(a).flip_h = c.dir > 0
+	game._picture(a).flip_h = c.dir < 0
 	c.at = _rest_spot(c)
 	c.start = c.at
 	game.fight.crocs = [c]
 	game._arena_open()
 
 
-## For this fight only: the snake's picture gets room for its tail to shake, and the tail shader.
+## For this fight only: the snake creeps (TURN's first frame, facing right), with room for its tail to
+## shake, and the tail shader.
 func _creep_dress(e: Dictionary) -> void:
-	var sp: Sprite2D = game._picture(game.actors[e.foe])
+	var a: Node2D = game.actors[e.foe]
+	var sp: Sprite2D = game._picture(a)
 	game.fight.snake_plain = sp.texture
 	game.fight.snake_at = sp.offset
-	var src := sp.texture.get_image()
-	if src.is_compressed():
-		src.decompress()
-	src.convert(Image.FORMAT_RGBA8)
+	game.fight.snake_size = a.get_meta("size")
+	var box: Array = turn.creep.box
+	var sheet_img := TURN.get_image()
+	if sheet_img.is_compressed():
+		sheet_img.decompress()
+	sheet_img.convert(Image.FORMAT_RGBA8)
+	var src := sheet_img.get_region(Rect2i(int(box[0]), int(box[1]), int(box[2]), int(box[3])))
+	game.fight.creep_tex = ImageTexture.create_from_image(src)
+	a.set_meta("size", Vector2(src.get_size()))
+	sp.offset = -Vector2(src.get_width() / 2.0, src.get_height())
 	var P := SNAKE_PAD
 	var img := Image.create(src.get_width() + 2 * P, src.get_height() + 2 * P, false, Image.FORMAT_RGBA8)
 	img.blit_rect(src, Rect2i(Vector2i.ZERO, src.get_size()), Vector2i(P, P))
@@ -76,12 +99,11 @@ func _creep_dress(e: Dictionary) -> void:
 
 ## A snake's picture (the drawn one, or a copy) in the padded texture, with its own tail shader.
 func _wear(sp: Sprite2D) -> void:
-	var e: Dictionary = game.fight.e
 	var P := Vector2(SNAKE_PAD, SNAKE_PAD)
 	sp.texture = game.fight.snake_tex
 	sp.offset -= P
-	var base := Vector2(float(e.tail_base[0]), float(e.tail_base[1]))
-	var tail := Vector2(float(e.tail_tip[0]), float(e.tail_tip[1])) - base
+	var base := Vector2(float(turn.creep.tail_base[0]), float(turn.creep.tail_base[1]))
+	var tail := Vector2(float(turn.creep.tail_tip[0]), float(turn.creep.tail_tip[1])) - base
 	var mat := ShaderMaterial.new()
 	mat.shader = SNAKE_TAIL
 	mat.set_shader_parameter("base", base + P)
@@ -90,21 +112,26 @@ func _wear(sp: Sprite2D) -> void:
 	sp.material = mat
 
 
-## Undo _creep_dress.
+## Undo _creep_dress (and a pinning cut short).
 func _creep_undress() -> void:
 	if not game.fight.has("snake_plain"):
 		return
-	var sp: Sprite2D = game._picture(game.actors[game.fight.e.foe])
+	var a: Node2D = game.actors[game.fight.e.foe]
+	var sp: Sprite2D = game._picture(a)
 	sp.texture = game.fight.snake_plain
 	sp.offset = game.fight.snake_at
 	sp.material = null
+	a.set_meta("size", game.fight.snake_size)
+	(game._picture(game.actors[game.fight.e.spear]).texture as AtlasTexture).atlas = game._sheet_tex
+	game.fight.erase("pin")
 
 
-## Its tail tip (its front as it comes), from its pivot; `dir` 1 = it faces right, -1 = left (as drawn).
+## Its front (the raised head's tip, leading as it comes), from its pivot; `dir` 1 = it faces right
+## (as it creeps, unflipped), -1 = left.
 func _front(a: Node2D, dir: int) -> Vector2:
 	var size: Vector2 = a.get_meta("size")
-	var tip: Array = game.fight.e.tail_tip
-	return Vector2((float(tip[0]) - size.x / 2.0) * -dir, float(tip[1]) - size.y)
+	var tip: Array = turn.creep.front
+	return Vector2((float(tip[0]) - size.x / 2.0) * dir, float(tip[1]) - size.y)
 
 
 func _rect_at(c: Dictionary, p: Vector2) -> Rect2:
@@ -141,12 +168,17 @@ func _creep(dt: float) -> void:
 	if game.fight.open < 1.0 or game.fight.get("closing", false) or game.fight.lost:
 		return
 	game.fight.clock += dt
+	if game.fight.has("pin"):          # a snake is being pinned: everything waits
+		_pin(dt)
+		return
 	game.crocodiles._move_bearer(_bot_move() if game.fight.get("bot", false) else game.crocodiles._keys(), dt)
 	if game.fight.thrust >= 0.0:
 		game.fight.thrust += dt
 		if not game.fight.struck and game.fight.thrust >= game.THRUST_TIME[0]:
 			game.fight.struck = true
 			_creep_strike()
+			if game.fight.has("pin"):    # it is pinned: he is shown pinning it from now on
+				return
 		if game.fight.thrust >= game.THRUST_TIME[0] + game.THRUST_TIME[1]:
 			game.fight.thrust = -1.0
 	game.fight.red = maxf(0.0, game.fight.red - dt)
@@ -185,7 +217,7 @@ func _creep(dt: float) -> void:
 					a.rotation = 0.0
 					if c.s == "slip":    # it turns round to face him again
 						c.dir = -c.dir
-						game._picture(a).flip_h = c.dir > 0
+						game._picture(a).flip_h = c.dir < 0
 					c.s = "rest"
 			"shake":                   # the warning
 				var u: float = c.t / float(e.shake)
@@ -212,14 +244,14 @@ func _creep(dt: float) -> void:
 func _enter() -> void:
 	var src: Node2D = game.actors[game.fight.e.foe]
 	var size: Vector2 = src.get_meta("size")
-	var a = game._make_actor(game.fight.snake_plain, Rect2(Vector2.ZERO, size))
+	var a = game._make_actor(game.fight.creep_tex, Rect2(Vector2.ZERO, size))
 	_wear(a)
 	var c := {"node": a, "s": "enter", "dir": 1 if game.rng.randf() < 0.5 else -1, "slipped": false, "t": 0.0}
 	c.at = _rest_spot(c)
 	if not c.clear:                  # no room on that side: the other
 		c.dir = -c.dir
 		c.at = _rest_spot(c)
-	game._picture(a).flip_h = c.dir > 0
+	game._picture(a).flip_h = c.dir < 0
 	var full: Rect2 = game.fight.full
 	a.position = Vector2((full.position.x - size.x / 2.0) if c.dir > 0 else (full.end.x + size.x / 2.0), c.at.y)
 	game.fight.crocs.append(c)
@@ -299,24 +331,68 @@ func _creep_strike() -> void:
 		_speared(best)
 
 
-## Speared: it turns round and is gone.
+## Speared: everything waits while its head is pinned under the point. It lies as it is drawn from
+## him, moved `along` the spear's line so that its head is under the point at the full strike, facing
+## the way he does; then _pin plays it turning its head back, and him pressing on, frame for frame.
 func _speared(c: Dictionary) -> void:
 	var e: Dictionary = game.fight.e
-	var attacking: bool = c.s in ["shake", "dart"]
-	c.s = "gone"
+	game.fight.pin = {"c": c, "t": 0.0, "attacking": c.s in ["shake", "dart"]}
+	c.s = "pinned"
 	game.fight.hits += 1
+	game.fight.thrust = -1.0
 	var a: Node2D = c.node
 	a.rotation = 0.0
-	game._picture(a).flip_h = c.dir < 0
-	(game._picture(a).material as ShaderMaterial).set_shader_parameter("amp", 0.0)
-	var t = game._fight_tween(a)
-	t.tween_property(a, "position:x", a.position.x - 60.0 * game.unit * c.dir, 0.5)
-	t.parallel().tween_property(a, "modulate:a", 0.0, 0.5)
-	if attacking:
-		_attack_over()
+	a.modulate.a = 1.0
+	var sp: Sprite2D = game._picture(a)
+	sp.material = null
+	var at := AtlasTexture.new()
+	at.atlas = TURN
+	sp.texture = at
+	var face: int = game.fight.facing                  # -1: he faces left, as drawn
+	sp.flip_h = face > 0
+	var rel: Vector2 = game.actors[e.foe].get_meta("home") - game.actors[e.spear].get_meta("home")
+	a.position = game.fight.pos + Vector2(rel.x * -face, rel.y) + game._spear_dir() * float(strike.along)
+	var drawn: Vector2 = game.fight.snake_size
+	var o := -Vector2(drawn.x / 2.0, drawn.y) - Vector2(float(turn.drawn_at[0]), float(turn.drawn_at[1]))
+	if face > 0:
+		o.x = -o.x - float(turn.cell[0])
+	sp.offset = o
+	(game._picture(game.actors[e.spear]).texture as AtlasTexture).atlas = STRIKE
+	game._picture(game.actors[e.spear + "_pole"]).visible = false
+	_pin_frame(1)
 	var left: int = int(e.need) - game.fight.hits
 	game.say("Scribe", game._feedback_text("struck_more") % left if left > 0 else game._feedback_text("struck"))
-	game._won_if(left <= 0)
+
+
+## Frame `k` of the pinning: the snake (TURN) and him (STRIKE).
+func _pin_frame(k: int) -> void:
+	var tw: float = turn.cell[0]
+	var th: float = turn.cell[1]
+	(game._picture(game.fight.pin.c.node).texture as AtlasTexture).region = Rect2(k * tw, 0.0, tw, th)
+	var cw: float = strike.cell[0]
+	var ch: float = strike.cell[1]
+	(game._picture(game.actors[game.fight.e.spear]).texture as AtlasTexture).region = Rect2(k * cw, 0.0, cw, ch)
+
+
+## The pinning goes on: a frame every PIN_FRAME, the last held PIN_HOLD; then the snake fades, his
+## spear draws back from the strike, and the fight goes on (or is won).
+func _pin(dt: float) -> void:
+	var p: Dictionary = game.fight.pin
+	p.t += dt
+	var n: int = int(turn.frames)
+	_pin_frame(mini(1 + int(p.t / PIN_FRAME), n - 1))
+	if p.t < (n - 2) * PIN_FRAME + PIN_HOLD:
+		return
+	var c: Dictionary = p.c
+	game.fight.erase("pin")
+	c.s = "gone"
+	(game._picture(game.actors[game.fight.e.spear]).texture as AtlasTexture).atlas = game._sheet_tex
+	game.fight.thrust = game.THRUST_TIME[0]
+	game.fight.struck = true
+	game._fight_tween(c.node).tween_property(c.node, "modulate:a", 0.0, PIN_FADE)
+	if p.attacking:
+		_attack_over()
+	game._won_if(game.fight.hits >= int(game.fight.e.need))
 
 
 ## It touched him: a bite. It slinks back to rest somewhere else on its side.
@@ -372,9 +448,9 @@ func _creep_dies() -> void:
 	var moves := []
 	for target in _his_edges():
 		var dir: int = target.dir
-		var a = game._make_actor(game.fight.snake_plain, Rect2(Vector2.ZERO, size))
+		var a = game._make_actor(game.fight.creep_tex, Rect2(Vector2.ZERO, size))
 		_wear(a)
-		game._picture(a).flip_h = dir > 0
+		game._picture(a).flip_h = dir < 0
 		game.fight.copies.append(a)
 		# where it starts: off to his side, coming in no more than SWARM_ANGLE from level
 		var ang := deg_to_rad(game.rng.randf_range(-SWARM_ANGLE, SWARM_ANGLE))
@@ -385,7 +461,7 @@ func _creep_dies() -> void:
 		start.y = clampf(end.y - absf(end.x - start.x) * tan(ang), full.position.y + size.y, full.end.y)   # (only ever less steep)
 		var v := end - start
 		a.rotation = dir * atan2(v.y, absf(v.x))
-		end = target.at - lead.rotated(a.rotation)      # its tail tip (turned with it) touches him
+		end = target.at - lead.rotated(a.rotation)      # its head (turned with it) touches him
 		a.position = start
 		a.modulate.a = 0.0
 		t.parallel().tween_property(a, "modulate:a", 1.0, 0.4)
@@ -520,7 +596,23 @@ func autotest(e: Dictionary, expect: Callable) -> void:
 	d.node.position = game.fight.pos + game._tip_offset() + game._spear_dir() * game.CROC_THRUST * game.unit - _front(d.node, d.dir) \
 		+ Vector2(d.dir * 4.0 * game.unit, 0.0)
 	_creep_strike()
-	expect.call(d.s == "gone" and game.fight.hits == 1, e.id + " the spear point on a snake spears it")
+	var bs: Sprite2D = game._picture(game.actors[e.spear])
+	expect.call(d.s == "pinned" and game.fight.hits == 1, e.id + " the spear point on a snake spears it")
+	var sp: Sprite2D = game._picture(d.node)
+	var pin := Vector2(float(turn.pins[1][0]), float(turn.pins[1][1]))
+	if sp.flip_h:
+		pin.x = float(turn.cell[0]) - pin.x
+	var point: Vector2 = game.fight.pos + game._tip_offset() + game._spear_dir() * game.CROC_THRUST * game.unit
+	expect.call(sp.to_global(sp.offset + pin).distance_to(point) < 16.0 and (bs.texture as AtlasTexture).atlas == STRIKE,
+		e.id + " ...its head pinned under the point, he pressing on")
+	var at0: Vector2 = d.node.position
+	for i in 10:
+		_creep(0.05)
+	expect.call(d.s == "pinned" and d.node.position == at0, e.id + " ...everything waits while it turns its head back")
+	for i in 40:
+		_creep(0.05)
+	expect.call(d.s == "gone" and not game.fight.has("pin") and (bs.texture as AtlasTexture).atlas == game._sheet_tex,
+		e.id + " ...then it is gone, and he draws his spear back")
 	game._kill_fight_tweens()
 	# never more than are still to be speared
 	game.fight.hits = int(e.need) - 1

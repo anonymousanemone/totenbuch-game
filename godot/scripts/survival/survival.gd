@@ -1,13 +1,13 @@
-## Survival and Sustenance: the full scroll, open for navigation and inspection.
+## Shared navigation and inspection for the Survival and Gates scrolls.
 ## Saved scene nodes own placement; level.json supplies stable IDs and descriptions.
 extends Node2D
 
 const SCROLL_CAMERA := preload("res://scripts/scroll_camera.gd")
-const DATA_PATH := "res://assets/survival/level.json"
+@export var level_key := "survival"
 const VIEW_TOP := 36.0
 const GLOW_FADE := 0.15
 
-var _descriptions = preload("res://scripts/descriptions.gd").new("survival")
+var _descriptions: RefCounted
 var level: Dictionary
 var figures := {}             ## stable ID -> saved Sprite2D
 var journal: Array[String] = []
@@ -23,7 +23,9 @@ var _unit := 1.5
 
 
 func _ready() -> void:
-	level = JSON.parse_string(FileAccess.get_file_as_string(DATA_PATH))
+	_descriptions = preload("res://scripts/descriptions.gd").new(level_key)
+	level = JSON.parse_string(FileAccess.get_file_as_string("res://assets/%s/level.json" % level_key))
+	var chapter: Dictionary = Scroll.scene(level_key)
 	_unit = level.get("scale", 1.5)
 	_start = avatar.position
 	avatar.speed *= _unit
@@ -32,14 +34,18 @@ func _ready() -> void:
 		if not node.has_meta("registry_id"):
 			continue
 		var id: String = node.get_meta("registry_id")
-		assert(not figures.has(id), "Duplicate Survival figure ID: " + id)
+		assert(not figures.has(id), "Duplicate exploration figure ID: " + id)
 		figures[id] = node
+	# Only artwork present in this scene counts toward its journal.
+	for id in _descriptions.entries.keys():
+		if not figures.has(id):
+			_descriptions.entries.erase(id)
 	hud.setup(self, {
-		"title": "Survival and Sustenance",
+		"title": chapter.title,
 		"journal_hint": "Click figures in the scroll to record them here.",
-		"intro_title": "Spells 43–63: Survival and Sustenance",
-		"intro_body": "Explore the scroll of food, water and breath as it is drawn.\n\nWalk [b]right to left[/b] with [←] [→] or click the papyrus. Click a figure to walk up to it and read its description. Open the Journal with [j].",
-		"outro_title": "Survival and Sustenance",
+		"intro_title": "%s %s: %s" % ["Spell" if str(chapter.spells).is_valid_int() else "Spells", chapter.spells, chapter.title],
+		"intro_body": level.get("intro_body", "Explore the scroll of food, water and breath as it is drawn.\n\nWalk [b]right to left[/b] with [←] [→] or click the papyrus. Click a figure to walk up to it and read its description. Open the Journal with [j]."),
+		"outro_title": chapter.title,
 	})
 	hud.menu_pressed.connect(func(): get_tree().change_scene_to_file("res://scenes/menu.tscn"))
 	hud.hint_pressed.connect(hint)
@@ -66,12 +72,12 @@ func reset() -> void:
 	avatar.max_x = max_x()
 	journal.clear()
 	hud.reset_view()
-	hud.say("Scribe", _hints.message("survival.start"))
+	hud.say("Scribe", _hints.message(level_key + ".start"))
 	_update_camera(1.0)
 
 
 func hint() -> void:
-	hud.say("Hint", _hints.message("survival.explore"))
+	hud.say("Hint", _hints.message(level_key + ".explore"))
 
 
 func _unhandled_input(event: InputEvent) -> void:

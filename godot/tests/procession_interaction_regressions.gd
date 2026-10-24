@@ -232,7 +232,8 @@ func _run() -> void:
 		{"finished": ["procession"], "current": "cosmos"},
 		{"finished": ["procession", "cosmos"], "current": "dangers"},
 		{"finished": ["procession", "cosmos", "dangers"], "current": "survival"},
-		{"finished": ["procession", "cosmos", "dangers", "survival"], "current": ""}
+		{"finished": ["procession", "cosmos", "dangers", "survival"], "current": "gates"},
+		{"finished": ["procession", "cosmos", "dangers", "survival", "gates"], "current": ""}
 	]:
 		scroll.restored.assign(sample.finished)
 		menu._refresh_map()

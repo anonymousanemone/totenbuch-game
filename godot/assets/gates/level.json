@@ -1,0 +1,1338 @@
+{
+ "sources": [
+  {
+   "path": "art/gates146.mdp",
+   "sha256": "d3a39f2fbfbfce1530868ebfbcfa5905decb88c97e5034e190e632ee827d8dd4",
+   "x": 0
+  },
+  {
+   "path": "art/gates144-145.mdp",
+   "sha256": "4ba3dd921f29e4d4a905d4c990157a7f5aaa68a46771561c0b80697ffb436823",
+   "x": 5500
+  }
+ ],
+ "width": 18500,
+ "height": 1500,
+ "ground": 530,
+ "view_height": 701,
+ "scale": 1.5,
+ "figures": {
+  "spell146_p65_1_gate": {
+   "x": 3727,
+   "y": 240,
+   "w": 254,
+   "h": 288,
+   "spell": 146,
+   "source_layer": 1024,
+   "source_name": "p65-1 gate",
+   "plate": 65
+  },
+  "spell146_p65_1_figure": {
+   "x": 3824,
+   "y": 353,
+   "w": 116,
+   "h": 170,
+   "spell": 146,
+   "source_layer": 1025,
+   "source_name": "p65-1 figure",
+   "plate": 65
+  },
+  "spell146_p65_2_gate": {
+   "x": 4093,
+   "y": 245,
+   "w": 234,
+   "h": 284,
+   "spell": 146,
+   "source_layer": 1026,
+   "source_name": "p65-2 gate",
+   "plate": 65
+  },
+  "spell146_p65_2_figure": {
+   "x": 4127,
+   "y": 336,
+   "w": 141,
+   "h": 188,
+   "spell": 146,
+   "source_layer": 1027,
+   "source_name": "p65-2 figure",
+   "plate": 65
+  },
+  "spell146_p65_3_gate": {
+   "x": 4434,
+   "y": 254,
+   "w": 220,
+   "h": 275,
+   "spell": 146,
+   "source_layer": 1028,
+   "source_name": "p65-3 gate",
+   "plate": 65
+  },
+  "spell146_p65_3_figure": {
+   "x": 4474,
+   "y": 349,
+   "w": 130,
+   "h": 176,
+   "spell": 146,
+   "source_layer": 1029,
+   "source_name": "p65-3 figure",
+   "plate": 65
+  },
+  "spell146_p65_4_gate": {
+   "x": 4755,
+   "y": 254,
+   "w": 219,
+   "h": 274,
+   "spell": 146,
+   "source_layer": 1030,
+   "source_name": "p65-4 gate",
+   "plate": 65
+  },
+  "spell146_p65_4_figure": {
+   "x": 4782,
+   "y": 371,
+   "w": 141,
+   "h": 154,
+   "spell": 146,
+   "source_layer": 1031,
+   "source_name": "p65-4 figure",
+   "plate": 65
+  },
+  "spell146_p65_5_gate": {
+   "x": 5051,
+   "y": 256,
+   "w": 264,
+   "h": 274,
+   "spell": 146,
+   "source_layer": 1032,
+   "source_name": "p65-5 gate",
+   "plate": 65
+  },
+  "spell146_p65_5_figure": {
+   "x": 5155,
+   "y": 373,
+   "w": 108,
+   "h": 153,
+   "spell": 146,
+   "source_layer": 1033,
+   "source_name": "p65-5 figure",
+   "plate": 65
+  },
+  "spell146_p66_1_gate": {
+   "x": 1272,
+   "y": 217,
+   "w": 278,
+   "h": 314,
+   "spell": 146,
+   "source_layer": 1034,
+   "source_name": "p66-1 gate",
+   "plate": 66
+  },
+  "spell146_p66_1_figure": {
+   "x": 1380,
+   "y": 327,
+   "w": 146,
+   "h": 195,
+   "spell": 146,
+   "source_layer": 1035,
+   "source_name": "p66-1 figure",
+   "plate": 66
+  },
+  "spell146_p66_2_gate": {
+   "x": 1674,
+   "y": 223,
+   "w": 236,
+   "h": 304,
+   "spell": 146,
+   "source_layer": 1036,
+   "source_name": "p66-2 gate",
+   "plate": 66
+  },
+  "spell146_p66_2_figure": {
+   "x": 1751,
+   "y": 335,
+   "w": 111,
+   "h": 188,
+   "spell": 146,
+   "source_layer": 1037,
+   "source_name": "p66-2 figure",
+   "plate": 66
+  },
+  "spell146_p66_3_gate": {
+   "x": 2025,
+   "y": 243,
+   "w": 248,
+   "h": 286,
+   "spell": 146,
+   "source_layer": 1038,
+   "source_name": "p66-3 gate",
+   "plate": 66
+  },
+  "spell146_p66_3_figure": {
+   "x": 2090,
+   "y": 334,
+   "w": 146,
+   "h": 195,
+   "spell": 146,
+   "source_layer": 1039,
+   "source_name": "p66-3 figure",
+   "plate": 66
+  },
+  "spell146_p66_4_gate": {
+   "x": 2335,
+   "y": 240,
+   "w": 303,
+   "h": 288,
+   "spell": 146,
+   "source_layer": 1040,
+   "source_name": "p66-4 gate",
+   "plate": 66
+  },
+  "spell146_p66_4_figure": {
+   "x": 2437,
+   "y": 347,
+   "w": 98,
+   "h": 178,
+   "spell": 146,
+   "source_layer": 1041,
+   "source_name": "p66-4 figure",
+   "plate": 66
+  },
+  "spell146_p66_5_gate": {
+   "x": 2672,
+   "y": 248,
+   "w": 307,
+   "h": 280,
+   "spell": 146,
+   "source_layer": 1042,
+   "source_name": "p66-5 gate",
+   "plate": 66
+  },
+  "spell146_p66_5_figure": {
+   "x": 2786,
+   "y": 364,
+   "w": 107,
+   "h": 162,
+   "spell": 146,
+   "source_layer": 1043,
+   "source_name": "p66-5 figure",
+   "plate": 66
+  },
+  "spell146_p66_6_gate": {
+   "x": 3038,
+   "y": 255,
+   "w": 298,
+   "h": 276,
+   "spell": 146,
+   "source_layer": 1044,
+   "source_name": "p66-6 gate",
+   "plate": 66
+  },
+  "spell146_p66_6_figure": {
+   "x": 3094,
+   "y": 363,
+   "w": 147,
+   "h": 165,
+   "spell": 146,
+   "source_layer": 1045,
+   "source_name": "p66-6 figure",
+   "plate": 66
+  },
+  "spell146_p66_7_gate": {
+   "x": 3367,
+   "y": 274,
+   "w": 262,
+   "h": 257,
+   "spell": 146,
+   "source_layer": 1046,
+   "source_name": "p66-7 gate",
+   "plate": 66
+  },
+  "spell146_p66_7_figure": {
+   "x": 3482,
+   "y": 358,
+   "w": 101,
+   "h": 171,
+   "spell": 146,
+   "source_layer": 1047,
+   "source_name": "p66-7 figure",
+   "plate": 66
+  },
+  "spell146_p67_1_gate": {
+   "x": 223,
+   "y": 204,
+   "w": 257,
+   "h": 324,
+   "spell": 146,
+   "source_layer": 1048,
+   "source_name": "p67-1 gate",
+   "plate": 67
+  },
+  "spell146_p67_1_figure": {
+   "x": 271,
+   "y": 312,
+   "w": 143,
+   "h": 216,
+   "spell": 146,
+   "source_layer": 1049,
+   "source_name": "p67-1 figure",
+   "plate": 67
+  },
+  "spell146_p67_2_gate": {
+   "x": 524,
+   "y": 219,
+   "w": 342,
+   "h": 309,
+   "spell": 146,
+   "source_layer": 1050,
+   "source_name": "p67-2 gate",
+   "plate": 67
+  },
+  "spell146_p67_2_figure": {
+   "x": 654,
+   "y": 327,
+   "w": 127,
+   "h": 199,
+   "spell": 146,
+   "source_layer": 1051,
+   "source_name": "p67-2 figure",
+   "plate": 67
+  },
+  "spell146_p67_3_gate": {
+   "x": 923,
+   "y": 182,
+   "w": 312,
+   "h": 348,
+   "spell": 146,
+   "source_layer": 1052,
+   "source_name": "p67-3 gate",
+   "plate": 67
+  },
+  "spell146_p67_3_figure": {
+   "x": 1031,
+   "y": 330,
+   "w": 110,
+   "h": 195,
+   "spell": 146,
+   "source_layer": 1053,
+   "source_name": "p67-3 figure",
+   "plate": 67
+  },
+  "spell144_room4_man": {
+   "x": 16144,
+   "y": 252,
+   "w": 123,
+   "h": 278,
+   "spell": 144,
+   "source_layer": 1030,
+   "source_name": "p60-1 god left",
+   "plate": 60
+  },
+  "spell144_room4_ram": {
+   "x": 16267,
+   "y": 254,
+   "w": 120,
+   "h": 275,
+   "spell": 144,
+   "source_layer": 1031,
+   "source_name": "p60-1 god right",
+   "plate": 60
+  },
+  "spell144_room4": {
+   "x": 16420,
+   "y": 255,
+   "w": 232,
+   "h": 274,
+   "spell": 144,
+   "source_layer": 1032,
+   "source_name": "p60-1 gate",
+   "plate": 60
+  },
+  "spell144_room4_keeper": {
+   "x": 16493,
+   "y": 383,
+   "w": 118,
+   "h": 133,
+   "spell": 144,
+   "source_layer": 1033,
+   "source_name": "p60-1 figure",
+   "plate": 60
+  },
+  "spell144_room3_man": {
+   "x": 16716,
+   "y": 252,
+   "w": 123,
+   "h": 276,
+   "spell": 144,
+   "source_layer": 1034,
+   "source_name": "p60-2 god left",
+   "plate": 60
+  },
+  "spell144_room3_ram": {
+   "x": 16828,
+   "y": 257,
+   "w": 137,
+   "h": 276,
+   "spell": 144,
+   "source_layer": 1035,
+   "source_name": "p60-2 god right",
+   "plate": 60
+  },
+  "spell144_room3": {
+   "x": 16972,
+   "y": 238,
+   "w": 256,
+   "h": 295,
+   "spell": 144,
+   "source_layer": 1036,
+   "source_name": "p60-2 gate",
+   "plate": 60
+  },
+  "spell144_room3_keeper": {
+   "x": 17028,
+   "y": 368,
+   "w": 152,
+   "h": 147,
+   "spell": 144,
+   "source_layer": 1037,
+   "source_name": "p60-2 figure",
+   "plate": 60
+  },
+  "spell144_room2_bull": {
+   "x": 17265,
+   "y": 228,
+   "w": 145,
+   "h": 306,
+   "spell": 144,
+   "source_layer": 1038,
+   "source_name": "p60-3 god left",
+   "plate": 60
+  },
+  "spell144_room2_ram": {
+   "x": 17424,
+   "y": 245,
+   "w": 126,
+   "h": 287,
+   "spell": 144,
+   "source_layer": 1039,
+   "source_name": "p60-3 god right",
+   "plate": 60
+  },
+  "spell144_room2": {
+   "x": 17572,
+   "y": 226,
+   "w": 236,
+   "h": 308,
+   "spell": 144,
+   "source_layer": 1040,
+   "source_name": "p60-3 gate",
+   "plate": 60
+  },
+  "spell144_room2_keeper": {
+   "x": 17607,
+   "y": 332,
+   "w": 143,
+   "h": 181,
+   "spell": 144,
+   "source_layer": 1041,
+   "source_name": "p60-3 figure",
+   "plate": 60
+  },
+  "spell144_room1_hawk": {
+   "x": 17886,
+   "y": 243,
+   "w": 113,
+   "h": 300,
+   "spell": 144,
+   "source_layer": 1042,
+   "source_name": "p60-4 god left",
+   "plate": 60
+  },
+  "spell144_room1_man": {
+   "x": 18015,
+   "y": 232,
+   "w": 114,
+   "h": 311,
+   "spell": 144,
+   "source_layer": 1043,
+   "source_name": "p60-4 god right",
+   "plate": 60
+  },
+  "spell144_room1": {
+   "x": 18136,
+   "y": 228,
+   "w": 292,
+   "h": 314,
+   "spell": 144,
+   "source_layer": 1044,
+   "source_name": "p60-4 gate",
+   "plate": 60
+  },
+  "spell144_room1_keeper": {
+   "x": 18211,
+   "y": 368,
+   "w": 153,
+   "h": 144,
+   "spell": 144,
+   "source_layer": 1045,
+   "source_name": "p60-4 figure",
+   "plate": 60
+  },
+  "spell145_pylon2_keeper": {
+   "x": 13384,
+   "y": 256,
+   "w": 134,
+   "h": 270,
+   "spell": 145,
+   "source_layer": 1046,
+   "source_name": "p61-1 god",
+   "plate": 61
+  },
+  "spell145_pylon2": {
+   "x": 13517,
+   "y": 194,
+   "w": 184,
+   "h": 333,
+   "spell": 145,
+   "source_layer": 1047,
+   "source_name": "p61-1 structure",
+   "plate": 61,
+   "plumes": {
+    "base": 70,
+    "center": 93.0,
+    "half_width": 56.0
+   }
+  },
+  "spell145_pylon2_adorer": {
+   "x": 13700,
+   "y": 251,
+   "w": 127,
+   "h": 275,
+   "spell": 145,
+   "source_layer": 1049,
+   "source_name": "p61-1 adorer",
+   "plate": 61
+  },
+  "spell145_pylon1_keeper": {
+   "x": 13861,
+   "y": 248,
+   "w": 174,
+   "h": 279,
+   "spell": 145,
+   "source_layer": 1050,
+   "source_name": "p61-2 god",
+   "plate": 61
+  },
+  "spell145_pylon1": {
+   "x": 14017,
+   "y": 196,
+   "w": 165,
+   "h": 331,
+   "spell": 145,
+   "source_layer": 1051,
+   "source_name": "p61-2 structure",
+   "plate": 61,
+   "plumes": {
+    "base": 67,
+    "center": 89.0,
+    "half_width": 43.0
+   }
+  },
+  "spell145_pylon1_adorer": {
+   "x": 14202,
+   "y": 263,
+   "w": 116,
+   "h": 263,
+   "spell": 145,
+   "source_layer": 1053,
+   "source_name": "p61-2 adorer",
+   "plate": 61
+  },
+  "spell144_room7_ram_1": {
+   "x": 14394,
+   "y": 270,
+   "w": 108,
+   "h": 257,
+   "spell": 144,
+   "source_layer": 1054,
+   "source_name": "p61-3 god left",
+   "plate": 61
+  },
+  "spell144_room7_ram_2": {
+   "x": 14519,
+   "y": 279,
+   "w": 146,
+   "h": 248,
+   "spell": 144,
+   "source_layer": 1055,
+   "source_name": "p61-3 god right",
+   "plate": 61
+  },
+  "spell144_room7": {
+   "x": 14670,
+   "y": 236,
+   "w": 232,
+   "h": 292,
+   "spell": 144,
+   "source_layer": 1056,
+   "source_name": "p61-3 gate",
+   "plate": 61
+  },
+  "spell144_room7_keeper": {
+   "x": 14738,
+   "y": 385,
+   "w": 107,
+   "h": 131,
+   "spell": 144,
+   "source_layer": 1057,
+   "source_name": "p61-3 figure",
+   "plate": 61
+  },
+  "spell144_room6_hawk": {
+   "x": 14941,
+   "y": 254,
+   "w": 131,
+   "h": 273,
+   "spell": 144,
+   "source_layer": 1058,
+   "source_name": "p61-4 god left",
+   "plate": 61
+  },
+  "spell144_room6_ram": {
+   "x": 15083,
+   "y": 241,
+   "w": 125,
+   "h": 292,
+   "spell": 144,
+   "source_layer": 1059,
+   "source_name": "p61-4 god right",
+   "plate": 61
+  },
+  "spell144_room6": {
+   "x": 15249,
+   "y": 229,
+   "w": 256,
+   "h": 298,
+   "spell": 144,
+   "source_layer": 1060,
+   "source_name": "p61-4 gate",
+   "plate": 61
+  },
+  "spell144_room6_keeper": {
+   "x": 15280,
+   "y": 336,
+   "w": 162,
+   "h": 181,
+   "spell": 144,
+   "source_layer": 1061,
+   "source_name": "p61-4 figure",
+   "plate": 61
+  },
+  "spell144_room5_bull": {
+   "x": 15581,
+   "y": 253,
+   "w": 106,
+   "h": 274,
+   "spell": 144,
+   "source_layer": 1062,
+   "source_name": "p61-5 god left",
+   "plate": 61
+  },
+  "spell144_room5_ram": {
+   "x": 15706,
+   "y": 263,
+   "w": 132,
+   "h": 264,
+   "spell": 144,
+   "source_layer": 1063,
+   "source_name": "p61-5 god right",
+   "plate": 61
+  },
+  "spell144_room5": {
+   "x": 15883,
+   "y": 248,
+   "w": 234,
+   "h": 280,
+   "spell": 144,
+   "source_layer": 1064,
+   "source_name": "p61-5 gate",
+   "plate": 61
+  },
+  "spell144_room5_keeper": {
+   "x": 15942,
+   "y": 365,
+   "w": 136,
+   "h": 152,
+   "spell": 144,
+   "source_layer": 1065,
+   "source_name": "p61-5 figure",
+   "plate": 61
+  },
+  "spell145_pylon8_keeper": {
+   "x": 10586,
+   "y": 239,
+   "w": 140,
+   "h": 288,
+   "spell": 145,
+   "source_layer": 1066,
+   "source_name": "p62-1 god",
+   "plate": 62
+  },
+  "spell145_pylon8": {
+   "x": 10736,
+   "y": 211,
+   "w": 129,
+   "h": 315,
+   "spell": 145,
+   "source_layer": 1067,
+   "source_name": "p62-1 structure",
+   "plate": 62,
+   "plumes": {
+    "base": 68,
+    "center": 73.5,
+    "half_width": 51.5
+   }
+  },
+  "spell145_pylon8_adorer": {
+   "x": 10858,
+   "y": 270,
+   "w": 104,
+   "h": 256,
+   "spell": 145,
+   "source_layer": 1069,
+   "source_name": "p62-1 adorer",
+   "plate": 62
+  },
+  "spell145_pylon7_keeper": {
+   "x": 11052,
+   "y": 228,
+   "w": 125,
+   "h": 297,
+   "spell": 145,
+   "source_layer": 1070,
+   "source_name": "p62-2 god",
+   "plate": 62
+  },
+  "spell145_pylon7": {
+   "x": 11177,
+   "y": 212,
+   "w": 159,
+   "h": 319,
+   "spell": 145,
+   "source_layer": 1071,
+   "source_name": "p62-2 structure",
+   "plate": 62,
+   "plumes": {
+    "base": 68,
+    "center": 74.0,
+    "half_width": 37.0
+   }
+  },
+  "spell145_pylon7_adorer": {
+   "x": 11325,
+   "y": 282,
+   "w": 127,
+   "h": 249,
+   "spell": 145,
+   "source_layer": 1073,
+   "source_name": "p62-2 adorer",
+   "plate": 62
+  },
+  "spell145_pylon6_keeper": {
+   "x": 11511,
+   "y": 262,
+   "w": 139,
+   "h": 265,
+   "spell": 145,
+   "source_layer": 1074,
+   "source_name": "p62-3 god",
+   "plate": 62
+  },
+  "spell145_pylon6": {
+   "x": 11633,
+   "y": 204,
+   "w": 165,
+   "h": 322,
+   "spell": 145,
+   "source_layer": 1075,
+   "source_name": "p62-3 structure",
+   "plate": 62,
+   "plumes": {
+    "base": 66,
+    "center": 93.0,
+    "half_width": 39.0
+   }
+  },
+  "spell145_pylon6_adorer": {
+   "x": 11799,
+   "y": 271,
+   "w": 116,
+   "h": 255,
+   "spell": 145,
+   "source_layer": 1077,
+   "source_name": "p62-3 adorer",
+   "plate": 62
+  },
+  "spell145_pylon5_keeper": {
+   "x": 11944,
+   "y": 251,
+   "w": 181,
+   "h": 276,
+   "spell": 145,
+   "source_layer": 1078,
+   "source_name": "p62-4 god",
+   "plate": 62
+  },
+  "spell145_pylon5": {
+   "x": 12117,
+   "y": 212,
+   "w": 153,
+   "h": 322,
+   "spell": 145,
+   "source_layer": 1079,
+   "source_name": "p62-4 structure",
+   "plate": 62,
+   "plumes": {
+    "base": 69,
+    "center": 79.0,
+    "half_width": 40.0
+   }
+  },
+  "spell145_pylon5_adorer": {
+   "x": 12279,
+   "y": 274,
+   "w": 101,
+   "h": 253,
+   "spell": 145,
+   "source_layer": 1081,
+   "source_name": "p62-4 adorer",
+   "plate": 62
+  },
+  "spell145_pylon4_keeper": {
+   "x": 12453,
+   "y": 241,
+   "w": 149,
+   "h": 289,
+   "spell": 145,
+   "source_layer": 1082,
+   "source_name": "p62-5 god",
+   "plate": 62
+  },
+  "spell145_pylon4": {
+   "x": 12595,
+   "y": 213,
+   "w": 149,
+   "h": 311,
+   "spell": 145,
+   "source_layer": 1083,
+   "source_name": "p62-5 structure",
+   "plate": 62,
+   "plumes": {
+    "base": 65,
+    "center": 78.0,
+    "half_width": 43.0
+   }
+  },
+  "spell145_pylon4_adorer": {
+   "x": 12747,
+   "y": 279,
+   "w": 104,
+   "h": 247,
+   "spell": 145,
+   "source_layer": 1085,
+   "source_name": "p62-5 adorer",
+   "plate": 62
+  },
+  "spell145_pylon3_keeper": {
+   "x": 12909,
+   "y": 203,
+   "w": 155,
+   "h": 328,
+   "spell": 145,
+   "source_layer": 1086,
+   "source_name": "p62-6 god",
+   "plate": 62
+  },
+  "spell145_pylon3": {
+   "x": 13061,
+   "y": 216,
+   "w": 151,
+   "h": 315,
+   "spell": 145,
+   "source_layer": 1087,
+   "source_name": "p62-6 structure",
+   "plate": 62,
+   "plumes": {
+    "base": 58,
+    "center": 84.5,
+    "half_width": 47.5
+   }
+  },
+  "spell145_pylon3_adorer": {
+   "x": 13217,
+   "y": 279,
+   "w": 103,
+   "h": 248,
+   "spell": 145,
+   "source_layer": 1089,
+   "source_name": "p62-6 adorer",
+   "plate": 62
+  },
+  "spell145_pylon15_keeper": {
+   "x": 7912,
+   "y": 274,
+   "w": 134,
+   "h": 254,
+   "spell": 145,
+   "source_layer": 1090,
+   "source_name": "p63-1 god",
+   "plate": 63
+  },
+  "spell145_pylon15": {
+   "x": 8036,
+   "y": 239,
+   "w": 115,
+   "h": 290,
+   "spell": 145,
+   "source_layer": 1091,
+   "source_name": "p63-1 structure",
+   "plate": 63,
+   "plumes": {
+    "base": 54,
+    "center": 64.0,
+    "half_width": 35.0
+   }
+  },
+  "spell145_pylon15_adorer": {
+   "x": 8148,
+   "y": 284,
+   "w": 84,
+   "h": 244,
+   "spell": 145,
+   "source_layer": 1093,
+   "source_name": "p63-1 adorer",
+   "plate": 63
+  },
+  "spell145_pylon14_keeper": {
+   "x": 8272,
+   "y": 262,
+   "w": 124,
+   "h": 265,
+   "spell": 145,
+   "source_layer": 1094,
+   "source_name": "p63-2 god",
+   "plate": 63
+  },
+  "spell145_pylon14": {
+   "x": 8383,
+   "y": 228,
+   "w": 128,
+   "h": 298,
+   "spell": 145,
+   "source_layer": 1095,
+   "source_name": "p63-2 structure",
+   "plate": 63,
+   "plumes": {
+    "base": 55,
+    "center": 69.5,
+    "half_width": 36.5
+   }
+  },
+  "spell145_pylon14_adorer": {
+   "x": 8502,
+   "y": 271,
+   "w": 100,
+   "h": 255,
+   "spell": 145,
+   "source_layer": 1097,
+   "source_name": "p63-2 adorer",
+   "plate": 63
+  },
+  "spell145_pylon13_keeper": {
+   "x": 8624,
+   "y": 252,
+   "w": 122,
+   "h": 274,
+   "spell": 145,
+   "source_layer": 1098,
+   "source_name": "p63-3 god",
+   "plate": 63
+  },
+  "spell145_pylon13": {
+   "x": 8757,
+   "y": 232,
+   "w": 114,
+   "h": 295,
+   "spell": 145,
+   "source_layer": 1099,
+   "source_name": "p63-3 structure",
+   "plate": 63,
+   "plumes": {
+    "base": 60,
+    "center": 58.0,
+    "half_width": 39.0
+   }
+  },
+  "spell145_pylon13_adorer": {
+   "x": 8864,
+   "y": 268,
+   "w": 95,
+   "h": 258,
+   "spell": 145,
+   "source_layer": 1101,
+   "source_name": "p63-3 adorer",
+   "plate": 63
+  },
+  "spell145_pylon12_keeper": {
+   "x": 8990,
+   "y": 251,
+   "w": 138,
+   "h": 275,
+   "spell": 145,
+   "source_layer": 1102,
+   "source_name": "p63-4 god",
+   "plate": 63
+  },
+  "spell145_pylon12": {
+   "x": 9127,
+   "y": 239,
+   "w": 105,
+   "h": 286,
+   "spell": 145,
+   "source_layer": 1103,
+   "source_name": "p63-4 structure",
+   "plate": 63,
+   "plumes": {
+    "base": 68,
+    "center": 54.5,
+    "half_width": 32.5
+   }
+  },
+  "spell145_pylon12_adorer": {
+   "x": 9230,
+   "y": 291,
+   "w": 80,
+   "h": 235,
+   "spell": 145,
+   "source_layer": 1105,
+   "source_name": "p63-4 adorer",
+   "plate": 63
+  },
+  "spell145_pylon11_keeper": {
+   "x": 9348,
+   "y": 270,
+   "w": 143,
+   "h": 257,
+   "spell": 145,
+   "source_layer": 1106,
+   "source_name": "p63-5 god",
+   "plate": 63
+  },
+  "spell145_pylon11": {
+   "x": 9474,
+   "y": 239,
+   "w": 130,
+   "h": 288,
+   "spell": 145,
+   "source_layer": 1107,
+   "source_name": "p63-5 structure",
+   "plate": 63,
+   "plumes": {
+    "base": 58,
+    "center": 77.0,
+    "half_width": 44.0
+   }
+  },
+  "spell145_pylon11_adorer": {
+   "x": 9596,
+   "y": 285,
+   "w": 98,
+   "h": 242,
+   "spell": 145,
+   "source_layer": 1109,
+   "source_name": "p63-5 adorer",
+   "plate": 63
+  },
+  "spell145_pylon10_keeper": {
+   "x": 9752,
+   "y": 251,
+   "w": 143,
+   "h": 275,
+   "spell": 145,
+   "source_layer": 1110,
+   "source_name": "p63-6 god",
+   "plate": 63
+  },
+  "spell145_pylon10": {
+   "x": 9894,
+   "y": 216,
+   "w": 131,
+   "h": 311,
+   "spell": 145,
+   "source_layer": 1111,
+   "source_name": "p63-6 structure",
+   "plate": 63,
+   "plumes": {
+    "base": 64,
+    "center": 72.0,
+    "half_width": 39.0
+   }
+  },
+  "spell145_pylon10_adorer": {
+   "x": 10031,
+   "y": 268,
+   "w": 92,
+   "h": 258,
+   "spell": 145,
+   "source_layer": 1113,
+   "source_name": "p63-6 adorer",
+   "plate": 63
+  },
+  "spell145_pylon9_keeper": {
+   "x": 10166,
+   "y": 239,
+   "w": 158,
+   "h": 289,
+   "spell": 145,
+   "source_layer": 1114,
+   "source_name": "p63-7 god",
+   "plate": 63
+  },
+  "spell145_pylon9": {
+   "x": 10318,
+   "y": 216,
+   "w": 123,
+   "h": 312,
+   "spell": 145,
+   "source_layer": 1115,
+   "source_name": "p63-7 structure",
+   "plate": 63,
+   "plumes": {
+    "base": 63,
+    "center": 69.5,
+    "half_width": 33.5
+   }
+  },
+  "spell145_pylon9_adorer": {
+   "x": 10451,
+   "y": 272,
+   "w": 109,
+   "h": 256,
+   "spell": 145,
+   "source_layer": 1117,
+   "source_name": "p63-7 adorer",
+   "plate": 63
+  },
+  "spell145_pylon21_keeper": {
+   "x": 5696,
+   "y": 199,
+   "w": 143,
+   "h": 332,
+   "spell": 145,
+   "source_layer": 1118,
+   "source_name": "p64-1 god",
+   "plate": 64
+  },
+  "spell145_pylon21": {
+   "x": 5860,
+   "y": 196,
+   "w": 148,
+   "h": 335,
+   "spell": 145,
+   "source_layer": 1119,
+   "source_name": "p64-1 structure",
+   "plate": 64,
+   "plumes": {
+    "base": 66,
+    "center": 65.0,
+    "half_width": 45.0
+   }
+  },
+  "spell145_pylon21_adorer": {
+   "x": 6007,
+   "y": 261,
+   "w": 108,
+   "h": 270,
+   "spell": 145,
+   "source_layer": 1121,
+   "source_name": "p64-1 adorer",
+   "plate": 64
+  },
+  "spell145_pylon20_keeper": {
+   "x": 6161,
+   "y": 263,
+   "w": 117,
+   "h": 265,
+   "spell": 145,
+   "source_layer": 1122,
+   "source_name": "p64-2 god",
+   "plate": 64
+  },
+  "spell145_pylon20": {
+   "x": 6272,
+   "y": 216,
+   "w": 111,
+   "h": 311,
+   "spell": 145,
+   "source_layer": 1123,
+   "source_name": "p64-2 structure",
+   "plate": 64,
+   "plumes": {
+    "base": 70,
+    "center": 65.0,
+    "half_width": 43.0
+   }
+  },
+  "spell145_pylon20_adorer": {
+   "x": 6381,
+   "y": 276,
+   "w": 99,
+   "h": 257,
+   "spell": 145,
+   "source_layer": 1125,
+   "source_name": "p64-2 adorer",
+   "plate": 64
+  },
+  "spell145_pylon19_keeper": {
+   "x": 6513,
+   "y": 282,
+   "w": 116,
+   "h": 244,
+   "spell": 145,
+   "source_layer": 1126,
+   "source_name": "p64-3 god",
+   "plate": 64
+  },
+  "spell145_pylon19": {
+   "x": 6620,
+   "y": 242,
+   "w": 117,
+   "h": 289,
+   "spell": 145,
+   "source_layer": 1127,
+   "source_name": "p64-3 structure",
+   "plate": 64,
+   "plumes": {
+    "base": 54,
+    "center": 54.5,
+    "half_width": 32.5
+   }
+  },
+  "spell145_pylon19_adorer": {
+   "x": 6720,
+   "y": 283,
+   "w": 99,
+   "h": 248,
+   "spell": 145,
+   "source_layer": 1129,
+   "source_name": "p64-3 adorer",
+   "plate": 64
+  },
+  "spell145_pylon18_keeper": {
+   "x": 6852,
+   "y": 274,
+   "w": 126,
+   "h": 251,
+   "spell": 145,
+   "source_layer": 1130,
+   "source_name": "p64-4 god",
+   "plate": 64
+  },
+  "spell145_pylon18": {
+   "x": 6958,
+   "y": 217,
+   "w": 134,
+   "h": 314,
+   "spell": 145,
+   "source_layer": 1131,
+   "source_name": "p64-4 structure",
+   "plate": 64,
+   "plumes": {
+    "base": 68,
+    "center": 71.0,
+    "half_width": 41.0
+   }
+  },
+  "spell145_pylon18_adorer": {
+   "x": 7083,
+   "y": 273,
+   "w": 96,
+   "h": 251,
+   "spell": 145,
+   "source_layer": 1133,
+   "source_name": "p64-4 adorer",
+   "plate": 64
+  },
+  "spell145_pylon17_keeper": {
+   "x": 7213,
+   "y": 263,
+   "w": 100,
+   "h": 262,
+   "spell": 145,
+   "source_layer": 1134,
+   "source_name": "p64-5 god",
+   "plate": 64
+  },
+  "spell145_pylon17": {
+   "x": 7290,
+   "y": 206,
+   "w": 154,
+   "h": 322,
+   "spell": 145,
+   "source_layer": 1135,
+   "source_name": "p64-5 structure",
+   "plate": 64,
+   "plumes": {
+    "base": 65,
+    "center": 87.0,
+    "half_width": 40.0
+   }
+  },
+  "spell145_pylon17_adorer": {
+   "x": 7434,
+   "y": 270,
+   "w": 99,
+   "h": 258,
+   "spell": 145,
+   "source_layer": 1137,
+   "source_name": "p64-5 adorer",
+   "plate": 64
+  },
+  "spell145_pylon16_keeper": {
+   "x": 7567,
+   "y": 259,
+   "w": 127,
+   "h": 265,
+   "spell": 145,
+   "source_layer": 1138,
+   "source_name": "p64-6 god",
+   "plate": 64
+  },
+  "spell145_pylon16": {
+   "x": 7689,
+   "y": 227,
+   "w": 121,
+   "h": 297,
+   "spell": 145,
+   "source_layer": 1139,
+   "source_name": "p64-6 structure",
+   "plate": 64,
+   "plumes": {
+    "base": 59,
+    "center": 61.5,
+    "half_width": 40.5
+   }
+  },
+  "spell145_pylon16_adorer": {
+   "x": 7803,
+   "y": 261,
+   "w": 89,
+   "h": 264,
+   "spell": 145,
+   "source_layer": 1141,
+   "source_name": "p64-6 adorer",
+   "plate": 64
+  }
+ },
+ "columns": [],
+ "intro_body": "Explore the rooms, pylons and portals of spells 144\u2013146 and their keepers.\n\nWalk [b]right to left[/b] with [\u2190] [\u2192] or click the papyrus. Click a gate or one of its gods to inspect it. Open the Journal with [j]."
+}

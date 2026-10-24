@@ -21,7 +21,8 @@ The full scroll is open for navigation and inspection, without puzzles or barrie
 Walk right to left with the arrows or by clicking the papyrus. Click a glowing figure
 to approach it, read its description, and record it in the Journal. Captions can be
 inspected without adding journal entries. Tall text columns have papyrus-backed
-foreground nodes, so the avatar passes behind them.
+foreground nodes, so the avatar passes behind them; each repeats everything drawn within it,
+rules and frame lines included. The avatar is a copy of the scroll's first man, the spell-43 worshipper.
 
 `scenes/survival.tscn` holds the artwork in spell groups, the avatar, camera, and five
 foreground text sections. `assets/survival/level.json` records source-layer IDs and bounds;
@@ -297,3 +298,33 @@ godot --path . -- --level=dangers --skip=8 --at=2950 --wait --screenshot=/tmp/ap
 ```
 Marks the first 8 encounters solved, starts the avatar at x=2950 (inside Apep's vignette),
 saves a frame and quits. The procession takes `--at=` and `--take=slot` instead of `--skip=`, `--recite` shows the plumed lector's third sign, `--speak` has the lector beside the table show a piece, `--wait` lets the fallen offerings settle first, `--show-hits` outlines every click region, `--ending` puts the stand's three pieces in your hands before Ra, `--finale` also sets them up and kneels (the light, then the menu), `--mouth` opens the face-carving view with the adze in hand and `--open-mouth` finishes the face and releases its words, `--water` stands you at the purifying water and `--pour=rad` also holds the jar at that tilt from as drawn (0 pours along the line), `--haul` takes up the sledge rope at once and `--haul-bot` also pulls on the beats (one off it), and `--record=dir --seconds=N` saves every third frame.
+
+### Editing the Gates level
+
+`scenes/gates.tscn` joins two sources. `art/gates146.mdp` (plates LXV–LXVII) fills x 0–5500:
+15 gateways and 15 guardians under `Figures/Spell146`. `art/gates144-145.mdp` (plates LX–LXIV)
+follows to its right from x 5500, where the level starts (the scroll reads right to left): the
+seven rooms of spell 144 under `Figures/Spell144` (each room's gate, the keeper kneeling inside
+and the two gods before it) and the twenty-one pylons of spell 145 under `Figures/Spell145`
+(pylon, keeper and adorer). Sprites are named by source plate and carry stable inspection and
+source-layer IDs; positions in the scene are authoritative. Each source keeps its own strip
+(`Strip`, `Strip144_145`) with its frame, headings and inscriptions. No tall inscription crosses
+the walking band, so no foreground column is needed. The level shares Survival's navigation,
+inspection, hover and journal script, extended by `scripts/gates/gates.gd`.
+
+The avatar is a copy of the first pylon's adorer. Every adorer starts hidden (in the saved scene
+too, and again on restart); `name_given(pylon, accepted)` in `gates.gd`, for the spell-145 naming
+puzzle to call, makes that pylon's plumes answer and, for a right name, fades its adorer in.
+
+A pylon's sprite is its structure with the plumes on top (the cut's `structure top` layer).
+`scripts/gates/plumes.gdshader` sways everything above the plumes' foot like reeds, each plume a
+little out of step with the next; each pylon's material holds that foot (`base`) and the row's
+middle and half width, exported as `plumes` in `level.json`. `PylonPlumes.react(pylon, accepted)`
+(`scripts/gates/plumes.gd`) makes the plumes stand taller and fan out for a right answer, or sag and
+lean apart for a wrong one, then settle; the spell-145 naming puzzle will call it.
+
+Run `python3 tools/build_gates_scene.py` to refresh the exported artwork and metadata.
+The exporter preserves the MDPs and existing descriptions; to an already saved scene it only
+adds sprites that are missing from it.
+Use `-- --level=gates --at=2750` to jump into spell 146, or add
+`--screenshot=/tmp/gates.png` for a temporary rendered preview.

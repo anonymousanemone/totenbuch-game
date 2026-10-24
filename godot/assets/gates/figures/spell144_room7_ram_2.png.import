@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cqtlavq88bvlv"
-path="res://.godot/imported/spell62_caption.png-8b6836e7464569dd50eb55a8aa112fa8.ctex"
+uid="uid://maai2ea2ysvo"
+path="res://.godot/imported/spell144_room7_ram_2.png-8b878fbfa803aaf83d374ce9fdfa60d0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/survival/figures/spell62_caption.png"
-dest_files=["res://.godot/imported/spell62_caption.png-8b6836e7464569dd50eb55a8aa112fa8.ctex"]
+source_file="res://assets/gates/figures/spell144_room7_ram_2.png"
+dest_files=["res://.godot/imported/spell144_room7_ram_2.png-8b878fbfa803aaf83d374ce9fdfa60d0.ctex"]
 
 [params]
 

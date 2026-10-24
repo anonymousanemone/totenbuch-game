@@ -1,5 +1,234 @@
 {
  "entries": {
+  "spell146_p65_1_gate": {
+   "name": "Fifth portal",
+   "descriptions": {
+    "default": "The fifth portal of the House of Osiris, topped with a long snake. Inside crouches an ibis-headed god, holding a knife. The portal is called \"The Flame, the Mistress of the Breaths for the Nostrils.\" Its keeper is \"the one who puts the foes to flight.\""
+   }
+  },
+  "spell146_p65_1_figure": {
+   "name": "Fifth portal guardian",
+   "descriptions": {
+    "default": "The fifth portal of the House of Osiris, topped with a long snake. Inside crouches an ibis-headed god, holding a knife. The portal is called \"The Flame, the Mistress of the Breaths for the Nostrils.\" Its keeper is \"the one who puts the foes to flight.\""
+   }
+  },
+  "spell146_p65_2_gate": {
+   "name": "Fourth portal",
+   "descriptions": {
+    "default": "The fourth portal of the House of Osiris, topped with a long snake. Inside crouches a bull-headed god, holding a knife. The portal is called \"The one who is in possession of the Sword, the Regent of the Earth.\" Its keeper is \"the one who strikes the cattle.\""
+   }
+  },
+  "spell146_p65_2_figure": {
+   "name": "Fourth portal guardian",
+   "descriptions": {
+    "default": "The fourth portal of the House of Osiris, topped with a long snake. Inside crouches a bull-headed god, holding a knife. The portal is called \"The one who is in possession of the Sword, the Regent of the Earth.\" Its keeper is \"the one who strikes the cattle.\""
+   }
+  },
+  "spell146_p65_3_gate": {
+   "name": "Third portal",
+   "descriptions": {
+    "default": "The third portal of the House of Osiris, topped with a long snake. Inside crouches a monkey-headed god, holding a knife. The portal is called \"The Mistress of the Altars, the Mistress of the Offerings.\" Its keeper is \"the one who performs the unction.\""
+   }
+  },
+  "spell146_p65_3_figure": {
+   "name": "Third portal guardian",
+   "descriptions": {
+    "default": "The third portal of the House of Osiris, topped with a long snake. Inside crouches a monkey-headed god, holding a knife. The portal is called \"The Mistress of the Altars, the Mistress of the Offerings.\" Its keeper is \"the one who performs the unction.\""
+   }
+  },
+  "spell146_p65_4_gate": {
+   "name": "Second portal",
+   "descriptions": {
+    "default": "The second portal of the House of Osiris, topped with an ankh among six vipers. Inside crouches a man-headed god with three vipers on his head, holding a knife. The portal is called \"The Mistress of Heaven, the Regent of Earth.\" Its keeper is \"Bringing forth of Ptah.\""
+   }
+  },
+  "spell146_p65_4_figure": {
+   "name": "Second portal guardian",
+   "descriptions": {
+    "default": "The second portal of the House of Osiris, topped with an ankh among six vipers. Inside crouches a man-headed god with three vipers on his head, holding a knife. The portal is called \"The Mistress of Heaven, the Regent of Earth.\" Its keeper is \"Bringing forth of Ptah.\""
+   }
+  },
+  "spell146_p65_5_gate": {
+   "name": "First portal",
+   "descriptions": {
+    "default": "The first portal of the House of Osiris, topped with a long snake. Inside crouches a crocodile-headed god, holding a knife. The portal is called \"The mistress of the Terror, the height of walls.\" Its keeper is \"Veneration.\""
+   }
+  },
+  "spell146_p65_5_figure": {
+   "name": "First portal guardian",
+   "descriptions": {
+    "default": "The first portal of the House of Osiris, topped with a long snake. Inside crouches a crocodile-headed god, holding a knife. The portal is called \"The mistress of the Terror, the height of walls.\" Its keeper is \"Veneration.\""
+   }
+  },
+  "spell146_p66_1_gate": {
+   "name": "Twelfth portal",
+   "descriptions": {
+    "default": "The twelfth portal of the House of Osiris, topped with a large snake. Inside crouches a god with a cobra for a head, holding a knife. The portal is called \"The one that the earth invokes, the Mistress of the Shades.\""
+   }
+  },
+  "spell146_p66_1_figure": {
+   "name": "Twelfth portal guardian",
+   "descriptions": {
+    "default": "The twelfth portal of the House of Osiris, topped with a large snake. Inside crouches a god with a cobra for a head, holding a knife. The portal is called \"The one that the earth invokes, the Mistress of the Shades.\""
+   }
+  },
+  "spell146_p66_2_gate": {
+   "name": "Eleventh portal",
+   "descriptions": {
+    "default": "The eleventh portal of the House of Osiris, topped with two cats. Inside crouches a monkey-headed god, holding a knife. The portal is called \"The god of the Sword, the Flame Destroying the Foes, the Terror of every Gate.\""
+   }
+  },
+  "spell146_p66_2_figure": {
+   "name": "Eleventh portal guardian",
+   "descriptions": {
+    "default": "The eleventh portal of the House of Osiris, topped with two cats. Inside crouches a monkey-headed god, holding a knife. The portal is called \"The god of the Sword, the Flame Destroying the Foes, the Terror of every Gate.\""
+   }
+  },
+  "spell146_p66_3_gate": {
+   "name": "Tenth portal",
+   "descriptions": {
+    "default": "The tenth portal of the House of Osiris, topped with a large snake. Inside crouches a man-headed god with two tall feathers and ram's horns, holding a knife. The portal is called \"The One who makes longer the outcries.\" Its keeper is \"the great one who locks up.\""
+   }
+  },
+  "spell146_p66_3_figure": {
+   "name": "Tenth portal guardian",
+   "descriptions": {
+    "default": "The tenth portal of the House of Osiris, topped with a large snake. Inside crouches a man-headed god with two tall feathers and ram's horns, holding a knife. The portal is called \"The One who makes longer the outcries.\" Its keeper is \"the great one who locks up.\""
+   }
+  },
+  "spell146_p66_4_gate": {
+   "name": "Ninth portal",
+   "descriptions": {
+    "default": "The ninth portal of the House of Osiris, topped with a long snake. Inside crouches a hare-headed god, holding a knife. The portal is called \"The One who is on the forehead of the Mistress of the Forces.\" Its keeper is \"Djetes.\""
+   }
+  },
+  "spell146_p66_4_figure": {
+   "name": "Ninth portal guardian",
+   "descriptions": {
+    "default": "The ninth portal of the House of Osiris, topped with a long snake. Inside crouches a hare-headed god, holding a knife. The portal is called \"The One who is on the forehead of the Mistress of the Forces.\" Its keeper is \"Djetes.\""
+   }
+  },
+  "spell146_p66_5_gate": {
+   "name": "Eighth portal",
+   "descriptions": {
+    "default": "The eighth portal of the House of Osiris, topped with a snake with a sun disc and horns. Inside crouches a man-headed god, holding a knife. The portal is called \"The Blazing Flame which is not extinguished.\" Its keeper is \"the one who protects his body.\""
+   }
+  },
+  "spell146_p66_5_figure": {
+   "name": "Eighth portal guardian",
+   "descriptions": {
+    "default": "The eighth portal of the House of Osiris, topped with a snake with a sun disc and horns. Inside crouches a man-headed god, holding a knife. The portal is called \"The Blazing Flame which is not extinguished.\" Its keeper is \"the one who protects his body.\""
+   }
+  },
+  "spell146_p66_6_gate": {
+   "name": "Seventh portal",
+   "descriptions": {
+    "default": "The seventh portal of the House of Osiris, topped with a long snake. Inside crouches a man-headed god, holding a knife. The portal is called \"The Cloud Enveloping the Fainting One.\" Its keeper is \"Kenti.\""
+   }
+  },
+  "spell146_p66_6_figure": {
+   "name": "Seventh portal guardian",
+   "descriptions": {
+    "default": "The seventh portal of the House of Osiris, topped with a long snake. Inside crouches a man-headed god, holding a knife. The portal is called \"The Cloud Enveloping the Fainting One.\" Its keeper is \"Kenti.\""
+   }
+  },
+  "spell146_p66_7_gate": {
+   "name": "Sixth portal",
+   "descriptions": {
+    "default": "The sixth portal of the House of Osiris, topped with six vipers. Inside crouches a god with a cobra for a head, holding a knife. The portal is called \"The Mistress of the Prostrations.\" Its keeper is \"the Gatherer.\""
+   }
+  },
+  "spell146_p66_7_figure": {
+   "name": "Sixth portal guardian",
+   "descriptions": {
+    "default": "The sixth portal of the House of Osiris, topped with six vipers. Inside crouches a god with a cobra for a head, holding a knife. The portal is called \"The Mistress of the Prostrations.\" Its keeper is \"the Gatherer.\""
+   }
+  },
+  "spell146_p67_1_gate": {
+   "name": "Fifteenth portal",
+   "descriptions": {
+    "default": "The fifteenth portal of the House of Osiris, topped with a row of plumes. Inside crouches a man-headed god, holding a knife. The portal is called \"The Red Soul in Mourning, investigator going out by night.\""
+   }
+  },
+  "spell146_p67_1_figure": {
+   "name": "Fifteenth portal guardian",
+   "descriptions": {
+    "default": "The fifteenth portal of the House of Osiris, topped with a row of plumes. Inside crouches a man-headed god, holding a knife. The portal is called \"The Red Soul in Mourning, investigator going out by night.\""
+   }
+  },
+  "spell146_p67_2_gate": {
+   "name": "Fourteenth portal",
+   "descriptions": {
+    "default": "The fourteenth portal of the House of Osiris, topped with a snake and a bull's head. Inside crouches a hawk-headed god, holding a knife. The portal is called \"The Mistress of Terror, slaughtering amidst blood.\""
+   }
+  },
+  "spell146_p67_2_figure": {
+   "name": "Fourteenth portal guardian",
+   "descriptions": {
+    "default": "The fourteenth portal of the House of Osiris, topped with a snake and a bull's head. Inside crouches a hawk-headed god, holding a knife. The portal is called \"The Mistress of Terror, slaughtering amidst blood.\""
+   }
+  },
+  "spell146_p67_3_gate": {
+   "name": "Thirteenth portal",
+   "descriptions": {
+    "default": "The thirteenth portal of the House of Osiris, topped with two seated figures of the Nile god. Inside crouches a crocodile-headed god with an ostrich feather, holding a knife. The portal is called \"The one who tows Isis.\""
+   }
+  },
+  "spell146_p67_3_figure": {
+   "name": "Thirteenth portal guardian",
+   "descriptions": {
+    "default": "The thirteenth portal of the House of Osiris, topped with two seated figures of the Nile god. Inside crouches a crocodile-headed god with an ostrich feather, holding a knife. The portal is called \"The one who tows Isis.\""
+   }
+  },
+  "spell144_room4_keeper": {
+   "name": "Fourth room keeper",
+   "descriptions": {
+    "default": "A dog-headed god kneels inside the fourth room, holding two knives, under a roof of blades and two cobras. He is the keeper of its door, \"repelling the multitudes of words.\""
+   },
+   "journal": true
+  },
+  "spell144_room3_keeper": {
+   "name": "Third room keeper",
+   "descriptions": {
+    "default": "A god with a scarab for a head kneels inside the third room, holding two knives, under a roof of blades and two cobras. He is the keeper of its door, \"eating the excrement of the one who reaches it.\""
+   },
+   "journal": true
+  },
+  "spell144_room2_keeper": {
+   "name": "Second room keeper",
+   "descriptions": {
+    "default": "A crocodile-headed god kneels inside the second room, holding two knives, under a roof of blades and two cobras. He is the keeper of its door, \"Toun-ha.\""
+   },
+   "journal": true
+  },
+  "spell144_room1_keeper": {
+   "name": "First room keeper",
+   "descriptions": {
+    "default": "A god kneels inside the first room, holding two knives, under a roof of blades and two cobras. He is the keeper of its door, \"overthrowing the multitude of the forms.\""
+   },
+   "journal": true
+  },
+  "spell144_room7_keeper": {
+   "name": "Seventh room keeper",
+   "descriptions": {
+    "default": "A god with a cobra for a head kneels inside the seventh room, holding two knives, under a roof of blades and two cobras. He is the keeper of its door, \"Mates-sen, their executioner.\""
+   },
+   "journal": true
+  },
+  "spell144_room6_keeper": {
+   "name": "Sixth room keeper",
+   "descriptions": {
+    "default": "A monkey-headed god sits inside the sixth room, holding two knives, under a roof of blades and two cobras. He is the keeper of its door, \"An-Ketitau-Kehabu-Kheru.\""
+   },
+   "journal": true
+  },
+  "spell144_room5_keeper": {
+   "name": "Fifth room keeper",
+   "descriptions": {
+    "default": "A god with a round, front-facing head kneels inside the fifth room, holding two knives, under a roof of blades and two cobras. He is the keeper of its door, \"living upon reptiles.\""
+   },
+   "journal": true
+  },
   "spell144_room1": {
    "name": "First room",
    "descriptions": {

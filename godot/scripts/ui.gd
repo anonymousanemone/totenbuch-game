@@ -26,7 +26,7 @@ const SUCCESS := Color(1.8, 1.4, 0.6)
 const PREVIEW := Color(1.9, 1.0, 0.6, 0.2)
 ## Matches the level selector in glow.gdshader; all hover glow colors live there.
 enum Glow { DEFAULT, PROCESSION, DANGER, SUCCESS }
-const SUCCESS_GLOW := Color(148.0 / 255.0, 162.0 / 255.0, 128.0 / 255.0, 0.4)  ## UI band light green #94a280
+const SUCCESS_GLOW := Color(156.0 / 255.0, 184.0 / 255.0, 79.0 / 255.0, 0.4)  ## UI band light green #9cb84f
 const SUCCESS_IN := 0.8       ## s for a success glow to come up ...
 const SUCCESS_OUT := 3.2      ## ... and to fade
 const DIM := Color(0.12, 0.08, 0.04, 0.5)

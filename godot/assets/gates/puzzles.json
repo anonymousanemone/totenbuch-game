@@ -1,0 +1,7 @@
+{
+ "messages": {
+  "gates.start": "Walk among the gates. Click a gateway or its guardian to look more closely.",
+  "gates.explore": "Walk with the arrow keys or click the papyrus. Click a gate or guardian to inspect it; open the Journal with [j]."
+ },
+ "puzzles": {}
+}

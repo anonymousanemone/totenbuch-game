@@ -70,6 +70,8 @@
 
 [ext_resource type="Texture2D" path="res://assets/survival/figures/spell57_caption_1070.png" id="spell57_caption_1070"]
 
+[ext_resource type="Texture2D" path="res://assets/survival/figures/spell62_caption_1053.png" id="spell62_caption_1053"]
+
 [ext_resource type="Texture2D" path="res://assets/survival/figures/spell62_breath.png" id="spell62_breath"]
 
 [ext_resource type="Texture2D" path="res://assets/survival/figures/spell61_caption_1067.png" id="spell61_caption_1067"]
@@ -95,8 +97,6 @@
 [ext_resource type="Texture2D" path="res://assets/survival/figures/spell58_drinking.png" id="spell58_drinking"]
 
 [ext_resource type="Texture2D" path="res://assets/survival/figures/spell58_caption_1069.png" id="spell58_caption_1069"]
-
-[ext_resource type="Texture2D" path="res://assets/survival/figures/spell62_caption.png" id="spell62_caption"]
 
 [ext_resource type="Texture2D" path="res://assets/survival/figures/column_0.png" id="column_0"]
 
@@ -134,21 +134,21 @@ metadata/_edit_lock_ = true
 
 
 [node name="spell43_osiris" type="Sprite2D" parent="Figures/Spell43"]
-position = Vector2(8787, 260)
+position = Vector2(8711, 260)
 texture = ExtResource("spell43_osiris")
 centered = false
 metadata/registry_id = "spell43_osiris"
 
 
 [node name="spell43_worshipper" type="Sprite2D" parent="Figures/Spell43"]
-position = Vector2(9002, 285)
+position = Vector2(8926, 285)
 texture = ExtResource("spell43_worshipper")
 centered = false
 metadata/registry_id = "spell43_worshipper"
 
 
 [node name="spell43_caption_1027" type="Sprite2D" parent="Figures/Spell43"]
-position = Vector2(8768, 49)
+position = Vector2(8692, 49)
 texture = ExtResource("spell43_caption_1027")
 centered = false
 metadata/registry_id = "spell43_caption_1027"
@@ -158,21 +158,21 @@ metadata/registry_id = "spell43_caption_1027"
 
 
 [node name="spell44_shrine" type="Sprite2D" parent="Figures/Spell44"]
-position = Vector2(8252, 202)
+position = Vector2(8176, 202)
 texture = ExtResource("spell44_shrine")
 centered = false
 metadata/registry_id = "spell44_shrine"
 
 
 [node name="spell44_caption_1031" type="Sprite2D" parent="Figures/Spell44"]
-position = Vector2(8315, 57)
+position = Vector2(8239, 57)
 texture = ExtResource("spell44_caption_1031")
 centered = false
 metadata/registry_id = "spell44_caption_1031"
 
 
 [node name="spell44_staff_bearer" type="Sprite2D" parent="Figures/Spell44"]
-position = Vector2(8529, 252)
+position = Vector2(8453, 252)
 texture = ExtResource("spell44_staff_bearer")
 centered = false
 metadata/registry_id = "spell44_staff_bearer"
@@ -182,14 +182,14 @@ metadata/registry_id = "spell44_staff_bearer"
 
 
 [node name="spell45_mummy" type="Sprite2D" parent="Figures/Spell45"]
-position = Vector2(7976, 225)
+position = Vector2(7900, 225)
 texture = ExtResource("spell45_mummy")
 centered = false
 metadata/registry_id = "spell45_mummy"
 
 
 [node name="spell45_caption_1033" type="Sprite2D" parent="Figures/Spell45"]
-position = Vector2(7940, 52)
+position = Vector2(7864, 52)
 texture = ExtResource("spell45_caption_1033")
 centered = false
 metadata/registry_id = "spell45_caption_1033"
@@ -199,21 +199,21 @@ metadata/registry_id = "spell45_caption_1033"
 
 
 [node name="spell46_staff_bearer" type="Sprite2D" parent="Figures/Spell46"]
-position = Vector2(7712, 291)
+position = Vector2(7636, 291)
 texture = ExtResource("spell46_staff_bearer")
 centered = false
 metadata/registry_id = "spell46_staff_bearer"
 
 
 [node name="spell46_caption_1036" type="Sprite2D" parent="Figures/Spell46"]
-position = Vector2(7645, 187)
+position = Vector2(7569, 187)
 texture = ExtResource("spell46_caption_1036")
 centered = false
 metadata/registry_id = "spell46_caption_1036"
 
 
 [node name="spell46_caption_1035" type="Sprite2D" parent="Figures/Spell46"]
-position = Vector2(7650, 54)
+position = Vector2(7574, 54)
 texture = ExtResource("spell46_caption_1035")
 centered = false
 metadata/registry_id = "spell46_caption_1035"
@@ -223,14 +223,14 @@ metadata/registry_id = "spell46_caption_1035"
 
 
 [node name="spell47_bird_shrine" type="Sprite2D" parent="Figures/Spell47"]
-position = Vector2(7248, 288)
+position = Vector2(7172, 288)
 texture = ExtResource("spell47_bird_shrine")
 centered = false
 metadata/registry_id = "spell47_bird_shrine"
 
 
 [node name="spell47_caption_1038" type="Sprite2D" parent="Figures/Spell47"]
-position = Vector2(7239, 53)
+position = Vector2(7163, 53)
 texture = ExtResource("spell47_caption_1038")
 centered = false
 metadata/registry_id = "spell47_caption_1038"
@@ -240,14 +240,14 @@ metadata/registry_id = "spell47_caption_1038"
 
 
 [node name="spell48_caption_1041" type="Sprite2D" parent="Figures/Spell48"]
-position = Vector2(6957, 57)
+position = Vector2(6881, 57)
 texture = ExtResource("spell48_caption_1041")
 centered = false
 metadata/registry_id = "spell48_caption_1041"
 
 
 [node name="spell48_walking_man" type="Sprite2D" parent="Figures/Spell48"]
-position = Vector2(6982, 258)
+position = Vector2(6906, 258)
 texture = ExtResource("spell48_walking_man")
 centered = false
 metadata/registry_id = "spell48_walking_man"
@@ -257,14 +257,14 @@ metadata/registry_id = "spell48_walking_man"
 
 
 [node name="spell49_staff_bearer" type="Sprite2D" parent="Figures/Spell49"]
-position = Vector2(6460, 262)
+position = Vector2(6384, 262)
 texture = ExtResource("spell49_staff_bearer")
 centered = false
 metadata/registry_id = "spell49_staff_bearer"
 
 
 [node name="spell49_caption_1042" type="Sprite2D" parent="Figures/Spell49"]
-position = Vector2(6375, 52)
+position = Vector2(6299, 52)
 texture = ExtResource("spell49_caption_1042")
 centered = false
 metadata/registry_id = "spell49_caption_1042"
@@ -274,21 +274,21 @@ metadata/registry_id = "spell49_caption_1042"
 
 
 [node name="spell50_caption_1046" type="Sprite2D" parent="Figures/Spell50"]
-position = Vector2(5955, 42)
+position = Vector2(5879, 42)
 texture = ExtResource("spell50_caption_1046")
 centered = false
 metadata/registry_id = "spell50_caption_1046"
 
 
 [node name="spell50_walking_man" type="Sprite2D" parent="Figures/Spell50"]
-position = Vector2(5835, 234)
+position = Vector2(5759, 234)
 texture = ExtResource("spell50_walking_man")
 centered = false
 metadata/registry_id = "spell50_walking_man"
 
 
 [node name="spell50_mound" type="Sprite2D" parent="Figures/Spell50"]
-position = Vector2(6032, 204)
+position = Vector2(5956, 204)
 texture = ExtResource("spell50_mound")
 centered = false
 metadata/registry_id = "spell50_mound"
@@ -298,14 +298,14 @@ metadata/registry_id = "spell50_mound"
 
 
 [node name="spell51_walking_man" type="Sprite2D" parent="Figures/Spell51"]
-position = Vector2(5604, 258)
+position = Vector2(5528, 258)
 texture = ExtResource("spell51_walking_man")
 centered = false
 metadata/registry_id = "spell51_walking_man"
 
 
 [node name="spell51_caption_1047" type="Sprite2D" parent="Figures/Spell51"]
-position = Vector2(5539, 43)
+position = Vector2(5463, 43)
 texture = ExtResource("spell51_caption_1047")
 centered = false
 metadata/registry_id = "spell51_caption_1047"
@@ -315,14 +315,14 @@ metadata/registry_id = "spell51_caption_1047"
 
 
 [node name="spell52_seated_man" type="Sprite2D" parent="Figures/Spell52"]
-position = Vector2(5222, 258)
+position = Vector2(5146, 258)
 texture = ExtResource("spell52_seated_man")
 centered = false
 metadata/registry_id = "spell52_seated_man"
 
 
 [node name="spell52_caption_1049" type="Sprite2D" parent="Figures/Spell52"]
-position = Vector2(5044, 50)
+position = Vector2(4968, 50)
 texture = ExtResource("spell52_caption_1049")
 centered = false
 metadata/registry_id = "spell52_caption_1049"
@@ -332,7 +332,7 @@ metadata/registry_id = "spell52_caption_1049"
 
 
 [node name="spell53_offerings" type="Sprite2D" parent="Figures/Spell53"]
-position = Vector2(4367, 58)
+position = Vector2(4291, 58)
 texture = ExtResource("spell53_offerings")
 centered = false
 metadata/registry_id = "spell53_offerings"
@@ -342,14 +342,14 @@ metadata/registry_id = "spell53_offerings"
 
 
 [node name="spell54_caption_1059" type="Sprite2D" parent="Figures/Spell54"]
-position = Vector2(3968, 58)
+position = Vector2(3892, 58)
 texture = ExtResource("spell54_caption_1059")
 centered = false
 metadata/registry_id = "spell54_caption_1059"
 
 
 [node name="spell54_breath" type="Sprite2D" parent="Figures/Spell54"]
-position = Vector2(4155, 247)
+position = Vector2(4079, 247)
 texture = ExtResource("spell54_breath")
 centered = false
 metadata/registry_id = "spell54_breath"
@@ -359,14 +359,14 @@ metadata/registry_id = "spell54_breath"
 
 
 [node name="spell55_caption_1061" type="Sprite2D" parent="Figures/Spell55"]
-position = Vector2(3749, 88)
+position = Vector2(3673, 88)
 texture = ExtResource("spell55_caption_1061")
 centered = false
 metadata/registry_id = "spell55_caption_1061"
 
 
 [node name="spell55_breath" type="Sprite2D" parent="Figures/Spell55"]
-position = Vector2(3719, 247)
+position = Vector2(3643, 247)
 texture = ExtResource("spell55_breath")
 centered = false
 metadata/registry_id = "spell55_breath"
@@ -376,14 +376,14 @@ metadata/registry_id = "spell55_breath"
 
 
 [node name="spell56_caption_1063" type="Sprite2D" parent="Figures/Spell56"]
-position = Vector2(3461, 82)
+position = Vector2(3385, 82)
 texture = ExtResource("spell56_caption_1063")
 centered = false
 metadata/registry_id = "spell56_caption_1063"
 
 
 [node name="spell56_ankh" type="Sprite2D" parent="Figures/Spell56"]
-position = Vector2(3459, 229)
+position = Vector2(3383, 229)
 texture = ExtResource("spell56_ankh")
 centered = false
 metadata/registry_id = "spell56_ankh"
@@ -393,14 +393,14 @@ metadata/registry_id = "spell56_ankh"
 
 
 [node name="spell57_tree" type="Sprite2D" parent="Figures/Spell57"]
-position = Vector2(2935, 187)
+position = Vector2(2859, 187)
 texture = ExtResource("spell57_tree")
 centered = false
 metadata/registry_id = "spell57_tree"
 
 
 [node name="spell57_caption_1070" type="Sprite2D" parent="Figures/Spell57"]
-position = Vector2(2585, 49)
+position = Vector2(2509, 49)
 texture = ExtResource("spell57_caption_1070")
 centered = false
 metadata/registry_id = "spell57_caption_1070"
@@ -410,14 +410,14 @@ metadata/registry_id = "spell57_caption_1070"
 
 
 [node name="spell58_drinking" type="Sprite2D" parent="Figures/Spell58"]
-position = Vector2(2302, 235)
+position = Vector2(2226, 235)
 texture = ExtResource("spell58_drinking")
 centered = false
 metadata/registry_id = "spell58_drinking"
 
 
 [node name="spell58_caption_1069" type="Sprite2D" parent="Figures/Spell58"]
-position = Vector2(1954, 60)
+position = Vector2(1878, 60)
 texture = ExtResource("spell58_caption_1069")
 centered = false
 metadata/registry_id = "spell58_caption_1069"
@@ -427,14 +427,14 @@ metadata/registry_id = "spell58_caption_1069"
 
 
 [node name="spell59_tree" type="Sprite2D" parent="Figures/Spell59"]
-position = Vector2(1666, 153)
+position = Vector2(1590, 153)
 texture = ExtResource("spell59_tree")
 centered = false
 metadata/registry_id = "spell59_tree"
 
 
 [node name="spell59_caption_1071" type="Sprite2D" parent="Figures/Spell59"]
-position = Vector2(1698, 49)
+position = Vector2(1622, 49)
 texture = ExtResource("spell59_caption_1071")
 centered = false
 metadata/registry_id = "spell59_caption_1071"
@@ -444,14 +444,14 @@ metadata/registry_id = "spell59_caption_1071"
 
 
 [node name="spell60_caption_1065" type="Sprite2D" parent="Figures/Spell60"]
-position = Vector2(1410, 74)
+position = Vector2(1334, 74)
 texture = ExtResource("spell60_caption_1065")
 centered = false
 metadata/registry_id = "spell60_caption_1065"
 
 
 [node name="spell60_breath" type="Sprite2D" parent="Figures/Spell60"]
-position = Vector2(1394, 240)
+position = Vector2(1318, 240)
 texture = ExtResource("spell60_breath")
 centered = false
 metadata/registry_id = "spell60_breath"
@@ -461,14 +461,14 @@ metadata/registry_id = "spell60_breath"
 
 
 [node name="spell61_caption_1067" type="Sprite2D" parent="Figures/Spell61"]
-position = Vector2(1119, 69)
+position = Vector2(1043, 69)
 texture = ExtResource("spell61_caption_1067")
 centered = false
 metadata/registry_id = "spell61_caption_1067"
 
 
 [node name="spell61_breath" type="Sprite2D" parent="Figures/Spell61"]
-position = Vector2(1075, 238)
+position = Vector2(999, 238)
 texture = ExtResource("spell61_breath")
 centered = false
 metadata/registry_id = "spell61_breath"
@@ -477,45 +477,45 @@ metadata/registry_id = "spell61_breath"
 [node name="Spell62" type="Node2D" parent="Figures"]
 
 
+[node name="spell62_caption_1053" type="Sprite2D" parent="Figures/Spell62"]
+position = Vector2(717, 67)
+texture = ExtResource("spell62_caption_1053")
+centered = false
+metadata/registry_id = "spell62_caption_1053"
+
+
 [node name="spell62_breath" type="Sprite2D" parent="Figures/Spell62"]
-position = Vector2(739, 238)
+position = Vector2(663, 238)
 texture = ExtResource("spell62_breath")
 centered = false
 metadata/registry_id = "spell62_breath"
-
-
-[node name="spell62_caption" type="Sprite2D" parent="Figures/Spell62"]
-position = Vector2(699, 48)
-texture = ExtResource("spell62_caption")
-centered = false
-metadata/registry_id = "spell62_caption"
 
 
 [node name="Spell63" type="Node2D" parent="Figures"]
 
 
 [node name="spell63_water" type="Sprite2D" parent="Figures/Spell63"]
-position = Vector2(130, 55)
+position = Vector2(54, 55)
 texture = ExtResource("spell63_water")
 centered = false
 metadata/registry_id = "spell63_water"
 
 
 [node name="Avatar" type="Node2D" parent="."]
-position = Vector2(9240, 534)
+position = Vector2(9000, 534)
 script = ExtResource("avatar")
 drawn_facing = -1
 
 [node name="Sprite" type="Sprite2D" parent="Avatar"]
-texture = ExtResource("spell48_walking_man")
-offset = Vector2(0, -147.5)
+texture = ExtResource("spell43_worshipper")
+offset = Vector2(0, -125.5)
 
 [node name="Foreground" type="Node2D" parent="."]
 z_index = 6
 
 
 [node name="Column1" type="Node2D" parent="Foreground"]
-position = Vector2(123, 180)
+position = Vector2(47, 180)
 [node name="Papyrus" type="ColorRect" parent="Foreground/Column1"]
 material = SubResource("paper")
 offset_right = 112.0
@@ -527,7 +527,7 @@ centered = false
 
 
 [node name="Column2" type="Node2D" parent="Foreground"]
-position = Vector2(1954, 180)
+position = Vector2(1878, 180)
 [node name="Papyrus" type="ColorRect" parent="Foreground/Column2"]
 material = SubResource("paper")
 offset_right = 218.0
@@ -539,7 +539,7 @@ centered = false
 
 
 [node name="Column3" type="Node2D" parent="Foreground"]
-position = Vector2(2585, 180)
+position = Vector2(2509, 180)
 [node name="Papyrus" type="ColorRect" parent="Foreground/Column3"]
 material = SubResource("paper")
 offset_right = 250.0
@@ -551,7 +551,7 @@ centered = false
 
 
 [node name="Column4" type="Node2D" parent="Foreground"]
-position = Vector2(3935, 180)
+position = Vector2(3859, 180)
 [node name="Papyrus" type="ColorRect" parent="Foreground/Column4"]
 material = SubResource("paper")
 offset_right = 145.0
@@ -563,7 +563,7 @@ centered = false
 
 
 [node name="Column5" type="Node2D" parent="Foreground"]
-position = Vector2(4880, 180)
+position = Vector2(4804, 180)
 [node name="Papyrus" type="ColorRect" parent="Foreground/Column5"]
 material = SubResource("paper")
 offset_right = 245.0
@@ -575,7 +575,7 @@ centered = false
 
 
 [node name="Camera" type="Camera2D" parent="."]
-position = Vector2(8390, 418)
+position = Vector2(8314, 418)
 zoom = Vector2(0.77894735, 0.77894735)
 
 [node name="HUD" type="CanvasLayer" parent="."]

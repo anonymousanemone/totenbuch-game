@@ -162,9 +162,6 @@ size = Vector2(148, 293)
 [sub_resource type="RectangleShape2D" id="hit_GooseBearerHit"]
 size = Vector2(175, 286)
 
-[sub_resource type="RectangleShape2D" id="inspection_second_offering_table"]
-size = Vector2(1120, 291)
-
 [sub_resource type="RectangleShape2D" id="inspection_offering_table"]
 size = Vector2(724, 295)
 
@@ -173,6 +170,9 @@ size = Vector2(274, 317)
 
 [sub_resource type="RectangleShape2D" id="inspection_priest_with_arm_censer"]
 size = Vector2(217, 279)
+
+[sub_resource type="RectangleShape2D" id="inspection_second_offering_table"]
+size = Vector2(1120, 291)
 
 [sub_resource type="RectangleShape2D" id="inspection_lector_with_plumes"]
 size = Vector2(166, 336)
@@ -656,7 +656,7 @@ centered = false
 metadata/source_layer_id = "169"
 metadata/registry_id = "second_offering_table"
 
-[node name="second_offering_table" type="Area2D" parent="ArtworkLayers/offering_table_169"]
+[node name="second_offering_table" type="Area2D" parent="ArtworkLayers/offering_table_169" unique_id=1419994891]
 position = Vector2(560, 145.5)
 collision_layer = 0
 collision_mask = 0
@@ -664,7 +664,7 @@ monitoring = false
 monitorable = false
 metadata/registry_id = "second_offering_table"
 
-[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/offering_table_169/second_offering_table"]
+[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/offering_table_169/second_offering_table" unique_id=549538130]
 shape = SubResource("inspection_second_offering_table")
 
 [node name="lector_with_plumes_150" type="Sprite2D" parent="ArtworkLayers" unique_id=2016452678]
@@ -1335,7 +1335,7 @@ metadata/piece_id = "kneeler"
 position = Vector2(14813, 526)
 script = ExtResource("3_avatar")
 
-[node name="CarryAdze" type="Marker2D" parent="Avatar"]
+[node name="CarryAdze" type="Marker2D" parent="Avatar" unique_id=1610024560]
 position = Vector2(-28, -289.9999)
 rotation = 0.5305801
 

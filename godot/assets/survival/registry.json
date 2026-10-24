@@ -210,6 +210,13 @@
    },
    "journal": false
   },
+  "spell62_caption_1053": {
+   "name": "Spell 62",
+   "descriptions": {
+    "default": "Another chapter, about being in possession of the water."
+   },
+   "journal": false
+  },
   "spell62_breath": {
    "name": "Breath bearer",
    "descriptions": {
@@ -298,13 +305,6 @@
    "name": "Spell 58",
    "descriptions": {
     "default": "A chapter about breathing air and about being in possession of the water in the Netherworld."
-   },
-   "journal": false
-  },
-  "spell62_caption": {
-   "name": "Spell 62",
-   "descriptions": {
-    "default": "Another chapter, about being in possession of the water."
    },
    "journal": false
   }

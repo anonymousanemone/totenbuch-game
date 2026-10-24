@@ -33,6 +33,9 @@
 - [ ] procession is in order - chnage to "Off to the left, something glows." (because the procession is not in order, you still have to assemble the offering stand)
 
 ### Dangers
+- [ ] the all snakes come and eat you looks too triangular. have it look like the player is covered in snakes, criss crossed across the body, and not in a triangular cone on the outside of the body, it should look like a large mass.
+- [ ] can the speared snake animation be really fast?
+- [ ] 
 
 #### General
 
@@ -79,8 +82,13 @@
 #### Gates — spells 145–146
 
 - [ ] **Spell 145, name-and-god matching game:** the player carries a name over their head and must match it to the right god. They walk to the correct god and drag the name onto it; the god lights up and a version of the adorer appears. A different name then appears over the player's head, until every name and god is matched. Reuse `moveable_object.gd` (press-drag-release; check the name-over-head carry against the movable-objects rules in AGENTS.md before building).
+  - The pylon's plumes answer each match: call `PylonPlumes.react(pylon, accepted)` (`scripts/gates/plumes.gd`); they rise and fan for a right name, sag and lean apart for a wrong one.
 - [ ] **Spell 146, same game, now lethal:** the gods are dangerous spirits, so a wrong match kills the player and they start over. The names always come in the same order, so a restart is learnable rather than random.
-- [ ] **Spell 145 wrong-match response:** TBD.
+- [ ] **Spell 145 wrong-match response:** a soft, visible refusal.
+  - A wrong drop is rejected. The god refuses it: it flinches, its blade lowers, or it goes dark. The name snaps back over the player's head, and the player loses a moment but no progress.
+  - The game says why. A short line explains the refusal, so the player learns that a mismatch is something to avoid.
+  - A repeated mistake gets help. After a couple of misses, the correct god gets a faint hint (it could glow a little, or the narration points toward it). This teaches without making the player stuck.
+  - 146 uses the same refusal, made deadly. The god rejects the name the same way, but now it strikes. Because the player has seen the refusal in 145, they'll read the death in 146 as the same mistake with higher stakes.
 
 ### Cosmos
 

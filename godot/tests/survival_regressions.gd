@@ -32,6 +32,7 @@ func _run() -> void:
 		scene.avatar._process(0.2)
 		Input.action_release("ui_left")
 		expect(scene.avatar.position.x < start.x, tag + "left arrow walks toward the scroll")
+		expect(scene.avatar.sprite.flip_h == (scene.avatar.drawn_facing == 1), tag + "the avatar faces the way it walks")
 		scene.walk_then(-10000.0)
 		scene.avatar._process(100.0)
 		scene.avatar._process(0.1)

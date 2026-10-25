@@ -26,6 +26,8 @@ const SHEAF_STALKS := "sheaf41_stalks"
 const LEAN_PATH := "res://assets/dangers/animation/spear41_lean.json"
 const LEAN_TEX := preload("res://assets/dangers/animation/spear41_lean.png")          ## a row per band: poses, then the spear alone
 const STEPS_TEX := preload("res://assets/dangers/animation/spear41_lean_steps.png")   ## the in-betweens, drawn back, then the spear alone
+const AIM_INK := Color("751c18")
+const AIM_TINT := Color(AIM_INK.r / UI.INK.r, AIM_INK.g / UI.INK.g, AIM_INK.b / UI.INK.b)
 const SHEAF_LEAN := 0.12        ## he leans from one band to the next (s)
 const SHEAF_SHIVER := 1.2       ## the band the snake is on shivers this far (plate px)
 const SHEAF_PEEK_X := 0.55      ## the part of its picture that comes out at a band: from this share of its width
@@ -334,7 +336,7 @@ func _sheaf_place() -> void:
 	for n in SHEAF_BANDS + [SHEAF_STALKS]:
 		var a: Node2D = game.actors[n]
 		a.position = a.get_meta("home")
-		a.modulate.a = k
+		a.modulate = Color(AIM_TINT if hunting and n == SHEAF_BANDS[game.fight.aim] else Color.WHITE, k)
 	if hunting and sn.at >= 0:
 		game.actors[SHEAF_BANDS[sn.at]].position.x += sin(game.fight.clock * 31.0) * SHEAF_SHIVER * game.unit
 	var mat = game._picture(game.actors[SHEAF_STALKS]).material as ShaderMaterial

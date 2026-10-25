@@ -68,10 +68,10 @@
    "name": "The Eater of the Ass",
    "descriptions": {
 	"default": "The Eater of the Ass",
-	"settled": "Spell 40. Struck three times as it snapped at the donkey's tail; the donkey spared."
+	"settled": "Spell 40. Followed along the donkey's back and struck three times as it lifted its head; the donkey spared."
    },
    "journal": true,
-   "speech": "Strike the snake three times without hitting the ass beneath it.",
+   "speech": "Follow the snake along the donkey's back and strike it three times, without spearing the ass beneath it.",
    "speaker": "Scribe"
   },
   "e41": {

@@ -36,13 +36,13 @@ const ENCOUNTERS := [
 		"crouch": 0.35, "snap": 0.16, "head_tip": [122, 218], "head_rect": [68, 205, 58, 25], "tail_base": [28, 172],
 		"caption": [3664, 3923]},
 	# the snakes on the ground, fought like the crocodiles of spell 32 (both sides, no red ones). They
-	# slither in at `slither` plate px/s, a new one every `enter_gap` s, and rest `rest` plate px from
+	# slither in at `slither` plate px/s, a new one every `enter_gap` range of seconds, and rest `rest` plate px from
 	# him (never more than `at_once` resting). `first` s after the vignette opens, and `next` s after
 	# each attack ends, one shakes its tail (`shake` s, `tail` rad, `wave_hz`) and darts at him along
 	# its row at `speed` plate px/s. `need` speared in all. (Its tail and head as it creeps, and the
 	# pinning: creeping_snake.gd's TURN and STRIKE sheets.)
 	{"id": "e35", "tag": "Snakes", "boxes": ["e35"], "kind": "creep", "spear": "spear35", "task": 1,
-		"foe": "snake35", "need": 14, "at_once": 5, "slither": 150.0, "enter_gap": 0.7, "rest": [170.0, 250.0],
+		"foe": "snake35", "need": 10, "at_once": 4, "slither": 150.0, "enter_gap": [1.5, 3.0], "rest": [170.0, 250.0],
 		"first": 1.5, "next": [0.0, 1.5], "shake": 0.8, "tail": 0.15, "wave_hz": 4.0, "speed": 240.0,
 		"caption": [3298, 3643]},
 	# the roach: `count` beetles (the drawn one and copies), each to be pinned once by the spear
@@ -84,19 +84,21 @@ const ENCOUNTERS := [
 		"reach": [10.0, 5.0], "height": 12.0, "width": 30.0, "teach": 2, "feint": 0.35, "hump": [190, 320],
 		"head_rect": [398, 23, 44, 18], "head_pivot": [440, 33], "fold": 492,
 		"caption": [1458, 2295]},
-	# the Eater of the Ass (spell 40): the vignette opens out close up; the bearer stands where he is
-	# drawn, his spear point resting just up its line from where the snake's front lies on the
-	# donkey's back. Its head is down in the donkey: a thrust then goes into the donkey, and he
-	# crumbles at once. The donkey swishes its tail now and then (`swish_gap` s apart); the snake
-	# lifts its front off the back to snap at it (`lift` plate px up the spear's line), up for `up` s:
-	# a thrust then meets its head. After the first strike a `flick` share of swishes are small, and
-	# it does not look up. Left alone it bites the donkey every `bite_every` s (its coils tighten for
-	# `warn` s first; it always looks up at least once before each bite, so each bite can be stopped); three bites (the flesh signs count the donkey's) and the donkey is eaten. A
-	# strike sets the bite back. `need` strikes and it falls; each tuple goes from the first strike
-	# to the last. `lift_from`, `lift_to`: where the lift begins and is whole, in its picture's px.
-	{"id": "e40", "tag": "Eater of the Ass", "boxes": ["e40"], "kind": "donkey", "hard_ready": false, "spear": "spear40", "task": 4,
+	# the Eater of the Ass (spell 40): the vignette opens out close up; the snake crawls along the
+	# donkey's back, from the rump as drawn to the withers (`back`, strip px), at `crawl` plate px/s
+	# (`hard_speed` times that in hard mode), and the bearer, behind the donkey, steps along with it
+	# on the same slant ([←] [→], `walk` plate px/s). Every `lift_every` s or so it stops, its coils
+	# tighten for `warn` s, and it lifts its front (`lift` plate px up the spear's line) for `up` s:
+	# a thrust then, his point within `reach` plate px of it along the back, strikes it. Not struck,
+	# it bites the donkey one time in three (in hard mode every time). A `half` share of lifts come
+	# only partway up. A thrust that misses goes into the donkey; a bite or the spear costs the donkey
+	# a flesh sign, and the third and it is eaten. `need` strikes and it falls; each tuple goes from
+	# the first strike to the last. `lift_from`, `lift_to`: where the lift begins and is whole, in
+	# its picture's px.
+	{"id": "e40", "tag": "Eater of the Ass", "boxes": ["e40"], "kind": "donkey", "hard_ready": true, "spear": "spear40", "task": 4,
 		"foe": "snake40", "donkey": "donkey40", "tail": "tail40", "need": 3,
-		"swish_gap": [1.0, 2.6], "flick": 0.45, "up": [0.6, 0.38], "bite_every": [4.5, 3.6], "warn": 0.45,
+		"back": [-110.0, -34.0], "crawl": [24.0, 36.0], "hard_speed": 1.15, "walk": 70.0, "reach": 10.0,
+		"lift_every": [1.6, 1.1], "warn": [0.45, 0.35], "up": [0.6, 0.4], "half": [0.0, 0.3],
 		"lift": 9.0, "lift_from": 70.0, "lift_to": 96.0, "tail_root": [1230, 529],
 		"caption": [581, 1437]},
 	# the snake in the sheaf (spell 41): the vignette opens out close up; the sheaf stands bound as

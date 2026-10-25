@@ -4,7 +4,7 @@
 	"dangers.retry": "The fight is lost, but the dead are nothing if not patient. Click the creature to fight again.",
 	"dangers.left_fight": "You back out of the vignette. %s awaits your next visit.",
 	"dangers.click_to_fight": "Click the creature to take up the spear.",
-	"dangers.heka_controls": "Hold [shift] while striking to use heka on the red crocodiles. Don't waste it on the plain ones: they'll make off with your heka.",
+	"dangers.heka_controls": "Hold [shift] while striking to use magic on the red crocodiles. Don't waste magic on the plain ones: they'll make off with your power.",
 	"dangers.start": "",
 	"dangers.blocked": "He won't let you pass through with those creatures still loose behind you, and frankly, who could blame him. Still to do: spell %s.",
 	"dangers.finished": "The road is clear. You carry the breath of life.",
@@ -21,7 +21,7 @@
 		"first_strike": "Well struck. Its friends are coming, at different heights.",
 		"crocodile_defeated": "The crocodile turns away.",
 		"heka_break": "The crocodiles draw back. Above, signs begin to glow red.",
-		"heka_on_normal_crocodile": "Heka spent on an ordinary crocodile! It seizes the word of power and makes off with it. The crocodiles are not turned back.",
+		"magic_on_normal_crocodile": "Magic spent on an ordinary crocodile! It seizes the word of power and makes off with it. The crocodiles are not turned back.",
 		"crocodile_escaped": "A crocodile slips past you to the wall and gleefully steals away with your word of power.",
 		"red_crocodile": "A red crocodile needs a red spear. The signs glowing above may say how.",
 		"tutorial_bite": "The crocodile reached you. Your spear is supposed to reach it first.",
@@ -58,8 +58,8 @@
 		"first_crocodile": "Here comes one. Press [space] to strike.",
 		"first_strike": "Well struck. Its friends are coming, at different heights.",
 		"crocodile_defeated": "The crocodile turns away.",
-		"heka_break": "The crocodiles draw back. Above, signs begin to glow red.",
-		"heka_on_normal_crocodile": "Heka spent on an ordinary crocodile! It seizes the word of power and makes off with it. The crocodiles are not turned back.",
+		"magic_break": "The crocodiles draw back. Above, signs begin to glow red.",
+		"magic_on_normal_crocodile": "Magic spent on an ordinary crocodile! It seizes the word of power and makes off with it. The crocodiles are not turned back.",
 		"crocodile_escaped": "A crocodile slips past you and gleefully steals away with your word of power.",
 		"red_crocodile": "A red crocodile needs a red spear. The signs glowing above may say how.",
 		"tutorial_bite": "The crocodile reached you. Your spear is supposed to reach it first.",
@@ -250,18 +250,18 @@
 	  }
 	},
 	"dangers.e40": {
-	  "instructions": "Strike the snake three times without hitting the ass beneath it.",
+	  "instructions": "Follow the snake along the donkey's back with [←] [→], and strike with [space] when it lifts its head. Three strikes; don't spear the donkey.",
 	  "success": "The snake falls from the donkey's back.",
 	  "feedback": {
 		"life_hit": "Struck! It returns to the donkey.",
 		"life_score": "Spell 40: the Eater of the Ass speared %d times.",
-		"life_donkey_speared": "The spear strikes the donkey, but life holds. The snake remains.",
-		"struck_more": "Struck! It sinks its head into the donkey again. %d more.",
+		"life_donkey_speared": "The spear strikes the donkey, but life holds.",
+		"struck_more": "Struck! It darts away along the donkey's back. %d more.",
 		"struck": "Struck!",
-		"donkey_speared": "The spear goes into the donkey! The spear-bearer crumbles to dust. Strike only while the snake's head is up.",
-		"donkey_eaten": "The snake has eaten the donkey.",
-		"donkey_bitten": "It bites the donkey. Strike it before it bites again: thrust as it lifts its head to the swishing tail.",
-		"controls": "Press [space] to thrust the spear, while the snake's head is up off the donkey's back."
+		"donkey_speared": "The spear goes into the donkey! Strike only when the snake's head is up at your point.",
+		"donkey_eaten": "The snake has eaten the donkey, and laughs.",
+		"donkey_bitten": "It bites the donkey. When it stops and its coils tighten, step to it: its head is about to come up.",
+		"controls": "Step with [←] [→] to follow the snake; press [space] to thrust while its head is up at your point."
 	  },
 	  "hints": {
 		"find": {
@@ -273,7 +273,7 @@
 		  "fight": [
 			{
 			  "level": "act",
-			  "text": "Watch the snake's head, not only the tail: thrust ([space]) only while its head is up off the donkey's back."
+			  "text": "Keep your spear point over the snake as it crawls ([←] [→]); thrust ([space]) only once its head is fully up."
 			}
 		  ]
 		}

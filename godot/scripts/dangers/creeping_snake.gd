@@ -15,7 +15,7 @@ func _init(level) -> void:
 # snake comes alive (creeping, its head raised: the first frame of TURN) and moves off to rest a way
 # from him; more slither in from the edges and stop (never more than `at_once` resting, and never more
 # than are still to be speared). One at a time, a resting snake shakes its tail (the only warning) and
-# darts at him along its row. The spear point anywhere on a snake spears it: everything stops, its head
+# darts at him along its row. The spear point anywhere on a snake spears it: its head
 # is pinned under the point, and frame for frame it turns its head back and lies as drawn (TURN) while
 # he presses the spear on down (STRIKE); it lies so a moment, and is gone. A snake that touches any part
 # of him bites, then slinks back
@@ -24,16 +24,20 @@ func _init(level) -> void:
 # everywhere, bite him all over, and he crumbles.
 const SNAKE_PAD := 16           ## room around the picture for the tail to shake into (px)
 const SNAKE_GAP := 20.0         ## resting snakes keep at least this far apart (plate px)
-const SWARM_ANGLE := 15.0       ## the losing swarm comes in at most this steeply (degrees)
-const SWARM_ROW := 14.0         ## ...one snake on each side for every this much of his height (plate px)
+const SWARM_SIDE := 6           ## snakes in the halo on each side of him
+const SWARM_TILT := 55.0        ## the steepest one comes in (degrees from level), so each stays right side up
+const SWARM_BITE := 3.0         ## how far short of his outline a head stops (plate px)
+const SWARM_RUN := [0.3, 0.5]   ## the run-up each makes, as a share of the vignette's width
+const SWARM_MIN_RUN := 140.0    ## and the least it may be (plate px); a steeper snake is flattened to find room
+const SPEAR_RISE := 4.0         ## the point also counts this far above itself, on top of CROC_GRACE (his spear is long here; plate px)
 const SNAKE_TAIL := preload("res://scripts/dangers/snake_tail.gdshader")
 const TURN := preload("res://assets/dangers/animation/snake35_turn_over.png")    ## creeping, then pinned (tools/snake35_turn_over.py)
 const TURN_PATH := "res://assets/dangers/animation/snake35_turn_over.json"
 const STRIKE := preload("res://assets/dangers/animation/spear35_strike.png")     ## the bearer pinning it (tools/spearer35_strike.py)
 const STRIKE_PATH := "res://assets/dangers/animation/spear35_strike.json"
-const PIN_FRAME := 0.08         ## each frame of the pinning (s)
-const PIN_HOLD := 0.35          ## then it lies pinned as drawn this long (s)
-const PIN_FADE := 0.4           ## and fades (s)
+const PIN_FRAME := 0.04         ## each frame of the pinning (s)
+const PIN_HOLD := 0.10          ## then it lies pinned as drawn this long (s)
+const PIN_FADE := 0.2           ## and fades (s)
 
 var turn: Dictionary     ## snake35_turn_over.json: the cell, the head's place in each frame, the creeping frame's box and points
 var strike: Dictionary   ## spear35_strike.json: the cell, and `along`: where the snake lies to be pinned (strip px)
@@ -48,7 +52,7 @@ func _creep_start(e: Dictionary) -> void:
 	game.fight.clock = 0.0
 	game.fight.copies = []
 	game.fight.timer = float(e.first)            # until the first tail shakes
-	game.fight.enter_timer = 0.0
+	game.fight.enter_timer = game.rng.randf_range(e.enter_gap[0], e.enter_gap[1])
 	_creep_dress(e)
 	var a: Node2D = game.actors[e.foe]
 	var size: Vector2 = a.get_meta("size")
@@ -168,21 +172,22 @@ func _creep(dt: float) -> void:
 	if game.fight.open < 1.0 or game.fight.get("closing", false) or game.fight.lost:
 		return
 	game.fight.clock += dt
-	if game.fight.has("pin"):          # a snake is being pinned: everything waits
+	if game.fight.has("pin"):
 		_pin(dt)
-		return
-	game.crocodiles._move_bearer(_bot_move() if game.fight.get("bot", false) else game.crocodiles._keys(), dt)
-	if game.fight.thrust >= 0.0:
-		game.fight.thrust += dt
-		if not game.fight.struck and game.fight.thrust >= game.THRUST_TIME[0]:
-			game.fight.struck = true
-			_creep_strike()
-			if game.fight.has("pin"):    # it is pinned: he is shown pinning it from now on
-				return
-		if game.fight.thrust >= game.THRUST_TIME[0] + game.THRUST_TIME[1]:
-			game.fight.thrust = -1.0
+		if game.fight.is_empty() or game.fight.get("closing", false):
+			return
+	else:
+		game.crocodiles._move_bearer(_bot_move() if game.fight.get("bot", false) else game.crocodiles._keys(), dt)
+		if game.fight.thrust >= 0.0:
+			game.fight.thrust += dt
+			if not game.fight.struck and game.fight.thrust >= game.THRUST_TIME[0]:
+				game.fight.struck = true
+				_creep_strike()
+			if game.fight.thrust >= game.THRUST_TIME[0] + game.THRUST_TIME[1]:
+				game.fight.thrust = -1.0
 	game.fight.red = maxf(0.0, game.fight.red - dt)
-	game._place_bearer()
+	if not game.fight.has("pin"):
+		game._place_bearer()
 	if game.fight.lost or game.fight.is_empty():
 		return
 	for c in _snakes():
@@ -192,9 +197,10 @@ func _creep(dt: float) -> void:
 	game.fight.enter_timer -= dt
 	var resting: int = _snakes().filter(func(c): return c.s != "gone" and not c.slipped).size()
 	var alive: int = _snakes().filter(func(c): return c.s != "gone").size()
-	if game.fight.enter_timer <= 0.0 and resting < int(e.at_once) and alive < int(e.need) - game.fight.hits:
-		_enter()
-		game.fight.enter_timer = float(e.enter_gap)
+	if game.fight.enter_timer <= 0.0:
+		if resting < int(e.at_once) and alive < int(e.need) - game.fight.hits:
+			_enter()
+		game.fight.enter_timer = game.rng.randf_range(e.enter_gap[0], e.enter_gap[1])
 	# one at a time: a resting snake shakes its tail
 	if not _snakes().any(func(c): return c.s in ["shake", "dart"]):
 		game.fight.timer -= dt
@@ -315,6 +321,11 @@ func _ink_of(tex: Texture2D) -> Array:
 	return _ink[tex]
 
 
+## Is the point on snake `c`, or a little above it (SPEAR_RISE)?
+func _on_snake(c: Dictionary, p: Vector2) -> bool:
+	return game.crocodiles._on_croc(c, p) or game.crocodiles._on_croc(c, p - Vector2(0.0, SPEAR_RISE * game.unit))
+
+
 ## A thrust at its furthest: the point, anywhere along its last stroke, on a snake spears it.
 func _creep_strike() -> void:
 	var tip0: Vector2 = game.fight.pos + game._tip_offset()
@@ -325,7 +336,7 @@ func _creep_strike() -> void:
 		if not c.s in ["rest", "shake", "dart", "enter", "slip"]:
 			continue
 		for i in 5:
-			if game.crocodiles._on_croc(c, tip0.lerp(tip, i / 4.0)):
+			if _on_snake(c, tip0.lerp(tip, i / 4.0)):
 				var d: float = c.node.position.distance_to(tip)
 				if d < best_d:
 					best_d = d
@@ -335,7 +346,7 @@ func _creep_strike() -> void:
 		_speared(best)
 
 
-## Speared: everything waits while its head is pinned under the point. It lies as it is drawn from
+## Speared: its head is pinned under the point while the other snakes keep moving. It lies as it is drawn from
 ## him, moved `along` the spear's line so that its head is under the point at the full strike, facing
 ## the way he does; then _pin plays it turning its head back, and him pressing on, frame for frame.
 func _speared(c: Dictionary) -> void:
@@ -447,65 +458,74 @@ func _creep_dies() -> void:
 			mat.set_shader_parameter("amp", 0.0)
 	var src: Node2D = game.actors[e.foe]
 	var size: Vector2 = src.get_meta("size")
-	var full: Rect2 = game.fight.full
 	var t = game._fight_tween()
-	var moves := []
-	for target in _his_edges():
-		var dir: int = target.dir
-		var a = game._make_actor(game.fight.creep_tex, Rect2(Vector2.ZERO, size))
-		_wear(a)
-		game._picture(a).flip_h = dir < 0
-		game.fight.copies.append(a)
-		# where it starts: off to his side, coming in no more than SWARM_ANGLE from level
-		var ang := deg_to_rad(game.rng.randf_range(-SWARM_ANGLE, SWARM_ANGLE))
-		var dist: float = game.rng.randf_range(0.25, 0.9) * full.size.x / 2.0
-		var lead := _front(a, dir)
-		var end: Vector2 = target.at - lead
-		var start := Vector2(clampf(end.x - dir * dist, full.position.x + size.x / 2.0, full.end.x - size.x / 2.0), 0.0)
-		start.y = clampf(end.y - absf(end.x - start.x) * tan(ang), full.position.y + size.y, full.end.y)   # (only ever less steep)
-		var v := end - start
-		a.rotation = dir * atan2(v.y, absf(v.x))
-		end = target.at - lead.rotated(a.rotation)      # its head (turned with it) touches him
-		a.position = start
-		a.modulate.a = 0.0
-		t.parallel().tween_property(a, "modulate:a", 1.0, 0.4)
-		moves.append([a, end, start.distance_to(end) / (float(e.speed) * game.unit)])
-	t.tween_interval(0.3)
-	for i in moves.size():
-		var m: Array = moves[i]
-		(t.tween_property(m[0], "position", m[1], m[2]) if i == 0 else t.parallel().tween_property(m[0], "position", m[1], m[2])) \
-			.set_delay(game.rng.randf_range(0.0, 0.4)).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	var bs: Sprite2D = game._picture(game.actors[e.spear])
+	var img := (bs.texture as AtlasTexture).get_image()
+	if img.is_compressed():
+		img.decompress()
+	var inv := bs.get_global_transform().affine_inverse()
+	var ink := func(p: Vector2) -> bool:     # is this point of the world on his drawing?
+		var l: Vector2 = inv * p - bs.offset
+		if bs.flip_h:
+			l.x = img.get_width() - l.x
+		return l.x >= 0.0 and l.y >= 0.0 and l.x < img.get_width() and l.y < img.get_height() and img.get_pixel(int(l.x), int(l.y)).a > 0.5
+	var body: Rect2 = bs.get_global_transform() * Rect2(bs.offset, img.get_size())
+	var swarm := []
+	# a halo: on each side, snakes aimed from his head to his feet, the highest coming down on him and
+	# the lowest rising to him, each running straight in along its own line
+	for dir in [1, -1]:
+		for k in SWARM_SIDE:
+			var a = game._make_actor(game.fight.creep_tex, Rect2(Vector2.ZERO, size))
+			_wear(a)
+			game._picture(a).flip_h = dir < 0
+			game.fight.copies.append(a)
+			var share: float = (k + 0.5) / SWARM_SIDE         # 0 at his head, 1 at his feet
+			var tilt: float = lerpf(SWARM_TILT, -SWARM_TILT, share) + game.rng.randf_range(-4.0, 4.0)
+			var run := _swarm_approach(a, dir, tilt, share, ink, body)
+			a.position = run[0]
+			a.modulate.a = 0.0
+			var delay: float = game.rng.randf_range(0.0, 0.5)
+			var dur: float = run[0].distance_to(run[1]) / (float(e.speed) * 1.5 * game.unit)
+			t.parallel().tween_property(a, "modulate:a", 1.0, 0.15).set_delay(delay)
+			t.parallel().tween_property(a, "position", run[1], dur).set_delay(delay)
+			swarm.append(a)
 	t.tween_callback(func(): game._disintegrate(e))
 	t.tween_interval(2.0)
 	t.tween_callback(func():
 		if not game.fight.is_empty() and game.fight.kind == "creep" and game.fight.e.id == e.id and game.fight.lost:
 			game._arena_lost(e))
-	game.fight.swarm = moves.map(func(m): return m[0])
+	game.fight.swarm = swarm
 
 
-## Points all down both sides of him (his outermost ink, every SWARM_ROW of his height), each with
-## the side a snake comes from: [{"at", "dir"}].
-func _his_edges() -> Array:
-	var bs: Sprite2D = game._picture(game.actors[game.fight.e.spear])
-	var atlas := bs.texture as AtlasTexture
-	var img := atlas.get_image()
-	if img.is_compressed():
-		img.decompress()
-	var out := []
-	var y := 0.0
-	while y < img.get_height():
-		var xs := []
-		for x in img.get_width():
-			if img.get_pixel(x, int(y)).a > 0.5:
-				xs.append(x)
-		if not xs.is_empty():
-			for side in [[xs[0], 1], [xs[-1], -1]]:
-				var x: float = side[0]
-				if bs.flip_h:
-					x = img.get_width() - 1 - x
-				out.append({"at": bs.get_global_transform() * (bs.offset + Vector2(x, y)), "dir": side[1]})
-		y += SWARM_ROW * game.unit
-	return out
+## Aim snake `a` (facing `dir`) along a slope of `tilt` degrees (positive: coming down) at the point
+## `share` of the way down his body, and return where its run starts and ends: its head ends just
+## short of his outline where that line first meets it, and it starts back along that line, the whole
+## snake inside the vignette (so never over the caption band above it). A line with too little room
+## is flattened.
+func _swarm_approach(a: Sprite2D, dir: int, tilt: float, share: float, ink: Callable, body: Rect2) -> Array:
+	var arena: Rect2 = game.fight.full.grow(-2.0 * game.unit)
+	var aim := Vector2(body.get_center().x, body.position.y + body.size.y * lerpf(0.25, 0.9, share))
+	var fits := func(p: Vector2) -> bool: return arena.encloses(Transform2D(a.rotation, p) * a.get_rect())
+	var start := Vector2.ZERO
+	var end := Vector2.ZERO
+	for attempt in 4:
+		var slope := deg_to_rad(tilt * pow(0.6, attempt))
+		a.rotation = dir * slope
+		var v := Vector2(dir * cos(slope), sin(slope))     # the way its head points
+		var p := aim - v * (body.size.length())
+		while p.distance_to(aim) > 1.0 and not ink.call(p):
+			p += v * minf(2.0 * game.unit, p.distance_to(aim))
+		end = p - v * SWARM_BITE * game.unit - _front(a, dir).rotated(a.rotation)
+		var bounds: Rect2 = Transform2D(a.rotation, Vector2.ZERO) * a.get_rect()
+		end = Vector2(clampf(end.x, arena.position.x - bounds.position.x, arena.end.x - bounds.end.x),
+			clampf(end.y, arena.position.y - bounds.position.y, arena.end.y - bounds.end.y))
+		var run: float = game.rng.randf_range(SWARM_RUN[0], SWARM_RUN[1]) * game.fight.full.size.x
+		while run > 0.0 and not fits.call(end - v * run):
+			run -= 10.0 * game.unit
+		start = end - v * maxf(run, 0.0)
+		if run >= SWARM_MIN_RUN * game.unit:
+			break
+	return [start, end]
 
 
 func _creep_click(_p: Vector2) -> void:
@@ -533,7 +553,7 @@ func _bot_move() -> Vector2:
 	var speed: float = float(game.fight.e.speed) * game.unit
 	# (where the point is on it when the thrust lands: it comes a little further first)
 	if c.s == "dart" and game.fight.facing == want_face \
-			and game.crocodiles._on_croc(c, tip - Vector2(c.dir * speed * game.THRUST_TIME[0], 0.0)):
+			and _on_snake(c, tip - Vector2(c.dir * speed * game.THRUST_TIME[0], 0.0)):
 		game._croc_thrust()
 	if game.fight.thrust >= 0.0:
 		mv.y = 0.0
@@ -544,10 +564,25 @@ func autotest(e: Dictionary, expect: Callable) -> void:
 	var drawn: Dictionary = _snakes()[0]
 	expect.call(absf(drawn.node.position.x - game.fight.pos.x) >= float(e.rest[0]) * game.unit, e.id + " the drawn snake rests a way from him")
 	expect.call(drawn.s == "rest" and (drawn.node.position.x < game.fight.pos.x) == (drawn.dir > 0), e.id + " ...facing him")
-	# they slither in, never more than `at_once`
+	# a point just below its lowest ink (the snake a little above the point) counts, but not far below
+	var dsp: Sprite2D = game._picture(drawn.node)
+	var low := Vector2.ZERO
+	for q in _ink_of(dsp.texture):
+		if q.y > low.y:
+			low = q
+	var below := func(d: float) -> Vector2:
+		return dsp.to_global(dsp.offset + Vector2(dsp.texture.get_width() - 1 - low.x if dsp.flip_h else low.x, low.y)) + Vector2(0.0, d * game.unit)
+	expect.call(_on_snake(drawn, below.call(8.0)) and not game.crocodiles._on_croc(drawn, below.call(8.0)) and not _on_snake(drawn, below.call(15.0)),
+		e.id + " ...the point counts a few pixels beneath it, and no further")
+	# Arrival opportunities are paced independently; the cap is not a minimum.
 	game.fight.timer = 99.0
+	_creep(0.5)
+	expect.call(_snakes().size() < int(e.at_once), e.id + " arrivals do not immediately fill the screen")
+	var within_cap := true
 	for i in 400:
 		_creep(0.05)
+		within_cap = within_cap and _snakes().filter(func(c): return c.s != "gone" and not c.slipped).size() <= int(e.at_once)
+	expect.call(within_cap, e.id + " active snakes never exceed the cap")
 	var resting: Array = _snakes().filter(func(c): return c.s != "gone" and not c.slipped)
 	expect.call(resting.size() == int(e.at_once), e.id + " snakes slither in, %d at most" % int(e.at_once))
 	expect.call(resting.all(func(c): return c.s == "rest"), e.id + " ...and stop to rest")
@@ -578,6 +613,7 @@ func autotest(e: Dictionary, expect: Callable) -> void:
 	c.node.position = c.at
 	c.node.modulate.a = 1.0
 	# off his row it slips past, turns and rests on the far side, and no longer counts
+	game.fight.enter_timer = 99.0
 	c.s = "dart"
 	var dir0: int = c.dir
 	game.fight.pos.y = game.fight.y_range.y if c.node.position.y < (game.fight.y_range.x + game.fight.y_range.y) / 2.0 else game.fight.y_range.x
@@ -589,7 +625,11 @@ func autotest(e: Dictionary, expect: Callable) -> void:
 	expect.call(c.s == "rest" and c.slipped and c.dir == -dir0 and (c.node.position.x - game.fight.pos.x) * dir0 > 0.0, e.id + " missing him, it slips past and rests on the far side, facing him")
 	expect.call(game.fight.health == game.CROC_HEALTH - 1, e.id + " ...without a bite")
 	game.fight.timer = 99.0
-	for i in 40:
+	game.fight.enter_timer = 1.0
+	_creep(0.1)
+	expect.call(_snakes().filter(func(o): return o.s != "gone" and not o.slipped).size() == int(e.at_once) - 1,
+		e.id + " a dodged snake is not immediately replaced to maintain the cap")
+	for i in 80:
 		_creep(0.05)
 	resting = _snakes().filter(func(o): return o.s != "gone" and not o.slipped)
 	expect.call(resting.size() == int(e.at_once), e.id + " one that slipped past does not count: another slithers in")
@@ -618,11 +658,16 @@ func autotest(e: Dictionary, expect: Callable) -> void:
 	var point: Vector2 = game.fight.pos + game._tip_offset() + game._spear_dir() * game.CROC_THRUST * game.unit
 	expect.call(sp.to_global(sp.offset + pin).distance_to(point) < 16.0 and (bs.texture as AtlasTexture).atlas == STRIKE,
 		e.id + " ...its head pinned under the point, he pressing on")
+	var moving: Dictionary = _snakes().filter(func(o): return o != d and o.s != "gone")[0]
+	moving.s = "enter"
+	moving.node.position = moving.at - Vector2(moving.dir * 100.0 * game.unit, 0.0)
+	var moving_start: Vector2 = moving.node.position
 	var at0: Vector2 = d.node.position
-	for i in 10:
+	for i in 2:
 		_creep(0.05)
-	expect.call(d.s == "pinned" and d.node.position == at0, e.id + " ...everything waits while it turns its head back")
-	for i in 40:
+	expect.call(d.s == "pinned" and d.node.position == at0, e.id + " ...the speared snake stays pinned while it turns its head back")
+	expect.call(moving.node.position != moving_start, e.id + " other snakes keep moving during the spearing animation")
+	for i in 6:
 		_creep(0.05)
 	expect.call(d.s == "gone" and not game.fight.has("pin") and (bs.texture as AtlasTexture).atlas == game._sheet_tex,
 		e.id + " ...then it is gone, and he draws his spear back")
@@ -643,17 +688,39 @@ func autotest(e: Dictionary, expect: Callable) -> void:
 		+ Vector2(last.dir * 4.0 * game.unit, 0.0)
 	_creep_strike()
 	expect.call(game.fight.hits == int(e.need), e.id + " %d speared wins" % int(e.need))
-	# the last bite: snakes from everywhere, none steeper than SWARM_ANGLE, touching him all down both sides
+	# the last bite: a halo of snakes, each right side up, runs straight in from its own angle and bites
+	var rng_state: int = game.rng.state
+	var pos_before: Vector2 = game.fight.pos
+	game.fight.pos.y = (game.fight.y_range.x + game.fight.y_range.y) / 2.0
+	game._place_bearer()
 	game.fight.health = 1
 	_creep_bites(_snakes()[0])
 	var swarm: Array = game.fight.swarm
-	expect.call(game.fight.lost and swarm.size() >= 10, e.id + " the last bite: snakes come from everywhere (%d)" % swarm.size())
-	expect.call(swarm.all(func(a): return absf(a.rotation) <= deg_to_rad(SWARM_ANGLE) + 0.001), e.id + " ...none steeper than %d degrees" % int(SWARM_ANGLE))
-	var edges := _his_edges()
-	var ys: Array = edges.map(func(p): return p.at.y)
-	var b: Rect2 = game.actor_rect(e.spear)
-	expect.call(ys.min() < b.position.y + b.size.y * 0.25 and ys.max() > b.end.y - b.size.y * 0.25 and edges.any(func(p): return p.dir > 0) and edges.any(func(p): return p.dir < 0),
-		e.id + " ...biting him from head to foot, on both sides")
+	expect.call(game.fight.lost and swarm.size() == 2 * SWARM_SIDE, e.id + " the last bite: a halo of snakes (%d)" % swarm.size())
+	var headings: Array = swarm.map(func(a): return Vector2(-1.0 if a.flip_h else 1.0, 0.0).rotated(a.rotation))
+	expect.call(headings.any(func(v): return v.y < -0.25) and headings.any(func(v): return v.y > 0.25)
+		and headings.any(func(v): return v.x < -0.5) and headings.any(func(v): return v.x > 0.5),
+		e.id + " ...snakes approach diagonally from above, below and both sides")
+	expect.call(swarm.all(func(a): return absf(a.rotation) <= deg_to_rad(SWARM_TILT) + 0.001),
+		e.id + " ...all snakes remain right side up without vertical poses")
+	var starts: Array = swarm.map(func(a): return a.position)
+	var swarm_tween: Tween = game._fight_tweens.back()
+	var contained := true
+	var straight := true
+	for step in 80:
+		swarm_tween.custom_step(0.05)
+		for i in swarm.size():
+			var snake: Sprite2D = swarm[i]
+			contained = contained and game.fight.full.encloses(snake.get_transform() * snake.get_rect())
+			straight = straight and absf((snake.position - starts[i]).cross(headings[i])) < 0.5
+	expect.call(contained, e.id + " ...whole rotated snakes stay inside the vignette, under the caption band, throughout the swarm")
+	expect.call(straight, e.id + " ...each snake runs in a straight line along its heading")
+	var b: Rect2 = game.actor_rect(e.spear).grow(30.0 * game.unit)
+	var tips: Array = swarm.map(func(a): return a.position + _front(a, -1 if a.flip_h else 1).rotated(a.rotation))
+	expect.call(tips.all(func(p): return b.has_point(p)), e.id + " ...every head ends against him")
 	game._kill_fight_tweens()
 	game.fight.lost = false
 	game.fight.health = game.CROC_HEALTH
+	game.fight.pos = pos_before
+	game._place_bearer()
+	game.rng.state = rng_state

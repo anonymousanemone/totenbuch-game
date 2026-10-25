@@ -58,7 +58,7 @@ func _run() -> void:
 		for id in GAME.AFTER_CHOICE:
 			var e := encounter(scene, id)
 			scene.start_fight(e)
-			expect(scene.hard() == (id == "e41" and item != "sail38"), id + " uses the selected difficulty, with easy scaffolding for untuned encounters: " + item)
+			expect(scene.hard() == (id in ["e40", "e41"] and item != "sail38"), id + " uses the selected difficulty, with easy scaffolding for untuned encounters: " + item)
 			expect(scene.endless() == (item == "ankh38"), id + " is endless only with the ankh: " + item)
 			if item != "ankh38":
 				scene.fight.health = 1
@@ -72,7 +72,7 @@ func _run() -> void:
 				expect(scene.fight.ankh_flash > 0.0, id + " flashes the ankh on a damaging mistake")
 				if id == "e40":
 					scene.donkey._donkey_speared()
-					expect(not scene.fight.lost and scene.fight.phase == "latched", "spearing the donkey with the ankh recovers without a death")
+					expect(not scene.fight.lost and scene.fight.phase == "crawl", "spearing the donkey with the ankh recovers without a death")
 				var speech: String = scene.hud._text
 				for i in int(e.need) * 2 + 1:
 					hit(scene)

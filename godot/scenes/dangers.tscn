@@ -37,6 +37,7 @@
 [ext_resource type="Texture2D" uid="uid://caaupi53ipkai" path="res://assets/dangers/figures/ankh38.png" id="actor_ankh38"]
 [ext_resource type="Texture2D" uid="uid://day6vrpv8mydw" path="res://assets/dangers/figures/breath_giver.png" id="actor_breath_giver"]
 [ext_resource type="Texture2D" uid="uid://h6c1gy6e1nm" path="res://assets/dangers/figures/sail38.png" id="actor_sail38"]
+[ext_resource type="Texture2D" uid="uid://cva558u57ppvk" path="res://assets/dangers/figures/glyph38_breath.png" id="actor_glyph38_breath"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_papyrus"]
 shader = ExtResource("6_papyrus")
@@ -458,6 +459,14 @@ offset = Vector2(-30.5, -49)
 metadata/actor_id = "sail38"
 metadata/size = Vector2(61, 49)
 metadata/registry_id = "e38"
+
+[node name="breath_sign" type="Sprite2D" parent="actors/spell38_breath" unique_id=1395720461]
+position = Vector2(2652, 135)
+texture = ExtResource("actor_glyph38_breath")
+centered = false
+offset = Vector2(-33, -58)
+metadata/actor_id = "glyph38_breath"
+metadata/size = Vector2(66, 58)
 
 [node name="spell39_apep" type="Node" parent="actors" unique_id=833552771]
 

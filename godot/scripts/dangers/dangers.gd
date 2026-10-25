@@ -621,6 +621,8 @@ func _process(delta: float) -> void:
 		# on the scroll the heka signs always flash red; clicking one tells what they are for
 		for nm in _all_heka():
 			actors[nm].modulate = Color(Color.WHITE.lerp(RED_CROC, pulse), actors[nm].modulate.a)
+		# and spell 38's breath sign, until one of the signs he holds out is taken
+		actors.glyph38_breath.modulate = Color.WHITE.lerp(RED_CROC, 0.0 if solved.has("e38") else pulse)
 	elif fight.kind == "crocs":
 		if not fight.lost:
 			for nm in _heka_words(fight.e.id):
@@ -1099,8 +1101,8 @@ static func _ink_from(tex: Texture2D) -> Texture2D:
 	return ImageTexture.create_from_image(img)
 
 
-## Only post-choice encounters read these modes. Apep and the donkey retain easy tuning
-## until their `hard_ready` scaffolding is enabled in danger_encounters.gd.
+## Only post-choice encounters read these modes. Apep retains easy tuning until its
+## `hard_ready` scaffolding is enabled in danger_encounters.gd.
 func hard() -> bool:
 	return not fight.is_empty() and fight.e.id in AFTER_CHOICE and not "sail38" in items and fight.e.get("hard_ready", false)
 
@@ -1192,7 +1194,7 @@ func _arena_lost(e: Dictionary) -> void:
 
 
 func _croc_thrust() -> void:
-	if fight.thrust >= 0.0 or fight.open < 1.0 or fight.lost:
+	if fight.thrust >= 0.0 or fight.open < 1.0 or fight.lost or fight.has("pin"):
 		return
 	fight.thrust = 0.0
 	fight.struck = false
@@ -1288,7 +1290,9 @@ func _place_frame() -> void:
 	var band := _to_world(Rect2(f.l, 0.0, f.r - f.l, f.rule))
 	_band_cover.position = band.position
 	_band_cover.size = band.size
-	var ar := _arena_rect()
+	# the picture's papyrus runs under the lines too (the gap between a double line, and everything
+	# below the frame down to the HUD), so nothing of the strip or its neighbours shows round it
+	var ar := _to_world(Rect2(f.l, f.rule, f.r - f.l, get_viewport_rect().size.y - f.rule))
 	_arena_cover.position = ar.position
 	_arena_cover.size = ar.size
 	var at := _to_world(Rect2(f.cap, Vector2.ZERO)).position
@@ -1646,7 +1650,12 @@ func _autotest() -> void:
 	expect.call(avatar.min_x < span(e38).x, "the choice is optional once the earlier dangers are overcome")
 	expect.call(_item_at(actor_rect("sail38").get_center()) == "sail38" and _item_at(actor_rect("ankh38").get_center()) == "ankh38",
 		"the sail and the ankh can each be taken, before the way on opens")
+	_time = PI / 10.0
+	_process(0.0)
+	expect.call(actors.glyph38_breath.modulate.r > 1.5, "spell 38's breath sign flashes red until a sign is taken")
 	take(e38, "ankh38")
+	_process(0.0)
+	expect.call(actors.glyph38_breath.modulate == Color.WHITE, "... and stops once one is taken")
 	expect.call(solved.has("e38") and items == ["ankh38"] and actors.sail38.visible and _item_at(actor_rect("sail38").get_center()) == "sail38",
 		"only one sign is carried: the other stays available in the giver's hand")
 	reset()

@@ -99,7 +99,7 @@ const FLESH_PATH := "res://assets/dangers/figures/flesh.png"   ## the flesh sign
 const FLESH_GAP := 6.0          ## strip px between signs, drawn at their native asset size
 var _flesh_tex: Texture2D = _ink_from(load(FLESH_PATH)) if ResourceLoader.exists(FLESH_PATH) else null
 var _told_unsolved := -10.0   ## when the end of the scroll last said what is still undone
-var gate := {}           ## a "gate" encounter (spell 38): the way on past it stays shut while it or one before it is undone
+var gate := {}           ## a "gate" encounter (spell 38): the way into it stays shut while one before it is undone
 var _bump_time := -10.0
 var _heka_signs: Array = []      ## flattened once from level.heka
 var _session := 0
@@ -271,8 +271,8 @@ func _refresh() -> void:
 		if not solved.has(e.id):
 			current = e
 			break
-	# he walks through every vignette (a fight starts only on clicking its creature) and into a gate
-	# vignette, but not on past it while it or one before it is still undone. The barrier is not drawn.
+	# he walks through every vignette (a fight starts only on clicking its creature), but not into a
+	# gate vignette while one before it is still undone: its man blocks the way. The barrier is not drawn.
 	gate = {}
 	var args := OS.get_cmdline_user_args()
 	var open_road := (DEBUG_OPEN_ROAD or "--open-road" in args) and not "--autotest" in args   # the tests check the real road
@@ -326,9 +326,9 @@ func _taking(item: String) -> Dictionary:
 	return {}
 
 
-## The far (left-hand) edge of the gate vignette, which he cannot pass yet (0 when open).
+## The near (right-hand) edge of the gate vignette, which he cannot pass yet (0 when open).
 func gate_x() -> float:
-	return span(gate).x if not gate.is_empty() else 0.0
+	return span(gate).y if not gate.is_empty() else 0.0
 
 
 func walk_then(x: float, then := Callable()) -> void:
@@ -432,6 +432,9 @@ func _unhandled_input(event: InputEvent) -> void:
 			heka_known = true
 			say("Scribe", _hints.message("dangers.heka_controls"))
 			return
+		if fight.is_empty() and _clue_sign_at(p) != "":
+			say("Scribe", _hints.message("dangers.clue_signs"))
+			return
 		if not fight.is_empty():
 			fight_click(p)
 			return
@@ -487,6 +490,8 @@ func _hover_at(p: Vector2) -> Array:
 	var h := _heka_at(p)              # part for whole: a heka word glows alone; the rest of its caption, the whole
 	if h != "":
 		return [h]
+	if fight.is_empty() and _clue_sign_at(p) != "":
+		return [_clue_sign_at(p)]
 	if not fight.is_empty():
 		for n in _targets():
 			if actor_rect(n).grow(8 * unit).has_point(p):
@@ -513,9 +518,9 @@ func _set_hover(names: Array) -> void:
 	Input.set_default_cursor_shape(Input.CURSOR_POINTING_HAND if not names.is_empty() else Input.CURSOR_ARROW)
 
 
-## The spell whose caption, in the top register, is under the pointer (its heka signs are their own).
+## The spell whose caption, in the top register, is under the pointer (its heka and clue signs are their own).
 func _caption_at(p: Vector2) -> Dictionary:
-	if _heka_at(p) != "":
+	if _heka_at(p) != "" or _clue_sign_at(p) != "":
 		return {}
 	for e in ENCOUNTERS:
 		if e.has("caption") and _caption_rect(e).has_point(p):
@@ -634,6 +639,10 @@ func _process(delta: float) -> void:
 			actors[nm].modulate = Color(Color.WHITE.lerp(RED_CROC, pulse), actors[nm].modulate.a)
 		# and spell 38's breath sign, until one of the signs he holds out is taken
 		actors.glyph38_breath.modulate = Color.WHITE.lerp(RED_CROC, 0.0 if solved.has("e38") else pulse)
+		# and spell 37's snake signs, until its snakes are struck; clicking one hints they matter
+		for e in ENCOUNTERS:
+			for nm in e.get("signs", []):
+				actors[nm].modulate = Color.WHITE.lerp(RED_CROC, 0.0 if solved.has(e.id) else pulse)
 	elif fight.kind == "crocs":
 		if not fight.lost:
 			for nm in _heka_words(fight.e.id):
@@ -844,7 +853,7 @@ func leave_fight() -> void:
 		avatar.position.x = rects[e.spear].get_center().x
 		avatar.visible = true
 		avatar.set_process(true)
-		say("Scribe", _hints.message("dangers.left_fight"))
+		say("Scribe", _left_fight_line(e))
 	if fight.kind in ARENA_FIGHTS and not _instant:
 		_crocs_close(out)
 	else:
@@ -873,6 +882,12 @@ func _restore(n: String) -> void:
 	_picture(a).flip_h = false
 	if sheet.bearers.has(n.trim_suffix("_pole")):
 		_bearer_pose(n.trim_suffix("_pole"), 0.0)
+
+
+## Out of a fight, not won: the creature still awaits you.
+func _left_fight_line(e: Dictionary) -> String:
+	var entry: Dictionary = _descriptions.entries[e.id]
+	return _hints.message("dangers.left_fight_plural" if entry.get("plural", false) else "dangers.left_fight") % entry.short_name
 
 
 func _feedback_text(key: String) -> String:
@@ -1227,6 +1242,17 @@ func _all_heka() -> Array:
 	return _heka_signs
 
 
+## The sign (in the caption of a fight not yet won, as spell 37's snakes) showing at `p`, or "".
+func _clue_sign_at(p: Vector2) -> String:
+	for e in ENCOUNTERS:
+		if solved.has(e.id):
+			continue
+		for nm in e.get("signs", []):
+			if actors[nm].visible and actor_rect(nm).grow(6 * unit).has_point(p):
+				return nm
+	return ""
+
+
 ## The spear-bearer crumbles away (scripts/dangers/dissolve.gdshader).
 func _disintegrate(e: Dictionary) -> void:
 	var mat := ShaderMaterial.new()
@@ -1251,7 +1277,7 @@ func _arena_lost(e: Dictionary) -> void:
 		avatar.position.x = rects[e.spear].get_center().x
 		avatar.visible = true
 		avatar.set_process(true)
-		say("Scribe", _hints.message("dangers.retry")))
+		say("Scribe", _left_fight_line(e)))
 
 
 func _croc_thrust() -> void:
@@ -1261,8 +1287,7 @@ func _croc_thrust() -> void:
 	fight.struck = false
 	fight.last_thrust = fight.get("clock", 0.0)
 	if fight.tut == "thrust":
-		fight.tut = "move"
-		say("Scribe", _feedback_text("movement_lesson"))
+		fight.tut = "ready"
 
 
 ## Close the vignette again, then finish the fight (or whatever `then` does).
@@ -1698,16 +1723,23 @@ func _autotest() -> void:
 		_process(0.0)
 		expect.call(actors[hw].modulate.r > 1.5, "the heka signs flash red on the scroll")
 		expect.call(_heka_at(actor_rect(hw).get_center()) == hw, "a heka sign on the scroll can be clicked")
+	# and so do spell 37's snake signs, until its snakes are struck
+	expect.call(actors.glyph37_left.modulate.r > 1.5 and _clue_sign_at(actor_rect("glyph37_left").get_center()) == "glyph37_left",
+		"spell 37's snake signs flash red on the scroll and can be clicked")
+	expect.call(_caption_at(actor_rect("glyph37_right").get_center()).is_empty(), "... apart from their caption")
 	var e38: Dictionary = ENCOUNTERS.filter(func(x): return x.id == "e38")[0]
-	expect.call(avatar.min_x < span(ENCOUNTERS[0]).x and avatar.min_x > span(e38).x and avatar.min_x < span(e38).y, "the way is open past unsolved vignettes and into spell 38, not past it")
+	expect.call(avatar.min_x < span(ENCOUNTERS[0]).x and avatar.min_x > span(e38).y, "the way is open past unsolved vignettes, but not into spell 38")
 	for e in ENCOUNTERS:     # all but spell 37 done: 38 is still shut
 		if e.id == "e37":
 			break
 		solved[e.id] = true
 	_refresh()
-	expect.call(avatar.min_x > span(e38).x, "the way past spell 38 shut while spell 37 is undone")
+	expect.call(avatar.min_x > span(e38).y, "the way into spell 38 shut while spell 37 is undone")
 	solved["e37"] = true
 	_refresh()
+	_process(0.0)
+	expect.call(actors.glyph37_left.modulate == Color.WHITE and _clue_sign_at(actor_rect("glyph37_left").get_center()) == "",
+		"spell 37's snake signs stop flashing once its snakes are struck")
 	expect.call(avatar.min_x < span(e38).x, "the choice is optional once the earlier dangers are overcome")
 	expect.call(_item_at(actor_rect("sail38").get_center()) == "sail38" and _item_at(actor_rect("ankh38").get_center()) == "ankh38",
 		"the sail and the ankh can each be taken, before the way on opens")

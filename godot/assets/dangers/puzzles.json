@@ -1,12 +1,13 @@
 {
   "messages": {
 	"dangers.defeated": "One bite too many: the spear-bearer crumbles to dust.",
-	"dangers.retry": "The fight is lost, but the dead are nothing if not patient. Click the creature to fight again.",
-	"dangers.left_fight": "You back out of the vignette. %s awaits your next visit.",
+	"dangers.left_fight": "You back out of the fight. %s awaits your next visit.",
+	"dangers.left_fight_plural": "You back out of the fight. %s await your next visit.",
 	"dangers.click_to_fight": "Click the creature to take up the spear.",
 	"dangers.heka_controls": "Hold [shift] while striking to use magic on the red crocodiles. Don't waste magic on the plain ones: they'll make off with your power.",
 	"dangers.start": "",
-	"dangers.blocked": "He won't let you pass through with those creatures still loose behind you, and frankly, who could blame him. Still to do: spell %s.",
+	"dangers.blocked": "The man in front of you fully blocks the way against the menacing creatures. You may not pass until they have been vanquished. Still to do: spell %s.",
+	"dangers.clue_signs": "Two snakes up here, two snakes down there. Hmm… worth keeping an eye on in the fight.",
 	"dangers.finished": "The road is clear. You carry the breath of life.",
 	"dangers.fought": "Fought %d times, for %s total.",
 	"dangers.fought_once": "Fought 1 time, for %s total.",
@@ -46,6 +47,10 @@
 			{
 			  "level": "act",
 			  "text": "Aim with [↑] [↓]. Press [space] when the spear tip touches a crocodile. Hold [shift] only for red crocodiles."
+			},
+			{
+			  "level": "interpret",
+			  "text": "Better a bite than a stolen word. If a crocodile is about to slip past, move into its path and let it bite you instead."
 			}
 		  ]
 		}
@@ -66,8 +71,7 @@
 		"red_crocodile": "A red crocodile needs a red spear. The signs glowing above may say how.",
 		"tutorial_bite": "The crocodile reached you. Your spear is supposed to reach it first.",
 		"bitten": "A crocodile earns a snack.",
-		"behind_you": "One comes from behind! [←] [→] turn you to face either way.",
-		"movement_lesson": "Good. Now move: [↑] [↓] (or [w] [s]) take you up and down."
+		"behind_you": "One comes from behind! [←] [→] turn you to face either way."
 	  },
 	  "hints": {
 		"find": {
@@ -86,6 +90,10 @@
 			{
 			  "level": "act",
 			  "text": "Turn with [←] [→], aim with [↑] [↓]. Hold [shift] only when striking a red crocodile. Hold [shift] only for red crocodiles."
+			},
+			{
+			  "level": "interpret",
+			  "text": "Better a bite than a stolen word. If a crocodile is about to slip past, move into its path and let it bite you instead."
 			}
 		  ]
 		}

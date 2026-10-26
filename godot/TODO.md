@@ -35,57 +35,37 @@
 - [ ] procession is in order - chnage to "Off to the left, something glows." (because the procession is not in order, you still have to assemble the offering stand)
 
 ### Dangers
-- [ ] the all snakes come and eat you looks too triangular. have it look like the player is covered in snakes, criss crossed across the body, and not in a triangular cone on the outside of the body, it should look like a large mass.
-- [ ] can the speared snake animation be really fast?
-- [ ] 
+
+- [ ] **Spell 35 loss: a mass of snakes, not a cone:** when the snakes swarm in and eat the player, they currently fan out in a triangular halo around the outside of the body. Instead, they should criss-cross over the body, so the player looks covered in one large mass of snakes.
 
 #### General
 
-- [ ] in dangers, press enter to start - maybe put a frame? some papyrus scrap shape? with hints in a damaged area
+- [ ] **Start prompt on a papyrus scrap (idea):** “press enter to start” could sit on a frame shaped like a papyrus scrap, with hints written in a damaged area of it. Not decided yet.
 - [ ] **Show remaining hits against the Eater of the Ass (spell 40):** nothing in the scene shows how many strikes are left now that the "%d more" text is gone. Apep's shrinking waves and spell 33's shrinking mark are the models.
 - [ ] **Record each Dangers creature from its first encounter:** add its journal entry when first encountered, without requiring a win. Track and display attempts and cumulative time spent on that creature from the first encounter onward, including unsuccessful attempts and revisits. Planning only; before implementation, define the encounter/attempt boundaries and whether time means active fighting time (recommended, excluding pauses, journal reading, and time elsewhere). Additional performance statistics and hard/infinite-mode record rules are still recommendations, not approved scope.
 - [ ] **TBD — Journal statistics definitions:** keep attempts and cumulative time as history. Suggested boundaries: count each fight start, including retries, as an attempt; count only active fighting time, excluding pauses, reading, and time elsewhere. These definitions remain undecided.
 - [ ] **TBD — Dangers personal bests:** consider fewest hits taken in a victory (zero as the mastery goal), fastest victory with hits taken shown alongside it, and successful actions with creature-specific wording such as repelled or speared. Report hits taken per attempt or winning run; lifetime damage totals mostly measure time played. For the donkey encounter, include harm to the donkey with appropriate wording.
 - [ ] **TBD — Separate mode records:** keep Breath, Hard (no sign), and Ankh infinite records separate because their conditions differ; avoid one combined score.
 - [ ] **TBD — Ankh infinite replay statistics:** keep cumulative successful actions as a lifetime tally, rather than the main personal best, since unlimited time can always increase the count. Recommended headline record: most successful actions before the first damaging mistake (a mistake-free streak); count ankh flashes as damaging mistakes despite no health loss. Also consider a fixed challenge, such as most successful actions in 60 active seconds with damaging mistakes shown alongside it. Show current-session successful actions, damaging mistakes, and active time. The fixed challenge and all these record rules remain undecided, not approved for implementation.
-- [ ] the striker in dangers after completing a levels says - "you have turned away the crocodiles" or whatever
-- know to look around environment for clues
-- when clicking heka in game, should be given time to read it
-- [x] move the flesh and ankh signs down a little and to the left a little.
+- [ ] **Teach players to look around for clues:** reuse the heka pattern. Signs on the long scroll that carry a clue flash the way the heka signs already do, and clicking one gives a short, vague hint. The heka signs in spells 31–32 are the first flashing signs the player meets, so they teach the habit of clicking what flashes. A Hint-button hint at the Notice level (e.g. “Look at what flashes on the scroll.”) backs this up for players who miss it. Spell 37's two snakes are the next case (see below).
+- [ ] **TBD — Time to read heka during a fight:** clicking the heka sign while fighting should give the player time to read its text before the fight goes on. Open question: should the fight pause while the text is shown?
 
 #### Crocodiles — spells 31–32
 
-- crocodile not just snout to hit
-- when you click the header snakes while playing the game, it should say "the snake that strikes flashes red." it should give look at the two s
-- [ ] dont say "they come again" for the second wave, let the player read the flashign red sign and have the player have that instruction stay there (unless explicitly something is preocessed to include new motion)
-
-#### Snakes — spell 35
-
-- [ ] Spell 35, change the red light green light snake to be like the crocodile game, where snakes will come towards you from both sides to attack, and the player can flip left, right, or move up and down. there are no red snakes. when the screen expands, the one snake that was on screen should move somewhere a distance away from the player (like crocodiles, but only 1). then, snakes slither on screen and stop at a location. one will attack, its tail shaking a little (remove the head shaking animation for this entirely). then, it will move to you at a quick speed (faster than crocodiles, but not too much, because the player should be forced to have to watch for the snake tail signal in order to get there in time). never have more than 5 snakes on screen at once. a snake may shake their tail 0-1.5 seconds after the last snake has been speared (i will want to tune this timing). the losing animation will be snakes appear everywhere, and then move towards the player (sometimes diagonally, but no more than 15 degrees angle) and "bite" (make contact with) every part of the player. the player disintegrates. ask if anything is unclear, and reuse as much code as possible. remember karpathy
+- [ ] **Hint at body blocking through the Hint button only:** stepping in front of a crocodile on purpose, taking its bite so it can't slip past (and make off with a word of power), is a possible strategy. Mention it only in spells 31–32's Hint-button hints, not in instructions, feedback, or scroll clues.
 
 #### Beetles — spell 36
 
-- roach - know that they will crawl to hitting position (left or right) 3 times, and get redder, if they don't get hit by 3 times they've cralwed by, you lose
+- [ ] **Tell the player the beetle rule:** each beetle crawls to the hitting position (left or right) and can crawl past three times, getting redder each time; its fourth pass makes the player lose (as built). The reddening already shows this; keep relying on it and its escape marks. Change the instruction (today “Each can escape three times.”) to say, roughly: “They get redder each time they slip past you. Don't let the beetles get too red, or they'll overcome you.”
 
 #### Two snakes — spell 37
 
-- [ ] **Your call:** spell 37's new Merti wording (nothing may give away that the flashing sign shows which snake strikes): intro "Turn to the snake that strikes ([←] [→]), and thrust as it springs."; hint "Watch the signs above. Striking too soon provokes a snake."; bitten from behind "It sprang from your other side. Turn to face it ([←] [→]). Bitten."
-- two snakes - look around for clues
-- prevent crocs from slipping past, sometimes you have to block them with your body and make a sacrifice.
+- [ ] **Flashing two snakes on the scroll:** the two snakes on the long scroll flash, the way the heka signs do. Clicking them gives a very vague hint that they will be useful during the fight, something like “Hmm… two snakes.” The hint should imply, without stating it outright, that the flashing sign shows which snake strikes.
 
 #### Life and breath — spell 38
 
-- [ ] Spell 38: life and breath become two separate signs, and only breath is taken: the player must click the breath sign (one choice only). Taking the wrong one makes the following fights nearly impossibly hard. Clicking spell 38's caption title shows "breath" in bold (or similar), which tells the player which to pick. **Art ready (2026-10-16):** in the .mdp the ankh and the sail are separate layers now: `breath38/ankh` is the ankh (life) alone, `breath38/t3` the sail (breath). Still to decide: how "nearly impossibly hard" works after taking the wrong one. *Built (2026-10-16):* they are two sprites (`ankh38`, `sail38`), each clicked on its own; only one can be taken, the other stays in his hand. For now either one opens the way on.
-- [x] if breath is taken, the games are 'easy'. if ankh is taken, the games are hard but they never die, but the game never ends. the three flesh signs are replaced by a single ankh sign. every time they lose the ankh sign flashes red.  (they have infinite life, but the snakes aren't repelled, so they keep coming). after a certain amount of time playing with one game, or after a certain amoutn of time for all games combined (whatever is sooner), automatically give the clue "you are living but never free. perhaps that wasn't what you needed." however, if that setting is chosen, do silently save a score board in the journal - each spell has its own entry for dangers, each would say (xxx repelled or speared xxx times or something). if they take neither, it is very hard (same as the ankh sign difficulty), but they only get the three flesh signs, like usual.
-- [ ] the block is in front of the life and breath thing (the man in front of you irght fullly blocks himself from the menacing creatures. you may not pass until these have been vanquished.)
-
-#### Apep — spell 39
-
-- [ ] Spell 39, Rekrek (Apep): concept is apophis, who tries to eat the deceased body. can only have one snake. 
-
-#### Sheaf — spell 41
-
-- spell 41: instead of binding the sheaf, i want the player to have to strike at the band that is wiggling. if they get the wrong band, they get bit. ("your spear slips past/stops just before the snake and you are bit.") you have to strike the snake 5 times. the last time will always be at the top band. the rest can be random. in hard mode, you get bit if you don't strike when a band moves. in the regular/easy mode, the player will not be penalized for not taking action. the figure will lean accordingly and press up and down (to move up and down the sheafs). 
+- [ ] **Caption title points to breath:** clicking spell 38's caption title shows “breath” in bold (or similar), which tells the player which sign to take.
+- [ ] **Move the block to before the man:** the way is currently blocked after the man holding the life and breath signs; move the block to before him, so he stands in front of the player and blocks the way until the creatures before him are vanquished. Possible wording: “The man in front of you fully blocks himself from the menacing creatures. You may not pass until these have been vanquished.”
 
 #### Gates — spells 145–146
 
@@ -300,7 +280,7 @@ These four levels are Hint-button hints. They can point toward or explain in-gam
 
 - [x] Keep Find at the puzzle level. Write each Notice → Interpret → Act ladder about one puzzle phase or remaining problem. Do not use a later slot to introduce an unrelated task. For example, turning the calf and moving the plumes need separate ladders; finding the final stand pieces and assembling them also need separate phases.
 - [x] Use Find plus up to three puzzle-specific levels per phase; do not pad simple actions with artificial hints. The last available hint should be actionable. Basic controls and entry instructions should be available immediately as ordinary instructions, without spending a hint level.
-- [x] Keep hints short enough for the bottom dialogue strip. Level 1 directs the player to an unfinished puzzle; level 2 encourages examining a clue within it; explicit solutions belong at level 4. Respect the existing spell-37 wording constraint: no hint should disclose which flashing sign predicts which snake.
+- [x] Keep hints short enough for the bottom dialogue strip. Level 1 directs the player to an unfinished puzzle; level 2 encourages examining a clue within it; explicit solutions belong at level 4. For spell 37, hints may imply, but not state outright, that the flashing sign shows which snake strikes.
 
 **Proposed JSON shape**
 
@@ -430,6 +410,18 @@ An entry may also supply `speech` and `speaker` when an NPC has a spoken line. T
 - [x] the offering stand (with the implements) should be renamed to low table. and write, "a small stand with two rods, a hooked adze, and a foreleg laid on it."
 - [x] standards are drag and drop only, however it moves off of the mouse and becomes smaller. it should remain the same size and not look like it's jupming away from the mouse.
 - [x] for the cows minigame - the three separate sprites should be clickable in that game, and reveal their 'unresolved' descriptions that gives hints - the slaughtered bull should be: the apis bull should never be slaughtered. (Not even Cambyses did it, despite what Herodotus claimed.). the calf: whatever it is right now, something about trembling at the sight of th eslaughter. the other bull (the actual apis bull). A bull.
+
+### Dangers
+
+- [x] can the speared snake animation be really fast? *(Already quick — 0.04 s frames, 0.1 s hold, 0.2 s fade; kept as is.)*
+- [x] move the flesh and ankh signs down a little and to the left a little.
+- [x] dont say "they come again" for the second wave, let the player read the flashign red sign and have the player have that instruction stay there (unless explicitly something is preocessed to include new motion)
+- [x] Spell 35, change the red light green light snake to be like the crocodile game, where snakes will come towards you from both sides to attack, and the player can flip left, right, or move up and down. there are no red snakes. when the screen expands, the one snake that was on screen should move somewhere a distance away from the player (like crocodiles, but only 1). then, snakes slither on screen and stop at a location. one will attack, its tail shaking a little (remove the head shaking animation for this entirely). then, it will move to you at a quick speed (faster than crocodiles, but not too much, because the player should be forced to have to watch for the snake tail signal in order to get there in time). never have more than 5 snakes on screen at once. a snake may shake their tail 0-1.5 seconds after the last snake has been speared (i will want to tune this timing). the losing animation will be snakes appear everywhere, and then move towards the player (sometimes diagonally, but no more than 15 degrees angle) and "bite" (make contact with) every part of the player. the player disintegrates. *(Built in `creeping_snake.gd`; the swarm's look is still open above.)*
+- [x] **Spell 37 Merti wording** (written when nothing could give away that the flashing sign shows which snake strikes; now hints may imply it without stating it outright — see the open “Flashing two snakes on the scroll” item): intro “Turn to the snake that strikes ([←] [→]), and thrust as it springs.”; hint “Watch the signs above. Striking too soon provokes a snake.”; bitten from behind “It sprang from your other side. Turn to face it ([←] [→]).”
+- [x] **Spell 38, two separate signs:** life and breath are two sprites (`ankh38`, `sail38`, cut from `breath38/ankh` and `breath38/t3`), each clicked on its own; only one can be taken, the other stays in his hand.
+- [x] if breath is taken, the games are 'easy'. if ankh is taken, the games are hard but they never die, but the game never ends. the three flesh signs are replaced by a single ankh sign. every time they lose the ankh sign flashes red.  (they have infinite life, but the snakes aren't repelled, so they keep coming). after a certain amount of time playing with one game, or after a certain amoutn of time for all games combined (whatever is sooner), automatically give the clue "you are living but never free. perhaps that wasn't what you needed." however, if that setting is chosen, do silently save a score board in the journal - each spell has its own entry for dangers, each would say (xxx repelled or speared xxx times or something). if they take neither, it is very hard (same as the ankh sign difficulty), but they only get the three flesh signs, like usual.
+- [x] Spell 39, Rekrek (Apep): concept is apophis, who tries to eat the deceased body. can only have one snake.
+- [x] spell 41: instead of binding the sheaf, i want the player to have to strike at the band that is wiggling. if they get the wrong band, they get bit. ("your spear slips past/stops just before the snake and you are bit.") you have to strike the snake 5 times. the last time will always be at the top band. the rest can be random. in hard mode, you get bit if you don't strike when a band moves. in the regular/easy mode, the player will not be penalized for not taking action. the figure will lean accordingly and press up and down (to move up and down the sheafs).
 
 
 ## Centralized movable objects class — implemented

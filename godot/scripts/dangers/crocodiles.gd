@@ -11,8 +11,8 @@ func _init(level) -> void:
 # crocodiles. The vignette opens out across the whole screen (the caption banner stays; the text
 # below drops away). The spear-bearer moves with the arrow keys (or WASD) and thrusts with Space.
 # Crocodiles crawl in at different heights, each a copy of one of the four drawn ones. A thrust
-# only spears a snout at the spear tip; a crocodile that reaches the bearer, or gets past him,
-# bites (his body flushes red). Some come red: those are turned back only by a thrust made while
+# spears a crocodile its point comes down on, anywhere inside its outline or close by its snout;
+# a crocodile that reaches the bearer, or gets past him, bites (his body flushes red). Some come red: those are turned back only by a thrust made while
 # holding Shift (heka; the spear turns red). A plain thrust does nothing to a red one, and heka spent
 # on an ordinary one loses the fight: it seizes the word of heka from the banner and makes off.
 # In spell 31 they come from the left: the double line behind him stays where it is drawn, the
@@ -51,7 +51,6 @@ func _crocs_start(e: Dictionary) -> void:
 	game.fight.health = game.CROC_HEALTH
 	game.fight.clock = 0.0
 	game.fight.last_arrival = -INF
-	game.fight.moved = 0.0
 	game.fight.told_back = false
 	game.fight.tut = "thrust" if e.get("tutorial", false) and game.fight.wave == 0 else ""
 	# the heights the snouts can come at: wherever the spear tip can reach
@@ -179,13 +178,12 @@ func _crocs(dt: float) -> void:
 	game._place_bearer()
 	if game.fight.lost:
 		return
-	# the lesson: thrust, move, then one slow crocodile
+	# the lesson: thrust, then one slow crocodile
 	match game.fight.tut:
-		"move":
-			if game.fight.moved > 60.0 * game.unit:
-				game.fight.tut = "first"
-				game.say("Scribe", game._feedback_text("first_crocodile"))
-				_croc_launch(e.first_speed)
+		"ready":
+			game.fight.tut = "first"
+			game.say("Scribe", game._feedback_text("first_crocodile"))
+			_croc_launch(e.first_speed)
 		"":
 			game.fight.timer -= dt
 			var w: Dictionary = game.fight.waves[game.fight.wave]
@@ -247,7 +245,6 @@ func _move_bearer(mv: Vector2, dt: float) -> void:
 		var p: Vector2 = game.fight.pos + mv.limit_length(1.0) * BEARER_SPEED * game.unit * dt
 		p.x = clampf(p.x, game.fight.x_range.x, game.fight.x_range.y)
 		p.y = clampf(p.y, game.fight.y_range.x, game.fight.y_range.y)
-		game.fight.moved = game.fight.get("moved", 0.0) + (p - game.fight.pos).length()
 		game.fight.pos = p
 
 
@@ -601,8 +598,7 @@ func autotest(e: Dictionary, expect: Callable) -> void:
 	if e.get("tutorial", false):
 		game._croc_thrust()
 		game.fight.thrust = -1.0
-		expect.call(game.fight.tut == "move", e.id + " lesson: a thrust, then moving")
-		game.fight.moved = 1000.0
+		expect.call(game.fight.tut == "ready", e.id + " lesson: a thrust, then the first crocodile")
 		_crocs(0.0)
 		expect.call(game.fight.tut == "first", e.id + " lesson: the first crocodile comes")
 		expect.call(not game.fight.heka_on, e.id + " the heka word does not flash during the lesson")

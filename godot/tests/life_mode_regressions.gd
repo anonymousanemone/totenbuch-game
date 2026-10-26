@@ -172,7 +172,7 @@ func _test_optional_choice() -> void:
 	scene._refresh()
 	expect(scene.current.is_empty(), "mortal completion does not require choosing a sign")
 	scene.finish()
-	expect(scene.finished and not "breath" in scene.hud._text, "the no-sign ending does not claim the player carries breath")
+	expect(scene.finished and scene.hud._text == scene._hints.message("dangers.finished"), "the no-sign ending says the same closing line as with the sign")
 	scene.free()
 
 

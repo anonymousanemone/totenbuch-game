@@ -115,10 +115,10 @@ func _run() -> void:
 		expect(p.hud._text == reader.text("procession.water", "instructions"), "water instructions replace hints on every entry")
 		p.hint()
 		p.water.leave()
-		p._table_now()
-		expect(p.hud._text == reader.text("procession.offerings", "instructions"), "table instructions replace hints on every entry")
-		p.hint()
-		p.leave_table()
+		p.solved.t4 = true
+		p.enter_table(true)
+		expect(not p.in_table, "once the table and the goose are done, the table cannot be entered again")
+		p.solved.t4 = false
 	p.reset()
 	p.hud.dismiss_intro()
 	expect(p._hints._steps.is_empty(), "restart clears every hint ladder")
@@ -158,8 +158,9 @@ func _run() -> void:
 	expect(d.hud._text == reader.data.puzzles["dangers.e38"].hints.phases.choose[0].text, "standing at the offered signs selects the choice puzzle hint without requiring a fight")
 	for e in d.ENCOUNTERS:
 		d.solved[e.id] = true
+	var before: String = d.hud._text
 	d.hint()
-	expect(d.hud._text == reader.message("dangers.complete"), "Dangers completion does not rely on a stale current encounter")
+	expect(d.hud._text == before, "Dangers completion does not rely on a stale current encounter: Hint says nothing more")
 	d.free()
 	var cosmos = load("res://scenes/cosmos.tscn").instantiate()
 	root.add_child(cosmos)

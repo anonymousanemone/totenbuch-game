@@ -123,10 +123,16 @@ func _run() -> void:
 			if dimensions.x == 1280 and name != "procession":
 				level.finish()
 				await create_timer(1.3).timeout
-				expect(hud._outro.visible, name + " actual ending remains readable")
-				var next: Dictionary = root.get_node("Scroll").next_built(name)
-				expect(hud._outro_text.text.contains(next.get("title", "Return to the scroll")), name + " ending names the actual next destination")
-				await shot(name + "-outro")
+				if name == "dangers":   # no outro: the breath signs sweep it away into the next level
+					expect(is_instance_valid(level._wipe) and level._wipe.get_parent() == root, name + " ending sweeps on with the breath signs")
+					await create_timer(1.0).timeout
+					await shot(name + "-wipe")
+					level._wipe.free()
+				else:
+					expect(hud._outro.visible, name + " actual ending remains readable")
+					var next: Dictionary = root.get_node("Scroll").next_built(name)
+					expect(hud._outro_text.text.contains(next.get("title", "Return to the scroll")), name + " ending names the actual next destination")
+					await shot(name + "-outro")
 			hud.show_outro("The road is clear. You carry the breath of life.\n\nGo on to the next scene.")
 			await frames(8)
 			expect(paused and inside(hud._overlay_layouts[1].scroll.get_parent().get_parent()), label + " outro pauses and fits viewport")
@@ -172,7 +178,10 @@ func _test_feedback() -> void:
 	level._instant = true
 	for e in level.ENCOUNTERS:   # each spell's caption in the top register gives its title
 		if e.has("caption"):
-			var c: Dictionary = level._caption_at(Vector2(e.caption[0] + 30.0, 70.0))   # clear of any heka word
+			var at := Vector2(e.caption[0] + 30.0, 70.0)   # clear of any heka word or clue sign
+			while level._clue_sign_at(at) != "":
+				at.x += 20.0
+			var c: Dictionary = level._caption_at(at)
 			expect(c.get("id", "") == e.id, e.id + " caption is under its own frame")
 			level._set_caption_hover(c)
 			expect(is_instance_valid(level._caption_glow), e.id + " caption glows")

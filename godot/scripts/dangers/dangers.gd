@@ -98,11 +98,11 @@ var heka_known := false        ## the player has clicked a flashing heka sign
 const FLESH_PATH := "res://assets/dangers/figures/flesh.png"   ## the flesh sign that counts his health (supplied, not cut)
 const FLESH_GAP := 6.0          ## strip px between signs, drawn at their native asset size
 var _flesh_tex: Texture2D = _ink_from(load(FLESH_PATH)) if ResourceLoader.exists(FLESH_PATH) else null
-var _told_unsolved := -10.0   ## when the end of the scroll last said what is still undone
 var gate := {}           ## a "gate" encounter (spell 38): the way into it stays shut while one before it is undone
 var _bump_time := -10.0
 var _heka_signs: Array = []      ## flattened once from level.heka
 var _session := 0
+var _wipe: CanvasLayer          ## the breath signs sweeping the level away at the end (`_breath_wipe`)
 var _fight_tweens: Array[Tween] = []
 var _hover := []                ## the actors glowing under the pointer
 var _caption := {}              ## the encounter whose caption glows under the pointer
@@ -348,7 +348,7 @@ func _blocked() -> void:
 	if gate.is_empty() or _time - _bump_time < 2.5:
 		return
 	_bump_time = _time
-	say("Scribe", _hints.message("dangers.blocked") % current.id.trim_prefix("e"))
+	say("Scribe", _hints.message("dangers.blocked"))
 
 
 func _describe_item(object_id: String, description_key: String) -> void:
@@ -660,16 +660,12 @@ func _check_position() -> void:
 		var s := span(e)
 		if x < s.y - 20.0 * unit and x > s.x:
 			here_now = e.id
-			if here_now != _section and not solved.has(e.id):
-				say("Scribe", (_hints.message("dangers.end") if e.kind == "end" else _descriptions.line(e.id, "default", true).text) + (" " + _hints.message("dangers.click_to_fight") if e.kind in FIGHTS else ""))
+			if here_now != _section and not solved.has(e.id) and e.kind != "end":
+				say("Scribe", _descriptions.line(e.id, "default", true).text + (" " + _hints.message("dangers.click_to_fight") if e.kind in FIGHTS else ""))
 			break
 	_section = here_now
-	if x < span(ENCOUNTERS[-1]).y - 40.0 * unit:
-		if current.is_empty():
-			finish()
-		elif _time - _told_unsolved > 6.0:
-			_told_unsolved = _time
-			say("Scribe", _hints.message("dangers.unfinished") % current.id.trim_prefix("e"))
+	if x < span(ENCOUNTERS[-1]).y - 40.0 * unit and current.is_empty():
+		finish()
 
 
 ## Take `item` from encounter `e`, returning the previous sign to the giver's hand.
@@ -720,12 +716,96 @@ func finish() -> void:
 		return
 	finished = true
 	_refresh()
-	say("Scribe", _hints.message("dangers.finished" if "sail38" in items else "dangers.finished_without_breath"))
-	var body := _hints.message("dangers.outro" if "sail38" in items else "dangers.outro_without_breath")
+	say("Scribe", _hints.message("dangers.finished"))
 	var revision: int = _session
 	get_tree().create_timer(1.2, false).timeout.connect(func():
 		if revision == _session and finished:
-			hud.show_outro(body))
+			_breath_wipe())
+
+
+const WIPE_SAILS := 7           ## breath signs in the column that sweeps the level away
+const WIPE_GROW := 0.7          ## the first one grows to the middle of the screen (s)
+const WIPE_GATHER := 0.5        ## then it shrinks off to the right, and the others join it (s)
+const WIPE_SWEEP := 0.9         ## the column sweeps across, papyrus behind it; once more over the next level (s)
+
+
+## The end of the level (in place of an outro): the breath sign grows out of his hands (or comes in
+## from the right if he carries none), shrinks off to the right where six more join it, and the
+## column sweeps right to left, covering the scene with papyrus. The next level opens under it, and
+## the column sweeps across once more, taking the papyrus with it. The layer sits on the root, so it
+## outlives this scene.
+func _breath_wipe() -> void:
+	var vs := get_viewport().get_visible_rect().size
+	var tex: Texture2D = _picture(actors.sail38).texture
+	var start := Rect2(Vector2(vs.x + vs.y * 0.1, vs.y * 0.5), Vector2(0.0, vs.y * 0.08))   # centre, and height
+	if "sail38" in items:
+		var held: Sprite2D = objects.sail38.sprite
+		var xf := held.get_global_transform_with_canvas()
+		var r := held.get_rect()
+		start = Rect2(xf * r.get_center(), Vector2(0.0, xf.basis_xform(Vector2(0.0, r.size.y)).length()))
+		held.modulate.a = 0.0
+	_wipe = _sweep(get_tree(), tex, start, vs, weakref(self), _session)
+
+
+## The wipe itself (static: it runs on after this scene is gone). `me`/`revision`: the level that
+## began it, which must still be finished, and not reset, when the papyrus covers the screen.
+static func _sweep(tree: SceneTree, tex: Texture2D, start: Rect2, vs: Vector2, me: WeakRef, revision: int) -> CanvasLayer:
+	var layer := CanvasLayer.new()
+	layer.layer = 128
+	layer.process_mode = Node.PROCESS_MODE_ALWAYS
+	tree.root.add_child(layer)
+	var paper := ColorRect.new()
+	paper.color = UI.CREAM
+	paper.size = Vector2.ZERO
+	layer.add_child(paper)
+	var aspect := tex.get_size().x / tex.get_size().y
+	var row_h := vs.y / WIPE_SAILS * 1.15
+	var edge := row_h * aspect * 0.5
+	var col_x := vs.x - edge * 1.2                   # where the column gathers, at the right
+	var sails: Array[Sprite2D] = []
+	for i in WIPE_SAILS:
+		var s := Sprite2D.new()
+		s.texture = tex
+		layer.add_child(s)
+		sails.append(s)
+	var lead := sails[WIPE_SAILS / 2]
+	var height := func(s: Sprite2D, h: float): s.scale = Vector2.ONE * h / tex.get_size().y
+	var slot := func(i: int) -> float: return (i + 0.5) * vs.y / WIPE_SAILS
+	var waiting := func(i: int) -> float: return vs.x + edge * (3.0 + 2.0 * (i % 2))   # the six off to the right
+	for i in WIPE_SAILS:
+		sails[i].position = start.position if sails[i] == lead else Vector2(waiting.call(i), slot.call(i))
+		height.call(sails[i], start.size.y if sails[i] == lead else row_h)
+	var t := layer.create_tween()
+	t.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
+	t.tween_method(func(k: float):
+		lead.position = start.position.lerp(vs * 0.5, k)
+		height.call(lead, lerpf(start.size.y, vs.y * 0.7, k)), 0.0, 1.0, WIPE_GROW).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	t.tween_method(func(k: float):
+		for i in WIPE_SAILS:
+			if sails[i] == lead:
+				lead.position = (vs * 0.5).lerp(Vector2(col_x, slot.call(i)), k)
+				height.call(lead, lerpf(vs.y * 0.7, row_h, k))
+			else:
+				sails[i].position.x = lerpf(waiting.call(i), col_x, k), 0.0, 1.0, WIPE_GATHER).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	# right to left: first the papyrus trails the column, covering what it has passed; then, over the
+	# next level, the column comes again and takes the papyrus ahead of it away
+	var sweep := func(k: float, covering: bool):
+		var x := lerpf(col_x if covering else vs.x + edge, -edge * 1.5, k)
+		for i in WIPE_SAILS:
+			sails[i].position = Vector2(x + (i % 2) * edge * 0.3, slot.call(i))
+		paper.position = Vector2(maxf(x, 0.0), 0.0) if covering else Vector2.ZERO
+		paper.size = Vector2(vs.x - maxf(x, 0.0), vs.y) if covering else Vector2(clampf(x, 0.0, vs.x), vs.y)
+	t.tween_method(sweep.bind(true), 0.0, 1.0, WIPE_SWEEP).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+	t.tween_callback(func():
+		var level = me.get_ref()
+		if level == null or level._session != revision or not level.finished:
+			t.kill()                    # the level was left or reset under it
+			layer.queue_free()
+			return
+		tree.root.get_node("Scroll").finish(level.scene_file_path.get_file().get_basename()))
+	t.tween_method(sweep.bind(false), 0.0, 1.0, WIPE_SWEEP).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	t.tween_callback(layer.queue_free)
+	return layer
 
 
 func hint() -> void:
@@ -746,7 +826,6 @@ func hint() -> void:
 		if encounter.kind in FIGHTS + ["take"] and not solved.has(encounter.id):
 			say("Hint", _hints.find("dangers." + encounter.id, "right" if avatar.position.x < span(encounter).x else "default"))
 			return
-	say("Hint", _hints.message("dangers.complete"))
 
 
 ## In a fight, what the scribe would say is said under the danger's name (`tag`).

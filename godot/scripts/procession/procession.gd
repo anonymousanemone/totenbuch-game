@@ -455,6 +455,8 @@ func _click_world(p: Vector2) -> void:
 		walk_then(_reach(_bearer_rect, p), _describe_bearer)
 	elif h.type == "hot" and h.spot == _table and solved.t3:
 		walk_then(_reach(h.spot.rect, p), record.bind(h.spot))
+	elif h.type == "hot" and h.spot == _reader and solved.t3 and solved.t4:   # all done: no way back in, like the other finished puzzles
+		walk_then(_reach(h.spot.rect, p), record.bind(h.spot))
 	elif h.type == "piece" or (h.type == "hot" and (h.spot == _table or h.spot == _reader)):
 		enter_table(h.get("spot", {}) == _reader)
 	elif h.type == "mouth":
@@ -778,6 +780,8 @@ func _bulls_input(event: InputEvent) -> void:
 ## Step up to the offering table: you stand just behind the lector and the camera holds on the
 ## table, from the man with the jar to the goose-bearer. Ask again for an offering clue.
 func enter_table(ask := false) -> void:
+	if solved.t3 and solved.t4:   # the table and the goose both done
+		return
 	if in_table:
 		if ask:
 			record(_reader)
@@ -2049,7 +2053,7 @@ func _autotest_bulls(expect: Callable) -> void:
 	var spot: Dictionary = hotspots.filter(func(h): return h.label == "Calf")[0]
 	expect.call(_pick(spot.rect.get_center()).get("spot") == spot, "the calf can be clicked")
 	bulls.enter()
-	expect.call(bulls.active and _last_said == "Fix what is wrong!", "stepping up says only: fix what is wrong")
+	expect.call(bulls.active and _last_said == PUZZLES.text("procession.bulls", "instructions"), "stepping up gives the bulls' instructions")
 	var c := calf.global_position
 	var w := calf.texture.get_width() * 0.5
 	bulls.press(bulls.pick(c), c)

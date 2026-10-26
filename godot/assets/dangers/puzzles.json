@@ -6,13 +6,12 @@
 	"dangers.click_to_fight": "Click the creature to take up the spear.",
 	"dangers.heka_controls": "Hold [shift] while striking to use magic on the red crocodiles. Don't waste magic on the plain ones: they'll make off with your power.",
 	"dangers.start": "",
-	"dangers.blocked": "The man in front of you fully blocks the way against the menacing creatures. You may not pass until they have been vanquished. Still to do: spell %s.",
+	"dangers.blocked": "The man in front refuses you entry until you have vanquished all the dangers behind you.",
 	"dangers.clue_signs": "Two snakes up here, two snakes down there. Hmm… worth keeping an eye on in the fight.",
 	"dangers.finished": "The road is clear. You carry the breath of life.",
 	"dangers.fought": "Fought %d times, for %s total.",
 	"dangers.fought_once": "Fought 1 time, for %s total.",
-	"dangers.life_clue": "Alive, yes. Free, no. Perhaps life alone wasn't the thing to take.",
-	"dangers.outro": "The dangers are overcome."
+	"dangers.life_clue": "Alive, yes. Free, no. Perhaps life alone wasn't the thing to take."
   },
   "puzzles": {
 	"dangers.e31": {
@@ -45,12 +44,12 @@
 		  ],
 		  "heka": [
 			{
-			  "level": "act",
-			  "text": "Aim with [↑] [↓]. Press [space] when the spear tip touches a crocodile. Hold [shift] only for red crocodiles."
-			},
-			{
 			  "level": "interpret",
 			  "text": "Better a bite than a stolen word. If a crocodile is about to slip past, move into its path and let it bite you instead."
+			},
+			{
+			  "level": "act",
+			  "text": "Aim with [↑] [↓]. Press [space] when the spear tip touches a crocodile. Hold [shift] only for red crocodiles."
 			}
 		  ]
 		}
@@ -88,12 +87,12 @@
 		  ],
 		  "heka": [
 			{
-			  "level": "act",
-			  "text": "Turn with [←] [→], aim with [↑] [↓]. Hold [shift] only when striking a red crocodile. Hold [shift] only for red crocodiles."
-			},
-			{
 			  "level": "interpret",
 			  "text": "Better a bite than a stolen word. If a crocodile is about to slip past, move into its path and let it bite you instead."
+			},
+			{
+			  "level": "act",
+			  "text": "Turn with [←] [→], aim with [↑] [↓]. Hold [shift] only when striking a red crocodile. Hold [shift] only for red crocodiles."
 			}
 		  ]
 		}
@@ -149,7 +148,7 @@
 	  }
 	},
 	"dangers.e36": {
-	  "instructions": "Spear all five beetles when they pause near the point. Turn to face them. Each can escape three times.",
+	  "instructions": "Spear all five beetles when they pause near the point. Turn to face them. The beetles grow redder each time they slip past you. Too red, and they overcome you.",
 	  "success": "The beetles are pinned.",
 	  "feedback": {
 		"swarm": "It slipped past one time too many. Apshai never travels alone.",

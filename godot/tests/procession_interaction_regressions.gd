@@ -196,7 +196,7 @@ func _run() -> void:
 	var expected := {
 		"sacrifice": "The Apis bull should never be slaughtered. (Not even Cambyses did it, despite what Herodotus claimed.)",
 		"calf": "The young calf shakes at the sight of the sacrifice.",
-		"plumed_ox": "A bull."
+		"plumed_ox": "A bull walking towards the sacrifice."
 	}
 	for animal_id in expected:
 		var box: Rect2 = level._descriptions.region_bounds(level._inspection_regions[animal_id])

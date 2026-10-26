@@ -427,7 +427,7 @@ func _test_success_glow() -> void:
 	var glow := sprite.get_child(0) as Sprite2D
 	var material := glow.material as ShaderMaterial
 	var color: Color = material.get_shader_parameter("success")
-	_expect(Vector3(color.r, color.g, color.b).distance_to(Vector3(148.0, 162.0, 128.0) / 255.0) < 0.00001 and is_equal_approx(color.a, 0.4), "success glow uses the UI band light green at 40 percent opacity")
+	_expect(Vector3(color.r, color.g, color.b).distance_to(Vector3(156.0, 184.0, 79.0) / 255.0) < 0.00001 and is_equal_approx(color.a, 0.4), "success glow uses the UI band light green at 40 percent opacity")
 	_expect(is_equal_approx(material.get_shader_parameter("pad"), 20.0), "success glow extends 20 texture pixels around the drawing")
 	_expect(material.get_shader_parameter("level") == UI.Glow.SUCCESS and sprite.modulate == Color.WHITE, "placement success uses the shared success glow and preserves the drawing")
 	var tween: Tween = get_processed_tweens().back()

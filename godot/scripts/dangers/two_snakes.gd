@@ -202,7 +202,6 @@ func _twin_caught(s: Dictionary) -> void:
 	game._hurt(s.node)
 	_twin_phase(s, "pinned")
 	game._dev_shot("SHOT_ON_CATCH")
-	game.say("Scribe", game._feedback_text("struck_final" if s.hits >= int(game.fight.e.need) else "struck_partial"))
 
 
 ## The spear at full thrust on the side he faces, with the snake there still coiled: it sees it and

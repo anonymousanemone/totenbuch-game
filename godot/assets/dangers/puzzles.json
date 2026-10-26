@@ -8,6 +8,8 @@
 	"dangers.start": "",
 	"dangers.blocked": "He won't let you pass through with those creatures still loose behind you, and frankly, who could blame him. Still to do: spell %s.",
 	"dangers.finished": "The road is clear. You carry the breath of life.",
+	"dangers.fought": "Fought %d times, for %s total.",
+	"dangers.fought_once": "Fought 1 time, for %s total.",
 	"dangers.life_clue": "Alive, yes. Free, no. Perhaps life alone wasn't the thing to take.",
 	"dangers.outro": "The dangers are overcome."
   },
@@ -21,7 +23,7 @@
 		"first_strike": "Well struck. Its friends are coming, at different heights.",
 		"crocodile_defeated": "The crocodile turns away.",
 		"heka_break": "The crocodiles draw back. Above, signs begin to glow red.",
-		"magic_on_normal_crocodile": "Magic spent on an ordinary crocodile! It seizes the word of power and makes off with it. The crocodiles are not turned back.",
+		"heka_on_normal_crocodile": "Magic spent on an ordinary crocodile! It seizes the word of power and makes off with it. The crocodiles are not turned back.",
 		"crocodile_escaped": "A crocodile slips past you to the wall and gleefully steals away with your word of power.",
 		"red_crocodile": "A red crocodile needs a red spear. The signs glowing above may say how.",
 		"tutorial_bite": "The crocodile reached you. Your spear is supposed to reach it first.",
@@ -58,8 +60,8 @@
 		"first_crocodile": "Here comes one. Press [space] to strike.",
 		"first_strike": "Well struck. Its friends are coming, at different heights.",
 		"crocodile_defeated": "The crocodile turns away.",
-		"magic_break": "The crocodiles draw back. Above, signs begin to glow red.",
-		"magic_on_normal_crocodile": "Magic spent on an ordinary crocodile! It seizes the word of power and makes off with it. The crocodiles are not turned back.",
+		"heka_break": "The crocodiles draw back. Above, signs begin to glow red.",
+		"heka_on_normal_crocodile": "Magic spent on an ordinary crocodile! It seizes the word of power and makes off with it. The crocodiles are not turned back.",
 		"crocodile_escaped": "A crocodile slips past you and gleefully steals away with your word of power.",
 		"red_crocodile": "A red crocodile needs a red spear. The signs glowing above may say how.",
 		"tutorial_bite": "The crocodile reached you. Your spear is supposed to reach it first.",
@@ -93,8 +95,6 @@
 	  "instructions": "Watch its tail: it warns before the snake springs. Strike as its head reaches the spear point.",
 	  "success": "The snake falls.",
 	  "feedback": {
-		"struck_more": "Struck! It pulls free and coils again. %d more.",
-		"struck": "Struck!",
 		"too_early": "Too early: your spear was already coming back up when it sprang. Wait for the snap.",
 		"too_late": "Too late: it was past the point of your spear.",
 		"bite_advice": "It bit you. When its tail waves and it squashes down, it is about to spring: thrust as it springs.",
@@ -120,8 +120,6 @@
 	  "instructions": "Snakes come at you from both sides. A shaking tail warns which one comes next. Meet it with your spear point.",
 	  "success": "The snakes on the ground are speared.",
 	  "feedback": {
-		"struck_more": "Speared! %d more.",
-		"struck": "Speared!",
 		"bitten": "Bitten. Watch the tails: the one that shakes is the one that comes.",
 		"slipped": "It slipped past you. Now it waits on the other side.",
 		"controls": "[←] [→] turn you; [↑] [↓] move you; [space] thrusts."
@@ -146,8 +144,6 @@
 	  "instructions": "Spear all five beetles when they pause near the point. Turn to face them. Each can escape three times.",
 	  "success": "The beetles are pinned.",
 	  "feedback": {
-		"pinned_more": "Pinned! %d more.",
-		"pinned": "Pinned!",
 		"swarm": "It slipped past one time too many. Apshai never travels alone.",
 		"controls": "Press [space] to thrust the spear; [←] [→] turn you. You cannot step."
 	  },
@@ -171,8 +167,6 @@
 	  "instructions": "Turn to the snake that strikes ([←] [→]), and thrust as it springs.",
 	  "success": "The two Merti snakes fall.",
 	  "feedback": {
-		"struck_final": "Struck! It falls.",
-		"struck_partial": "Struck! It pulls free and coils again.",
 		"bitten": "%s Bitten.",
 		"provoked": "It saw the spear and sprang. Wait for its sign to flash and for it to squash down; thrust as it springs.",
 		"wrong_direction": "It sprang from your other side. Turn to face it ([←] [→]).",
@@ -219,19 +213,20 @@
 	  }
 	},
 	"dangers.e39": {
-	  "instructions": "Follow each wave from Apep’s tail. Strike as it reaches your spear point. Leave waves that fade away alone.",
+	  "instructions": "Watch each wave from Apep’s tail. Strike a middling one as it reaches your spear point; hop back from a big one with [→], and forward again with [←]; let the small ones pass.",
 	  "success": "Apep lies still, pinned at the neck.",
 	  "feedback": {
-		"life_hit": "The wave subsides, but Apep stirs again.",
 		"life_score": "Spell 39: waves pressed back %d times.",
-		"apep_defeated": "Pressed down. Apep lies still.",
-		"barb_advanced": "Pressed down: the barb goes in a step.",
 		"too_early": "Too early: wait until the wave reaches your spear point.",
 		"barb_slipped": "The barb jars on a still neck and works loose a step. Thrust only as a wave reaches the point.",
 		"no_wave": "Nothing there to press down. Thrust only as a wave reaches the point.",
 		"missed_wave": "Too early: your spear came and went before the wave reached it.",
 		"wave_passed": "The wave lifted his head from under your spear. When it reaches the point, thrust.",
-		"controls": "Press [space] to thrust the spear as a wave reaches its point. You cannot step."
+		"controls": "Press [space] to thrust as a middling wave reaches the point. [→] hops back from a big one; [←] hops forward again.",
+		"large_wave": "Too big to press down: hop back from the big waves with [→].",
+		"dodged": "You hop back, and he snaps at nothing. Hop forward again with [←].",
+		"advanced": "You gave ground for nothing: Apep slides nearer.",
+		"at_wall": "Your back is to the wall: nowhere left to hop."
 	  },
 	  "hints": {
 		"find": {
@@ -243,7 +238,7 @@
 		  "fight": [
 			{
 			  "level": "act",
-			  "text": "Strike as a wave reaches the point. Small waves fade before reaching you; striking a still neck loosens the barb."
+			  "text": "Strike the middling waves as they reach the point, hop back ([→]) from the big ones, and let the small ones pass: striking those loosens the barb."
 			}
 		  ]
 		}
@@ -253,11 +248,8 @@
 	  "instructions": "Follow the snake along the donkey's back with [←] [→], and strike with [space] when it lifts its head. Three strikes; don't spear the donkey.",
 	  "success": "The snake falls from the donkey's back.",
 	  "feedback": {
-		"life_hit": "Struck! It returns to the donkey.",
 		"life_score": "Spell 40: the Eater of the Ass speared %d times.",
 		"life_donkey_speared": "The spear strikes the donkey, but life holds.",
-		"struck_more": "Struck! It darts away along the donkey's back. %d more.",
-		"struck": "Struck!",
 		"donkey_speared": "The spear goes into the donkey! Strike only when the snake's head is up at your point.",
 		"donkey_eaten": "The snake has eaten the donkey, and laughs.",
 		"donkey_bitten": "It bites the donkey. When it stops and its coils tighten, step to it: its head is about to come up.",
@@ -283,13 +275,10 @@
 	  "instructions": "Strike the band that shivers: the snake is on top of it. Lean with [↑] [↓], strike with [space].",
 	  "success": "The snake is pinned on top of the sheaf.",
 	  "feedback": {
-		"life_hit": "Struck! It slips back inside the sheaf.",
 		"life_score": "Spell 41: the snake in the sheaf speared %d times.",
-		"hit": "Struck! It slips away inside the sheaf.",
 		"short": "Your spear stops just before the snake, and you are bitten.",
 		"past": "Your spear slips past the snake, and you are bitten.",
-		"late": "It bit before you struck.",
-		"struck": "Struck!"
+		"late": "It bit before you struck."
 	  },
 	  "hints": {
 		"find": {

@@ -71,18 +71,24 @@ const ENCOUNTERS := [
 	# Taking neither is allowed after the earlier dangers are overcome.
 	{"id": "e38", "boxes": ["e38"], "kind": "take", "items": ["sail38", "ankh38"], "task": 2, "gate": true,
 		"caption": [2316, 2782]},
-	# Apep: his tail lashes (`lash` s) and a wave runs the length of him to the fold where the spear
-	# point rests, at `speed` plate px/s (first to second value as the barb goes in); a new one every
-	# `gap` s, none reaching the point within `min_gap` s of the one before. Each wave pressed down
-	# as its crest reaches the point (`reach` plate px either side, first to second value as the barb
-	# goes in) drives the barb a step in; `need`
-	# steps and he lies as drawn. After the first `teach` waves, a `feint` share are smaller and die
-	# out in the drawn hump (`hump`). Crest `height` and `width` (half) in plate px. `head_rect`,
-	# `head_pivot` (it turns on its neck here), `fold`: in his picture's pixels.
-	{"id": "e39", "tag": "Apep", "boxes": ["e39"], "kind": "apep", "hard_ready": false, "spear": "spear39", "task": 3,
-		"foe": "apep", "need": 6, "speed": [220.0, 380.0], "gap": [2.2, 0.9], "min_gap": 0.8, "lash": 0.35,
-		"reach": [10.0, 5.0], "height": 12.0, "width": 30.0, "teach": 2, "feint": 0.35, "hump": [190, 320],
-		"head_rect": [398, 23, 44, 18], "head_pivot": [440, 33], "fold": 492,
+	# Apep: his tail lashes (`lash` s; a large wave's longer) and a wave runs the length of him to the
+	# fold where the spear point rests, at `speed` plate px/s (first to second value as the barb goes
+	# in); a new one every `gap` s, at most `most` on his body at once. A medium or large wave never
+	# reaches the point within `min_gap` s of the one before, or `switch_gap` s if the two want
+	# different answers. Each medium wave pressed down as its crest reaches the point (`reach` plate px
+	# either side, first to second value as the barb goes in) drives the barb a step in; `need` steps
+	# and he lies as drawn. After the first `teach` waves (medium), a `small` share are feints and a
+	# `large` share must be hopped back from (`dodge` plate px). In hard mode (`hard` overrides) a
+	# medium wave let past from back there makes him advance `advance` plate px, and one pressed down
+	# pushes him back half that. Crest `height` and `width` (half, of a medium wave) in plate px.
+	# The close-up leaves room behind him to hop back and for Apep to advance `room` times. `fold`: in
+	# his picture's pixels (his head's strike: tools/apep_strike.py).
+	{"id": "e39", "tag": "Apep", "boxes": ["e39"], "kind": "apep", "hard_ready": true, "spear": "spear39", "task": 3,
+		"foe": "apep", "need": 6, "speed": [220.0, 380.0], "gap": [2.2, 0.9], "most": 2, "min_gap": 0.8, "switch_gap": 1.0,
+		"lash": 0.35, "reach": [10.0, 5.0], "height": 12.0, "width": 30.0, "teach": 2, "small": 0.25, "large": 0.38,
+		"dodge": 40.0, "advance": 16.0, "room": 4,
+		"hard": {"speed": [260.0, 440.0], "gap": [1.6, 0.7], "most": 3, "min_gap": 0.6, "switch_gap": 0.65},
+		"fold": 492,
 		"caption": [1458, 2295]},
 	# the Eater of the Ass (spell 40): the vignette opens out close up; the snake crawls along the
 	# donkey's back, from the rump as drawn to the withers (`back`, strip px), at `crawl` plate px/s

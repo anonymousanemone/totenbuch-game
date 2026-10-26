@@ -330,8 +330,6 @@ func _lunge_caught() -> void:
 		_lunge_mark()                 # a smaller mark for the next strike
 	_lunge_phase("pinned")
 	game._dev_shot("SHOT_ON_CATCH")
-	var left: int = int(e.need) - game.fight.hits
-	game.say("Scribe", (game._feedback_text("struck_more") % left if left > 0 else game._feedback_text("struck")))
 
 
 func _lunge_bites() -> void:

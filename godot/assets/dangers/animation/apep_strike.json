@@ -1,0 +1,24 @@
+{
+ "cell": [
+  200,
+  53
+ ],
+ "frames": 11,
+ "rows": [
+  "strike"
+ ],
+ "drawn_at": [
+  -396,
+  5
+ ],
+ "joint": [
+  456.9,
+  5.8
+ ],
+ "marks": {
+  "strike": {
+   "reared": 5,
+   "swung": 5
+  }
+ }
+}

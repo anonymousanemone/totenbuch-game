@@ -77,6 +77,8 @@ var journal: Array[String] = []
 var _life_scores := {}
 var _life_times := {}
 var _life_total := 0.0
+var _stats := {}         ## each creature fought: {attempts, time (s of active fighting)}, from the first fight on
+var _focused := true     ## the game window has the focus (time away from it is not fighting time)
 var _life_clue_given := false
 var _life_clue_hold := 0.0
 var current := {}        ## first unsolved encounter; spell 38 gates progress beyond it
@@ -236,6 +238,7 @@ func reset() -> void:
 	_life_scores.clear()
 	_life_times.clear()
 	_life_total = 0.0
+	_stats.clear()
 	_life_clue_given = false
 	_life_clue_hold = 0.0
 	bites = 0
@@ -413,6 +416,11 @@ func _unhandled_input(event: InputEvent) -> void:
 		sheaf._sheaf_aim(-1 if event.is_action_pressed("ui_up") else 1)
 		get_viewport().set_input_as_handled()
 		return
+	# [→] hops spell 39's bearer back from a large wave, [←] forward to the fold again
+	if not fight.is_empty() and fight.kind == "apep" and (event.is_action_pressed("ui_left") or event.is_action_pressed("ui_right")):
+		apep._apep_step(1 if event.is_action_pressed("ui_right") else -1)
+		get_viewport().set_input_as_handled()
+		return
 	if event is InputEventMouseMotion:
 		var at := get_global_mouse_position()
 		_set_hover(_hover_at(at))
@@ -465,9 +473,12 @@ func _inspection_at(point: Vector2) -> String:
 
 func _record_actor(name: String) -> void:
 	var id: String = actors[name].get_meta("registry_id")
-	_descriptions.inspect(id, hud, journal, _picture(actors[name]).texture, _descriptions.journal_total(), "settled" if solved.has(id) else "default")
-	if _life_scores.has(id):
-		_sync_life_score(id)
+	var variant := "settled" if solved.has(id) else "default"
+	if _stats.has(id):        # a creature fought: its entry keeps its counts
+		_descriptions.show(id, hud, variant)
+		_journal_fight(id)
+		return
+	_descriptions.inspect(id, hud, journal, _picture(actors[name]).texture, _descriptions.journal_total(), variant)
 
 
 ## What glows under the pointer (hit-tested by box): a heka word; a target in a fight, or, walking, a
@@ -687,9 +698,11 @@ func _solve(e: Dictionary, item := "") -> void:
 		say("Scribe", _hints.message("interaction.pick_up") % item_name)
 	else:
 		say("Scribe", _hints.text("dangers." + e.id, "success"))
-	var pic: String = e.foes[0] if e.kind == "crocs" else e.get("foe", item)
-	var tex: Texture2D = load(ASSET % pic)
-	_descriptions.remember(e.id, hud, journal, tex, _descriptions.journal_total(), "settled")
+	if _stats.has(e.id):
+		_journal_fight(e.id)
+	else:
+		var pic: String = e.foes[0] if e.kind == "crocs" else e.get("foe", item)
+		_descriptions.remember(e.id, hud, journal, load(ASSET % pic), _descriptions.journal_total(), "settled")
 	_refresh()
 
 
@@ -785,7 +798,8 @@ func start_fight(e: Dictionary) -> void:
 			sheaf._sheaf_start(e)
 	if endless():
 		_life_scores.get_or_add(e.id, 0)
-		_sync_life_score(e.id)
+	_stats.get_or_add(e.id, {"attempts": 0, "time": 0.0}).attempts += 1     # each start is an attempt, Esc and back too
+	_journal_fight(e.id)
 	say("Scribe", _hints.text("dangers." + e.id, "instructions"))
 
 
@@ -885,6 +899,7 @@ func _update_fight(dt: float) -> void:
 		"apep": apep._apep(dt)
 		"donkey": donkey._donkey(dt)
 		"sheaf": sheaf._sheaf(dt)
+	_tick_stats(dt)
 	_tick_life(dt)
 
 
@@ -1101,8 +1116,7 @@ static func _ink_from(tex: Texture2D) -> Texture2D:
 	return ImageTexture.create_from_image(img)
 
 
-## Only post-choice encounters read these modes. Apep retains easy tuning until its
-## `hard_ready` scaffolding is enabled in danger_encounters.gd.
+## Only post-choice encounters read these modes (those with `hard_ready` in danger_encounters.gd).
 func hard() -> bool:
 	return not fight.is_empty() and fight.e.id in AFTER_CHOICE and not "sail38" in items and fight.e.get("hard_ready", false)
 
@@ -1119,25 +1133,72 @@ func _life_mistake() -> bool:
 	return true
 
 
+## A fight that would have been won goes on (the ankh): it flashes red.
+func _life_cycle() -> void:
+	fight.ankh_flash = LIFE_FLASH
+
+
 ## Count successful actions, independently of each encounter's repeating progress cycle.
 func _life_hit() -> void:
 	if not endless():
 		return
 	var id: String = fight.e.id
 	_life_scores[id] = int(_life_scores.get(id, 0)) + 1
-	_sync_life_score(id)
+	_journal_fight(id)
 
 
-func _sync_life_score(id: String) -> void:
+## The journal entry of creature `id` once it has been fought: its description, how often and how long
+## it has been fought, and (the ankh) its score. Updated quietly.
+func _journal_fight(id: String) -> void:
+	if not _descriptions.entries[id].get("journal", true):
+		return
 	if id not in journal:
 		journal.append(id)
 	var e: Dictionary = ENCOUNTERS.filter(func(entry): return entry.id == id)[0]
-	var note := _descriptions.text(id) + "\n\n" + _hints.text("dangers." + id, "feedback", "life_score") % int(_life_scores[id])
-	hud.add_journal_entry(_descriptions.entries[id].name, note, load(ASSET % e.foe), journal.size(), _descriptions.journal_total(), id)
+	var note := _descriptions.text(id, "settled" if solved.has(id) else "default")
+	if _stats.has(id):
+		note += "\n\n" + _stats_text(_stats[id])
+	if _life_scores.has(id):
+		note += "\n\n" + _hints.text("dangers." + id, "feedback", "life_score") % int(_life_scores[id])
+	var pic: String = e.foes[0] if e.kind == "crocs" else e.foe
+	hud.add_journal_entry(_descriptions.entries[id].name, note, load(ASSET % pic), journal.size(),
+		_descriptions.journal_total(), _descriptions.key(id))
+
+
+## "Fought 4 times, for 3 min 12s total."
+func _stats_text(st: Dictionary) -> String:
+	var t := int(st.time)
+	var span := "%d min %ds" % [t / 60, t % 60] if t >= 60 else "%ds" % t
+	return _hints.message("dangers.fought_once" if int(st.attempts) == 1 else "dangers.fought") % ([span] if int(st.attempts) == 1 else [int(st.attempts), span])
+
+
+## The fight is under way and being played: the vignette open, not closing or lost, nothing over it,
+## not paused, the window in focus.
+func _fight_active() -> bool:
+	return not fight.is_empty() and fight.open >= 1.0 and not fight.get("closing", false) and not fight.get("lost", false) \
+		and not hud.is_blocking() and not get_tree().paused and _focused
+
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_APPLICATION_FOCUS_OUT:
+		_focused = false
+	elif what == NOTIFICATION_APPLICATION_FOCUS_IN:
+		_focused = true
+
+
+## Time spent fighting this creature; its journal line follows the whole seconds.
+func _tick_stats(dt: float) -> void:
+	if not _fight_active():
+		return
+	var st: Dictionary = _stats[fight.e.id]
+	var before := int(st.time)
+	st.time += dt
+	if int(st.time) != before:
+		_journal_fight(fight.e.id)
 
 
 func _tick_life(dt: float) -> void:
-	if not endless() or fight.open < 1.0 or fight.get("closing", false) or hud.is_blocking() or get_tree().paused:
+	if not endless() or not _fight_active():
 		return
 	var id: String = fight.e.id
 	_life_times[id] = float(_life_times.get(id, 0.0)) + dt
@@ -1423,9 +1484,9 @@ func _thrust_down_span() -> Vector2:
 		THRUST_TIME[0] + THRUST_TIME[1] * (CROC_THRUST - deep) / (CROC_THRUST - rest))
 
 
-func _bite(text: String) -> void:
+func _bite(key: String) -> void:
 	bites += 1
-	say("Scribe", text)
+	_feedback_once(key, _feedback_text(key))
 	_damage_shake()
 
 

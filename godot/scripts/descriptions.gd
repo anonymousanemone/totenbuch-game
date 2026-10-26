@@ -14,6 +14,11 @@ func _init(level: String) -> void:
 	entries = content.entries
 
 
+## The journal's key for entry `id`.
+func key(id: String) -> String:
+	return _level + "/" + id
+
+
 func journal_total() -> int:
 	return entries.values().filter(func(entry): return entry.get("journal", true)).size()
 
@@ -42,7 +47,7 @@ func remember(id: String, hud: CanvasLayer, journal: Array[String], image: Textu
 		journal.append(id)
 	var content := line(id, variant, spoken)
 	hud.add_journal_entry(entries[id].name, content.text, image, journal.size(), total,
-		_level + "/" + id, content.speaker)
+		key(id), content.speaker)
 
 
 func inspect(id: String, hud: CanvasLayer, journal: Array[String], image: Texture2D,

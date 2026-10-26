@@ -40,7 +40,7 @@ func damage(scene) -> void:
 func hit(scene) -> void:
 	match scene.fight.kind:
 		"apep":
-			var wave: Dictionary = scene.apep._apep_launch(false, 220.0)
+			var wave: Dictionary = scene.apep._apep_launch("medium", 220.0)
 			scene.apep._apep_pressed(wave)
 			scene.apep._apep(scene.apep.APEP_HOLD + 0.01)
 		"donkey":
@@ -58,7 +58,7 @@ func _run() -> void:
 		for id in GAME.AFTER_CHOICE:
 			var e := encounter(scene, id)
 			scene.start_fight(e)
-			expect(scene.hard() == (id in ["e40", "e41"] and item != "sail38"), id + " uses the selected difficulty, with easy scaffolding for untuned encounters: " + item)
+			expect(scene.hard() == (item != "sail38"), id + " uses the selected difficulty: " + item)
 			expect(scene.endless() == (item == "ankh38"), id + " is endless only with the ankh: " + item)
 			if item != "ankh38":
 				scene.fight.health = 1
@@ -74,8 +74,13 @@ func _run() -> void:
 					scene.donkey._donkey_speared()
 					expect(not scene.fight.lost and scene.fight.phase == "crawl", "spearing the donkey with the ankh recovers without a death")
 				var speech: String = scene.hud._text
+				scene.fight.ankh_flash = 0.0
+				var cycled := false
 				for i in int(e.need) * 2 + 1:
 					hit(scene)
+					if i == int(e.need) - 1:
+						cycled = scene.fight.ankh_flash > 0.0
+				expect(cycled, id + " the ankh flashes red where the fight would have been won")
 				expect(not scene.fight.is_empty() and not scene.fight.lost and not scene.solved.has(id), id + " continues beyond two normally winning cycles")
 				expect(scene._life_scores[id] == int(e.need) * 2 + 1, id + " counts every successful action across cycles")
 				expect(scene.fight.hits < int(e.need), id + " resets progress so the snake can attack again")
@@ -84,12 +89,13 @@ func _run() -> void:
 				expect(scene.hud._text == speech and not scene.hud._journal_page.visible, "score updates are silent")
 				var score: int = scene._life_scores[id]
 				scene._record_actor(e.foe)
-				expect(str(score) in scene.hud._journal_entries[id].text, "inspection preserves the journal score")
+				expect(str(score) in scene.hud._journal_entries["dangers/" + id].text, "inspection preserves the journal score")
 				scene.end_fight()
 				expect(not scene.fight.is_empty() and not scene.solved.has(id), "the ankh cannot complete a post-choice encounter")
 			scene.leave_fight()
 		if item == "ankh38":
-			expect(GAME.AFTER_CHOICE.all(func(id): return scene.hud._journal_entries.has(id)), "the journal keeps a separate score for each post-choice spell")
+			expect(GAME.AFTER_CHOICE.all(func(id): return scene.hud._journal_entries.has("dangers/" + id)), "the journal keeps a separate score for each post-choice spell")
+			expect(scene.hud._journal_entries.keys().all(func(k): return k.begins_with("dangers/")), "each creature has one journal entry, the score on it")
 			scene.start_fight(encounter(scene, "e39"))
 			expect(scene._life_scores.e39 > 0, "scores survive leaving and re-entering an encounter")
 			scene.leave_fight()
@@ -105,6 +111,7 @@ func _run() -> void:
 
 	_test_clue()
 	_test_optional_choice()
+	_test_fight_record()
 	print("LIFE MODE REGRESSIONS ", "OK" if failures.is_empty() else "FAILED")
 	quit(0 if failures.is_empty() else 1)
 
@@ -166,4 +173,50 @@ func _test_optional_choice() -> void:
 	expect(scene.current.is_empty(), "mortal completion does not require choosing a sign")
 	scene.finish()
 	expect(scene.finished and not "breath" in scene.hud._text, "the no-sign ending does not claim the player carries breath")
+	scene.free()
+
+
+## Each creature's journal entry from its first fight: how often, and for how long, it has been fought.
+func _test_fight_record() -> void:
+	var scene = level()
+	var e := encounter(scene, "e35")
+	var key: String = "dangers/" + e.id
+	expect(not scene.hud._journal_entries.has(key), "a creature not yet fought has no journal entry")
+	scene.start_fight(e)
+	expect(scene.hud._journal_entries.has(key) and not scene.solved.has(e.id), "its journal entry appears when it is first fought, before any win")
+	expect(scene.hud._journal_entries[key].text.ends_with(scene._hints.message("dangers.fought_once") % "0s"), "...Fought 1 time, for 0s total")
+	expect(not scene.hud._journal_page.visible and scene.hud._text == scene._hints.text("dangers." + e.id, "instructions"), "...quietly: the journal does not open, nothing is said about it")
+	scene.fight.open = 0.0
+	scene._tick_stats(5.0)
+	scene.fight.open = 1.0
+	scene.fight.closing = true
+	scene._tick_stats(5.0)
+	scene.fight.closing = false
+	scene.fight.lost = true
+	scene._tick_stats(5.0)
+	scene.fight.lost = false
+	scene.hud.toggle_journal(true)
+	scene._tick_stats(5.0)
+	scene.hud.toggle_journal(false)
+	scene._notification(scene.NOTIFICATION_APPLICATION_FOCUS_OUT)
+	scene._tick_stats(5.0)
+	scene._notification(scene.NOTIFICATION_APPLICATION_FOCUS_IN)
+	expect(scene._stats[e.id].time == 0.0, "no time counts while it opens or closes, once lost, with the journal open, or away from the window")
+	for i in 75:
+		scene._tick_stats(1.0)
+	expect(scene.hud._journal_entries[key].text.ends_with(scene._hints.message("dangers.fought_once") % "1 min 15s"), "active fighting counts, shown in minutes and seconds")
+	scene.leave_fight()
+	scene.start_fight(e)
+	expect(scene._stats[e.id].attempts == 2, "stepping out with Esc and back is a new attempt")
+	scene.fight.lost = true          # lost: the vignette closes, and he takes it up again
+	scene.leave_fight()
+	scene.start_fight(e)
+	scene._tick_stats(2.0)
+	expect(scene.hud._journal_entries[key].text.ends_with(scene._hints.message("dangers.fought") % [3, "1 min 17s"]), "every fight start counts, and the time adds up across them: Fought 3 times")
+	scene._solve(e)
+	expect(scene._descriptions.text(e.id, "settled") in scene.hud._journal_entries[key].text and scene.hud._journal_entries[key].text.ends_with(scene._hints.message("dangers.fought") % [3, "1 min 17s"]), "won, the entry is settled and keeps its count")
+	scene._record_actor(e.foe)
+	expect(scene.hud._journal_entries[key].text.ends_with(scene._hints.message("dangers.fought") % [3, "1 min 17s"]) and scene.hud._journal_entries.size() == 1, "clicking the creature keeps its count, on the one entry")
+	scene.reset()
+	expect(scene._stats.is_empty() and scene.hud._journal_entries.is_empty(), "restarting clears the counts")
 	scene.free()

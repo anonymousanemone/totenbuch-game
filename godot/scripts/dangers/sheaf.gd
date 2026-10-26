@@ -57,7 +57,6 @@ func _sheaf_start(e: Dictionary) -> void:
 	game.fight.show = 1.0              # how much of the snake shows on top
 	game.fight.dart = -1.0             # s into a bite; -1 = none
 	game.fight.dart_at = 0
-	game.fight.told = {}
 	# `at`: the band it is on (-1 between bands, unseen); `t` s there, moving on at `dur`
 	game.fight.sn = {"at": -1, "prev": -1, "t": 0.0, "dur": _sheaf_gap()}
 	_sheaf_dress(e)
@@ -155,6 +154,7 @@ func _sheaf(dt: float) -> void:
 				game.fight.thrust = game.THRUST_TIME[0] + 0.001
 				if game.endless():
 					game.fight.hits = 0
+					game._life_cycle()
 					_sheaf_phase("hunt")
 					_sheaf_leave()
 				else:
@@ -245,13 +245,9 @@ func _sheaf_hit() -> void:
 		game._hurt(game.actors[e.foe])
 		_sheaf_phase("pinned")
 		game._dev_shot("SHOT_ON_CATCH")
-		game.say("Scribe", game._feedback_text("life_hit" if game.endless() else "struck"))
 		return
 	game._hurt(game.actors[e.foe] if at == 0 else game.actors[SHEAF_BANDS[at]])
 	_sheaf_leave()
-	if not game.fight.told.has("hit"):
-		game.fight.told.hit = true
-		game.say("Scribe", game._feedback_text("hit"))
 
 
 ## It bites at his hand from the band it is on (`why`: short, past, or late), then moves on.
@@ -261,7 +257,7 @@ func _sheaf_bitten(why: String) -> void:
 	_sheaf_hurt()
 	if game.fight.lost:
 		return
-	game.say("Scribe", game._feedback_text(why))
+	game._feedback_once(why, game._feedback_text(why))
 	_sheaf_leave()
 
 

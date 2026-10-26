@@ -7,6 +7,8 @@
 #### General
 
 - [ ] green flashes of success!!! in both the text and the "game" parts!!!
+- [ ] **Change the journal format for all entries:** show an icon, title, and two-line text summary for each entry. Clicking an entry shows a longer description.
+- [ ] **Define a creativity-versus-skill scale for each level (inspiration: IQKnight):** define creativity as discovering, interpreting, and experimenting with ideas or solutions; define skill as executing understood actions through timing, precision, coordination, and practice. Give each level its own creativity-to-skill ratio and a custom description that sets player expectations. Likely store the ratio and description in each level's `puzzles.json`; exact ratios, wording, and storage remain to be decided.
 
 ### Procession
 
@@ -40,6 +42,12 @@
 #### General
 
 - [ ] in dangers, press enter to start - maybe put a frame? some papyrus scrap shape? with hints in a damaged area
+- [ ] **Show remaining hits against the Eater of the Ass (spell 40):** nothing in the scene shows how many strikes are left now that the "%d more" text is gone. Apep's shrinking waves and spell 33's shrinking mark are the models.
+- [ ] **Record each Dangers creature from its first encounter:** add its journal entry when first encountered, without requiring a win. Track and display attempts and cumulative time spent on that creature from the first encounter onward, including unsuccessful attempts and revisits. Planning only; before implementation, define the encounter/attempt boundaries and whether time means active fighting time (recommended, excluding pauses, journal reading, and time elsewhere). Additional performance statistics and hard/infinite-mode record rules are still recommendations, not approved scope.
+- [ ] **TBD — Journal statistics definitions:** keep attempts and cumulative time as history. Suggested boundaries: count each fight start, including retries, as an attempt; count only active fighting time, excluding pauses, reading, and time elsewhere. These definitions remain undecided.
+- [ ] **TBD — Dangers personal bests:** consider fewest hits taken in a victory (zero as the mastery goal), fastest victory with hits taken shown alongside it, and successful actions with creature-specific wording such as repelled or speared. Report hits taken per attempt or winning run; lifetime damage totals mostly measure time played. For the donkey encounter, include harm to the donkey with appropriate wording.
+- [ ] **TBD — Separate mode records:** keep Breath, Hard (no sign), and Ankh infinite records separate because their conditions differ; avoid one combined score.
+- [ ] **TBD — Ankh infinite replay statistics:** keep cumulative successful actions as a lifetime tally, rather than the main personal best, since unlimited time can always increase the count. Recommended headline record: most successful actions before the first damaging mistake (a mistake-free streak); count ankh flashes as damaging mistakes despite no health loss. Also consider a fixed challenge, such as most successful actions in 60 active seconds with damaging mistakes shown alongside it. Show current-session successful actions, damaging mistakes, and active time. The fixed challenge and all these record rules remain undecided, not approved for implementation.
 - [ ] the striker in dangers after completing a levels says - "you have turned away the crocodiles" or whatever
 - know to look around environment for clues
 - when clicking heka in game, should be given time to read it

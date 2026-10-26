@@ -375,8 +375,6 @@ func _speared(c: Dictionary) -> void:
 	(game._picture(game.actors[e.spear]).texture as AtlasTexture).atlas = STRIKE
 	game._picture(game.actors[e.spear + "_pole"]).visible = false
 	_pin_frame(1)
-	var left: int = int(e.need) - game.fight.hits
-	game.say("Scribe", game._feedback_text("struck_more") % left if left > 0 else game._feedback_text("struck"))
 
 
 ## Frame `k` of the pinning: the snake (TURN) and him (STRIKE).
@@ -418,7 +416,7 @@ func _creep_bites(c: Dictionary) -> void:
 		game.bites += 1
 		_creep_dies()
 		return
-	game._bite(game._feedback_text("bitten"))
+	game._bite("bitten")
 	_attack_over()
 	c.s = "back"
 	var a: Node2D = c.node

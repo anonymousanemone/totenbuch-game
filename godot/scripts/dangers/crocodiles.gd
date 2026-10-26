@@ -324,7 +324,6 @@ func _croc_next_wave() -> void:
 	game.fight.wave_killed = 0
 	game.fight.wave_launched = 0
 	game.fight.timer = 0.3
-	game.say("Scribe", game._feedback_text("next_wave"))
 
 
 func _croc_total() -> int:
@@ -450,8 +449,7 @@ func _croc_bites(c: Dictionary) -> void:
 		_croc_send_back(c)
 		game.bites += 1
 		return
-	game._bite(game._feedback_text("tutorial_bite") if game.fight.tut == "first"
-		else game._feedback_text("bitten"))
+	game._bite("tutorial_bite" if game.fight.tut == "first" else "bitten")
 	c.s = "back"
 	_croc_send_back(c)
 

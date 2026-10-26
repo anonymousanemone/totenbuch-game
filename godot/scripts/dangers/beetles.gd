@@ -198,8 +198,6 @@ func _roach_strike() -> void:
 	hit.darting = false
 	hit.at_point = false
 	hit.node.modulate = Color(game.RED_CROC, hit.node.modulate.a)
-	var left: int = game.fight.need - game.fight.hits
-	game.say("Scribe", (game._feedback_text("pinned_more") % left if left > 0 else game._feedback_text("pinned")))
 
 
 ## Lost: beetle `r` got away from the spear point once too often. Beetles multiply from the ones

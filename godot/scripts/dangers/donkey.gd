@@ -62,7 +62,6 @@ func _donkey_start(e: Dictionary) -> void:
 	game.fight.dart = false
 	game.fight.lift_in = _donkey_lift_gap()
 	game.fight.flick = -1.0           # s into the tail's flick; -1 = none
-	game.fight.told = {}
 	_donkey_dress(e)
 	_donkey_place()
 	game._arena_open()
@@ -213,6 +212,7 @@ func _donkey(dt: float) -> void:
 				if game.fight.hits >= int(e.need):
 					if game.endless():
 						game.fight.hits = 0
+						game._life_cycle()
 					else:
 						game.end_fight()
 						return
@@ -287,11 +287,6 @@ func _donkey_struck() -> void:
 	game._hurt(game.actors[e.foe])
 	_donkey_phase("pinned")
 	game._dev_shot("SHOT_ON_CATCH")
-	if game.endless():
-		game.say("Scribe", game._feedback_text("life_hit"))
-		return
-	var left: int = int(e.need) - game.fight.hits
-	game.say("Scribe", (game._feedback_text("struck_more") % left if left > 0 else game._feedback_text("struck")))
 
 
 ## The point went into the donkey: it flicks its tail, and loses a flesh sign.
@@ -303,12 +298,11 @@ func _donkey_speared() -> void:
 ## The snake bites the donkey: a flesh sign lost.
 func _donkey_bitten() -> void:
 	_donkey_rest()
-	_donkey_wounded("" if game.fight.told.has("bite") else "donkey_bitten")
-	game.fight.told.bite = true
+	_donkey_wounded("donkey_bitten")
 
 
 ## The donkey hurt (by the snake or the spear): a flesh sign lost, unless life holds (the ankh);
-## the third and it is eaten. `say`: what the scribe says, if anything.
+## the third and it is eaten. `say`: what the scribe says (once a fight).
 func _donkey_wounded(say: String) -> void:
 	var e: Dictionary = game.fight.e
 	if not game._life_mistake():
@@ -317,8 +311,8 @@ func _donkey_wounded(say: String) -> void:
 	game._hurt(game.actors[e.donkey])
 	if game.fight.donkey_health <= 0:
 		_donkey_eaten()
-	elif say != "":
-		game.say("Scribe", game._feedback_text(say))
+	else:
+		game._feedback_once(say, game._feedback_text(say))
 
 
 ## Lost: the snake laughs (squashes up and down) on the donkey's back, and the donkey and the

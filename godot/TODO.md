@@ -67,6 +67,23 @@
 
 - [ ] Redo the descriptions for cosmos by matching scholarly sources and actual knowledge of the bod. 
 
+### Spell 16 — the sun, the standards and the baboons (plan, not started)
+
+A level of its own (a vertical scene) that opens straight out of the procession's finale. It is
+read top to bottom; the camera moves down register by register, each once its task is done.
+Art: `art/bod16.mdp`, four registers (`16 panel 1`–`4`).
+
+- [ ] **Opening: the light goes into the sun.** The procession's finale floods the screen with light. Spell 16 opens under it, showing only its top register: Ra's boat with its crew of gods. The light slowly draws back into the sun disc on Ra's head.
+- [ ] **A minigame in the boat register (TBD).** Once it is done, the camera moves down one register.
+- [ ] **The rays and the standards (east and west).** The second register: two goddesses kneeling toward a sun disc whose rays (the dashed lines) pour down between them, with a standard on either side. The standards are switched: the West stands where the East is drawn and the East where the West is drawn.
+  - Clicking a standard reads its description: "East" or "West". This is the only cue; there is no other hint about which side is which.
+  - Press-drag-release one standard onto the other's place and the two swap. Dropped anywhere else, it goes back. When both stand as drawn, they lock in place (reuse `moveable_object.gd`).
+- [ ] **Down to the baboons.** Once the standards are right, the camera moves down to the next register: a man holding up the sun disc, with eight baboons adoring it, four on each side in two rows.
+- [ ] **Whack-a-mole: keep every baboon adoring.** Now and then a baboon's raised arms drop. Clicking that baboon raises its arms again. Solved when all eight are adoring, as drawn.
+  - TBD: how often arms drop, how many in a round, how long the game lasts, and the win and lose conditions.
+  - Art: cut each baboon's raised arms as their own layer in the .mdp, and turn them down about the shoulder for the dropped pose (as the 53 elbow sheet does).
+- [ ] **Down to the couple.** After the baboons, the camera moves down to the bottom register: the deceased and his wife seated, and a man bringing offerings. Its game is TBD.
+
 ## Audit status and approval
 
 Expanded UI, copy, hints, color, and code audit: 2026-10-14. Implementation approved by the user and completed. This audit is based on code and text; layout changes were verified by integration tests and rendered screenshots.

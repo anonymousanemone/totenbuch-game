@@ -19,8 +19,6 @@
 [ext_resource type="Texture2D" uid="uid://cqnkiwd0y7apt" path="res://assets/menu/souls.png" id="16_nimr0"]
 [ext_resource type="Texture2D" uid="uid://cqmoovsgcqc0y" path="res://assets/menu/lake.png" id="17_ompfu"]
 [ext_resource type="Texture2D" uid="uid://d4cuopl21dpyh" path="res://assets/menu/gates.png" id="18_pf3rn"]
-[ext_resource type="Texture2D" uid="uid://61wfkj7i325f" path="res://assets/menu/baboons.png" id="19_wnmsu"]
-[ext_resource type="Texture2D" uid="uid://cqf0wtjky1nfp" path="res://assets/menu/cows.png" id="20_3lhee"]
 [ext_resource type="Texture2D" uid="uid://dqxbm1470a8dm" path="res://assets/menu/mounds.png" id="21_eq53r"]
 [ext_resource type="Texture2D" uid="uid://gslkwamtma4j" path="res://assets/menu/chamber.png" id="22_pxhfl"]
 [ext_resource type="Texture2D" uid="uid://bfagab52u4yxh" path="res://assets/menu/creatures.png" id="23_4f1q7"]
@@ -421,54 +419,6 @@ border_width_bottom = 4
 border_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pvy0f"]
-content_margin_left = 8.0
-content_margin_top = 0.0
-content_margin_right = 8.0
-content_margin_bottom = 0.0
-bg_color = Color(0.5882353, 0.24313726, 0.15686275, 1)
-border_width_left = 4
-border_width_top = 4
-border_width_right = 4
-border_width_bottom = 4
-border_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hed7u"]
-content_margin_left = 4.0
-content_margin_top = 4.0
-content_margin_right = 4.0
-content_margin_bottom = 4.0
-bg_color = Color(0.8862745, 0.8156863, 0.6509804, 1)
-border_width_left = 4
-border_width_top = 4
-border_width_right = 4
-border_width_bottom = 4
-border_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0kt6l"]
-content_margin_left = 8.0
-content_margin_top = 0.0
-content_margin_right = 8.0
-content_margin_bottom = 0.0
-bg_color = Color(0.5882353, 0.24313726, 0.15686275, 1)
-border_width_left = 4
-border_width_top = 4
-border_width_right = 4
-border_width_bottom = 4
-border_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_83jnf"]
-content_margin_left = 4.0
-content_margin_top = 4.0
-content_margin_right = 4.0
-content_margin_bottom = 4.0
-bg_color = Color(0.8862745, 0.8156863, 0.6509804, 1)
-border_width_left = 4
-border_width_top = 4
-border_width_right = 4
-border_width_bottom = 4
-border_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k5y8j"]
 content_margin_left = 8.0
 content_margin_top = 0.0
 content_margin_right = 8.0
@@ -1772,134 +1722,6 @@ theme_override_font_sizes/font_size = 16
 text = "Spells 144–146"
 metadata/font_size = 16
 
-[node name="baboons" type="VBoxContainer" parent="Levels/Acts/ActV" unique_id=491544218]
-layout_mode = 2
-layout_direction = 2
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 2
-theme_override_constants/separation = 2
-metadata/key = "baboons"
-
-[node name="Frame" type="PanelContainer" parent="Levels/Acts/ActV/baboons" unique_id=1901704631]
-layout_mode = 2
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_hed7u")
-
-[node name="Picture" type="TextureRect" parent="Levels/Acts/ActV/baboons/Frame" unique_id=160391203]
-modulate = Color(1, 1, 1, 0.22)
-custom_minimum_size = Vector2(220, 140)
-layout_mode = 2
-mouse_filter = 2
-texture = ExtResource("19_wnmsu")
-expand_mode = 1
-stretch_mode = 6
-
-[node name="Restored" type="TextureRect" parent="Levels/Acts/ActV/baboons/Frame/Picture" unique_id=1953101240]
-visible = false
-layout_mode = 0
-offset_left = 184.0
-offset_top = 6.0
-offset_right = 184.0
-offset_bottom = 6.0
-mouse_filter = 2
-texture = ExtResource("5_4wg3f")
-
-[node name="Current" type="PanelContainer" parent="Levels/Acts/ActV/baboons/Frame/Picture" unique_id=357837302]
-visible = false
-layout_mode = 0
-offset_left = 10.0
-offset_top = -16.0
-offset_right = 10.0
-offset_bottom = -16.0
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_0kt6l")
-
-[node name="Label" type="Label" parent="Levels/Acts/ActV/baboons/Frame/Picture/Current" unique_id=287709997]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
-theme_override_font_sizes/font_size = 16
-text = "You are here"
-metadata/font_size = 16
-
-[node name="Title" type="Label" parent="Levels/Acts/ActV/baboons" unique_id=1132129544]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.56078434, 0.44313726, 0.25882354, 1)
-theme_override_font_sizes/font_size = 16
-text = "The Baboon Gods"
-metadata/font_size = 16
-
-[node name="Spells" type="Label" parent="Levels/Acts/ActV/baboons" unique_id=844358361]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
-theme_override_font_sizes/font_size = 16
-text = "Spells 147"
-metadata/font_size = 16
-
-[node name="cows" type="VBoxContainer" parent="Levels/Acts/ActV" unique_id=897865397]
-layout_mode = 2
-layout_direction = 2
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 2
-theme_override_constants/separation = 2
-metadata/key = "cows"
-
-[node name="Frame" type="PanelContainer" parent="Levels/Acts/ActV/cows" unique_id=1893176437]
-layout_mode = 2
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_83jnf")
-
-[node name="Picture" type="TextureRect" parent="Levels/Acts/ActV/cows/Frame" unique_id=1080746398]
-modulate = Color(1, 1, 1, 0.22)
-custom_minimum_size = Vector2(220, 140)
-layout_mode = 2
-mouse_filter = 2
-texture = ExtResource("20_3lhee")
-expand_mode = 1
-stretch_mode = 6
-
-[node name="Restored" type="TextureRect" parent="Levels/Acts/ActV/cows/Frame/Picture" unique_id=575859128]
-visible = false
-layout_mode = 0
-offset_left = 184.0
-offset_top = 6.0
-offset_right = 184.0
-offset_bottom = 6.0
-mouse_filter = 2
-texture = ExtResource("5_4wg3f")
-
-[node name="Current" type="PanelContainer" parent="Levels/Acts/ActV/cows/Frame/Picture" unique_id=564073866]
-visible = false
-layout_mode = 0
-offset_left = 10.0
-offset_top = -16.0
-offset_right = 10.0
-offset_bottom = -16.0
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_k5y8j")
-
-[node name="Label" type="Label" parent="Levels/Acts/ActV/cows/Frame/Picture/Current" unique_id=1448590527]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
-theme_override_font_sizes/font_size = 16
-text = "You are here"
-metadata/font_size = 16
-
-[node name="Title" type="Label" parent="Levels/Acts/ActV/cows" unique_id=174573574]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.56078434, 0.44313726, 0.25882354, 1)
-theme_override_font_sizes/font_size = 16
-text = "The Seven Cows"
-metadata/font_size = 16
-
-[node name="Spells" type="Label" parent="Levels/Acts/ActV/cows" unique_id=1964126576]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
-theme_override_font_sizes/font_size = 16
-text = "Spells 148"
-metadata/font_size = 16
-
 [node name="mounds" type="VBoxContainer" parent="Levels/Acts/ActV" unique_id=617150918]
 layout_mode = 2
 layout_direction = 2
@@ -1972,7 +1794,7 @@ theme_override_constants/separation = 14
 layout_mode = 2
 theme_override_colors/font_color = Color(0.5882353, 0.24313726, 0.15686275, 1)
 theme_override_font_sizes/font_size = 16
-text = "Act VI — Amulets and strange creatures"
+text = "Act VI — Amulets, strange creatures and the finale"
 metadata/font_size = 16
 
 [node name="Band" type="Control" parent="Levels/Acts/ActVIHeading" unique_id=765934877]
@@ -2124,39 +1946,7 @@ theme_override_font_sizes/font_size = 16
 text = "Spells 162–165"
 metadata/font_size = 16
 
-[node name="ActFHeading" type="HBoxContainer" parent="Levels/Acts" unique_id=1257167220]
-layout_mode = 2
-theme_override_constants/separation = 14
-
-[node name="Title" type="Label" parent="Levels/Acts/ActFHeading" unique_id=826067985]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.5882353, 0.24313726, 0.15686275, 1)
-theme_override_font_sizes/font_size = 16
-text = "Finale"
-metadata/font_size = 16
-
-[node name="Band" type="Control" parent="Levels/Acts/ActFHeading" unique_id=1045664254]
-custom_minimum_size = Vector2(0, 16)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 4
-
-[node name="Pattern" type="TextureRect" parent="Levels/Acts/ActFHeading/Band" unique_id=994020104]
-texture_filter = 1
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
-mouse_filter = 2
-texture = ExtResource("3_0daod")
-stretch_mode = 1
-
-[node name="ActF" type="HFlowContainer" parent="Levels/Acts" unique_id=505180426]
-layout_mode = 2
-layout_direction = 3
-theme_override_constants/h_separation = 14
-theme_override_constants/v_separation = 18
-
-[node name="doors" type="VBoxContainer" parent="Levels/Acts/ActF" unique_id=590352165]
+[node name="doors" type="VBoxContainer" parent="Levels/Acts/ActVI" unique_id=590352165]
 layout_mode = 2
 layout_direction = 2
 focus_mode = 2
@@ -2165,12 +1955,12 @@ mouse_default_cursor_shape = 2
 theme_override_constants/separation = 2
 metadata/key = "doors"
 
-[node name="Frame" type="PanelContainer" parent="Levels/Acts/ActF/doors" unique_id=1659901524]
+[node name="Frame" type="PanelContainer" parent="Levels/Acts/ActVI/doors" unique_id=1659901524]
 layout_mode = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_tn2lx")
 
-[node name="Picture" type="TextureRect" parent="Levels/Acts/ActF/doors/Frame" unique_id=1786581188]
+[node name="Picture" type="TextureRect" parent="Levels/Acts/ActVI/doors/Frame" unique_id=1786581188]
 modulate = Color(1, 1, 1, 0.22)
 custom_minimum_size = Vector2(220, 140)
 layout_mode = 2
@@ -2179,7 +1969,7 @@ texture = ExtResource("24_w0u2i")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="Restored" type="TextureRect" parent="Levels/Acts/ActF/doors/Frame/Picture" unique_id=1437349404]
+[node name="Restored" type="TextureRect" parent="Levels/Acts/ActVI/doors/Frame/Picture" unique_id=1437349404]
 visible = false
 layout_mode = 0
 offset_left = 184.0
@@ -2189,7 +1979,7 @@ offset_bottom = 6.0
 mouse_filter = 2
 texture = ExtResource("5_4wg3f")
 
-[node name="Current" type="PanelContainer" parent="Levels/Acts/ActF/doors/Frame/Picture" unique_id=1334418846]
+[node name="Current" type="PanelContainer" parent="Levels/Acts/ActVI/doors/Frame/Picture" unique_id=1334418846]
 visible = false
 layout_mode = 0
 offset_left = 10.0
@@ -2199,28 +1989,28 @@ offset_bottom = -16.0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_bbsab")
 
-[node name="Label" type="Label" parent="Levels/Acts/ActF/doors/Frame/Picture/Current" unique_id=279420324]
+[node name="Label" type="Label" parent="Levels/Acts/ActVI/doors/Frame/Picture/Current" unique_id=279420324]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
 theme_override_font_sizes/font_size = 16
 text = "You are here"
 metadata/font_size = 16
 
-[node name="Title" type="Label" parent="Levels/Acts/ActF/doors" unique_id=96150837]
+[node name="Title" type="Label" parent="Levels/Acts/ActVI/doors" unique_id=96150837]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.56078434, 0.44313726, 0.25882354, 1)
 theme_override_font_sizes/font_size = 16
 text = "Thoth Opens the Sky"
 metadata/font_size = 16
 
-[node name="Spells" type="Label" parent="Levels/Acts/ActF/doors" unique_id=1430717141]
+[node name="Spells" type="Label" parent="Levels/Acts/ActVI/doors" unique_id=1430717141]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
 theme_override_font_sizes/font_size = 16
 text = "Spells 161"
 metadata/font_size = 16
 
-[node name="hall" type="VBoxContainer" parent="Levels/Acts/ActF" unique_id=674253429]
+[node name="hall" type="VBoxContainer" parent="Levels/Acts/ActVI" unique_id=674253429]
 layout_mode = 2
 layout_direction = 2
 focus_mode = 2
@@ -2229,12 +2019,12 @@ mouse_default_cursor_shape = 2
 theme_override_constants/separation = 2
 metadata/key = "hall"
 
-[node name="Frame" type="PanelContainer" parent="Levels/Acts/ActF/hall" unique_id=1871329977]
+[node name="Frame" type="PanelContainer" parent="Levels/Acts/ActVI/hall" unique_id=1871329977]
 layout_mode = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_yac5k")
 
-[node name="Picture" type="TextureRect" parent="Levels/Acts/ActF/hall/Frame" unique_id=586119413]
+[node name="Picture" type="TextureRect" parent="Levels/Acts/ActVI/hall/Frame" unique_id=586119413]
 modulate = Color(1, 1, 1, 0.22)
 custom_minimum_size = Vector2(220, 140)
 layout_mode = 2
@@ -2243,7 +2033,7 @@ texture = ExtResource("25_lo0pm")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="Restored" type="TextureRect" parent="Levels/Acts/ActF/hall/Frame/Picture" unique_id=575548708]
+[node name="Restored" type="TextureRect" parent="Levels/Acts/ActVI/hall/Frame/Picture" unique_id=575548708]
 visible = false
 layout_mode = 0
 offset_left = 184.0
@@ -2253,7 +2043,7 @@ offset_bottom = 6.0
 mouse_filter = 2
 texture = ExtResource("5_4wg3f")
 
-[node name="Current" type="PanelContainer" parent="Levels/Acts/ActF/hall/Frame/Picture" unique_id=1782817872]
+[node name="Current" type="PanelContainer" parent="Levels/Acts/ActVI/hall/Frame/Picture" unique_id=1782817872]
 visible = false
 layout_mode = 0
 offset_left = 10.0
@@ -2263,21 +2053,21 @@ offset_bottom = -16.0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_2yvm4")
 
-[node name="Label" type="Label" parent="Levels/Acts/ActF/hall/Frame/Picture/Current" unique_id=1908417401]
+[node name="Label" type="Label" parent="Levels/Acts/ActVI/hall/Frame/Picture/Current" unique_id=1908417401]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
 theme_override_font_sizes/font_size = 16
 text = "You are here"
 metadata/font_size = 16
 
-[node name="Title" type="Label" parent="Levels/Acts/ActF/hall" unique_id=497516359]
+[node name="Title" type="Label" parent="Levels/Acts/ActVI/hall" unique_id=497516359]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.56078434, 0.44313726, 0.25882354, 1)
 theme_override_font_sizes/font_size = 16
 text = "The Weighing of the Heart"
 metadata/font_size = 16
 
-[node name="Spells" type="Label" parent="Levels/Acts/ActF/hall" unique_id=1927352352]
+[node name="Spells" type="Label" parent="Levels/Acts/ActVI/hall" unique_id=1927352352]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
 theme_override_font_sizes/font_size = 16

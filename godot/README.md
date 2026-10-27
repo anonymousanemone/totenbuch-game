@@ -17,7 +17,6 @@ The Field of Offerings and Weighing of the Heart remain in `../archive/` (see it
 
 ## Survival and Sustenance (spells 43–63, pl. XX–XXIII)
 
-The full scroll is open for navigation and inspection, without puzzles or barriers.
 Walk right to left with the arrows or by clicking the papyrus. Click a glowing figure
 to approach it, read its description, and record it in the Journal. Captions can be
 inspected without adding journal entries. Tall text columns have papyrus-backed
@@ -25,11 +24,45 @@ foreground nodes, so the avatar passes behind them; each repeats everything draw
 rules and frame lines included, and runs from the outer edge of the frame line on its left to
 that of the one on its right (both strokes of a double line). The avatar is a copy of the scroll's first man, the spell-43 worshipper.
 
+The rites (`scripts/survival/survival_play.gd`, on top of the shared `survival.gd`; the plan is in
+`../ideas.md`). He stands in for the drawn walking men (43, 44, 46, 48–51), whose drawings are hidden.
+- **43:** clicking the three was-sceptres in the god's hand puts them on his back (`MoveableObject`s).
+  They are his lives: each failure crumbles one away in red.
+- **Splicing:** passing behind a double line (43|44, 49|50, 50|51; `SpliceLines`, drawn over him)
+  he changes look, drawn in two halves at the line (`clip_min`/`clip_max` in `figure.gdshader`):
+  worshipper → 44 man, then 46 → 50 → 51 man.
+- **44–46:** in 44 the door goes black, and the 44|45 line bars the way. Clicking the door costs a
+  sceptre: he shrinks and fades into it, and in the dark he becomes the mummy, rocking. *Placeholder:*
+  the steadying game is not decided, so the opening rocking passes. He comes out as the 46 man,
+  with no way back past 45|46. Without a sceptre, his head falls off and he crumbles.
+- **Death:** his head falls and he crumbles; the level begins again at 43 with everything reset
+  but the Journal. (Respawning at 47 waits for the claim's place sign.)
+- **47:** the ba is missing; each pass unclaimed, the scribe asks him to claim his seat.
+- **50–52:** through 50|51 he comes out upside down (`avatar.upturn`); press on him and drag up
+  past halfway to set him upright. Headlong into 52 he eats filth (*placeholder*: he reddens) and
+  loses a sceptre.
+- **57:** the water dribbles, no one stands under it, and the tray is in the tree. Clicking the
+  water: he fades into the 57 man, bent at the waist (`Waist`); let go he sinks, Space raises him.
+  With his hands in the stream the tray comes out; out of it, it draws back (never below 60% of
+  its best). [esc] leaves. Once out, he stands up beside the 57 man, who stays.
+- **59:** walking in, both water signs flash red, then each of their six lines in turn
+  (`LINE_ORDER`, a *placeholder* order), then both again. Clicking the lines in that order makes
+  the water flow and he sits beneath it; a wrong line replays the sequence. [esc], Space, ← or →
+  stand him up; the seated man stays.
+
+The pieces the rites move are layers cut out of the figures in the .mdp (`sceptres`, `door`,
+`head`, `mummy`, `ba`, `sail`, `stream`, ...), cut into sprites of their own by
+`../tools/cut_survival_pieces.py` (partial: name the keys; it also cuts the figures they came
+from again, at their saved bounds, and the 44 and 51 men whole as avatar looks). They are saved
+in the scene at their drawn places (`metadata/piece_id`), so the scroll reads as drawn. Dev:
+`--past-gate` starts past the gate with two sceptres (`--upside` also upside down), with `--at=`.
+
 `scenes/survival.tscn` holds the artwork in spell groups, the avatar, camera, and five
 foreground text sections. `assets/survival/level.json` records source-layer IDs and bounds;
 saved scene positions remain authoritative. The source is `../art/survival43-63.mdp`.
 `../tools/build_survival_scene.py` exports the source and initially authors the scene;
-rerunning it replaces the generated scene, so preserve deliberate editor changes first.
+rerunning it replaces the generated scene (dropping the pieces, pivots and splice lines added
+since), so preserve deliberate editor changes first.
 Use `-- --level=survival --at=5000 --screenshot=/tmp/survival.png` for a rendered preview.
 
 ## Visual scene workflow

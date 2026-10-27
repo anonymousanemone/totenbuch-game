@@ -36,7 +36,13 @@ func _run() -> void:
 		scene.walk_then(-10000.0)
 		scene.avatar._process(100.0)
 		scene.avatar._process(0.1)
-		expect(is_equal_approx(scene.avatar.position.x, scene.min_x()), tag + "click walking can reach the left edge without a puzzle gate")
+		expect(is_equal_approx(scene.avatar.position.x, scene.LINE_44_45 + scene.HALF), tag + "before the gate is used, walking stops at the 44|45 line")
+		scene.gate_used = true
+		scene.avatar.min_x = scene.min_x()
+		scene.walk_then(-10000.0)
+		scene.avatar._process(100.0)
+		scene.avatar._process(0.1)
+		expect(is_equal_approx(scene.avatar.position.x, scene.min_x()), tag + "past the gate, walking reaches the left edge")
 		scene._update_camera(1.0)
 		var view: Rect2 = scene.SCROLL_CAMERA.visible_rect(scene.camera, Vector2(dimensions))
 		expect(view.position.x >= -0.1, tag + "camera stays inside the left edge")
@@ -57,6 +63,8 @@ func _run() -> void:
 			var missed: Array = []
 			for id in scene.figures:
 				var sprite: Sprite2D = scene.figures[id]
+				if not sprite.visible:   # the figures the avatar stands in for
+					continue
 				var image: Image = sprite.texture.get_image()
 				var found := false
 				for y in range(0, image.get_height(), 5):

@@ -30,7 +30,7 @@ func _run() -> void:
 	root.size = Vector2i(1280, 1686)
 	root.add_child(preview)
 	await frames()
-	var last: Control = preview.get_node("Levels/Acts/ActF")
+	var last: Control = preview.get_node("Levels/Acts/ActVI")
 	expect(last.get_global_rect().end.y < preview.get_node("Footer").get_global_rect().position.y,
 		"full editor layout shows the finale above the footer")
 	expect(preview.get_node("Levels").scroll_vertical == 0 and preview.get_node("Levels").get_v_scroll_bar().max_value <= preview.get_node("Levels").size.y,

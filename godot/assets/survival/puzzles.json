@@ -1,7 +1,14 @@
 {
  "messages": {
   "survival.explore": "Walk with [←] [→] or click the papyrus. Click a glowing figure to look; the whole scroll is open to explore.",
-  "survival.start": "Walk left through the scroll of food, water and breath. Click a figure to look, or open the Journal to read what you have seen."
+  "survival.start": "Walk left through the scroll of food, water and breath. Click a figure to look, or open the Journal to read what you have seen.",
+  "survival.dwelling": "Please claim your rightful seat so you may return to your dwelling.",
+  "survival.died": "His head has fallen. He begins again.",
+  "survival.mummy": "He comes out of the gate's dark as the man of spell 46. There is no way back.",
+  "survival.upside": "He goes headlong. Drag him up to stand upright.",
+  "survival.filth": "Headlong, he eats filth. A was-sceptre is lost.",
+  "survival.water57": "Water only dribbles from the goddess's vase. Click it to stand beneath it.",
+  "survival.bend": "Hold [space] to keep him up with his hands in the water; [esc] leaves."
  },
  "puzzles": {}
 }

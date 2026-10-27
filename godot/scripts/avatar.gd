@@ -13,6 +13,7 @@ var min_x := 0.0
 var max_x := 1.0e9
 var facing := -1            ## -1 = left (direction of the procession), 1 = right
 var drawn_facing := -1      ## which way the sprite faces as drawn
+var upturn := 1.0           ## the figure's vertical scale, about its middle: -1 is upside down
 
 var _target = null          ## float or null
 var _on_arrive := Callable()
@@ -39,6 +40,8 @@ func _ready() -> void:
 ## Attachment frame for carried items: follows the figure's walking bob and facing.
 func carrying_transform() -> Transform2D:
 	var on_you := global_transform * Transform2D(0.0, sprite.position)
+	if upturn != 1.0:       # turned over with him
+		on_you *= Transform2D(0.0, Vector2(1.0, upturn if absf(upturn) > 0.05 else 0.05), 0.0, Vector2.ZERO)
 	if sprite.flip_h:
 		on_you *= Transform2D.FLIP_X
 	return on_you
@@ -86,3 +89,6 @@ func _process(delta: float) -> void:
 	# mirror the figure when it walks the other way from how it is drawn
 	sprite.flip_h = facing != drawn_facing
 	sprite.position.y = -absf(sin(_walk_time * BOB_RATE)) * bob_height if moving else 0.0
+	# turned about the figure's middle, so it stays standing on (or, upside down, lying along) the ground line
+	sprite.scale.y = upturn
+	sprite.position.y += sprite.offset.y * (1.0 - upturn)

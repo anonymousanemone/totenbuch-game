@@ -1,6 +1,6 @@
 [gd_scene format=3]
 
-[ext_resource type="Script" path="res://scripts/survival/survival.gd" id="level"]
+[ext_resource type="Script" path="res://scripts/survival/survival_play.gd" id="level"]
 
 [ext_resource type="Script" path="res://scripts/avatar.gd" id="avatar"]
 
@@ -107,6 +107,114 @@
 [ext_resource type="Texture2D" path="res://assets/survival/figures/column_3.png" id="column_3"]
 
 [ext_resource type="Texture2D" path="res://assets/survival/figures/column_4.png" id="column_4"]
+
+[ext_resource type="Texture2D" path="res://assets/survival/figures/spell44_door.png" id="spell44_door"]
+
+[ext_resource type="Texture2D" path="res://assets/survival/figures/spell44_head.png" id="spell44_head"]
+
+[ext_resource type="Texture2D" path="res://assets/survival/figures/spell45_mummy_head.png" id="spell45_mummy_head"]
+
+[ext_resource type="Texture2D" path="res://assets/survival/figures/spell47_ba.png" id="spell47_ba"]
+
+[ext_resource type="Texture2D" path="res://assets/survival/figures/spell48_oar.png" id="spell48_oar"]
+
+[ext_resource type="Texture2D" path="res://assets/survival/figures/spell48_feather.png" id="spell48_feather"]
+
+[ext_resource type="Texture2D" path="res://assets/survival/figures/spell51_head.png" id="spell51_head"]
+
+[ext_resource type="Texture2D" path="res://assets/survival/figures/spell52_altar.png" id="spell52_altar"]
+
+[ext_resource type="Texture2D" path="res://assets/survival/figures/spell52_chair.png" id="spell52_chair"]
+
+[ext_resource type="Texture2D" path="res://assets/survival/figures/spell52_forearm.png" id="spell52_forearm"]
+
+[ext_resource type="Texture2D" path="res://assets/survival/figures/spell52_head.png" id="spell52_head"]
+
+[ext_resource type="Texture2D" path="res://assets/survival/figures/spell53_altar.png" id="spell53_altar"]
+
+[ext_resource type="Texture2D" path="res://assets/survival/figures/spell53_loaf1.png" id="spell53_loaf1"]
+
+[ext_resource type="Texture2D" path="res://assets/survival/figures/spell53_loaf2.png" id="spell53_loaf2"]
+
+[ext_resource type="Texture2D" path="res://assets/survival/figures/spell53_loaf3.png" id="spell53_loaf3"]
+
+[ext_resource type="Texture2D" path="res://assets/survival/figures/spell53_loaf4.png" id="spell53_loaf4"]
+
+[ext_resource type="Texture2D" path="res://assets/survival/figures/spell53_loaf5.png" id="spell53_loaf5"]
+
+[ext_resource type="Texture2D" path="res://assets/survival/figures/spell53_loaf6.png" id="spell53_loaf6"]
+
+[ext_resource type="Texture2D" path="res://assets/survival/figures/spell53_loaf7.png" id="spell53_loaf7"]
+
+[ext_resource type="Texture2D" path="res://assets/survival/figures/spell53_chair.png" id="spell53_chair"]
+
+[ext_resource type="Texture2D" path="res://assets/survival/figures/spell53_forearm.png" id="spell53_forearm"]
+
+[ext_resource type="Texture2D" path="res://assets/survival/figures/spell53_head.png" id="spell53_head"]
+
+[ext_resource type="Texture2D" path="res://assets/survival/figures/spell59_seated_man.png" id="spell59_seated_man"]
+
+[ext_resource type="Texture2D" path="res://assets/survival/figures/spell59_stream.png" id="spell59_stream"]
+
+[ext_resource type="Texture2D" path="res://assets/survival/figures/spell59_chair.png" id="spell59_chair"]
+
+[ext_resource type="Texture2D" path="res://assets/survival/figures/spell59_mw1.png" id="spell59_mw1"]
+
+[ext_resource type="Texture2D" path="res://assets/survival/figures/spell59_mw2.png" id="spell59_mw2"]
+
+[ext_resource type="Texture2D" path="res://assets/survival/figures/spell59_mw3.png" id="spell59_mw3"]
+
+[ext_resource type="Texture2D" path="res://assets/survival/figures/spell59_mw4.png" id="spell59_mw4"]
+
+[ext_resource type="Texture2D" path="res://assets/survival/figures/spell59_mw5.png" id="spell59_mw5"]
+
+[ext_resource type="Texture2D" path="res://assets/survival/figures/spell59_mw6.png" id="spell59_mw6"]
+
+[ext_resource type="Texture2D" path="res://assets/survival/figures/spell57_lower_body.png" id="spell57_lower_body"]
+
+[ext_resource type="Texture2D" path="res://assets/survival/figures/spell57_upper_body.png" id="spell57_upper_body"]
+
+[ext_resource type="Texture2D" path="res://assets/survival/figures/spell57_stream.png" id="spell57_stream"]
+
+[ext_resource type="Texture2D" path="res://assets/survival/figures/spell57_tray.png" id="spell57_tray"]
+
+[ext_resource type="Texture2D" path="res://assets/survival/figures/spell62_sail.png" id="spell62_sail"]
+
+[ext_resource type="Texture2D" path="res://assets/survival/figures/spell61_sail.png" id="spell61_sail"]
+
+[ext_resource type="Texture2D" path="res://assets/survival/figures/spell60_sail.png" id="spell60_sail"]
+
+[ext_resource type="Texture2D" path="res://assets/survival/figures/spell56_sail.png" id="spell56_sail"]
+
+[ext_resource type="Texture2D" path="res://assets/survival/figures/spell55_sail.png" id="spell55_sail"]
+
+[ext_resource type="Texture2D" path="res://assets/survival/figures/spell54_sail.png" id="spell54_sail"]
+
+[ext_resource type="Texture2D" path="res://assets/survival/figures/spell58_sail.png" id="spell58_sail"]
+
+[ext_resource type="Texture2D" path="res://assets/survival/figures/spell43_sceptre1.png" id="spell43_sceptre1"]
+
+[ext_resource type="Texture2D" path="res://assets/survival/figures/spell43_sceptre2.png" id="spell43_sceptre2"]
+
+[ext_resource type="Texture2D" path="res://assets/survival/figures/spell43_sceptre3.png" id="spell43_sceptre3"]
+
+[ext_resource type="Texture2D" path="res://assets/survival/figures/spell45_mummy_body.png" id="spell45_mummy_body"]
+
+[ext_resource type="Texture2D" path="res://assets/survival/figures/avatar_44.png" id="avatar_44"]
+
+[ext_resource type="Texture2D" path="res://assets/survival/figures/avatar_51.png" id="avatar_51"]
+
+[sub_resource type="AtlasTexture" id="Line43_44"]
+atlas = ExtResource("strip")
+region = Rect2(8632, 180, 20, 357)
+
+[sub_resource type="AtlasTexture" id="Line49_50"]
+atlas = ExtResource("strip")
+region = Rect2(6213, 180, 20, 357)
+
+[sub_resource type="AtlasTexture" id="Line50_51"]
+atlas = ExtResource("strip")
+region = Rect2(5699, 180, 20, 357)
 
 [sub_resource type="ShaderMaterial" id="paper"]
 shader = ExtResource("papyrus")
@@ -501,6 +609,297 @@ centered = false
 metadata/registry_id = "spell63_water"
 
 
+[node name="Mummy" type="Node2D" parent="Figures/Spell45"]
+position = Vector2(8032, 528)
+
+[node name="Waist" type="Node2D" parent="Figures/Spell57"]
+position = Vector2(3200, 388)
+
+[node name="DoorDark" type="ColorRect" parent="Figures/Spell44"]
+visible = false
+offset_left = 8232.0
+offset_top = 274.0
+offset_right = 8336.0
+offset_bottom = 508.0
+mouse_filter = 2
+color = Color(0.18, 0.113, 0.063, 1)
+
+[node name="spell44_door" type="Sprite2D" parent="Figures/Spell44"]
+position = Vector2(8228, 270)
+texture = ExtResource("spell44_door")
+centered = false
+metadata/piece_id = "spell44_door"
+
+[node name="spell44_head" type="Sprite2D" parent="Figures/Spell44"]
+position = Vector2(8533, 252)
+texture = ExtResource("spell44_head")
+centered = false
+metadata/piece_id = "spell44_head"
+
+[node name="spell45_mummy_head" type="Sprite2D" parent="Figures/Spell45/Mummy"]
+position = Vector2(-39, -296)
+texture = ExtResource("spell45_mummy_head")
+centered = false
+metadata/piece_id = "spell45_mummy_head"
+
+[node name="spell47_ba" type="Sprite2D" parent="Figures/Spell47"]
+position = Vector2(7430, 408)
+texture = ExtResource("spell47_ba")
+centered = false
+metadata/piece_id = "spell47_ba"
+
+[node name="spell48_oar" type="Sprite2D" parent="Figures/Spell48"]
+position = Vector2(6912, 69)
+texture = ExtResource("spell48_oar")
+centered = false
+metadata/piece_id = "spell48_oar"
+
+[node name="spell48_feather" type="Sprite2D" parent="Figures/Spell48"]
+position = Vector2(6881, 71)
+texture = ExtResource("spell48_feather")
+centered = false
+metadata/piece_id = "spell48_feather"
+
+[node name="spell51_head" type="Sprite2D" parent="Figures/Spell51"]
+position = Vector2(5545, 258)
+texture = ExtResource("spell51_head")
+centered = false
+metadata/piece_id = "spell51_head"
+
+[node name="spell52_altar" type="Sprite2D" parent="Figures/Spell52"]
+position = Vector2(5305, 399)
+texture = ExtResource("spell52_altar")
+centered = false
+metadata/piece_id = "spell52_altar"
+
+[node name="spell52_chair" type="Sprite2D" parent="Figures/Spell52"]
+position = Vector2(5147, 390)
+texture = ExtResource("spell52_chair")
+centered = false
+metadata/piece_id = "spell52_chair"
+
+[node name="spell52_forearm" type="Sprite2D" parent="Figures/Spell52"]
+position = Vector2(5248, 344)
+texture = ExtResource("spell52_forearm")
+centered = false
+metadata/piece_id = "spell52_forearm"
+
+[node name="spell52_head" type="Sprite2D" parent="Figures/Spell52"]
+position = Vector2(5159, 258)
+texture = ExtResource("spell52_head")
+centered = false
+metadata/piece_id = "spell52_head"
+
+[node name="spell53_altar" type="Sprite2D" parent="Figures/Spell53"]
+position = Vector2(4547, 416)
+texture = ExtResource("spell53_altar")
+centered = false
+metadata/piece_id = "spell53_altar"
+
+[node name="spell53_loaf1" type="Sprite2D" parent="Figures/Spell53"]
+position = Vector2(4544, 398)
+texture = ExtResource("spell53_loaf1")
+centered = false
+metadata/piece_id = "spell53_loaf1"
+
+[node name="spell53_loaf2" type="Sprite2D" parent="Figures/Spell53"]
+position = Vector2(4570, 398)
+texture = ExtResource("spell53_loaf2")
+centered = false
+metadata/piece_id = "spell53_loaf2"
+
+[node name="spell53_loaf3" type="Sprite2D" parent="Figures/Spell53"]
+position = Vector2(4600, 387)
+texture = ExtResource("spell53_loaf3")
+centered = false
+metadata/piece_id = "spell53_loaf3"
+
+[node name="spell53_loaf4" type="Sprite2D" parent="Figures/Spell53"]
+position = Vector2(4626, 398)
+texture = ExtResource("spell53_loaf4")
+centered = false
+metadata/piece_id = "spell53_loaf4"
+
+[node name="spell53_loaf5" type="Sprite2D" parent="Figures/Spell53"]
+position = Vector2(4650, 398)
+texture = ExtResource("spell53_loaf5")
+centered = false
+metadata/piece_id = "spell53_loaf5"
+
+[node name="spell53_loaf6" type="Sprite2D" parent="Figures/Spell53"]
+position = Vector2(4543, 365)
+texture = ExtResource("spell53_loaf6")
+centered = false
+metadata/piece_id = "spell53_loaf6"
+
+[node name="spell53_loaf7" type="Sprite2D" parent="Figures/Spell53"]
+position = Vector2(4604, 362)
+texture = ExtResource("spell53_loaf7")
+centered = false
+metadata/piece_id = "spell53_loaf7"
+
+[node name="spell53_chair" type="Sprite2D" parent="Figures/Spell53"]
+position = Vector2(4382, 382)
+texture = ExtResource("spell53_chair")
+centered = false
+metadata/piece_id = "spell53_chair"
+
+[node name="spell53_forearm" type="Sprite2D" parent="Figures/Spell53"]
+position = Vector2(4496, 287)
+texture = ExtResource("spell53_forearm")
+centered = false
+metadata/piece_id = "spell53_forearm"
+
+[node name="spell53_head" type="Sprite2D" parent="Figures/Spell53"]
+position = Vector2(4398, 255)
+texture = ExtResource("spell53_head")
+centered = false
+metadata/piece_id = "spell53_head"
+
+[node name="spell59_seated_man" type="Sprite2D" parent="Figures/Spell59"]
+position = Vector2(1701, 319)
+texture = ExtResource("spell59_seated_man")
+centered = false
+metadata/piece_id = "spell59_seated_man"
+
+[node name="spell59_stream" type="Sprite2D" parent="Figures/Spell59"]
+position = Vector2(1726, 262)
+texture = ExtResource("spell59_stream")
+centered = false
+metadata/piece_id = "spell59_stream"
+
+[node name="spell59_chair" type="Sprite2D" parent="Figures/Spell59"]
+position = Vector2(1761, 425)
+texture = ExtResource("spell59_chair")
+centered = false
+metadata/piece_id = "spell59_chair"
+
+[node name="spell59_mw1" type="Sprite2D" parent="Figures/Spell59"]
+position = Vector2(1694, 94)
+texture = ExtResource("spell59_mw1")
+centered = false
+metadata/piece_id = "spell59_mw1"
+
+[node name="spell59_mw2" type="Sprite2D" parent="Figures/Spell59"]
+position = Vector2(1697, 108)
+texture = ExtResource("spell59_mw2")
+centered = false
+metadata/piece_id = "spell59_mw2"
+
+[node name="spell59_mw3" type="Sprite2D" parent="Figures/Spell59"]
+position = Vector2(1697, 121)
+texture = ExtResource("spell59_mw3")
+centered = false
+metadata/piece_id = "spell59_mw3"
+
+[node name="spell59_mw4" type="Sprite2D" parent="Figures/Spell59"]
+position = Vector2(1623, 128)
+texture = ExtResource("spell59_mw4")
+centered = false
+metadata/piece_id = "spell59_mw4"
+
+[node name="spell59_mw5" type="Sprite2D" parent="Figures/Spell59"]
+position = Vector2(1625, 144)
+texture = ExtResource("spell59_mw5")
+centered = false
+metadata/piece_id = "spell59_mw5"
+
+[node name="spell59_mw6" type="Sprite2D" parent="Figures/Spell59"]
+position = Vector2(1625, 156)
+texture = ExtResource("spell59_mw6")
+centered = false
+metadata/piece_id = "spell59_mw6"
+
+[node name="spell57_lower_body" type="Sprite2D" parent="Figures/Spell57"]
+position = Vector2(3152, 389)
+texture = ExtResource("spell57_lower_body")
+centered = false
+metadata/piece_id = "spell57_lower_body"
+
+[node name="spell57_upper_body" type="Sprite2D" parent="Figures/Spell57/Waist"]
+position = Vector2(-49, -108)
+texture = ExtResource("spell57_upper_body")
+centered = false
+metadata/piece_id = "spell57_upper_body"
+
+[node name="spell57_stream" type="Sprite2D" parent="Figures/Spell57"]
+position = Vector2(3083, 192)
+texture = ExtResource("spell57_stream")
+centered = false
+metadata/piece_id = "spell57_stream"
+
+[node name="spell57_tray" type="Sprite2D" parent="Figures/Spell57"]
+position = Vector2(3012, 287)
+texture = ExtResource("spell57_tray")
+centered = false
+metadata/piece_id = "spell57_tray"
+
+[node name="spell62_sail" type="Sprite2D" parent="Figures/Spell62"]
+position = Vector2(777, 238)
+texture = ExtResource("spell62_sail")
+centered = false
+metadata/piece_id = "spell62_sail"
+
+[node name="spell61_sail" type="Sprite2D" parent="Figures/Spell61"]
+position = Vector2(1097, 238)
+texture = ExtResource("spell61_sail")
+centered = false
+metadata/piece_id = "spell61_sail"
+
+[node name="spell60_sail" type="Sprite2D" parent="Figures/Spell60"]
+position = Vector2(1436, 240)
+texture = ExtResource("spell60_sail")
+centered = false
+metadata/piece_id = "spell60_sail"
+
+[node name="spell56_sail" type="Sprite2D" parent="Figures/Spell56"]
+position = Vector2(3504, 229)
+texture = ExtResource("spell56_sail")
+centered = false
+metadata/piece_id = "spell56_sail"
+
+[node name="spell55_sail" type="Sprite2D" parent="Figures/Spell55"]
+position = Vector2(3764, 247)
+texture = ExtResource("spell55_sail")
+centered = false
+metadata/piece_id = "spell55_sail"
+
+[node name="spell54_sail" type="Sprite2D" parent="Figures/Spell54"]
+position = Vector2(4184, 247)
+texture = ExtResource("spell54_sail")
+centered = false
+metadata/piece_id = "spell54_sail"
+
+[node name="spell58_sail" type="Sprite2D" parent="Figures/Spell58"]
+position = Vector2(2305, 235)
+texture = ExtResource("spell58_sail")
+centered = false
+metadata/piece_id = "spell58_sail"
+
+[node name="spell43_sceptre1" type="Sprite2D" parent="Figures/Spell43"]
+position = Vector2(8836, 260)
+texture = ExtResource("spell43_sceptre1")
+centered = false
+metadata/piece_id = "spell43_sceptre1"
+
+[node name="spell43_sceptre2" type="Sprite2D" parent="Figures/Spell43"]
+position = Vector2(8846, 260)
+texture = ExtResource("spell43_sceptre2")
+centered = false
+metadata/piece_id = "spell43_sceptre2"
+
+[node name="spell43_sceptre3" type="Sprite2D" parent="Figures/Spell43"]
+position = Vector2(8856, 261)
+texture = ExtResource("spell43_sceptre3")
+centered = false
+metadata/piece_id = "spell43_sceptre3"
+
+[node name="spell45_mummy_body" type="Sprite2D" parent="Figures/Spell45/Mummy"]
+position = Vector2(-39, -248)
+texture = ExtResource("spell45_mummy_body")
+centered = false
+metadata/piece_id = "spell45_mummy_body"
+
 [node name="Avatar" type="Node2D" parent="."]
 position = Vector2(9000, 534)
 script = ExtResource("avatar")
@@ -571,6 +970,27 @@ offset_bottom = 357.0
 mouse_filter = 2
 [node name="Ink" type="Sprite2D" parent="Foreground/Column5"]
 texture = ExtResource("column_4")
+centered = false
+
+
+[node name="SpliceLines" type="Node2D" parent="."]
+z_index = 6
+
+[node name="Line43_44" type="Sprite2D" parent="SpliceLines"]
+position = Vector2(8632, 180)
+texture = SubResource("Line43_44")
+centered = false
+
+
+[node name="Line49_50" type="Sprite2D" parent="SpliceLines"]
+position = Vector2(6213, 180)
+texture = SubResource("Line49_50")
+centered = false
+
+
+[node name="Line50_51" type="Sprite2D" parent="SpliceLines"]
+position = Vector2(5699, 180)
+texture = SubResource("Line50_51")
 centered = false
 
 

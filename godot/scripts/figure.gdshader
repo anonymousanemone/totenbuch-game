@@ -9,6 +9,9 @@ shader_type canvas_item;
 uniform vec4 base : source_color = vec4(0.906, 0.839, 0.682, 1.0);
 uniform vec4 fibre : source_color = vec4(0.47, 0.35, 0.16, 1.0);
 uniform vec4 ink : source_color = vec4(0.180392, 0.113725, 0.062745, 1.0);
+// Only the part between these world x is drawn (a figure spliced at a frame line).
+uniform float clip_min = -1e9;
+uniform float clip_max = 1e9;
 
 varying vec2 world_pos;
 varying vec4 tint;      // the sprite's modulate: tints the ink (a bitten bearer goes red), not the papyrus
@@ -19,6 +22,9 @@ void vertex() {
 }
 
 void fragment() {
+	if (world_pos.x < clip_min || world_pos.x > clip_max) {
+		discard;
+	}
 	vec4 t = texture(TEXTURE, UV);
 	vec3 paper = papyrus(world_pos, base.rgb, fibre.rgb);
 	if (t.g > 0.5) {

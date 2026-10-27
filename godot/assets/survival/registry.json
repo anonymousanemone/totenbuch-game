@@ -307,6 +307,13 @@
     "default": "A chapter about breathing air and about being in possession of the water in the Netherworld."
    },
    "journal": false
+  },
+  "spell43_sceptres": {
+   "name": "Was-sceptres",
+   "descriptions": {
+    "default": "Three was-sceptres, taken from the god's hand. One is lost each time the way goes wrong."
+   },
+   "journal": false
   }
  }
 }

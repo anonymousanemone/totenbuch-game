@@ -81,6 +81,9 @@ var _stats := {}         ## each creature fought: {attempts, time (s of active f
 var _focused := true     ## the game window has the focus (time away from it is not fighting time)
 var _life_clue_given := false
 var _life_clue_hold := 0.0
+var _breath_times := {}       ## without either sign: active seconds per encounter, toward the breath clue
+var _breath_total := 0.0
+var _breath_clue_given := false
 var current := {}        ## first unsolved encounter; spell 38 gates progress beyond it
 var fight := {}          ## state of the running fight, empty when walking
 var rng := RandomNumberGenerator.new()
@@ -238,6 +241,9 @@ func reset() -> void:
 	_life_scores.clear()
 	_life_times.clear()
 	_life_total = 0.0
+	_breath_times.clear()
+	_breath_total = 0.0
+	_breath_clue_given = false
 	_stats.clear()
 	_life_clue_given = false
 	_life_clue_hold = 0.0
@@ -995,6 +1001,7 @@ func _update_fight(dt: float) -> void:
 		"sheaf": sheaf._sheaf(dt)
 	_tick_stats(dt)
 	_tick_life(dt)
+	_tick_breath(dt)
 
 
 func fight_click(p: Vector2) -> void:
@@ -1215,6 +1222,12 @@ func hard() -> bool:
 	return not fight.is_empty() and fight.e.id in AFTER_CHOICE and not "sail38" in items and fight.e.get("hard_ready", false)
 
 
+## Tuning value `key` of this fight's encounter: in hard mode from its `hard` where it has one.
+func tune(key: String):
+	var e: Dictionary = fight.e
+	return e.hard.get(key, e[key]) if hard() and e.has("hard") else e[key]
+
+
 func endless() -> bool:
 	return not fight.is_empty() and fight.e.id in AFTER_CHOICE and "ankh38" in items
 
@@ -1300,6 +1313,20 @@ func _tick_life(dt: float) -> void:
 	if not _life_clue_given and (_life_times[id] >= LIFE_GAME_CLUE or _life_total >= LIFE_TOTAL_CLUE):
 		_life_clue_given = true
 		say("Scribe", _hints.message("dangers.life_clue"))
+		_life_clue_hold = 6.0
+
+
+## Without either sign the later fights are at their hardest: after as long as the ankh's clue
+## waits, the scribe suggests the breath.
+func _tick_breath(dt: float) -> void:
+	if not hard() or endless() or not _fight_active():
+		return
+	var id: String = fight.e.id
+	_breath_times[id] = float(_breath_times.get(id, 0.0)) + dt
+	_breath_total += dt
+	if not _breath_clue_given and (_breath_times[id] >= LIFE_GAME_CLUE or _breath_total >= LIFE_TOTAL_CLUE):
+		_breath_clue_given = true
+		say("Scribe", _hints.message("dangers.breath_clue"))
 		_life_clue_hold = 6.0
 
 

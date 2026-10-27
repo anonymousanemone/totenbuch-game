@@ -90,8 +90,7 @@ func _apep_start(e: Dictionary) -> void:
 
 ## Tuning value `key`: in hard mode from `hard` where it has one.
 func _apep_e(key: String):
-	var e: Dictionary = game.fight.e
-	return e.hard.get(key, e[key]) if game.hard() else e[key]
+	return game.tune(key)
 
 
 ## How far the barb is in, 0 to 1: the tuples go from the first value to the second.

@@ -22,7 +22,8 @@ Walk right to left with the arrows or by clicking the papyrus. Click a glowing f
 to approach it, read its description, and record it in the Journal. Captions can be
 inspected without adding journal entries. Tall text columns have papyrus-backed
 foreground nodes, so the avatar passes behind them; each repeats everything drawn within it,
-rules and frame lines included. The avatar is a copy of the scroll's first man, the spell-43 worshipper.
+rules and frame lines included, and runs from the outer edge of the frame line on its left to
+that of the one on its right (both strokes of a double line). The avatar is a copy of the scroll's first man, the spell-43 worshipper.
 
 `scenes/survival.tscn` holds the artwork in spell groups, the avatar, camera, and five
 foreground text sections. `assets/survival/level.json` records source-layer IDs and bounds;
@@ -111,9 +112,11 @@ Spell 38's choice affects only spells 39–41:
 | Ankh | Hard where implemented | One ankh flashes red on a damaging mistake; no death, snakes return, no level ending |
 | Neither | Same hard rules as the ankh | Three flesh signs; normal deaths and victories |
 
-Only the sheaf currently has hard rules. Apep and the Eater of the Ass keep their existing
-(easy) tuning in all three routes; their `hard_ready: false` entries are the scaffolding for
-future tuning. The ankh's immortality and repeating encounters already apply to all three.
+All three later fights have hard rules: each encounter's `hard` entry in `danger_encounters.gd`
+overrides its tuning (faster, shorter windows; read through `tune()`), and hard mode is meant to be
+winnable only with very quick reactions. Without either sign, after the ankh clue's active-play
+limits the scribe suggests the breath: “Maybe taking a breath could help you with these challenges.”
+The ankh's immortality and repeating encounters apply to all three.
 Earlier encounters keep their original rules regardless of which sign is carried.
 
 With the ankh, the Journal silently counts each successful wave pressed back (39) or snake

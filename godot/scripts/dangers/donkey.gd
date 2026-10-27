@@ -69,7 +69,7 @@ func _donkey_start(e: Dictionary) -> void:
 
 ## Tuning value `key` for the strikes so far: from its first value (none) to its last.
 func _donkey_tune(key: String) -> float:
-	var v: Array = game.fight.e[key]
+	var v: Array = game.tune(key)
 	return lerpf(float(v[0]), float(v[1]), clampf(float(game.fight.hits) / float(int(game.fight.e.need) - 1), 0.0, 1.0))
 
 
@@ -78,10 +78,9 @@ func _donkey_lift_gap() -> float:
 	return _donkey_tune("lift_every") * game.rng.randf_range(0.7, 1.3)
 
 
-## How fast it crawls (share of the back per s); in hard mode `hard_speed` times as fast.
+## How fast it crawls (share of the back per s).
 func _donkey_speed() -> float:
-	var v: float = _donkey_tune("crawl") * game.unit / game.fight.back.length()
-	return v * float(game.fight.e.hard_speed) if game.hard() else v
+	return _donkey_tune("crawl") * game.unit / game.fight.back.length()
 
 
 ## Where it crawls to next from `from`: anywhere along the back at least DONKEY_TURN away.

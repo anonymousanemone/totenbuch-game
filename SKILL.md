@@ -183,8 +183,12 @@ Say what drawing or animation an idea needs, so its cost is clear.
 ## 7. Suggestion template
 
 Sections 7 and 8 are guides, not a gate. Not every idea needs every field filled or every box
-ticked. A rough idea can be a few lines, and a good game may break a rule for a reason (say
-which one and why). Fill in what matters for that idea and keep the rest short.
+ticked. A rough idea can be a few lines. Fill in what matters for that idea and keep the rest
+short.
+
+Breaking a rule in this file is fine only when the user explicitly asks for it. If an idea
+would break one, say which rule and why, and confirm with the user before going ahead, even
+when the request seems to call for it.
 
 The template is for the first review. Once an idea is accepted, it goes into `ideas.md` as a
 short entry: what is drawn, the disturbed state, how it plays, and the pieces. Leave out the

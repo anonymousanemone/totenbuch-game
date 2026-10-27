@@ -107,13 +107,13 @@ func _sheaf_undress() -> void:
 
 ## Tuning value `key` for the strikes so far: from its first value (none) to its last (the last strike).
 func _sheaf_tune(key: String) -> float:
-	var v: Array = game.fight.e[key]
+	var v: Array = game.tune(key)
 	return lerpf(float(v[0]), float(v[1]), clampf(float(game.fight.hits) / float(int(game.fight.e.need) - 1), 0.0, 1.0))
 
 
 ## How long it is unseen between one band and the next.
 func _sheaf_gap() -> float:
-	var g: Array = game.fight.e.gap
+	var g: Array = game.tune("gap")
 	return game.rng.randf_range(float(g[0]), float(g[1]))
 
 
@@ -536,12 +536,13 @@ func autotest(e: Dictionary, expect: Callable) -> void:
 	if OS.has_environment("SHEAF_CURVE"):      # dev: the whole curve, in hard mode
 		for r in [0.25, 0.35, 0.45, 0.55, 0.65, 0.75]:
 			print("spell 41 curve (hard): react %.2f s -> %d%% won" % [r, rate.call(r, false, true) * 100])
-	var quick: float = rate.call(0.35, false, true)
+	var quick: float = rate.call(0.25, false, true)
 	var slow: float = rate.call(1.15, false, true)
 	var careless: float = rate.call(0.0, true, true)
 	var gentle: float = rate.call(0.35, false, false)
-	print("spell 41 wins: hard, striking 0.35 s after the shiver %d%%, 1.15 s after %d%%, blindly %d%%; with the breath of life %d%%" % [quick * 100, slow * 100, careless * 100, gentle * 100])
-	expect.call(quick >= 0.9 and gentle >= 0.9, e.id + " an attentive player (0.35 s) wins nearly every fight")
+	print("spell 41 wins: hard, striking 0.25 s after the shiver %d%%, 1.15 s after %d%%, blindly %d%%; with the breath of life %d%%" % [quick * 100, slow * 100, careless * 100, gentle * 100])
+	expect.call(gentle >= 0.9, e.id + " with the breath of life an attentive player (0.35 s) wins nearly every fight")
+	expect.call(quick >= 0.9, e.id + " in hard mode a very quick player (0.25 s) still wins nearly every fight")
 	expect.call(slow <= 0.5, e.id + " in hard mode a slow one (1.15 s) loses at least half")
 	expect.call(careless <= 0.1, e.id + " striking blindly loses")
 	game.start_fight(e)

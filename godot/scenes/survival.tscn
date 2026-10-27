@@ -515,10 +515,10 @@ z_index = 6
 
 
 [node name="Column1" type="Node2D" parent="Foreground"]
-position = Vector2(47, 180)
+position = Vector2(30, 180)
 [node name="Papyrus" type="ColorRect" parent="Foreground/Column1"]
 material = SubResource("paper")
-offset_right = 112.0
+offset_right = 147.0
 offset_bottom = 357.0
 mouse_filter = 2
 [node name="Ink" type="Sprite2D" parent="Foreground/Column1"]
@@ -527,10 +527,10 @@ centered = false
 
 
 [node name="Column2" type="Node2D" parent="Foreground"]
-position = Vector2(1878, 180)
+position = Vector2(1849, 180)
 [node name="Papyrus" type="ColorRect" parent="Foreground/Column2"]
 material = SubResource("paper")
-offset_right = 218.0
+offset_right = 265.0
 offset_bottom = 357.0
 mouse_filter = 2
 [node name="Ink" type="Sprite2D" parent="Foreground/Column2"]
@@ -539,10 +539,10 @@ centered = false
 
 
 [node name="Column3" type="Node2D" parent="Foreground"]
-position = Vector2(2509, 180)
+position = Vector2(2489, 180)
 [node name="Papyrus" type="ColorRect" parent="Foreground/Column3"]
 material = SubResource("paper")
-offset_right = 250.0
+offset_right = 272.0
 offset_bottom = 357.0
 mouse_filter = 2
 [node name="Ink" type="Sprite2D" parent="Foreground/Column3"]
@@ -551,10 +551,10 @@ centered = false
 
 
 [node name="Column4" type="Node2D" parent="Foreground"]
-position = Vector2(3859, 180)
+position = Vector2(3847, 180)
 [node name="Papyrus" type="ColorRect" parent="Foreground/Column4"]
 material = SubResource("paper")
-offset_right = 145.0
+offset_right = 156.0
 offset_bottom = 357.0
 mouse_filter = 2
 [node name="Ink" type="Sprite2D" parent="Foreground/Column4"]
@@ -563,10 +563,10 @@ centered = false
 
 
 [node name="Column5" type="Node2D" parent="Foreground"]
-position = Vector2(4804, 180)
+position = Vector2(4793, 180)
 [node name="Papyrus" type="ColorRect" parent="Foreground/Column5"]
 material = SubResource("paper")
-offset_right = 245.0
+offset_right = 276.0
 offset_bottom = 357.0
 mouse_filter = 2
 [node name="Ink" type="Sprite2D" parent="Foreground/Column5"]

@@ -11,7 +11,8 @@
 	"dangers.finished": "The road is clear. You carry the breath of life.",
 	"dangers.fought": "Fought %d times, for %s total.",
 	"dangers.fought_once": "Fought 1 time, for %s total.",
-	"dangers.life_clue": "Alive, yes. Free, no. Perhaps life alone wasn't the thing to take."
+	"dangers.life_clue": "Alive, yes. Free, no. Perhaps life alone wasn't the thing to take.",
+	"dangers.breath_clue": "Maybe taking a breath could help you with these challenges."
   },
   "puzzles": {
 	"dangers.e31": {

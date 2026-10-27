@@ -36,8 +36,8 @@
 [ext_resource type="Texture2D" uid="uid://d1s867gtn2x2n" path="res://assets/dangers/figures/tail40.png" id="actor_40"]
 [ext_resource type="Texture2D" uid="uid://caaupi53ipkai" path="res://assets/dangers/figures/ankh38.png" id="actor_ankh38"]
 [ext_resource type="Texture2D" uid="uid://day6vrpv8mydw" path="res://assets/dangers/figures/breath_giver.png" id="actor_breath_giver"]
-[ext_resource type="Texture2D" uid="uid://h6c1gy6e1nm" path="res://assets/dangers/figures/sail38.png" id="actor_sail38"]
 [ext_resource type="Texture2D" uid="uid://cva558u57ppvk" path="res://assets/dangers/figures/glyph38_breath.png" id="actor_glyph38_breath"]
+[ext_resource type="Texture2D" uid="uid://h6c1gy6e1nm" path="res://assets/dangers/figures/sail38.png" id="actor_sail38"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_papyrus"]
 shader = ExtResource("6_papyrus")

@@ -17,15 +17,15 @@ const ENCOUNTERS := [
 		# a wave with red ones (`red_order`: which launches come red, in order); each crocodile of a
 		# wave `ramp` faster than the one before. A lost fight starts again from the first wave.
 		"waves": [
-			{"count": 3, "speed": 180.0, "ramp": 0.01, "interval": 3.0, "at_once": 1},
-			{"count": 6, "speed": 200.0, "ramp": 0.01, "interval": 2.2, "at_once": 2, "red_order": [false, true, false, true, true, false]},
+			{"count": 3, "speed": 190.0, "ramp": 0.01, "interval": 3.0, "at_once": 1},
+			{"count": 6, "speed": 210.0, "ramp": 0.01, "interval": 2.2, "at_once": 2, "red_order": [false, true, false, true, true, false]},
 		],
 		"caption": [5189, 6667]},
 	{"id": "e32", "tag": "Crocodiles", "boxes": ["e32"], "kind": "crocs", "spear": "spear32", "task": 0,
 		"foes": ["c32a", "c32b", "c32c", "c32d"], "both_sides": true,
 		# harder than 31 and losable, but always possible: each crocodile is `ramp` faster than the
 		# one before (210 -> about 420), and none reaches him within `min_gap` s of the one before
-		"waves": [{"count": 14, "speed": 180.0, "ramp": 0.01, "interval": 0.8, "at_once": 2, "red": 0.35, "min_gap": 0.9}],
+		"waves": [{"count": 14, "speed": 175.0, "ramp": 0.01, "interval": 0.8, "at_once": 2, "red": 0.35, "min_gap": 0.9}],
 		"caption": [3944, 5168]},
 	# the lunging snake: it waits `rest` back from where it is drawn (out of reach) for `idle` s,
 	# waves its tail (`wave` s, `tail` rad, `wave_hz`), squashes down (`crouch` s) and springs
@@ -87,12 +87,12 @@ const ENCOUNTERS := [
 		"foe": "apep", "need": 6, "speed": [220.0, 380.0], "gap": [2.2, 0.9], "most": 2, "min_gap": 0.8, "switch_gap": 1.0,
 		"lash": 0.35, "reach": [10.0, 5.0], "height": 12.0, "width": 30.0, "teach": 2, "small": 0.25, "large": 0.38,
 		"dodge": 40.0, "advance": 16.0, "room": 4,
-		"hard": {"speed": [260.0, 440.0], "gap": [1.6, 0.7], "most": 3, "min_gap": 0.6, "switch_gap": 0.65},
+		"hard": {"speed": [300.0, 520.0], "gap": [1.2, 0.55], "most": 3, "min_gap": 0.5, "switch_gap": 0.55},
 		"fold": 492,
 		"caption": [1458, 2295]},
 	# the Eater of the Ass (spell 40): the vignette opens out close up; the snake crawls along the
 	# donkey's back, from the rump as drawn to the withers (`back`, strip px), at `crawl` plate px/s
-	# (`hard_speed` times that in hard mode), and the bearer, behind the donkey, steps along with it
+	# (`hard` overrides in hard mode), and the bearer, behind the donkey, steps along with it
 	# on the same slant ([←] [→], `walk` plate px/s). Every `lift_every` s or so it stops, its coils
 	# tighten for `warn` s, and it lifts its front (`lift` plate px up the spear's line) for `up` s:
 	# a thrust then, his point within `reach` plate px of it along the back, strikes it. Not struck,
@@ -103,22 +103,23 @@ const ENCOUNTERS := [
 	# its picture's px.
 	{"id": "e40", "tag": "Eater of the Ass", "boxes": ["e40"], "kind": "donkey", "hard_ready": true, "spear": "spear40", "task": 4,
 		"foe": "snake40", "donkey": "donkey40", "tail": "tail40", "need": 3,
-		"back": [-110.0, -34.0], "crawl": [24.0, 36.0], "hard_speed": 1.15, "walk": 70.0, "reach": 10.0,
+		"back": [-110.0, -34.0], "crawl": [24.0, 36.0], "walk": 70.0, "reach": 10.0,
 		"lift_every": [1.6, 1.1], "warn": [0.45, 0.35], "up": [0.6, 0.4], "half": [0.0, 0.3],
 		"lift": 9.0, "lift_from": 70.0, "lift_to": 96.0, "tail_root": [1230, 529],
+		"hard": {"crawl": [40.0, 60.0], "lift_every": [1.1, 0.75], "warn": [0.25, 0.18], "up": [0.36, 0.26], "half": [0.15, 0.4]},
 		"caption": [581, 1437]},
 	# the snake in the sheaf (spell 41): the vignette opens out close up; the sheaf stands bound as
 	# drawn, and the snake is inside, on top of one of its four bands: that band shivers and the
 	# stalks stir above it; on top of the top band it is out, as drawn. [↑] [↓] lean the bearer to a
 	# band and Space strikes there: the wrong band and he is bitten. It stays on a band `window` s,
-	# then moves on (in hard mode, see hard(), it bites first), unseen `gap` s before the next band,
+	# then moves on (in hard mode, see hard(), it bites first; `hard` overrides), unseen `gap` s before the next band,
 	# at random; `need` strikes, the last always at the top band, and it is pinned there. `window`
 	# goes from the first strike to the last. `top`: the sheaf's top, in its picture's px. Three
 	# bites (CROC_HEALTH) and he crumbles. SHEAF_CURVE=1 with --autotest prints the hard-mode curve.
 	{"id": "e41", "tag": "Snake", "boxes": ["e41"], "kind": "sheaf", "hard_ready": true, "spear": "spear41", "task": 5,
 		"foe": "snake41", "bundle": "bundle41", "need": 5,
 		"window": [1.2, 1.2], "gap": [0.4, 0.9], "top": 63.0,
+		"hard": {"window": [0.85, 0.6], "gap": [0.25, 0.5]},
 		"caption": [50, 560]},
 	{"id": "e42", "boxes": ["e42"], "kind": "end"},
 ]
-

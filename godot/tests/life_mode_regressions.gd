@@ -40,6 +40,7 @@ func damage(scene) -> void:
 func hit(scene) -> void:
 	match scene.fight.kind:
 		"apep":
+			scene.fight.next = INF          # no wave of its own comes in between
 			var wave: Dictionary = scene.apep._apep_launch("medium", 220.0)
 			scene.apep._apep_pressed(wave)
 			scene.apep._apep(scene.apep.APEP_HOLD + 0.01)
@@ -157,6 +158,23 @@ func _test_clue() -> void:
 	scene.start_fight(encounter(scene, "e41"))
 	scene._tick_life(200.0)
 	expect(not scene._life_clue_given and scene._life_scores.is_empty(), "mortal play does not accumulate ankh scores or clue time")
+	scene.leave_fight()
+	scene.reset()
+	scene.hud.dismiss_intro()
+	scene.start_fight(encounter(scene, "e40"))
+	scene._tick_breath(GAME.LIFE_GAME_CLUE - 1.0)
+	expect(not scene._breath_clue_given, "without a sign the breath clue waits for the encounter time limit")
+	scene._tick_breath(1.1)
+	expect(scene._breath_clue_given and scene.hud._text == scene._hints.message("dangers.breath_clue"), "without a sign, struggling long enough suggests the breath")
+	scene.leave_fight()
+	for item in ["sail38", "ankh38"]:
+		scene.reset()
+		scene.hud.dismiss_intro()
+		scene.take(encounter(scene, "e38"), item)
+		scene.start_fight(encounter(scene, "e40"))
+		scene._tick_breath(200.0)
+		expect(not scene._breath_clue_given, "carrying " + item + " never suggests the breath")
+		scene.leave_fight()
 	scene.free()
 
 

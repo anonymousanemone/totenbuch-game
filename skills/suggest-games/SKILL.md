@@ -26,8 +26,9 @@ A suggestion starts from the drawing, never from a description of it.
 - **Check what is already cut.** If a figure is not yet its own sprite, it needs a layer in the
   `.mdp` (see the `table`, `haul` and `standards` folders, or `heka` for caption signs). Say which
   layer(s) to add.
-- **Read the level's README section and its script.** Know which kinds of play the level already
-  has, so the new one adds something different.
+- **Read the level's section in [`levels.md`](levels.md) and its script.** Know which kinds of play
+  the level already has, so the new one adds something different. `levels.md` is hand-kept: skim it
+  against the script now and then, and fix anything stale you find.
 
 ## 2. The verb comes from the picture
 

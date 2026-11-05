@@ -65,8 +65,6 @@
 
 Each `reference` field now names its sources (`skills/cite-references/SKILL.md`). The claims below aren't in Davis 1894 or in any other source read so far. Each item's `reference` field says so. Find a source for each, or soften or cut the wording.
 
-- [ ] **Procession, `plumed_ox`:** that he is the Apis bull.
-- [ ] **Procession, `sacrifice`:** that the Apis should never be slaughtered, and the remark about Cambyses and Herodotus.
 - [ ] **Procession, `priest_with_arm_censer`:** that he purifies the implements for the Opening of the Mouth.
 - [ ] **Dangers, `e36` and `e37`:** the names "Apshai" (the beetles) and "Merti" (the two snakes). Davis has neither; Renouf & Naville have "Merta" goddesses for spell 37.
 - [ ] **Cosmos, `isis_nephthys_kneeling`, `nephthys_kite`, `isis_kite`:** reading the name signs on their heads (basket on a house for Nephthys, throne for Isis). That they appear as kites is from Renouf & Naville 1904.
@@ -77,7 +75,7 @@ Each `reference` field now names its sources (`skills/cite-references/SKILL.md`)
 
 ### Field of Offerings — spell 110 (archived)
 
-- [ ] **Check where each caption sits** (`assets/field/registry.json`): the translations come from Backes' list for P. Turin 1791 and Allen's description of P. Ryerson. Matching each label to its spot on pl. XLI is my own reading, taking Backes' list right to left in each register. Check especially:
+- [ ] **Check where each caption sits** (`godot/assets/field/registry.json`): the translations come from Backes' list for P. Turin 1791 and Allen's description of P. Ryerson. Matching each label to its spot on pl. XLI is my own reading, taking Backes' list right to left in each register. Check especially:
   - which oval is which, for the three in the top register, the four in the middle and the four in the bottom;
   - how the bottom register's labels split between the long line over the throne bark, the column beside it, the oval island ("the god in it: Re") and the channel line ("birthplace of the gods");
   - which signs in the middle register say "giving the overflow";

@@ -100,7 +100,12 @@ var _strip_img: Image         ## the strip, read once to find where a caption's 
 var heka_known := false        ## the player has clicked a flashing heka sign
 const FLESH_PATH := "res://assets/dangers/figures/flesh.png"   ## the flesh sign that counts his health (supplied, not cut)
 const FLESH_GAP := 6.0          ## strip px between signs, drawn at their native asset size
-var _flesh_tex: Texture2D = _ink_from(load(FLESH_PATH)) if ResourceLoader.exists(FLESH_PATH) else null
+const FLESH_LIFT := 8.0         ## strip px between the top of his head and the signs
+const FLESH_SHIFT := 14.0       ## strip px the signs sit off the middle of his head, away from his spear hand
+const FLESH_CLOSE := 0.8        ## the signs' size, of the asset's, in the close fights (they stay near the walking zoom); the wide ones draw them to scale
+var _flesh_tex: Texture2D = _solid_ink_from(load(FLESH_PATH))
+var _head_tops := {}            ## a picture (its texture and region) -> the top of its head (px of that picture), found once
+var _head_images := {}          ## a texture's instance id -> its image, read once
 var gate := {}           ## a "gate" encounter (spell 38): the way into it stays shut while one before it is undone
 var _bump_time := -10.0
 var _heka_signs: Array = []      ## flattened once from level.heka
@@ -911,6 +916,7 @@ func end_fight() -> void:
 	fight = {}
 	for n in _box_actors(e):
 		_restore(n)
+	for n in _success_glowers(e):
 		UI.success_flash(_picture(actors[n]))
 	avatar.position.x = spear.get_center().x
 	avatar.visible = true
@@ -948,6 +954,11 @@ func leave_fight() -> void:
 func _box_actors(e: Dictionary) -> Array:
 	var s := span(e)
 	return actors.keys().filter(func(n): return actors[n].get_meta("home").x > s.x and actors[n].get_meta("home").x < s.y)
+
+
+## What flashes pale green when `e` is won: its creatures and the spear-bearer, not the heka word or signs.
+func _success_glowers(e: Dictionary) -> Array:
+	return _creatures(e) + [e.spear]
 
 
 func _restore(n: String) -> void:
@@ -1214,6 +1225,53 @@ static func _ink_from(tex: Texture2D) -> Texture2D:
 		for x in img.get_width():
 			var c := img.get_pixel(x, y)
 			img.set_pixel(x, y, Color(1, 1, 1, (1.0 - c.get_luminance()) * c.a))
+	return ImageTexture.create_from_image(img)
+
+
+## `_ink_from`, with whatever the outline encloses filled in solid (the sign's hollow middle).
+static func _solid_ink_from(tex: Texture2D) -> Texture2D:
+	var img := _ink_from(tex).get_image()
+	var w := img.get_width()
+	var h := img.get_height()
+	var open := func(i: int) -> bool: return img.get_pixel(i % w, i / w).a < 0.12
+	var outside := PackedByteArray()
+	outside.resize(w * h)
+	var stack: Array[int] = []
+	for x in w:
+		stack.append(x)
+		stack.append((h - 1) * w + x)
+	for y in h:
+		stack.append(y * w)
+		stack.append(y * w + w - 1)
+	while not stack.is_empty():
+		var i: int = stack.pop_back()
+		if outside[i] or not open.call(i):
+			continue
+		outside[i] = 1
+		var x := i % w
+		if x > 0:
+			stack.append(i - 1)
+		if x < w - 1:
+			stack.append(i + 1)
+		if i >= w:
+			stack.append(i - w)
+		if i < w * (h - 1):
+			stack.append(i + w)
+	var solid: Array[int] = []   # everything the outline holds, up to the soft outer edge
+	for i in w * h:
+		if outside[i]:
+			continue
+		var edge := false
+		for dy in range(-1, 2):
+			for dx in range(-1, 2):
+				var x: int = i % w + dx
+				var y: int = i / w + dy
+				if x < 0 or x >= w or y < 0 or y >= h or outside[y * w + x]:
+					edge = true
+		if not edge:
+			solid.append(i)
+	for i in solid:
+		img.set_pixel(i % w, i / w, Color.WHITE)
 	return ImageTexture.create_from_image(img)
 
 
@@ -1787,27 +1845,104 @@ func _maybe_run_cli() -> void:
 
 
 func _draw_flesh_health() -> void:
+	# just above his head: the ankh (the player's) or his health, one flesh sign each, in red; against
+	# the Eater of the Ass the donkey's, above its head. A lost one is gone and the rest close up.
+	var head := _head_world(fight.e.spear)
 	if endless():
 		var image: Texture2D = _picture(actors.ankh38).texture
 		var size := image.get_size()
-		var at := _arena_rect().position + Vector2(28.0, 26.0)
+		var at := Vector2(head.x + FLESH_SHIFT * fight.facing - size.x / 2.0, head.y - FLESH_LIFT - size.y)
 		var flash := float(fight.get("ankh_flash", 0.0))
 		var tint := Color.WHITE.lerp(RED_CROC, flash / LIFE_FLASH)
 		overlay.draw_texture_rect(image, Rect2(at, size), false, Color(tint, fight.open))
 		return
-	# his health (against the Eater of the Ass, the donkey's): flesh signs in red, top left inside
-	# the opened vignette; a lost one stays faint
 	var health: int = int(fight.get("donkey_health", fight.get("health", 0)))
-	var ar := _arena_rect()
-	var fs := _flesh_tex.get_size() if _flesh_tex else Vector2(28.0, 28.0)
-	for i in CROC_HEALTH:
-		var at := Vector2(ar.position.x + 28.0 + i * (fs.x + FLESH_GAP), ar.position.y + 26.0)
-		var a: float = (1.0 if i < health else 0.22) * fight.open
-		if _flesh_tex:
-			# the picture as given, its dark ink turned red: shown through a red silhouette
-			overlay.draw_texture_rect(_flesh_tex, Rect2(at, fs), false, Color(UI.DANGER, a))
-		else:
-			overlay.draw_circle(at + fs / 2.0, fs.y / 2.0, Color(UI.DANGER, a))
+	if health <= 0:
+		return
+	if fight.kind == "donkey":
+		head = _donkey_head_world()
+	var fs := _flesh_tex.get_size() * (1.0 if fight.cam.z < fight.cam0.z else FLESH_CLOSE)
+	var shift: float = 0.0 if fight.kind == "donkey" else FLESH_SHIFT * fight.facing
+	var left: float = head.x + shift - (health * fs.x + (health - 1) * FLESH_GAP) / 2.0
+	for i in health:
+		var at := Vector2(left + i * (fs.x + FLESH_GAP), head.y - FLESH_LIFT - fs.y)
+		overlay.draw_texture_rect(_flesh_tex, Rect2(at, fs), false, Color(UI.DANGER, fight.open))
+
+
+## The top of the bearer's head in the arena (world): his picture's head point, turned with him.
+## Found for each pose (texture and region) the first time it shows.
+func _head_world(nm: String) -> Vector2:
+	var s := _picture(actors[nm])
+	var tex: Texture2D = s.texture
+	var pad := Vector2.ZERO
+	if s.has_meta("filled"):     # spell 33's papyrus-filled copy has no ink to look at: take his plain pose
+		tex = _sheet_frame(nm, s.get_meta("filled").find(tex), false)
+		pad = Vector2(2.0, 2.0)  # (it has two px of padding)
+	var atlas := tex as AtlasTexture
+	var id := atlas.atlas.get_instance_id()
+	var key := "%d %s" % [id, atlas.region]
+	if not _head_tops.has(key):
+		if not _head_images.has(id):
+			_head_images[id] = atlas.atlas.get_image()
+		_head_tops[key] = _find_head_top(_head_images[id].get_region(Rect2i(atlas.region)))
+	var top: Vector2 = _head_tops[key] + pad
+	var r := s.get_rect()
+	return s.global_transform * (r.position + Vector2(r.size.x - top.x if s.flip_h else top.x, top.y))
+
+
+## Where the head tops out in a bearer's picture (px): above it only the spear shaft is drawn, so it
+## is the first row whose ink spreads wider than a shaft; its middle is that row's leftmost stroke.
+static func _find_head_top(img: Image) -> Vector2:
+	if img.is_compressed():
+		img.decompress()
+	var used := img.get_used_rect()
+	for y in range(used.position.y, used.end.y):
+		var lo := -1
+		var hi := -1
+		for x in range(used.position.x, used.end.x):
+			if img.get_pixel(x, y).a > 0.3:
+				if lo < 0:
+					lo = x
+				hi = x
+		if hi - lo < 32:
+			continue
+		var right := lo
+		var gap := 0
+		for x in range(lo, hi + 1):
+			if img.get_pixel(x, y).a > 0.3:
+				right = x
+				gap = 0
+			else:
+				gap += 1
+				if gap > 6:
+					break
+		return Vector2((lo + right) / 2.0, y)
+	return Vector2(used.get_center().x, used.position.y)
+
+
+## The top of the donkey's head in the arena (world): its ears. Found in the picture as drawn (the
+## one in the fight is its filled copy, with no ink to look at), which sits at `donkey_at`.
+func _donkey_head_world() -> Vector2:
+	var nm: String = fight.e.donkey
+	if not _head_tops.has(nm):
+		_head_tops[nm] = _find_ears_top(load("res://assets/dangers/figures/%s.png" % nm).get_image())
+	var s := _picture(actors[nm])
+	return s.global_transform * (fight.donkey_at + _head_tops[nm])
+
+
+## The donkey's head tops out at its ears: the picture's top, over the middle of the ink in its top rows.
+static func _find_ears_top(img: Image) -> Vector2:
+	if img.is_compressed():
+		img.decompress()
+	var used := img.get_used_rect()
+	var lo := used.end.x
+	var hi := used.position.x
+	for y in range(used.position.y, used.position.y + 40):
+		for x in range(used.position.x, used.end.x):
+			if img.get_pixel(x, y).a > 0.3:
+				lo = mini(lo, x)
+				hi = maxi(hi, x)
+	return Vector2((lo + hi) / 2.0, used.position.y)
 
 
 func _autotest() -> void:
@@ -1887,8 +2022,10 @@ func _autotest() -> void:
 			"sheaf": sheaf.autotest(e, expect)
 		end_fight()  # the real game waits half a second first
 		expect.call(solved.has(e.id), e.id + " overcome")
-		var flashed: Array = _box_actors(e).map(func(n): return _picture(actors[n]).get_children().any(func(c): return c.material is ShaderMaterial and (c.material as ShaderMaterial).get_shader_parameter("level") == UI.Glow.SUCCESS))
-		expect.call(not flashed.is_empty() and flashed.all(func(f): return f), e.id + " won: its figures flash pale green")
+		var glows := func(n): return _picture(actors[n]).get_children().any(func(c): return c.material is ShaderMaterial and (c.material as ShaderMaterial).get_shader_parameter("level") == UI.Glow.SUCCESS)
+		var glowers := _success_glowers(e)
+		expect.call(glowers.all(glows), e.id + " won: its creatures and bearer flash pale green")
+		expect.call(not _box_actors(e).any(func(n): return n not in glowers and glows.call(n)), e.id + " won: nothing else (heka word, signs) flashes")
 
 	expect.call(current.is_empty(), "every danger before spell 42 is overcome")
 	avatar.position.x = span(ENCOUNTERS[-1]).y - 50.0 * unit

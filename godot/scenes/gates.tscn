@@ -356,16 +356,17 @@ offset_right = 20500.0
 offset_bottom = 2600.0
 mouse_filter = 2
 
-[node name="Strip" type="Sprite2D" parent="." unique_id=609943640]
+[node name="Strip" type="Node2D" parent="." unique_id=1457203819]
+metadata/_edit_group_ = true
+
+[node name="Strip146" type="Sprite2D" parent="Strip" unique_id=609943640]
 texture = ExtResource("strip")
 centered = false
-metadata/_edit_lock_ = true
 
-[node name="Strip144_145" type="Sprite2D" parent="." unique_id=845662105]
-position = Vector2(5500, 0)
+[node name="Strip144_145" type="Sprite2D" parent="Strip" unique_id=845662105]
+position = Vector2(5220, 0)
 texture = ExtResource("strip144_145")
 centered = false
-metadata/_edit_lock_ = true
 
 [node name="Figures" type="Node2D" parent="." unique_id=803273880]
 
@@ -592,112 +593,112 @@ metadata/source_layer_id = 1053
 [node name="Plate60" type="Node2D" parent="Figures/Spell144" unique_id=1935989577]
 
 [node name="p60-1 god left" type="Sprite2D" parent="Figures/Spell144/Plate60" unique_id=1740670685]
-position = Vector2(16144, 252)
+position = Vector2(15864, 252)
 texture = ExtResource("spell144_room4_man")
 centered = false
 metadata/registry_id = "spell144_room4_man"
 metadata/source_layer_id = 1030
 
 [node name="p60-1 god right" type="Sprite2D" parent="Figures/Spell144/Plate60" unique_id=151148148]
-position = Vector2(16267, 254)
+position = Vector2(15987, 254)
 texture = ExtResource("spell144_room4_ram")
 centered = false
 metadata/registry_id = "spell144_room4_ram"
 metadata/source_layer_id = 1031
 
 [node name="p60-1 gate" type="Sprite2D" parent="Figures/Spell144/Plate60" unique_id=139815203]
-position = Vector2(16420, 255)
+position = Vector2(16140, 255)
 texture = ExtResource("spell144_room4")
 centered = false
 metadata/registry_id = "spell144_room4"
 metadata/source_layer_id = 1032
 
 [node name="p60-1 figure" type="Sprite2D" parent="Figures/Spell144/Plate60" unique_id=1801343322]
-position = Vector2(16493, 383)
+position = Vector2(16213, 383)
 texture = ExtResource("spell144_room4_keeper")
 centered = false
 metadata/registry_id = "spell144_room4_keeper"
 metadata/source_layer_id = 1033
 
 [node name="p60-2 god left" type="Sprite2D" parent="Figures/Spell144/Plate60" unique_id=166246293]
-position = Vector2(16716, 252)
+position = Vector2(16436, 252)
 texture = ExtResource("spell144_room3_man")
 centered = false
 metadata/registry_id = "spell144_room3_man"
 metadata/source_layer_id = 1034
 
 [node name="p60-2 god right" type="Sprite2D" parent="Figures/Spell144/Plate60" unique_id=976292395]
-position = Vector2(16828, 257)
+position = Vector2(16548, 257)
 texture = ExtResource("spell144_room3_ram")
 centered = false
 metadata/registry_id = "spell144_room3_ram"
 metadata/source_layer_id = 1035
 
 [node name="p60-2 gate" type="Sprite2D" parent="Figures/Spell144/Plate60" unique_id=1249855590]
-position = Vector2(16972, 238)
+position = Vector2(16692, 238)
 texture = ExtResource("spell144_room3")
 centered = false
 metadata/registry_id = "spell144_room3"
 metadata/source_layer_id = 1036
 
 [node name="p60-2 figure" type="Sprite2D" parent="Figures/Spell144/Plate60" unique_id=1249891232]
-position = Vector2(17028, 368)
+position = Vector2(16748, 368)
 texture = ExtResource("spell144_room3_keeper")
 centered = false
 metadata/registry_id = "spell144_room3_keeper"
 metadata/source_layer_id = 1037
 
 [node name="p60-3 god left" type="Sprite2D" parent="Figures/Spell144/Plate60" unique_id=1900313545]
-position = Vector2(17265, 228)
+position = Vector2(16985, 228)
 texture = ExtResource("spell144_room2_bull")
 centered = false
 metadata/registry_id = "spell144_room2_bull"
 metadata/source_layer_id = 1038
 
 [node name="p60-3 god right" type="Sprite2D" parent="Figures/Spell144/Plate60" unique_id=1885036418]
-position = Vector2(17424, 245)
+position = Vector2(17144, 245)
 texture = ExtResource("spell144_room2_ram")
 centered = false
 metadata/registry_id = "spell144_room2_ram"
 metadata/source_layer_id = 1039
 
 [node name="p60-3 gate" type="Sprite2D" parent="Figures/Spell144/Plate60" unique_id=251587059]
-position = Vector2(17572, 226)
+position = Vector2(17292, 226)
 texture = ExtResource("spell144_room2")
 centered = false
 metadata/registry_id = "spell144_room2"
 metadata/source_layer_id = 1040
 
 [node name="p60-3 figure" type="Sprite2D" parent="Figures/Spell144/Plate60" unique_id=337634626]
-position = Vector2(17607, 332)
+position = Vector2(17327, 332)
 texture = ExtResource("spell144_room2_keeper")
 centered = false
 metadata/registry_id = "spell144_room2_keeper"
 metadata/source_layer_id = 1041
 
 [node name="p60-4 god left" type="Sprite2D" parent="Figures/Spell144/Plate60" unique_id=1925488589]
-position = Vector2(17886, 243)
+position = Vector2(17606, 243)
 texture = ExtResource("spell144_room1_hawk")
 centered = false
 metadata/registry_id = "spell144_room1_hawk"
 metadata/source_layer_id = 1042
 
 [node name="p60-4 god right" type="Sprite2D" parent="Figures/Spell144/Plate60" unique_id=1128374586]
-position = Vector2(18015, 232)
+position = Vector2(17735, 232)
 texture = ExtResource("spell144_room1_man")
 centered = false
 metadata/registry_id = "spell144_room1_man"
 metadata/source_layer_id = 1043
 
 [node name="p60-4 gate" type="Sprite2D" parent="Figures/Spell144/Plate60" unique_id=573186071]
-position = Vector2(18136, 228)
+position = Vector2(17856, 228)
 texture = ExtResource("spell144_room1")
 centered = false
 metadata/registry_id = "spell144_room1"
 metadata/source_layer_id = 1044
 
 [node name="p60-4 figure" type="Sprite2D" parent="Figures/Spell144/Plate60" unique_id=181702368]
-position = Vector2(18211, 368)
+position = Vector2(17931, 368)
 texture = ExtResource("spell144_room1_keeper")
 centered = false
 metadata/registry_id = "spell144_room1_keeper"
@@ -706,84 +707,84 @@ metadata/source_layer_id = 1045
 [node name="Plate61" type="Node2D" parent="Figures/Spell144" unique_id=317186885]
 
 [node name="p61-3 god left" type="Sprite2D" parent="Figures/Spell144/Plate61" unique_id=195585816]
-position = Vector2(14394, 270)
+position = Vector2(14114, 270)
 texture = ExtResource("spell144_room7_ram_1")
 centered = false
 metadata/registry_id = "spell144_room7_ram_1"
 metadata/source_layer_id = 1054
 
 [node name="p61-3 god right" type="Sprite2D" parent="Figures/Spell144/Plate61" unique_id=1903636032]
-position = Vector2(14519, 279)
+position = Vector2(14239, 279)
 texture = ExtResource("spell144_room7_ram_2")
 centered = false
 metadata/registry_id = "spell144_room7_ram_2"
 metadata/source_layer_id = 1055
 
 [node name="p61-3 gate" type="Sprite2D" parent="Figures/Spell144/Plate61" unique_id=1273866389]
-position = Vector2(14670, 236)
+position = Vector2(14390, 236)
 texture = ExtResource("spell144_room7")
 centered = false
 metadata/registry_id = "spell144_room7"
 metadata/source_layer_id = 1056
 
 [node name="p61-3 figure" type="Sprite2D" parent="Figures/Spell144/Plate61" unique_id=829272100]
-position = Vector2(14738, 385)
+position = Vector2(14458, 385)
 texture = ExtResource("spell144_room7_keeper")
 centered = false
 metadata/registry_id = "spell144_room7_keeper"
 metadata/source_layer_id = 1057
 
 [node name="p61-4 god left" type="Sprite2D" parent="Figures/Spell144/Plate61" unique_id=1968662887]
-position = Vector2(14941, 254)
+position = Vector2(14661, 254)
 texture = ExtResource("spell144_room6_hawk")
 centered = false
 metadata/registry_id = "spell144_room6_hawk"
 metadata/source_layer_id = 1058
 
 [node name="p61-4 god right" type="Sprite2D" parent="Figures/Spell144/Plate61" unique_id=1886241153]
-position = Vector2(15083, 241)
+position = Vector2(14803, 241)
 texture = ExtResource("spell144_room6_ram")
 centered = false
 metadata/registry_id = "spell144_room6_ram"
 metadata/source_layer_id = 1059
 
 [node name="p61-4 gate" type="Sprite2D" parent="Figures/Spell144/Plate61" unique_id=408508145]
-position = Vector2(15249, 229)
+position = Vector2(14969, 229)
 texture = ExtResource("spell144_room6")
 centered = false
 metadata/registry_id = "spell144_room6"
 metadata/source_layer_id = 1060
 
 [node name="p61-4 figure" type="Sprite2D" parent="Figures/Spell144/Plate61" unique_id=1825280818]
-position = Vector2(15280, 336)
+position = Vector2(15000, 336)
 texture = ExtResource("spell144_room6_keeper")
 centered = false
 metadata/registry_id = "spell144_room6_keeper"
 metadata/source_layer_id = 1061
 
 [node name="p61-5 god left" type="Sprite2D" parent="Figures/Spell144/Plate61" unique_id=255071167]
-position = Vector2(15581, 253)
+position = Vector2(15301, 253)
 texture = ExtResource("spell144_room5_bull")
 centered = false
 metadata/registry_id = "spell144_room5_bull"
 metadata/source_layer_id = 1062
 
 [node name="p61-5 god right" type="Sprite2D" parent="Figures/Spell144/Plate61" unique_id=913847272]
-position = Vector2(15706, 263)
+position = Vector2(15426, 263)
 texture = ExtResource("spell144_room5_ram")
 centered = false
 metadata/registry_id = "spell144_room5_ram"
 metadata/source_layer_id = 1063
 
 [node name="p61-5 gate" type="Sprite2D" parent="Figures/Spell144/Plate61" unique_id=538966729]
-position = Vector2(15883, 248)
+position = Vector2(15603, 248)
 texture = ExtResource("spell144_room5")
 centered = false
 metadata/registry_id = "spell144_room5"
 metadata/source_layer_id = 1064
 
 [node name="p61-5 figure" type="Sprite2D" parent="Figures/Spell144/Plate61" unique_id=2028230172]
-position = Vector2(15942, 365)
+position = Vector2(15662, 365)
 texture = ExtResource("spell144_room5_keeper")
 centered = false
 metadata/registry_id = "spell144_room5_keeper"
@@ -794,7 +795,7 @@ metadata/source_layer_id = 1065
 [node name="Plate61" type="Node2D" parent="Figures/Spell145" unique_id=2065876276]
 
 [node name="p61-1 god" type="Sprite2D" parent="Figures/Spell145/Plate61" unique_id=1760253390]
-position = Vector2(13384, 256)
+position = Vector2(13104, 256)
 texture = ExtResource("spell145_pylon2_keeper")
 centered = false
 metadata/registry_id = "spell145_pylon2_keeper"
@@ -802,7 +803,7 @@ metadata/source_layer_id = 1046
 
 [node name="p61-1 structure" type="Sprite2D" parent="Figures/Spell145/Plate61" unique_id=869306941]
 material = SubResource("plumes_spell145_pylon2")
-position = Vector2(13517, 194)
+position = Vector2(13237, 194)
 texture = ExtResource("spell145_pylon2")
 centered = false
 metadata/registry_id = "spell145_pylon2"
@@ -810,14 +811,14 @@ metadata/source_layer_id = 1047
 
 [node name="p61-1 adorer" type="Sprite2D" parent="Figures/Spell145/Plate61" unique_id=2051459018]
 visible = false
-position = Vector2(13700, 251)
+position = Vector2(13420, 251)
 texture = ExtResource("spell145_pylon2_adorer")
 centered = false
 metadata/registry_id = "spell145_pylon2_adorer"
 metadata/source_layer_id = 1049
 
 [node name="p61-2 god" type="Sprite2D" parent="Figures/Spell145/Plate61" unique_id=724531629]
-position = Vector2(13861, 248)
+position = Vector2(13581, 248)
 texture = ExtResource("spell145_pylon1_keeper")
 centered = false
 metadata/registry_id = "spell145_pylon1_keeper"
@@ -825,7 +826,7 @@ metadata/source_layer_id = 1050
 
 [node name="p61-2 structure" type="Sprite2D" parent="Figures/Spell145/Plate61" unique_id=1588097612]
 material = SubResource("plumes_spell145_pylon1")
-position = Vector2(14017, 196)
+position = Vector2(13737, 196)
 texture = ExtResource("spell145_pylon1")
 centered = false
 metadata/registry_id = "spell145_pylon1"
@@ -833,7 +834,7 @@ metadata/source_layer_id = 1051
 
 [node name="p61-2 adorer" type="Sprite2D" parent="Figures/Spell145/Plate61" unique_id=698378727]
 visible = false
-position = Vector2(14202, 263)
+position = Vector2(13922, 263)
 texture = ExtResource("spell145_pylon1_adorer")
 centered = false
 metadata/registry_id = "spell145_pylon1_adorer"
@@ -842,7 +843,7 @@ metadata/source_layer_id = 1053
 [node name="Plate62" type="Node2D" parent="Figures/Spell145" unique_id=1695139499]
 
 [node name="p62-1 god" type="Sprite2D" parent="Figures/Spell145/Plate62" unique_id=931286600]
-position = Vector2(10586, 239)
+position = Vector2(10306, 239)
 texture = ExtResource("spell145_pylon8_keeper")
 centered = false
 metadata/registry_id = "spell145_pylon8_keeper"
@@ -850,7 +851,7 @@ metadata/source_layer_id = 1066
 
 [node name="p62-1 structure" type="Sprite2D" parent="Figures/Spell145/Plate62" unique_id=1213305815]
 material = SubResource("plumes_spell145_pylon8")
-position = Vector2(10736, 211)
+position = Vector2(10456, 211)
 texture = ExtResource("spell145_pylon8")
 centered = false
 metadata/registry_id = "spell145_pylon8"
@@ -858,14 +859,14 @@ metadata/source_layer_id = 1067
 
 [node name="p62-1 adorer" type="Sprite2D" parent="Figures/Spell145/Plate62" unique_id=1261825980]
 visible = false
-position = Vector2(10858, 270)
+position = Vector2(10578, 270)
 texture = ExtResource("spell145_pylon8_adorer")
 centered = false
 metadata/registry_id = "spell145_pylon8_adorer"
 metadata/source_layer_id = 1069
 
 [node name="p62-2 god" type="Sprite2D" parent="Figures/Spell145/Plate62" unique_id=1632996129]
-position = Vector2(11052, 228)
+position = Vector2(10772, 228)
 texture = ExtResource("spell145_pylon7_keeper")
 centered = false
 metadata/registry_id = "spell145_pylon7_keeper"
@@ -873,7 +874,7 @@ metadata/source_layer_id = 1070
 
 [node name="p62-2 structure" type="Sprite2D" parent="Figures/Spell145/Plate62" unique_id=2090938144]
 material = SubResource("plumes_spell145_pylon7")
-position = Vector2(11177, 212)
+position = Vector2(10897, 212)
 texture = ExtResource("spell145_pylon7")
 centered = false
 metadata/registry_id = "spell145_pylon7"
@@ -881,14 +882,14 @@ metadata/source_layer_id = 1071
 
 [node name="p62-2 adorer" type="Sprite2D" parent="Figures/Spell145/Plate62" unique_id=1725563313]
 visible = false
-position = Vector2(11325, 282)
+position = Vector2(11045, 282)
 texture = ExtResource("spell145_pylon7_adorer")
 centered = false
 metadata/registry_id = "spell145_pylon7_adorer"
 metadata/source_layer_id = 1073
 
 [node name="p62-3 god" type="Sprite2D" parent="Figures/Spell145/Plate62" unique_id=157023427]
-position = Vector2(11511, 262)
+position = Vector2(11231, 262)
 texture = ExtResource("spell145_pylon6_keeper")
 centered = false
 metadata/registry_id = "spell145_pylon6_keeper"
@@ -896,7 +897,7 @@ metadata/source_layer_id = 1074
 
 [node name="p62-3 structure" type="Sprite2D" parent="Figures/Spell145/Plate62" unique_id=82480741]
 material = SubResource("plumes_spell145_pylon6")
-position = Vector2(11633, 204)
+position = Vector2(11353, 204)
 texture = ExtResource("spell145_pylon6")
 centered = false
 metadata/registry_id = "spell145_pylon6"
@@ -904,14 +905,14 @@ metadata/source_layer_id = 1075
 
 [node name="p62-3 adorer" type="Sprite2D" parent="Figures/Spell145/Plate62" unique_id=913502951]
 visible = false
-position = Vector2(11799, 271)
+position = Vector2(11519, 271)
 texture = ExtResource("spell145_pylon6_adorer")
 centered = false
 metadata/registry_id = "spell145_pylon6_adorer"
 metadata/source_layer_id = 1077
 
 [node name="p62-4 god" type="Sprite2D" parent="Figures/Spell145/Plate62" unique_id=2555808]
-position = Vector2(11944, 251)
+position = Vector2(11664, 251)
 texture = ExtResource("spell145_pylon5_keeper")
 centered = false
 metadata/registry_id = "spell145_pylon5_keeper"
@@ -919,7 +920,7 @@ metadata/source_layer_id = 1078
 
 [node name="p62-4 structure" type="Sprite2D" parent="Figures/Spell145/Plate62" unique_id=443262611]
 material = SubResource("plumes_spell145_pylon5")
-position = Vector2(12117, 212)
+position = Vector2(11837, 212)
 texture = ExtResource("spell145_pylon5")
 centered = false
 metadata/registry_id = "spell145_pylon5"
@@ -927,14 +928,14 @@ metadata/source_layer_id = 1079
 
 [node name="p62-4 adorer" type="Sprite2D" parent="Figures/Spell145/Plate62" unique_id=66725741]
 visible = false
-position = Vector2(12279, 274)
+position = Vector2(11999, 274)
 texture = ExtResource("spell145_pylon5_adorer")
 centered = false
 metadata/registry_id = "spell145_pylon5_adorer"
 metadata/source_layer_id = 1081
 
 [node name="p62-5 god" type="Sprite2D" parent="Figures/Spell145/Plate62" unique_id=1302924642]
-position = Vector2(12453, 241)
+position = Vector2(12173, 241)
 texture = ExtResource("spell145_pylon4_keeper")
 centered = false
 metadata/registry_id = "spell145_pylon4_keeper"
@@ -942,7 +943,7 @@ metadata/source_layer_id = 1082
 
 [node name="p62-5 structure" type="Sprite2D" parent="Figures/Spell145/Plate62" unique_id=1004819325]
 material = SubResource("plumes_spell145_pylon4")
-position = Vector2(12595, 213)
+position = Vector2(12315, 213)
 texture = ExtResource("spell145_pylon4")
 centered = false
 metadata/registry_id = "spell145_pylon4"
@@ -950,14 +951,14 @@ metadata/source_layer_id = 1083
 
 [node name="p62-5 adorer" type="Sprite2D" parent="Figures/Spell145/Plate62" unique_id=1639218982]
 visible = false
-position = Vector2(12747, 279)
+position = Vector2(12467, 279)
 texture = ExtResource("spell145_pylon4_adorer")
 centered = false
 metadata/registry_id = "spell145_pylon4_adorer"
 metadata/source_layer_id = 1085
 
 [node name="p62-6 god" type="Sprite2D" parent="Figures/Spell145/Plate62" unique_id=288337860]
-position = Vector2(12909, 203)
+position = Vector2(12629, 203)
 texture = ExtResource("spell145_pylon3_keeper")
 centered = false
 metadata/registry_id = "spell145_pylon3_keeper"
@@ -965,7 +966,7 @@ metadata/source_layer_id = 1086
 
 [node name="p62-6 structure" type="Sprite2D" parent="Figures/Spell145/Plate62" unique_id=2044013640]
 material = SubResource("plumes_spell145_pylon3")
-position = Vector2(13061, 216)
+position = Vector2(12781, 216)
 texture = ExtResource("spell145_pylon3")
 centered = false
 metadata/registry_id = "spell145_pylon3"
@@ -973,7 +974,7 @@ metadata/source_layer_id = 1087
 
 [node name="p62-6 adorer" type="Sprite2D" parent="Figures/Spell145/Plate62" unique_id=587966000]
 visible = false
-position = Vector2(13217, 279)
+position = Vector2(12937, 279)
 texture = ExtResource("spell145_pylon3_adorer")
 centered = false
 metadata/registry_id = "spell145_pylon3_adorer"
@@ -982,7 +983,7 @@ metadata/source_layer_id = 1089
 [node name="Plate63" type="Node2D" parent="Figures/Spell145" unique_id=1992092584]
 
 [node name="p63-1 god" type="Sprite2D" parent="Figures/Spell145/Plate63" unique_id=581132561]
-position = Vector2(7912, 274)
+position = Vector2(7632, 274)
 texture = ExtResource("spell145_pylon15_keeper")
 centered = false
 metadata/registry_id = "spell145_pylon15_keeper"
@@ -990,7 +991,7 @@ metadata/source_layer_id = 1090
 
 [node name="p63-1 structure" type="Sprite2D" parent="Figures/Spell145/Plate63" unique_id=988594314]
 material = SubResource("plumes_spell145_pylon15")
-position = Vector2(8036, 239)
+position = Vector2(7756, 239)
 texture = ExtResource("spell145_pylon15")
 centered = false
 metadata/registry_id = "spell145_pylon15"
@@ -998,14 +999,14 @@ metadata/source_layer_id = 1091
 
 [node name="p63-1 adorer" type="Sprite2D" parent="Figures/Spell145/Plate63" unique_id=296757659]
 visible = false
-position = Vector2(8148, 284)
+position = Vector2(7868, 284)
 texture = ExtResource("spell145_pylon15_adorer")
 centered = false
 metadata/registry_id = "spell145_pylon15_adorer"
 metadata/source_layer_id = 1093
 
 [node name="p63-2 god" type="Sprite2D" parent="Figures/Spell145/Plate63" unique_id=1154836197]
-position = Vector2(8272, 262)
+position = Vector2(7992, 262)
 texture = ExtResource("spell145_pylon14_keeper")
 centered = false
 metadata/registry_id = "spell145_pylon14_keeper"
@@ -1013,7 +1014,7 @@ metadata/source_layer_id = 1094
 
 [node name="p63-2 structure" type="Sprite2D" parent="Figures/Spell145/Plate63" unique_id=849355792]
 material = SubResource("plumes_spell145_pylon14")
-position = Vector2(8383, 228)
+position = Vector2(8103, 228)
 texture = ExtResource("spell145_pylon14")
 centered = false
 metadata/registry_id = "spell145_pylon14"
@@ -1021,14 +1022,14 @@ metadata/source_layer_id = 1095
 
 [node name="p63-2 adorer" type="Sprite2D" parent="Figures/Spell145/Plate63" unique_id=1245228261]
 visible = false
-position = Vector2(8502, 271)
+position = Vector2(8222, 271)
 texture = ExtResource("spell145_pylon14_adorer")
 centered = false
 metadata/registry_id = "spell145_pylon14_adorer"
 metadata/source_layer_id = 1097
 
 [node name="p63-3 god" type="Sprite2D" parent="Figures/Spell145/Plate63" unique_id=2064957977]
-position = Vector2(8624, 252)
+position = Vector2(8344, 252)
 texture = ExtResource("spell145_pylon13_keeper")
 centered = false
 metadata/registry_id = "spell145_pylon13_keeper"
@@ -1036,7 +1037,7 @@ metadata/source_layer_id = 1098
 
 [node name="p63-3 structure" type="Sprite2D" parent="Figures/Spell145/Plate63" unique_id=1724976171]
 material = SubResource("plumes_spell145_pylon13")
-position = Vector2(8757, 232)
+position = Vector2(8477, 232)
 texture = ExtResource("spell145_pylon13")
 centered = false
 metadata/registry_id = "spell145_pylon13"
@@ -1044,14 +1045,14 @@ metadata/source_layer_id = 1099
 
 [node name="p63-3 adorer" type="Sprite2D" parent="Figures/Spell145/Plate63" unique_id=1748478065]
 visible = false
-position = Vector2(8864, 268)
+position = Vector2(8584, 268)
 texture = ExtResource("spell145_pylon13_adorer")
 centered = false
 metadata/registry_id = "spell145_pylon13_adorer"
 metadata/source_layer_id = 1101
 
 [node name="p63-4 god" type="Sprite2D" parent="Figures/Spell145/Plate63" unique_id=1107649512]
-position = Vector2(8990, 251)
+position = Vector2(8710, 251)
 texture = ExtResource("spell145_pylon12_keeper")
 centered = false
 metadata/registry_id = "spell145_pylon12_keeper"
@@ -1059,7 +1060,7 @@ metadata/source_layer_id = 1102
 
 [node name="p63-4 structure" type="Sprite2D" parent="Figures/Spell145/Plate63" unique_id=1219611255]
 material = SubResource("plumes_spell145_pylon12")
-position = Vector2(9127, 239)
+position = Vector2(8847, 239)
 texture = ExtResource("spell145_pylon12")
 centered = false
 metadata/registry_id = "spell145_pylon12"
@@ -1067,14 +1068,14 @@ metadata/source_layer_id = 1103
 
 [node name="p63-4 adorer" type="Sprite2D" parent="Figures/Spell145/Plate63" unique_id=1223344756]
 visible = false
-position = Vector2(9230, 291)
+position = Vector2(8950, 291)
 texture = ExtResource("spell145_pylon12_adorer")
 centered = false
 metadata/registry_id = "spell145_pylon12_adorer"
 metadata/source_layer_id = 1105
 
 [node name="p63-5 god" type="Sprite2D" parent="Figures/Spell145/Plate63" unique_id=458298804]
-position = Vector2(9348, 270)
+position = Vector2(9068, 270)
 texture = ExtResource("spell145_pylon11_keeper")
 centered = false
 metadata/registry_id = "spell145_pylon11_keeper"
@@ -1082,7 +1083,7 @@ metadata/source_layer_id = 1106
 
 [node name="p63-5 structure" type="Sprite2D" parent="Figures/Spell145/Plate63" unique_id=1248124269]
 material = SubResource("plumes_spell145_pylon11")
-position = Vector2(9474, 239)
+position = Vector2(9194, 239)
 texture = ExtResource("spell145_pylon11")
 centered = false
 metadata/registry_id = "spell145_pylon11"
@@ -1090,14 +1091,14 @@ metadata/source_layer_id = 1107
 
 [node name="p63-5 adorer" type="Sprite2D" parent="Figures/Spell145/Plate63" unique_id=1698140621]
 visible = false
-position = Vector2(9596, 285)
+position = Vector2(9316, 285)
 texture = ExtResource("spell145_pylon11_adorer")
 centered = false
 metadata/registry_id = "spell145_pylon11_adorer"
 metadata/source_layer_id = 1109
 
 [node name="p63-6 god" type="Sprite2D" parent="Figures/Spell145/Plate63" unique_id=152359467]
-position = Vector2(9752, 251)
+position = Vector2(9472, 251)
 texture = ExtResource("spell145_pylon10_keeper")
 centered = false
 metadata/registry_id = "spell145_pylon10_keeper"
@@ -1105,7 +1106,7 @@ metadata/source_layer_id = 1110
 
 [node name="p63-6 structure" type="Sprite2D" parent="Figures/Spell145/Plate63" unique_id=976121562]
 material = SubResource("plumes_spell145_pylon10")
-position = Vector2(9894, 216)
+position = Vector2(9614, 216)
 texture = ExtResource("spell145_pylon10")
 centered = false
 metadata/registry_id = "spell145_pylon10"
@@ -1113,14 +1114,14 @@ metadata/source_layer_id = 1111
 
 [node name="p63-6 adorer" type="Sprite2D" parent="Figures/Spell145/Plate63" unique_id=1738609507]
 visible = false
-position = Vector2(10031, 268)
+position = Vector2(9751, 268)
 texture = ExtResource("spell145_pylon10_adorer")
 centered = false
 metadata/registry_id = "spell145_pylon10_adorer"
 metadata/source_layer_id = 1113
 
 [node name="p63-7 god" type="Sprite2D" parent="Figures/Spell145/Plate63" unique_id=639606877]
-position = Vector2(10166, 239)
+position = Vector2(9886, 239)
 texture = ExtResource("spell145_pylon9_keeper")
 centered = false
 metadata/registry_id = "spell145_pylon9_keeper"
@@ -1128,7 +1129,7 @@ metadata/source_layer_id = 1114
 
 [node name="p63-7 structure" type="Sprite2D" parent="Figures/Spell145/Plate63" unique_id=1019922485]
 material = SubResource("plumes_spell145_pylon9")
-position = Vector2(10318, 216)
+position = Vector2(10038, 216)
 texture = ExtResource("spell145_pylon9")
 centered = false
 metadata/registry_id = "spell145_pylon9"
@@ -1136,7 +1137,7 @@ metadata/source_layer_id = 1115
 
 [node name="p63-7 adorer" type="Sprite2D" parent="Figures/Spell145/Plate63" unique_id=1057063332]
 visible = false
-position = Vector2(10451, 272)
+position = Vector2(10171, 272)
 texture = ExtResource("spell145_pylon9_adorer")
 centered = false
 metadata/registry_id = "spell145_pylon9_adorer"
@@ -1145,7 +1146,7 @@ metadata/source_layer_id = 1117
 [node name="Plate64" type="Node2D" parent="Figures/Spell145" unique_id=65121866]
 
 [node name="p64-1 god" type="Sprite2D" parent="Figures/Spell145/Plate64" unique_id=1765676225]
-position = Vector2(5696, 199)
+position = Vector2(5416, 199)
 texture = ExtResource("spell145_pylon21_keeper")
 centered = false
 metadata/registry_id = "spell145_pylon21_keeper"
@@ -1153,7 +1154,7 @@ metadata/source_layer_id = 1118
 
 [node name="p64-1 structure" type="Sprite2D" parent="Figures/Spell145/Plate64" unique_id=2124972062]
 material = SubResource("plumes_spell145_pylon21")
-position = Vector2(5860, 196)
+position = Vector2(5580, 196)
 texture = ExtResource("spell145_pylon21")
 centered = false
 metadata/registry_id = "spell145_pylon21"
@@ -1161,14 +1162,14 @@ metadata/source_layer_id = 1119
 
 [node name="p64-1 adorer" type="Sprite2D" parent="Figures/Spell145/Plate64" unique_id=1918793575]
 visible = false
-position = Vector2(6007, 261)
+position = Vector2(5727, 261)
 texture = ExtResource("spell145_pylon21_adorer")
 centered = false
 metadata/registry_id = "spell145_pylon21_adorer"
 metadata/source_layer_id = 1121
 
 [node name="p64-2 god" type="Sprite2D" parent="Figures/Spell145/Plate64" unique_id=1553023893]
-position = Vector2(6161, 263)
+position = Vector2(5881, 263)
 texture = ExtResource("spell145_pylon20_keeper")
 centered = false
 metadata/registry_id = "spell145_pylon20_keeper"
@@ -1176,7 +1177,7 @@ metadata/source_layer_id = 1122
 
 [node name="p64-2 structure" type="Sprite2D" parent="Figures/Spell145/Plate64" unique_id=557205669]
 material = SubResource("plumes_spell145_pylon20")
-position = Vector2(6272, 216)
+position = Vector2(5992, 216)
 texture = ExtResource("spell145_pylon20")
 centered = false
 metadata/registry_id = "spell145_pylon20"
@@ -1184,14 +1185,14 @@ metadata/source_layer_id = 1123
 
 [node name="p64-2 adorer" type="Sprite2D" parent="Figures/Spell145/Plate64" unique_id=369983234]
 visible = false
-position = Vector2(6381, 276)
+position = Vector2(6101, 276)
 texture = ExtResource("spell145_pylon20_adorer")
 centered = false
 metadata/registry_id = "spell145_pylon20_adorer"
 metadata/source_layer_id = 1125
 
 [node name="p64-3 god" type="Sprite2D" parent="Figures/Spell145/Plate64" unique_id=943841378]
-position = Vector2(6513, 282)
+position = Vector2(6233, 282)
 texture = ExtResource("spell145_pylon19_keeper")
 centered = false
 metadata/registry_id = "spell145_pylon19_keeper"
@@ -1199,7 +1200,7 @@ metadata/source_layer_id = 1126
 
 [node name="p64-3 structure" type="Sprite2D" parent="Figures/Spell145/Plate64" unique_id=1918653551]
 material = SubResource("plumes_spell145_pylon19")
-position = Vector2(6620, 242)
+position = Vector2(6340, 242)
 texture = ExtResource("spell145_pylon19")
 centered = false
 metadata/registry_id = "spell145_pylon19"
@@ -1207,14 +1208,14 @@ metadata/source_layer_id = 1127
 
 [node name="p64-3 adorer" type="Sprite2D" parent="Figures/Spell145/Plate64" unique_id=1784155418]
 visible = false
-position = Vector2(6720, 283)
+position = Vector2(6440, 283)
 texture = ExtResource("spell145_pylon19_adorer")
 centered = false
 metadata/registry_id = "spell145_pylon19_adorer"
 metadata/source_layer_id = 1129
 
 [node name="p64-4 god" type="Sprite2D" parent="Figures/Spell145/Plate64" unique_id=489928709]
-position = Vector2(6852, 274)
+position = Vector2(6572, 274)
 texture = ExtResource("spell145_pylon18_keeper")
 centered = false
 metadata/registry_id = "spell145_pylon18_keeper"
@@ -1222,7 +1223,7 @@ metadata/source_layer_id = 1130
 
 [node name="p64-4 structure" type="Sprite2D" parent="Figures/Spell145/Plate64" unique_id=303910447]
 material = SubResource("plumes_spell145_pylon18")
-position = Vector2(6958, 217)
+position = Vector2(6678, 217)
 texture = ExtResource("spell145_pylon18")
 centered = false
 metadata/registry_id = "spell145_pylon18"
@@ -1230,14 +1231,14 @@ metadata/source_layer_id = 1131
 
 [node name="p64-4 adorer" type="Sprite2D" parent="Figures/Spell145/Plate64" unique_id=892602278]
 visible = false
-position = Vector2(7083, 273)
+position = Vector2(6803, 273)
 texture = ExtResource("spell145_pylon18_adorer")
 centered = false
 metadata/registry_id = "spell145_pylon18_adorer"
 metadata/source_layer_id = 1133
 
 [node name="p64-5 god" type="Sprite2D" parent="Figures/Spell145/Plate64" unique_id=480994297]
-position = Vector2(7213, 263)
+position = Vector2(6933, 263)
 texture = ExtResource("spell145_pylon17_keeper")
 centered = false
 metadata/registry_id = "spell145_pylon17_keeper"
@@ -1245,7 +1246,7 @@ metadata/source_layer_id = 1134
 
 [node name="p64-5 structure" type="Sprite2D" parent="Figures/Spell145/Plate64" unique_id=655975919]
 material = SubResource("plumes_spell145_pylon17")
-position = Vector2(7290, 206)
+position = Vector2(7010, 206)
 texture = ExtResource("spell145_pylon17")
 centered = false
 metadata/registry_id = "spell145_pylon17"
@@ -1253,14 +1254,14 @@ metadata/source_layer_id = 1135
 
 [node name="p64-5 adorer" type="Sprite2D" parent="Figures/Spell145/Plate64" unique_id=1219674454]
 visible = false
-position = Vector2(7434, 270)
+position = Vector2(7154, 270)
 texture = ExtResource("spell145_pylon17_adorer")
 centered = false
 metadata/registry_id = "spell145_pylon17_adorer"
 metadata/source_layer_id = 1137
 
 [node name="p64-6 god" type="Sprite2D" parent="Figures/Spell145/Plate64" unique_id=2074377135]
-position = Vector2(7567, 259)
+position = Vector2(7287, 259)
 texture = ExtResource("spell145_pylon16_keeper")
 centered = false
 metadata/registry_id = "spell145_pylon16_keeper"
@@ -1268,7 +1269,7 @@ metadata/source_layer_id = 1138
 
 [node name="p64-6 structure" type="Sprite2D" parent="Figures/Spell145/Plate64" unique_id=844117128]
 material = SubResource("plumes_spell145_pylon16")
-position = Vector2(7689, 227)
+position = Vector2(7409, 227)
 texture = ExtResource("spell145_pylon16")
 centered = false
 metadata/registry_id = "spell145_pylon16"
@@ -1276,14 +1277,14 @@ metadata/source_layer_id = 1139
 
 [node name="p64-6 adorer" type="Sprite2D" parent="Figures/Spell145/Plate64" unique_id=1246417564]
 visible = false
-position = Vector2(7803, 261)
+position = Vector2(7523, 261)
 texture = ExtResource("spell145_pylon16_adorer")
 centered = false
 metadata/registry_id = "spell145_pylon16_adorer"
 metadata/source_layer_id = 1141
 
 [node name="Avatar" type="Node2D" parent="." unique_id=521266551]
-position = Vector2(18330, 530)
+position = Vector2(18050, 530)
 script = ExtResource("avatar")
 
 [node name="Sprite" type="Sprite2D" parent="Avatar" unique_id=1436138206]
@@ -1294,7 +1295,7 @@ offset = Vector2(0, -131.5)
 z_index = 6
 
 [node name="Camera" type="Camera2D" parent="." unique_id=1740783532]
-position = Vector2(17650, 418)
+position = Vector2(17370, 418)
 zoom = Vector2(0.77894735, 0.77894735)
 
 [node name="HUD" type="CanvasLayer" parent="." unique_id=651621786]

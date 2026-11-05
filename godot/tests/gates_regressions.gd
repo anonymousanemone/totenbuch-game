@@ -21,6 +21,8 @@ func _run() -> void:
 			await process_frame
 		expect(paused and scene.hud.is_blocking(), "intro pauses exploration")
 		expect(scene.level.sources.size() == 2 and scene.figures.size() == 121, "spells 144–146 import 121 rooms, pylons, portals and their gods")
+		var panels: Array = scene.get_node("Strip").get_children()
+		expect(panels.size() == 2 and panels[0].position.x == 0.0 and panels[1].position.x == 5220.0, "both artwork panels sit under one Strip node, overlapped so the two double rules between them are one")
 		expect(scene._descriptions.journal_total() == 100, "every room, pylon, portal and god counts in the journal; adorers do not")
 		var pylons: Array = scene.figures.keys().filter(func(id): return id.begins_with("spell145_pylon") and id.count("_") == 1)
 		expect(pylons.size() == 21 and pylons.all(func(id): return scene.figures[id].material is ShaderMaterial \

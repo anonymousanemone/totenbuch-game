@@ -61,6 +61,30 @@
   - A repeated mistake gets help. After a couple of misses, the correct god gets a faint hint (it could glow a little, or the narration points toward it). This teaches without making the player stuck.
   - 146 uses the same refusal, made deadly. The god rejects the name the same way, but now it strikes. Because the player has seen the refusal in 145, they'll read the death in 146 as the same mistake with higher stakes.
 
+### References — unsourced details in the registries
+
+Each `reference` field now names its sources (`skills/cite-references/SKILL.md`). The claims below aren't in Davis 1894 or in any other source read so far. Each item's `reference` field says so. Find a source for each, or soften or cut the wording.
+
+- [ ] **Procession, `plumed_ox`:** that he is the Apis bull.
+- [ ] **Procession, `sacrifice`:** that the Apis should never be slaughtered, and the remark about Cambyses and Herodotus.
+- [ ] **Procession, `priest_with_arm_censer`:** that he purifies the implements for the Opening of the Mouth.
+- [ ] **Dangers, `e36` and `e37`:** the names "Apshai" (the beetles) and "Merti" (the two snakes). Davis has neither; Renouf & Naville have "Merta" goddesses for spell 37.
+- [ ] **Cosmos, `isis_nephthys_kneeling`, `nephthys_kite`, `isis_kite`:** reading the name signs on their heads (basket on a house for Nephthys, throne for Isis). That they appear as kites is from Renouf & Naville 1904.
+- [ ] **Cosmos, `nut_over_scarab`:** that the goddess is Nut.
+- [ ] **Cosmos, `falcon_on_standard`, `falcon_on_perch`:** that the falcon is "the sign for the West".
+- [ ] **Cosmos, `horus_khenty_irty`:** the translation "Horus foremost of the two eyes". Davis gives only the name, Har-Khent-an-mer-ti.
+- [ ] **Check by reading:** the Davis citations were found by matching the registry wording against an OCR copy of Davis, plus spot checks. Cosmos (spell 17) matched least well, because the OCR is poor there. Read the spell 17 entries against the Davis page images.
+
+### Field of Offerings — spell 110 (archived)
+
+- [ ] **Check where each caption sits** (`assets/field/registry.json`): the translations come from Backes' list for P. Turin 1791 and Allen's description of P. Ryerson. Matching each label to its spot on pl. XLI is my own reading, taking Backes' list right to left in each register. Check especially:
+  - which oval is which, for the three in the top register, the four in the middle and the four in the bottom;
+  - how the bottom register's labels split between the long line over the throne bark, the column beside it, the oval island ("the god in it: Re") and the channel line ("birthplace of the gods");
+  - which signs in the middle register say "giving the overflow";
+  - that "the gods of the horizon" labels the mummiform god.
+- [ ] **Unsourced: the island with the bird** (bottom left): Backes doesn't list it. Its only reading, "the common folk" (`rḫyt`), comes from Allen 1960's description of a different papyrus and is marked uncertain there.
+- [ ] **Unsourced: the round signs over the boat** (top register; the archived level calls them "Three loaves"): no source I read says what they are or whether they are captions. They are left out of the registry for now.
+
 ### Cosmos
 
 #### General

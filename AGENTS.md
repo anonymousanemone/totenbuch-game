@@ -1,5 +1,6 @@
 # Project instructions
 
+- Project skills live in `skills/<name>/SKILL.md`: `build-levels` (building a level from an `.mdp`), `suggest-games` (proposing puzzles and minigames) and `cite-references` (citing sources in registries and the Scene Atlas). Read the matching one before starting that kind of work.
 - Only create or save files in `mockups/` when the user explicitly requests it. Put temporary screenshots, previews, and verification artifacts in a temporary directory outside the repository instead.
 - Leave existing files in `mockups/` untouched unless the user requests changes or cleanup.
 

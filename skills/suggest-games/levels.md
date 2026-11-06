@@ -10,6 +10,10 @@ examples; the constants in code win.
 
 Script and scene paths are under `godot/` (`godot/scripts/procession/haul.gd`, ...); tools and art are at the repo root.
 
+**View mode:** every restored level can be opened with its puzzles switched off and every rite shown
+done (`Scroll.viewing`, see `README.md`). A suggested game needs a "restored" state for this, and its
+clues and fights switched off while viewing.
+
 ---
 
 ## The Funeral Procession (spells 1–15, pl. I–VI)

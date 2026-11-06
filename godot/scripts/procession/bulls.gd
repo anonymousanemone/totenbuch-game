@@ -80,6 +80,14 @@ func reset() -> void:
 	_shy_in = SHY_EVERY.x
 
 
+## Viewing: the calf facing the plumed ox, the plumes on his head, as drawn.
+func restore() -> void:
+	reset()
+	_calf.scale.x = 1.0
+	_set_plumes_on(true)
+	done = true
+
+
 ## The whole bull scene on the strip (from, to), with equal margins.
 func view() -> Vector2:
 	return _view

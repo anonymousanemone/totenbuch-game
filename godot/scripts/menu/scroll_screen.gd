@@ -9,6 +9,7 @@ var chosen := ""
 @onready var chosen_name: Label = $Footer/Selection/Name
 @onready var chosen_about: Label = $Footer/Selection/About
 @onready var chosen_go: Button = $Footer/Selection/Play
+@onready var chosen_view: Button = $Footer/Selection/View
 
 
 func _ready() -> void:
@@ -20,6 +21,9 @@ func _ready() -> void:
 	for signal_name in ["mouse_exited", "focus_exited"]:
 		$Header/Back.connect(signal_name, func(): $Header/Back.modulate = Color.WHITE)
 	chosen_go.pressed.connect(func(): Scroll.open(chosen))
+	chosen_view.pressed.connect(func(): Scroll.open(chosen, true))
+	chosen_view.focus_entered.connect(func(): chosen_view.add_theme_color_override("font_hover_color", UI.CREAM))
+	chosen_view.focus_exited.connect(func(): chosen_view.add_theme_color_override("font_hover_color", UI.TAG))
 	chosen_go.focus_entered.connect(func(): chosen_go.add_theme_color_override("font_hover_color", UI.CREAM))
 	chosen_go.focus_exited.connect(func(): chosen_go.add_theme_color_override("font_hover_color", UI.TAG))
 	for row in cards.get_children():
@@ -87,6 +91,7 @@ func choose(key: String) -> void:
 	chosen_name.text = entry.title
 	chosen_about.text = entry.about
 	chosen_go.disabled = not Scroll.is_built(key)
+	chosen_view.visible = key in Scroll.restored and Scroll.is_built(key)
 	if not Scroll.is_built(key):
 		chosen_go.text = "Not yet made"
 	elif key in Scroll.restored:
@@ -104,5 +109,7 @@ func _resize() -> void:
 			label.add_theme_font_size_override("font_size", maxi(UI.SMALL, original / 2) if compact else original)
 	chosen_go.add_theme_font_size_override("font_size", UI.SMALL if compact else UI.BIG)
 	chosen_go.custom_minimum_size = Vector2(160, 40) if compact else Vector2(240, 52)
+	chosen_view.add_theme_font_size_override("font_size", UI.SMALL if compact else UI.BIG)
+	chosen_view.custom_minimum_size = chosen_go.custom_minimum_size
 	chosen_name.add_theme_color_override("font_color", UI.INK if compact else UI.TAG)
 	chosen_about.visible = viewport.x >= 1000.0

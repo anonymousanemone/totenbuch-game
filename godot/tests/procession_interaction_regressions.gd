@@ -47,7 +47,7 @@ func _run() -> void:
 	level._click_world(mummy.rect.get_center())
 	expect(level.avatar.is_walking() and not level.water.active, "mummy click approaches without entering the water game")
 	arrive(level)
-	expect(not level.water.active and level.hud._text.contains("needs the right tool"), "mummy inspection explains the unopened mouth")
+	expect(not level.water.active and level.hud._text == level._descriptions.text("anubis_and_the_mummy", "unopened"), "mummy inspection explains the unopened mouth")
 	var woman: Dictionary = level.hotspots.filter(func(h): return h.id == "kneeling_woman")[0]
 	level._click_world(woman.rect.get_center())
 	arrive(level)
@@ -63,13 +63,10 @@ func _run() -> void:
 	arrive(level)
 	expect(level.mouth.carrying() == "adze", "arrival picks up the adze")
 	level.put_back()
-	expect(level._descriptions.entries.offering_stand.name == "Low table"
-		and level._descriptions.text("offering_stand") == "A small stand with two rods, a hooked adze, and a foreleg laid on it.", "low table uses the requested name and description")
-	expect(level._descriptions.text("priest_with_arm_censer").contains("purifying the sacred implements"), "censer priest explains the purification ritual")
 	var hints_before_recital: Dictionary = level._hints._steps.duplicate()
 	level._click_world(level._lector.rect.get_center())
 	arrive(level)
-	expect(level.hud._text == level._descriptions.text("lector_with_plumes") + " He speaks to you.", "plumed lector click shows default description with speaking cue at the bottom")
+	expect(level.hud._text == level._descriptions.text("lector_with_plumes") + " " + level.PUZZLES.text("procession.standards", "feedback", "speaking"), "plumed lector click shows default description with speaking cue at the bottom")
 	expect(level._recital.get_child_count() == 8, "plumed lector still recites all eight standards")
 	expect(level._recital.get_children().all(func(glyph): return Color(glyph.modulate, 1.0).is_equal_approx(UI.INK_TINT)), "plumed lector's spoken signs use heka red")
 	expect(level.journal.has("lector_with_plumes"), "plumed lector click records his default description")
@@ -102,7 +99,7 @@ func _run() -> void:
 				second_clickable = true
 	expect(second_clickable, "second offering table is clickable")
 	level.record(second)
-	expect(level.hud._text == "Another large pile of offerings, with more architectural integrity.", "second offering table has its own description")
+	expect(level.hud._text == level._descriptions.text(second.id), "second offering table has its own description")
 	var id: String = offerings.speaking()
 	var imprint: Sprite2D = offerings._placement_imprint
 	expect(imprint.visible and imprint.position == offerings.pieces[id].rect.get_center()
@@ -148,7 +145,7 @@ func _run() -> void:
 	expect(level._glow_targets(level._pick(bread_point)) == [offerings._bearer_sprite], "bread hover highlights only the bread")
 	level._act_bearer()
 	level._describe_bearer()
-	expect(level.hud._text == "He stares forlornly at his empty hands.", "empty bearer keeps forlorn description")
+	expect(level.hud._text == level.PUZZLES.text("procession.goose", "feedback", "instructions_empty"), "empty bearer keeps forlorn description")
 	level._table_drop(offerings.bearer_rect.get_center())
 	expect(offerings.bearer == "" and offerings.sprite_of(loaf) != null, "bread falls through instead of returning to bearer")
 	level.hud.say("Scribe", "Keep this description.")

@@ -108,6 +108,21 @@ func reset() -> void:
 	_imprint.visible = false
 
 
+## Viewing: the face inked, the words at their imprint over Ra, the adze on its stand.
+func restore() -> void:
+	reset()
+	for i in _curves.size():
+		_progress[i] = _curves[i].get_baked_length()
+	_refresh_face()
+	phase = Phase.DONE
+	words_object.place()
+	words_object.lock_in_place()
+	_words.visible = true
+	_words.position = _words_home.get_center()
+	_words.scale = Vector2.ONE
+	_words.modulate.a = 1.0
+
+
 func done() -> bool:
 	return phase == Phase.DONE
 

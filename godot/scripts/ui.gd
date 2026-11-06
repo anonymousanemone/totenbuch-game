@@ -29,11 +29,19 @@ enum Glow { DEFAULT, PROCESSION, DANGER, SUCCESS }
 const SUCCESS_GLOW := Color(160.0 / 255.0, 170.0 / 255.0, 114.0 / 255.0, 0.4)  ## dull olive green #a0aa72
 const SUCCESS_IN := 0.8       ## s for a success glow to come up ...
 const SUCCESS_OUT := 3.2      ## ... and to fade
+const VIEW := Color(1.7, 1.25, 0.45)  ## tints the frame band while only walking and reading a restored scroll
 const DIM := Color(0.12, 0.08, 0.04, 0.5)
 const INK_TINT := Color(DANGER.r / INK.r, DANGER.g / INK.g, DANGER.b / INK.b)
 const GLOW_SHADER := preload("res://scripts/glow.gdshader")
 
 const IMAGES := "res://assets/ui/%s.png"
+
+
+## Only walking and reading a restored scroll (`Scroll.viewing`, looked up by name so this script
+## compiles before the autoloads exist).
+static func viewing() -> bool:
+	var tree := Engine.get_main_loop() as SceneTree
+	return tree != null and tree.root.has_node("Scroll") and tree.root.get_node("Scroll").viewing
 
 
 ## A tiled run of the frame band (`image` in assets/ui), laid along one side of `parent`.
@@ -43,6 +51,8 @@ static func band(parent: Control, image: String, preset: int, offsets: Rect2) ->
 	t.stretch_mode = TextureRect.STRETCH_TILE
 	t.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	t.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	if viewing():
+		t.modulate = VIEW
 	t.set_anchors_preset(preset)
 	t.offset_left = offsets.position.x
 	t.offset_top = offsets.position.y

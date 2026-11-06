@@ -116,6 +116,16 @@ func reset() -> void:
 	_place()
 
 
+## Viewing: the whole line drawn, the jar settled where it is drawn.
+func restore() -> void:
+	reset()
+	done = true
+	tilt = 0.0
+	progress = 1.0
+	best = 1.0
+	_place()
+
+
 ## Step up to the water: the camera holds on it and instructions appear on every entry.
 func enter() -> void:
 	if done:

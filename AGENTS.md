@@ -1,8 +1,12 @@
 # Project instructions
 
-- Project skills live in `skills/<name>/SKILL.md`: `build-levels` (building a level from an `.mdp`), `suggest-games` (proposing puzzles and minigames) and `cite-references` (citing sources in registries and the Scene Atlas). Read the matching one before starting that kind of work.
+- Project skills live in `skills/<name>/SKILL.md`: `build-levels` (building a level from an `.mdp`), `suggest-games` (proposing puzzles and minigames), `cite-references` (citing sources in registries and the Scene Atlas) and `make-artwork` (scroll art that keeps the original drawing, UI art that matches the Old Fax font). Read the matching one before starting that kind of work.
 - Only create or save files in `mockups/` when the user explicitly requests it. Put temporary screenshots, previews, and verification artifacts in a temporary directory outside the repository instead.
 - Leave existing files in `mockups/` untouched unless the user requests changes or cleanup.
+
+## Tests
+
+- A test may compare shown text only against the JSON (`registry.json`, `puzzles.json`, `messages.json`, read through `descriptions.gd` or `puzzles.gd`) or against text the test sets up itself. Never compare against a hard-coded copy of the game's text, and don't write a test whose only purpose is to pin the wording of an entry.
 
 ## Movable objects
 

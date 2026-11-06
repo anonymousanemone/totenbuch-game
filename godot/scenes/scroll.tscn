@@ -2131,3 +2131,20 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_ejt37")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_drs81")
 theme_override_styles/focus = SubResource("StyleBoxFlat_ptxi0")
 text = "Play"
+
+[node name="View" type="Button" parent="Footer/Selection" unique_id=455900960]
+visible = false
+custom_minimum_size = Vector2(240, 52)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+theme_override_colors/font_focus_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
+theme_override_colors/font_hover_color = Color(0.5882353, 0.24313726, 0.15686275, 1)
+theme_override_colors/font_disabled_color = Color(0.56078434, 0.44313726, 0.25882354, 1)
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_0emas")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_34pe2")
+theme_override_styles/hover = SubResource("StyleBoxFlat_ejt37")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_drs81")
+theme_override_styles/focus = SubResource("StyleBoxFlat_ptxi0")
+text = "View"

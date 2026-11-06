@@ -16,6 +16,15 @@ func expect(condition: bool, description: String) -> void:
 		failures.append(description)
 
 
+## True when `text` is one of the Hint-button steps of a puzzle phase, as `puzzles.gd` shows them.
+func in_phase(reader, puzzle: String, phase: String, text: String) -> bool:
+	var entries: Array = reader.data.puzzles[puzzle].hints.phases[phase]
+	for step in entries.size():
+		if text == entries[step].text + (reader.MORE_HINTS if step < entries.size() - 1 else ""):
+			return true
+	return false
+
+
 func frames(count := 5) -> void:
 	for i in count:
 		await process_frame
@@ -113,7 +122,7 @@ func _run() -> void:
 				level._set_hover({})
 				level._table_now()
 				level.hint()
-				expect(hud._text.contains("offering"), "offering hints take priority over unfinished hauling")
+				expect(in_phase(level._hints, "procession.offerings", "build", hud._text), "offering hints take priority over unfinished hauling")
 				level.leave_table()
 				hud.say("Scribe", "Old interaction")
 				hud.say_later("Scribe", "Stale message", 0.01)
@@ -290,9 +299,9 @@ func _test_procession_scenes() -> void:
 		if not level._visible_rect().has_point(level.avatar.position):
 			print("FRAME ", level._visible_rect(), " avatar=", level.avatar.position)
 		level.act_slot("pole1")
-		expect(level.hud._text.begins_with("You take"), "taking a standard says what you took")
+		expect(level.hud._text.begins_with(level.PUZZLES.text("procession.standards", "feedback", "standard_taken").get_slice("%s", 0)), "taking a standard says what you took")
 		level.hint()
-		expect(level.hud._text.contains("priest") or level.hud._text.contains("Jackal"), "carried-standard hint stays with the sorting task")
+		expect(in_phase(level._hints, "procession.standards", "sort", level.hud._text), "carried-standard hint stays with the sorting task")
 		if side < 0:
 			await frames()
 			await shot("standards-frame")

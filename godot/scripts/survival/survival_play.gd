@@ -146,7 +146,8 @@ func _setup_rites() -> void:
 
 func reset() -> void:
 	super.reset()
-	_restart()
+	if not Scroll.viewing:      # viewing: the scroll as drawn, with no rites (_ready_done stays false)
+		_restart()
 
 
 ## Back to the start of the level, as at the beginning (the Journal is kept).

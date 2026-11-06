@@ -56,6 +56,7 @@ const SCENES := [
 ]
 
 var restored: Array[String] = []
+var viewing := false              ## the open scene is a restored scroll to walk and read: no puzzles
 var sound := 7                    ## 0..10
 var fullscreen := false
 
@@ -85,7 +86,9 @@ func scene(key: String) -> Dictionary:
 	return SCENES.filter(func(s): return s.key == key)[0]
 
 
-func open(key: String) -> void:
+## `view`: walk the restored scroll and read it, without its puzzles (only for restored scenes).
+func open(key: String, view := false) -> void:
+	viewing = view
 	get_tree().paused = false
 	get_tree().change_scene_to_file(_path(key))
 

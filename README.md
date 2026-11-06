@@ -27,6 +27,12 @@ What each level plays, rule by rule, is in
 | Gates | 144–146 | `godot/scenes/gates.tscn` | `godot/scripts/gates/` |
 | Night Journey | | `godot/scenes/cosmos.tscn` | `godot/scripts/cosmos/` |
 
+**View mode:** a restored level's map card offers **View** beside Play again. The level opens already
+solved (`Scroll.viewing`): clicks only walk up to figures and captions and read them, with no puzzles,
+fights or gates, and the frame band is tinted gold (`UI.VIEW`). Each level's restored state is its
+puzzle pieces' `restore()` (Procession) or its solved set (Dangers); Survival skips its rites and
+Gates shows every adorer. A new level needs its own. Dev: `--view` with `--level=<key>`.
+
 ## Layout
 
 Scene-specific scripts and shaders sit in `godot/scripts/<level>/`; shared ones directly in `godot/scripts/`.
@@ -34,7 +40,7 @@ Scene-specific scripts and shaders sit in `godot/scripts/<level>/`; shared ones 
 | Path | What |
 |---|---|
 | `godot/scenes/menu.tscn`, `godot/scripts/menu/menu.gd` | Title page, map of the scroll, Settings |
-| `godot/scripts/scroll.gd` | Autoload `Scroll`: scenes in playing order, which are restored, settings (`user://scroll.cfg`). A scene counts as built once `scenes/<key>.tscn` exists |
+| `godot/scripts/scroll.gd` | Autoload `Scroll`: scenes in playing order, which are restored, `viewing`, settings (`user://scroll.cfg`). A scene counts as built once `scenes/<key>.tscn` exists |
 | `godot/scripts/ui.gd` | Shared look (`UI`): palette, Old Fax font, panels, frame band, icon buttons |
 | `godot/scripts/avatar.gd` | Walking (click or keyboard), facing, bobbing; `carrying_transform()` for carried items |
 | `godot/scripts/hud.gd` | Title bar, the scribe's strip, Journal ([j]), intro/outro |
@@ -143,7 +149,7 @@ godot --path godot -- --level=dangers --skip=8 --at=2950 --wait --screenshot=/tm
 
 Marks 8 encounters solved, starts at x=2950, saves a frame and quits.
 
-Other flags: `--level=survival|gates` with `--at=`; Procession `--take=slot`, `--recite`, `--speak`,
+Other flags: `--view` (with `--level=`, the restored scroll to walk and read); `--level=survival|gates` with `--at=`; Procession `--take=slot`, `--recite`, `--speak`,
 `--wait`, `--show-hits`, `--ending`, `--finale`, `--mouth`, `--open-mouth`, `--water`, `--pour=rad`,
 `--haul`, `--haul-bot`; `--record=dir --seconds=N`; `--journal`; menu `--screen=map|settings|controls`
 with `--screenshot=path.png`. UI regressions: `--script res://tests/ui_regressions.gd`, plus

@@ -267,7 +267,10 @@ func reset() -> void:
 	avatar.position = Vector2(rects.avatar.get_center().x, ground)
 	avatar.facing = -1
 	hud.reset_view()
-	hud.say("Scribe", _hints.message("dangers.start"))
+	hud.say("Scribe", _hints.message("view.start" if Scroll.viewing else "dangers.start"))
+	if Scroll.viewing:      # every danger overcome and both signs in the giver's hand, as drawn
+		for e in ENCOUNTERS:
+			solved[e.id] = true
 	_refresh()
 	_update_camera(1.0)
 
@@ -318,6 +321,8 @@ func here(kinds: Array = FIGHTS) -> Dictionary:
 ## The uncarried item at `p` that can be taken (the nearest, where two are close together), or "".
 func _item_at(p: Vector2) -> String:
 	var best := ""
+	if Scroll.viewing:
+		return best
 	for e in ENCOUNTERS:
 		if e.kind == "take":
 			for it in e.items:
@@ -646,7 +651,7 @@ func _process(delta: float) -> void:
 	var pulse := 0.5 + 0.5 * sin(_time * 5.0)
 	if fight.is_empty():
 		# on the scroll the heka signs always flash red; clicking one tells what they are for
-		for nm in _all_heka():
+		for nm in [] if Scroll.viewing else _all_heka():
 			actors[nm].modulate = Color(Color.WHITE.lerp(RED_CROC, pulse), actors[nm].modulate.a)
 		# and spell 38's breath sign, until one of the signs he holds out is taken
 		actors.glyph38_breath.modulate = Color.WHITE.lerp(RED_CROC, 0.0 if solved.has("e38") else pulse)
@@ -723,7 +728,7 @@ func _solve(e: Dictionary, item := "") -> void:
 
 
 func finish() -> void:
-	if finished or "ankh38" in items:
+	if finished or Scroll.viewing or "ankh38" in items:
 		return
 	finished = true
 	_refresh()
@@ -820,6 +825,9 @@ static func _sweep(tree: SceneTree, tex: Texture2D, start: Rect2, vs: Vector2, m
 
 
 func hint() -> void:
+	if Scroll.viewing:
+		say("Hint", _hints.message("view.hint"))
+		return
 	if finished:
 		return
 	if not fight.is_empty() and not solved.has(fight.e.id):
@@ -1396,6 +1404,8 @@ func _heka_words(id: String) -> Array:
 
 ## The heka sign showing at `p`, or "".
 func _heka_at(p: Vector2) -> String:
+	if Scroll.viewing:      # only inscriptions now
+		return ""
 	for nm in _all_heka():
 		if actors[nm].visible and actors[nm].modulate.a > 0.5 and actor_rect(nm).grow(6 * unit).has_point(p):
 			return nm

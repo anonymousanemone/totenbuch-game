@@ -12,7 +12,7 @@ func reset() -> void:
 		if not id.begins_with("spell145_pylon"):
 			continue
 		if id.ends_with("_adorer"):
-			figures[id].hide()
+			figures[id].visible = Scroll.viewing     # viewing: every keeper's name is given, as drawn
 			figures[id].modulate.a = 1.0
 		elif id.count("_") == 1:
 			PylonPlumes.still(figures[id])

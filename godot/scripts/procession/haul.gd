@@ -107,6 +107,14 @@ func reset() -> void:
 	_place()
 
 
+## Viewing: the sledge where it is drawn, the hauler on his rope.
+func restore() -> void:
+	reset()
+	done = true
+	_nodes.haul_hauler.visible = true
+	_nodes.haul_hauler.modulate.a = 1.0
+
+
 ## The original hauler is shown while hauling, and remains once the bier is home.
 func hauler_shown() -> bool:
 	return _nodes.haul_hauler.visible

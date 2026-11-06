@@ -28,7 +28,7 @@ func _ready() -> void:
 	var args := OS.get_cmdline_user_args()
 	for a in args:
 		if a.begins_with("--level="):
-			Scroll.open.call_deferred(a.trim_prefix("--level="))
+			Scroll.open.call_deferred(a.trim_prefix("--level="), "--view" in args)
 			return
 	_title = $Title
 	_map = $Scroll

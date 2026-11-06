@@ -156,6 +156,24 @@ func reset() -> void:
 	changed.emit()
 
 
+## Viewing: the table as drawn, every piece in place and the goose in the bearer's arms.
+func restore() -> void:
+	reset()
+	for b in _bodies.get_children():
+		b.hide()
+		b.queue_free()
+	for id in pieces:
+		placed[id] = true
+		objects[id].place()
+		objects[id].lock_in_place()
+		_authored[id].visible = true
+	bearer = "goose"
+	_show_bearer()
+	objects.goose.set_to_loc(_bearer_sprite.get_parent(), _bearer_sprite.transform, 0)
+	objects.goose.place()
+	objects.goose.lock_in_place()
+
+
 # ---------------------------------------------------------------- rules
 
 ## Everything this piece rests on is already in place (the frond goes on last).

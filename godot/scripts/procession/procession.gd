@@ -300,9 +300,25 @@ func reset() -> void:
 	avatar.position = Vector2(start_x, ground)
 	avatar.facing = -1
 	hud.reset_view()
-	say("Scribe", PUZZLES.message("procession.start"))
+	say("Scribe", PUZZLES.message("view.start" if Scroll.viewing else "procession.start"))
+	if Scroll.viewing:
+		_restore_all()
 	_render()
 	_update_camera(1.0)
+
+
+## Viewing: every rite done, so the scroll is as Lepsius drew it and nothing is left to play.
+func _restore_all() -> void:
+	for p in POLES:
+		slot[p] = SLOTS[p].home
+	haul.restore()
+	offerings.restore()
+	water.restore()
+	mouth.restore()
+	bulls.restore()
+	ending.restore()
+	for key in solved:
+		solved[key] = true
 
 
 # ---------------------------------------------------------------- input
@@ -437,6 +453,9 @@ func _carried_input(event: InputEvent) -> bool:
 ## Exploration clicks approach a subject before its action; minigames own their input.
 func _click_world(p: Vector2) -> void:
 	var h := _pick(p)
+	if Scroll.viewing:
+		_view_click(h, p)
+		return
 	if h.is_empty():
 		walk_then(p.x)
 	elif h.type == "worn":
@@ -489,6 +508,35 @@ func _click_world(p: Vector2) -> void:
 		walk_then(h.spot.rect.position.x - STAND_GAP * unit - sprite_rects.avatar.size.x / 2.0, record.bind(h.spot))
 	else:
 		walk_then(_reach(h.spot.rect, p), record.bind(h.spot))
+
+
+## Viewing: a click only walks up to a figure or caption and reads about it.
+func _view_click(h: Dictionary, p: Vector2) -> void:
+	match h.get("type", ""):
+		"hot":
+			walk_then(_reach(h.spot.rect, p), _view_record.bind(h.spot))
+		"caption":
+			_descriptions.show(h.id, hud)
+		"bearer", "goose_locked":
+			walk_then(_reach(_bearer_rect, p), _describe_bearer)
+		"offering_placed":
+			offerings.objects[h.id].request_description()
+		"plumes_locked":
+			bulls.plumes_object.request_description()
+		"slot":
+			say_game("Standard-bearers", PUZZLES.text("procession.standards", "success"))
+		"water":
+			var jar: Dictionary = hotspots.filter(func(s): return s.id == "priest_with_jar")[0]
+			walk_then(_reach(jar.rect, p), _view_record.bind(jar))
+		"ending":
+			walk_then(_reach(ending.place_rect() if h.id == "place" else ending.rect_of(h.id), p), _describe_object.bind("stand", "stand"))
+		_:
+			walk_then(p.x)
+
+
+## Clicking a figure in view: only its description (nothing reads out, recites or starts).
+func _view_record(h: Dictionary) -> void:
+	_descriptions.inspect(h.id, hud, journal, _inspection_picture(h), hotspots.size(), _description_variant(h.id))
 
 
 ## What is under the pointer: a loose offering, a hidden piece of the offering stand or its place,
@@ -1223,6 +1271,8 @@ func act_mouth(id: String, p := Vector2.INF) -> void:
 
 
 func _check() -> void:
+	if Scroll.viewing:
+		return
 	var was := solved.duplicate()
 	solved.t1 = haul.done
 	solved.t2 = POLES.all(func(p): return _god(slot[p]) == _god(SLOTS[p].home))
@@ -1410,7 +1460,9 @@ func _stand_hint_phase() -> String:
 
 
 func hint() -> void:
-	if mouth.active and not solved.t6:
+	if Scroll.viewing:
+		say("Hint", PUZZLES.message("view.hint"))
+	elif mouth.active and not solved.t6:
 		_show_hint("procession.opening_mouth", "carve")
 	elif haul.active and not solved.t1:
 		_show_hint("procession.haul", "pull")

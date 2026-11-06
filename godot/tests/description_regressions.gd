@@ -40,7 +40,7 @@ func _run() -> void:
 	var observed: Dictionary = p.hud._journal_entries["procession/stela"]
 	var blank: String = p.hud._text
 	var card: Node = observed.node
-	expect(p.hud._tag_label.text == "Renamed stela" and blank.contains("blank"), "renaming a subject leaves stable-ID selection and blank-state description intact")
+	expect(p.hud._tag_label.text == "Renamed stela" and blank == p._descriptions.text("stela", "blank"), "renaming a subject leaves stable-ID selection and blank-state description intact")
 	p.ending.imprint_shown = true
 	expect(observed.text == blank, "journal does not reveal a changed state before inspection")
 	p.record(stela)

@@ -72,12 +72,12 @@ func reset() -> void:
 	avatar.max_x = max_x()
 	journal.clear()
 	hud.reset_view()
-	hud.say("Scribe", _hints.message(level_key + ".start"))
+	hud.say("Scribe", _hints.message("view.start" if Scroll.viewing else level_key + ".start"))
 	_update_camera(1.0)
 
 
 func hint() -> void:
-	hud.say("Hint", _hints.message(level_key + ".explore"))
+	hud.say("Hint", _hints.message("view.hint" if Scroll.viewing else level_key + ".explore"))
 
 
 func _unhandled_input(event: InputEvent) -> void:

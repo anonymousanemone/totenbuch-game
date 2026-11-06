@@ -10,6 +10,17 @@
 - [ ] **Change the journal format for all entries:** show an icon, title, and two-line text summary for each entry. Clicking an entry shows a longer description.
 - [ ] **Define a creativity-versus-skill scale for each level (inspiration: IQKnight):** define creativity as discovering, interpreting, and experimenting with ideas or solutions; define skill as executing understood actions through timing, precision, coordination, and practice. Give each level its own creativity-to-skill ratio and a custom description that sets player expectations. Likely store the ratio and description in each level's `puzzles.json`; exact ratios, wording, and storage remain to be decided.
 
+#### Navigate-only mode (plan)
+
+An avatar walks the whole scroll, completely restored and as the papyrus original, and can only click figures and captions to read their descriptions and labels. No puzzles, fights or gates.
+
+- [x] **Per-level view (2026-11-05):** a restored level's map card offers **View** beside Play again (`Scroll.open(key, true)`, `Scroll.viewing`). The level opens already solved (Procession rites done, Dangers overcome, Survival without its rites, Gates with every adorer shown), clicks only walk and read, and the frame band is tinted gold (`UI.VIEW`). Dev: `-- --level=<key> --view`. Tested in `godot/tests/view_mode_regressions.gd`.
+- [ ] **One continuous walk through the whole scroll:** join every built level's restored scene into one scroll, right to left (Lepsius's spell order), with no menu between them. Decide how the scenes are joined (each instanced in turn against a shared avatar and camera, or one stitched scene) and where level boundaries and titles show.
+- [ ] **Which levels show:** only restored levels, or the whole scroll with unrestored stretches blank or locked. To be decided.
+- [ ] **Entry point:** a "View the scroll" button on the title page or map, separate from the per-level View.
+- [ ] **Survival view:** the drawn men stay visible and the avatar starts on top of the drawn spell-43 worshipper, so the two overlap. Hide the drawn man or start the avatar beside him.
+- [ ] **Restored state for new levels:** each needs its own `restore()` on its puzzle pieces, with its fights, gates and clues switched off while `Scroll.viewing`.
+
 ### Procession
 
 #### General
@@ -65,8 +76,8 @@
 
 Each `reference` field now names its sources (`skills/cite-references/SKILL.md`). The claims below aren't in Davis 1894 or in any other source read so far. Each item's `reference` field says so. Find a source for each, or soften or cut the wording.
 
-- [ ] **Procession, `priest_with_arm_censer`:** that he purifies the implements for the Opening of the Mouth.
-- [ ] **Dangers, `e36` and `e37`:** the names "Apshai" (the beetles) and "Merti" (the two snakes). Davis has neither; Renouf & Naville have "Merta" goddesses for spell 37.
+- [ ] **TBD — Procession, `priest_with_arm_censer`, censer or wer-hekaw:** Tawfik 2022 links him to the Opening of the Mouth, but reads what he holds as the wer-hekaw (a ram-headed tool), not a censer. Check the plate, then keep or change "holds incense". The test in `procession_interaction_regressions.gd` checks the wording "purifying the sacred implements".
+- [ ] **Dangers, `e36`:** the name "Apshai" for the beetles. Davis doesn't have it, and Weber 2022 says only "bugs".
 - [ ] **Cosmos, `isis_nephthys_kneeling`, `nephthys_kite`, `isis_kite`:** reading the name signs on their heads (basket on a house for Nephthys, throne for Isis). That they appear as kites is from Renouf & Naville 1904.
 - [ ] **Cosmos, `nut_over_scarab`:** that the goddess is Nut.
 - [ ] **Cosmos, `falcon_on_standard`, `falcon_on_perch`:** that the falcon is "the sign for the West".

@@ -119,6 +119,17 @@ func reset() -> void:
 	_set_light(0.0, 0.0)
 
 
+## Viewing: the stand, sun and lotus before Ra and the adorer kneeling to him, as drawn.
+func restore() -> void:
+	reset()
+	for nm in PIECES:
+		placed[nm] = true
+		_set_at_place(nm)
+	imprint_shown = true      # the stela is read as complete
+	_imprint.visible = false
+	_kneeler.visible = true
+
+
 ## Where a piece lies hidden: on the scroll, or (the sun disc) on the bier.
 func _hide(nm: String) -> void:
 	objects[nm].reset()

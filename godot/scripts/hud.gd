@@ -9,6 +9,7 @@ signal hint_pressed
 signal restart_pressed
 signal menu_pressed
 
+const PUZZLES := preload("res://scripts/puzzles.gd")
 const TOP_BAR := 46.0         ## the title bar, without its band
 const STRIP := 130.0          ## the scribe's strip, its band included
 const BOXED := false          ## the band also down the screen's sides and along its bottom, round the strip
@@ -46,6 +47,9 @@ var _title_label: Label
 func setup(level: Node, cfg: Dictionary) -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	_level = level
+	if Scroll.viewing:
+		cfg = cfg.duplicate()
+		cfg.intro_body = PUZZLES.message("view.intro")
 	_cfg = cfg
 	_root = Control.new()
 	_root.set_anchors_preset(Control.PRESET_FULL_RECT)

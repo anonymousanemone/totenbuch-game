@@ -1,6 +1,13 @@
 ## Shared movement states and puzzle-specific recovery/placement contracts.
 extends SceneTree
+const PUZZLES := preload("res://scripts/puzzles.gd")
 var failures: Array[String] = []
+
+
+## True when `text` is the shared pickup message, whatever item it names.
+func is_pickup(text: String) -> bool:
+	var parts := PUZZLES.message("interaction.pick_up").split("%s")
+	return text.begins_with(parts[0]) and text.ends_with(parts[1]) and text.length() > parts[0].length() + parts[1].length()
 
 func _initialize() -> void:
 	_run.call_deferred()
@@ -29,7 +36,7 @@ func _run() -> void:
 	var item: MoveableObject = scene.ending.objects.lotus
 	expect(item.base_world_scale.is_equal_approx(Vector2.ONE), "lotus starts at full scale")
 	scene.ending.take("lotus")
-	expect(scene.hud._text == "You pick up the lotus.", "scene-to-avatar collection shows pickup message")
+	expect(is_pickup(scene.hud._text), "scene-to-avatar collection shows pickup message")
 	var worn_scale := item.sprite.global_scale.abs()
 	scene.hud.say("Scribe", "Existing description.")
 	scene.ending.hold("lotus")
@@ -105,7 +112,7 @@ func _run() -> void:
 	expect(table.sprite_of(loaf) != null and table.objects.goose.locked_in_place, "displaced loaf has physics and accepted goose is locked")
 	expect(table.objects.goose.state == MoveableObject.State.PLACED and table.objects.goose.sprite.visible, "accepted goose uses its movable sprite and placed state")
 	scene._click_world(_ink_point(table.objects.goose.sprite))
-	expect(scene.hud._text == "He clings to his goose, refusing to give it up again.", "clicking accepted goose shows its own refusal description")
+	expect(scene.hud._text == PUZZLES.text("procession.goose", "feedback", "goose_refuses"), "clicking accepted goose shows its own refusal description")
 	expect(table.bearer_act() == "has_goose" and table.holding() == "", "accepted goose cannot be taken back")
 	var body := table.sprite_of(loaf).get_parent() as RigidBody2D
 	expect(body.position.x >= table.floor_x.x and body.position.x <= table.floor_x.y, "displaced loaf spawns within expanded floor bounds")
@@ -123,7 +130,7 @@ func _run() -> void:
 	scene.bulls.press("plumes", scene.bulls._right)
 	expect(scene.bulls.held == "" and plumes.state == MoveableObject.State.PLACED, "placed plumes cannot be dragged again")
 	scene.mouth.take_adze()
-	expect(scene.hud._text == "You pick up the adze.", "adze collection shows pickup message")
+	expect(is_pickup(scene.hud._text), "adze collection shows pickup message")
 	scene._click_world(scene.mouth.mummy_rect().get_center())
 	expect(not scene.avatar.is_walking() and not scene.mouth.active, "clicking mummy does not approach or start carving")
 	scene._begin_carried(scene.mouth.adze_object, scene.get_global_mouse_position())
@@ -164,7 +171,7 @@ func _run() -> void:
 	dangers.avatar.set_process(false)
 	var encounter: Dictionary = dangers.ENCOUNTERS.filter(func(e): return e.id == "e38")[0]
 	dangers.take(encounter, "ankh38")
-	expect(dangers.hud._text == "You pick up the ankh.", "ankh collection shows pickup message")
+	expect(is_pickup(dangers.hud._text), "ankh collection shows pickup message")
 	var sign: MoveableObject = dangers.objects.ankh38
 	sign.hold()
 	sign.move_held(Vector2(40, 40))
@@ -174,7 +181,7 @@ func _run() -> void:
 	dangers.reset()
 	expect(sign.state == MoveableObject.State.WORLD and sign.sprite.transform.is_equal_approx(sign.from_loc_transform), "Dangers reset restores authored source")
 	dangers.take(encounter, "sail38")
-	expect(dangers.hud._text == "You pick up the breath sign.", "breath collection shows pickup message")
+	expect(is_pickup(dangers.hud._text), "breath collection shows pickup message")
 	dangers.free()
 	print("MOVEABLE OBJECT REGRESSIONS ", "OK" if failures.is_empty() else "FAILED")
 	quit(0 if failures.is_empty() else 1)

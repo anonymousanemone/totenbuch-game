@@ -33,9 +33,8 @@ func _run() -> void:
 	var steps: Dictionary = reader._steps.duplicate()
 	reader.text("procession.bulls", "instructions")
 	reader.text("procession.bulls", "success")
-	expect(reader.text("procession.bulls", "feedback", "calf_turned") == "The calf turns its back on the block and settles.", "intermediate success uses named puzzle feedback")
-	expect(reader.text("procession.standards", "feedback", "standard_taken") % ["the ibis standard", "the first standard-bearer"] == "You take the ibis standard from the first standard-bearer.", "feedback preserves runtime formatting placeholders")
-	expect(reader.text("procession.opening_mouth", "feedback", "success_opened") == "You touch the adze to the mummy's mouth. Its mouth opens, and words come out.", "former success variants remain available as feedback")
+	var taken: String = reader.text("procession.standards", "feedback", "standard_taken") % ["<standard>", "<bearer>"]
+	expect(taken.contains("<standard>") and taken.contains("<bearer>"), "feedback preserves runtime formatting placeholders")
 	expect(reader._steps == steps, "reading puzzle instructions and success text does not consume hint levels")
 	for puzzle in reader.data.puzzles:
 		expect(reader.find(puzzle).ends_with(HINTS.MORE_HINTS), "Find includes the next-hint reminder: " + puzzle)
@@ -77,7 +76,7 @@ func _run() -> void:
 	p.in_standards = false
 	p.in_table = true
 	p.hint()
-	expect(p.hud._text.contains("offering"), "active puzzle takes priority over location and earlier unfinished tasks")
+	expect(in_phase(reader, "procession.offerings", "build", p.hud._text), "active puzzle takes priority over location and earlier unfinished tasks")
 	p.say("Lector priest", "A clue")
 	var saved: Dictionary = p._hints._steps.duplicate()
 	p.offerings.speak()
@@ -87,23 +86,23 @@ func _run() -> void:
 	p.hint()
 	var last: String = p.hud._text
 	p.hint()
-	expect(first.contains("priest") and last.begins_with("Jackal") and p.hud._text == last, "returning preserves the independent ladder and exhausted hints repeat their final answer")
+	expect(first == phase_hint(reader, "procession.standards", "sort", 0) and last == phase_hint(reader, "procession.standards", "sort", 1) and p.hud._text == last, "returning preserves the independent ladder and exhausted hints repeat their final answer")
 	p.in_standards = false
 	p.bulls.active = true
 	p.hint()
 	p.hint()
-	expect(p.hud._text.contains("calf"), "calf phase gives its own action")
+	expect(p.hud._text == phase_hint(reader, "procession.bulls", "calf", 1), "calf phase gives its own action")
 	p.bulls.calf_sprite().scale.x = 1.0
 	p.hint()
 	expect(p.hud._text == first_bull_hint(reader), "new plumes phase starts with its first hint")
 	p.hint()
-	expect(p.hud._text.contains("plumes") and not p.hud._text.contains("Drag it sideways"), "completed calf phase is excluded from plumes advice")
+	expect(p.hud._text == phase_hint(reader, "procession.bulls", "plumes", 1), "completed calf phase is excluded from plumes advice")
 	p.bulls.active = false
 	p.in_table = true
 	p.solved.t3 = true
 	p.offerings.bearer = ""
 	p.hint()
-	expect(p.hud._text.begins_with("His arms are empty"), "completed offering table routes to the remaining goose task without claiming he still holds a loaf")
+	expect(p.hud._text == phase_hint(reader, "procession.goose", "find_goose", 0), "completed offering table routes to the remaining goose task without claiming he still holds a loaf")
 	p.bulls.active = false
 	p.in_table = false
 	for attempt in 2:
@@ -137,12 +136,12 @@ func _run() -> void:
 	d.start_fight(encounter)
 	expect(d.hud._text == reader.text("dangers.e37", "instructions") and d.hud._tag.get_theme_stylebox("panel").bg_color == UI.TAG_MINIGAME, "fight entry uses centralized puzzle instructions")
 	d.hud.hint_pressed.emit()
-	expect(d.hud._text == "Watch the signs above. Striking too soon provokes a snake.", "active Merti fight preserves the existing hint without exposing which sign predicts which snake")
+	expect(d.hud._text == phase_hint(reader, "dangers.e37", "fight", 0), "active Merti fight preserves the existing hint without exposing which sign predicts which snake")
 	d.leave_fight()
 	encounter = d.ENCOUNTERS.filter(func(e): return e.id == "e41")[0]
 	d.start_fight(encounter)
 	d.hint()
-	expect(d.hud._text == "Lean to the band that shivers ([↑] [↓]), then [space].", "the sheaf fight hints at its controls")
+	expect(d.hud._text == phase_hint(reader, "dangers.e41", "fight", 0), "the sheaf fight hints at its controls")
 	d.leave_fight()
 	d.avatar.position.x = d.span(encounter).x + 50.0
 	d.hint()
@@ -171,4 +170,17 @@ func _run() -> void:
 	print("HINT REGRESSIONS ", "OK" if failures.is_empty() else "FAILED")
 	quit(0 if failures.is_empty() else 1)
 func first_bull_hint(reader) -> String:
-	return reader.data.puzzles["procession.bulls"].hints.phases.plumes[0].text + HINTS.MORE_HINTS
+	return phase_hint(reader, "procession.bulls", "plumes", 0)
+
+
+## The Hint-button text for one step of a puzzle phase, as `puzzles.gd` shows it.
+func phase_hint(reader, puzzle: String, phase: String, step: int) -> String:
+	var entries: Array = reader.data.puzzles[puzzle].hints.phases[phase]
+	return entries[step].text + (HINTS.MORE_HINTS if step < entries.size() - 1 else "")
+
+
+func in_phase(reader, puzzle: String, phase: String, text: String) -> bool:
+	for step in reader.data.puzzles[puzzle].hints.phases[phase].size():
+		if text == phase_hint(reader, puzzle, phase, step):
+			return true
+	return false

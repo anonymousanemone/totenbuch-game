@@ -13,7 +13,7 @@
 ## of the furthest it reached. Once the whole line is drawn the jar settles where it is drawn.
 ##
 ## The priest is his body and his forearm with the jar (water_priest_body, water_priest_arm, from
-## tools/arm_sheets.py --parts): the arm is a child of the body, placed at the elbow (drawn on
+## tools/sheets.py procession --parts): the arm is a child of the body, placed at the elbow (drawn on
 ## both), and turns about it by the tilt. The stream is the sprite water_stream, with its path
 ## beside it (water_path), cut by tools/cut_procession300.py; positions (`water` in level.json)
 ## are strip pixels.

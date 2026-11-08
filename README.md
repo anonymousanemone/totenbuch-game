@@ -82,12 +82,12 @@ original drawing bounds.
 
 **Survival:** `godot/scenes/survival.tscn` holds spell groups, the avatar, camera and five foreground
 text sections (papyrus-backed, repeating everything drawn within them). `godot/assets/survival/level.json`
-records source IDs and bounds. Rerunning `tools/build_survival_scene.py` replaces the generated scene
+records source IDs and bounds. Rerunning `python tools/build_scene.py survival` replaces the generated scene
 (dropping added pieces, pivots and splice lines), so preserve editor changes first.
 `tools/cut_survival_pieces.py` cuts the rite pieces (partial: name the keys).
 
 **Gates:** `art/gates146.mdp` and `art/gates144-145.mdp` overlap by 280 px so their shared double rule
-is one; positions in the scene are authoritative. `python3 tools/build_gates_scene.py` refreshes artwork
+is one; positions in the scene are authoritative. `python tools/build_scene.py gates` refreshes artwork
 and metadata and only adds missing sprites to a saved scene. Pylons sway via `plumes.gdshader`
 (`plumes` in `level.json`).
 
@@ -98,19 +98,18 @@ moving a whole group, changing pivots or scaling needs matching updates there.
 
 Cutters are partial: name what changed and only that is cut into the level already there.
 
-- **Procession:** `tools/cut_procession300.py` reads `art/procession1-15.mdp` directly (`--patch`,
-  `--water`, `--mouth`, `--bulls` cut only those pieces). Pieces are layers in `.mdp` folders (`table`,
-  `haul`, `standards`, `sprites`, `water`, `mouth`, `bulls`); the cutter removes from the picture
-  whatever such a layer covers. World units are strip pixels; `level.json` has `"scale": 1.5` for
-  200-dpi distances. Hand-drawn sheets (`tools/arm_sheets.py`) are never regenerated. Needs the
-  `general` conda environment.
+- **Procession:** `python tools/export_scene_layers.py procession` writes the strip and a sprite for every
+  layer of `art/procession1-15.mdp`, by layer id. What it does not work out is cut by
+  `tools/cut_procession300.py` (`--water`, `--table`, `--features`, `--bulls`): the water's path and line,
+  what each offering rests on, the plumes' places, as `level.json` data beside the sprites. World units are
+  strip pixels; `level.json` has `"scale": 1.5` for 200-dpi distances. Hand-drawn sheets
+  (`tools/sheets.py procession`) are never regenerated. Needs the `general` conda environment.
 - **Dangers:** `tools/cut_dangers300.py art/dangers31-42.mdp godot/assets/dangers <pieces>` (e.g.
   `ankh38 sail38 tail40 sheaf41`); `--all` only when asked. If a vignette's figures move in the `.mdp`,
   move its spear-bearer rect in `level.json`, its `tip` in `spearers.json` and its nodes in
-  `dangers.tscn`. Caption signs in the `heka` folder are cut as their own sprites. `tools/cut_dangers.py`
-  (200 dpi) is kept for reference.
-- **Survival:** `tools/build_survival_scene.py` from `art/survival43-63.mdp`.
-- **Gates:** `tools/build_gates_scene.py`.
+  `dangers.tscn`. Caption signs in the `heka` folder are cut as their own sprites.
+- **Survival:** `python tools/build_scene.py survival` from `art/survival43-63.mdp`.
+- **Gates:** `python tools/build_scene.py gates`.
 
 ## Puzzle text and UI
 

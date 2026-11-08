@@ -1,6 +1,7 @@
 ## Survival's rites (spells 43–59), on top of the shared navigation and inspection:
 ## the was-sceptres (43), the gate and the mummy (44–46), the dwelling (47), the walk upside
-## down (50–52), and the water of the two sycamores (57, 59). The plan is in ideas.md.
+## down (50–52), the two offering tables (52, 53: offering_tables.gd), and the water of the two
+## sycamores (57, 59). The plan is in ideas.md.
 ## Placeholders: the mummy game (45) passes after its opening rocking; the order of the water
 ## lines (59) and eating filth (52) are stand-ins until they are decided.
 extends "res://scripts/survival/survival.gd"
@@ -39,6 +40,7 @@ const DISSOLVE := preload("res://scripts/dangers/dissolve.gdshader")
 const FIGURE_MASK := preload("res://scripts/figure_mask.gd")
 const FIGURE_SHADER := preload("res://scripts/figure.gdshader")
 const PAD := 2
+const TABLES := preload("res://scripts/survival/offering_tables.gd")
 
 ## The sceptres on his back (relative to the avatar's carrying frame), one pose per sceptre.
 const SCEPTRE_POSES := [Vector2(4.0, -246.0), Vector2(11.0, -244.0), Vector2(18.0, -242.0)]
@@ -63,7 +65,7 @@ const LINE_ORDER := ["spell59_mw1", "spell59_mw4", "spell59_mw2", "spell59_mw5",
 const FLASH := 0.45
 const FLASH_GAP := 0.15
 
-enum Mode { WALK, SCENE, FLIP, WATER57, SEATED59 }
+enum Mode { WALK, SCENE, FLIP, WATER57, SEATED59, TABLE }
 
 var pieces := {}                 ## piece key -> saved Sprite2D
 var mode := Mode.WALK
@@ -91,6 +93,7 @@ var _sequence_busy := false
 var _entered := []
 var _run := 0                    ## bumped on restart: pending timers of an older run do nothing
 var _ready_done := false
+var tables = TABLES.new(self)    ## 52, 53: the seated man at his altar
 
 
 func _ready() -> void:
@@ -140,6 +143,7 @@ func _setup_rites() -> void:
 	_descriptions.entries["spell43_sceptres"] = registry.entries.spell43_sceptres
 	for key in PLAYED_PIECES:
 		pieces[key].visible = false
+	tables.setup()
 
 
 # ---------------------------------------------------------------- restart and death
@@ -201,6 +205,7 @@ func _restart() -> void:
 	_set_stream(pieces.spell59_stream, 0.0)
 	for key in LINE_ORDER:
 		pieces[key].modulate = Color.WHITE
+	tables.reset()
 	_set_look(_look_at(avatar.position.x))
 	_update_splice()
 
@@ -349,6 +354,7 @@ func _process(delta: float) -> void:
 		_crossings(x)
 	if mode == Mode.WATER57:
 		_water57(delta)
+	tables.process(delta)
 	_was_x = x
 	if mode == Mode.WALK:
 		# upside down only where he is drawn whole as the 51 man; at the line his 51 half is turned
@@ -397,6 +403,9 @@ func _pick(point: Vector2) -> String:
 				return "#door"
 		if upside and avatar.upturn < 0.0 and _avatar_rect().has_point(point):
 			return "#flip"
+		for sp in [52, 53]:
+			if not _solved.has(sp) and not upside and _special_sprites("#seat%d" % sp).any(func(s): return _descriptions.hit(s, point)):
+				return "#seat%d" % sp
 		if not _solved.has(57) and _descriptions.hit(pieces.spell57_stream, point):
 			return "#water57"
 		if _in_59 and not _solved.has(59) and not _sequence_busy:
@@ -443,6 +452,10 @@ func _special_sprites(id: String) -> Array:
 			return [pieces.spell44_door]
 		"#water57":
 			return [pieces.spell57_stream]
+		"#seat52":
+			return [pieces.spell52_chair, pieces.spell52_altar]
+		"#seat53":
+			return [pieces.spell53_chair, pieces.spell53_offering_table]
 		"#flip":
 			return []
 	return [pieces[id.trim_prefix("#")]] if pieces.has(id.trim_prefix("#")) else []
@@ -463,6 +476,10 @@ func _unhandled_input(event: InputEvent) -> void:
 			return
 		Mode.FLIP:
 			_flip_input(event)
+			return
+		Mode.TABLE:
+			if event.is_action_pressed("ui_cancel"):
+				tables.leave()
 			return
 		Mode.SCENE:
 			return
@@ -491,6 +508,10 @@ func _use(id: String, point: Vector2) -> void:
 			_flip_from = point.y
 		"#water57":
 			walk_then(level.pieces.spell57_lower_body.x + level.pieces.spell57_lower_body.w / 2.0, _start57)
+		"#seat52", "#seat53":
+			var sp := int(id.trim_prefix("#seat"))
+			var chair: Dictionary = level.pieces["spell%d_chair" % sp]
+			walk_then(chair.x + chair.w / 2.0, func(): tables.start(sp))
 		_:
 			_line59(id.trim_prefix("#"))
 	_set_hover("")

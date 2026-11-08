@@ -29,14 +29,16 @@ func _run() -> void:
 	scene.avatar.set_process(false)
 
 	# the drawing is whole: every piece is in place, except where a rite starts wrong
-	expect(scene.pieces.size() == 46, "every cut piece has a saved sprite")
-	for key in ["spell43_sceptre1", "spell44_door", "spell45_mummy_body", "spell53_loaf1", "spell54_sail", "spell59_mw1"]:
+	expect(scene.pieces.size() == 55, "every cut piece has a saved sprite")
+	for key in ["spell43_sceptre1", "spell44_door", "spell45_mummy_body", "spell54_sail", "spell59_mw1"]:
 		expect(scene.pieces[key].visible, key + " is drawn in place")
 	expect(not scene.pieces.spell47_ba.visible, "the ba is missing until the dwelling is claimed")
 	expect(not scene.pieces.spell57_upper_body.visible and not scene.pieces.spell57_lower_body.visible, "no one stands under the 57 water")
 	expect(scene.pieces.spell57_stream.region_rect.size.y < scene.pieces.spell57_stream.texture.get_height() * 0.5, "the 57 water only dribbles")
 	expect(not scene.pieces.spell57_tray.visible, "the 57 tray is in the tree")
 	expect(not scene.pieces.spell59_seated_man.visible and not scene.pieces.spell59_stream.visible, "the 59 chair is empty and no water flows")
+	expect(not scene.figures.spell52_seated_man.visible and not scene.figures.spell53_seated_man.visible, "the 52 and 53 chairs are empty")
+	expect(not scene.pieces.spell53_loaf1.visible and not scene.pieces.spell53_whisp5.visible, "the 53 table is bare")
 	expect(not scene.figures.spell43_worshipper.visible and not scene.figures.spell51_walking_man.visible, "the figures he stands in for are hidden")
 	expect(scene._look == "43", "he starts as the 43 worshipper")
 

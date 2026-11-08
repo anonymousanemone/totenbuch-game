@@ -20,7 +20,7 @@ Make every asset at the size it will be shown next to the artwork it belongs wit
 
 Most of this already works. Keep doing it the same way.
 
-- **Move the drawing, never redraw it.** Bend, warp, split and carry the drawn ink. Don't paint new lines in a different hand. Look at how existing tools do it: `tools/spearer_lean.py` (a rigid moving-least-squares warp of the drawn ink), `tools/snake35_turn.py` (the body bent along the drawing's own centre line, the head carried whole) and `tools/spearer_sheet.py` (a prop split off the figure and the gaps bridged).
+- **Move the drawing, never redraw it.** Bend, warp, split and carry the drawn ink. Don't paint new lines in a different hand. Look at how existing tools do it: `tools/spearers.py lean` (a rigid moving-least-squares warp of the drawn ink), `tools/snakes.py` (the body bent along the drawing's own centre line, the head carried whole) and `tools/spearers.py thrust` (a prop split off the figure and the gaps bridged).
 - When new ink can't be avoided (bridging a gap left by a split, a part hidden in the drawing), copy the nearby line. Use the same thickness, the same ink colour and the same edge softness, so the seam can't be found.
 - The last frame of an animation, or the resting pose, must be the drawing itself, pixel for pixel, in the same place. The sprite should line up with the plate.
 - Joints bend the way they are drawn. Planted feet and hems stay planted. Props keep their own line. Write these rules in the tool's docstring, as the existing tools do.

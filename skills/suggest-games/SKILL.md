@@ -23,6 +23,9 @@ A suggestion starts from the drawing, never from a description of it.
   `ideas.md` descriptions were made from small scans and can be wrong. Two examples:
   - Pl. IV: the man by the lector holds a goose, not a foreleg. The foreleg item had to go.
   - Pl. III: the calf faces the Apis bull, not the sacrifice behind it.
+- **Find the caption.** If the spell has a caption (its title or label in the band above or
+  beside the vignette), mention it, and give its translation when one is available (the level's
+  `registry.json`, or the source translation, cited as in `cite-references`).
 - **Check what is already cut.** If a figure is not yet its own sprite, it needs a layer in the
   `.mdp` (see the `table`, `haul` and `standards` folders, or `heka` for caption signs). Say which
   layer(s) to add.
@@ -74,6 +77,11 @@ Describe the disturbed starting state and show that the solved state is the plat
 - **Never make spell text the puzzle.** Quizzes, translations to match, and "the clue is in the
   spell" are all out. The spell can inspire the theme (spell 31: crocodiles come for the magic →
   the heka word is what they take), but the solution is in the picture.
+- **The caption is the one exception, and a big one.** A spell's caption and its translation
+  should shape which games are suggested, and reading the caption can be a clue in play (spell
+  93: clicking the chapter title gives an obvious clue to refuse the boat; spell 98: reading the
+  caption leads to the decision to board). It is not the be-all and end-all, though: the drawing
+  still leads, and the rest of the spell text stays out.
 - **Hieroglyphs in the caption band can be pieces.** Cut them like the heka signs and they can
   flash, glow, be clicked, or be eaten. Treat them as shapes, not words.
 
@@ -143,6 +151,7 @@ justification there.
 ```
 ### <Name> (pl. N, spell S, strip x A–B)
 Drawn:      what is there, checked against the crop (facing, hands, neighbours). [verify] anything unsure.
+Caption:    the spell's caption, if it has one, and its translation when available (source).
 Verb:       the one drawn gesture or state the player performs.
 Disturbed:  how the scene starts wrong.
 Solved:     the plate as drawn.
@@ -160,6 +169,7 @@ Test:       what the autotest does.
 
 - [ ] I looked at a crop of this exact spot and the sprites, not only `ideas.md`.
 - [ ] Every figure I mention is drawn there, facing the way I say.
+- [ ] If the spell has a caption, I mentioned it, gave its translation when available, and let it inform the idea.
 - [ ] The verb comes from something drawn.
 - [ ] The solved state is the drawing.
 - [ ] It is playable with the text hidden.

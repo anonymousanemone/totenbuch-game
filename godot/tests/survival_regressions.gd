@@ -21,7 +21,7 @@ func _run() -> void:
 		await frames(8)
 		var tag := "%dx%d " % [dimensions.x, dimensions.y]
 		expect(paused and scene.hud.is_blocking(), tag + "introduction pauses exploration")
-		expect(scene.figures.size() == 44 and scene.level.figures.size() == 44, tag + "all figures and captions are loaded across the complete scroll")
+		expect(scene.figures.size() == 45 and scene.level.figures.size() == 45, tag + "all figures and captions are loaded across the complete scroll")
 		expect(scene.figures.values().all(func(n): return n in authored), tag + "runtime reuses saved figure sprites")
 		expect(scene.get_node("Avatar/Sprite").texture != null, tag + "avatar uses the deceased cutout")
 		scene.hud.dismiss_intro()

@@ -4,6 +4,12 @@
 - Only create or save files in `mockups/` when the user explicitly requests it. Put temporary screenshots, previews, and verification artifacts in a temporary directory outside the repository instead.
 - Leave existing files in `mockups/` untouched unless the user requests changes or cleanup.
 
+## Rebuilding assets
+
+- Never rebuild, re-cut or regenerate assets under `godot/assets/` (or the scenes they feed) unless the user explicitly asks. Fixing, merging or refactoring a tool does not mean running it on the real repository.
+- The tools are used in a targeted way: something specific changed in the art, so rebuild only that item (for example `cut_dangers300.py ... ankh38`, `build_scene.py gates`, one `cut_procession300.py --water`), never the whole level or every level. Name what will be rebuilt and wait for the request.
+- To check a tool, run it on a copy in a temporary directory outside the repository and compare. Never write into `art/`.
+
 ## Tests
 
 - A test may compare shown text only against the JSON (`registry.json`, `puzzles.json`, `messages.json`, read through `descriptions.gd` or `puzzles.gd`) or against text the test sets up itself. Never compare against a hard-coded copy of the game's text, and don't write a test whose only purpose is to pin the wording of an entry.

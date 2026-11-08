@@ -33,7 +33,7 @@ var sheaf = SHEAF.new(self)
 const SCROLL_CAMERA := preload("res://scripts/scroll_camera.gd")
 const VIEW_TOP := 36.0   ## the row under the top register's upper rule: the title bar's band takes its place
 const DATA_PATH := "res://assets/dangers/level.json"
-const SHEET_PATH := "res://assets/dangers/animation/spearers.json"   ## the spear-bearers' thrust (tools/spearer_sheet.py)
+const SHEET_PATH := "res://assets/dangers/animation/spearers.json"   ## the spear-bearers' thrust (tools/spearers.py thrust)
 const FIGURE_MASK := preload("res://scripts/figure_mask.gd")
 const SHEET_TEX := "res://assets/dangers/animation/spearers.png"
 const ASSET := "res://assets/dangers/figures/%s.png"
@@ -49,6 +49,7 @@ const ARENA_FIGHTS := ["crocs", "roach", "lunge", "creep", "twin", "apep", "donk
 const DEBUG_OPEN_ROAD := true
 
 const ENCOUNTERS := preload("res://scripts/dangers/danger_encounters.gd").ENCOUNTERS
+const END_X := 140.0     ## walking left past this (strip px), with every danger overcome, ends the level
 const GLOW := UI.Glow.DANGER
 
 var level: Dictionary
@@ -280,7 +281,7 @@ func reset() -> void:
 func _refresh() -> void:
 	current = {}
 	for e in ENCOUNTERS:
-		if e.kind in ["take", "note", "end"]:
+		if e.kind in ["take", "note"]:
 			continue
 		if not solved.has(e.id):
 			current = e
@@ -668,7 +669,7 @@ func _process(delta: float) -> void:
 
 
 ## Say a vignette's line each time you walk into it while its danger is still there (a fight waits
-## for a click on the creature), and end the level at spell 42 once everything before it is done.
+## for a click on the creature), and end the level at END_X once every danger is overcome.
 func _check_position() -> void:
 	var x := avatar.position.x
 	var here_now := ""
@@ -676,11 +677,11 @@ func _check_position() -> void:
 		var s := span(e)
 		if x < s.y - 20.0 * unit and x > s.x:
 			here_now = e.id
-			if here_now != _section and not solved.has(e.id) and e.kind != "end":
+			if here_now != _section and not solved.has(e.id):
 				say("Scribe", _descriptions.line(e.id, "default", true).text + (" " + _hints.message("dangers.click_to_fight") if e.kind in FIGHTS else ""))
 			break
 	_section = here_now
-	if x < span(ENCOUNTERS[-1]).y - 40.0 * unit and current.is_empty():
+	if x < END_X and current.is_empty():
 		finish()
 
 
@@ -1283,9 +1284,9 @@ static func _solid_ink_from(tex: Texture2D) -> Texture2D:
 	return ImageTexture.create_from_image(img)
 
 
-## Only post-choice encounters read these modes (those with `hard_ready` in danger_encounters.gd).
+## Only post-choice encounters (AFTER_CHOICE) read these modes.
 func hard() -> bool:
-	return not fight.is_empty() and fight.e.id in AFTER_CHOICE and not "sail38" in items and fight.e.get("hard_ready", false)
+	return not fight.is_empty() and fight.e.id in AFTER_CHOICE and not "sail38" in items
 
 
 ## Tuning value `key` of this fight's encounter: in hard mode from its `hard` where it has one.
@@ -1789,7 +1790,7 @@ func _maybe_run_cli() -> void:
 		if a.begins_with("--skip="):
 			var n := a.trim_prefix("--skip=").to_int()
 			for e in ENCOUNTERS:
-				if n > 0 and not e.kind in ["note", "end"]:
+				if n > 0 and not e.kind in ["note"]:
 					solved[e.id] = true
 					if e.kind == "take":
 						items.append(e.items[0])
@@ -2037,9 +2038,9 @@ func _autotest() -> void:
 		expect.call(glowers.all(glows), e.id + " won: its creatures and bearer flash pale green")
 		expect.call(not _box_actors(e).any(func(n): return n not in glowers and glows.call(n)), e.id + " won: nothing else (heka word, signs) flashes")
 
-	expect.call(current.is_empty(), "every danger before spell 42 is overcome")
-	avatar.position.x = span(ENCOUNTERS[-1]).y - 50.0 * unit
+	expect.call(current.is_empty(), "every danger is overcome")
+	avatar.position.x = END_X - 15.0
 	_check_position()
-	expect.call(finished, "level finished at spell 42")
+	expect.call(finished, "level finished at the end of the road")
 	print("AUTOTEST ", "OK" if fails.is_empty() else "FAILED")
 	get_tree().quit(0 if fails.is_empty() else 1)

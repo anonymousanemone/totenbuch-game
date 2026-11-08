@@ -2,7 +2,7 @@
 extends RefCounted
 
 var game
-var lean: Dictionary     ## spear41_lean.json: the bearer leaning in to each band (tools/spearer_lean.py)
+var lean: Dictionary     ## spear41_lean.json: the bearer leaning in to each band (tools/spearers.py lean)
 
 
 func _init(level) -> void:

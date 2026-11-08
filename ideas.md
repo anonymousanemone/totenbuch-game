@@ -8,6 +8,59 @@ Design rule throughout: **the end is the Weighing of the Heart (125d).** Every e
 
 ---
 
+## What each level teaches (for continuity) (approved 2026-11-06)
+
+**What counts as "taught":** a specific thing the player can recognise (a sign, a god's look or name, an object's shape) that is **first met with a clue at hand** in that level and could be **asked for again later** (further on in the same level, or in another level) without that clue, so the player has to remember it or look it up in the journal. It needn't be memorised; a journal entry that reminds the player of the earlier scene is enough.
+- **Doesn't count:** general skills (timing, observation, asking figures, reading tells). These go into the level's **skill vs creativity** ratio instead (see the scale in `TODO.md`). Also out: things with no later use found yet, things the level only recalls, and the level's whole content.
+- **Ratio:** skill = executing understood actions (timing, precision, practice, *memorisation*); creativity = discovering and interpreting (spotting, reading captions, working out what to do).
+- **Recalls:** what a level asks back from an earlier one. Listed so the chain shows.
+
+| Level | Skill / creativity | Why (brief) |
+|---|---|---|
+| Procession (1–16) | 25 / 75 | Only the haul and the pour are rhythm; the standards, table, goose, bulls, adze and stand are spotting and restoring. |
+| Cosmos (17) | tbd | Walk-and-read only; its games aren't chosen. |
+| Dangers (31–42) | 80 / 20 | Every vignette is a spear fight, but the captions decide the heka crocodiles (31), the Merti snakes (37) and breath vs life (38). |
+| Survival (43–63) | 50 / 50 | Skill: steadying the mummy (45), covering and catching the loaves (52–53), the bend under the stream (57). Creativity: sceptres as lives, claiming the dwelling, flipping upright, finding the sails, the caption signs. |
+| Ba, Thoth & boats (89–109) | 20 / 80 | Mostly animation and decisions (refuse at 93, offer at 94, board at 98); turning the boat at 100–102 is the one handling part. |
+| Field of Reeds (110) | tbd | Only feed-the-gods is decided. |
+| Gates (144–147) | 90 / 10 | Mostly a memorisation game: which name goes to which god. |
+
+**Procession (1–16)**
+- **Offering stand** (stand, sun disc, lotus bending over it). First: rebuilt before Ra, with the stela by the tomb as the clue. Later: 94/95's stand, the boats of 17, 110's and 147's stands, with no stela nearby.
+- **Anubis and Ra**, what they look like (only these few gods here). First: Anubis holding the mummy, Ra enthroned. Later: 45 (Anubis holds the mummy again), 17, 117 (Anubis leads), 125 (Anubis at the scale).
+
+**Cosmos (17)** (tentative, games not chosen)
+- **Gods by head and name sign:** Isis (throne) and Nephthys (basket on house) as kites at the bier, the Four Sons by their heads. Later: the 18 councils, 148's four figures, 125's Four Sons.
+- **The sun's cycle:** the east and west falcons, the two horizon lions, the morning and evening boats. Later: 93 (the east sign tells you to refuse the boat), 100–102 sailing west, 109's sycamores of the east. (The east sign may be taught at 16 instead, if that level is made.)
+- **Canopic chest:** between the Four Sons, and carried in pl. X. Later: 151's burial chamber, 125's Four Sons.
+- **Wedjat eye:** on its shrine. Later: 148's four oars, the two on the 125 cornice.
+
+**Dangers (31–42)**
+- **Breath (the sail sign).** First: 38, where the caption's title has "breath" in bold. Later: 54–62, the seven sails.
+- **Life (the ankh).** First: 38, beside the sail. Later: 56's lowered hand, Isis in 17, the crest of 146's portal 2.
+
+**Survival (43–63)**
+- **Feather (*maa-kheru*, true of voice).** First: 48, the signs grow when clicked. Later: Ma'at's feather at the 125 scale.
+- **Fire hieroglyph.** First: 63, the flame on a stand. Later: 126's lake of fire, 137's torches.
+- **Was-sceptre.** First: 43, the three sceptres that become your lives. Later: gods holding it, e.g. 147's baboon gods.
+- **Bread, water and breath, as a set.** First: the loaves (52–53), the tree goddess's water (57, 59), the sails. Later: 110 (feed the gods), 125 ("bread to the hungry, water to the thirsty").
+- **Recalls:** the sail (38), Anubis holding the mummy (procession).
+
+**Ba, Thoth & boats (89–109)**
+- Teaches nothing new so far.
+- **Recalls:** the east sign at 93 (Cosmos, or 16); at 94, that caption signs can be clicked and used (Survival), here the cup sign; the offering stand at 95 (procession).
+
+**Field of Reeds (110)**
+- **Grain from the two heaps.** First: carried from the middle register to the stands. Later: 148 (feeding the cows with food from 110).
+
+**Gates (144–147)**
+- **Which name goes to which god.** First: 145, where a wrong name zips off to its right god. Later: 146's matching portals (8/9 and 14/15 swap places), 147 ↔ 144 (4/5 swap).
+- **Names as glyph shapes:** recognised by their look, no reading needed. Later: possibly naming the door at 125.
+
+**Not listed yet:** 112–124, 126–143, 149–150 and the amulets (155–160) wait until their games are decided; 125 (what it recalls) waits until the finale design is chosen.
+
+---
+
 ## How the player learns things (recap)
 - **Cross-reference:** a figure seen correctly in one vignette is the answer in another.
 - **Headgear/heads as identity:** teach the heads (jackal, ibis, falcon, baboon, ram, crocodile, lion, snake) early. The gates use them heavily.
@@ -115,12 +168,19 @@ Five plates of continuous small scenes, reading right to left:
 - **Two adorers (pl. VII):** Davis: "the deceased is adoring a personage who holds on his arm a statue of Khem (Min) and who presents a lotus-flower." The raised object is a Min figure, not flowers, and the two men face each other, not the boat.
 - **Mehet-weret:** Davis has the sun born "above the thigh of the cow Mehurit", not at her udders.
 - **Heh and Wadj-wer:** Davis calls their pools "the basin of natron with the basin of nitre", then "the basin Maat". [verify] whether they are drawn as men or women.
-- **The gate (pl. VIII):** Davis says "the gate through which passes the father Tmu to reach the eastern horizon" and does not use the name Rosetau. That name comes from other copies.
+- **The gate (pl. VIII):** Davis says "the gate through which passes the father Tmu to reach the eastern horizon" and does not use the name Rosetau. (Backes's translation of this papyrus does name Rosetau; see the Totenbuch-Projekt check below.)
 - **Seven Glorious Ones:** Davis lists Amset, Hapi, Tiaumautef, Kebhsennouf, Maa-tef-f, Ker-bek-f and Har-Khent-an-merti (Horus Khenty-irty). Anubis set them to guard the sarcophagus of Osiris. The spirit with the curled sign should be Maa-tef-f or Ker-bek-f. [verify] which.
 - **Isis and Nephthys:** Davis calls them "the two girls", the "justiciary guardians" by Khepri's bark. This loosely supports reading the two apes as them. [verify]
 - Still unidentified: the crowned creature in the sun boat (VII), the two bowls (IX), the beaked figure by the tree (IX), the offerer before the cow (VIII; other copies have Thoth with the Eye), and whether the head on the chest (IX) is Ra's. Davis names only "the funeral chest containing the bowels of Osiris".
 - [verify] Pl. XI (Osiris enthroned, Anubis, Nut over the lion and scarab, the kneeling pair): Davis's ch. 17 notes don't describe these. They may be the opening of ch. 18. The old Osiris quote ("My fair goal is with Osiris") couldn't be traced, so it was removed.
 - [verify] The god in the evening boat wears a sun disc, which fits Ra better than Atum. The god in the morning boat has a horned head, not clearly a scarab.
+**Checked against the Totenbuch-Projekt** (2026-11-06; https://totenbuch.awk.nrw.de/spruch/17, accessed 2026-11-06: Backes's translation of this papyrus, TM 57201, and the database's list of motifs in its spell 17 vignettes; cited as `TBP Spruch 17`)
+- **Two apes:** Backes has the "reckoners" whom Khepri in his bark empowers as "the baboon, Isis and Nephthys". This supports reading the two apes as Isis and Nephthys more strongly than Davis's "two girls". Updated in the registry.
+- **The gate:** the text names two gates in this passage: the Gate of the Desert (the gate of Shu's raising, where Atum passes to the eastern horizon) and Rasetjau (Rosetau). So Rosetau is in this papyrus too, not only in other copies. Which one is drawn: [verify]. Updated in the registry.
+- **Name signs:** the motif list has kites, the Nephthys sign and the throne sign, which supports the name-sign readings for Isis and Nephthys. Added as their source.
+- **Morning boat:** the motif list has a scarab-headed god, which fits the morning boat's god. [verify] against the crop.
+- **Heh and Wadj-wer:** the motif list has a Nile god (Nilgottheit). If that is these two, they are drawn as Nile gods, which are male figures. [verify]
+- **Leads, not answers:** the motif list also has a child, a canopic jar, a bag, a crescent moon, and the red and white crowns. These may help with the crowned creature in the sun boat and the two bowls. Backes calls the chest "the chest that holds the innards of Osiris", which Anubis stands behind; the head on it is still unidentified. The Seven Glorious Ones are listed by the same names as Davis, so which one the spirit with the curled sign is stays [verify].
 - [verify] The three caption bands (`inscriptions_vii/viii/ix`) are given Davis's ch. 17 title, split across the three plates. The split points are a guess; the bands have not been read sign by sign.
 
 **Scenes to make games for** (checked against the cut sprites, 2026-10-22)
@@ -391,6 +451,7 @@ In the game (`godot/README.md` has the tuning): walk through every vignette; cli
 | 88 | **A mummiform figure with a small crocodile above its head** (pl. XXXIII) | Swim past guardians |
 
 - **Toolkit puzzle:** these become the **form wheel**. Later obstacles need specific forms. Each form crop is already a ready-made sprite.
+- [ ] **Low priority (liked, but very involved): replay levels in a form.** Each transformation lets you take on that form. You can then go back through the scroll and play certain levels *as* that form, which unlocks new ways to play and new things to do there.
 
 ### Ba and tomb (89–92) [seen]
 - **89:** the ba bird hovering over the mummy on a lion bier. **90:** the deceased before a god (*removing harm from the mouth*). **91:** the deceased with the **ba bird flying beside him**. **92:** the **ba flying out through the doorway of a shrine/tomb** while the deceased stands at the door.
@@ -411,10 +472,21 @@ In the game (`godot/README.md` has the tuning): walk through every vignette; cli
 - **107–108:** the gods of the West (three gods, the deceased kneeling); 108 has a **mound/mountain with figures on it** (the mountain of Bakhu).
 - **109:** a **boat with a god and a calf**, **two tall trees (the sycamores of the east)**, the deceased adoring.
 - **Puzzles:**
-  - **94: get the scribe's palette.** Thoth gives you the palette, and it becomes the **journal**. Story justification for the clue system.
-  - **99: assemble the ferry.** Crop the boat into parts (mast, sail, rudder, oars, hull). The ferryman refuses to sail until every part is "named". Assign each part a god-crop from your journal. Use the 99 text in translation to set the true pairs.
-  - **100–101: steer Ra's boat.** Pole at the right moments; the Benu bird signals when.
-  - **109: eastern horizon.** Place the calf between the two sycamores to make the sun rise. Use the compass learned in Act I.
+  - **93: refuse the boat.** The player must actively refuse to get on the boat (how: tbd). Clicking the chapter title or the east sign gives very obvious clues.
+  - **94: offer the scroll and the cup.** The avatar is shown holding the scroll, the one Thoth gave him in the opening sequence. The player clicks the scroll and drags it onto Thoth, and that arm freezes in the offering position. The player also needs the cup: clicking the cup sign in the caption above (the part and the whole glow) puts the cup in his hand. Then spell 95 appears: through animation and screen effects the items disappear, the avatar and Thoth take their spell-95 positions, and the offering stand appears.
+  - **98: get on the boat.** A boat scene that directly contrasts with 93. The player can read the caption and makes the active decision to get on the boat.
+  - **100–102: sail to the West.** A screen-effect transition into 100. The player drags and turns their own boat (like the calf-turning game), then sets sail. As the boat turns, the figures transition into 101. Sailing on open water lasts a while: as the boat rows from right to left across the screen, the caption's text above it animates. Once the boat is fully out of view, a new scene begins: spell 102. It holds the player there for a bit, then enables navigation.
+  - **103 onward: walking again.** The moment the player gets off the boat (their first move once navigation is enabled), the avatar becomes the adoring figure from 108. The figures of the deceased in 103 and the other vignettes are invisible at first; as each minigame is completed, its figure probably appears, as a sign that the minigame is done. The remaining spells in this level are minigames the player walks between to complete, unlike the long animation sequences with occasional interaction before them. The minigames for spells 103–109: tbd.
+
+### Ba, Thoth, ferry and Ra's boat: opening animation sequence
+1. **Ba and body (89):** the ba leaves, or appears out of, the mummified body. The screen goes black.
+2. **Thoth (94):** the deceased is shown in front of Thoth. The player takes the scroll Thoth offers. The screen goes black again.
+3. **Ba as avatar (91):** the ba bird is now the avatar, floating up and down in front of the person.
+4. **The door (92):** the person walks to the next vignette and "opens" the door. The person animates into the door-open pose, and the stick in hand and the other object subtly meld into the door frame. The door's interior, previously black, turns into the outline-only version seen in the vignette.
+5. **Into the door:** the player flies the ba to the door (arrow keys only). The ba shrinks, as if going into the door, and turns into the vignette's ba bird. The screen goes dark.
+6. **The first boat scene** appears.
+
+- **Art note:** the lotus needs to be redrawn for the offering stand and the boat.
 
 ---
 
@@ -450,16 +522,25 @@ In the game (`godot/README.md` has the tuning): walk through every vignette; cli
 
 ### 112–124 (connectors) [seen]
 - **112–114:** the Souls of Pe, Nekhen, and Hermopolis. Each panel has three gods: falcon-, jackal-, or ibis-headed.
-  - **Puzzle:** a matching triad. Use **head recognition**: which trio belongs to which town emblem.
-- **117–119:** Anubis leading the deceased by the hand toward a pylon (Wepwawet, "opener of the ways"). Recruit Anubis as a guide.
+- **117–119:** Anubis leading the deceased by the hand toward a pylon and a mound (Wepwawet, "opener of the ways"). Recruit Anubis as a guide.
 - **122:** the deceased bending at a tomb doorway.
-- **124:** four animal-headed gods in a row. Head-order lock.
+- **124:** four animal-headed gods in a row.
+- **Plan:**
+  - **112–116: the councils.** Some may or may not be skipped; further research needed.
+  - **117–124: led to the mound.** An animation (whether the player does any of it, e.g. the bend in 122: tbd): Anubis leads the deceased to the mound (117), then leaves (118). The deceased bends over (122), enters successfully, and appears in front of the four gods (124).
+  - **After 124:** how this flows is tbd, because going directly to 125 makes a lot of sense. That conflicts with 125 as the finale reached through 161; what happens to 126–165 is tbd.
 
 ---
 
 ## ACT V: Gates, Portals & Guardians (126–150)
 
 ### 126–143: The lake of fire, caverns & boats (pl. LI–LIX) [seen]
+
+- **Plan:**
+  - **126–128:** tbd.
+  - **129–136: boat games.** What they are and how they connect: tbd.
+  - **137–140: a short level of three vignettes (137, 138, 140).** A preparatory level, where you get ready to meet the gate guardians. Puzzles tbd; the four-torches idea for 137 stays.
+  - **141–143:** tbd.
 
 #### 126: Lake of Fire with four baboons (pl. LI)
 - **Depicts:** the deceased adoring before a rectangular **lake of fire**, with a **seated baboon at each corner** and fire braziers along the sides.
@@ -470,10 +551,9 @@ In the game (`godot/README.md` has the tuning): walk through every vignette; cli
 - **129–134:** many **boat** vignettes, including Ra's boat with a shrine and a crew of gods (133–134). Optional sailing segments.
 - **137 (pl. LVI):** **a seated figure with four lamps or torches** around them.
   - **Puzzle:** **four torches by direction.** Light each torch on the correct side using the compass.
-- **138:** Abydos fetish and a djed pillar. Gain the **djed**.
-- **140:** Anubis (jackal) on a shrine, the deceased adoring before a wedjat eye. Gain the **wedjat**.
+- **138:** Abydos fetish and a djed pillar.
+- **140:** Anubis (jackal) on a shrine, the deceased adoring before a wedjat eye.
 - **141–143:** lists of gods (text grids) and **stacked boats** carrying different crowns, falcons, or sun discs. 141–142 are mostly long lists of gods' names and their epithets.
-  - **Puzzle:** stack the boats in order (sun position across the day).
 
 ### 144–146: The gates (pl. LX–LXVII) [seen]
 
@@ -581,6 +661,8 @@ In the game (`godot/README.md` has the tuning): walk through every vignette; cli
 ### 149–150: The fourteen mounds and their key (pl. LXXI–LXXIII) [seen]
 The two belong together: 150 is the key to 149.
 
+- **Plan:** 149 will probably play like Dangers: each mound's vignette is its own minigame. Winning one gives you a "key", and the keys are used somehow in 150 (how: tbd). What a key is waits on more research: which mound matches exactly which sign in 150's key. 150's signs look different from 149's, so the match is not one to one.
+
 #### 149: The fourteen mounds (pl. LXXI–LXXIII)
 - **Depicts:** fourteen panels. Each pairs a **guardian**, usually **holding one or two knives**, with **an abstract sign for its mound**. Panels I can make out:
   - falcon-headed with a knife, plus a meander/channel sign
@@ -596,11 +678,9 @@ The two belong together: 150 is the key to 149.
   - a group with Anubis and reclining figures
   - a **seated god with a scarab before him and a crocodile-headed figure**
   - **a hippo/pig-like beast with knives** before a stand
-- **Puzzle:** **mound traversal.** Each mound is a small room. The guardian blocks you until you show the right form or amulet. The mound's sign tells you what kind of place it is (water, stairs, boat), which hints at the form you need: crescent boat → steer the boat; stairs → climb as the body; a snake in an oval → the Sa-ta snake form from 87.
 
 #### 150: The mound key (pl. LXXIII, left)
-- **Depicts:** a grid of **plain mound signs** with no figures: rectangles, ovals, a cross, an L, a T, wavy snakes, a snake in a frame, a U shape. These are the same signs that appear in 149's panels.
-- **Use: the map and legend for 149.** Crop it as the travel screen. Clicking a sign on the 150 grid opens the 149 panel with the same sign. This makes **matching shapes** the navigation, with no reading involved. Players can also be asked to visit the mounds in grid order, row by row.
+- **Depicts:** a grid of **plain mound signs** with no figures: rectangles, ovals, a cross, an L, a T, wavy snakes, a snake in a frame, a U shape. They look different from the signs in 149's panels, although the two correspond somehow.
 
 ---
 
@@ -639,6 +719,17 @@ Each is a single large, clean object, ideal **inventory icons**.
 *(Checked: 155 djed and 156 tyet are on pl. LXXV; 157–160 on pl. LXXVI. In the translation both 159 and 160 are the column of green felspar, but the 160 vignette here is a tall two-lobed shape.)*
 
 - **Puzzle:** an **amulet placement** mini-game. Each amulet goes on a specific part of the mummy (throat, chest, and so on); the funerary texts give the real positions. Place them on the 89 or 154 mummy crop.
+  - [verify] Allen 1974 has **all six at the throat**, on the day of burial ("joining the earth"), so the texts don't support different positions. Drop or rethink this idea.
+
+**What each text says the amulet does, and where it could go** (Allen 1974 and Davis 1894, spells 155–160; checked 2026-11-06)
+- **155 djed:** Osiris is given back his backbone while lying on his side; the wearer isn't kept from the gates of the West, gets offerings from Osiris's altar and beats his enemies. *Reward:* 68 (turning from side to side and standing up) or the 137–140 prep level (the djed is drawn in 138). *Requirement:* the gates (144–146).
+- **156 tyet:** the blood, power and magic of Isis protect the wearer; no road is blocked to him, gates open, and he is given barley and wheat in the Field of Reeds. *Reward:* 151 (Isis at the bier). *Requirement:* the grain in 110 (check the order: 151 comes after 110 on the scroll), or a one-time "unblock a closed way".
+- **157 vulture:** Isis searches the marshes for places to hide Horus; her protection makes anyone attacking him tremble. *Reward:* something hidden or kept safe in the 110 marshes. *Helper:* the 149 mound fights (turn away one attack, or keep you safe for one try).
+- **158 broad collar:** his father and mother are of Heliopolis; he is one of those set free when Geb looks on them. *Reward:* 75 (reaching Heliopolis). *Requirement:* entering the Hall (125), as a sign of where he belongs. Echoes 68, where the bolts of Geb open.
+- **159 papyrus column:** the most obscure; spoken to a goddess at the door of the twin seats. Davis reads it as a small feldspar necklace passing through the gate of the double dwelling. *Tentative requirement:* the door of the Hall of Two Truths (125).
+- **160 papyrus amulet held up by Thoth:** while it stays sound, the wearer stays sound; Thoth welcomes him, and his limbs won't be tied with cords. *Reward:* 161 (Thoth opening the doors, the next vignette) or Thoth in 94. *Use:* a life token: while it is unbroken, a lost try at the gates or mounds doesn't count.
+- **Shape of it:** rewards come where the text points; requirements stay soft (a gate is optional). Since all six sit at the throat, they could hang on the avatar's neck as they're collected (one shared slot, a small redraw).
+- [verify] 160's tall two-lobed shape doesn't look much like the papyrus amulet the text names. For 158–159 Davis has "necklaces" where Allen has a broad collar and a papyrus amulet.
 
 ### 161: Thoth opening the doors of the sky (pl. LXXVI, left) [seen]
 - **Depicts:** **four ibis-headed Thoth figures** in two registers, each **pulling open a door** (the four winds).
@@ -703,7 +794,7 @@ Each is a single large, clean object, ideal **inventory icons**.
 ## Repetition / teaching map
 | Concept | Taught in | Tested in | Final use |
 |---|---|---|---|
-| God heads | 17, 112–114 | 124, 144, 145 | 125 judges |
+| God heads | 17 | 144, 145 | 125 judges |
 | Compass | 15–16 sun | 109, 137 | 148 oars, 151 |
 | Sail/breath, water, bread | 38, 54–62, 57/59 | 110 farming | 148 cows |
 | Forms | 77–88 | 144, 146, 149 | – |
@@ -711,6 +802,12 @@ Each is a single large, clean object, ideal **inventory icons**.
 | Heart scarab | 30 | – | 125 scale |
 | Palette/journal | 94 | everywhere | 125 Thoth |
 | Baboons as judges | 126 | – | 125 scale |
+
+## Open questions (to research, not yet answered)
+- **The strange creatures (162–165):** how might they be folded in? These are somewhat unusual spells. Check the research on them, see what scholars say, and give ideas from that.
+- **Where they fit:** given all the planning here and in the Scene Atlas, where in the game would 162–165 fit?
+- **The finale (125):** given all the planning so far, what are some ideas for a finale at 125?
+- **Throughlines:** levels could be connected more with additional objects or throughlines. How, and how to make them meaningful, interesting and grounded in research?
 
 ## Still to verify
 - **Exact count of the 18 councils.** I saw nine kneeling panels plus the Osiris closing scene. Check whether your "18a–j" labelling counts the closing scene as one of them.

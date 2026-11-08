@@ -1,125 +1,132 @@
-## Encounter tuning and source-art geometry, in scroll order. Distances use 200-dpi plate pixels.
+## Encounter data, in scroll order. Each entry: fixed keys first (art and wiring), then the tunable
+## numbers. Distances in 200-dpi plate px unless marked; times in s.
 extends RefCounted
 
-## Encounters in play order. `boxes` are vignette frames from level.json; `spear` is the
-## vignette's spear-bearer, who stands in for the player during the fight. `caption` is the frame of
-## the spell's caption in the top register (strip px, x from and to), with translations in registry.json,
-## from C. H. S. Davis, The Egyptian Book of the Dead (1894), which translates this papyrus.
-## `tag`: whose name stands over what is said during the fight (the danger's, not the scribe's).
+## Fixed keys: `boxes` vignette frames (level.json); `spear` the bearer the player plays; `tag` the
+## speaker's name in the fight; `caption` the spell's caption in the top register (strip px, x from
+## and to; translations in registry.json, from Davis 1894); `task` the HUD task it belongs to.
+## Tunable: a pair [a, b] goes from the first strike to the last unless noted; `hard` overrides
+## keys in hard mode (spells 39-41 without the breath sign).
 const ENCOUNTERS := [
-	# crocodiles: `count` is how many must be turned back in all (the four drawn ones, then copies
-	# of them); `speed` in plate px per second; `at_once` how many crawl at the same time; `red` the
-	# chance that a crocodile comes red (only a thrust made while holding Shift turns those back; heka on
-	# an ordinary one loses the fight); `both_sides` they come from left and right, and he turns
+	# spell 31: crocodiles crawl in; red ones turn back only with Shift + thrust
 	{"id": "e31", "tag": "Crocodiles", "boxes": ["e31"], "kind": "crocs", "spear": "spear31", "task": 0, "tutorial": true,
-		"foes": ["c31a", "c31b", "c31c", "c31d"], "first_speed": 120.0, "break": 6.0,
-		# `waves` instead of one count: the lesson, a break while the heka word starts to flash, then
-		# a wave with red ones (`red_order`: which launches come red, in order); each crocodile of a
-		# wave `ramp` faster than the one before. A lost fight starts again from the first wave.
+		"foes": ["c31a", "c31b", "c31c", "c31d"],
+		"caption": [5189, 6667],
+		"first_speed": 140.0,   # the lesson's one slow crocodile (px/s)
+		"break": 6.0,           # pause between waves while the heka word flashes
+		# per wave: `count` crocodiles, `speed` px/s, each `ramp` faster than the last, launched every
+		# `interval` s, `at_once` on screen; `red_order` which launches come red
 		"waves": [
 			{"count": 3, "speed": 190.0, "ramp": 0.01, "interval": 3.0, "at_once": 1},
 			{"count": 6, "speed": 210.0, "ramp": 0.01, "interval": 2.2, "at_once": 2, "red_order": [false, true, false, true, true, false]},
-		],
-		"caption": [5189, 6667]},
+		]},
+	# spell 32: crocodiles from both sides
 	{"id": "e32", "tag": "Crocodiles", "boxes": ["e32"], "kind": "crocs", "spear": "spear32", "task": 0,
 		"foes": ["c32a", "c32b", "c32c", "c32d"], "both_sides": true,
-		# harder than 31 and losable, but always possible: each crocodile is `ramp` faster than the
-		# one before (210 -> about 420), and none reaches him within `min_gap` s of the one before
-		"waves": [{"count": 14, "speed": 175.0, "ramp": 0.01, "interval": 0.8, "at_once": 2, "red": 0.35, "min_gap": 0.9}],
-		"caption": [3944, 5168]},
-	# the lunging snake: it waits `rest` back from where it is drawn (out of reach) for `idle` s,
-	# waves its tail (`wave` s, `tail` rad, `wave_hz`), squashes down (`crouch` s) and springs
-	# (`snap` s) to his front leg. `head_tip`, `head_rect`, `tail_base`: in its picture's pixels.
+		"caption": [3944, 5168],
+		# as in 31; `red` the chance one comes red; `min_gap` least s between two reaching him
+		"waves": [{"count": 12, "speed": 175.0, "ramp": 0.01, "interval": 0.8, "at_once": 2, "red": 0.35, "min_gap": 0.9}]},
+	# spell 33: the snake waves its tail, then lunges at his leg; strike the red mark
 	{"id": "e33", "tag": "Snake", "boxes": ["e33"], "kind": "lunge", "spear": "spear33", "task": 1,
-		# `marks`: the red mark's radius (plate px) for each strike in turn, smaller each time
-		"foe": "snake33", "need": 3, "marks": [14.0, 11.0, 8.0], "rest": 33.0, "idle": [1.2, 2.4], "wave": 1.4, "tail": 0.26, "wave_hz": 2.2,
-		"crouch": 0.35, "snap": 0.16, "head_tip": [122, 218], "head_rect": [68, 205, 58, 25], "tail_base": [28, 172],
-		"caption": [3664, 3923]},
-	# the snakes on the ground, fought like the crocodiles of spell 32 (both sides, no red ones). They
-	# slither in at `slither` plate px/s, a new one every `enter_gap` range of seconds, and rest `rest` plate px from
-	# him (never more than `at_once` resting). `first` s after the vignette opens, and `next` s after
-	# each attack ends, one shakes its tail (`shake` s, `tail` rad, `wave_hz`) and darts at him along
-	# its row at `speed` plate px/s. `need` speared in all. (Its tail and head as it creeps, and the
-	# pinning: creeping_snake.gd's TURN and STRIKE sheets.)
+		"foe": "snake33",
+		"head_tip": [122, 218], "head_rect": [68, 205, 58, 25], "tail_base": [28, 172],   # picture px
+		"caption": [3664, 3923],
+		"need": 3,                    # strikes to win
+		"marks": [14.0, 11.0, 8.0],   # red mark radius per strike (= hit size)
+		"rest": 33.0,                 # waits this far back from where it is drawn
+		"idle": [1.2, 2.4],           # wait before each attack (random range)
+		"wave": 1.4,                  # tail-wave warning
+		"tail": 0.26,                 # tail swing (rad)
+		"wave_hz": 2.2,               # tail-wave speed
+		"crouch": 0.35,               # squash before the spring
+		"snap": 0.16},                # the spring to his leg
+	# spell 35: snakes creep in and rest; one shakes its tail, then darts at him
 	{"id": "e35", "tag": "Snakes", "boxes": ["e35"], "kind": "creep", "spear": "spear35", "task": 1,
-		"foe": "snake35", "need": 10, "at_once": 4, "slither": 150.0, "enter_gap": [1.5, 3.0], "rest": [170.0, 250.0],
-		"first": 1.5, "next": [0.0, 1.5], "shake": 0.8, "tail": 0.15, "wave_hz": 4.0, "speed": 240.0,
-		"caption": [3298, 3643]},
-	# the roach: `count` beetles (the drawn one and copies), each to be pinned once by the spear
-	# point. Each darts at `dart` (plate px/s), rests `rest` s, and every `bait_every` darts stops
-	# by the spear point on his left or right for `bait_rest` s (a `fake` share of those just out
-	# of reach), within `range` either side of him. Each may stop at the spear point and get away
-	# `passes` times (it reddens each time); one more and they multiply over the screen: lost.
+		"foe": "snake35",
+		"caption": [3298, 3643],
+		"need": 10,                # snakes to spear
+		"at_once": 4,              # most resting at once
+		"slither": 150.0,          # creeping speed (px/s)
+		"enter_gap": [1.5, 3.0],   # between arrivals (random range)
+		"rest": [170.0, 250.0],    # resting distance from him (random range)
+		"first": 1.5,              # first attack after the vignette opens
+		"next": [0.0, 1.5],        # between attacks (random range)
+		"shake": 0.8,              # tail-shake warning
+		"tail": 0.15,              # tail swing (rad)
+		"wave_hz": 4.0,            # tail-shake speed
+		"speed": 240.0},           # dart speed (px/s)
+	# spell 36: beetles dart about; pin each when it stops at the spear point
 	{"id": "e36", "tag": "Beetles", "boxes": ["e36"], "kind": "roach", "spear": "spear36", "task": 1,
-		"foe": "beetle36", "count": 5, "passes": 3, "dart": 1100.0, "rest": [0.15, 0.5], "bait_every": 2,
-		"bait_rest": [0.35, 0.75], "fake": 0.3, "range": 480.0,
-		"caption": [3054, 3277]},
-	# the two Merti snakes: the drawn one on his left and a mirrored copy on his right, both facing him,
-	# coiled `rest` plate px out from where they are drawn. Every `idle` s one of the two snake signs
-	# in the caption (`signs`, cut as sprites; left sign, left snake) flashes red for `warn` s; that
-	# snake squashes down (`crouch` s) and springs (`snap` s) to `bite` plate px past where it is
-	# drawn, at his foot. A thrust facing it strikes it as it passes where it is drawn (within `reach`
-	# plate px). Each must be struck `need` times. `warn`, `crouch`, `snap` and `reach` go from the
-	# first value to the second over the strikes.
+		"foe": "beetle36",
+		"caption": [3054, 3277],
+		"count": 5,                  # beetles to pin
+		"passes": 3,                 # escapes allowed per beetle; one more and they swarm (lost)
+		"dart": 1100.0,              # dart speed (px/s)
+		"rest": [0.15, 0.5],         # pause between darts (random range)
+		"bait_every": 2,             # every nth dart stops at the spear point
+		"bait_rest": [0.35, 0.75],   # how long it stops there (random range)
+		"fake": 0.3,                 # share of those stops just out of reach
+		"range": 480.0},             # how far either side of him they roam
+	# spell 37: two snakes, left and right; the flashing caption sign shows which springs next
 	{"id": "e37", "tag": "Snakes", "boxes": ["e37"], "kind": "twin", "spear": "spear37", "task": 1,
-		"foe": "snake37", "need": 2, "rest": 90.0, "bite": 30.0, "idle": [0.84, 1.68], "warn": [0.945, 0.4725],
-		"crouch": [0.3675, 0.231], "snap": [0.252, 0.1785], "reach": [12.0, 7.0],
-		"signs": ["glyph37_left", "glyph37_right"],
-		"caption": [2803, 3033]},
-	# spell 38: he holds out two signs, the sail (breath) and the ankh (life); only one can be taken
-	# (`items`, the right one first). The sail eases later fights; the ankh makes them endless.
-	# Taking neither is allowed after the earlier dangers are overcome.
+		"foe": "snake37", "signs": ["glyph37_left", "glyph37_right"],
+		"caption": [2803, 3033],
+		"need": 2,                  # strikes per snake
+		"rest": 90.0,               # coiled this far out from where drawn
+		"bite": 30.0,               # springs this far past where drawn
+		"idle": [0.84, 1.68],       # between attacks (random range)
+		"warn": [0.945, 0.4725],    # sign flash before the spring
+		"crouch": [0.3675, 0.231],  # squash before the spring
+		"snap": [0.252, 0.1785],    # the spring
+		"reach": [12.0, 7.0]},      # hit distance from where it is drawn
+	# spell 38: take the sail (breath: easier later fights) or the ankh (life: endless fights)
 	{"id": "e38", "boxes": ["e38"], "kind": "take", "items": ["sail38", "ankh38"], "task": 2, "gate": true,
 		"caption": [2316, 2782]},
-	# Apep: his tail lashes (`lash` s; a large wave's longer) and a wave runs the length of him to the
-	# fold where the spear point rests, at `speed` plate px/s (first to second value as the barb goes
-	# in); a new one every `gap` s, at most `most` on his body at once. A medium or large wave never
-	# reaches the point within `min_gap` s of the one before, or `switch_gap` s if the two want
-	# different answers. Each medium wave pressed down as its crest reaches the point (`reach` plate px
-	# either side, first to second value as the barb goes in) drives the barb a step in; `need` steps
-	# and he lies as drawn. After the first `teach` waves (medium), a `small` share are feints and a
-	# `large` share must be hopped back from (`dodge` plate px). In hard mode (`hard` overrides) a
-	# medium wave let past from back there makes him advance `advance` plate px, and one pressed down
-	# pushes him back half that. Crest `height` and `width` (half, of a medium wave) in plate px.
-	# The close-up leaves room behind him to hop back and for Apep to advance `room` times. `fold`: in
-	# his picture's pixels (his head's strike: tools/apep_strike.py).
-	{"id": "e39", "tag": "Apep", "boxes": ["e39"], "kind": "apep", "hard_ready": true, "spear": "spear39", "task": 3,
-		"foe": "apep", "need": 6, "speed": [220.0, 380.0], "gap": [2.2, 0.9], "most": 2, "min_gap": 0.8, "switch_gap": 1.0,
-		"lash": 0.35, "reach": [10.0, 5.0], "height": 12.0, "width": 30.0, "teach": 2, "small": 0.25, "large": 0.38,
-		"dodge": 40.0, "advance": 16.0, "room": 4,
-		"hard": {"speed": [300.0, 520.0], "gap": [1.2, 0.55], "most": 3, "min_gap": 0.5, "switch_gap": 0.55},
-		"fold": 492,
-		"caption": [1458, 2295]},
-	# the Eater of the Ass (spell 40): the vignette opens out close up; the snake crawls along the
-	# donkey's back, from the rump as drawn to the withers (`back`, strip px), at `crawl` plate px/s
-	# (`hard` overrides in hard mode), and the bearer, behind the donkey, steps along with it
-	# on the same slant ([←] [→], `walk` plate px/s). Every `lift_every` s or so it stops, its coils
-	# tighten for `warn` s, and it lifts its front (`lift` plate px up the spear's line) for `up` s:
-	# a thrust then, his point within `reach` plate px of it along the back, strikes it. Not struck,
-	# it bites the donkey one time in three (in hard mode every time). A `half` share of lifts come
-	# only partway up. A thrust that misses goes into the donkey; a bite or the spear costs the donkey
-	# a flesh sign, and the third and it is eaten. `need` strikes and it falls; each tuple goes from
-	# the first strike to the last. `lift_from`, `lift_to`: where the lift begins and is whole, in
-	# its picture's px.
-	{"id": "e40", "tag": "Eater of the Ass", "boxes": ["e40"], "kind": "donkey", "hard_ready": true, "spear": "spear40", "task": 4,
-		"foe": "snake40", "donkey": "donkey40", "tail": "tail40", "need": 3,
-		"back": [-110.0, -34.0], "crawl": [24.0, 36.0], "walk": 70.0, "reach": 10.0,
-		"lift_every": [1.6, 1.1], "warn": [0.45, 0.35], "up": [0.6, 0.4], "half": [0.0, 0.3],
-		"lift": 9.0, "lift_from": 70.0, "lift_to": 96.0, "tail_root": [1230, 529],
-		"hard": {"crawl": [40.0, 60.0], "lift_every": [1.1, 0.75], "warn": [0.25, 0.18], "up": [0.36, 0.26], "half": [0.15, 0.4]},
-		"caption": [581, 1437]},
-	# the snake in the sheaf (spell 41): the vignette opens out close up; the sheaf stands bound as
-	# drawn, and the snake is inside, on top of one of its four bands: that band shivers and the
-	# stalks stir above it; on top of the top band it is out, as drawn. [↑] [↓] lean the bearer to a
-	# band and Space strikes there: the wrong band and he is bitten. It stays on a band `window` s,
-	# then moves on (in hard mode, see hard(), it bites first; `hard` overrides), unseen `gap` s before the next band,
-	# at random; `need` strikes, the last always at the top band, and it is pinned there. `window`
-	# goes from the first strike to the last. `top`: the sheaf's top, in its picture's px. Three
-	# bites (CROC_HEALTH) and he crumbles. SHEAF_CURVE=1 with --autotest prints the hard-mode curve.
-	{"id": "e41", "tag": "Snake", "boxes": ["e41"], "kind": "sheaf", "hard_ready": true, "spear": "spear41", "task": 5,
-		"foe": "snake41", "bundle": "bundle41", "need": 5,
-		"window": [1.2, 1.2], "gap": [0.4, 0.9], "top": 63.0,
-		"hard": {"window": [0.85, 0.6], "gap": [0.25, 0.5]},
-		"caption": [50, 560]},
-	{"id": "e42", "boxes": ["e42"], "kind": "end"},
+	# spell 39: waves run along Apep; press medium ones at the red mark, let small ones pass, hop
+	# back from large ones
+	{"id": "e39", "tag": "Apep", "boxes": ["e39"], "kind": "apep", "spear": "spear39", "task": 3,
+		"foe": "apep",
+		"fold": 492,             # where his body folds back (picture px)
+		"caption": [1458, 2295],
+		"need": 3,               # waves to press
+		"speed": [220.0, 380.0], # wave speed (px/s)
+		"gap": [2.2, 0.9],       # between waves
+		"most": 2,               # most waves on him at once
+		"min_gap": 0.8,          # least time between two waves reaching the point
+		"switch_gap": 1.0,       # ... when they need different answers
+		"lash": 0.35,            # tail-lash warning (a large wave's longer)
+		"height": 12.0,          # medium wave height
+		"width": 30.0,           # medium wave half-width
+		"teach": 2,              # first waves are all medium
+		"small": 0.25,           # share of small waves (feints) after that
+		"large": 0.38,           # share of large waves (hop back)
+		"dodge": 40.0,           # hop-back distance
+		"advance": 16.0,         # hard: a medium let past moves him this far closer
+		"room": 4,               # advances the close-up leaves room for
+		"hard": {"speed": [300.0, 520.0], "gap": [1.2, 0.55], "most": 3, "min_gap": 0.5, "switch_gap": 0.55}},
+	# spell 40: the snake crawls along the donkey's back; follow it and strike when it lifts its head
+	{"id": "e40", "tag": "Eater of the Ass", "boxes": ["e40"], "kind": "donkey", "spear": "spear40", "task": 4,
+		"foe": "snake40", "donkey": "donkey40", "tail": "tail40",
+		"back": [-110.0, -34.0],                   # rump to withers (strip px)
+		"lift_from": 70.0, "lift_to": 96.0,        # where its lift starts and is whole (= hit area; picture px)
+		"tail_root": [1230, 529],                  # the donkey's tail pivot (strip px)
+		"caption": [581, 1437],
+		"need": 3,                 # strikes to win
+		"crawl": [24.0, 36.0],     # crawl speed (px/s)
+		"walk": 70.0,              # bearer's step speed (px/s)
+		"lift_every": [1.6, 1.1],  # between lifts (about)
+		"warn": [0.45, 0.35],      # coils tighten before a lift
+		"up": [0.6, 0.4],          # head stays up
+		"half": [0.0, 0.3],        # share of half lifts (a strike then hits the donkey)
+		"lift": 9.0,               # how high the head lifts
+		"hard": {"crawl": [40.0, 60.0], "lift_every": [1.1, 0.75], "warn": [0.25, 0.18], "up": [0.36, 0.26], "half": [0.15, 0.4]}},
+	# spell 41: the snake hides in the sheaf; strike the band that shivers
+	{"id": "e41", "tag": "Snake", "boxes": ["e41"], "kind": "sheaf", "spear": "spear41", "task": 5,
+		"foe": "snake41", "bundle": "bundle41",
+		"top": 63.0,               # the sheaf's top (picture px)
+		"caption": [50, 560],
+		"need": 5,                 # strikes to win
+		"window": [1.2, 1.2],      # time on a band
+		"gap": [0.4, 0.9],         # unseen between bands (random range)
+		"hard": {"window": [0.85, 0.6], "gap": [0.25, 0.5]}},
 ]

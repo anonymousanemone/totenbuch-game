@@ -3,7 +3,7 @@
 ## World coordinates are pixels of the strip (assets/procession/figures/strip.png), which reads right
 ## to left: the player starts at the head of plate I (far right) and walks left. The strip is
 ## art/procession1-15.mdp as drawn. Saved nodes own piece placement; level.json, exported by
-## tools/cut_procession300.py, retains source-art data and interaction geometry; registry.json owns descriptions.
+## tools/export_scene_layers.py, retains source-art data and interaction geometry; registry.json owns descriptions.
 extends Node2D
 
 const PUZZLES := preload("res://scripts/puzzles.gd")

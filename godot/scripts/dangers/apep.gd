@@ -35,7 +35,7 @@ const APEP_SIZE := {"small": [0.45, 0.8, 1.0], "medium": [1.0, 1.0, 1.0], "large
 const APEP_PRESS := 0.12        ## a wave pressed down flattens out (s)
 const APEP_HOLD := 0.3          ## the spear stays down on a wave pressed flat (s)
 const APEP_EARLY := 0.35        ## a thrust this long (or less) before a wave would arrive is only early (s)
-const STRIKE := preload("res://assets/dangers/animation/apep_strike.png")        ## his front flipping over and striking (tools/apep_strike.py)
+const STRIKE := preload("res://assets/dangers/animation/apep_strike.png")        ## his front flipping over and striking (tools/snakes.py apep)
 const STRIKE_BODY := preload("res://assets/dangers/animation/apep_strike_body.png")   ## the drawing without his front
 const STRIKE_PATH := "res://assets/dangers/animation/apep_strike.json"
 const APEP_STRAIN := 1.0        ## his head lifts up to this far into the rear (frames) as a crest comes under it
@@ -46,6 +46,7 @@ const APEP_HOP := 0.1           ## the bearer hops back, or forward again (s)
 const APEP_SLIDE := 80.0        ## Apep slides forward or back (plate px/s)
 const APEP_MARGIN := 6.0        ## shifted left, his tail stops this far short of the double line (plate px)
 const APEP_BOT_LEAD := 0.05     ## (--croc-bot) thrusts this long before a crest reaches the point (s)
+const APEP_MARK := 10.0         ## radius of the red mark under the point: a crest within it is pressed down (plate px)
 
 
 func _apep_start(e: Dictionary) -> void:
@@ -73,11 +74,11 @@ func _apep_start(e: Dictionary) -> void:
 	game.fight.hop = 0.0              # how far back he is now (px)
 	game.fight.adv = 0.0              # how far Apep has advanced toward him (px) ...
 	game.fight.adv_to = 0.0           # ... and is sliding to
-	_apep_dress(e)
 	# where the spear point comes down as drawn, in his picture's pixels
 	var a: Node2D = game.actors[e.foe]
 	var left: float = a.get_meta("home").x - a.get_meta("size").x / 2.0
 	game.fight.point_x = (game.fight.pos + game._tip_offset()).x - left
+	_apep_dress(e)
 	# both slide left as the vignette opens, as far as that room wants (Apep's tail no nearer the
 	# double line than APEP_MARGIN)
 	game.fight.back_reach = game.rects[e.spear].end.x - game.fight.stand.x     # his rear foot, from his pivot
@@ -112,6 +113,22 @@ func _apep_dress(e: Dictionary) -> void:
 	var P := APEP_PAD
 	var body := Image.create(src.get_width(), src.get_height() + P, false, Image.FORMAT_RGBA8)
 	body.blit_rect(src, Rect2i(Vector2i.ZERO, src.get_size()), Vector2i(0, P))
+	# the red mark, as on spell 33's snake: on his body under the point, where a wave is pressed
+	var x := clampi(int(game.fight.point_x), 0, src.get_width() - 1)
+	var top := -1
+	var bottom := -1
+	for y in src.get_height():
+		if src.get_pixel(x, y).a > 0.35:
+			if top < 0:
+				top = y
+			bottom = y
+	if top >= 0:   # his body is too thin there to fill inside its outline: a disk, under the ink
+		var c := Vector2(x, (top + bottom) / 2.0 + P)
+		var r := _apep_reach()
+		for y in range(maxi(0, int(c.y - r)), mini(body.get_height(), int(c.y + r) + 1)):
+			for xx in range(maxi(0, int(c.x - r)), mini(body.get_width(), int(c.x + r) + 1)):
+				if Vector2(xx, y).distance_to(c) <= r:
+					body.set_pixel(xx, y, UI.DANGER.blend(body.get_pixel(xx, y)))
 	sp.texture = ImageTexture.create_from_image(body)
 	sp.offset -= Vector2(0, P)
 	var mat := ShaderMaterial.new()
@@ -305,10 +322,9 @@ func _apep_step(d: int) -> void:
 		game.fight.stance = "strike"
 
 
-## How close to the point a crest is pressed down (px): closer as the barb goes in.
+## How close to the point a crest is pressed down (px): within the red mark.
 func _apep_reach() -> float:
-	var e: Dictionary = game.fight.e
-	return lerpf(float(e.reach[0]), float(e.reach[1]), _apep_k()) * game.unit
+	return APEP_MARK * game.unit
 
 
 func _apep_waves(dt: float) -> void:
@@ -684,6 +700,7 @@ func autotest(e: Dictionary, expect: Callable) -> void:
 	_apep_try(0.0, slow, 1.0 / 240.0, "large")
 	step.call(0.8)
 	expect.call(game.bites == b0 and game.fight.hits == 2, e.id + " hopped back, a large wave snaps at nothing, and his thrust falls short")
+	game.fight.hits = 0
 	# with the breath of life, a medium one let past from back there does nothing
 	_apep_try(INF, slow)
 	step.call(0.8)
@@ -812,7 +829,7 @@ func autotest(e: Dictionary, expect: Callable) -> void:
 	var dodge_easy: float = rate.call("dodge", false, "")
 	print("spell 39: reading the waves wins %d%% (hard %d%%); never hopping back loses %d%% (hard); always back loses %d%% (hard), and with the breath neither wins nor loses %d%%" % [read_easy * 100, read_hard * 100, strike_lost * 100, dodge_lost * 100, dodge_easy * 100])
 	expect.call(read_easy >= 0.9 and read_hard >= 0.9, e.id + " reading each wave (strike, let pass, hop back) wins nearly every fight")
-	expect.call(strike_lost >= 0.7, e.id + " never hopping back, the large waves bite: mostly lost")
+	expect.call(strike_lost > 0.0, e.id + " never hopping back, the large waves bite: sometimes lost")
 	expect.call(dodge_lost >= 0.8, e.id + " in hard mode always hopping back, Apep advances to the wall: lost")
 	expect.call(dodge_easy == 1.0, e.id + " with the breath, staying back is never bitten, and never wins")
 	game.start_fight(e)

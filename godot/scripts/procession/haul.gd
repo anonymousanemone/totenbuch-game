@@ -10,8 +10,8 @@
 ## the rope is held; the walking avatar returns when the vignette closes.
 ##
 ## The figures are the layers of the `haul` folder of art/procession1-15.mdp, cut by
-## tools/cut_procession300.py (sprites haul_*); positions are strip pixels. The driver is his body
-## and his whip arm (haul_driver_body, haul_driver_arm, from tools/arm_sheets.py --parts): the arm
+## tools/export_scene_layers.py (sprites haul_*); positions are strip pixels. The driver is his body
+## and his whip arm (haul_driver_body, haul_driver_arm, from tools/sheets.py procession --parts): the arm
 ## is a child of the body, placed at the elbow (drawn on both), and turns about it. The empty rope in
 ## front of the censer priest is cut from the sledge's drawing at setup, so it can shudder on its own
 ## until the rope is taken up (as the calf does, see bulls.gd).

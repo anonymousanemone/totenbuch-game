@@ -1,11 +1,12 @@
 ## Spell 38 choices: mortality, repeating fights, journal scores, and active-play clue limits.
 extends SceneTree
 
-const GAME := preload("res://scripts/dangers/dangers.gd")
+var GAME: GDScript   ## loaded at run time: dangers.gd needs the Scroll autoload
 var failures: Array[String] = []
 
 
 func _initialize() -> void:
+	GAME = load("res://scripts/dangers/dangers.gd")
 	_run.call_deferred()
 
 

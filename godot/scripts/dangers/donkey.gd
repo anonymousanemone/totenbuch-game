@@ -152,9 +152,13 @@ func _donkey_head_o() -> float:
 	return -float(game.fight.e.lift) * game.fight.lift
 
 
-## His point is at its head: they are this close along the back.
+## His point is at its head: over the part of it that lifts, from `lift_from` to its front (as
+## drawn; the lift moves both alike along the spear's line).
 func _donkey_near() -> bool:
-	return absf(game.fight.step - game.fight.at) * game.fight.back.length() <= float(game.fight.e.reach) * game.unit
+	var e: Dictionary = game.fight.e
+	var r: Rect2 = game.rects[e.foe]
+	var x: float = game.fight.stand.x + game._tip_offset().x + game.fight.back.x * (game.fight.step - game.fight.at) - r.position.x
+	return x >= float(e.lift_from) and x <= r.size.x
 
 
 func _donkey(dt: float) -> void:

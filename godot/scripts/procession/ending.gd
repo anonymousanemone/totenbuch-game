@@ -1,7 +1,7 @@
 ## The end of spell 15 (plate VI): set the offering stand up again before Ra, and kneel to him.
 ##
 ## The stand, the sun disc on it and the lotus bending over it are the layers of the `sprites`
-## folder of art/procession1-15.mdp, cut out of the picture by tools/cut_procession300.py. They lie
+## folder of art/procession1-15.mdp, cut out of the picture by tools/export_scene_layers.py. They lie
 ## hidden along the scroll (`ending.hide` in level.json): the stand inside the canopy frame behind
 ## the women mourners (pl. I), the sun disc between the legs of the creature on the mummy's bier
 ## (pl. II; it rides with the sledge), the lotus on the second offering pile (pl. V). Once the

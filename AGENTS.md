@@ -1,6 +1,6 @@
 # Project instructions
 
-- Project skills live in `skills/<name>/SKILL.md`: `build-levels` (building a level from an `.mdp`), `suggest-games` (proposing puzzles and minigames), `cite-references` (citing sources in registries and the Scene Atlas) and `make-artwork` (scroll art that keeps the original drawing, UI art that matches the Old Fax font). Read the matching one before starting that kind of work.
+- Project skills live in `skills/<name>/SKILL.md`: `build-levels` (building a level from an `.mdp`), `suggest-games` (proposing puzzles and minigames), `cite-references` (citing sources in registries and the Scene Atlas), `splice-plates` (rotating and splicing plates into a new `.mdp`) and `make-artwork` (scroll art that keeps the original drawing, UI art that matches the Old Fax font). Read the matching one before starting that kind of work.
 - Only create or save files in `mockups/` when the user explicitly requests it. Put temporary screenshots, previews, and verification artifacts in a temporary directory outside the repository instead.
 - Leave existing files in `mockups/` untouched unless the user requests changes or cleanup.
 
@@ -20,6 +20,11 @@
 - Default to press-drag-release, never click-follow. Only carriable objects attach to the avatar on a world click; clicking an attached object reads its description, which remains visible during dragging unless game-state feedback replaces it.
 - Accept only valid placements; otherwise restore the valid attachment/location using the puzzle's recovery rules. Preserve object size and lock final placements against further dragging.
 - Ask before adding exceptions. Existing approved exceptions are the words' click-follow/appearance animation, adze tool controls at 50% scale during carving, and offering-table automatic snapping/physics. Starting carving requires dragging the adze onto the mummy. Calf/jar gestures transform in place and are outside this system.
+
+## Minigame view
+
+- Starting a minigame enters minigame view: the camera moves once to the minigame's framing and then stays fixed until the minigame is exited (won, lost or left). Examples are the procession games, where the camera zooms in on the scene, the Dangers fights, where the vignette expands across the screen, and the Survival altars (52, 53).
+- While in minigame view the camera must not follow the avatar or objects, refit to HUD or message size changes, or drift and wobble. Normal camera behaviour resumes only on exit.
 
 
 Behavioral guidelines to reduce common LLM coding mistakes. Merge with project-specific instructions as needed.

@@ -651,9 +651,10 @@ func _process(delta: float) -> void:
 	overlay.queue_redraw()
 	var pulse := 0.5 + 0.5 * sin(_time * 5.0)
 	if fight.is_empty():
-		# on the scroll the heka signs always flash red; clicking one tells what they are for
-		for nm in [] if Scroll.viewing else _all_heka():
-			actors[nm].modulate = Color(Color.WHITE.lerp(RED_CROC, pulse), actors[nm].modulate.a)
+		# on the scroll the heka signs flash red until their spell is overcome; clicking one tells what they are for
+		for id in _heka_by_spell():
+			for nm in _heka_by_spell()[id]:
+				actors[nm].modulate = Color(Color.WHITE.lerp(RED_CROC, 0.0 if solved.has(id) else pulse), actors[nm].modulate.a)
 		# and spell 38's breath sign, until one of the signs he holds out is taken
 		actors.glyph38_breath.modulate = Color.WHITE.lerp(RED_CROC, 0.0 if solved.has("e38") else pulse)
 		# and spell 37's snake signs, until its snakes are struck; clicking one hints they matter
@@ -1407,14 +1408,24 @@ func _heka_words(id: String) -> Array:
 func _heka_at(p: Vector2) -> String:
 	if Scroll.viewing:      # only inscriptions now
 		return ""
-	for nm in _all_heka():
-		if actors[nm].visible and actors[nm].modulate.a > 0.5 and actor_rect(nm).grow(6 * unit).has_point(p):
-			return nm
+	var by_spell := _heka_by_spell()
+	for id in by_spell:
+		if solved.has(id):
+			continue
+		for nm in by_spell[id]:
+			if actors[nm].visible and actors[nm].modulate.a > 0.5 and actor_rect(nm).grow(6 * unit).has_point(p):
+				return nm
 	return ""
 
 
 func _all_heka() -> Array:
 	return _heka_signs
+
+
+## The heka signs by the spell (encounter id) they belong to.
+func _heka_by_spell() -> Dictionary:
+	var heka = level.get("heka", {})
+	return heka if heka is Dictionary else {}
 
 
 ## The sign (in the caption of a fight not yet won, as spell 37's snakes) showing at `p`, or "".
@@ -2042,5 +2053,12 @@ func _autotest() -> void:
 	avatar.position.x = END_X - 15.0
 	_check_position()
 	expect.call(finished, "level finished at the end of the road")
+	for id in _heka_by_spell():     # a spell's heka signs stop flashing once it is overcome, as the snake and breath signs do
+		var plain := []
+		for t in [PI / 10.0, PI / 10.0 + PI / 5.0]:     # the top and the bottom of the pulse
+			_time = t
+			_process(0.0)
+			plain.append(actors[_heka_by_spell()[id][0]].modulate)
+		expect.call(solved.has(id) and plain[0].is_equal_approx(plain[1]) and plain[0].r < 1.1, id + " heka signs stop flashing once overcome")
 	print("AUTOTEST ", "OK" if fails.is_empty() else "FAILED")
 	get_tree().quit(0 if fails.is_empty() else 1)

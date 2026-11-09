@@ -228,17 +228,6 @@ Five plates of continuous small scenes, reading right to left:
 - **The cat and the persea tree:** the cat sits at the tree. Bring a snake-crop (from 33) into this panel and the cat attacks it. This teaches the "creature vs. counter" logic used throughout Act II.
 - **Carry the chest:** the deceased on pl. X carries a chest on his head. It can hold the **heart scarab** later (30), a nice diegetic inventory.
 
-### 18a–18j (plus a closing scene): The councils (pl. XI–XIII) [seen]
-- **Depicts:**
-  - **Pl. XI:** three panels (**18a–c**).
-  - **Pl. XII:** six panels (**18d–i**).
-  - **Pl. XIII:** a **closing panel**: the deceased adoring at an offering stand before **Osiris enthroned with two goddesses** standing behind him.
-  - In each of 18a–i, the deceased **kneels** with hands raised before **three or four standing gods**. The gods vary: one has a sun disc (Ra), crowned gods, a jackal-headed god, ibis-headed, falcon-headed, and plumed gods.
-- **Puzzles:**
-  - **Fill the council:** each panel has one god missing (a silhouette hole). Pick the right god from the journal, using the god emblems from the procession and head shapes from 17. Ten courts with the same mechanic, getting harder: later courts have two or three holes.
-  - **Rehearsal for the Weighing:** each court you complete earns a **"vindicated" token**. Tokens **count at the final scale (125d)**.
-  - **Closing scene:** bring all tokens to the Osiris panel on pl. XIII. This is a miniature of the finale, so players learn its layout early.
-
 ### 21–29: Mouth & heart spells (pl. XIV–XV) [seen]
 - **Depicts:**
   - **21–22:** a standing figure **touching or offering at the deceased's face**, the deceased sometimes seated (*giving a mouth*).
@@ -324,7 +313,12 @@ In the game (`godot/README.md` has the tuning): walk through every vignette; cli
   - **44:** on entering, the door leaf turns solid ink-black, and only the door leaf glows on hover. The 44|45 double line is a hard barrier; the door is the only way on. Clicking the door walks him there and switches off the arrow keys.
     - **With sceptres:** one reddens and crumbles. He shrinks slightly (about 85%) and fades into the door, the scene goes dark, and the camera pans to 45.
     - **Without:** his head falls off, head and body redden and crumble, and everything resets to 43 (the god holds all three again, the door is drawn again, and the player is the 43 worshipper at the start).
-  - **45:** the player is the mummy, and the arrow keys stay off. It rocks gently as the opening, then keeps rocking; pressing a stop glyph in the caption keeps it steady (how the glyph works and which sign it is: tbd). Anubis's part: tbd. The sceptres are hidden during this scene.
+  - **45:** the player is the mummy, and the arrow keys stay off. The sceptres are hidden during this scene, and the camera holds on it (minigame view).
+    - **Wobbling:** the mummy rocks about its feet, gently at first, then wider and wider. Past a set angle it falls over and its head falls off.
+    - **The *tm* sign:** the sledge sign at the foot of the caption's right column (`spell45_tm`, already cut) is *tm*, "not": the title is "not rotting". Clicking it furiously counteracts the rocking; each click takes a little off the swing, against its steady growth. It is pure speed: every click counts, whatever the moment in the swing. Kept up, the mummy rocks less and less until it stands still against Anubis, as drawn: a win.
+    - **Cues:** the sign glows on hover and pulses with each click; the swing itself shows how close the fall is.
+    - **Anubis's part:** he doesn't move; the mummy rocks out of his hands. His forward arm is extended slightly in the art, so a small swing stays under it, but once the mummy rocks enough a gap opens between his arm and its wig: he is losing his grip. As the clicking wins, the gap closes, and the still mummy rests against his hand again, as drawn.
+    - **Tuning (first numbers, built):** starts at 0.10 rad, grows 0.04 rad/s, each click takes off 0.012 rad (break-even about 3.3 clicks/s), falls past 0.28 rad, still under 0.012 rad; one rock takes 1.3 s and it leans back into Anubis only 30% as far. Fallen, it leans on the 44|45 line and its head lies on the ground in front of it.
     - **Win:** the scene goes dark, and the player reappears as the 46 man where he is drawn, with the remaining sceptres on his back. They are his lives for the rest of the level (see 47).
     - **Loss:** the mummy falls, and he is back in front of the black door as the 44 man. Re-entering costs another sceptre.
     - **Loss with none left:** the mummy's head falls off, and everything resets to 43.
@@ -761,7 +755,7 @@ Each is a single large, clean object, ideal **inventory icons**.
 
 ### 125a/b: Negative Confession (pl. XLVI–XLIX) [seen]
 - **Depicts:** a long text, then a **grid of 42 entries** (one per judge). Visually plain, as you noted.
-- **Use:** don't make this a scene. Turn it into a **ledger UI**: 42 slots, each filled automatically by the evidence collected across the game (the councils of 18, the provisioning in 148, foes defeated, gates passed). The confession is the *summary* of your playthrough.
+- **Use:** don't make this a scene. Turn it into a **ledger UI**: 42 slots, each filled automatically by the evidence collected across the game (the provisioning in 148, foes defeated, gates passed). The confession is the *summary* of your playthrough.
 
 ### 125d: Weighing of the Heart (pl. L) [seen]
 - **Depicts:**
@@ -810,5 +804,4 @@ Each is a single large, clean object, ideal **inventory icons**.
 - **Throughlines:** levels could be connected more with additional objects or throughlines. How, and how to make them meaningful, interesting and grounded in research?
 
 ## Still to verify
-- **Exact count of the 18 councils.** I saw nine kneeling panels plus the Osiris closing scene. Check whether your "18a–j" labelling counts the closing scene as one of them.
 - **Real answers from a translation (Allen or Faulkner):** the body-part and god pairs (42), the ferry part names (99), the guardian names at 144–146, and the amulet positions on the mummy (155–160).

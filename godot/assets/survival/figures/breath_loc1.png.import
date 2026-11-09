@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cro24xc8awkvy"
-path="res://.godot/imported/spell57_lower_body.png-eb447ce1935b2107a1e58fb964bf4fc8.ctex"
+uid="uid://cg1tom4ykpy7g"
+path="res://.godot/imported/breath_loc1.png-a9a53fa8da8e05c406a9563d6162435c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/survival/figures/spell57_lower_body.png"
-dest_files=["res://.godot/imported/spell57_lower_body.png-eb447ce1935b2107a1e58fb964bf4fc8.ctex"]
+source_file="res://assets/survival/figures/breath_loc1.png"
+dest_files=["res://.godot/imported/breath_loc1.png-a9a53fa8da8e05c406a9563d6162435c.ctex"]
 
 [params]
 

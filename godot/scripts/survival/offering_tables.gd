@@ -17,7 +17,7 @@ const FILTH_SHARE := 0.2         ## 53: share of excrement among what falls ...
 const FILTH_STEP := 0.1          ## ... raised by this for each part that drops past him
 const HAND_SPEED := 150.0        ## strip px/s his hand moves along its line
 const RETRACT := 50.0            ## his hand comes in this far from where it is drawn (strip px)
-const LEAN_MAX := 0.3            ## rad he leans at most ...
+const LEAN_MAX := 0.4            ## rad he leans at most ...
 const STRETCH_MAX := 14.0        ## ... and his torso stretches (strip px), once his arm is straight
 const ARM_HALF := 7.0            ## 52: half the arm's thickness that keeps a piece off
 const FILTH_TINT := Color(0.45, 0.13, 0.08)   ## excrement, dark red
@@ -33,6 +33,7 @@ var game
 var rigs := {}                   ## 52, 53 -> the arm's nodes and its pose as drawn
 var g := {}                      ## the game being played (empty when none)
 var _flesh_tex: Texture2D
+var _filth_tex: Texture2D          ## the excrement sign as white ink, tinted FILTH_TINT
 var _flesh: Array[Sprite2D] = []
 
 
@@ -72,11 +73,13 @@ func setup() -> void:
 		mat.set_shader_parameter("spine_len", r.S0.distance_to(r.H))
 		r.mat = mat
 		rigs[sp] = r
-	# 52: where excrement lands on the loaves, and how much of it his hand can reach
+	# 52: where excrement lands on the loaves, as far as his hand can keep it off
 	var altar: Dictionary = game.level.pieces.spell52_altar
-	rigs[52].loaves = Vector2(altar.x + 8.0, minf(altar.x + altar.w - 8.0, rigs[52].x_max + ARM_HALF))
+	var reach: float = rigs[52].x_max + ARM_HALF + _filth_radius()
+	rigs[52].loaves = Vector2(altar.x + 8.0, minf(altar.x + altar.w - 8.0, reach))
 	rigs[52].loaves_top = float(altar.y) + 4.0
-	_flesh_tex = _red_ready(load(FLESH_PATH))
+	_flesh_tex = _white_ink(load(FLESH_PATH))
+	_filth_tex = _white_ink(game.pieces.spell52_excrement.texture)
 	for i in FLESH:
 		var s := Sprite2D.new()
 		s.texture = _flesh_tex
@@ -87,8 +90,8 @@ func setup() -> void:
 		_flesh.append(s)
 
 
-## The flesh sign as white ink (its darkness as alpha), to be tinted.
-static func _red_ready(tex: Texture2D) -> Texture2D:
+## A sign as white ink (its darkness as alpha), to be tinted.
+static func _white_ink(tex: Texture2D) -> Texture2D:
 	var img := tex.get_image()
 	img.convert(Image.FORMAT_RGBA8)
 	for y in img.get_height():
@@ -174,6 +177,7 @@ func start(sp: int) -> void:
 	game.avatar.keys = false
 	game.avatar.stop()
 	g = {"sp": sp, "playing": false}
+	game.widen.open(sp)
 	pose(r, r.T0.x)
 	var t: Tween = game.create_tween()
 	t.tween_property(game.avatar, "modulate:a", 0.0, 0.4)
@@ -243,7 +247,7 @@ func _drop() -> void:
 		var cup := _cup_offset(r)
 		x = randf_range(r.x_min, r.x_max) + cup
 	var s := Sprite2D.new()
-	s.texture = game.pieces[kind].texture if kind != "filth" else game.pieces.spell52_excrement.texture
+	s.texture = game.pieces[kind].texture if kind != "filth" else _filth_tex
 	s.position = Vector2(x, FALL_FROM)
 	s.z_index = 3
 	if kind == "filth":
@@ -265,6 +269,7 @@ func _fall(delta: float) -> void:
 	var count := 0
 	for f in _falling().duplicate():
 		if f.done:
+			g.falling.erase(f)      # its sprite fades out on its own
 			continue
 		count += 1
 		var s: Sprite2D = f.sprite
@@ -275,7 +280,7 @@ func _fall(delta: float) -> void:
 			var S: Vector2 = r.shoulder.global_position
 			var E: Vector2 = r.elbow.global_position
 			var T: Vector2 = r.eff.global_position
-			var pr := minf(half.x, half.y) * 0.8
+			var pr := _filth_radius()
 			var near := minf(_to_segment(c, S, E), _to_segment(c, E, T))
 			if g.playing and near < ARM_HALF + pr:
 				f.done = true
@@ -302,6 +307,12 @@ func _fall(delta: float) -> void:
 					g.missed += 1
 				_fade(f, 0.2)
 	g.falling_count = count
+
+
+## How near the arm a piece of excrement must come to be kept off (besides ARM_HALF).
+func _filth_radius() -> float:
+	var size: Vector2 = game.pieces.spell52_excrement.texture.get_size()
+	return minf(size.x, size.y) / 2.0 * 0.8
 
 
 static func _to_segment(p: Vector2, a: Vector2, b: Vector2) -> float:
@@ -417,7 +428,7 @@ func _die(sp: int) -> void:
 		if run != game._run:
 			return
 		game.hud.say("Scribe", game._hints.message("survival.died"))
-		game._restart())
+		game._after_death())
 
 
 ## Done: nothing more falls; his hand goes back to where it is drawn and he stands up beside his
@@ -465,4 +476,5 @@ func leave() -> void:
 
 
 func _stand_up(sp: int) -> void:
+	game.widen.close()
 	game._stand_at(float(game.level.pieces["spell%d_chair" % sp].x) - game.HALF)

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cygm6gajfbyqi"
-path="res://.godot/imported/spell57_upper_body.png-21aa36cfeb3d7a0895496238b88b8e70.ctex"
+uid="uid://bpsbhdjedabb5"
+path="res://.godot/imported/spell58_nw.png-a7c7981ca5d3ab860c2ed2721557bfac.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/survival/figures/spell57_upper_body.png"
-dest_files=["res://.godot/imported/spell57_upper_body.png-21aa36cfeb3d7a0895496238b88b8e70.ctex"]
+source_file="res://assets/survival/figures/spell58_nw.png"
+dest_files=["res://.godot/imported/spell58_nw.png-a7c7981ca5d3ab860c2ed2721557bfac.ctex"]
 
 [params]
 

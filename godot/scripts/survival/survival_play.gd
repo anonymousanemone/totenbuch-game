@@ -2,8 +2,8 @@
 ## the was-sceptres (43), the gate and the mummy (44–46), the dwelling (47), the walk upside
 ## down (50–52), the two offering tables (52, 53: offering_tables.gd), and the water of the two
 ## sycamores (57, 59). The plan is in ideas.md.
-## Placeholders: the mummy game (45) passes after its opening rocking; the order of the water
-## lines (59) and eating filth (52) are stand-ins until they are decided.
+## Placeholders: the order of the water lines (59) and eating filth (52) are stand-ins until
+## they are decided.
 extends "res://scripts/survival/survival.gd"
 
 # Frame lines and vignettes, in strip px.
@@ -41,12 +41,29 @@ const FIGURE_MASK := preload("res://scripts/figure_mask.gd")
 const FIGURE_SHADER := preload("res://scripts/figure.gdshader")
 const PAD := 2
 const TABLES := preload("res://scripts/survival/offering_tables.gd")
+const BREATHS := preload("res://scripts/survival/breaths.gd")
+const WIDEN := preload("res://scripts/survival/widen.gd")
 
 ## The sceptres on his back (relative to the avatar's carrying frame), one pose per sceptre.
 const SCEPTRE_POSES := [Vector2(4.0, -246.0), Vector2(11.0, -244.0), Vector2(18.0, -242.0)]
 const SCEPTRE_TILT := -0.22
 
-const MUMMY_ROCK := 3.0          ## s of the opening rocking (then, for now, it counts as won)
+const PYLON_TOP := 288.0         ## 47: the top of the pylon (strip y) ...
+const IMPRINT_X := [7343.0, 7383.0]  ## ... and where a sceptre left behind stands up out of it (strip x)
+const IMPRINT_SHOW := 44.0       ## how much of each sceptre shows above the pylon (px)
+const IMPRINT_FAINT := 0.3       ## a sceptre's imprint, before he has died
+
+# 45: steadying the mummy (clicking the tm sign, "not", against its growing rocking)
+const MUMMY_START := 0.10        ## rad: its swing forward when he becomes the mummy
+const MUMMY_GROW := 0.04         ## rad/s the swing grows by itself
+const MUMMY_CLICK := 0.012       ## rad each click on the tm sign takes off (break-even ≈ 3.3 clicks/s)
+const MUMMY_FALL := 0.28         ## rad: a swing this wide and it falls over, against the 44|45 line
+const MUMMY_LEAN := 235.0        ## px up from its feet to where it meets that line, leaning on it
+const MUMMY_HEAD_Y := 472.0      ## strip y of its head, come off and lying on the ground
+const MUMMY_STILL := 0.012       ## rad: a swing this small and it stands still in Anubis's hands
+const MUMMY_PERIOD := 1.3        ## s for one rock forward and back
+const MUMMY_BACK := 0.3          ## share of the swing it leans back, into Anubis's hands
+const MUMMY_REACH := 14.0        ## px round the tm sign that still count as clicking it
 const DARK := 0.6                ## s for the screen to go dark or come back
 
 # 57: holding him under the water
@@ -59,18 +76,27 @@ const BEND_WINDOW := 0.09        ## rad either side of as drawn: his hands are i
 const TRAY_FILL := 8.0           ## s in the stream for the tray to come all the way out
 const TRAY_DRAIN := 0.4          ## of the tray per s out of the stream ...
 const TRAY_KEEP := 0.6           ## ... never below this share of the furthest it reached
+const BEND := preload("res://scripts/survival/bend.gdshader")
+const BEND_PAD := 60             ## room round the 57 man's picture for his bend (px)
+const BEND_BAND := 24.0          ## px above his waist over which the bend eases in (bend.gdshader `band`)
+const FEET_57 := 48.0            ## his feet begin this far left of his waist (he stands up there)
+const DROP_EVERY := 0.05         ## s between drops off the stream when his hands miss it
+const DROP_FALL := 900.0         ## px/s² they fall at
 
 # 59: the water lines
 const LINE_ORDER := ["spell59_mw1", "spell59_mw4", "spell59_mw2", "spell59_mw5", "spell59_mw3", "spell59_mw6"]  ## placeholder
 const FLASH := 0.45
 const FLASH_GAP := 0.15
 
-enum Mode { WALK, SCENE, FLIP, WATER57, SEATED59, TABLE }
+enum Mode { WALK, SCENE, FLIP, WATER57, SEATED59, TABLE, MUMMY }
 
 var pieces := {}                 ## piece key -> saved Sprite2D
 var mode := Mode.WALK
 var gate_used := false
-var claimed := false             ## the dwelling (47); the place sign is not chosen yet
+var claimed := false             ## the dwelling (47), claimed with the seat sign in its caption
+var claim_count := 0             ## sceptres he carried when he claimed: he gets these back at 47
+var _imprints: Array[Sprite2D] = []   ## 47: the sceptres standing up out of the pylon
+var _imprints_full := false      ## after a death, claimed: full ink, and he can take them back
 var upside := false
 var _sceptres: Array[MoveableObject] = []
 var _carried: Array[MoveableObject] = []
@@ -88,12 +114,22 @@ var _bend_v := 0.0
 var _tray := 0.0
 var _tray_best := 0.0
 var _bending := false            ## 57: he is under the water and must be held up
+var _drops: Array = []           ## 57: {pos, vel, life, kind} off the stream, falling or splashing
+var _drip_clock := 0.0
+var _swing := 0.0                ## 45: how far the mummy rocks forward (rad)
+var _rock_phase := 0.0
+var _head_at := Vector2.ZERO     ## 45: where the mummy's head sits on its body, as drawn
+var _drop_layer: Node2D          ## draws them, above the 57 figures
+var _man_image: Image            ## the 57 man (padded), to see where a drop meets him
 var _solved := {}
 var _sequence_busy := false
 var _entered := []
 var _run := 0                    ## bumped on restart: pending timers of an older run do nothing
 var _ready_done := false
 var tables = TABLES.new(self)    ## 52, 53: the seated man at his altar
+var breaths = BREATHS.new(self)  ## 54–62: the sails for the seven raised hands
+var widen = WIDEN.new(self)      ## a minigame's vignette opens out a little (widen.gd)
+var _press_at := Vector2.INF     ## where a drag of a carried sail began (a click reads it)
 
 
 func _ready() -> void:
@@ -110,6 +146,12 @@ func _ready() -> void:
 		avatar.max_x = LINE_45_46 - HALF
 		upside = "--upside" in OS.get_cmdline_user_args()
 	_was_x = avatar.position.x      # a dev jump (--at=) is no walk across the lines
+	# dev: straight into the mummy game (45), three sceptres taken
+	if "--mummy" in OS.get_cmdline_user_args():
+		_take_sceptres()
+		avatar.position.x = $Figures/Spell44/DoorDark.get_global_rect().get_center().x
+		_was_x = avatar.position.x
+		_enter_gate()
 
 
 func _setup_rites() -> void:
@@ -122,6 +164,35 @@ func _setup_rites() -> void:
 		obj.setup("spell43_sceptres", pieces["spell43_sceptre%d" % (i + 1)])
 		obj.carriable = true
 		_sceptres.append(obj)
+	# 47: the imprints of the sceptres he will get back, standing up out of the pylon
+	for i in IMPRINT_X.size():
+		var tex: Texture2D = pieces["spell43_sceptre%d" % (i + 1)].texture
+		var imprint := Sprite2D.new()
+		imprint.texture = tex
+		imprint.centered = false
+		imprint.region_enabled = true
+		imprint.region_rect = Rect2(0, 0, tex.get_width(), IMPRINT_SHOW)
+		imprint.position = Vector2(IMPRINT_X[i] - tex.get_width() / 2.0, PYLON_TOP - IMPRINT_SHOW)
+		$Figures/Spell47.add_child(imprint)
+		_imprints.append(imprint)
+	# 57: his picture gets room to bend into, and the bend shader (bend.gdshader)
+	var man: Sprite2D = pieces.spell57_man
+	var src := man.texture.get_image()
+	src.decompress()
+	src.convert(Image.FORMAT_RGBA8)
+	_man_image = Image.create(src.get_width() + 2 * BEND_PAD, src.get_height() + 2 * BEND_PAD, false, Image.FORMAT_RGBA8)
+	_man_image.blit_rect(src, Rect2i(Vector2i.ZERO, src.get_size()), Vector2i(BEND_PAD, BEND_PAD))
+	man.texture = ImageTexture.create_from_image(_man_image)
+	man.offset = -Vector2(BEND_PAD, BEND_PAD)
+	var mat := ShaderMaterial.new()
+	mat.shader = BEND
+	mat.set_shader_parameter("waist", _waist() - man.global_position + Vector2(BEND_PAD, BEND_PAD))
+	mat.set_shader_parameter("band", BEND_BAND)
+	man.material = mat
+	_drop_layer = Node2D.new()
+	_drop_layer.z_index = 3
+	_drop_layer.draw.connect(_draw_drops)
+	$Figures/Spell57.add_child(_drop_layer)
 	_splice = Sprite2D.new()
 	_splice.centered = true
 	avatar.add_child(_splice)
@@ -141,14 +212,19 @@ func _setup_rites() -> void:
 	# what he carries is described too, though it is no figure of the scene
 	var registry: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://assets/survival/registry.json"))
 	_descriptions.entries["spell43_sceptres"] = registry.entries.spell43_sceptres
+	_descriptions.entries["breath_sign"] = registry.entries.breath_sign
 	for key in PLAYED_PIECES:
 		pieces[key].visible = false
+	_head_at = pieces.spell45_mummy_head.position
 	tables.setup()
+	widen.setup()
 
 
 # ---------------------------------------------------------------- restart and death
 
 func reset() -> void:
+	claimed = false             # starting over (the restart button) forgets the dwelling too
+	claim_count = 0
 	super.reset()
 	if not Scroll.viewing:      # viewing: the scroll as drawn, with no rites (_ready_done stays false)
 		_restart()
@@ -186,17 +262,19 @@ func _restart() -> void:
 	_in_dwelling = false
 	_in_59 = false
 	$Figures/Spell44/DoorDark.visible = false
-	$Figures/Spell45/Mummy.rotation = 0.0
+	_reset_mummy()
 	pieces.spell47_ba.visible = claimed
+	_set_imprints(false)
+	breaths.reset()
 	# 57: no one stands there; the water only dribbles and the tray is in the tree
 	_bend = 0.0
 	_bend_v = 0.0
 	_tray = 0.0
 	_tray_best = 0.0
-	$Figures/Spell57/Waist.rotation = 0.0
-	for key in ["spell57_upper_body", "spell57_lower_body"]:
-		pieces[key].visible = false
-		pieces[key].modulate = Color.WHITE
+	_drops.clear()
+	_set_bend(0.0)
+	pieces.spell57_man.visible = false
+	pieces.spell57_man.modulate = Color.WHITE
 	_set_tray(0.0)
 	_set_stream(pieces.spell57_stream, 0.15)
 	# 59: the chair is empty and no water flows
@@ -206,6 +284,7 @@ func _restart() -> void:
 	for key in LINE_ORDER:
 		pieces[key].modulate = Color.WHITE
 	tables.reset()
+	widen.close(true)
 	_set_look(_look_at(avatar.position.x))
 	_update_splice()
 
@@ -234,7 +313,7 @@ func _die(head_look: String, body_at: Vector2, facing: int) -> void:
 		if run != _run:
 			return
 		hud.say("Scribe", _hints.message("survival.died"))
-		_restart())
+		_after_death())
 
 
 ## The look's body without its head and the head, as loose sprites standing where he stood.
@@ -345,6 +424,22 @@ func _update_splice() -> void:
 
 # ---------------------------------------------------------------- each frame
 
+var _camera_lock := {}           ## in a minigame (57, 52, 53): the view, held still
+
+
+## In a minigame the view stays where it was when it began (minigame view, AGENTS.md): it no
+## longer follows him or refits as the messages change the HUD's height.
+func _update_camera(delta: float) -> void:
+	if not _ready_done or (tables.g.is_empty() and mode != Mode.WATER57 and mode != Mode.MUMMY):
+		_camera_lock = {}
+		super._update_camera(delta)
+		return
+	if _camera_lock.is_empty():
+		_camera_lock = {"zoom": camera.zoom, "y": camera.position.y, "x": camera.position.x}
+	camera.zoom = _camera_lock.zoom
+	camera.position = Vector2(_camera_lock.x, _camera_lock.y)
+
+
 func _process(delta: float) -> void:
 	super._process(delta)
 	if not _ready_done:
@@ -354,7 +449,13 @@ func _process(delta: float) -> void:
 		_crossings(x)
 	if mode == Mode.WATER57:
 		_water57(delta)
+	if mode == Mode.MUMMY:
+		_rock45(delta)
+	_move_drops(delta)
 	tables.process(delta)
+	# 47: the seat sign pulses red until the dwelling is claimed
+	var pulse := 0.0 if claimed or not gate_used else 0.5 + 0.5 * sin(Time.get_ticks_msec() / 1000.0 * 5.0)
+	pieces.spell47_seat.modulate = Color.WHITE.lerp(UI.DANGER, pulse)
 	_was_x = x
 	if mode == Mode.WALK:
 		# upside down only where he is drawn whole as the 51 man; at the line his 51 half is turned
@@ -403,6 +504,14 @@ func _pick(point: Vector2) -> String:
 				return "#door"
 		if upside and avatar.upturn < 0.0 and _avatar_rect().has_point(point):
 			return "#flip"
+		if gate_used and not claimed and _descriptions.hit(pieces.spell47_seat, point):
+			return "#claim"
+		if (_imprints_full and _imprints.any(func(s): return s.visible and _descriptions.hit(s, point))) \
+				or breaths.pylon_at(point):
+			return "#imprints"
+		var loc: String = breaths.loc_at(point)
+		if loc != "":
+			return "#" + loc
 		for sp in [52, 53]:
 			if not _solved.has(sp) and not upside and _special_sprites("#seat%d" % sp).any(func(s): return _descriptions.hit(s, point)):
 				return "#seat%d" % sp
@@ -458,6 +567,10 @@ func _special_sprites(id: String) -> Array:
 			return [pieces.spell53_chair, pieces.spell53_offering_table]
 		"#flip":
 			return []
+		"#claim":
+			return [pieces.spell47_seat]
+		"#imprints":
+			return _imprints.filter(func(s): return s.visible) + breaths.on_pylon.map(func(o): return o.sprite)
 	return [pieces[id.trim_prefix("#")]] if pieces.has(id.trim_prefix("#")) else []
 
 
@@ -481,8 +594,27 @@ func _unhandled_input(event: InputEvent) -> void:
 			if event.is_action_pressed("ui_cancel"):
 				tables.leave()
 			return
+		Mode.MUMMY:
+			_mummy_input(event)
+			return
 		Mode.SCENE:
 			return
+	# a sail he carries: pressed and dragged onto an empty raised hand; only clicked, it is read
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+		var at := get_global_mouse_position()
+		if event.pressed and breaths.carried_at(at):
+			_press_at = at
+			breaths.start_drag(breaths.carried_at(at), at)
+			return
+		if not event.pressed and breaths.dragging():
+			breaths.drop()
+			if at.distance_to(_press_at) < 4.0:
+				_descriptions.show("breath_sign", hud)
+			_press_at = Vector2.INF
+			return
+	if event is InputEventMouseMotion and breaths.dragging():
+		breaths.drag(get_global_mouse_position())
+		return
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		var id := _pick(get_global_mouse_position())
 		if id.begins_with("#"):
@@ -507,7 +639,14 @@ func _use(id: String, point: Vector2) -> void:
 			avatar.stop()
 			_flip_from = point.y
 		"#water57":
-			walk_then(level.pieces.spell57_lower_body.x + level.pieces.spell57_lower_body.w / 2.0, _start57)
+			walk_then(_waist().x, _start57)
+		"#claim":
+			_claim()
+		"#breath_loc1", "#breath_loc2", "#breath_loc3", "#breath_loc4":
+			breaths.take(id.trim_prefix("#"))
+			_descriptions.show("breath_sign", hud)
+		"#imprints":
+			walk_then((IMPRINT_X[0] + IMPRINT_X[1]) / 2.0, _take_back)
 		"#seat52", "#seat53":
 			var sp := int(id.trim_prefix("#seat"))
 			var chair: Dictionary = level.pieces["spell%d_chair" % sp]
@@ -515,6 +654,83 @@ func _use(id: String, point: Vector2) -> void:
 		_:
 			_line59(id.trim_prefix("#"))
 	_set_hover("")
+
+
+# ---------------------------------------------------------------- 47: the dwelling
+
+## The seat sign claims the dwelling: the ba appears beside the pylon, and faint imprints of the
+## sceptres he carries now (at most two) stand up out of it.
+func _claim() -> void:
+	claimed = true
+	claim_count = mini(_carried.size(), IMPRINT_X.size())
+	var ba: Sprite2D = pieces.spell47_ba
+	ba.visible = true
+	ba.modulate.a = 0.0
+	create_tween().tween_property(ba, "modulate:a", 1.0, 0.6)
+	_set_imprints(false)
+	hud.say("Scribe", _hints.message("survival.claimed"))
+
+
+## The imprints of the sceptres he claimed with: faint, or full ink once he has died.
+func _set_imprints(full: bool) -> void:
+	_imprints_full = full and claimed and claim_count > 0
+	for i in _imprints.size():
+		_imprints[i].visible = claimed and i < claim_count
+		_imprints[i].modulate = Color(1, 1, 1, 1.0 if full else IMPRINT_FAINT)
+
+
+## Dead: with the dwelling claimed he comes back at 47, else the level begins again.
+func _after_death() -> void:
+	if claimed:
+		_respawn47()
+	else:
+		_restart()
+
+
+## He comes back at 47 as the 46 man, in front of the pylon; the sceptres he claimed with stand
+## out of it in full ink, for him to take back. What he has done stays done.
+func _respawn47() -> void:
+	_run += 1
+	mode = Mode.WALK
+	upside = false
+	_sequence_busy = false
+	_dark.modulate.a = 0.0
+	tables.reset()
+	widen.close(true)
+	var x: float = (IMPRINT_X[0] + IMPRINT_X[1]) / 2.0
+	avatar.stop()
+	avatar.position = Vector2(x, avatar.position.y)
+	avatar.facing = -1
+	avatar.scale = Vector2.ONE
+	avatar.modulate = Color.WHITE
+	avatar.visible = true
+	avatar.keys = true
+	avatar.upturn = 1.0
+	avatar.min_x = min_x()
+	avatar.max_x = LINE_45_46 - HALF
+	_was_x = x
+	_set_imprints(true)
+	breaths.to_pylon()
+	_set_look(_look_at(x))
+	_update_splice()
+	hud.say("Scribe", _hints.message("survival.respawn47"))
+
+
+## He takes back the sails lying on the pylon, and the sceptres standing out of it; their
+## imprints stay, faint.
+func _take_back() -> void:
+	breaths.take_back()
+	if not _imprints_full:
+		return
+	for i in claim_count:
+		var obj := _sceptres[i]
+		obj.sprite.material = null
+		obj.sprite.modulate = Color.WHITE
+		obj.sprite.visible = true
+		obj.wear(avatar, Transform2D(SCEPTRE_TILT, SCEPTRE_POSES[i]))
+		_carried.append(obj)
+	_set_imprints(false)
+	_descriptions.show("spell43_sceptres", hud)
 
 
 # ---------------------------------------------------------------- 43: the sceptres
@@ -565,21 +781,150 @@ func _enter_gate() -> void:
 		_rock_mummy(run))
 
 
-## He is the mummy now, rocking slightly. (The steadying game is not decided yet: for now the
-## opening rocking is all, and it passes.)
+## He is the mummy now, rocking in Anubis's hands, wider and wider. Clicking the tm sign ("not")
+## fast enough steadies it; past MUMMY_FALL it falls over and its head comes off. Once the swing
+## is wide enough, a gap opens between Anubis's forward arm and its wig (drawn so in the art).
 func _rock_mummy(run: int) -> void:
-	var pivot: Node2D = $Figures/Spell45/Mummy
+	_swing = MUMMY_START
+	_rock_phase = 0.0
+	_update_camera(1.0)              # the view moves once to the mummy, then holds (minigame view)
+	get_tree().create_timer(DARK + 0.1).timeout.connect(func():   # (back from the dark first)
+		if run != _run:
+			return
+		mode = Mode.MUMMY
+		$Figures/Spell45/Mummy.z_index = widen.layer.z_index + 1   # it may fall into the room opened out
+		widen.open(45)
+		hud.say("Scribe", _hints.message("survival.steady45"), "minigame"))
+
+
+func _rock45(delta: float) -> void:
+	_swing += MUMMY_GROW * delta
+	_rock_phase = fmod(_rock_phase + TAU * delta / MUMMY_PERIOD, TAU)
+	var lean := sin(_rock_phase)
+	$Figures/Spell45/Mummy.rotation = _swing * lean * (1.0 if lean > 0.0 else MUMMY_BACK)
+	if _swing >= MUMMY_FALL and lean > 0.0:
+		_fall45()
+	elif _swing <= MUMMY_STILL:
+		_steady45()
+
+
+func _mummy_input(event: InputEvent) -> void:
+	if not event is InputEventMouse:
+		return
+	var tm: Sprite2D = pieces.spell45_tm
+	var at := get_canvas_transform().affine_inverse() * (event as InputEventMouse).position
+	var over := (tm.global_transform * tm.get_rect()).grow(MUMMY_REACH).has_point(at)
+	_set_hover("#spell45_tm" if over else "")
+	if over and event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		click_tm()
+
+
+## One click on the tm sign: it flashes red, and a little comes off the mummy's swing.
+func click_tm() -> void:
+	if mode != Mode.MUMMY:
+		return
+	_swing = maxf(0.0, _swing - MUMMY_CLICK)
+	var tm: Sprite2D = pieces.spell45_tm
+	tm.modulate = UI.INK_TINT
+	tm.create_tween().tween_property(tm, "modulate", Color.WHITE, 0.15)
+
+
+func _steady45() -> void:
+	mode = Mode.SCENE
+	_set_hover("")
+	var run := _run
+	var mummy: Node2D = $Figures/Spell45/Mummy
 	var t := create_tween()
-	t.tween_interval(DARK)
-	var steps := 6
-	for i in steps:
-		t.tween_property(pivot, "rotation", (0.035 if i % 2 == 0 else -0.035), MUMMY_ROCK / steps).set_trans(Tween.TRANS_SINE)
-	t.tween_property(pivot, "rotation", 0.0, 0.4).set_trans(Tween.TRANS_SINE)
+	t.tween_property(mummy, "rotation", 0.0, 0.3).set_trans(Tween.TRANS_SINE)
+	t.tween_callback(func():
+		UI.success_flash(pieces.spell45_mummy_body)
+		widen.close())
+	t.tween_interval(0.8)
 	t.tween_callback(func(): _fade_dark(1.0))
 	t.tween_interval(DARK + 0.2)
 	t.tween_callback(func():
 		if run == _run:
 			_become_46())
+
+
+## It falls over forward, away from Anubis, against the frame line, and its head comes off. With a sceptre left he is back
+## at the black door as the 44 man (going in again costs one); with none, he dies.
+func _fall45() -> void:
+	mode = Mode.SCENE
+	_set_hover("")
+	var run := _run
+	var mummy: Node2D = $Figures/Spell45/Mummy
+	var head: Sprite2D = pieces.spell45_mummy_head
+	# it leans on the 44|45 line where it is now (pushed out with the vignette)
+	var wall: float = widen.cell.y - widen.DOUBLE + widen.WIDEN * widen.amount
+	var rest := asin(clampf((wall - mummy.global_position.x) / MUMMY_LEAN, 0.0, 1.0))
+	var t := create_tween()
+	t.tween_property(mummy, "rotation", rest, 0.25 + 0.3 * rest).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	t.tween_property(mummy, "rotation", rest - 0.03, 0.08)
+	t.tween_property(mummy, "rotation", rest, 0.08)
+	t.tween_callback(func():
+		head.reparent($Figures/Spell45)
+		head.z_index = widen.layer.z_index + 1)
+	t.tween_property(head, "global_position", Vector2(wall - 8.0, MUMMY_HEAD_Y), 0.45).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	t.parallel().tween_property(head, "rotation", 1.6, 0.45)
+	t.tween_interval(0.6)
+	if _carried.is_empty():
+		t.tween_callback(func():
+			_crumble(pieces.spell45_mummy_body)
+			_crumble(head))
+		t.tween_interval(1.9)
+		t.tween_callback(func():
+			if run != _run:
+				return
+			hud.say("Scribe", _hints.message("survival.died"))
+			_after_death())
+		return
+	t.tween_callback(func(): _fade_dark(1.0))
+	t.tween_interval(DARK + 0.2)
+	t.tween_callback(func():
+		if run == _run:
+			_back_to_door())
+
+
+## After a fall: the mummy stands in Anubis's hands again, and he stands before the black door.
+func _back_to_door() -> void:
+	_reset_mummy()
+	widen.close(true)
+	gate_used = false
+	$Figures/Spell44/DoorDark.visible = true
+	var door: Rect2 = $Figures/Spell44/DoorDark.get_global_rect()
+	avatar.position.x = door.get_center().x
+	avatar.min_x = LINE_44_45 + HALF
+	avatar.max_x = max_x()
+	avatar.facing = -1
+	avatar.modulate = Color.WHITE
+	avatar.visible = true
+	_was_x = avatar.position.x
+	_set_look("44")
+	for obj in _carried:
+		obj.sprite.visible = true
+		obj.sprite.modulate = Color.WHITE
+	_fade_dark(0.0).tween_callback(func():
+		mode = Mode.WALK
+		avatar.keys = true
+		hud.say("Scribe", _hints.message("survival.fell45")))
+
+
+## The mummy as drawn: upright in Anubis's hands, its head on.
+func _reset_mummy() -> void:
+	$Figures/Spell45/Mummy.rotation = 0.0
+	$Figures/Spell45/Mummy.z_index = 0
+	_swing = 0.0
+	for key in ["spell45_mummy_body", "spell45_mummy_head", "spell45_tm"]:
+		pieces[key].material = null
+		pieces[key].modulate = Color.WHITE
+	var head: Sprite2D = pieces.spell45_mummy_head
+	if head.get_parent() != $Figures/Spell45/Mummy:
+		head.reparent($Figures/Spell45/Mummy)
+		$Figures/Spell45/Mummy.move_child(head, 0)
+	head.position = _head_at
+	head.rotation = 0.0
+	head.z_index = 0
 
 
 func _become_46() -> void:
@@ -660,12 +1005,12 @@ func _start57() -> void:
 	_bending = false
 	_bend = 0.0
 	_bend_v = 0.0
+	widen.open(57)
 	var t := create_tween()
 	t.tween_property(avatar, "modulate:a", 0.0, 0.4)
-	for key in ["spell57_upper_body", "spell57_lower_body"]:
-		pieces[key].visible = true
-		pieces[key].modulate.a = 0.0
-		t.parallel().tween_property(pieces[key], "modulate:a", 1.0, 0.4)
+	pieces.spell57_man.visible = true
+	pieces.spell57_man.modulate.a = 0.0
+	t.parallel().tween_property(pieces.spell57_man, "modulate:a", 1.0, 0.4)
 	t.tween_callback(func():
 		avatar.visible = false
 		_set_stream(pieces.spell57_stream, 1.0)
@@ -682,15 +1027,69 @@ func _water57(delta: float) -> void:
 	if _bend <= BEND_LOW or _bend >= BEND_HIGH:
 		_bend = clampf(_bend, BEND_LOW, BEND_HIGH)
 		_bend_v = 0.0
-	$Figures/Spell57/Waist.rotation = _bend
+	_set_bend(_bend)
 	if absf(_bend) < BEND_WINDOW:
 		_tray = minf(1.0, _tray + delta / TRAY_FILL)
 		_tray_best = maxf(_tray_best, _tray)
 	else:
 		_tray = maxf(_tray_best * TRAY_KEEP, _tray - TRAY_DRAIN * delta)
+		# his hands miss the stream: it drips off its end and splashes over him or onto the ground
+		_drip_clock -= delta
+		while _drip_clock <= 0.0:
+			_drip_clock += DROP_EVERY
+			var it: Dictionary = level.pieces.spell57_stream
+			var end := Vector2(it.x + it.w * 0.75 + randf_range(-6.0, 6.0), it.y + it.h - 4.0)
+			_drops.append({"pos": end, "vel": Vector2(randf_range(-15.0, 15.0), 40.0), "life": 1.5, "kind": "fall"})
 	_set_tray(_tray)
 	if _tray >= 1.0:
 		_solve57()
+
+
+## The drops off the 57 stream (as the procession's water jar): falling ones splash into a few
+## small ones where they meet his body or the ground.
+func _move_drops(delta: float) -> void:
+	if _drops.is_empty():
+		return
+	var man: Sprite2D = pieces.spell57_man
+	var waist := _waist()
+	var bend: float = (man.material as ShaderMaterial).get_shader_parameter("bend")
+	var fresh: Array = []
+	for d in _drops:
+		d.vel += Vector2(0.0, DROP_FALL * delta)
+		d.pos += d.vel * delta
+		d.life -= delta
+		if d.kind != "fall":
+			continue
+		var px := Vector2i(_unbent(d.pos, waist, bend) - man.global_position + Vector2(BEND_PAD, BEND_PAD))
+		var on_him := man.visible and px.x >= 0 and px.y >= 0 and px.x < _man_image.get_width() \
+			and px.y < _man_image.get_height() and _man_image.get_pixelv(px).a > 0.3
+		if on_him or d.pos.y >= float(level.ground):
+			d.life = 0.0
+			for i in 3:
+				fresh.append({"pos": d.pos, "vel": Vector2(randf_range(-60.0, 60.0), randf_range(-140.0, -60.0)), "life": 0.35, "kind": "splash"})
+	_drops = _drops.filter(func(d): return d.life > 0.0) + fresh
+	_drop_layer.queue_redraw()
+
+
+## Where a point of the bent 57 man is in his drawing as drawn (as bend.gdshader maps it).
+static func _unbent(p: Vector2, waist: Vector2, bend: float) -> Vector2:
+	var q := p - waist
+	var w := smoothstep(0.0, BEND_BAND, -q.y)
+	return waist + q.rotated(-bend * w)
+
+
+func _waist() -> Vector2:
+	return $Figures/Spell57/Waist.global_position
+
+
+func _set_bend(a: float) -> void:
+	(pieces.spell57_man.material as ShaderMaterial).set_shader_parameter("bend", a)
+
+
+func _draw_drops() -> void:
+	for d in _drops:
+		var r := 2.2 if d.kind == "fall" else 1.4
+		_drop_layer.draw_circle(d.pos, r, Color(UI.INK, clampf(d.life * 3.0, 0.0, 0.85)))
 
 
 func _solve57() -> void:
@@ -698,22 +1097,22 @@ func _solve57() -> void:
 	_bending = false
 	mode = Mode.SCENE
 	var t := create_tween()
-	t.tween_property($Figures/Spell57/Waist, "rotation", 0.0, 0.3)
+	t.tween_method(_set_bend, _bend, 0.0, 0.3)
 	t.tween_callback(func():
 		UI.success_flash(pieces.spell57_tray)
-		_stand_at(level.pieces.spell57_lower_body.x - HALF))
+		widen.close()
+		_stand_at(_waist().x - FEET_57 - HALF))
 
 
 func _leave57() -> void:
 	_bending = false
 	mode = Mode.SCENE
+	widen.close()
 	var t := create_tween()
-	t.tween_property($Figures/Spell57/Waist, "rotation", 0.0, 0.2)
-	for key in ["spell57_upper_body", "spell57_lower_body"]:
-		t.parallel().tween_property(pieces[key], "modulate:a", 0.0, 0.3)
+	t.tween_method(_set_bend, _bend, 0.0, 0.2)
+	t.parallel().tween_property(pieces.spell57_man, "modulate:a", 0.0, 0.3)
 	t.tween_callback(func():
-		for key in ["spell57_upper_body", "spell57_lower_body"]:
-			pieces[key].visible = false
+		pieces.spell57_man.visible = false
 		_set_stream(pieces.spell57_stream, 0.15)
 		_stand_at(avatar.position.x))
 

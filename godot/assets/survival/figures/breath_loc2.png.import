@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b58f13f3qixn0"
-path="res://.godot/imported/spell43_sceptres.png-6d72142840082b8bfa46b86bc20f9a4f.ctex"
+uid="uid://f1jvww5vrhsg"
+path="res://.godot/imported/breath_loc2.png-bc755e10cbd2a332c68ae3ac63eb1238.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/survival/figures/spell43_sceptres.png"
-dest_files=["res://.godot/imported/spell43_sceptres.png-6d72142840082b8bfa46b86bc20f9a4f.ctex"]
+source_file="res://assets/survival/figures/breath_loc2.png"
+dest_files=["res://.godot/imported/breath_loc2.png-bc755e10cbd2a332c68ae3ac63eb1238.ctex"]
 
 [params]
 

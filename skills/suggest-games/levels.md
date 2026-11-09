@@ -177,9 +177,16 @@ past the gate with two sceptres (`--upside` also upside down), with `--at=`.
   drawn in two halves at the line (`clip_min`/`clip_max` in `figure.gdshader`): worshipper → 44 man,
   then 46 → 50 → 51 man.
 - **44–46:** in 44 the door goes black and the 44|45 line bars the way. Clicking the door costs a
-  sceptre: he shrinks and fades into it and in the dark becomes the rocking mummy. *Placeholder:* the
-  steadying game is undecided, so the rocking passes. He comes out as the 46 man, no way back past
-  45|46. Without a sceptre his head falls off and he crumbles.
+  sceptre: he shrinks and fades into it and in the dark becomes the mummy, rocking in Anubis's
+  hands wider and wider. Clicking the *tm* sign ("not", `spell45_tm`) fast takes a little off each
+  time; still, it rests in Anubis's hands and he comes out as the 46 man, no way back past 45|46.
+  Past the fall angle it falls against the 44|45 line and its head comes off: back at the door
+  (going in again costs a sceptre), or with none left he dies. Without a sceptre at the door his
+  head falls off and he crumbles. Dev: `--mummy` starts straight in the mummy game.
+- **Opening out (`widen.gd`):** the minigames of 45, 52, 53 and 57 push everything in view beyond
+  the vignette's two double lines outward `WIDEN` px each side (between the top rules and the
+  ground rule; the text below stays), and the vignette grows by fresh papyrus. A picture of the
+  held view is what slides, as the camera doesn't move in a minigame.
 - **Death:** his head falls and he crumbles; the level restarts at 43 with everything reset but the
   Journal. (Respawn at 47 waits for the claim's place sign.)
 - **47:** the ba is missing; each pass unclaimed, the scribe asks him to claim his seat.

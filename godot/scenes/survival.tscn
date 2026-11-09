@@ -166,10 +166,6 @@
 
 [ext_resource type="Texture2D" path="res://assets/survival/figures/spell59_mw6.png" id="spell59_mw6"]
 
-[ext_resource type="Texture2D" path="res://assets/survival/figures/spell57_lower_body.png" id="spell57_lower_body"]
-
-[ext_resource type="Texture2D" path="res://assets/survival/figures/spell57_upper_body.png" id="spell57_upper_body"]
-
 [ext_resource type="Texture2D" path="res://assets/survival/figures/spell57_stream.png" id="spell57_stream"]
 
 [ext_resource type="Texture2D" path="res://assets/survival/figures/spell57_tray.png" id="spell57_tray"]
@@ -223,6 +219,23 @@
 [ext_resource type="Texture2D" path="res://assets/survival/figures/spell53_whisp4.png" id="spell53_whisp4"]
 
 [ext_resource type="Texture2D" path="res://assets/survival/figures/spell53_whisp5.png" id="spell53_whisp5"]
+
+[ext_resource type="Texture2D" path="res://assets/survival/figures/spell57_man.png" id="spell57_man"]
+
+[ext_resource type="Texture2D" path="res://assets/survival/figures/spell47_seat.png" id="spell47_seat"]
+
+[ext_resource type="Texture2D" path="res://assets/survival/figures/spell58_nw.png" id="spell58_nw"]
+
+[ext_resource type="Texture2D" path="res://assets/survival/figures/breath_loc1.png" id="breath_loc1"]
+
+[ext_resource type="Texture2D" path="res://assets/survival/figures/breath_loc2.png" id="breath_loc2"]
+
+[ext_resource type="Texture2D" path="res://assets/survival/figures/breath_loc3.png" id="breath_loc3"]
+
+[ext_resource type="Texture2D" path="res://assets/survival/figures/breath_loc4.png" id="breath_loc4"]
+
+[ext_resource type="Texture2D" path="res://assets/survival/figures/spell45_tm.png" id="spell45_tm"]
+[ext_resource type="Texture2D" path="res://assets/survival/figures/spell45_arm.png" id="spell45_arm"]
 
 [sub_resource type="AtlasTexture" id="Line43_44"]
 atlas = ExtResource("strip")
@@ -634,6 +647,12 @@ centered = false
 metadata/registry_id = "spell63_water"
 
 
+[node name="spell45_arm" type="Sprite2D" parent="Figures/Spell45"]
+position = Vector2(7989, 274)
+texture = ExtResource("spell45_arm")
+centered = false
+metadata/piece_id = "spell45_arm"
+
 [node name="Mummy" type="Node2D" parent="Figures/Spell45"]
 position = Vector2(8032, 528)
 
@@ -662,16 +681,28 @@ centered = false
 metadata/piece_id = "spell44_head"
 
 [node name="spell45_mummy_head" type="Sprite2D" parent="Figures/Spell45/Mummy"]
-position = Vector2(-39, -296)
+position = Vector2(-38, -296)
 texture = ExtResource("spell45_mummy_head")
 centered = false
 metadata/piece_id = "spell45_mummy_head"
 
+[node name="spell45_tm" type="Sprite2D" parent="Figures/Spell45"]
+position = Vector2(8033, 116)
+texture = ExtResource("spell45_tm")
+centered = false
+metadata/piece_id = "spell45_tm"
+
 [node name="spell47_ba" type="Sprite2D" parent="Figures/Spell47"]
-position = Vector2(7430, 408)
+position = Vector2(7436, 408)
 texture = ExtResource("spell47_ba")
 centered = false
 metadata/piece_id = "spell47_ba"
+
+[node name="spell47_seat" type="Sprite2D" parent="Figures/Spell47"]
+position = Vector2(7329, 81)
+texture = ExtResource("spell47_seat")
+centered = false
+metadata/piece_id = "spell47_seat"
 
 [node name="spell48_oar" type="Sprite2D" parent="Figures/Spell48"]
 position = Vector2(6912, 69)
@@ -716,7 +747,7 @@ centered = false
 metadata/piece_id = "spell59_seated_man"
 
 [node name="spell59_stream" type="Sprite2D" parent="Figures/Spell59"]
-position = Vector2(1726, 262)
+position = Vector2(1729, 268)
 texture = ExtResource("spell59_stream")
 centered = false
 metadata/piece_id = "spell59_stream"
@@ -763,20 +794,14 @@ texture = ExtResource("spell59_mw6")
 centered = false
 metadata/piece_id = "spell59_mw6"
 
-[node name="spell57_lower_body" type="Sprite2D" parent="Figures/Spell57"]
-position = Vector2(3152, 389)
-texture = ExtResource("spell57_lower_body")
+[node name="spell57_man" type="Sprite2D" parent="Figures/Spell57"]
+position = Vector2(3092, 280)
+texture = ExtResource("spell57_man")
 centered = false
-metadata/piece_id = "spell57_lower_body"
-
-[node name="spell57_upper_body" type="Sprite2D" parent="Figures/Spell57/Waist"]
-position = Vector2(-49, -108)
-texture = ExtResource("spell57_upper_body")
-centered = false
-metadata/piece_id = "spell57_upper_body"
+metadata/piece_id = "spell57_man"
 
 [node name="spell57_stream" type="Sprite2D" parent="Figures/Spell57"]
-position = Vector2(3083, 192)
+position = Vector2(3076, 192)
 texture = ExtResource("spell57_stream")
 centered = false
 metadata/piece_id = "spell57_stream"
@@ -824,31 +849,31 @@ centered = false
 metadata/piece_id = "spell54_sail"
 
 [node name="spell58_sail" type="Sprite2D" parent="Figures/Spell58"]
-position = Vector2(2305, 235)
+position = Vector2(2332, 235)
 texture = ExtResource("spell58_sail")
 centered = false
 metadata/piece_id = "spell58_sail"
 
 [node name="spell43_sceptre1" type="Sprite2D" parent="Figures/Spell43"]
-position = Vector2(8836, 260)
+position = Vector2(8832, 260)
 texture = ExtResource("spell43_sceptre1")
 centered = false
 metadata/piece_id = "spell43_sceptre1"
 
 [node name="spell43_sceptre2" type="Sprite2D" parent="Figures/Spell43"]
-position = Vector2(8846, 260)
+position = Vector2(8844, 260)
 texture = ExtResource("spell43_sceptre2")
 centered = false
 metadata/piece_id = "spell43_sceptre2"
 
 [node name="spell43_sceptre3" type="Sprite2D" parent="Figures/Spell43"]
-position = Vector2(8856, 261)
+position = Vector2(8854, 261)
 texture = ExtResource("spell43_sceptre3")
 centered = false
 metadata/piece_id = "spell43_sceptre3"
 
 [node name="spell45_mummy_body" type="Sprite2D" parent="Figures/Spell45/Mummy"]
-position = Vector2(-39, -248)
+position = Vector2(-41, -257)
 texture = ExtResource("spell45_mummy_body")
 centered = false
 metadata/piece_id = "spell45_mummy_body"
@@ -1109,3 +1134,33 @@ position = Vector2(-1.2, -22.8)
 texture = ExtResource("spell53_hand")
 centered = false
 metadata/piece_id = "spell53_hand"
+
+[node name="spell58_nw" type="Sprite2D" parent="Figures/Spell58"]
+position = Vector2(2305, 267)
+texture = ExtResource("spell58_nw")
+centered = false
+metadata/piece_id = "spell58_nw"
+
+[node name="breath_loc1" type="Sprite2D" parent="Figures/Spell58"]
+position = Vector2(2178, 64)
+texture = ExtResource("breath_loc1")
+centered = false
+metadata/piece_id = "breath_loc1"
+
+[node name="breath_loc2" type="Sprite2D" parent="Figures/Spell57"]
+position = Vector2(2533, 196)
+texture = ExtResource("breath_loc2")
+centered = false
+metadata/piece_id = "breath_loc2"
+
+[node name="breath_loc3" type="Sprite2D" parent="Figures/Spell57"]
+position = Vector2(2957, 75)
+texture = ExtResource("breath_loc3")
+centered = false
+metadata/piece_id = "breath_loc3"
+
+[node name="breath_loc4" type="Sprite2D" parent="Figures/Spell54"]
+position = Vector2(4090, 61)
+texture = ExtResource("breath_loc4")
+centered = false
+metadata/piece_id = "breath_loc4"

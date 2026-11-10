@@ -2,6 +2,26 @@
 
 ## Open — to resolve
 
+- when the player grabs the adze, you can no longer click on the mummy, it neither highlights nor does it enter into the mini game, but when you click on it it gives you a message "needs the right tool"
+- clicking on the lector who tells you what the offering item next is, but it's displayed in a really ugly way, with pink borders, and a bright white interior. 
+- draggin is broken? so maybe minigame interaction is broken? - actually, it says i have to free my hands to interact with the offering table. the hand limitation does not affect non-carry able objects. 
+- i can't put the adze back. also, leave an imprint for the implement once it's been taken. let the adze be able to be put back if it's dragged off the player and placed to the stand. 
+- for the merti snakes, is the speed of the spear timings the same as the other games? what's the timing on the snakes?
+- ending animation for merti snakes is a giggle squash like the others
+- the apep strike point is NOT a dot, it should be a fill in spot sithin the bounds of the neck. 
+- donkey game is a little easy, maybe speed it up slightly
+- the sheath snake should not squish to laugh when it gets fully speared
+- when all the dangers levels are beat, the ending animation should play immediately (wait like 3 seconds before that), isntead of making the player walk all the way to the end. 
+- in survival, the worshipper (who became the avatar) has been deleted so there's not two copies on screen. the way the scepters sit is behind the player (so the player is opaque in the middle, like in procession), and there is an extra copy of them to demo the placement. the scepter placement behind the house point is also placed, via an extra copy. the bottom half should be behind the house, and the house opaque. 
+- be given a breath from the narrow tree game (the one where there is no breath sign in the caption)
+- all standards need a registry entry explaining what they are (or at least needs to stil lshow their registry after completing the puzzle)
+- end speech when puzzle for offering table, currently no success message exists/shows
+- the procession is in order, head over to ra appears at a bad time, when the imprint on the stela appears, if it's in view (or very very close, it should say the stela glows faintly.) if it's far, (something changed to the right/left)
+- the position of the lotus changed, it's not right (it's also facing the wrong direction when it's taken off the person. when the lotus is dragged off from the person, it should be facing the correct direction, and not turn around once it's been placed on the stand. ) the offering stand drag mechanic should be the same as the offering table mechanice (aka you don't need to release in order for it to click).
+- clicking ra while holding the offering stand stuff will make the stand imprint appears (this is existing behavior). dragging the stand/other equipment to ra should also do that.
+- 
+
+
 ### Shared
 
 #### General

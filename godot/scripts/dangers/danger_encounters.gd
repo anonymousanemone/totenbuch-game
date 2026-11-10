@@ -76,8 +76,8 @@ const ENCOUNTERS := [
 		"bite": 30.0,               # springs this far past where drawn
 		"idle": [0.84, 1.68],       # between attacks (random range)
 		"warn": [0.945, 0.4725],    # sign flash before the spring
-		"crouch": [0.3675, 0.231],  # squash before the spring
-		"snap": [0.252, 0.1785],    # the spring
+		"crouch": [0.36, 0.271],  # squash before the spring
+		"snap": [0.232, 0.1885],    # the spring
 		"reach": [12.0, 7.0]},      # hit distance from where it is drawn
 	# spell 38: take the sail (breath: easier later fights) or the ankh (life: endless fights)
 	{"id": "e38", "boxes": ["e38"], "kind": "take", "items": ["sail38", "ankh38"], "task": 2, "gate": true,
@@ -112,11 +112,11 @@ const ENCOUNTERS := [
 		"tail_root": [1230, 529],                  # the donkey's tail pivot (strip px)
 		"caption": [581, 1437],
 		"need": 3,                 # strikes to win
-		"crawl": [24.0, 36.0],     # crawl speed (px/s)
+		"crawl": [28.0, 42.0],     # crawl speed (px/s)
 		"walk": 70.0,              # bearer's step speed (px/s)
-		"lift_every": [1.6, 1.1],  # between lifts (about)
-		"warn": [0.45, 0.35],      # coils tighten before a lift
-		"up": [0.6, 0.4],          # head stays up
+		"lift_every": [1.4, 0.95], # between lifts (about)
+		"warn": [0.4, 0.3],        # coils tighten before a lift
+		"up": [0.5, 0.35],         # head stays up
 		"half": [0.0, 0.3],        # share of half lifts (a strike then hits the donkey)
 		"lift": 9.0,               # how high the head lifts
 		"hard": {"crawl": [40.0, 60.0], "lift_every": [1.1, 0.75], "warn": [0.25, 0.18], "up": [0.36, 0.26], "half": [0.15, 0.4]}},

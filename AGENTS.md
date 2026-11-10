@@ -19,7 +19,7 @@
 - Reuse `godot/scripts/moveable_object.gd` and existing puzzle validation/recovery code; do not duplicate movement logic.
 - Default to press-drag-release, never click-follow. Only carriable objects attach to the avatar on a world click; clicking an attached object reads its description, which remains visible during dragging unless game-state feedback replaces it.
 - Accept only valid placements; otherwise restore the valid attachment/location using the puzzle's recovery rules. Preserve object size and lock final placements against further dragging.
-- Ask before adding exceptions. Existing approved exceptions are the words' click-follow/appearance animation, adze tool controls at 50% scale during carving, and offering-table automatic snapping/physics. Starting carving requires dragging the adze onto the mummy. Calf/jar gestures transform in place and are outside this system.
+- Ask before adding exceptions. Existing approved exceptions are the words' click-follow/appearance animation, adze tool controls at 50% scale during carving, and offering-table automatic snapping/physics. Carving starts by dragging the adze onto the mummy, or by clicking the mummy with the adze in hand. Calf/jar gestures transform in place and are outside this system.
 
 ## Minigame view
 

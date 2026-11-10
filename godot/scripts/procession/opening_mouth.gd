@@ -50,6 +50,7 @@ var _adze: Sprite2D
 var _props: Array             ## the rest of what lies on the stand with the adze: two rods and a foreleg
 var _words: Sprite2D          ## centred, so it can grow from a ball
 var _imprint: Sprite2D
+var _adze_imprint: Sprite2D   ## the adze's faint imprint on the stand while it is taken
 var _adze_home := Rect2()
 var adze_object: MoveableObject
 var words_object: MoveableObject
@@ -75,6 +76,16 @@ func setup(level: Dictionary, nodes: Dictionary, avatar: Node2D) -> void:
 	_adze_home = Rect2(_adze.position, _adze.texture.get_size())
 	_adze_home_transform = _adze.transform
 	_adze_carry_pose = (_avatar.get_node("CarryAdze") as Marker2D).transform
+	_adze_imprint = Sprite2D.new()
+	_adze_imprint.texture = _adze.texture
+	_adze_imprint.centered = _adze.centered
+	_adze_imprint.offset = _adze.offset
+	_adze_imprint.flip_h = _adze.flip_h
+	_adze_imprint.transform = _adze_home_transform
+	_adze_imprint.modulate = IMPRINT
+	_adze_imprint.visible = false
+	_adze.get_parent().add_child(_adze_imprint)
+	_adze.get_parent().move_child(_adze_imprint, _adze.get_index())
 	_words_home = Rect2(_words.position - _words.texture.get_size() / 2.0, _words.texture.get_size())
 	_spoken = Vector2(m.speak_right - _words_home.size.x / 2.0, _words_home.get_center().y)
 	adze_object = MoveableObject.new()
@@ -207,7 +218,7 @@ func glow_target(id: String):
 		"home":
 			return _imprint
 		"mummy":
-			return _mummy
+			return _body
 		"back":     # the carried piece lights up over its own place
 			return _words if phase == Phase.WORDS else _adze
 	return null
@@ -307,6 +318,7 @@ func _process(_delta: float) -> void:
 	# The adze sits on the player until carving; words keep following the pointer.
 	var p := get_global_mouse_position()
 	_adze.z_index = 10 if phase == Phase.ADZE else 0     # what you carry comes to the front
+	_adze_imprint.visible = phase == Phase.ADZE
 	_adze.scale = Vector2.ONE * (CARVING_SCALE if active else 1.0)
 	_adze.self_modulate.a = 0.65 if active else 1.0
 	_words.z_index = 10 if phase == Phase.WORDS else 0

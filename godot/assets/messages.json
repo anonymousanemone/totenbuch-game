@@ -2,5 +2,8 @@
   "interaction.pick_up": "You pick up %s.",
   "interaction.already_carrying": "You are already carrying %s.",
   "interaction.put_back": "You put %s back.",
-  "interaction.hands_full": "You carry %s. Put it back where you took it to free your hands."
+  "interaction.hands_full": "You carry %s. Put it back where you took it to free your hands.",
+  "view.intro": "The scroll lies restored, as Lepsius drew it.\n\nWalk [b]right to left[/b] with [←] [→] or click the papyrus. Click a figure or caption to walk up to it and read its description. Open the Journal with [j].",
+  "view.start": "The scroll lies restored. Walk it and read what is drawn.",
+  "view.hint": "Nothing here needs doing. Walk the scroll and click any figure or caption to read about it."
 }

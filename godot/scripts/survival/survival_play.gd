@@ -27,13 +27,15 @@ const LOOKS := {
 	"50": preload(FIG + "spell50_walking_man.png"),
 	"51": preload(FIG + "avatar_51.png"),
 }
+## Loops in a look that are not filled (source px): the 44 man's hanging arm.
+const OPEN := {"44": [Vector2i(123, 105)]}
 ## Looks whose head can fall: [the figure without its head, the head, the whole look's key in level.avatars].
 const HEADS := {
 	"44": ["spell44_staff_bearer", "spell44_head", "avatar_44"],
 	"51": ["spell51_walking_man", "spell51_head", "avatar_51"],
 }
 ## The figures the avatar stands in for; their drawings are hidden.
-const PLAYED := ["spell43_worshipper", "spell44_staff_bearer", "spell46_staff_bearer",
+const PLAYED := ["spell44_staff_bearer", "spell46_staff_bearer",
 	"spell48_walking_man", "spell49_staff_bearer", "spell50_walking_man", "spell51_walking_man"]
 const PLAYED_PIECES := ["spell44_head", "spell51_head"]
 const DISSOLVE := preload("res://scripts/dangers/dissolve.gdshader")
@@ -44,13 +46,17 @@ const TABLES := preload("res://scripts/survival/offering_tables.gd")
 const BREATHS := preload("res://scripts/survival/breaths.gd")
 const WIDEN := preload("res://scripts/survival/widen.gd")
 
-## The sceptres on his back (relative to the avatar's carrying frame), one pose per sceptre.
-const SCEPTRE_POSES := [Vector2(4.0, -246.0), Vector2(11.0, -244.0), Vector2(18.0, -242.0)]
-const SCEPTRE_TILT := -0.22
+## The sceptres behind him (relative to the avatar's carrying frame, his sprite's position), one
+## pose per sceptre: as laid out on a copy of the 43 avatar in the editor.
+const SCEPTRE_POSES := [Vector2(25.0, -295.0), Vector2(37.0, -295.0), Vector2(47.0, -294.0)]
+const SCEPTRE_TILT := 0.0
 
 const PYLON_TOP := 288.0         ## 47: the top of the pylon (strip y) ...
-const IMPRINT_X := [7343.0, 7383.0]  ## ... and where a sceptre left behind stands up out of it (strip x)
-const IMPRINT_SHOW := 44.0       ## how much of each sceptre shows above the pylon (px)
+## ... and where each sceptre left behind stands in it, behind the pylon (strip px, as laid out in
+## the editor); he comes back between them
+const IMPRINT_AT := [Vector2(7367.0, 210.0), Vector2(7379.0, 210.0), Vector2(7389.0, 211.0)]
+const RESPAWN_X := 7363.0
+const CLAIM_MOST := 2            ## the most sceptres that stand in the pylon (the first spots in IMPRINT_AT)
 const IMPRINT_FAINT := 0.3       ## a sceptre's imprint, before he has died
 
 # 45: steadying the mummy (clicking the tm sign, "not", against its growing rocking)
@@ -163,18 +169,25 @@ func _setup_rites() -> void:
 		add_child(obj)
 		obj.setup("spell43_sceptres", pieces["spell43_sceptre%d" % (i + 1)])
 		obj.carriable = true
+		obj.worn_z_index = 0   # behind him: drawn before the avatar, which is filled opaque
 		_sceptres.append(obj)
 	# 47: the imprints of the sceptres he will get back, standing up out of the pylon
-	for i in IMPRINT_X.size():
-		var tex: Texture2D = pieces["spell43_sceptre%d" % (i + 1)].texture
+	var shrine: Sprite2D = figures.spell47_bird_shrine
+	for i in IMPRINT_AT.size():
 		var imprint := Sprite2D.new()
-		imprint.texture = tex
+		imprint.texture = pieces["spell43_sceptre%d" % (i + 1)].texture
 		imprint.centered = false
-		imprint.region_enabled = true
-		imprint.region_rect = Rect2(0, 0, tex.get_width(), IMPRINT_SHOW)
-		imprint.position = Vector2(IMPRINT_X[i] - tex.get_width() / 2.0, PYLON_TOP - IMPRINT_SHOW)
-		$Figures/Spell47.add_child(imprint)
+		imprint.position = IMPRINT_AT[i]
+		shrine.add_sibling(imprint)
+		shrine.get_parent().move_child(imprint, shrine.get_index())   # behind the pylon
 		_imprints.append(imprint)
+	# the pylon is opaque over their lower part: a copy of it filled with the papyrus, under the drawing
+	var solid := Sprite2D.new()
+	solid.centered = false
+	solid.position = shrine.position - Vector2(PAD, PAD)
+	_dress_texture(solid, FIGURE_MASK.create_texture(shrine.texture, PAD))
+	shrine.add_sibling(solid)
+	shrine.get_parent().move_child(solid, shrine.get_index())
 	# 57: his picture gets room to bend into, and the bend shader (bend.gdshader)
 	var man: Sprite2D = pieces.spell57_man
 	var src := man.texture.get_image()
@@ -377,7 +390,7 @@ func _look_at(x: float) -> String:
 
 func _masked_look(look: String) -> Texture2D:
 	if not _masked.has(look):
-		_masked[look] = FIGURE_MASK.create_texture(LOOKS[look], PAD)
+		_masked[look] = FIGURE_MASK.create_texture(LOOKS[look], PAD, OPEN.get(look, []))
 	return _masked[look]
 
 
@@ -388,7 +401,12 @@ func _set_look(look: String) -> void:
 
 
 func _dress(sprite: Sprite2D, look: String) -> void:
-	sprite.texture = _masked_look(look)
+	_dress_texture(sprite, _masked_look(look))
+
+
+## A figure.gdshader drawing: opaque, filled with the papyrus.
+func _dress_texture(sprite: Sprite2D, texture: Texture2D) -> void:
+	sprite.texture = texture
 	if not sprite.material is ShaderMaterial or (sprite.material as ShaderMaterial).shader != FIGURE_SHADER:
 		var mat := ShaderMaterial.new()
 		mat.shader = FIGURE_SHADER
@@ -506,7 +524,7 @@ func _pick(point: Vector2) -> String:
 			return "#flip"
 		if gate_used and not claimed and _descriptions.hit(pieces.spell47_seat, point):
 			return "#claim"
-		if (_imprints_full and _imprints.any(func(s): return s.visible and _descriptions.hit(s, point))) \
+		if (_imprints_full and point.y < PYLON_TOP and _imprints.any(func(s): return s.visible and _descriptions.hit(s, point))) \
 				or breaths.pylon_at(point):
 			return "#imprints"
 		var loc: String = breaths.loc_at(point)
@@ -646,7 +664,7 @@ func _use(id: String, point: Vector2) -> void:
 			breaths.take(id.trim_prefix("#"))
 			_descriptions.show("breath_sign", hud)
 		"#imprints":
-			walk_then((IMPRINT_X[0] + IMPRINT_X[1]) / 2.0, _take_back)
+			walk_then(RESPAWN_X, _take_back)
 		"#seat52", "#seat53":
 			var sp := int(id.trim_prefix("#seat"))
 			var chair: Dictionary = level.pieces["spell%d_chair" % sp]
@@ -662,7 +680,7 @@ func _use(id: String, point: Vector2) -> void:
 ## sceptres he carries now (at most two) stand up out of it.
 func _claim() -> void:
 	claimed = true
-	claim_count = mini(_carried.size(), IMPRINT_X.size())
+	claim_count = mini(_carried.size(), CLAIM_MOST)
 	var ba: Sprite2D = pieces.spell47_ba
 	ba.visible = true
 	ba.modulate.a = 0.0
@@ -697,7 +715,7 @@ func _respawn47() -> void:
 	_dark.modulate.a = 0.0
 	tables.reset()
 	widen.close(true)
-	var x: float = (IMPRINT_X[0] + IMPRINT_X[1]) / 2.0
+	var x: float = RESPAWN_X
 	avatar.stop()
 	avatar.position = Vector2(x, avatar.position.y)
 	avatar.facing = -1
@@ -1195,5 +1213,7 @@ func _solve59() -> void:
 
 func _stand59() -> void:
 	mode = Mode.SCENE
+	breaths.give_sail(pieces.breath_loc1.texture)   # 59's caption has no breath sign: the water gives one
+	_descriptions.show("breath_sign", hud)
 	var it: Dictionary = level.pieces.spell59_chair
 	_stand_at(it.x + it.w + HALF)

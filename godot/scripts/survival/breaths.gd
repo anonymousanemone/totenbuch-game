@@ -1,7 +1,7 @@
 ## The seven breaths (spells 54–62): the seven raised hands start empty. A sail lies hidden at four
 ## places, where its sign is drawn in the text (breath_loc1–4: they glow on hover but do not
-## flash); clicking one gives him a sail, once. The other three are rewards for minigames not yet
-## decided (give_sail). He carries his sails held up in front of him, stacked; dragged onto an
+## flash); clicking one gives him a sail, once. One more is the reward for 59's water (its caption
+## has no breath sign); the other two are rewards for minigames not yet decided (give_sail). He carries his sails held up in front of him, stacked; dragged onto an
 ## empty raised hand, a sail fills it as drawn and stays; dropped anywhere else it goes back to him.
 ## Dead with the dwelling claimed, the sails he carried lie on the pylon for him to take back (47).
 extends RefCounted

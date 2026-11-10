@@ -122,13 +122,37 @@ func _apep_dress(e: Dictionary) -> void:
 			if top < 0:
 				top = y
 			bottom = y
-	if top >= 0:   # his body is too thin there to fill inside its outline: a disk, under the ink
-		var c := Vector2(x, (top + bottom) / 2.0 + P)
-		var r := _apep_reach()
-		for y in range(maxi(0, int(c.y - r)), mini(body.get_height(), int(c.y + r) + 1)):
-			for xx in range(maxi(0, int(c.x - r)), mini(body.get_width(), int(c.x + r) + 1)):
-				if Vector2(xx, y).distance_to(c) <= r:
-					body.set_pixel(xx, y, UI.DANGER.blend(body.get_pixel(xx, y)))
+	if top >= 0:   # fill his neck between its two outlines, only within reach of the point
+		var r := int(_apep_reach())
+		var ink := func(xx: int, y: int) -> bool: return src.get_pixel(xx, y).a > 0.35
+		var mid := {x: (top + bottom) / 2}
+		for dir in [1, -1]:      # out from the point's column each way, following the neck's slope
+			var cy: int = mid[x]
+			for i in r + 1:
+				var xx: int = x + i * dir
+				if xx < 0 or xx >= src.get_width() or (i == 0 and dir < 0):
+					continue
+				if ink.call(xx, cy):   # on an outline: step off it towards the inside
+					var moved := false
+					for d in range(1, 4):
+						for yy in [cy - d, cy + d]:
+							if not moved and yy >= 0 and yy < src.get_height() and not ink.call(xx, yy):
+								cy = yy
+								moved = true
+					if not moved:
+						break
+				var up := cy
+				while up > 0 and up > cy - r and not ink.call(xx, up - 1):
+					up -= 1
+				var down := cy
+				while down < src.get_height() - 1 and down < cy + r and not ink.call(xx, down + 1):
+					down += 1
+				if up == 0 or down == src.get_height() - 1 or not ink.call(xx, up - 1) or not ink.call(xx, down + 1):
+					break   # not closed in by both outlines here: the neck ends
+				for y in range(up, down + 1):
+					body.set_pixel(xx, y + P, UI.DANGER.blend(body.get_pixel(xx, y + P)))
+				cy = (up + down) / 2
+				mid[xx] = cy
 	sp.texture = ImageTexture.create_from_image(body)
 	sp.offset -= Vector2(0, P)
 	var mat := ShaderMaterial.new()

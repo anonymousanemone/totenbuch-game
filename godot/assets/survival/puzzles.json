@@ -3,12 +3,21 @@
   "survival.explore": "Walk with [←] [→] or click the papyrus. Click a glowing figure to look; the whole scroll is open to explore.",
   "survival.start": "Walk left through the scroll of food, water and breath. Click a figure to look, or open the Journal to read what you have seen.",
   "survival.dwelling": "Please claim your rightful seat so you may return to your dwelling.",
+  "survival.claimed": "The dwelling is his. Should he die, he returns here.",
+  "survival.respawn47": "He returns to his dwelling. Take back the sceptres from the pylon.",
   "survival.died": "His head has fallen. He begins again.",
   "survival.mummy": "He comes out of the gate's dark as the man of spell 46. There is no way back.",
+  "survival.steady45": "He sways in Anubis's hands, wider and wider. Click the sign for \"not\" fast to steady him.",
+  "survival.fell45": "The mummy falls and its head comes off. He is back before the gate; going in again costs a sceptre.",
   "survival.upside": "He goes headlong. Drag him up to stand upright.",
   "survival.filth": "Headlong, he eats filth. A was-sceptre is lost.",
   "survival.water57": "Water only dribbles from the goddess's vase. Click it to stand beneath it.",
-  "survival.bend": "Hold [space] to keep him up with his hands in the water; [esc] leaves."
+  "survival.bend": "Hold [space] to keep him up with his hands in the water; [esc] leaves.",
+  "survival.cover52": "Excrement falls. Keep it off the loaves: [←] [→] move his hand over the altar; [esc] gets up.",
+  "survival.catch53": "Bread and filth fall. Catch the loaves in the cup, never the filth: [←] [→] move his hand; [esc] gets up.",
+  "survival.table_lost": "The offerings are fouled. A was-sceptre is lost, and the meal begins again.",
+  "survival.covered52": "The loaves stay clean. He eats no excrement.",
+  "survival.heaped53": "The altar is heaped with bread. He drinks nothing fetid."
  },
  "puzzles": {}
 }

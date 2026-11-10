@@ -20,6 +20,7 @@ var interaction_mode := InteractionMode.TRANSPORT
 var locked_in_place := false
 var carrier: Node2D
 var carry_pose := Transform2D.IDENTITY
+var worn_z_index := 5            ## draw order while worn: in front of the carrier, or behind it (below its z)
 var held_pose := Transform2D.IDENTITY
 var base_world_scale := Vector2.ONE
 var from_loc_parent: Node
@@ -143,7 +144,7 @@ func follow() -> void:
 	if state == State.WORN and interaction_mode == InteractionMode.TRANSPORT:
 		sprite.global_transform = carrier.carrying_transform() * carry_pose
 		_preserve_scale()
-		sprite.z_index = 5
+		sprite.z_index = worn_z_index
 
 func _process(_delta: float) -> void:
 	follow()

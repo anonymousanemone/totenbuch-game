@@ -41,6 +41,7 @@ var _held := ""              ## what the player carries: a table piece id, "goos
 var _held_from := ""         ## "floor", "parked" or "bearer"
 var _last_park := {}         ## id -> where it last lay there (centre)
 var _tex := {}               ## id -> Texture2D (and "goose")
+var _ink_tex := {}           ## id -> the drawing's ink alone, no papyrus fill (for the lector to show)
 var _img := {}               ## id -> Image, for clicking on the ink only
 var _goose_rect: Rect2
 var _goose_hull: PackedVector2Array  ## the goose's outline (the table pieces have theirs from the cutter)
@@ -381,10 +382,10 @@ func speak() -> bool:
 	_placement_imprint.position = pieces[id].rect.get_center()
 	_placement_imprint.modulate = Color(UI.PREVIEW, 0.0)
 	_placement_imprint.visible = true
-	_speak.texture = _tex[id]
+	_speak.texture = _ink_only(id)
 	_speak.scale = Vector2(s, s)
 	_speak.position = _speech.get_center()
-	_speak.modulate = Color(UI.INK_TINT, 0.0)
+	_speak.modulate = Color(UI.INK_TINT, 0.0)   # in red ink, like the plumed lector's signs
 	_speak.visible = true
 	_speak.set_meta("id", id)
 	_speak_tween = create_tween()
@@ -620,6 +621,22 @@ func _outline(img: Image) -> PackedVector2Array:
 
 
 ## Is there ink at this pixel of the piece's picture (its own top-left frame)?
+## The piece's lines alone: dark pixels kept as ink, the papyrus fill made clear.
+func _ink_only(id: String) -> Texture2D:
+	if not _ink_tex.has(id):
+		var img: Image = (_img[id] as Image).duplicate()
+		if img.is_compressed():
+			img.decompress()
+		img.convert(Image.FORMAT_RGBA8)
+		for y in img.get_height():
+			for x in img.get_width():
+				var c := img.get_pixel(x, y)
+				var ink := clampf((0.7 - c.get_luminance()) / 0.45, 0.0, 1.0)
+				img.set_pixel(x, y, Color(UI.INK, c.a * ink))
+		_ink_tex[id] = ImageTexture.create_from_image(img)
+	return _ink_tex[id]
+
+
 func _ink_at(id: String, local: Vector2) -> bool:
 	var img: Image = _img[id]
 	var x := int(local.x)

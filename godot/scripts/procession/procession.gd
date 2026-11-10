@@ -431,6 +431,9 @@ func _carried_input(event: InputEvent) -> bool:
 			_object_press.request_description()
 		if _object_dragging:
 			_object_press.move_held(get_global_mouse_position())
+			if ending.objects.values().has(_object_press) and ending.snap_held(get_global_mouse_position()):
+				_object_press = null
+				_object_dragging = false
 		return true
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		if not event.pressed:
@@ -442,7 +445,10 @@ func _carried_input(event: InputEvent) -> bool:
 						ending.unhold()
 				else:
 					_object_press.cancel_hold()
-					if mouth.mummy_rect().has_point(get_global_mouse_position()):
+					var drop := get_global_mouse_position()
+					if _object_press == mouth.adze_object and mouth.back_rect().has_point(drop):
+						walk_then(_reach(mouth.back_rect(), drop), put_back)   # set back on its stand
+					elif mouth.mummy_rect().has_point(drop):
 						enter_mouth()
 			_object_press = null
 			_object_dragging = false
@@ -665,6 +671,8 @@ func _glow_targets(h: Dictionary) -> Array:
 				return HAUL_GLOW[h.spot.id].map(func(nm): return haul.sprite_of(nm)).filter(func(sp): return sp != null and sp.is_visible_in_tree())
 			if h.spot == _table and solved.t3:   # rebuilt: the whole table glows, its offerings with it
 				return [_inspection_sprites[h.spot.id]] + offerings.placed_sprites()
+			if h.spot.id == "anubis_and_the_mummy":   # a sprite over the strip: glow it, adze in hand or not
+				return [mouth.glow_target("mummy")]
 			if h.spot.id == "offering_stand":   # part for whole: the stand glows with all on it
 				return [_inspection_sprites[h.spot.id]] + mouth.on_stand()
 			if h.spot.id in SLEDGE_PARTS:   # its own part of the sledge's drawing
@@ -753,9 +761,6 @@ func walk_then(x: float, then := Callable()) -> void:
 ## `h` is the figure clicked, recorded on arrival.
 func enter_bulls(h := {}) -> void:
 	if bulls.active or bulls.done:
-		return
-	if _hands_full():
-		say_game("Scribe", _hands_message())
 		return
 	_set_hover({})
 	walk_then(bulls.stand_x(avatar.position.x), func():
@@ -926,9 +931,6 @@ func _table_drop(p: Vector2) -> void:
 func enter_water(h := {}) -> void:
 	if water.active or water.done:
 		return
-	if _hands_full():
-		say_game("Scribe", _hands_message())
-		return
 	_set_hover({})
 	walk_then(water.stand_x(), func():
 		if not h.is_empty():
@@ -968,7 +970,7 @@ func _water_input(event: InputEvent) -> void:
 # ---------------------------------------------------------------- puzzle rules
 
 func _take_offering(id: String) -> void:
-	if held != "" or mouth.carrying() != "":
+	if held != "":
 		say_game("Scribe", _hands_message())
 		return
 	if offerings.holding() != "":
@@ -1038,9 +1040,6 @@ func act_slot(id: String) -> void:
 	var here: String = slot[id]
 	if solved.t2:   # in order: they stay so
 		say_game("Standard-bearers", PUZZLES.text("procession.standards", "success"))
-		return
-	if mouth.carrying() != "":
-		say_game("Scribe", _hands_message())
 		return
 	if held == "":
 		if here == "":
@@ -1144,9 +1143,6 @@ func kind_of(_piece: String) -> String:
 ## At the hauling: take up the rope (and record the figure clicked).
 func take_rope(h: Dictionary) -> void:
 	_add_journal(h)
-	if _hands_full():
-		say_game("Scribe", _hands_message())
-		return
 	_set_hover({})
 	avatar.stop()
 	avatar.set_process(false)   # you stand on the rope in the hauler's place (see _process)
@@ -1156,10 +1152,12 @@ func take_rope(h: Dictionary) -> void:
 	var hauler: CanvasItem = haul.sprite_of("haul_hauler")   # you fade into his pose
 	if haul.instant:
 		avatar.modulate.a = 0.0
+		mouth.adze_object.sprite.modulate.a = 0.0
 		return
 	hauler.modulate.a = 0.0
 	var t := create_tween()
 	t.tween_property(avatar, "modulate:a", 0.0, INTO_POSE)
+	t.parallel().tween_property(mouth.adze_object.sprite, "modulate:a", 0.0, INTO_POSE)   # a worn adze goes with you
 	t.parallel().tween_property(hauler, "modulate:a", 1.0, INTO_POSE)
 
 
@@ -1167,6 +1165,8 @@ func take_rope(h: Dictionary) -> void:
 func _stand_piece_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
 		ending.unhold()
+	elif event is InputEventMouseMotion:
+		ending.snap_held(get_global_mouse_position())
 	elif event is InputEventMouseButton and not event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		if ending.place_rect().has_point(get_global_mouse_position()):
 			ending.set_down()
@@ -1181,8 +1181,10 @@ func _off_rope() -> void:
 	avatar.set_process(true)
 	if haul.instant:
 		avatar.modulate.a = 1.0
+		mouth.adze_object.sprite.modulate.a = 1.0
 	else:
 		create_tween().tween_property(avatar, "modulate:a", 1.0, INTO_POSE)
+		create_tween().tween_property(mouth.adze_object.sprite, "modulate:a", 1.0, INTO_POSE)
 
 
 ## A piece of the offering stand: take it from where it lies hidden (it goes onto you), or set
@@ -1261,8 +1263,11 @@ func act_mouth(id: String, p := Vector2.INF) -> void:
 				walk_then(_reach(mouth.words_rect(), p), func():
 					mouth.take_words()
 					mouth.words_object.request_description())
-		"mummy":
-			_descriptions.show("anubis_and_the_mummy", hud, _description_variant("anubis_and_the_mummy"))
+		"mummy":   # with the adze in hand: go to the mummy and carve
+			if mouth.carrying() == "adze":
+				enter_mouth()
+			else:
+				_descriptions.show("anubis_and_the_mummy", hud, _description_variant("anubis_and_the_mummy"))
 		"home":
 			walk_then(_reach(mouth.home_rect(), p), mouth.place_words)
 		"back":     # where the adze or the words were taken from: they go back there

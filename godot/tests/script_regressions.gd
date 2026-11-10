@@ -177,8 +177,8 @@ func _test_procession_scene_pieces() -> void:
 		"editor displays restored water, stela imprint, kneeler and words above Ra")
 	_expect(nodes.stand.position == Vector2(data.ending.hide.stand.x, data.ending.hide.stand.y) + nodes.stand.texture.get_size() / 2.0
 		and nodes.sun.get_parent() == nodes.haul_sledge.get_child(0)
-		and is_equal_approx(nodes.lotus.rotation_degrees, 90.0)
-		and is_equal_approx(nodes.lotus.position.x, data.ending.hide.lotus.cx),
+		and absf(nodes.lotus.rotation_degrees - data.ending.hide.lotus.rot) < 0.01
+		and absf(nodes.lotus.position.x - data.ending.hide.lotus.cx) < 0.01,
 		"editor puts stand, sun and turned lotus in their hidden starting locations")
 	var props := true
 	for id in ["mouth_column", "mouth_spoon"]:

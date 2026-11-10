@@ -30,6 +30,7 @@ const NAMES := {"stand": "the offering stand", "sun": "the sun disc", "lotus": "
 const TAGS := {"stand": "Offering stand", "sun": "Sun disc", "lotus": "Lotus"}
 const IMPRINT := UI.PREVIEW   ## the imprint on the stela: faint and reddish
 const IMPRINT_FADE := 1.5    ## s for the imprint to go once the stand stands
+const SNAP := 35.0           ## how near its place a piece must be carried to go on, without letting go
 const KNEEL := 0.8           ## s for you to sink into the adorer's place
 const RAYS := 1.6            ## s for the light to spread from the two suns ...
 const FLOOD := 0.9           ## ... and to fill the screen
@@ -204,6 +205,7 @@ func hold(nm: String) -> void:
 	worn.erase(nm)
 	held = nm
 	_nodes[nm].z_index = 10
+	_nodes[nm].flip_h = false    # in hand it faces as it will stand at its place, not as it was worn
 	_follow()
 	changed.emit()
 
@@ -215,6 +217,7 @@ func unhold() -> void:
 	objects[held].cancel_hold()
 	worn.append(held)
 	_nodes[held].z_index = 5
+	_nodes[held].flip_h = WORN[held].flip
 	held = ""
 	_follow()
 	changed.emit()
@@ -249,6 +252,16 @@ func set_down() -> String:
 	said.emit(TAGS[choice[0]], PUZZLES.text("procession.offering_stand", "feedback", "unsupported_stela" if imprint_shown else "unsupported") % _cap(NAMES[choice[0]]))
 	unhold()
 	return "unsupported"
+
+
+## The piece in hand goes on as soon as it is carried to its place, if what it rests on is there
+## (no need to let go, as at the offering table). Returns whether it went on.
+func snap_held(p: Vector2) -> bool:
+	if held == "" or not (RESTS_ON[held] == "" or placed.has(RESTS_ON[held])):
+		return false
+	if p.distance_to(_rects[held].get_center()) > SNAP:
+		return false
+	return set_down() == "placed"
 
 
 ## Ra points out the stand's foundation while a part is carried or worn.

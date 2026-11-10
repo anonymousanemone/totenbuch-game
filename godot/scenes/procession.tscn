@@ -1316,8 +1316,8 @@ texture = ExtResource("tex_stand")
 metadata/piece_id = "stand"
 
 [node name="lotus" type="Sprite2D" parent="pieces/ending" unique_id=1177462859]
-position = Vector2(2980, 223.1)
-rotation = 1.5707964
+position = Vector2(2826.0002, 247.00009)
+rotation = 1.7470746
 texture = ExtResource("tex_lotus")
 metadata/piece_id = "lotus"
 

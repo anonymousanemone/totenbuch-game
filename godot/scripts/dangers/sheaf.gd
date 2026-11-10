@@ -363,9 +363,7 @@ func _sheaf_place() -> void:
 		peek.visible = pr > 0.5 and k >= 1.0
 		peek.region_rect = Rect2(x0, 0.0, size.x - x0, pr)
 		peek.position = game.fight.snake_at + Vector2(x0, top + _band_y(game.fight.dart_at) - st.position.y - pr)
-	if game.fight.phase == "pinned":
-		a.scale = Vector2(1.0 + 0.04 * sin(game.fight.clock * 40.0), 1.0 - 0.04 * sin(game.fight.clock * 40.0))
-	elif game.fight.dart_at == 0:     # a bite from the top: its head comes at him
+	if game.fight.phase != "pinned" and game.fight.dart_at == 0:   # pinned, it is held still (no squash)     # a bite from the top: its head comes at him
 		a.position.x += SHEAF_LUNGE * game.unit * dart
 	if hunting and sn.at == 0 and dart == 0.0:
 		a.scale = Vector2(1.0, 1.0 + 0.02 * sin(game.fight.clock * TAU / 1.2))   # breathing

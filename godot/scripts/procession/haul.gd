@@ -141,6 +141,8 @@ func start() -> void:
 	if active or done:
 		return
 	active = true
+	_shy_t = 0.0             # taken up mid-shudder: the rope is still at once
+	_rope.rotation = 0.0
 	_nodes.haul_hauler.visible = true
 	phase = Phase.OPENING
 	good = 0

@@ -1,6 +1,6 @@
 {
  "source": "art/survival43-63.mdp",
- "sha256": "3fbcba51e6bdb10affc23977a4cb2ad892403662311bd1842784d44dff97303f",
+ "sha256": "b8aa3d14fb956f0028a1584425812af4dbfe7bd827ad9e586eee8ed674b20bfa",
  "width": 9094,
  "height": 1500,
  "ground": 534,
@@ -199,7 +199,7 @@
    "spell": 48,
    "source_layer": 1040
   },
-  "spell53_offerings": {
+  "spell53_seated_man": {
    "x": 4291,
    "y": 58,
    "w": 481,
@@ -358,6 +358,14 @@
    "h": 113,
    "spell": 58,
    "source_layer": 1069
+  },
+  "spell53_caption_1129": {
+   "x": 4291,
+   "y": 58,
+   "w": 481,
+   "h": 124,
+   "spell": 53,
+   "source_layer": 1129
   }
  },
  "columns": [
@@ -393,14 +401,6 @@
   }
  ],
  "pieces": {
-  "spell43_sceptres": {
-   "x": 8836,
-   "y": 260,
-   "w": 42,
-   "h": 247,
-   "figure": "spell43_osiris",
-   "source_layer": 1082
-  },
   "spell44_door": {
    "x": 8228,
    "y": 270,
@@ -413,23 +413,23 @@
    "x": 8533,
    "y": 252,
    "w": 43,
-   "h": 39,
+   "h": 44,
    "figure": "spell44_staff_bearer",
    "source_layer": 1084
   },
   "spell45_mummy_head": {
-   "x": 7993,
+   "x": 7994,
    "y": 232,
-   "w": 49,
-   "h": 48,
+   "w": 56,
+   "h": 57,
    "figure": "spell45_mummy",
    "source_layer": 1086
   },
   "spell47_ba": {
-   "x": 7430,
+   "x": 7436,
    "y": 408,
-   "w": 100,
-   "h": 105,
+   "w": 84,
+   "h": 104,
    "figure": "spell47_bird_shrine",
    "source_layer": 1087
   },
@@ -468,18 +468,10 @@
   "spell52_chair": {
    "x": 5147,
    "y": 390,
-   "w": 105,
+   "w": 124,
    "h": 138,
    "figure": "spell52_seated_man",
    "source_layer": 1091
-  },
-  "spell52_forearm": {
-   "x": 5248,
-   "y": 344,
-   "w": 93,
-   "h": 42,
-   "figure": "spell52_seated_man",
-   "source_layer": 1092
   },
   "spell52_head": {
    "x": 5159,
@@ -489,84 +481,20 @@
    "figure": "spell52_seated_man",
    "source_layer": 1093
   },
-  "spell53_altar": {
-   "x": 4547,
-   "y": 416,
-   "w": 127,
-   "h": 116,
-   "figure": "spell53_offerings",
-   "source_layer": 1123
-  },
-  "spell53_loaf1": {
-   "x": 4544,
-   "y": 398,
-   "w": 26,
-   "h": 18,
-   "figure": "spell53_offerings",
-   "source_layer": 1099
-  },
-  "spell53_loaf2": {
-   "x": 4570,
-   "y": 398,
-   "w": 30,
-   "h": 18,
-   "figure": "spell53_offerings",
-   "source_layer": 1098
-  },
-  "spell53_loaf3": {
-   "x": 4600,
-   "y": 387,
-   "w": 26,
-   "h": 29,
-   "figure": "spell53_offerings",
-   "source_layer": 1100
-  },
-  "spell53_loaf4": {
-   "x": 4626,
-   "y": 398,
-   "w": 24,
-   "h": 18,
-   "figure": "spell53_offerings",
-   "source_layer": 1097
-  },
-  "spell53_loaf5": {
-   "x": 4650,
-   "y": 398,
-   "w": 22,
-   "h": 18,
-   "figure": "spell53_offerings",
-   "source_layer": 1096
-  },
-  "spell53_loaf6": {
-   "x": 4543,
-   "y": 365,
-   "w": 61,
-   "h": 33,
-   "figure": "spell53_offerings",
-   "source_layer": 1095
-  },
-  "spell53_loaf7": {
-   "x": 4604,
-   "y": 362,
-   "w": 74,
-   "h": 36,
-   "figure": "spell53_offerings",
-   "source_layer": 1094
-  },
   "spell53_chair": {
    "x": 4382,
    "y": 382,
    "w": 114,
    "h": 147,
-   "figure": "spell53_offerings",
+   "figure": "spell53_seated_man",
    "source_layer": 1101
   },
   "spell53_forearm": {
-   "x": 4496,
-   "y": 287,
-   "w": 76,
-   "h": 69,
-   "figure": "spell53_offerings",
+   "x": 4498,
+   "y": 308,
+   "w": 29,
+   "h": 48,
+   "figure": "spell53_seated_man",
    "source_layer": 1102
   },
   "spell53_head": {
@@ -574,7 +502,7 @@
    "y": 255,
    "w": 49,
    "h": 46,
-   "figure": "spell53_offerings",
+   "figure": "spell53_seated_man",
    "source_layer": 1103
   },
   "spell59_seated_man": {
@@ -586,10 +514,10 @@
    "source_layer": 1124
   },
   "spell59_stream": {
-   "x": 1726,
-   "y": 262,
-   "w": 57,
-   "h": 134,
+   "x": 1729,
+   "y": 268,
+   "w": 46,
+   "h": 83,
    "figure": "spell59_tree",
    "source_layer": 1104
   },
@@ -649,35 +577,19 @@
    "figure": "spell59_caption_1071",
    "source_layer": 1106
   },
-  "spell57_lower_body": {
-   "x": 3152,
-   "y": 389,
-   "w": 90,
-   "h": 141,
-   "figure": "spell57_tree",
-   "source_layer": 1125
-  },
-  "spell57_upper_body": {
-   "x": 3151,
-   "y": 280,
-   "w": 76,
-   "h": 109,
-   "figure": "spell57_tree",
-   "source_layer": 1112
-  },
   "spell57_stream": {
-   "x": 3083,
+   "x": 3076,
    "y": 192,
-   "w": 68,
-   "h": 176,
+   "w": 63,
+   "h": 131,
    "figure": "spell57_tree",
-   "source_layer": 1113
+   "source_layer": 1147
   },
   "spell57_tray": {
    "x": 3012,
    "y": 287,
-   "w": 81,
-   "h": 41,
+   "w": 75,
+   "h": 39,
    "figure": "spell57_tree",
    "source_layer": 1114
   },
@@ -685,7 +597,7 @@
    "x": 777,
    "y": 238,
    "w": 71,
-   "h": 43,
+   "h": 76,
    "figure": "spell62_breath",
    "source_layer": 1115
   },
@@ -693,7 +605,7 @@
    "x": 1097,
    "y": 238,
    "w": 73,
-   "h": 43,
+   "h": 74,
    "figure": "spell61_breath",
    "source_layer": 1116
   },
@@ -701,7 +613,7 @@
    "x": 1436,
    "y": 240,
    "w": 55,
-   "h": 41,
+   "h": 67,
    "figure": "spell60_breath",
    "source_layer": 1117
   },
@@ -709,7 +621,7 @@
    "x": 3504,
    "y": 229,
    "w": 51,
-   "h": 48,
+   "h": 72,
    "figure": "spell56_ankh",
    "source_layer": 1118
   },
@@ -717,7 +629,7 @@
    "x": 3764,
    "y": 247,
    "w": 55,
-   "h": 44,
+   "h": 55,
    "figure": "spell55_breath",
    "source_layer": 1119
   },
@@ -725,36 +637,36 @@
    "x": 4184,
    "y": 247,
    "w": 64,
-   "h": 36,
+   "h": 53,
    "figure": "spell54_breath",
    "source_layer": 1120
   },
   "spell58_sail": {
-   "x": 2305,
+   "x": 2332,
    "y": 235,
-   "w": 91,
-   "h": 45,
+   "w": 64,
+   "h": 73,
    "figure": "spell58_drinking",
    "source_layer": 1121
   },
   "spell43_sceptre1": {
-   "x": 8836,
+   "x": 8832,
    "y": 260,
-   "w": 14,
+   "w": 24,
    "h": 246,
    "figure": "spell43_osiris",
-   "source_layer": 1082
+   "source_layer": 1156
   },
   "spell43_sceptre2": {
-   "x": 8846,
+   "x": 8844,
    "y": 260,
-   "w": 16,
+   "w": 23,
    "h": 246,
    "figure": "spell43_osiris",
-   "source_layer": 1082
+   "source_layer": 1157
   },
   "spell43_sceptre3": {
-   "x": 8856,
+   "x": 8854,
    "y": 261,
    "w": 22,
    "h": 246,
@@ -762,12 +674,228 @@
    "source_layer": 1082
   },
   "spell45_mummy_body": {
-   "x": 7993,
-   "y": 280,
-   "w": 78,
-   "h": 248,
+   "x": 7991,
+   "y": 271,
+   "w": 80,
+   "h": 257,
    "figure": "spell45_mummy",
    "source_layer": 1085
+  },
+  "spell52_arm": {
+   "x": 5219,
+   "y": 312,
+   "w": 42,
+   "h": 53,
+   "figure": "spell52_seated_man",
+   "source_layer": 1092
+  },
+  "spell52_forearm": {
+   "x": 5256,
+   "y": 360,
+   "w": 85,
+   "h": 23,
+   "figure": "spell52_seated_man",
+   "source_layer": 1126
+  },
+  "spell52_excrement": {
+   "x": 5154,
+   "y": 113,
+   "w": 36,
+   "h": 28,
+   "figure": "spell52_caption_1049",
+   "source_layer": 1127
+  },
+  "spell53_offering_table": {
+   "x": 4547,
+   "y": 414,
+   "w": 127,
+   "h": 118,
+   "figure": "spell53_seated_man",
+   "source_layer": 1123
+  },
+  "spell53_loaf1": {
+   "x": 4546,
+   "y": 402,
+   "w": 21,
+   "h": 17,
+   "figure": "spell53_seated_man",
+   "source_layer": 1131
+  },
+  "spell53_loaf2": {
+   "x": 4571,
+   "y": 402,
+   "w": 23,
+   "h": 14,
+   "figure": "spell53_seated_man",
+   "source_layer": 1132
+  },
+  "spell53_loaf3": {
+   "x": 4601,
+   "y": 388,
+   "w": 22,
+   "h": 28,
+   "figure": "spell53_seated_man",
+   "source_layer": 1133
+  },
+  "spell53_loaf4": {
+   "x": 4625,
+   "y": 399,
+   "w": 23,
+   "h": 17,
+   "figure": "spell53_seated_man",
+   "source_layer": 1134
+  },
+  "spell53_loaf5": {
+   "x": 4652,
+   "y": 398,
+   "w": 19,
+   "h": 18,
+   "figure": "spell53_seated_man",
+   "source_layer": 1135
+  },
+  "spell53_loaf6": {
+   "x": 4543,
+   "y": 389,
+   "w": 61,
+   "h": 15,
+   "figure": "spell53_seated_man",
+   "source_layer": 1136
+  },
+  "spell53_loaf7": {
+   "x": 4622,
+   "y": 384,
+   "w": 56,
+   "h": 16,
+   "figure": "spell53_seated_man",
+   "source_layer": 1137
+  },
+  "spell53_whisp1": {
+   "x": 4544,
+   "y": 368,
+   "w": 32,
+   "h": 22,
+   "figure": "spell53_seated_man",
+   "source_layer": 1138
+  },
+  "spell53_whisp2": {
+   "x": 4571,
+   "y": 366,
+   "w": 28,
+   "h": 25,
+   "figure": "spell53_seated_man",
+   "source_layer": 1139
+  },
+  "spell53_whisp3": {
+   "x": 4595,
+   "y": 365,
+   "w": 26,
+   "h": 26,
+   "figure": "spell53_seated_man",
+   "source_layer": 1140
+  },
+  "spell53_whisp4": {
+   "x": 4618,
+   "y": 362,
+   "w": 30,
+   "h": 25,
+   "figure": "spell53_seated_man",
+   "source_layer": 1141
+  },
+  "spell53_whisp5": {
+   "x": 4643,
+   "y": 362,
+   "w": 28,
+   "h": 24,
+   "figure": "spell53_seated_man",
+   "source_layer": 1094
+  },
+  "spell53_arm": {
+   "x": 4449,
+   "y": 303,
+   "w": 56,
+   "h": 53,
+   "figure": "spell53_seated_man",
+   "source_layer": 1130
+  },
+  "spell53_hand": {
+   "x": 4523,
+   "y": 288,
+   "w": 49,
+   "h": 30,
+   "figure": "spell53_seated_man",
+   "source_layer": 1142
+  },
+  "spell47_seat": {
+   "x": 7329,
+   "y": 81,
+   "w": 64,
+   "h": 50,
+   "figure": "spell47_caption_1038",
+   "source_layer": 1159
+  },
+  "breath_loc1": {
+   "x": 2178,
+   "y": 64,
+   "w": 69,
+   "h": 65,
+   "figure": null,
+   "source_layer": 1162
+  },
+  "breath_loc2": {
+   "x": 2533,
+   "y": 196,
+   "w": 75,
+   "h": 50,
+   "figure": null,
+   "source_layer": 1162
+  },
+  "breath_loc3": {
+   "x": 2957,
+   "y": 75,
+   "w": 84,
+   "h": 70,
+   "figure": null,
+   "source_layer": 1162
+  },
+  "breath_loc4": {
+   "x": 4090,
+   "y": 61,
+   "w": 79,
+   "h": 53,
+   "figure": null,
+   "source_layer": 1162
+  },
+  "spell58_nw": {
+   "x": 2305,
+   "y": 267,
+   "w": 24,
+   "h": 18,
+   "figure": "spell58_drinking",
+   "source_layer": 1155
+  },
+  "spell45_tm": {
+   "x": 8033,
+   "y": 116,
+   "w": 72,
+   "h": 43,
+   "figure": "spell45_caption_1033",
+   "source_layer": 1158
+  },
+  "spell57_man": {
+   "x": 3092,
+   "y": 280,
+   "w": 150,
+   "h": 250,
+   "figure": "spell57_tree",
+   "source_layer": 1125
+  },
+  "spell45_arm": {
+   "x": 7989,
+   "y": 274,
+   "w": 31,
+   "h": 5,
+   "figure": "spell45_mummy",
+   "source_layer": 1167
   }
  },
  "avatars": {
@@ -782,6 +910,36 @@
    "y": 258,
    "w": 125,
    "h": 272
+  }
+ },
+ "rigs": {
+  "spell52": {
+   "shoulder": [
+    5219.0,
+    312.0
+   ],
+   "elbow": [
+    5257.8,
+    361.9
+   ],
+   "tip": [
+    5340.0,
+    382.0
+   ]
+  },
+  "spell53": {
+   "shoulder": [
+    4450.0,
+    303.0
+   ],
+   "elbow": [
+    4500.7,
+    351.0
+   ],
+   "wrist": [
+    4524.2,
+    310.8
+   ]
   }
  }
 }

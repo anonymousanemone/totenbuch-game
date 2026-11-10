@@ -727,6 +727,11 @@ func _solve(e: Dictionary, item := "") -> void:
 		var pic: String = e.foes[0] if e.kind == "crocs" else e.get("foe", item)
 		_descriptions.remember(e.id, hud, journal, load(ASSET % pic), _descriptions.journal_total(), "settled")
 	_refresh()
+	if current.is_empty() and not finished:   # the last danger overcome: the level ends where you are
+		var revision: int = _session
+		get_tree().create_timer(END_DELAY, false).timeout.connect(func():
+			if revision == _session:
+				finish())
 
 
 func finish() -> void:
@@ -741,6 +746,7 @@ func finish() -> void:
 			_breath_wipe())
 
 
+const END_DELAY := 1.8          ## after the last danger, before the ending (with finish's 1.2 s, about 3 s to the wipe)
 const WIPE_SAILS := 7           ## breath signs in the column that sweeps the level away
 const WIPE_GROW := 0.7          ## the first one grows to the middle of the screen (s)
 const WIPE_GATHER := 0.5        ## then it shrinks off to the right, and the others join it (s)

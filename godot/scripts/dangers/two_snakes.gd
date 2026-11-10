@@ -21,7 +21,7 @@ func _init(level) -> void:
 # rising, too late and it is past and bites. A thrust at a snake still coiled: it sees the spear
 # and springs at once. Struck `need` times, a snake falls where it is drawn; both fallen, the fight
 # is won. `warn`, `crouch`, `snap` and `reach` go from the first value to the second over the
-# strikes. Bitten CROC_HEALTH times, he crumbles and is back on the scroll.
+# strikes. Bitten CROC_HEALTH times, the snakes laugh, he crumbles and is back on the scroll.
 const TWIN_FALL := 0.6          ## a snake struck for the last time sinks down (s)
 const TWIN_BACK := 0.5          ## after biting or being struck, it slides back to where it waits (s)
 const TWIN_BUSY := ["warn", "crouch", "snap", "bitten", "back", "pinned", "fall"]
@@ -226,8 +226,19 @@ func _twin_bites(s: Dictionary) -> void:
 		game.fight.lost = true
 		var e: Dictionary = game.fight.e
 		game.say("Scribe", game._hints.message("dangers.defeated"))
-		game._disintegrate(e)
 		var t = game._fight_tween()
+		for x in game.fight.snakes:   # the ones still up laugh (squash up and down), as the crocodiles do
+			if x.phase in ["fall", "fallen"]:
+				continue
+			var a: Node2D = x.node
+			var side: float = signf(a.scale.x)
+			var laugh = game._fight_tween()
+			for i in 4:
+				laugh.tween_property(a, "scale", Vector2(1.06 * side, 0.78), 0.1)
+				laugh.tween_property(a, "scale", Vector2(0.96 * side, 1.12), 0.1)
+			laugh.tween_property(a, "scale", Vector2(side, 1.0), 0.08)
+		t.tween_interval(0.88)
+		t.tween_callback(func(): game._disintegrate(e))
 		t.tween_interval(2.0)
 		t.tween_callback(func():
 			if not game.fight.is_empty() and game.fight.kind == "twin" and game.fight.e.id == e.id and game.fight.lost:

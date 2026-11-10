@@ -45,7 +45,7 @@ func _run() -> void:
 	expect(not scene.pieces.spell59_seated_man.visible and not scene.pieces.spell59_stream.visible, "the 59 chair is empty and no water flows")
 	expect(not scene.figures.spell52_seated_man.visible and not scene.figures.spell53_seated_man.visible, "the 52 and 53 chairs are empty")
 	expect(not scene.pieces.spell53_loaf1.visible and not scene.pieces.spell53_whisp5.visible, "the 53 table is bare")
-	expect(not scene.figures.spell43_worshipper.visible and not scene.figures.spell51_walking_man.visible, "the figures he stands in for are hidden")
+	expect(not scene.figures.has("spell43_worshipper") and not scene.figures.spell51_walking_man.visible, "the figures he stands in for are hidden")
 	expect(scene._look == "43", "he starts as the 43 worshipper")
 
 	# 43: the sceptres go onto his back
@@ -279,7 +279,7 @@ func _run() -> void:
 	scene._carried.clear()
 	scene._die("51", scene.avatar.position, -1)
 	await seconds(4.0)
-	expect(scene.mode == scene.Mode.WALK and scene.claimed and is_equal_approx(scene.avatar.position.x, (scene.IMPRINT_X[0] + scene.IMPRINT_X[1]) / 2.0), "47: dead, claimed: he comes back at the pylon")
+	expect(scene.mode == scene.Mode.WALK and scene.claimed and is_equal_approx(scene.avatar.position.x, scene.RESPAWN_X), "47: dead, claimed: he comes back at the pylon")
 	expect(scene._imprints_full and scene._imprints[0].modulate.a == 1.0, "47: the imprints are full ink")
 	scene._take_back()
 	expect(scene._carried.size() == 2 and scene._carried.all(func(o): return o.sprite.visible) and not scene._imprints_full, "47: he takes back the sceptres he claimed with")

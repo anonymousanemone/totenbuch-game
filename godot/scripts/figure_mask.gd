@@ -5,7 +5,9 @@ extends RefCounted
 ## Repacks the line drawing for figure.gdshader, with empty padding all round for the halo:
 ## R = ink, G = inside the figure's outline. Inside = everything the outside can't reach, after
 ## small gaps in the outline are sealed (so a broken stroke doesn't let the outside leak in).
-static func create_texture(texture: Texture2D, padding: int) -> ImageTexture:
+## `open`: points (source px) in closed loops that are not the figure, such as between an arm and
+## the body; they are flooded as outside too.
+static func create_texture(texture: Texture2D, padding: int, open: Array = []) -> ImageTexture:
 	var source := texture.get_image()
 	if source.is_compressed():
 		source.decompress()
@@ -28,6 +30,8 @@ static func create_texture(texture: Texture2D, padding: int) -> ImageTexture:
 	for y in height:
 		pending_pixels.append(y * width)
 		pending_pixels.append(y * width + width - 1)
+	for point in open:
+		pending_pixels.append((int(point.y) + padding) * width + int(point.x) + padding)
 	while not pending_pixels.is_empty():
 		var index: int = pending_pixels[pending_pixels.size() - 1]
 		pending_pixels.resize(pending_pixels.size() - 1)

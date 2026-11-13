@@ -1,0 +1,7 @@
+{
+ "messages": {
+  "field.explore": "Walk with [\u2190] [\u2192] or click the papyrus. [\u2191] [\u2193], or a click on the water above or below, cross to the next register. Figures and captions glow under the pointer; click one to read about it. The whole scroll is open to explore.",
+  "field.start": "Three registers lie framed by water. Walk left along this one, or cross to the next with [\u2191] [\u2193]. Click a figure or a caption to read about it, or open the Journal to see what you have read."
+ },
+ "puzzles": {}
+}

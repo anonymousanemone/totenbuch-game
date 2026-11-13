@@ -57,7 +57,7 @@ func _run() -> void:
 		expect(level.mouth._adze.transform == level.mouth._adze_home_transform, "returning a mirrored adze restores its stand pose")
 		level.mouth.take_adze()
 		var stand: float = level._mouth_stand_x()
-		var woman: Rect2 = level._descriptions.region_bounds(level._inspection_regions["kneeling_woman"])
+		var woman: Rect2 = level._hot_rect("kneeling_woman")
 		expect(stand == level.get_node("pieces/opening_mouth/StandPosition").global_position.x
 			and stand > level.mouth.face_view().end.x and stand < woman.position.x,
 			"mouth approach position lies between the mummy and kneeling woman")

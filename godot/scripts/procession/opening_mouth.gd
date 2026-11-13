@@ -310,8 +310,7 @@ func place_words() -> void:
 	_words.position = _words_home.get_center()
 	_words.scale = Vector2.ONE
 	_imprint.visible = false
-	said.emit("Scribe", PUZZLES.text("procession.opening_mouth", "success"))
-	changed.emit()
+	changed.emit()     # the level reads them out (procession.gd _check)
 
 
 func _process(_delta: float) -> void:

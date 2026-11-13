@@ -28,6 +28,7 @@ func _ready() -> void:
 	_start = avatar.position
 	avatar.speed *= _unit
 	avatar.bob_height *= _unit
+	_descriptions.use_boxes($Hitboxes)
 	for node in $Figures.find_children("*", "Sprite2D", true, false):
 		if not node.has_meta("registry_id"):
 			continue
@@ -85,8 +86,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			walk_then(point.x)
 		else:
 			var bounds: Rect2 = figures[id].global_transform * figures[id].get_rect()
-			var x: float = avatar.position.x
-			var destination := point.x if x >= bounds.position.x and x <= bounds.end.x else clampf(x, bounds.position.x, bounds.end.x)
+			var destination: float = avatar.reach(bounds)
 			walk_then(destination, record.bind(id))
 
 

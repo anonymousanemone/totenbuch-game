@@ -72,11 +72,12 @@ func refresh() -> void:
 				continue
 			var key: String = card.get_meta("key")
 			var pic: TextureRect = card.get_node("Frame/Picture")
-			var built: bool = Scroll.is_built(key)
-			pic.modulate.a = 1.0 if built else 0.22
-			pic.get_node("Restored").visible = key in Scroll.restored
+			var done: bool = key in Scroll.restored
+			var inked := done or (Scroll.unlock_all and Scroll.is_built(key))   # restored scenes, or in debug every built one, are in dark ink
+			pic.modulate.a = 1.0 if inked else 0.22
+			pic.get_node("Restored").visible = done
 			pic.get_node("Current").visible = key == Scroll.current()
-			card.get_node("Title").add_theme_color_override("font_color", UI.INK if built else UI.RULE)
+			card.get_node("Title").add_theme_color_override("font_color", UI.INK if inked else UI.RULE)
 	choose(chosen)
 
 
@@ -90,10 +91,12 @@ func choose(key: String) -> void:
 	var entry := Scroll.scene(key)
 	chosen_name.text = entry.title
 	chosen_about.text = entry.about
-	chosen_go.disabled = not Scroll.is_built(key)
-	chosen_view.visible = key in Scroll.restored and Scroll.is_built(key)
+	chosen_go.disabled = not Scroll.is_open(key)
+	chosen_view.visible = Scroll.can_view(key)
 	if not Scroll.is_built(key):
 		chosen_go.text = "Not yet made"
+	elif not Scroll.is_open(key):
+		chosen_go.text = "Locked"
 	elif key in Scroll.restored:
 		chosen_go.text = "Play again"
 	else:

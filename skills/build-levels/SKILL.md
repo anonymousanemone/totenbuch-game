@@ -46,6 +46,31 @@ where needed so the avatar actually disappears behind the text columns.
 If a later level requires movable objects, reuse `moveable_object.gd` and the existing
 placement validation and recovery rules, as specified in `AGENTS.md`.
 
+## Hitboxes
+
+A click on a figure hits its drawing filled in (the outline and everything it encloses)
+plus a few px of air: `descriptions.gd` `hit()`, the same in every level. Never pick by
+thin ink alone or by a rectangle.
+
+Every level scene has one `Hitboxes` node (a `Node2D` at the scene root) holding one
+light-blue box per figure, an `Area2D` named after its registry ID with a `Shape`
+child, so all of them can be shown or hidden with one click in the editor. These boxes
+are a reference for looking at only: no code reads them. The exceptions carry
+`metadata/hit_by_box = true` and are hit by their box instead of their drawing: every
+caption (except the dragged words in Procession), and figures that share one drawing
+(Procession's eight poles, and the bier and censer priest in the sledge drawing).
+Each level passes its node to `_descriptions.use_boxes($Hitboxes)` in `_ready`.
+
+After adding figures to a scene, draw their boxes (it only adds boxes that are missing,
+marks captions `hit_by_box`, and leaves existing and hand-edited boxes alone):
+
+```bash
+/Applications/Godot.app/Contents/MacOS/Godot --headless --path godot -s ../tools/hitboxes.gd -- <level>
+```
+
+In tests, click a point on a figure's drawing, not the middle of its bounds, which may
+be empty paper.
+
 ## Integrate with the scroll
 
 Use the level's existing key in `godot/scripts/scroll.gd`, or add an entry when needed.

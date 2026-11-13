@@ -99,11 +99,10 @@ func _test_procession_hitboxes() -> void:
 		json_boxes["GooseBearerHit" if id == "arms" else id] = data.slots[id]
 	var scene = load("res://scenes/procession.tscn").instantiate()
 	var count := 0
-	for area in scene.find_children("*", "Area2D", true, false):
-		if not area.get_parent() is Sprite2D:
+	for area in scene.get_node("Hitboxes").get_children():
+		if str(area.name).begins_with("caption_"):
 			continue
 		count += 1
-		var sprite: Sprite2D = area.get_parent()
 		var actual := DESCRIPTIONS.region_bounds(area)
 		var id: String = area.get_meta("registry_id", area.get_meta("interaction_id", ""))
 		var stored: Dictionary = json_boxes.get(id, {})
@@ -118,7 +117,7 @@ func _test_procession_hitboxes() -> void:
 		_expect(not shape.disabled and actual.size.x > 0.0 and actual.size.y > 0.0
 			and actual.position.is_finite() and actual.size.is_finite(),
 			"manually authored figure box is enabled and has valid bounds: " + id)
-	_expect(count == 40, "all 31 describable figures, eight bearers and the goose-bearer own saved boxes")
+	_expect(count == 40, "all 31 describable figures, eight bearers and the goose-bearer keep their saved boxes, under Hitboxes")
 	scene.free()
 	var image := Image.create(20, 15, false, Image.FORMAT_RGBA8)
 	image.fill(Color.TRANSPARENT)
@@ -135,6 +134,20 @@ func _test_procession_hitboxes() -> void:
 	_expect(DESCRIPTIONS.sprite_bounds(sprite).size == Vector2(12, 15),
 		"flipping a sprite preserves the tight hitbox size")
 	sprite.free()
+	# A hollow drawing: its outline and everything it encloses is hit, with a few px of air round it.
+	var ring := Image.create(60, 60, false, Image.FORMAT_RGBA8)
+	ring.fill(Color.TRANSPARENT)
+	ring.fill_rect(Rect2i(10, 10, 40, 40), Color.BLACK)
+	ring.fill_rect(Rect2i(12, 12, 36, 36), Color.TRANSPARENT)
+	var figure := Sprite2D.new()
+	figure.texture = ImageTexture.create_from_image(ring)
+	figure.centered = false
+	root.add_child(figure)
+	var descriptions = DESCRIPTIONS.new("procession")
+	_expect(descriptions.hit(figure, Vector2(30, 30)) and descriptions.hit(figure, Vector2(8, 30))
+		and not descriptions.hit(figure, Vector2(30, 1)) and not descriptions.hit(figure, Vector2(58, 58)),
+		"a figure is hit inside its filled outline and just beside it, not well away from it")
+	figure.free()
 
 
 ## The editor arrangement intentionally mixes restored rites with hidden-piece starts.

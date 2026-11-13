@@ -21,17 +21,20 @@ func _run() -> void:
 	p.hud.dismiss_intro()
 	p.set_process(false)
 	p.avatar.set_process(false)
-	for region in p.find_children("*", "Area2D", true, false):
-		if not region.get_parent() is Sprite2D:
+	for h in p.hotspots:
+		if h.id in p.SLEDGE_PARTS:
 			continue
-		var sprite: Sprite2D = region.get_parent()
-		var before := DESCRIPTIONS.region_bounds(region)
-		sprite.position.x += 17.0
-		expect(DESCRIPTIONS.region_bounds(region).position.is_equal_approx(before.position + Vector2(17, 0)),
-			"saved hitbox follows its sprite in the running scene: " + region.name)
-		sprite.position.x -= 17.0
-	var region_ids: Array = p._inspection_regions.keys()
-	expect(region_ids.size() == p.hotspots.size() + p.CAPTIONS.size() and region_ids.all(func(id): return p._descriptions.entries.has(id)), "every saved inspection region resolves a unique registry ID")
+		var before: Rect2 = p._hot_rect(h.id)
+		var drawings: Array = p._hot_sprites(h.id)
+		var tops := drawings.filter(func(sprite): return not drawings.has(sprite.get_parent()))   # an arm moves with its figure
+		for sprite in tops:
+			sprite.position.x += 17.0
+		expect(p._hot_rect(h.id).position.is_equal_approx(before.position + Vector2(17, 0)),
+			"a figure's click area follows its drawing in the running scene: " + h.id)
+		for sprite in tops:
+			sprite.position.x -= 17.0
+	var region_ids: Array = p.get_node("Hitboxes").get_children().filter(func(r): return r.has_meta("registry_id")).map(func(r): return r.get_meta("registry_id"))
+	expect(region_ids.size() == p.hotspots.size() + p.CAPTIONS.size() and region_ids.all(func(id): return p._descriptions.entries.has(id)), "every saved box under Hitboxes resolves a unique registry ID")
 	var before_caption: int = p.journal.size()
 	p._descriptions.inspect("caption_1", p.hud, p.journal, p.get_node("Strip").texture, p.hotspots.size())
 	expect(p.journal.size() == before_caption and p.hud._tag_label.text == "Spell 1", "background captions use registry text without adding unwanted journal cards")
@@ -59,9 +62,9 @@ func _run() -> void:
 	expect(p._descriptions.text("calf", "unknown") == p._descriptions.text("calf"), "unknown states fall back to the default description")
 	var art: Sprite2D = p._inspection_sprites.stela
 	art.position.x += 60.0
-	var moved: Rect2 = DESCRIPTIONS.region_bounds(p._inspection_regions.stela)
+	var moved: Rect2 = p._hot_rect("stela")
 	var picked: Dictionary = p._pick(moved.get_center())
-	expect(picked.get("type") == "hot" and picked.spot.id == "stela", "saved inspection shape follows its sprite when moved in the scene")
+	expect(picked.get("type") == "hot" and picked.spot.id == "stela", "the stela is still picked where its drawing is moved to in the scene")
 	p.record(stela)
 	expect(p.hud._journal_entries["procession/stela"].picture.texture == art.texture, "sprite journal pictures use the actual saved sprite texture")
 	p._descriptions.entries["npc_a"] = {"name": "Priest", "descriptions": {"default": "An observed figure."}, "speech": "A spoken clue.", "speaker": "The priest", "journal": true}

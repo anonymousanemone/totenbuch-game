@@ -33,6 +33,7 @@ def main():
     suites.append(("life_mode", ["--script", "res://tests/life_mode_regressions.gd"], "LIFE MODE REGRESSIONS OK"))
     suites.append(("hints", ["--script", "res://tests/hint_regressions.gd"], "HINT REGRESSIONS OK"))
     suites.append(("cosmos", ["--script", "res://tests/cosmos_regressions.gd"], "COSMOS REGRESSIONS OK"))
+    suites.append(("field", ["--script", "res://tests/field_regressions.gd"], "FIELD REGRESSIONS OK"))
     suites.append(("gates", ["--script", "res://tests/gates_regressions.gd"], "GATES REGRESSIONS OK"))
     suites.append(("survival", ["--script", "res://tests/survival_regressions.gd"], "SURVIVAL REGRESSIONS OK"))
     suites.append(("survival_rites", ["--script", "res://tests/survival_rites_regressions.gd"], "SURVIVAL RITES REGRESSIONS OK"))

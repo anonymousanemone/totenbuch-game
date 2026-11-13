@@ -258,34 +258,12 @@ centered = false
 metadata/source_layer_id = "119"
 metadata/registry_id = "mourners"
 
-[node name="mourners" type="Area2D" parent="ArtworkLayers/mourners_119" unique_id=1928954537]
-position = Vector2(171, 161.5)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/registry_id = "mourners"
-
-[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/mourners_119/mourners" unique_id=737992424]
-shape = SubResource("inspection_mourners")
-
 [node name="mourning_women_121" type="Sprite2D" parent="ArtworkLayers" unique_id=1997278166]
 position = Vector2(13697, 218)
 texture = ExtResource("layer_121")
 centered = false
 metadata/source_layer_id = "121"
 metadata/registry_id = "women_mourners"
-
-[node name="women_mourners" type="Area2D" parent="ArtworkLayers/mourning_women_121" unique_id=481827089]
-position = Vector2(336.5, 154)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/registry_id = "women_mourners"
-
-[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/mourning_women_121/women_mourners" unique_id=1670137498]
-shape = SubResource("inspection_women_mourners")
 
 [node name="canopy_frame_127" type="Sprite2D" parent="ArtworkLayers" unique_id=1998625185]
 position = Vector2(13527, 236)
@@ -294,34 +272,12 @@ centered = false
 metadata/source_layer_id = "127"
 metadata/registry_id = "canopy_frame"
 
-[node name="canopy_frame" type="Area2D" parent="ArtworkLayers/canopy_frame_127" unique_id=1066007354]
-position = Vector2(71, 145)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/registry_id = "canopy_frame"
-
-[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/canopy_frame_127/canopy_frame" unique_id=942607841]
-shape = SubResource("inspection_canopy_frame")
-
 [node name="man_hauling_the_canopy_128" type="Sprite2D" parent="ArtworkLayers" unique_id=1977111158]
 position = Vector2(13297, 245)
 texture = ExtResource("layer_128")
 centered = false
 metadata/source_layer_id = "128"
 metadata/registry_id = "man_hauling_the_canopy"
-
-[node name="man_hauling_the_canopy" type="Area2D" parent="ArtworkLayers/man_hauling_the_canopy_128" unique_id=1409517334]
-position = Vector2(115, 140.5)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/registry_id = "man_hauling_the_canopy"
-
-[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/man_hauling_the_canopy_128/man_hauling_the_canopy" unique_id=667579983]
-shape = SubResource("inspection_man_hauling_the_canopy")
 
 [node name="anubis_on_a_chest_129" type="Sprite2D" parent="ArtworkLayers" unique_id=1071921291]
 position = Vector2(13032, 256)
@@ -330,17 +286,6 @@ centered = false
 metadata/source_layer_id = "129"
 metadata/registry_id = "anubis_on_a_chest"
 
-[node name="anubis_on_a_chest" type="Area2D" parent="ArtworkLayers/anubis_on_a_chest_129" unique_id=953190501]
-position = Vector2(125, 135)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/registry_id = "anubis_on_a_chest"
-
-[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/anubis_on_a_chest_129/anubis_on_a_chest" unique_id=821687529]
-shape = SubResource("inspection_anubis_on_a_chest")
-
 [node name="man_hauling_anubis_130" type="Sprite2D" parent="ArtworkLayers" unique_id=566533427]
 position = Vector2(12807, 254)
 texture = ExtResource("layer_130")
@@ -348,119 +293,11 @@ centered = false
 metadata/source_layer_id = "130"
 metadata/registry_id = "man_hauling_anubis"
 
-[node name="man_hauling_anubis" type="Area2D" parent="ArtworkLayers/man_hauling_anubis_130" unique_id=155719445]
-position = Vector2(120, 136)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/registry_id = "man_hauling_anubis"
-
-[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/man_hauling_anubis_130/man_hauling_anubis" unique_id=1540440979]
-position = Vector2(-7.5, 0)
-shape = SubResource("inspection_man_hauling_anubis")
-
 [node name="standard_bearers_131" type="Sprite2D" parent="ArtworkLayers" unique_id=1452843401]
 position = Vector2(9006, 246)
 texture = ExtResource("layer_131")
 centered = false
 metadata/source_layer_id = "131"
-
-[node name="pole1" type="Area2D" parent="ArtworkLayers/standard_bearers_131" unique_id=1391248116]
-position = Vector2(96, 143.5)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/interaction_id = "pole1"
-
-[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/standard_bearers_131/pole1" unique_id=525892152]
-position = Vector2(3, -30)
-shape = SubResource("hit_pole1")
-
-[node name="pole2" type="Area2D" parent="ArtworkLayers/standard_bearers_131" unique_id=8883589]
-position = Vector2(294, 144.5)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/interaction_id = "pole2"
-
-[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/standard_bearers_131/pole2" unique_id=1073565046]
-position = Vector2(5, -30.5)
-shape = SubResource("hit_pole2")
-
-[node name="pole3" type="Area2D" parent="ArtworkLayers/standard_bearers_131" unique_id=247583213]
-position = Vector2(496.5, 149.5)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/interaction_id = "pole3"
-
-[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/standard_bearers_131/pole3" unique_id=1804691433]
-position = Vector2(6.5, -35)
-shape = SubResource("hit_pole3")
-
-[node name="pole4" type="Area2D" parent="ArtworkLayers/standard_bearers_131" unique_id=1615564857]
-position = Vector2(693.5, 152.5)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/interaction_id = "pole4"
-
-[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/standard_bearers_131/pole4" unique_id=258574048]
-position = Vector2(22.5, -39)
-shape = SubResource("hit_pole4")
-
-[node name="pole5" type="Area2D" parent="ArtworkLayers/standard_bearers_131" unique_id=1928049784]
-position = Vector2(862.5, 151)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/interaction_id = "pole5"
-
-[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/standard_bearers_131/pole5" unique_id=1745203932]
-position = Vector2(23.5, -37.5)
-shape = SubResource("hit_pole5")
-
-[node name="pole6" type="Area2D" parent="ArtworkLayers/standard_bearers_131" unique_id=746687966]
-position = Vector2(1078, 142.5)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/interaction_id = "pole6"
-
-[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/standard_bearers_131/pole6" unique_id=519516091]
-position = Vector2(11.5, -27)
-shape = SubResource("hit_pole6")
-
-[node name="pole7" type="Area2D" parent="ArtworkLayers/standard_bearers_131" unique_id=502883901]
-position = Vector2(1270.5, 144)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/interaction_id = "pole7"
-
-[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/standard_bearers_131/pole7" unique_id=749173807]
-position = Vector2(1, -34)
-shape = SubResource("hit_pole7")
-
-[node name="pole8" type="Area2D" parent="ArtworkLayers/standard_bearers_131" unique_id=1186998796]
-position = Vector2(1437.5, 141)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/interaction_id = "pole8"
-
-[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/standard_bearers_131/pole8" unique_id=1417059867]
-position = Vector2(8, -30.5)
-shape = SubResource("hit_pole8")
 
 [node name="walking_woman_1_140" type="Sprite2D" parent="ArtworkLayers" unique_id=1388312666]
 position = Vector2(8753, 243)
@@ -469,34 +306,12 @@ centered = false
 metadata/source_layer_id = "140"
 metadata/registry_id = "two_women"
 
-[node name="two_women" type="Area2D" parent="ArtworkLayers/walking_woman_1_140" unique_id=1208051032]
-position = Vector2(105, 141.5)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/registry_id = "two_women"
-
-[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/walking_woman_1_140/two_women" unique_id=2100848453]
-shape = SubResource("inspection_two_women")
-
 [node name="yoke_bearer_142" type="Sprite2D" parent="ArtworkLayers" unique_id=1537154803]
 position = Vector2(8484, 244)
 texture = ExtResource("layer_142")
 centered = false
 metadata/source_layer_id = "142"
 metadata/registry_id = "yoke_bearer"
-
-[node name="yoke_bearer" type="Area2D" parent="ArtworkLayers/yoke_bearer_142" unique_id=1139838376]
-position = Vector2(103, 141)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/registry_id = "yoke_bearer"
-
-[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/yoke_bearer_142/yoke_bearer" unique_id=1817049592]
-shape = SubResource("inspection_yoke_bearer")
 
 [node name="canopy_bearer_143" type="Sprite2D" parent="ArtworkLayers" unique_id=477809563]
 position = Vector2(8229, 199)
@@ -505,34 +320,12 @@ centered = false
 metadata/source_layer_id = "143"
 metadata/registry_id = "canopy_bearer"
 
-[node name="canopy_bearer" type="Area2D" parent="ArtworkLayers/canopy_bearer_143" unique_id=2044977979]
-position = Vector2(98, 163.5)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/registry_id = "canopy_bearer"
-
-[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/canopy_bearer_143/canopy_bearer" unique_id=1311394655]
-shape = SubResource("inspection_canopy_bearer")
-
 [node name="sacrifice_146" type="Sprite2D" parent="ArtworkLayers" unique_id=1862630144]
 position = Vector2(6660, 270)
 texture = ExtResource("layer_146")
 centered = false
 metadata/source_layer_id = "146"
 metadata/registry_id = "sacrifice"
-
-[node name="sacrifice" type="Area2D" parent="ArtworkLayers/sacrifice_146" unique_id=1883002704]
-position = Vector2(321.5, 128)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/registry_id = "sacrifice"
-
-[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/sacrifice_146/sacrifice" unique_id=513152035]
-shape = SubResource("inspection_sacrifice")
 
 [node name="trees_47" type="Sprite2D" parent="ArtworkLayers" unique_id=2087751067]
 position = Vector2(4834, 310)
@@ -547,17 +340,6 @@ centered = false
 metadata/source_layer_id = "149"
 metadata/registry_id = "man_with_a_water_jar"
 
-[node name="man_with_a_water_jar" type="Area2D" parent="ArtworkLayers/man_with_a_water_jar_149" unique_id=1912844481]
-position = Vector2(109.5, 162)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/registry_id = "man_with_a_water_jar"
-
-[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/man_with_a_water_jar_149/man_with_a_water_jar" unique_id=139032115]
-shape = SubResource("inspection_man_with_a_water_jar")
-
 [node name="lector_priest_148" type="Sprite2D" parent="ArtworkLayers" unique_id=430804817]
 position = Vector2(6107, 233)
 texture = ExtResource("layer_148")
@@ -565,34 +347,11 @@ centered = false
 metadata/source_layer_id = "148"
 metadata/registry_id = "lector_priest"
 
-[node name="lector_priest" type="Area2D" parent="ArtworkLayers/lector_priest_148" unique_id=247520209]
-position = Vector2(74, 146.5)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/registry_id = "lector_priest"
-
-[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/lector_priest_148/lector_priest" unique_id=2071943782]
-shape = SubResource("inspection_lector_priest")
-
 [node name="goose_man_77" type="Sprite2D" parent="ArtworkLayers" unique_id=1089609093]
 position = Vector2(6412, 242)
 texture = ExtResource("layer_77")
 centered = false
 metadata/source_layer_id = "77"
-
-[node name="GooseBearerHit" type="Area2D" parent="ArtworkLayers/goose_man_77" unique_id=1101312305]
-position = Vector2(68.5, 143)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/interaction_id = "GooseBearerHit"
-
-[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/goose_man_77/GooseBearerHit" unique_id=1007918322]
-position = Vector2(-19, 0)
-shape = SubResource("hit_GooseBearerHit")
 
 [node name="table_48" type="Sprite2D" parent="ArtworkLayers" unique_id=1948845674]
 position = Vector2(5173, 351)
@@ -601,35 +360,12 @@ centered = false
 metadata/source_layer_id = "48"
 metadata/registry_id = "offering_table"
 
-[node name="offering_table" type="Area2D" parent="ArtworkLayers/table_48" unique_id=1488933126]
-position = Vector2(362, 91)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/registry_id = "offering_table"
-
-[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/table_48/offering_table" unique_id=574858007]
-position = Vector2(0, -56.5)
-shape = SubResource("inspection_offering_table")
-
 [node name="two_obelisks_153" type="Sprite2D" parent="ArtworkLayers" unique_id=1276350697]
 position = Vector2(3613, 209)
 texture = ExtResource("layer_153")
 centered = false
 metadata/source_layer_id = "153"
 metadata/registry_id = "two_obelisks"
-
-[node name="two_obelisks" type="Area2D" parent="ArtworkLayers/two_obelisks_153" unique_id=112900039]
-position = Vector2(137, 158.5)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/registry_id = "two_obelisks"
-
-[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/two_obelisks_153/two_obelisks" unique_id=561545417]
-shape = SubResource("inspection_two_obelisks")
 
 [node name="priest_with_arm_censer_151" type="Sprite2D" parent="ArtworkLayers" unique_id=18355349]
 position = Vector2(4108, 247)
@@ -638,34 +374,12 @@ centered = false
 metadata/source_layer_id = "151"
 metadata/registry_id = "priest_with_arm_censer"
 
-[node name="priest_with_arm_censer" type="Area2D" parent="ArtworkLayers/priest_with_arm_censer_151" unique_id=715650323]
-position = Vector2(108.5, 139.5)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/registry_id = "priest_with_arm_censer"
-
-[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/priest_with_arm_censer_151/priest_with_arm_censer" unique_id=923590824]
-shape = SubResource("inspection_priest_with_arm_censer")
-
 [node name="offering_table_169" type="Sprite2D" parent="ArtworkLayers" unique_id=1831762811]
 position = Vector2(2487, 244)
 texture = ExtResource("layer_169")
 centered = false
 metadata/source_layer_id = "169"
 metadata/registry_id = "second_offering_table"
-
-[node name="second_offering_table" type="Area2D" parent="ArtworkLayers/offering_table_169" unique_id=1419994891]
-position = Vector2(560, 145.5)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/registry_id = "second_offering_table"
-
-[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/offering_table_169/second_offering_table" unique_id=549538130]
-shape = SubResource("inspection_second_offering_table")
 
 [node name="lector_with_plumes_150" type="Sprite2D" parent="ArtworkLayers" unique_id=2016452678]
 position = Vector2(4522, 190)
@@ -674,35 +388,12 @@ centered = false
 metadata/source_layer_id = "150"
 metadata/registry_id = "lector_with_plumes"
 
-[node name="lector_with_plumes" type="Area2D" parent="ArtworkLayers/lector_with_plumes_150" unique_id=1661950012]
-position = Vector2(83, 168)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/registry_id = "lector_with_plumes"
-
-[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/lector_with_plumes_150/lector_with_plumes" unique_id=438523210]
-shape = SubResource("inspection_lector_with_plumes")
-
 [node name="offering_stand_152" type="Sprite2D" parent="ArtworkLayers" unique_id=2020610222]
 position = Vector2(3948, 392)
 texture = ExtResource("layer_152")
 centered = false
 metadata/source_layer_id = "152"
 metadata/registry_id = "offering_stand"
-
-[node name="offering_stand" type="Area2D" parent="ArtworkLayers/offering_stand_152" unique_id=1801979021]
-position = Vector2(69.5, 67)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/registry_id = "offering_stand"
-
-[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/offering_stand_152/offering_stand" unique_id=1063614234]
-position = Vector2(0, -41.5)
-shape = SubResource("inspection_offering_stand")
 
 [node name="kneeling_woman_154" type="Sprite2D" parent="ArtworkLayers" unique_id=278100286]
 position = Vector2(2122, 323)
@@ -711,35 +402,12 @@ centered = false
 metadata/source_layer_id = "154"
 metadata/registry_id = "kneeling_woman"
 
-[node name="kneeling_woman" type="Area2D" parent="ArtworkLayers/kneeling_woman_154" unique_id=1601641246]
-position = Vector2(61, 101.5)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/registry_id = "kneeling_woman"
-
-[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/kneeling_woman_154/kneeling_woman" unique_id=1669170886]
-shape = SubResource("inspection_kneeling_woman")
-
 [node name="ra_enthroned_160" type="Sprite2D" parent="ArtworkLayers" unique_id=140866361]
 position = Vector2(117, 189)
 texture = ExtResource("layer_160")
 centered = false
 metadata/source_layer_id = "160"
 metadata/registry_id = "ra_enthroned"
-
-[node name="ra_enthroned" type="Area2D" parent="ArtworkLayers/ra_enthroned_160" unique_id=1971588460]
-position = Vector2(179, 168.5)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/registry_id = "ra_enthroned"
-
-[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/ra_enthroned_160/ra_enthroned" unique_id=2129190731]
-position = Vector2(-44, 0)
-shape = SubResource("inspection_ra_enthroned")
 
 [node name="tomb_chapel_158" type="Sprite2D" parent="ArtworkLayers" unique_id=1135524773]
 position = Vector2(1119, 197)
@@ -748,35 +416,12 @@ centered = false
 metadata/source_layer_id = "158"
 metadata/registry_id = "tomb_chapel"
 
-[node name="tomb_chapel" type="Area2D" parent="ArtworkLayers/tomb_chapel_158" unique_id=1465625176]
-position = Vector2(156, 164.5)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/registry_id = "tomb_chapel"
-
-[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/tomb_chapel_158/tomb_chapel" unique_id=1779642798]
-shape = SubResource("inspection_tomb_chapel")
-
 [node name="stela_157" type="Sprite2D" parent="ArtworkLayers" unique_id=1813585218]
 position = Vector2(1499, 191)
 texture = ExtResource("layer_157")
 centered = false
 metadata/source_layer_id = "157"
 metadata/registry_id = "stela"
-
-[node name="stela" type="Area2D" parent="ArtworkLayers/stela_157" unique_id=2087095193]
-position = Vector2(129, 167.5)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/registry_id = "stela"
-
-[node name="Shape" type="CollisionShape2D" parent="ArtworkLayers/stela_157/stela" unique_id=2115364509]
-position = Vector2(-4, 0)
-shape = SubResource("inspection_stela")
 
 [node name="pieces" type="Node2D" parent="." unique_id=1220443640]
 
@@ -841,17 +486,6 @@ centered = false
 metadata/piece_id = "ox"
 metadata/registry_id = "ox"
 
-[node name="ox" type="Area2D" parent="pieces/hauling/ox" unique_id=823338297]
-position = Vector2(239, 149.5)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/registry_id = "ox"
-
-[node name="Shape" type="CollisionShape2D" parent="pieces/hauling/ox/ox" unique_id=1749068504]
-shape = SubResource("inspection_ox")
-
 [node name="sledge" type="Node2D" parent="pieces/hauling" unique_id=678563572]
 position = Vector2(11287, 185)
 metadata/piece_id = "haul_sledge"
@@ -868,30 +502,6 @@ position = Vector2(685.5, 173)
 texture = ExtResource("tex_sun")
 metadata/piece_id = "sun"
 
-[node name="funerary_bier" type="Area2D" parent="pieces/hauling/sledge/sprite" unique_id=641382053]
-position = Vector2(1014, 180)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/registry_id = "funerary_bier"
-
-[node name="Shape" type="CollisionShape2D" parent="pieces/hauling/sledge/sprite/funerary_bier" unique_id=1209077348]
-position = Vector2(-5.5, 0)
-shape = SubResource("inspection_funerary_bier")
-
-[node name="priest_with_censer" type="Area2D" parent="pieces/hauling/sledge/sprite" unique_id=1388827439]
-position = Vector2(373, 197.5)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/registry_id = "priest_with_censer"
-
-[node name="Shape" type="CollisionShape2D" parent="pieces/hauling/sledge/sprite/priest_with_censer" unique_id=653077394]
-position = Vector2(-3.5, 0)
-shape = SubResource("inspection_priest_with_censer")
-
 [node name="hauler" type="Node2D" parent="pieces/hauling" unique_id=546995389]
 position = Vector2(11405, 532)
 metadata/piece_id = "haul_hauler"
@@ -903,18 +513,6 @@ texture = ExtResource("tex_haul_hauler")
 centered = false
 metadata/piece_id = "haul_hauler_art"
 metadata/registry_id = "hauler"
-
-[node name="hauler" type="Area2D" parent="pieces/hauling/hauler/sprite" unique_id=727995430]
-position = Vector2(71.5, 155.5)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/registry_id = "hauler"
-
-[node name="Shape" type="CollisionShape2D" parent="pieces/hauling/hauler/sprite/hauler" unique_id=2011183250]
-position = Vector2(-28, 0)
-shape = SubResource("inspection_hauler")
 
 [node name="driver" type="Node2D" parent="pieces/hauling" unique_id=2040606113]
 position = Vector2(10979, 184)
@@ -935,17 +533,6 @@ centered = false
 offset = Vector2(-131.3, -82.3)
 metadata/piece_id = "haul_driver_arm"
 metadata/registry_id = "ox_driver"
-
-[node name="ox_driver" type="Area2D" parent="pieces/hauling/driver/sprite" unique_id=831938242]
-position = Vector2(36, 164)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/registry_id = "ox_driver"
-
-[node name="Shape" type="CollisionShape2D" parent="pieces/hauling/driver/sprite/ox_driver" unique_id=656216846]
-shape = SubResource("inspection_ox_driver")
 
 [node name="offering_table" type="Node2D" parent="pieces" unique_id=1505178867]
 script = ExtResource("script_offering_table")
@@ -1159,17 +746,6 @@ offset = Vector2(-70.4, -129.7)
 metadata/piece_id = "water_priest_arm"
 metadata/registry_id = "priest_with_jar"
 
-[node name="priest_with_jar" type="Area2D" parent="pieces/water/priest" unique_id=1329596804]
-position = Vector2(34, 157.5)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/registry_id = "priest_with_jar"
-
-[node name="Shape" type="CollisionShape2D" parent="pieces/water/priest/priest_with_jar" unique_id=980988485]
-shape = SubResource("inspection_priest_with_jar")
-
 [node name="opening_mouth" type="Node2D" parent="pieces" unique_id=1696754418]
 script = ExtResource("script_opening_mouth")
 
@@ -1187,18 +763,6 @@ texture = ExtResource("tex_mouth_features")
 centered = false
 metadata/piece_id = "mouth_features"
 metadata/registry_id = "anubis_and_the_mummy"
-
-[node name="anubis_and_the_mummy" type="Area2D" parent="pieces/opening_mouth/mummy" unique_id=1106325598]
-position = Vector2(175, 170.5)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/registry_id = "anubis_and_the_mummy"
-
-[node name="Shape" type="CollisionShape2D" parent="pieces/opening_mouth/mummy/anubis_and_the_mummy" unique_id=1940641878]
-position = Vector2(-49, 0)
-shape = SubResource("inspection_anubis_and_the_mummy")
 
 [node name="StandPosition" type="Marker2D" parent="pieces/opening_mouth" unique_id=1337845075]
 position = Vector2(2052.5, 526)
@@ -1244,34 +808,12 @@ offset = Vector2(-365, -285)
 metadata/piece_id = "plumed_ox"
 metadata/registry_id = "plumed_ox"
 
-[node name="plumed_ox" type="Area2D" parent="pieces/bulls/plumed_ox" unique_id=188692437]
-position = Vector2(-164, -142)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/registry_id = "plumed_ox"
-
-[node name="Shape" type="CollisionShape2D" parent="pieces/bulls/plumed_ox/plumed_ox" unique_id=543740370]
-shape = SubResource("inspection_plumed_ox")
-
 [node name="calf" type="Sprite2D" parent="pieces/bulls" unique_id=691510915]
 position = Vector2(7483, 457)
 scale = Vector2(-1, 1)
 texture = ExtResource("tex_calf")
 metadata/piece_id = "calf"
 metadata/registry_id = "calf"
-
-[node name="calf" type="Area2D" parent="pieces/bulls/calf" unique_id=772555953]
-position = Vector2(0, -2)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/registry_id = "calf"
-
-[node name="Shape" type="CollisionShape2D" parent="pieces/bulls/calf/calf" unique_id=857550429]
-shape = SubResource("inspection_calf")
 
 [node name="plumes" type="Sprite2D" parent="pieces/bulls" unique_id=1441437649]
 position = Vector2(6886, 217)
@@ -1350,48 +892,547 @@ zoom = Vector2(0.77894735, 0.77894735)
 [node name="HUD" type="CanvasLayer" parent="." unique_id=1181277456]
 script = ExtResource("5_hud")
 
-[node name="CaptionRegions" type="Node2D" parent="." unique_id=274218356]
+[node name="Hitboxes" type="Node2D" parent="." unique_id=274218356]
+visible = false
 
-[node name="caption_1" type="Area2D" parent="CaptionRegions" unique_id=593160522]
+[node name="mourners" type="Area2D" parent="Hitboxes" unique_id=1928954537]
+position = Vector2(14567, 364.5)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "mourners"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/mourners" unique_id=737992424]
+shape = SubResource("inspection_mourners")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="women_mourners" type="Area2D" parent="Hitboxes" unique_id=481827089]
+position = Vector2(14033.5, 372)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "women_mourners"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/women_mourners" unique_id=1670137498]
+shape = SubResource("inspection_women_mourners")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="canopy_frame" type="Area2D" parent="Hitboxes" unique_id=1066007354]
+position = Vector2(13598, 381)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "canopy_frame"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/canopy_frame" unique_id=942607841]
+shape = SubResource("inspection_canopy_frame")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="man_hauling_the_canopy" type="Area2D" parent="Hitboxes" unique_id=1409517334]
+position = Vector2(13412, 385.5)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "man_hauling_the_canopy"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/man_hauling_the_canopy" unique_id=667579983]
+shape = SubResource("inspection_man_hauling_the_canopy")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="anubis_on_a_chest" type="Area2D" parent="Hitboxes" unique_id=953190501]
+position = Vector2(13157, 391)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "anubis_on_a_chest"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/anubis_on_a_chest" unique_id=821687529]
+shape = SubResource("inspection_anubis_on_a_chest")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="man_hauling_anubis" type="Area2D" parent="Hitboxes" unique_id=155719445]
+position = Vector2(12919.5, 390)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "man_hauling_anubis"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/man_hauling_anubis" unique_id=1540440979]
+shape = SubResource("inspection_man_hauling_anubis")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="pole1" type="Area2D" parent="Hitboxes" unique_id=1391248116]
+position = Vector2(9105, 359.5)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/interaction_id = "pole1"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/pole1" unique_id=525892152]
+shape = SubResource("hit_pole1")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="pole2" type="Area2D" parent="Hitboxes" unique_id=8883589]
+position = Vector2(9305, 360)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/interaction_id = "pole2"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/pole2" unique_id=1073565046]
+shape = SubResource("hit_pole2")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="pole3" type="Area2D" parent="Hitboxes" unique_id=247583213]
+position = Vector2(9509, 360.5)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/interaction_id = "pole3"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/pole3" unique_id=1804691433]
+shape = SubResource("hit_pole3")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="pole4" type="Area2D" parent="Hitboxes" unique_id=1615564857]
+position = Vector2(9722, 359.5)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/interaction_id = "pole4"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/pole4" unique_id=258574048]
+shape = SubResource("hit_pole4")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="pole5" type="Area2D" parent="Hitboxes" unique_id=1928049784]
+position = Vector2(9892, 359.5)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/interaction_id = "pole5"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/pole5" unique_id=1745203932]
+shape = SubResource("hit_pole5")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="pole6" type="Area2D" parent="Hitboxes" unique_id=746687966]
+position = Vector2(10095.5, 361.5)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/interaction_id = "pole6"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/pole6" unique_id=519516091]
+shape = SubResource("hit_pole6")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="pole7" type="Area2D" parent="Hitboxes" unique_id=502883901]
+position = Vector2(10277.5, 356)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/interaction_id = "pole7"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/pole7" unique_id=749173807]
+shape = SubResource("hit_pole7")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="pole8" type="Area2D" parent="Hitboxes" unique_id=1186998796]
+position = Vector2(10451.5, 356.5)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/interaction_id = "pole8"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/pole8" unique_id=1417059867]
+shape = SubResource("hit_pole8")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="two_women" type="Area2D" parent="Hitboxes" unique_id=1208051032]
+position = Vector2(8858, 384.5)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "two_women"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/two_women" unique_id=2100848453]
+shape = SubResource("inspection_two_women")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="yoke_bearer" type="Area2D" parent="Hitboxes" unique_id=1139838376]
+position = Vector2(8587, 385)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "yoke_bearer"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/yoke_bearer" unique_id=1817049592]
+shape = SubResource("inspection_yoke_bearer")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="canopy_bearer" type="Area2D" parent="Hitboxes" unique_id=2044977979]
+position = Vector2(8327, 362.5)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "canopy_bearer"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/canopy_bearer" unique_id=1311394655]
+shape = SubResource("inspection_canopy_bearer")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="sacrifice" type="Area2D" parent="Hitboxes" unique_id=1883002704]
+position = Vector2(6981.5, 398)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "sacrifice"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/sacrifice" unique_id=513152035]
+shape = SubResource("inspection_sacrifice")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="man_with_a_water_jar" type="Area2D" parent="Hitboxes" unique_id=1912844481]
+position = Vector2(4963.5, 364)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "man_with_a_water_jar"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/man_with_a_water_jar" unique_id=139032115]
+shape = SubResource("inspection_man_with_a_water_jar")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="lector_priest" type="Area2D" parent="Hitboxes" unique_id=247520209]
+position = Vector2(6181, 379.5)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "lector_priest"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/lector_priest" unique_id=2071943782]
+shape = SubResource("inspection_lector_priest")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="GooseBearerHit" type="Area2D" parent="Hitboxes" unique_id=1101312305]
+position = Vector2(6461.5, 385)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/interaction_id = "GooseBearerHit"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/GooseBearerHit" unique_id=1007918322]
+shape = SubResource("hit_GooseBearerHit")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="offering_table" type="Area2D" parent="Hitboxes" unique_id=1488933126]
+position = Vector2(5535, 385.5)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "offering_table"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/offering_table" unique_id=574858007]
+shape = SubResource("inspection_offering_table")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="two_obelisks" type="Area2D" parent="Hitboxes" unique_id=112900039]
+position = Vector2(3750, 367.5)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "two_obelisks"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/two_obelisks" unique_id=561545417]
+shape = SubResource("inspection_two_obelisks")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="priest_with_arm_censer" type="Area2D" parent="Hitboxes" unique_id=715650323]
+position = Vector2(4216.5, 386.5)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "priest_with_arm_censer"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/priest_with_arm_censer" unique_id=923590824]
+shape = SubResource("inspection_priest_with_arm_censer")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="second_offering_table" type="Area2D" parent="Hitboxes" unique_id=1419994891]
+position = Vector2(3047, 389.5)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "second_offering_table"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/second_offering_table" unique_id=549538130]
+shape = SubResource("inspection_second_offering_table")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="lector_with_plumes" type="Area2D" parent="Hitboxes" unique_id=1661950012]
+position = Vector2(4605, 358)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "lector_with_plumes"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/lector_with_plumes" unique_id=438523210]
+shape = SubResource("inspection_lector_with_plumes")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="offering_stand" type="Area2D" parent="Hitboxes" unique_id=1801979021]
+position = Vector2(4017.5, 417.5)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "offering_stand"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/offering_stand" unique_id=1063614234]
+shape = SubResource("inspection_offering_stand")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="kneeling_woman" type="Area2D" parent="Hitboxes" unique_id=1601641246]
+position = Vector2(2183, 424.5)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "kneeling_woman"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/kneeling_woman" unique_id=1669170886]
+shape = SubResource("inspection_kneeling_woman")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="ra_enthroned" type="Area2D" parent="Hitboxes" unique_id=1971588460]
+position = Vector2(252, 357.5)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "ra_enthroned"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/ra_enthroned" unique_id=2129190731]
+shape = SubResource("inspection_ra_enthroned")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="tomb_chapel" type="Area2D" parent="Hitboxes" unique_id=1465625176]
+position = Vector2(1275, 361.5)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "tomb_chapel"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/tomb_chapel" unique_id=1779642798]
+shape = SubResource("inspection_tomb_chapel")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="stela" type="Area2D" parent="Hitboxes" unique_id=2087095193]
+position = Vector2(1624, 358.5)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "stela"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/stela" unique_id=2115364509]
+shape = SubResource("inspection_stela")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="ox" type="Area2D" parent="Hitboxes" unique_id=823338297]
+position = Vector2(10842, 376.5)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "ox"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/ox" unique_id=1749068504]
+shape = SubResource("inspection_ox")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="funerary_bier" type="Area2D" parent="Hitboxes" unique_id=641382053]
+position = Vector2(12294.5, 365)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "funerary_bier"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/funerary_bier" unique_id=1209077348]
+shape = SubResource("inspection_funerary_bier")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="priest_with_censer" type="Area2D" parent="Hitboxes" unique_id=1388827439]
+position = Vector2(11655.5, 382.5)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "priest_with_censer"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/priest_with_censer" unique_id=653077394]
+shape = SubResource("inspection_priest_with_censer")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="hauler" type="Area2D" parent="Hitboxes" unique_id=727995430]
+position = Vector2(11379.5, 376.5)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "hauler"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/hauler" unique_id=2011183250]
+shape = SubResource("inspection_hauler")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="ox_driver" type="Area2D" parent="Hitboxes" unique_id=831938242]
+position = Vector2(11106, 371)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "ox_driver"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/ox_driver" unique_id=656216846]
+shape = SubResource("inspection_ox_driver")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="priest_with_jar" type="Area2D" parent="Hitboxes" unique_id=1329596804]
+position = Vector2(2320, 364.5)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "priest_with_jar"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/priest_with_jar" unique_id=980988485]
+shape = SubResource("inspection_priest_with_jar")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="anubis_and_the_mummy" type="Area2D" parent="Hitboxes" unique_id=1106325598]
+position = Vector2(1891, 370.5)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "anubis_and_the_mummy"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/anubis_and_the_mummy" unique_id=1940641878]
+shape = SubResource("inspection_anubis_and_the_mummy")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="plumed_ox" type="Area2D" parent="Hitboxes" unique_id=188692437]
+position = Vector2(7876, 383)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "plumed_ox"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/plumed_ox" unique_id=543740370]
+shape = SubResource("inspection_plumed_ox")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="calf" type="Area2D" parent="Hitboxes" unique_id=772555953]
+position = Vector2(7483, 455)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "calf"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/calf" unique_id=857550429]
+shape = SubResource("inspection_calf")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="caption_1" type="Area2D" parent="Hitboxes" unique_id=593160522]
 position = Vector2(14076.5, 114)
 collision_layer = 0
 collision_mask = 0
 monitoring = false
 monitorable = false
 metadata/registry_id = "caption_1"
+metadata/hit_by_box = true
 
-[node name="Shape" type="CollisionShape2D" parent="CaptionRegions/caption_1" unique_id=1693558506]
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/caption_1" unique_id=1693558506]
 shape = SubResource("inspect_caption_1")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
 
-[node name="caption_2" type="Area2D" parent="CaptionRegions" unique_id=715293410]
+[node name="caption_2" type="Area2D" parent="Hitboxes" unique_id=715293410]
 position = Vector2(11719.5, 114)
 collision_layer = 0
 collision_mask = 0
 monitoring = false
 monitorable = false
 metadata/registry_id = "caption_2"
+metadata/hit_by_box = true
 
-[node name="Shape" type="CollisionShape2D" parent="CaptionRegions/caption_2" unique_id=373601257]
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/caption_2" unique_id=373601257]
 shape = SubResource("inspect_caption_2")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
 
-[node name="caption_3" type="Area2D" parent="CaptionRegions" unique_id=1904849777]
+[node name="caption_3" type="Area2D" parent="Hitboxes" unique_id=1904849777]
 position = Vector2(4274.5, 114)
 collision_layer = 0
 collision_mask = 0
 monitoring = false
 monitorable = false
 metadata/registry_id = "caption_3"
+metadata/hit_by_box = true
 
-[node name="Shape" type="CollisionShape2D" parent="CaptionRegions/caption_3" unique_id=577994601]
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/caption_3" unique_id=577994601]
 shape = SubResource("inspect_caption_3")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
 
-[node name="caption_4" type="Area2D" parent="CaptionRegions" unique_id=1254454306]
+[node name="caption_4" type="Area2D" parent="Hitboxes" unique_id=1254454306]
 position = Vector2(2459, 114)
 collision_layer = 0
 collision_mask = 0
 monitoring = false
 monitorable = false
 metadata/registry_id = "caption_4"
+metadata/hit_by_box = true
 
-[node name="Shape" type="CollisionShape2D" parent="CaptionRegions/caption_4" unique_id=2042235963]
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/caption_4" unique_id=2042235963]
 shape = SubResource("inspect_caption_4")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)

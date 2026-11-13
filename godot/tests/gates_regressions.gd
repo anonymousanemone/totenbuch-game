@@ -1,4 +1,4 @@
-## Spells 144–146 exploration: complete artwork, authored placement, picking, navigation and the pylon plumes.
+## Spells 144–147 exploration: complete artwork, authored placement, picking, navigation and the pylon plumes.
 extends SceneTree
 var failures := 0
 func _initialize() -> void:
@@ -20,15 +20,15 @@ func _run() -> void:
 		for i in 8:
 			await process_frame
 		expect(paused and scene.hud.is_blocking(), "intro pauses exploration")
-		expect(scene.level.sources.size() == 2 and scene.figures.size() == 121, "spells 144–146 import 121 rooms, pylons, portals and their gods")
+		expect(scene.level.sources.size() == 2 and scene.figures.size() == 148, "spells 144–147 import 148 gates, pylons, portals, stands, gods and captions")
 		var panels: Array = scene.get_node("Strip").get_children()
-		expect(panels.size() == 2 and panels[0].position.x == 0.0 and panels[1].position.x == 5220.0, "both artwork panels sit under one Strip node, overlapped so the two double rules between them are one")
-		expect(scene._descriptions.journal_total() == 100, "every room, pylon, portal and god counts in the journal; adorers do not")
+		expect(panels.size() == 2 and panels[0].position.x == 0.0 and panels[1].position.x == 8399.0, "both artwork panels sit under one Strip node, overlapped so the two double rules between them are one")
+		expect(scene._descriptions.journal_total() == 114, "every gate, pylon, portal, stand and god counts in the journal; adorers do not")
 		var pylons: Array = scene.figures.keys().filter(func(id): return id.begins_with("spell145_pylon") and id.count("_") == 1)
 		expect(pylons.size() == 21 and pylons.all(func(id): return scene.figures[id].material is ShaderMaterial \
 			and scene.figures[id].material.get_shader_parameter("base") > 0.0), "every pylon carries its plumes' sway")
 		var adorers: Array = scene.figures.keys().filter(func(id): return id.ends_with("_adorer"))
-		expect(adorers.size() == 21 and adorers.all(func(id): return not scene.figures[id].visible), "every adorer is hidden until his keeper is named")
+		expect(adorers.size() == 28 and adorers.all(func(id): return not scene.figures[id].visible), "every adorer of 145 and 147 is hidden until revealed")
 		expect(scene.get_node("Avatar/Sprite").texture.get_height() == scene.figures["spell145_pylon1_adorer"].texture.get_height() + 4 \
 			and scene.avatar.drawn_facing == -1, "the avatar is a copy of the first adorer, who faces left")
 		var pylon: Sprite2D = scene.figures["spell145_pylon1"]
@@ -47,6 +47,8 @@ func _run() -> void:
 		expect(not scene.figures["spell145_pylon3_adorer"].visible, "a wrong name brings no adorer")
 		scene.name_given(3, true)
 		expect(scene.figures["spell145_pylon3_adorer"].visible and not scene.figures["spell145_pylon4_adorer"].visible, "a right name brings that pylon's adorer only")
+		scene.reveal_adorer("spell147_gate2_adorer")
+		expect(scene.figures["spell147_gate2_adorer"].visible and not scene.figures["spell147_gate3_adorer"].visible, "147 reveals one gate's adorer the same way")
 		expect(scene.figures.values().all(func(n): return authored.has(n) and n.position == authored[n]), "saved nodes retain editor positions")
 		scene.hud.dismiss_intro()
 		scene.avatar.set_process(false)
@@ -92,7 +94,7 @@ func _run() -> void:
 		scene.hud.toggle_journal(false)
 		scene.reset()
 		expect(scene.journal.is_empty() and scene.avatar.position == start, "restart restores saved start")
-		expect(not scene.figures["spell145_pylon3_adorer"].visible, "restart hides the adorers again")
+		expect(not scene.figures["spell145_pylon3_adorer"].visible and not scene.figures["spell147_gate2_adorer"].visible, "restart hides the adorers again")
 		var page: Rect2 = scene.get_canvas_transform() * Rect2(0, scene.VIEW_TOP, 100, scene.level.view_height - scene.VIEW_TOP)
 		expect(page.position.y >= scene.hud.top_height()-1 and page.end.y <= dimensions.y-scene.hud.bottom_height()+1, "scroll fits HUD at both window sizes")
 		scene.free()

@@ -150,6 +150,36 @@ size = Vector2(856, 130)
 [sub_resource type="RectangleShape2D" id="inspect_caption_e41"]
 size = Vector2(510, 130)
 
+[sub_resource type="RectangleShape2D" id="hitbox_e31"]
+size = Vector2(640, 148)
+
+[sub_resource type="RectangleShape2D" id="hitbox_e32"]
+size = Vector2(488, 124)
+
+[sub_resource type="RectangleShape2D" id="hitbox_e33"]
+size = Vector2(168, 276)
+
+[sub_resource type="RectangleShape2D" id="hitbox_e35"]
+size = Vector2(216, 76)
+
+[sub_resource type="RectangleShape2D" id="hitbox_e36"]
+size = Vector2(108, 68)
+
+[sub_resource type="RectangleShape2D" id="hitbox_e37"]
+size = Vector2(116, 80)
+
+[sub_resource type="RectangleShape2D" id="hitbox_e38"]
+size = Vector2(460, 488)
+
+[sub_resource type="RectangleShape2D" id="hitbox_e39"]
+size = Vector2(504, 52)
+
+[sub_resource type="RectangleShape2D" id="hitbox_e40"]
+size = Vector2(124, 100)
+
+[sub_resource type="RectangleShape2D" id="hitbox_e41"]
+size = Vector2(132, 112)
+
 [node name="Dangers" type="Node2D" unique_id=1241147454]
 script = ExtResource("1_lvl")
 
@@ -670,114 +700,255 @@ zoom = Vector2(0.8222222, 0.8222222)
 [node name="HUD" type="CanvasLayer" parent="." unique_id=948880668]
 script = ExtResource("5_hud")
 
-[node name="CaptionRegions" type="Node2D" parent="." unique_id=1531809871]
+[node name="Hitboxes" type="Node2D" parent="." unique_id=1531809871]
+visible = false
 
-[node name="caption_e31" type="Area2D" parent="CaptionRegions" unique_id=1929079776]
+[node name="caption_e31" type="Area2D" parent="Hitboxes" unique_id=1929079776]
 position = Vector2(5928, 115)
 collision_layer = 0
 collision_mask = 0
 monitoring = false
 monitorable = false
 metadata/registry_id = "caption_e31"
+metadata/hit_by_box = true
 
-[node name="Shape" type="CollisionShape2D" parent="CaptionRegions/caption_e31" unique_id=848931828]
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/caption_e31" unique_id=848931828]
 shape = SubResource("inspect_caption_e31")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
 
-[node name="caption_e32" type="Area2D" parent="CaptionRegions" unique_id=382286115]
+[node name="caption_e32" type="Area2D" parent="Hitboxes" unique_id=382286115]
 position = Vector2(4556, 115)
 collision_layer = 0
 collision_mask = 0
 monitoring = false
 monitorable = false
 metadata/registry_id = "caption_e32"
+metadata/hit_by_box = true
 
-[node name="Shape" type="CollisionShape2D" parent="CaptionRegions/caption_e32" unique_id=1373629798]
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/caption_e32" unique_id=1373629798]
 shape = SubResource("inspect_caption_e32")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
 
-[node name="caption_e33" type="Area2D" parent="CaptionRegions" unique_id=1486119435]
+[node name="caption_e33" type="Area2D" parent="Hitboxes" unique_id=1486119435]
 position = Vector2(3793.5, 115)
 collision_layer = 0
 collision_mask = 0
 monitoring = false
 monitorable = false
 metadata/registry_id = "caption_e33"
+metadata/hit_by_box = true
 
-[node name="Shape" type="CollisionShape2D" parent="CaptionRegions/caption_e33" unique_id=1924441294]
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/caption_e33" unique_id=1924441294]
 shape = SubResource("inspect_caption_e33")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
 
-[node name="caption_e35" type="Area2D" parent="CaptionRegions" unique_id=1817984899]
+[node name="caption_e35" type="Area2D" parent="Hitboxes" unique_id=1817984899]
 position = Vector2(3470.5, 115)
 collision_layer = 0
 collision_mask = 0
 monitoring = false
 monitorable = false
 metadata/registry_id = "caption_e35"
+metadata/hit_by_box = true
 
-[node name="Shape" type="CollisionShape2D" parent="CaptionRegions/caption_e35" unique_id=2089119513]
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/caption_e35" unique_id=2089119513]
 shape = SubResource("inspect_caption_e35")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
 
-[node name="caption_e36" type="Area2D" parent="CaptionRegions" unique_id=822735037]
+[node name="caption_e36" type="Area2D" parent="Hitboxes" unique_id=822735037]
 position = Vector2(3165.5, 115)
 collision_layer = 0
 collision_mask = 0
 monitoring = false
 monitorable = false
 metadata/registry_id = "caption_e36"
+metadata/hit_by_box = true
 
-[node name="Shape" type="CollisionShape2D" parent="CaptionRegions/caption_e36" unique_id=1484292060]
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/caption_e36" unique_id=1484292060]
 shape = SubResource("inspect_caption_e36")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
 
-[node name="caption_e37" type="Area2D" parent="CaptionRegions" unique_id=128969514]
+[node name="caption_e37" type="Area2D" parent="Hitboxes" unique_id=128969514]
 position = Vector2(2918, 115)
 collision_layer = 0
 collision_mask = 0
 monitoring = false
 monitorable = false
 metadata/registry_id = "caption_e37"
+metadata/hit_by_box = true
 
-[node name="Shape" type="CollisionShape2D" parent="CaptionRegions/caption_e37" unique_id=1541562878]
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/caption_e37" unique_id=1541562878]
 shape = SubResource("inspect_caption_e37")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
 
-[node name="caption_e38" type="Area2D" parent="CaptionRegions" unique_id=740898598]
+[node name="caption_e38" type="Area2D" parent="Hitboxes" unique_id=740898598]
 position = Vector2(2549, 115)
 collision_layer = 0
 collision_mask = 0
 monitoring = false
 monitorable = false
 metadata/registry_id = "caption_e38"
+metadata/hit_by_box = true
 
-[node name="Shape" type="CollisionShape2D" parent="CaptionRegions/caption_e38" unique_id=1121716153]
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/caption_e38" unique_id=1121716153]
 shape = SubResource("inspect_caption_e38")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
 
-[node name="caption_e39" type="Area2D" parent="CaptionRegions" unique_id=653746893]
+[node name="caption_e39" type="Area2D" parent="Hitboxes" unique_id=653746893]
 position = Vector2(1876.5, 115)
 collision_layer = 0
 collision_mask = 0
 monitoring = false
 monitorable = false
 metadata/registry_id = "caption_e39"
+metadata/hit_by_box = true
 
-[node name="Shape" type="CollisionShape2D" parent="CaptionRegions/caption_e39" unique_id=1992179464]
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/caption_e39" unique_id=1992179464]
 shape = SubResource("inspect_caption_e39")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
 
-[node name="caption_e40" type="Area2D" parent="CaptionRegions" unique_id=896196762]
+[node name="caption_e40" type="Area2D" parent="Hitboxes" unique_id=896196762]
 position = Vector2(1009, 115)
 collision_layer = 0
 collision_mask = 0
 monitoring = false
 monitorable = false
 metadata/registry_id = "caption_e40"
+metadata/hit_by_box = true
 
-[node name="Shape" type="CollisionShape2D" parent="CaptionRegions/caption_e40" unique_id=158369173]
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/caption_e40" unique_id=158369173]
 shape = SubResource("inspect_caption_e40")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
 
-[node name="caption_e41" type="Area2D" parent="CaptionRegions" unique_id=1828862830]
+[node name="caption_e41" type="Area2D" parent="Hitboxes" unique_id=1828862830]
 position = Vector2(305, 115)
 collision_layer = 0
 collision_mask = 0
 monitoring = false
 monitorable = false
 metadata/registry_id = "caption_e41"
+metadata/hit_by_box = true
 
-[node name="Shape" type="CollisionShape2D" parent="CaptionRegions/caption_e41" unique_id=1379499435]
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/caption_e41" unique_id=1379499435]
 shape = SubResource("inspect_caption_e41")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="e31" type="Area2D" parent="Hitboxes" unique_id=295470361]
+position = Vector2(5520, 298)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "e31"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/e31" unique_id=338797939]
+shape = SubResource("hitbox_e31")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="e32" type="Area2D" parent="Hitboxes" unique_id=835851227]
+position = Vector2(4185, 317)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "e32"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/e32" unique_id=580545995]
+shape = SubResource("hitbox_e32")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="e33" type="Area2D" parent="Hitboxes" unique_id=243346088]
+position = Vector2(3753, 393)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "e33"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/e33" unique_id=153399359]
+shape = SubResource("hitbox_e33")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="e35" type="Area2D" parent="Hitboxes" unique_id=1457967516]
+position = Vector2(3410, 499)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "e35"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/e35" unique_id=823614954]
+shape = SubResource("hitbox_e35")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="e36" type="Area2D" parent="Hitboxes" unique_id=144748937]
+position = Vector2(3115, 489)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "e36"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/e36" unique_id=1508564018]
+shape = SubResource("hitbox_e36")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="e37" type="Area2D" parent="Hitboxes" unique_id=1702767706]
+position = Vector2(2887, 494)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "e37"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/e37" unique_id=1076533139]
+shape = SubResource("hitbox_e37")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="e38" type="Area2D" parent="Hitboxes" unique_id=453861077]
+position = Vector2(2548, 289)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "e38"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/e38" unique_id=706445615]
+shape = SubResource("hitbox_e38")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="e39" type="Area2D" parent="Hitboxes" unique_id=465262352]
+position = Vector2(1817, 508)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "e39"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/e39" unique_id=737657826]
+shape = SubResource("hitbox_e39")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="e40" type="Area2D" parent="Hitboxes" unique_id=581558337]
+position = Vector2(1133, 422)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "e40"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/e40" unique_id=524741306]
+shape = SubResource("hitbox_e40")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="e41" type="Area2D" parent="Hitboxes" unique_id=367830711]
+position = Vector2(255, 480)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "e41"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/e41" unique_id=827824949]
+shape = SubResource("hitbox_e41")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)

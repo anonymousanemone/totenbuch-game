@@ -2,31 +2,13 @@
 
 ## Open — to resolve
 
-- when the player grabs the adze, you can no longer click on the mummy, it neither highlights nor does it enter into the mini game, but when you click on it it gives you a message "needs the right tool"
-- clicking on the lector who tells you what the offering item next is, but it's displayed in a really ugly way, with pink borders, and a bright white interior. 
-- draggin is broken? so maybe minigame interaction is broken? - actually, it says i have to free my hands to interact with the offering table. the hand limitation does not affect non-carry able objects. 
-- i can't put the adze back. also, leave an imprint for the implement once it's been taken. let the adze be able to be put back if it's dragged off the player and placed to the stand. 
-- for the merti snakes, is the speed of the spear timings the same as the other games? what's the timing on the snakes?
-- ending animation for merti snakes is a giggle squash like the others
-- the apep strike point is NOT a dot, it should be a fill in spot sithin the bounds of the neck. 
-- donkey game is a little easy, maybe speed it up slightly
-- the sheath snake should not squish to laugh when it gets fully speared
-- when all the dangers levels are beat, the ending animation should play immediately (wait like 3 seconds before that), isntead of making the player walk all the way to the end. 
-- in survival, the worshipper (who became the avatar) has been deleted so there's not two copies on screen. the way the scepters sit is behind the player (so the player is opaque in the middle, like in procession), and there is an extra copy of them to demo the placement. the scepter placement behind the house point is also placed, via an extra copy. the bottom half should be behind the house, and the house opaque. 
-- be given a breath from the narrow tree game (the one where there is no breath sign in the caption)
-- all standards need a registry entry explaining what they are (or at least needs to stil lshow their registry after completing the puzzle)
-- end speech when puzzle for offering table, currently no success message exists/shows
-- the procession is in order, head over to ra appears at a bad time, when the imprint on the stela appears, if it's in view (or very very close, it should say the stela glows faintly.) if it's far, (something changed to the right/left)
-- the position of the lotus changed, it's not right (it's also facing the wrong direction when it's taken off the person. when the lotus is dragged off from the person, it should be facing the correct direction, and not turn around once it's been placed on the stand. ) the offering stand drag mechanic should be the same as the offering table mechanice (aka you don't need to release in order for it to click).
-- clicking ra while holding the offering stand stuff will make the stand imprint appears (this is existing behavior). dragging the stand/other equipment to ra should also do that.
-- 
+- [ ] the position of the lotus changed, it's not right (it's also facing the wrong direction when it's taken off the person. when the lotus is dragged off from the person, it should be facing the correct direction, and not turn around once it's been placed on the stand. ) the offering stand drag mechanic should be the same as the offering table mechanice (aka you don't need to release in order for it to click). — *Facing and snap done (taken off, it faces as it stands; it goes on without letting go). Position: which one is wrong is still to confirm.*
 
 
 ### Shared
 
 #### General
 
-- [ ] green flashes of success!!! in both the text and the "game" parts!!!
 - [ ] **Change the journal format for all entries:** show an icon, title, and two-line text summary for each entry. Clicking an entry shows a longer description.
 - [ ] **Define a creativity-versus-skill scale for each level (inspiration: IQKnight):** define creativity as discovering, interpreting, and experimenting with ideas or solutions; define skill as executing understood actions through timing, precision, coordination, and practice. Give each level its own creativity-to-skill ratio and a custom description that sets player expectations. Likely store the ratio and description in each level's `puzzles.json`; exact ratios, wording, and storage remain to be decided.
 
@@ -34,11 +16,6 @@
 
 An avatar walks the whole scroll, completely restored and as the papyrus original, and can only click figures and captions to read their descriptions and labels. No puzzles, fights or gates.
 
-- [x] **Per-level view (2026-11-05):** a restored level's map card offers **View** beside Play again (`Scroll.open(key, true)`, `Scroll.viewing`). The level opens already solved (Procession rites done, Dangers overcome, Survival without its rites, Gates with every adorer shown), clicks only walk and read, and the frame band is tinted gold (`UI.VIEW`). Dev: `-- --level=<key> --view`. Tested in `godot/tests/view_mode_regressions.gd`.
-- [ ] **One continuous walk through the whole scroll:** join every built level's restored scene into one scroll, right to left (Lepsius's spell order), with no menu between them. Decide how the scenes are joined (each instanced in turn against a shared avatar and camera, or one stitched scene) and where level boundaries and titles show.
-- [ ] **Which levels show:** only restored levels, or the whole scroll with unrestored stretches blank or locked. To be decided.
-- [ ] **Entry point:** a "View the scroll" button on the title page or map, separate from the per-level View.
-- [ ] **Survival view:** the drawn men stay visible and the avatar starts on top of the drawn spell-43 worshipper, so the two overlap. Hide the drawn man or start the avatar beside him.
 - [ ] **Restored state for new levels:** each needs its own `restore()` on its puzzle pieces, with its fights, gates and clues switched off while `Scroll.viewing`.
 
 ### Procession
@@ -52,36 +29,27 @@ An avatar walks the whole scroll, completely restored and as the papyrus origina
 
 #### Hauling
 
-- [x] hauling game: lead shakes (like the calf). 
-- [x] pull when my whip falls - the count down are small falls, then the first real one is the regular sized 
-- [x] processional boat description - remove the talk to ox driver part.
-- [x] allow clicking on the empty rope to start game
 
 #### Opening of the Mouth
 
-- [ ] success message for words in place is bad. also, should read what it says (like scenery) once the words are in place. 
 
 #### Offering stand
 
-- [ ] procession is in order - chnage to "Off to the left, something glows." (because the procession is not in order, you still have to assemble the offering stand)
 
 ### Dangers
-
-- [ ] **Spell 35 loss: a mass of snakes, not a cone:** when the snakes swarm in and eat the player, they currently fan out in a triangular halo around the outside of the body. Instead, they should criss-cross over the body, so the player looks covered in one large mass of snakes.
 
 #### General
 
 - [ ] **Start prompt on a papyrus scrap (idea):** “press enter to start” could sit on a frame shaped like a papyrus scrap, with hints written in a damaged area of it. Not decided yet.
-- [ ] **Show remaining hits against the Eater of the Ass (spell 40):** nothing in the scene shows how many strikes are left now that the "%d more" text is gone. Apep's shrinking waves and spell 33's shrinking mark are the models.
+- [ ] eater of the ass fake out head raise?
 - [ ] **Record each Dangers creature from its first encounter:** add its journal entry when first encountered, without requiring a win. Track and display attempts and cumulative time spent on that creature from the first encounter onward, including unsuccessful attempts and revisits. Planning only; before implementation, define the encounter/attempt boundaries and whether time means active fighting time (recommended, excluding pauses, journal reading, and time elsewhere). Additional performance statistics and hard/infinite-mode record rules are still recommendations, not approved scope.
 - [ ] **TBD — Journal statistics definitions:** keep attempts and cumulative time as history. Suggested boundaries: count each fight start, including retries, as an attempt; count only active fighting time, excluding pauses, reading, and time elsewhere. These definitions remain undecided.
 - [ ] **TBD — Dangers personal bests:** consider fewest hits taken in a victory (zero as the mastery goal), fastest victory with hits taken shown alongside it, and successful actions with creature-specific wording such as repelled or speared. Report hits taken per attempt or winning run; lifetime damage totals mostly measure time played. For the donkey encounter, include harm to the donkey with appropriate wording.
 - [ ] **TBD — Separate mode records:** keep Breath, Hard (no sign), and Ankh infinite records separate because their conditions differ; avoid one combined score.
 - [ ] **TBD — Ankh infinite replay statistics:** keep cumulative successful actions as a lifetime tally, rather than the main personal best, since unlimited time can always increase the count. Recommended headline record: most successful actions before the first damaging mistake (a mistake-free streak); count ankh flashes as damaging mistakes despite no health loss. Also consider a fixed challenge, such as most successful actions in 60 active seconds with damaging mistakes shown alongside it. Show current-session successful actions, damaging mistakes, and active time. The fixed challenge and all these record rules remain undecided, not approved for implementation.
 - [ ] **Teach players to look around for clues:** reuse the heka pattern. Signs on the long scroll that carry a clue flash the way the heka signs already do, and clicking one gives a short, vague hint. The heka signs in spells 31–32 are the first flashing signs the player meets, so they teach the habit of clicking what flashes. A Hint-button hint at the Notice level (e.g. “Look at what flashes on the scroll.”) backs this up for players who miss it. Spell 37's two snakes are the first case (done).
-- [ ] **TBD — Time to read heka during a fight:** clicking the heka sign while fighting should give the player time to read its text before the fight goes on. Open question: should the fight pause while the text is shown?
 
-#### Gates — spells 145–146
+#### Gates — spells 144–147
 
 - [ ] **Spell 145, name-and-god matching game:** the player carries a name over their head and must match it to the right god. They walk to the correct god and drag the name onto it; the god lights up and a version of the adorer appears. A different name then appears over the player's head, until every name and god is matched. Reuse `moveable_object.gd` (press-drag-release; check the name-over-head carry against the movable-objects rules in AGENTS.md before building).
   - The pylon's plumes answer each match: call `PylonPlumes.react(pylon, accepted)` (`scripts/gates/plumes.gd`); they rise and fan for a right name, sag and lean apart for a wrong one.
@@ -91,6 +59,19 @@ An avatar walks the whole scroll, completely restored and as the papyrus origina
   - The game says why. A short line explains the refusal, so the player learns that a mismatch is something to avoid.
   - A repeated mistake gets help. After a couple of misses, the correct god gets a faint hint (it could glow a little, or the narration points toward it). This teaches without making the player stuck.
   - 146 uses the same refusal, made deadly. The god rejects the name the same way, but now it strikes. Because the player has seen the refusal in 145, they'll read the death in 146 as the same mistake with higher stakes.
+- [ ] **Spell 147, which god is drawn:** each gate has a keeper, a guardian and an announcer (Allen 1974), but the plate draws a single baboon-headed god. For now, his entry names the guardian and the announcer.
+- [ ] **DemonBase citation:** add the database's URL and its editors to the `DemonBase` citation in `godot/assets/gates/registry.json` and in the Scene Atlas.
+- [ ] **Name choices where DemonBase settles neither reading** (Allen 1974 used as the fallback): 144 first announcer; 145 keepers 3, 5, 7 and 21; 146 keepers 2, 3, 5 and 7.
+- [ ] **Descriptions longer than three lines:** these run past three lines in the message box (1,062 px wide at 1280×720). Shorten them, or let the box grow.
+  - 5 lines, 145 sixth pylon (`spell145_pylon6`): "Lady of Obeisance, loud-roaring, whose height is known no more than her breadth, whose creator has not been discovered since the beginning of time, whose crawlers on their bellies are innumerable, she who was born before the Weary-hearted One."
+  - 4 lines, 145 first pylon (`spell145_pylon1`): "Lady of Trembling, lofty of battlements, supreme one, lady of breaking and entering, uttering proclamations, warding off the storm, rescuing the plundered whether present or far away."
+  - 4 lines, 145 fourteenth pylon (`spell145_pylon14`): "Great of Renown, red of eyelashes, Iakhbyt who goes forth by night, who drives away the rebel with what he has planned, who offers her equipment to the Weary-hearted One at the great moment."
+  - 4 lines, 146 first portal (`spell146_p65_5_gate`): "Lady of Trembling, lofty of battlements, supreme one, lady of breaking and entering, uttering proclamations, warding off storms, rescuing the plundered whether present or far away."
+  - 4 lines, 146 sixth portal (`spell146_p66_7_gate`): "Lady of Darkness, loud-roaring, whose length and breadth are unknown, whose character has not been recognized from her beginning, on whom are snakes innumerable, she who was born before the weary-hearted one."
+  - 4 lines, 146 ninth portal (`spell146_p66_4_gate`): "Foremost One, tranquil Possessor of Power, Offspring of her lord, 350 hundred-cubits in circumference, sown with green stone of Upper Egypt, who raises up the Enterer and veils the weary one, who makes gifts to her Lord every day."
+  - 4 lines, 146 fifteenth portal (`spell146_p67_1_gate`): "Hostile Soul, red of eyelashes, cross-eyed one who goes forth by night, who seizes the rebel by his coil, who extends her arms to the weary-hearted one at his appointed instant, who comes back if she goes away."
+  - 4 lines, 147 god of the fourth gate (`spell147_gate4_baboon`): A baboon-headed god stands at the fourth gate of the House of Osiris, holding a staff. The gate has a guardian, "Flame," and an announcer, "Hippopotamus-faced, Violent of Strength."
+  - 4 lines, 147 god of the sixth gate (`spell147_gate6_baboon`): A baboon-headed god stands at the sixth gate of the House of Osiris, holding a staff. The gate has a guardian, "the One whose Face brings in the Flame," and an announcer, "Keen of Face, Attached to the Lake."
 
 ### References — unsourced details in the registries
 
@@ -104,15 +85,20 @@ Each `reference` field now names its sources (`skills/cite-references/SKILL.md`)
 - [ ] **Cosmos, `horus_khenty_irty`:** the translation "Horus foremost of the two eyes". Davis gives only the name, Har-Khent-an-mer-ti.
 - [ ] **Check by reading:** the Davis citations were found by matching the registry wording against an OCR copy of Davis, plus spot checks. Cosmos (spell 17) matched least well, because the OCR is poor there. Read the spell 17 entries against the Davis page images.
 
-### Field of Offerings — spell 110 (archived)
+### Field of Offerings — spell 110 (a level to walk and read; its puzzles are not rebuilt yet)
 
-- [ ] **Check where each caption sits** (`godot/assets/field/registry.json`): the translations come from Backes' list for P. Turin 1791 and Allen's description of P. Ryerson. Matching each label to its spot on pl. XLI is my own reading, taking Backes' list right to left in each register. Check especially:
+Cut from `art/fields110.mdp` by `tools/build_field.py` (figures, captions, side plates, columns, the map picture and `level.json`; the scene is written once and then left to the Godot editor). The old puzzle design is in `archive/README.md`, its script in `archive/godot/scripts/field.gd`.
+
+- [ ] **Hidden folder "Solar crossing" is exported** (the boat with its rower, the cup bearer before it and the three round signs, all in the top register). It is hidden in the MDP, so say whether it is finished; if not, take it out of `SHOWN_HIDDEN` in the tool.
+- [ ] **The avatar's lanes:** the camera shows one lane at a time (top, middle, bottom register, and the page's floor under them, `base`), crossed with the up/down arrows or by clicking the water. The four stacked panels of pl. XLII have four floors against these three registers, so the avatar stands mid-panel in the upper ones, and over the two large adorants. Decide whether the panels need lanes of their own, and whether the adorants should hide the avatar as the text columns do.
+- [ ] **Describe the side plates and name their gods:** the figure entries for the four stacked panels, the large adorants and the registers' figures only say what is drawn (`"reference": "as drawn"`). Find sources for who the gods are before saying so.
+- [ ] **Check where each caption sits** (`godot/assets/field/registry.json`; the rectangles are `CAPTIONS` in `tools/build_field.py`): the translations come from Backes' list for P. Turin 1791 and Allen's description of P. Ryerson. Matching each label to its spot on pl. XLI is my own reading, taking Backes' list right to left in each register. Check especially:
   - which oval is which, for the three in the top register, the four in the middle and the four in the bottom;
   - how the bottom register's labels split between the long line over the throne bark, the column beside it, the oval island ("the god in it: Re") and the channel line ("birthplace of the gods");
   - which signs in the middle register say "giving the overflow";
   - that "the gods of the horizon" labels the mummiform god.
 - [ ] **Unsourced: the island with the bird** (bottom left): Backes doesn't list it. Its only reading, "the common folk" (`rḫyt`), comes from Allen 1960's description of a different papyrus and is marked uncertain there.
-- [ ] **Unsourced: the round signs over the boat** (top register; the archived level calls them "Three loaves"): no source I read says what they are or whether they are captions. They are left out of the registry for now.
+- [ ] **Unsourced: the round signs over the boat** (top register; the old level called them "Three loaves"): no source I read says what they are or whether they are captions. They are drawn in the scene (`round_sign_1`–`3`) but have no registry entry, so they cannot be clicked.
 
 ### Cosmos
 
@@ -632,3 +618,54 @@ Completed with the revised wording: the priest says "He tells you the next offer
 
 - [x] standards plumed priest when giving hint. - "he speaks to you" (append this to the description)
 - [x] plumed lector priest's default description is never shown, and when clicked on, he gives no corresponding text on the bottom.
+
+## Completed — 2026-11-10
+
+Done items moved down from the open sections above.
+
+### Open — to resolve
+
+- [x] when the player grabs the adze, you can no longer click on the mummy, it neither highlights nor does it enter into the mini game, but when you click on it it gives you a message "needs the right tool"
+- [x] clicking on the lector who tells you what the offering item next is, but it's displayed in a really ugly way, with pink borders, and a bright white interior.
+- [x] draggin is broken? so maybe minigame interaction is broken? - actually, it says i have to free my hands to interact with the offering table. the hand limitation does not affect non-carry able objects.
+- [x] i can't put the adze back. also, leave an imprint for the implement once it's been taken. let the adze be able to be put back if it's dragged off the player and placed to the stand.
+- [x] for the merti snakes, is the speed of the spear timings the same as the other games? what's the timing on the snakes? — *Yes: the spear uses the shared THRUST_TIME (0.07 s down, 0.18 s back) like every fight. Snakes (`danger_encounters.gd` e37), first strike → last: sign flash 0.945 → 0.47 s, squash 0.36 → 0.27 s, spring 0.23 → 0.19 s, hit reach 12 → 7 px, 0.84–1.68 s between attacks.*
+- [x] ending animation for merti snakes is a giggle squash like the others
+- [x] the apep strike point is NOT a dot, it should be a fill in spot sithin the bounds of the neck.
+- [x] donkey game is a little easy, maybe speed it up slightly
+- [x] the sheath snake should not squish to laugh when it gets fully speared
+- [x] when all the dangers levels are beat, the ending animation should play immediately (wait like 3 seconds before that), isntead of making the player walk all the way to the end.
+- [x] in survival, the worshipper (who became the avatar) has been deleted so there's not two copies on screen. the way the scepters sit is behind the player (so the player is opaque in the middle, like in procession), and there is an extra copy of them to demo the placement. the scepter placement behind the house point is also placed, via an extra copy. the bottom half should be behind the house, and the house opaque.
+- [x] be given a breath from the narrow tree game (the one where there is no breath sign in the caption)
+- [x] all standards need a registry entry explaining what they are (or at least needs to stil lshow their registry after completing the puzzle)
+- [x] end speech when puzzle for offering table, currently no success message exists/shows
+- [x] the procession is in order, head over to ra appears at a bad time, when the imprint on the stela appears, if it's in view (or very very close, it should say the stela glows faintly.) if it's far, (something changed to the right/left)
+- [x] clicking ra while holding the offering stand stuff will make the stand imprint appears (this is existing behavior). dragging the stand/other equipment to ra should also do that.
+
+### Shared
+
+#### General
+
+- [x] green flashes of success!!! in both the text (the bottom text where the instructins are kept) and the "game" parts!!! — *Done (2026-11-10): a success line in the strip turns green and back to ink (`hud.flash_success()`; procession, dangers, survival 52–53), in time with the pale-green glow the scene already gives what was set right.*
+
+#### Navigate-only mode (plan)
+
+- [x] **Per-level view (2026-11-05):** a restored level's map card offers **View** beside Play again (`Scroll.open(key, true)`, `Scroll.viewing`). The level opens already solved (Procession rites done, Dangers overcome, Survival without its rites, Gates with every adorer shown), clicks only walk and read, and the frame band is tinted gold (`UI.VIEW`). Dev: `-- --level=<key> --view`. Tested in `godot/tests/view_mode_regressions.gd`.
+- [x] **Which levels show:** how the scroll displays stayed the same. remember that only level that have been solved have dark ink, and during non-debug, the player has to play sequentially, unlocking one level at a time. the view only option is only available once a level is with dark ink. (so in debug, view only is always available, because all levels are always available). — *Done (2026-11-10): only restored levels are in dark ink. Outside debug builds a level can be played once restored or when it is the next one, and viewed once restored; debug builds play and view every built level (`Scroll.unlock_all`).*
+
+### Procession
+
+#### Hauling
+
+- [x] hauling game: lead shakes (like the calf). 
+- [x] pull when my whip falls - the count down are small falls, then the first real one is the regular sized 
+- [x] processional boat description - remove the talk to ox driver part.
+- [x] allow clicking on the empty rope to start game
+
+#### Opening of the Mouth
+
+- [x] success message for words in place is bad. also, should read what it says (like scenery) once the words are in place. — *Done (2026-11-10): set in place, the Scribe says "The words are back over Ra. They read:" and the words' reading, Davis's third title of spell 15 ("Adoration to Tmu setting down in the Land of Life."). Clicked later, they read as a caption (`mouth_words` in the procession registry).*
+
+#### Offering stand
+
+- [x] procession is in order - chnage to "Off to the left, something glows." (because the procession is not in order, you still have to assemble the offering stand)

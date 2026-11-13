@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://b6pt1knkk4mmq" path="res://scripts/gates/gates.gd" id="level"]
 [ext_resource type="Shader" uid="uid://cuel7upwgpsc3" path="res://scripts/papyrus.gdshader" id="papyrus"]
 [ext_resource type="Shader" uid="uid://6ot6hveh3e8i" path="res://scripts/gates/plumes.gdshader" id="plumes"]
+[ext_resource type="Texture2D" uid="uid://crcalewrylpl" path="res://assets/gates/figures/spell144_caption.png" id="spell144_caption"]
 [ext_resource type="Texture2D" uid="uid://ebclqicvx36c" path="res://assets/gates/figures/spell144_room1.png" id="spell144_room1"]
 [ext_resource type="Texture2D" uid="uid://064erejy64tb" path="res://assets/gates/figures/spell144_room1_hawk.png" id="spell144_room1_hawk"]
 [ext_resource type="Texture2D" uid="uid://caxtfh6hmwba5" path="res://assets/gates/figures/spell144_room1_keeper.png" id="spell144_room1_keeper"]
@@ -33,6 +34,7 @@
 [ext_resource type="Texture2D" uid="uid://ck62h11xa8gpf" path="res://assets/gates/figures/spell144_room7_keeper.png" id="spell144_room7_keeper"]
 [ext_resource type="Texture2D" uid="uid://cto64s30ku67y" path="res://assets/gates/figures/spell144_room7_ram_1.png" id="spell144_room7_ram_1"]
 [ext_resource type="Texture2D" uid="uid://maai2ea2ysvo" path="res://assets/gates/figures/spell144_room7_ram_2.png" id="spell144_room7_ram_2"]
+[ext_resource type="Texture2D" uid="uid://col2vs525mben" path="res://assets/gates/figures/spell145_caption.png" id="spell145_caption"]
 [ext_resource type="Texture2D" uid="uid://dx2obg6ybyair" path="res://assets/gates/figures/spell145_pylon1.png" id="spell145_pylon1"]
 [ext_resource type="Texture2D" uid="uid://bk1180u6pee22" path="res://assets/gates/figures/spell145_pylon1_adorer.png" id="spell145_pylon1_adorer"]
 [ext_resource type="Texture2D" uid="uid://bmm84pjcd0fm3" path="res://assets/gates/figures/spell145_pylon1_keeper.png" id="spell145_pylon1_keeper"]
@@ -96,6 +98,9 @@
 [ext_resource type="Texture2D" uid="uid://cv4xycdreqx0q" path="res://assets/gates/figures/spell145_pylon21.png" id="spell145_pylon21"]
 [ext_resource type="Texture2D" uid="uid://dybgsn6m4l62d" path="res://assets/gates/figures/spell145_pylon21_adorer.png" id="spell145_pylon21_adorer"]
 [ext_resource type="Texture2D" uid="uid://cdf2jv2j7m6to" path="res://assets/gates/figures/spell145_pylon21_keeper.png" id="spell145_pylon21_keeper"]
+[ext_resource type="Texture2D" uid="uid://sx0ncvrudnn" path="res://assets/gates/figures/spell146_caption.png" id="spell146_caption"]
+[ext_resource type="Texture2D" uid="uid://cy0de4nyxv10h" path="res://assets/gates/figures/spell146_caption_portal6.png" id="spell146_caption_portal6"]
+[ext_resource type="Texture2D" uid="uid://bt1us8e0hm4rb" path="res://assets/gates/figures/spell146_caption_portal8.png" id="spell146_caption_portal8"]
 [ext_resource type="Texture2D" uid="uid://cmudavkhd5833" path="res://assets/gates/figures/spell146_p65_1_figure.png" id="spell146_p65_1_figure"]
 [ext_resource type="Texture2D" uid="uid://2wse8otfyvnc" path="res://assets/gates/figures/spell146_p65_1_gate.png" id="spell146_p65_1_gate"]
 [ext_resource type="Texture2D" uid="uid://s7fbmx2i0to7" path="res://assets/gates/figures/spell146_p65_2_figure.png" id="spell146_p65_2_figure"]
@@ -126,6 +131,28 @@
 [ext_resource type="Texture2D" uid="uid://cxrfc6ien4n1x" path="res://assets/gates/figures/spell146_p67_2_gate.png" id="spell146_p67_2_gate"]
 [ext_resource type="Texture2D" uid="uid://c1wytko067xxa" path="res://assets/gates/figures/spell146_p67_3_figure.png" id="spell146_p67_3_figure"]
 [ext_resource type="Texture2D" uid="uid://b3bojp8v02oh0" path="res://assets/gates/figures/spell146_p67_3_gate.png" id="spell146_p67_3_gate"]
+[ext_resource type="Texture2D" uid="uid://b13gcksmyj2pu" path="res://assets/gates/figures/spell147_caption.png" id="spell147_caption"]
+[ext_resource type="Texture2D" uid="uid://booji425osmsj" path="res://assets/gates/figures/spell147_gate1_adorer.png" id="spell147_gate1_adorer"]
+[ext_resource type="Texture2D" uid="uid://dgobapgiyntfw" path="res://assets/gates/figures/spell147_gate1_baboon.png" id="spell147_gate1_baboon"]
+[ext_resource type="Texture2D" uid="uid://bnrour5x7o8hn" path="res://assets/gates/figures/spell147_gate1_stand.png" id="spell147_gate1_stand"]
+[ext_resource type="Texture2D" uid="uid://dua41kudhwt1s" path="res://assets/gates/figures/spell147_gate2_adorer.png" id="spell147_gate2_adorer"]
+[ext_resource type="Texture2D" uid="uid://4ypha2s10jof" path="res://assets/gates/figures/spell147_gate2_baboon.png" id="spell147_gate2_baboon"]
+[ext_resource type="Texture2D" uid="uid://cymnc0cfd05aw" path="res://assets/gates/figures/spell147_gate2_stand.png" id="spell147_gate2_stand"]
+[ext_resource type="Texture2D" uid="uid://nmc0q7s5g5xa" path="res://assets/gates/figures/spell147_gate3_adorer.png" id="spell147_gate3_adorer"]
+[ext_resource type="Texture2D" uid="uid://bpaugomkbhkxv" path="res://assets/gates/figures/spell147_gate3_baboon.png" id="spell147_gate3_baboon"]
+[ext_resource type="Texture2D" uid="uid://tt1q5fh1eulw" path="res://assets/gates/figures/spell147_gate3_stand.png" id="spell147_gate3_stand"]
+[ext_resource type="Texture2D" uid="uid://bxdu75hkctgx0" path="res://assets/gates/figures/spell147_gate4_adorer.png" id="spell147_gate4_adorer"]
+[ext_resource type="Texture2D" uid="uid://be0a36p7173qo" path="res://assets/gates/figures/spell147_gate4_baboon.png" id="spell147_gate4_baboon"]
+[ext_resource type="Texture2D" uid="uid://bugfk6qwojowv" path="res://assets/gates/figures/spell147_gate4_stand.png" id="spell147_gate4_stand"]
+[ext_resource type="Texture2D" uid="uid://bxnltfqn14uav" path="res://assets/gates/figures/spell147_gate5_adorer.png" id="spell147_gate5_adorer"]
+[ext_resource type="Texture2D" uid="uid://82urcukwbw6o" path="res://assets/gates/figures/spell147_gate5_baboon.png" id="spell147_gate5_baboon"]
+[ext_resource type="Texture2D" uid="uid://bwdoo07g87y4m" path="res://assets/gates/figures/spell147_gate5_stand.png" id="spell147_gate5_stand"]
+[ext_resource type="Texture2D" uid="uid://byxhvtgclck16" path="res://assets/gates/figures/spell147_gate6_adorer.png" id="spell147_gate6_adorer"]
+[ext_resource type="Texture2D" uid="uid://c1x0hgauex7uc" path="res://assets/gates/figures/spell147_gate6_baboon.png" id="spell147_gate6_baboon"]
+[ext_resource type="Texture2D" uid="uid://cbfgnu8nhx0lp" path="res://assets/gates/figures/spell147_gate6_stand.png" id="spell147_gate6_stand"]
+[ext_resource type="Texture2D" uid="uid://cpej6ljs2ebo5" path="res://assets/gates/figures/spell147_gate7_adorer.png" id="spell147_gate7_adorer"]
+[ext_resource type="Texture2D" uid="uid://b10bnmt2lmn3w" path="res://assets/gates/figures/spell147_gate7_baboon.png" id="spell147_gate7_baboon"]
+[ext_resource type="Texture2D" uid="uid://cm7hwncc6nbcm" path="res://assets/gates/figures/spell147_gate7_stand.png" id="spell147_gate7_stand"]
 [ext_resource type="Texture2D" uid="uid://c3buoyi7kmv0o" path="res://assets/gates/figures/strip.png" id="strip"]
 [ext_resource type="Texture2D" uid="uid://bftgsfjb1luq2" path="res://assets/gates/figures/strip144_145.png" id="strip144_145"]
 
@@ -344,6 +371,450 @@ shader_parameter/sway_degrees = 2.5
 shader_parameter/period = 4.5
 shader_parameter/room = 24.0
 
+[sub_resource type="RectangleShape2D" id="hitbox_spell146_p65_1_gate"]
+size = Vector2(264, 296)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell146_p65_1_figure"]
+size = Vector2(124, 180)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell146_p65_2_gate"]
+size = Vector2(244, 292)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell146_p65_2_figure"]
+size = Vector2(148, 196)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell146_p65_3_gate"]
+size = Vector2(228, 284)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell146_p65_3_figure"]
+size = Vector2(140, 184)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell146_p65_4_gate"]
+size = Vector2(228, 284)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell146_p65_4_figure"]
+size = Vector2(152, 164)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell146_p65_5_gate"]
+size = Vector2(272, 284)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell146_p65_5_figure"]
+size = Vector2(116, 164)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell146_caption"]
+size = Vector2(1520, 108)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell146_p66_1_gate"]
+size = Vector2(288, 324)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell146_p66_1_figure"]
+size = Vector2(156, 204)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell146_p66_2_gate"]
+size = Vector2(244, 312)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell146_p66_2_figure"]
+size = Vector2(120, 196)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell146_p66_3_gate"]
+size = Vector2(256, 296)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell146_p66_3_figure"]
+size = Vector2(156, 204)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell146_p66_4_gate"]
+size = Vector2(312, 296)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell146_p66_4_figure"]
+size = Vector2(108, 188)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell146_p66_5_gate"]
+size = Vector2(316, 288)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell146_p66_5_figure"]
+size = Vector2(116, 172)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell146_p66_6_gate"]
+size = Vector2(308, 284)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell146_p66_6_figure"]
+size = Vector2(156, 176)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell146_p66_7_gate"]
+size = Vector2(268, 268)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell146_p66_7_figure"]
+size = Vector2(112, 180)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell146_caption_portal8"]
+size = Vector2(256, 92)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell146_caption_portal6"]
+size = Vector2(316, 108)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell146_p67_1_gate"]
+size = Vector2(268, 332)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell146_p67_1_figure"]
+size = Vector2(152, 224)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell146_p67_2_gate"]
+size = Vector2(352, 320)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell146_p67_2_figure"]
+size = Vector2(136, 208)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell146_p67_3_gate"]
+size = Vector2(320, 356)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell146_p67_3_figure"]
+size = Vector2(120, 204)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell144_room4_man"]
+size = Vector2(132, 288)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell144_room4_ram"]
+size = Vector2(128, 284)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell144_room4"]
+size = Vector2(240, 284)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell144_room4_keeper"]
+size = Vector2(128, 144)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell144_room3_man"]
+size = Vector2(132, 284)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell144_room3_ram"]
+size = Vector2(144, 284)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell144_room3"]
+size = Vector2(264, 304)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell144_room3_keeper"]
+size = Vector2(160, 156)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell144_room2_bull"]
+size = Vector2(156, 316)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell144_room2_ram"]
+size = Vector2(136, 296)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell144_room2"]
+size = Vector2(244, 316)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell144_room2_keeper"]
+size = Vector2(152, 192)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell144_room1_hawk"]
+size = Vector2(124, 308)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell144_room1_man"]
+size = Vector2(124, 320)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell144_room1"]
+size = Vector2(300, 324)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell144_room1_keeper"]
+size = Vector2(164, 152)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell144_caption"]
+size = Vector2(636, 124)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell144_room7_ram_1"]
+size = Vector2(116, 268)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell144_room7_ram_2"]
+size = Vector2(156, 256)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell144_room7"]
+size = Vector2(240, 300)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell144_room7_keeper"]
+size = Vector2(116, 140)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell144_room6_hawk"]
+size = Vector2(140, 284)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell144_room6_ram"]
+size = Vector2(136, 300)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell144_room6"]
+size = Vector2(264, 308)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell144_room6_keeper"]
+size = Vector2(172, 192)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell144_room5_bull"]
+size = Vector2(116, 284)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell144_room5_ram"]
+size = Vector2(140, 272)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell144_room5"]
+size = Vector2(244, 288)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell144_room5_keeper"]
+size = Vector2(144, 160)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_pylon2_keeper"]
+size = Vector2(144, 280)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_pylon2"]
+size = Vector2(192, 344)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_pylon2_adorer"]
+size = Vector2(136, 284)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_pylon1_keeper"]
+size = Vector2(184, 288)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_pylon1"]
+size = Vector2(176, 340)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_pylon1_adorer"]
+size = Vector2(124, 272)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_caption"]
+size = Vector2(1368, 144)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_pylon8_keeper"]
+size = Vector2(148, 296)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_pylon8"]
+size = Vector2(140, 324)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_pylon8_adorer"]
+size = Vector2(112, 264)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_pylon7_keeper"]
+size = Vector2(136, 308)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_pylon7"]
+size = Vector2(168, 328)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_pylon7_adorer"]
+size = Vector2(136, 260)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_pylon6_keeper"]
+size = Vector2(148, 276)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_pylon6"]
+size = Vector2(176, 332)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_pylon6_adorer"]
+size = Vector2(124, 264)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_pylon5_keeper"]
+size = Vector2(192, 284)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_pylon5"]
+size = Vector2(164, 332)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_pylon5_adorer"]
+size = Vector2(112, 264)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_pylon4_keeper"]
+size = Vector2(160, 296)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_pylon4"]
+size = Vector2(156, 320)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_pylon4_adorer"]
+size = Vector2(112, 256)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_pylon3_keeper"]
+size = Vector2(164, 336)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_pylon3"]
+size = Vector2(160, 324)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_pylon3_adorer"]
+size = Vector2(112, 256)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_pylon15_keeper"]
+size = Vector2(144, 264)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_pylon15"]
+size = Vector2(124, 300)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_pylon15_adorer"]
+size = Vector2(92, 252)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_pylon14_keeper"]
+size = Vector2(132, 276)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_pylon14"]
+size = Vector2(136, 308)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_pylon14_adorer"]
+size = Vector2(108, 264)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_pylon13_keeper"]
+size = Vector2(132, 284)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_pylon13"]
+size = Vector2(124, 304)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_pylon13_adorer"]
+size = Vector2(104, 268)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_pylon12_keeper"]
+size = Vector2(148, 284)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_pylon12"]
+size = Vector2(112, 296)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_pylon12_adorer"]
+size = Vector2(88, 244)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_pylon11_keeper"]
+size = Vector2(152, 268)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_pylon11"]
+size = Vector2(140, 296)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_pylon11_adorer"]
+size = Vector2(108, 252)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_pylon10_keeper"]
+size = Vector2(152, 284)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_pylon10"]
+size = Vector2(140, 320)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_pylon10_adorer"]
+size = Vector2(100, 268)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_pylon9_keeper"]
+size = Vector2(168, 300)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_pylon9"]
+size = Vector2(132, 320)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_pylon9_adorer"]
+size = Vector2(120, 264)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_pylon21_keeper"]
+size = Vector2(152, 340)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_pylon21"]
+size = Vector2(156, 344)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_pylon21_adorer"]
+size = Vector2(116, 280)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_pylon20_keeper"]
+size = Vector2(128, 276)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_pylon20"]
+size = Vector2(120, 320)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_pylon20_adorer"]
+size = Vector2(108, 268)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_pylon19_keeper"]
+size = Vector2(124, 252)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_pylon19"]
+size = Vector2(128, 300)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_pylon19_adorer"]
+size = Vector2(108, 256)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_pylon18_keeper"]
+size = Vector2(136, 260)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_pylon18"]
+size = Vector2(144, 324)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_pylon18_adorer"]
+size = Vector2(104, 260)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_pylon17_keeper"]
+size = Vector2(108, 272)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_pylon17"]
+size = Vector2(164, 332)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_pylon17_adorer"]
+size = Vector2(108, 268)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_pylon16_keeper"]
+size = Vector2(136, 276)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_pylon16"]
+size = Vector2(132, 308)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell145_pylon16_adorer"]
+size = Vector2(100, 272)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell147_gate7_baboon"]
+size = Vector2(180, 300)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell147_gate7_stand"]
+size = Vector2(96, 268)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell147_gate7_adorer"]
+size = Vector2(132, 272)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell147_gate6_baboon"]
+size = Vector2(148, 288)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell147_gate6_stand"]
+size = Vector2(80, 208)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell147_gate6_adorer"]
+size = Vector2(104, 264)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell147_gate5_baboon"]
+size = Vector2(144, 284)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell147_gate5_stand"]
+size = Vector2(84, 220)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell147_gate5_adorer"]
+size = Vector2(124, 264)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell147_gate4_baboon"]
+size = Vector2(140, 288)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell147_gate4_stand"]
+size = Vector2(64, 188)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell147_gate4_adorer"]
+size = Vector2(124, 260)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell147_gate3_stand"]
+size = Vector2(96, 244)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell147_gate3_baboon"]
+size = Vector2(156, 300)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell147_gate3_adorer"]
+size = Vector2(140, 272)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell147_gate2_baboon"]
+size = Vector2(148, 288)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell147_gate2_stand"]
+size = Vector2(80, 236)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell147_gate2_adorer"]
+size = Vector2(128, 280)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell147_gate1_stand"]
+size = Vector2(156, 256)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell147_gate1_baboon"]
+size = Vector2(252, 312)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell147_gate1_adorer"]
+size = Vector2(168, 288)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell147_caption"]
+size = Vector2(2020, 116)
+
 [node name="Gates" type="Node2D" unique_id=92962497]
 script = ExtResource("level")
 level_key = "gates"
@@ -352,7 +823,7 @@ level_key = "gates"
 material = SubResource("paper")
 offset_left = -2000.0
 offset_top = -1000.0
-offset_right = 20500.0
+offset_right = 23679.0
 offset_bottom = 2600.0
 mouse_filter = 2
 
@@ -364,7 +835,7 @@ texture = ExtResource("strip")
 centered = false
 
 [node name="Strip144_145" type="Sprite2D" parent="Strip" unique_id=845662105]
-position = Vector2(5220, 0)
+position = Vector2(8399, 0)
 texture = ExtResource("strip144_145")
 centered = false
 
@@ -375,214 +846,235 @@ centered = false
 [node name="Plate65" type="Node2D" parent="Figures/Spell146" unique_id=421658074]
 
 [node name="p65-1 gate" type="Sprite2D" parent="Figures/Spell146/Plate65" unique_id=737362623]
-position = Vector2(3727, 240)
+position = Vector2(6906, 240)
 texture = ExtResource("spell146_p65_1_gate")
 centered = false
 metadata/registry_id = "spell146_p65_1_gate"
 metadata/source_layer_id = 1024
 
 [node name="p65-1 figure" type="Sprite2D" parent="Figures/Spell146/Plate65" unique_id=789692572]
-position = Vector2(3824, 353)
+position = Vector2(7003, 353)
 texture = ExtResource("spell146_p65_1_figure")
 centered = false
 metadata/registry_id = "spell146_p65_1_figure"
 metadata/source_layer_id = 1025
 
 [node name="p65-2 gate" type="Sprite2D" parent="Figures/Spell146/Plate65" unique_id=296603310]
-position = Vector2(4093, 245)
+position = Vector2(7272, 245)
 texture = ExtResource("spell146_p65_2_gate")
 centered = false
 metadata/registry_id = "spell146_p65_2_gate"
 metadata/source_layer_id = 1026
 
 [node name="p65-2 figure" type="Sprite2D" parent="Figures/Spell146/Plate65" unique_id=1061024779]
-position = Vector2(4127, 336)
+position = Vector2(7306, 336)
 texture = ExtResource("spell146_p65_2_figure")
 centered = false
 metadata/registry_id = "spell146_p65_2_figure"
 metadata/source_layer_id = 1027
 
 [node name="p65-3 gate" type="Sprite2D" parent="Figures/Spell146/Plate65" unique_id=1733989613]
-position = Vector2(4434, 254)
+position = Vector2(7613, 254)
 texture = ExtResource("spell146_p65_3_gate")
 centered = false
 metadata/registry_id = "spell146_p65_3_gate"
 metadata/source_layer_id = 1028
 
 [node name="p65-3 figure" type="Sprite2D" parent="Figures/Spell146/Plate65" unique_id=1716457229]
-position = Vector2(4474, 349)
+position = Vector2(7653, 349)
 texture = ExtResource("spell146_p65_3_figure")
 centered = false
 metadata/registry_id = "spell146_p65_3_figure"
 metadata/source_layer_id = 1029
 
 [node name="p65-4 gate" type="Sprite2D" parent="Figures/Spell146/Plate65" unique_id=1867817916]
-position = Vector2(4755, 254)
+position = Vector2(7934, 254)
 texture = ExtResource("spell146_p65_4_gate")
 centered = false
 metadata/registry_id = "spell146_p65_4_gate"
 metadata/source_layer_id = 1030
 
 [node name="p65-4 figure" type="Sprite2D" parent="Figures/Spell146/Plate65" unique_id=1121424607]
-position = Vector2(4782, 371)
+position = Vector2(7961, 371)
 texture = ExtResource("spell146_p65_4_figure")
 centered = false
 metadata/registry_id = "spell146_p65_4_figure"
 metadata/source_layer_id = 1031
 
 [node name="p65-5 gate" type="Sprite2D" parent="Figures/Spell146/Plate65" unique_id=408005014]
-position = Vector2(5051, 256)
+position = Vector2(8230, 256)
 texture = ExtResource("spell146_p65_5_gate")
 centered = false
 metadata/registry_id = "spell146_p65_5_gate"
 metadata/source_layer_id = 1032
 
 [node name="p65-5 figure" type="Sprite2D" parent="Figures/Spell146/Plate65" unique_id=1314655211]
-position = Vector2(5155, 373)
+position = Vector2(8334, 373)
 texture = ExtResource("spell146_p65_5_figure")
 centered = false
 metadata/registry_id = "spell146_p65_5_figure"
 metadata/source_layer_id = 1033
 
+[node name="toptext1" type="Sprite2D" parent="Figures/Spell146/Plate65" unique_id=274564239]
+position = Vector2(7036, 66)
+texture = ExtResource("spell146_caption")
+centered = false
+metadata/registry_id = "spell146_caption"
+metadata/source_layer_id = 1020
+
 [node name="Plate66" type="Node2D" parent="Figures/Spell146" unique_id=56028106]
 
 [node name="p66-1 gate" type="Sprite2D" parent="Figures/Spell146/Plate66" unique_id=327168187]
-position = Vector2(1272, 217)
+position = Vector2(4451, 217)
 texture = ExtResource("spell146_p66_1_gate")
 centered = false
 metadata/registry_id = "spell146_p66_1_gate"
 metadata/source_layer_id = 1034
 
 [node name="p66-1 figure" type="Sprite2D" parent="Figures/Spell146/Plate66" unique_id=717037276]
-position = Vector2(1380, 327)
+position = Vector2(4559, 327)
 texture = ExtResource("spell146_p66_1_figure")
 centered = false
 metadata/registry_id = "spell146_p66_1_figure"
 metadata/source_layer_id = 1035
 
 [node name="p66-2 gate" type="Sprite2D" parent="Figures/Spell146/Plate66" unique_id=1535186940]
-position = Vector2(1674, 223)
+position = Vector2(4853, 223)
 texture = ExtResource("spell146_p66_2_gate")
 centered = false
 metadata/registry_id = "spell146_p66_2_gate"
 metadata/source_layer_id = 1036
 
 [node name="p66-2 figure" type="Sprite2D" parent="Figures/Spell146/Plate66" unique_id=599121475]
-position = Vector2(1751, 335)
+position = Vector2(4930, 335)
 texture = ExtResource("spell146_p66_2_figure")
 centered = false
 metadata/registry_id = "spell146_p66_2_figure"
 metadata/source_layer_id = 1037
 
 [node name="p66-3 gate" type="Sprite2D" parent="Figures/Spell146/Plate66" unique_id=962821338]
-position = Vector2(2025, 243)
+position = Vector2(5204, 243)
 texture = ExtResource("spell146_p66_3_gate")
 centered = false
 metadata/registry_id = "spell146_p66_3_gate"
 metadata/source_layer_id = 1038
 
 [node name="p66-3 figure" type="Sprite2D" parent="Figures/Spell146/Plate66" unique_id=1641282991]
-position = Vector2(2090, 334)
+position = Vector2(5269, 334)
 texture = ExtResource("spell146_p66_3_figure")
 centered = false
 metadata/registry_id = "spell146_p66_3_figure"
 metadata/source_layer_id = 1039
 
 [node name="p66-4 gate" type="Sprite2D" parent="Figures/Spell146/Plate66" unique_id=1051324566]
-position = Vector2(2335, 240)
+position = Vector2(5514, 240)
 texture = ExtResource("spell146_p66_4_gate")
 centered = false
 metadata/registry_id = "spell146_p66_4_gate"
 metadata/source_layer_id = 1040
 
 [node name="p66-4 figure" type="Sprite2D" parent="Figures/Spell146/Plate66" unique_id=1791379919]
-position = Vector2(2437, 347)
+position = Vector2(5616, 347)
 texture = ExtResource("spell146_p66_4_figure")
 centered = false
 metadata/registry_id = "spell146_p66_4_figure"
 metadata/source_layer_id = 1041
 
 [node name="p66-5 gate" type="Sprite2D" parent="Figures/Spell146/Plate66" unique_id=1343433380]
-position = Vector2(2672, 248)
+position = Vector2(5851, 248)
 texture = ExtResource("spell146_p66_5_gate")
 centered = false
 metadata/registry_id = "spell146_p66_5_gate"
 metadata/source_layer_id = 1042
 
 [node name="p66-5 figure" type="Sprite2D" parent="Figures/Spell146/Plate66" unique_id=1224296113]
-position = Vector2(2786, 364)
+position = Vector2(5965, 364)
 texture = ExtResource("spell146_p66_5_figure")
 centered = false
 metadata/registry_id = "spell146_p66_5_figure"
 metadata/source_layer_id = 1043
 
 [node name="p66-6 gate" type="Sprite2D" parent="Figures/Spell146/Plate66" unique_id=1636905229]
-position = Vector2(3038, 255)
+position = Vector2(6217, 255)
 texture = ExtResource("spell146_p66_6_gate")
 centered = false
 metadata/registry_id = "spell146_p66_6_gate"
 metadata/source_layer_id = 1044
 
 [node name="p66-6 figure" type="Sprite2D" parent="Figures/Spell146/Plate66" unique_id=470398309]
-position = Vector2(3094, 363)
+position = Vector2(6273, 363)
 texture = ExtResource("spell146_p66_6_figure")
 centered = false
 metadata/registry_id = "spell146_p66_6_figure"
 metadata/source_layer_id = 1045
 
 [node name="p66-7 gate" type="Sprite2D" parent="Figures/Spell146/Plate66" unique_id=2094541795]
-position = Vector2(3367, 274)
+position = Vector2(6546, 274)
 texture = ExtResource("spell146_p66_7_gate")
 centered = false
 metadata/registry_id = "spell146_p66_7_gate"
 metadata/source_layer_id = 1046
 
 [node name="p66-7 figure" type="Sprite2D" parent="Figures/Spell146/Plate66" unique_id=1639114450]
-position = Vector2(3482, 358)
+position = Vector2(6661, 358)
 texture = ExtResource("spell146_p66_7_figure")
 centered = false
 metadata/registry_id = "spell146_p66_7_figure"
 metadata/source_layer_id = 1047
 
+[node name="toptext3" type="Sprite2D" parent="Figures/Spell146/Plate66" unique_id=896856634]
+position = Vector2(5989, 72)
+texture = ExtResource("spell146_caption_portal8")
+centered = false
+metadata/registry_id = "spell146_caption_portal8"
+metadata/source_layer_id = 1022
+
+[node name="toptext2" type="Sprite2D" parent="Figures/Spell146/Plate66" unique_id=1349817413]
+position = Vector2(6505, 66)
+texture = ExtResource("spell146_caption_portal6")
+centered = false
+metadata/registry_id = "spell146_caption_portal6"
+metadata/source_layer_id = 1021
+
 [node name="Plate67" type="Node2D" parent="Figures/Spell146" unique_id=1316015940]
 
 [node name="p67-1 gate" type="Sprite2D" parent="Figures/Spell146/Plate67" unique_id=143677352]
-position = Vector2(223, 204)
+position = Vector2(3402, 204)
 texture = ExtResource("spell146_p67_1_gate")
 centered = false
 metadata/registry_id = "spell146_p67_1_gate"
 metadata/source_layer_id = 1048
 
 [node name="p67-1 figure" type="Sprite2D" parent="Figures/Spell146/Plate67" unique_id=829618241]
-position = Vector2(271, 312)
+position = Vector2(3450, 312)
 texture = ExtResource("spell146_p67_1_figure")
 centered = false
 metadata/registry_id = "spell146_p67_1_figure"
 metadata/source_layer_id = 1049
 
 [node name="p67-2 gate" type="Sprite2D" parent="Figures/Spell146/Plate67" unique_id=1374583740]
-position = Vector2(524, 219)
+position = Vector2(3703, 219)
 texture = ExtResource("spell146_p67_2_gate")
 centered = false
 metadata/registry_id = "spell146_p67_2_gate"
 metadata/source_layer_id = 1050
 
 [node name="p67-2 figure" type="Sprite2D" parent="Figures/Spell146/Plate67" unique_id=60052907]
-position = Vector2(654, 327)
+position = Vector2(3833, 327)
 texture = ExtResource("spell146_p67_2_figure")
 centered = false
 metadata/registry_id = "spell146_p67_2_figure"
 metadata/source_layer_id = 1051
 
 [node name="p67-3 gate" type="Sprite2D" parent="Figures/Spell146/Plate67" unique_id=344551881]
-position = Vector2(923, 182)
+position = Vector2(4102, 182)
 texture = ExtResource("spell146_p67_3_gate")
 centered = false
 metadata/registry_id = "spell146_p67_3_gate"
 metadata/source_layer_id = 1052
 
 [node name="p67-3 figure" type="Sprite2D" parent="Figures/Spell146/Plate67" unique_id=816181763]
-position = Vector2(1031, 330)
+position = Vector2(4210, 330)
 texture = ExtResource("spell146_p67_3_figure")
 centered = false
 metadata/registry_id = "spell146_p67_3_figure"
@@ -593,198 +1085,205 @@ metadata/source_layer_id = 1053
 [node name="Plate60" type="Node2D" parent="Figures/Spell144" unique_id=1935989577]
 
 [node name="p60-1 god left" type="Sprite2D" parent="Figures/Spell144/Plate60" unique_id=1740670685]
-position = Vector2(15864, 252)
+position = Vector2(19043, 252)
 texture = ExtResource("spell144_room4_man")
 centered = false
 metadata/registry_id = "spell144_room4_man"
 metadata/source_layer_id = 1030
 
 [node name="p60-1 god right" type="Sprite2D" parent="Figures/Spell144/Plate60" unique_id=151148148]
-position = Vector2(15987, 254)
+position = Vector2(19166, 254)
 texture = ExtResource("spell144_room4_ram")
 centered = false
 metadata/registry_id = "spell144_room4_ram"
 metadata/source_layer_id = 1031
 
 [node name="p60-1 gate" type="Sprite2D" parent="Figures/Spell144/Plate60" unique_id=139815203]
-position = Vector2(16140, 255)
+position = Vector2(19319, 255)
 texture = ExtResource("spell144_room4")
 centered = false
 metadata/registry_id = "spell144_room4"
 metadata/source_layer_id = 1032
 
 [node name="p60-1 figure" type="Sprite2D" parent="Figures/Spell144/Plate60" unique_id=1801343322]
-position = Vector2(16213, 383)
+position = Vector2(19392, 383)
 texture = ExtResource("spell144_room4_keeper")
 centered = false
 metadata/registry_id = "spell144_room4_keeper"
 metadata/source_layer_id = 1033
 
 [node name="p60-2 god left" type="Sprite2D" parent="Figures/Spell144/Plate60" unique_id=166246293]
-position = Vector2(16436, 252)
+position = Vector2(19615, 252)
 texture = ExtResource("spell144_room3_man")
 centered = false
 metadata/registry_id = "spell144_room3_man"
 metadata/source_layer_id = 1034
 
 [node name="p60-2 god right" type="Sprite2D" parent="Figures/Spell144/Plate60" unique_id=976292395]
-position = Vector2(16548, 257)
+position = Vector2(19727, 257)
 texture = ExtResource("spell144_room3_ram")
 centered = false
 metadata/registry_id = "spell144_room3_ram"
 metadata/source_layer_id = 1035
 
 [node name="p60-2 gate" type="Sprite2D" parent="Figures/Spell144/Plate60" unique_id=1249855590]
-position = Vector2(16692, 238)
+position = Vector2(19871, 238)
 texture = ExtResource("spell144_room3")
 centered = false
 metadata/registry_id = "spell144_room3"
 metadata/source_layer_id = 1036
 
 [node name="p60-2 figure" type="Sprite2D" parent="Figures/Spell144/Plate60" unique_id=1249891232]
-position = Vector2(16748, 368)
+position = Vector2(19927, 368)
 texture = ExtResource("spell144_room3_keeper")
 centered = false
 metadata/registry_id = "spell144_room3_keeper"
 metadata/source_layer_id = 1037
 
 [node name="p60-3 god left" type="Sprite2D" parent="Figures/Spell144/Plate60" unique_id=1900313545]
-position = Vector2(16985, 228)
+position = Vector2(20164, 228)
 texture = ExtResource("spell144_room2_bull")
 centered = false
 metadata/registry_id = "spell144_room2_bull"
 metadata/source_layer_id = 1038
 
 [node name="p60-3 god right" type="Sprite2D" parent="Figures/Spell144/Plate60" unique_id=1885036418]
-position = Vector2(17144, 245)
+position = Vector2(20323, 245)
 texture = ExtResource("spell144_room2_ram")
 centered = false
 metadata/registry_id = "spell144_room2_ram"
 metadata/source_layer_id = 1039
 
 [node name="p60-3 gate" type="Sprite2D" parent="Figures/Spell144/Plate60" unique_id=251587059]
-position = Vector2(17292, 226)
+position = Vector2(20471, 226)
 texture = ExtResource("spell144_room2")
 centered = false
 metadata/registry_id = "spell144_room2"
 metadata/source_layer_id = 1040
 
 [node name="p60-3 figure" type="Sprite2D" parent="Figures/Spell144/Plate60" unique_id=337634626]
-position = Vector2(17327, 332)
+position = Vector2(20506, 332)
 texture = ExtResource("spell144_room2_keeper")
 centered = false
 metadata/registry_id = "spell144_room2_keeper"
 metadata/source_layer_id = 1041
 
 [node name="p60-4 god left" type="Sprite2D" parent="Figures/Spell144/Plate60" unique_id=1925488589]
-position = Vector2(17606, 243)
+position = Vector2(20785, 243)
 texture = ExtResource("spell144_room1_hawk")
 centered = false
 metadata/registry_id = "spell144_room1_hawk"
 metadata/source_layer_id = 1042
 
 [node name="p60-4 god right" type="Sprite2D" parent="Figures/Spell144/Plate60" unique_id=1128374586]
-position = Vector2(17735, 232)
+position = Vector2(20914, 232)
 texture = ExtResource("spell144_room1_man")
 centered = false
 metadata/registry_id = "spell144_room1_man"
 metadata/source_layer_id = 1043
 
 [node name="p60-4 gate" type="Sprite2D" parent="Figures/Spell144/Plate60" unique_id=573186071]
-position = Vector2(17856, 228)
+position = Vector2(21035, 228)
 texture = ExtResource("spell144_room1")
 centered = false
 metadata/registry_id = "spell144_room1"
 metadata/source_layer_id = 1044
 
 [node name="p60-4 figure" type="Sprite2D" parent="Figures/Spell144/Plate60" unique_id=181702368]
-position = Vector2(17931, 368)
+position = Vector2(21110, 368)
 texture = ExtResource("spell144_room1_keeper")
 centered = false
 metadata/registry_id = "spell144_room1_keeper"
 metadata/source_layer_id = 1045
 
+[node name="toptext_spell144" type="Sprite2D" parent="Figures/Spell144/Plate60" unique_id=1752698594]
+position = Vector2(20667, 50)
+texture = ExtResource("spell144_caption")
+centered = false
+metadata/registry_id = "spell144_caption"
+metadata/source_layer_id = 1029
+
 [node name="Plate61" type="Node2D" parent="Figures/Spell144" unique_id=317186885]
 
 [node name="p61-3 god left" type="Sprite2D" parent="Figures/Spell144/Plate61" unique_id=195585816]
-position = Vector2(14114, 270)
+position = Vector2(17293, 270)
 texture = ExtResource("spell144_room7_ram_1")
 centered = false
 metadata/registry_id = "spell144_room7_ram_1"
 metadata/source_layer_id = 1054
 
 [node name="p61-3 god right" type="Sprite2D" parent="Figures/Spell144/Plate61" unique_id=1903636032]
-position = Vector2(14239, 279)
+position = Vector2(17418, 279)
 texture = ExtResource("spell144_room7_ram_2")
 centered = false
 metadata/registry_id = "spell144_room7_ram_2"
 metadata/source_layer_id = 1055
 
 [node name="p61-3 gate" type="Sprite2D" parent="Figures/Spell144/Plate61" unique_id=1273866389]
-position = Vector2(14390, 236)
+position = Vector2(17569, 236)
 texture = ExtResource("spell144_room7")
 centered = false
 metadata/registry_id = "spell144_room7"
 metadata/source_layer_id = 1056
 
 [node name="p61-3 figure" type="Sprite2D" parent="Figures/Spell144/Plate61" unique_id=829272100]
-position = Vector2(14458, 385)
+position = Vector2(17637, 385)
 texture = ExtResource("spell144_room7_keeper")
 centered = false
 metadata/registry_id = "spell144_room7_keeper"
 metadata/source_layer_id = 1057
 
 [node name="p61-4 god left" type="Sprite2D" parent="Figures/Spell144/Plate61" unique_id=1968662887]
-position = Vector2(14661, 254)
+position = Vector2(17840, 254)
 texture = ExtResource("spell144_room6_hawk")
 centered = false
 metadata/registry_id = "spell144_room6_hawk"
 metadata/source_layer_id = 1058
 
 [node name="p61-4 god right" type="Sprite2D" parent="Figures/Spell144/Plate61" unique_id=1886241153]
-position = Vector2(14803, 241)
+position = Vector2(17982, 241)
 texture = ExtResource("spell144_room6_ram")
 centered = false
 metadata/registry_id = "spell144_room6_ram"
 metadata/source_layer_id = 1059
 
 [node name="p61-4 gate" type="Sprite2D" parent="Figures/Spell144/Plate61" unique_id=408508145]
-position = Vector2(14969, 229)
+position = Vector2(18148, 229)
 texture = ExtResource("spell144_room6")
 centered = false
 metadata/registry_id = "spell144_room6"
 metadata/source_layer_id = 1060
 
 [node name="p61-4 figure" type="Sprite2D" parent="Figures/Spell144/Plate61" unique_id=1825280818]
-position = Vector2(15000, 336)
+position = Vector2(18179, 336)
 texture = ExtResource("spell144_room6_keeper")
 centered = false
 metadata/registry_id = "spell144_room6_keeper"
 metadata/source_layer_id = 1061
 
 [node name="p61-5 god left" type="Sprite2D" parent="Figures/Spell144/Plate61" unique_id=255071167]
-position = Vector2(15301, 253)
+position = Vector2(18480, 253)
 texture = ExtResource("spell144_room5_bull")
 centered = false
 metadata/registry_id = "spell144_room5_bull"
 metadata/source_layer_id = 1062
 
 [node name="p61-5 god right" type="Sprite2D" parent="Figures/Spell144/Plate61" unique_id=913847272]
-position = Vector2(15426, 263)
+position = Vector2(18605, 263)
 texture = ExtResource("spell144_room5_ram")
 centered = false
 metadata/registry_id = "spell144_room5_ram"
 metadata/source_layer_id = 1063
 
 [node name="p61-5 gate" type="Sprite2D" parent="Figures/Spell144/Plate61" unique_id=538966729]
-position = Vector2(15603, 248)
+position = Vector2(18782, 248)
 texture = ExtResource("spell144_room5")
 centered = false
 metadata/registry_id = "spell144_room5"
 metadata/source_layer_id = 1064
 
 [node name="p61-5 figure" type="Sprite2D" parent="Figures/Spell144/Plate61" unique_id=2028230172]
-position = Vector2(15662, 365)
+position = Vector2(18841, 365)
 texture = ExtResource("spell144_room5_keeper")
 centered = false
 metadata/registry_id = "spell144_room5_keeper"
@@ -795,7 +1294,7 @@ metadata/source_layer_id = 1065
 [node name="Plate61" type="Node2D" parent="Figures/Spell145" unique_id=2065876276]
 
 [node name="p61-1 god" type="Sprite2D" parent="Figures/Spell145/Plate61" unique_id=1760253390]
-position = Vector2(13104, 256)
+position = Vector2(16283, 256)
 texture = ExtResource("spell145_pylon2_keeper")
 centered = false
 metadata/registry_id = "spell145_pylon2_keeper"
@@ -803,7 +1302,7 @@ metadata/source_layer_id = 1046
 
 [node name="p61-1 structure" type="Sprite2D" parent="Figures/Spell145/Plate61" unique_id=869306941]
 material = SubResource("plumes_spell145_pylon2")
-position = Vector2(13237, 194)
+position = Vector2(16416, 194)
 texture = ExtResource("spell145_pylon2")
 centered = false
 metadata/registry_id = "spell145_pylon2"
@@ -811,14 +1310,14 @@ metadata/source_layer_id = 1047
 
 [node name="p61-1 adorer" type="Sprite2D" parent="Figures/Spell145/Plate61" unique_id=2051459018]
 visible = false
-position = Vector2(13420, 251)
+position = Vector2(16599, 251)
 texture = ExtResource("spell145_pylon2_adorer")
 centered = false
 metadata/registry_id = "spell145_pylon2_adorer"
 metadata/source_layer_id = 1049
 
 [node name="p61-2 god" type="Sprite2D" parent="Figures/Spell145/Plate61" unique_id=724531629]
-position = Vector2(13581, 248)
+position = Vector2(16760, 248)
 texture = ExtResource("spell145_pylon1_keeper")
 centered = false
 metadata/registry_id = "spell145_pylon1_keeper"
@@ -826,7 +1325,7 @@ metadata/source_layer_id = 1050
 
 [node name="p61-2 structure" type="Sprite2D" parent="Figures/Spell145/Plate61" unique_id=1588097612]
 material = SubResource("plumes_spell145_pylon1")
-position = Vector2(13737, 196)
+position = Vector2(16916, 196)
 texture = ExtResource("spell145_pylon1")
 centered = false
 metadata/registry_id = "spell145_pylon1"
@@ -834,16 +1333,23 @@ metadata/source_layer_id = 1051
 
 [node name="p61-2 adorer" type="Sprite2D" parent="Figures/Spell145/Plate61" unique_id=698378727]
 visible = false
-position = Vector2(13922, 263)
+position = Vector2(17101, 263)
 texture = ExtResource("spell145_pylon1_adorer")
 centered = false
 metadata/registry_id = "spell145_pylon1_adorer"
 metadata/source_layer_id = 1053
 
+[node name="toptext_spell145" type="Sprite2D" parent="Figures/Spell145/Plate61" unique_id=687377271]
+position = Vector2(15833, 31)
+texture = ExtResource("spell145_caption")
+centered = false
+metadata/registry_id = "spell145_caption"
+metadata/source_layer_id = 1028
+
 [node name="Plate62" type="Node2D" parent="Figures/Spell145" unique_id=1695139499]
 
 [node name="p62-1 god" type="Sprite2D" parent="Figures/Spell145/Plate62" unique_id=931286600]
-position = Vector2(10306, 239)
+position = Vector2(13485, 239)
 texture = ExtResource("spell145_pylon8_keeper")
 centered = false
 metadata/registry_id = "spell145_pylon8_keeper"
@@ -851,7 +1357,7 @@ metadata/source_layer_id = 1066
 
 [node name="p62-1 structure" type="Sprite2D" parent="Figures/Spell145/Plate62" unique_id=1213305815]
 material = SubResource("plumes_spell145_pylon8")
-position = Vector2(10456, 211)
+position = Vector2(13635, 211)
 texture = ExtResource("spell145_pylon8")
 centered = false
 metadata/registry_id = "spell145_pylon8"
@@ -859,14 +1365,14 @@ metadata/source_layer_id = 1067
 
 [node name="p62-1 adorer" type="Sprite2D" parent="Figures/Spell145/Plate62" unique_id=1261825980]
 visible = false
-position = Vector2(10578, 270)
+position = Vector2(13757, 270)
 texture = ExtResource("spell145_pylon8_adorer")
 centered = false
 metadata/registry_id = "spell145_pylon8_adorer"
 metadata/source_layer_id = 1069
 
 [node name="p62-2 god" type="Sprite2D" parent="Figures/Spell145/Plate62" unique_id=1632996129]
-position = Vector2(10772, 228)
+position = Vector2(13951, 228)
 texture = ExtResource("spell145_pylon7_keeper")
 centered = false
 metadata/registry_id = "spell145_pylon7_keeper"
@@ -874,7 +1380,7 @@ metadata/source_layer_id = 1070
 
 [node name="p62-2 structure" type="Sprite2D" parent="Figures/Spell145/Plate62" unique_id=2090938144]
 material = SubResource("plumes_spell145_pylon7")
-position = Vector2(10897, 212)
+position = Vector2(14076, 212)
 texture = ExtResource("spell145_pylon7")
 centered = false
 metadata/registry_id = "spell145_pylon7"
@@ -882,14 +1388,14 @@ metadata/source_layer_id = 1071
 
 [node name="p62-2 adorer" type="Sprite2D" parent="Figures/Spell145/Plate62" unique_id=1725563313]
 visible = false
-position = Vector2(11045, 282)
+position = Vector2(14224, 282)
 texture = ExtResource("spell145_pylon7_adorer")
 centered = false
 metadata/registry_id = "spell145_pylon7_adorer"
 metadata/source_layer_id = 1073
 
 [node name="p62-3 god" type="Sprite2D" parent="Figures/Spell145/Plate62" unique_id=157023427]
-position = Vector2(11231, 262)
+position = Vector2(14410, 262)
 texture = ExtResource("spell145_pylon6_keeper")
 centered = false
 metadata/registry_id = "spell145_pylon6_keeper"
@@ -897,7 +1403,7 @@ metadata/source_layer_id = 1074
 
 [node name="p62-3 structure" type="Sprite2D" parent="Figures/Spell145/Plate62" unique_id=82480741]
 material = SubResource("plumes_spell145_pylon6")
-position = Vector2(11353, 204)
+position = Vector2(14532, 204)
 texture = ExtResource("spell145_pylon6")
 centered = false
 metadata/registry_id = "spell145_pylon6"
@@ -905,14 +1411,14 @@ metadata/source_layer_id = 1075
 
 [node name="p62-3 adorer" type="Sprite2D" parent="Figures/Spell145/Plate62" unique_id=913502951]
 visible = false
-position = Vector2(11519, 271)
+position = Vector2(14698, 271)
 texture = ExtResource("spell145_pylon6_adorer")
 centered = false
 metadata/registry_id = "spell145_pylon6_adorer"
 metadata/source_layer_id = 1077
 
 [node name="p62-4 god" type="Sprite2D" parent="Figures/Spell145/Plate62" unique_id=2555808]
-position = Vector2(11664, 251)
+position = Vector2(14843, 251)
 texture = ExtResource("spell145_pylon5_keeper")
 centered = false
 metadata/registry_id = "spell145_pylon5_keeper"
@@ -920,7 +1426,7 @@ metadata/source_layer_id = 1078
 
 [node name="p62-4 structure" type="Sprite2D" parent="Figures/Spell145/Plate62" unique_id=443262611]
 material = SubResource("plumes_spell145_pylon5")
-position = Vector2(11837, 212)
+position = Vector2(15016, 212)
 texture = ExtResource("spell145_pylon5")
 centered = false
 metadata/registry_id = "spell145_pylon5"
@@ -928,14 +1434,14 @@ metadata/source_layer_id = 1079
 
 [node name="p62-4 adorer" type="Sprite2D" parent="Figures/Spell145/Plate62" unique_id=66725741]
 visible = false
-position = Vector2(11999, 274)
+position = Vector2(15178, 274)
 texture = ExtResource("spell145_pylon5_adorer")
 centered = false
 metadata/registry_id = "spell145_pylon5_adorer"
 metadata/source_layer_id = 1081
 
 [node name="p62-5 god" type="Sprite2D" parent="Figures/Spell145/Plate62" unique_id=1302924642]
-position = Vector2(12173, 241)
+position = Vector2(15352, 241)
 texture = ExtResource("spell145_pylon4_keeper")
 centered = false
 metadata/registry_id = "spell145_pylon4_keeper"
@@ -943,7 +1449,7 @@ metadata/source_layer_id = 1082
 
 [node name="p62-5 structure" type="Sprite2D" parent="Figures/Spell145/Plate62" unique_id=1004819325]
 material = SubResource("plumes_spell145_pylon4")
-position = Vector2(12315, 213)
+position = Vector2(15494, 213)
 texture = ExtResource("spell145_pylon4")
 centered = false
 metadata/registry_id = "spell145_pylon4"
@@ -951,14 +1457,14 @@ metadata/source_layer_id = 1083
 
 [node name="p62-5 adorer" type="Sprite2D" parent="Figures/Spell145/Plate62" unique_id=1639218982]
 visible = false
-position = Vector2(12467, 279)
+position = Vector2(15646, 279)
 texture = ExtResource("spell145_pylon4_adorer")
 centered = false
 metadata/registry_id = "spell145_pylon4_adorer"
 metadata/source_layer_id = 1085
 
 [node name="p62-6 god" type="Sprite2D" parent="Figures/Spell145/Plate62" unique_id=288337860]
-position = Vector2(12629, 203)
+position = Vector2(15808, 203)
 texture = ExtResource("spell145_pylon3_keeper")
 centered = false
 metadata/registry_id = "spell145_pylon3_keeper"
@@ -966,7 +1472,7 @@ metadata/source_layer_id = 1086
 
 [node name="p62-6 structure" type="Sprite2D" parent="Figures/Spell145/Plate62" unique_id=2044013640]
 material = SubResource("plumes_spell145_pylon3")
-position = Vector2(12781, 216)
+position = Vector2(15960, 216)
 texture = ExtResource("spell145_pylon3")
 centered = false
 metadata/registry_id = "spell145_pylon3"
@@ -974,7 +1480,7 @@ metadata/source_layer_id = 1087
 
 [node name="p62-6 adorer" type="Sprite2D" parent="Figures/Spell145/Plate62" unique_id=587966000]
 visible = false
-position = Vector2(12937, 279)
+position = Vector2(16116, 279)
 texture = ExtResource("spell145_pylon3_adorer")
 centered = false
 metadata/registry_id = "spell145_pylon3_adorer"
@@ -983,7 +1489,7 @@ metadata/source_layer_id = 1089
 [node name="Plate63" type="Node2D" parent="Figures/Spell145" unique_id=1992092584]
 
 [node name="p63-1 god" type="Sprite2D" parent="Figures/Spell145/Plate63" unique_id=581132561]
-position = Vector2(7632, 274)
+position = Vector2(10811, 274)
 texture = ExtResource("spell145_pylon15_keeper")
 centered = false
 metadata/registry_id = "spell145_pylon15_keeper"
@@ -991,7 +1497,7 @@ metadata/source_layer_id = 1090
 
 [node name="p63-1 structure" type="Sprite2D" parent="Figures/Spell145/Plate63" unique_id=988594314]
 material = SubResource("plumes_spell145_pylon15")
-position = Vector2(7756, 239)
+position = Vector2(10935, 239)
 texture = ExtResource("spell145_pylon15")
 centered = false
 metadata/registry_id = "spell145_pylon15"
@@ -999,14 +1505,14 @@ metadata/source_layer_id = 1091
 
 [node name="p63-1 adorer" type="Sprite2D" parent="Figures/Spell145/Plate63" unique_id=296757659]
 visible = false
-position = Vector2(7868, 284)
+position = Vector2(11047, 284)
 texture = ExtResource("spell145_pylon15_adorer")
 centered = false
 metadata/registry_id = "spell145_pylon15_adorer"
 metadata/source_layer_id = 1093
 
 [node name="p63-2 god" type="Sprite2D" parent="Figures/Spell145/Plate63" unique_id=1154836197]
-position = Vector2(7992, 262)
+position = Vector2(11171, 262)
 texture = ExtResource("spell145_pylon14_keeper")
 centered = false
 metadata/registry_id = "spell145_pylon14_keeper"
@@ -1014,7 +1520,7 @@ metadata/source_layer_id = 1094
 
 [node name="p63-2 structure" type="Sprite2D" parent="Figures/Spell145/Plate63" unique_id=849355792]
 material = SubResource("plumes_spell145_pylon14")
-position = Vector2(8103, 228)
+position = Vector2(11282, 228)
 texture = ExtResource("spell145_pylon14")
 centered = false
 metadata/registry_id = "spell145_pylon14"
@@ -1022,14 +1528,14 @@ metadata/source_layer_id = 1095
 
 [node name="p63-2 adorer" type="Sprite2D" parent="Figures/Spell145/Plate63" unique_id=1245228261]
 visible = false
-position = Vector2(8222, 271)
+position = Vector2(11401, 271)
 texture = ExtResource("spell145_pylon14_adorer")
 centered = false
 metadata/registry_id = "spell145_pylon14_adorer"
 metadata/source_layer_id = 1097
 
 [node name="p63-3 god" type="Sprite2D" parent="Figures/Spell145/Plate63" unique_id=2064957977]
-position = Vector2(8344, 252)
+position = Vector2(11523, 252)
 texture = ExtResource("spell145_pylon13_keeper")
 centered = false
 metadata/registry_id = "spell145_pylon13_keeper"
@@ -1037,7 +1543,7 @@ metadata/source_layer_id = 1098
 
 [node name="p63-3 structure" type="Sprite2D" parent="Figures/Spell145/Plate63" unique_id=1724976171]
 material = SubResource("plumes_spell145_pylon13")
-position = Vector2(8477, 232)
+position = Vector2(11656, 232)
 texture = ExtResource("spell145_pylon13")
 centered = false
 metadata/registry_id = "spell145_pylon13"
@@ -1045,14 +1551,14 @@ metadata/source_layer_id = 1099
 
 [node name="p63-3 adorer" type="Sprite2D" parent="Figures/Spell145/Plate63" unique_id=1748478065]
 visible = false
-position = Vector2(8584, 268)
+position = Vector2(11763, 268)
 texture = ExtResource("spell145_pylon13_adorer")
 centered = false
 metadata/registry_id = "spell145_pylon13_adorer"
 metadata/source_layer_id = 1101
 
 [node name="p63-4 god" type="Sprite2D" parent="Figures/Spell145/Plate63" unique_id=1107649512]
-position = Vector2(8710, 251)
+position = Vector2(11889, 251)
 texture = ExtResource("spell145_pylon12_keeper")
 centered = false
 metadata/registry_id = "spell145_pylon12_keeper"
@@ -1060,7 +1566,7 @@ metadata/source_layer_id = 1102
 
 [node name="p63-4 structure" type="Sprite2D" parent="Figures/Spell145/Plate63" unique_id=1219611255]
 material = SubResource("plumes_spell145_pylon12")
-position = Vector2(8847, 239)
+position = Vector2(12026, 239)
 texture = ExtResource("spell145_pylon12")
 centered = false
 metadata/registry_id = "spell145_pylon12"
@@ -1068,14 +1574,14 @@ metadata/source_layer_id = 1103
 
 [node name="p63-4 adorer" type="Sprite2D" parent="Figures/Spell145/Plate63" unique_id=1223344756]
 visible = false
-position = Vector2(8950, 291)
+position = Vector2(12129, 291)
 texture = ExtResource("spell145_pylon12_adorer")
 centered = false
 metadata/registry_id = "spell145_pylon12_adorer"
 metadata/source_layer_id = 1105
 
 [node name="p63-5 god" type="Sprite2D" parent="Figures/Spell145/Plate63" unique_id=458298804]
-position = Vector2(9068, 270)
+position = Vector2(12247, 270)
 texture = ExtResource("spell145_pylon11_keeper")
 centered = false
 metadata/registry_id = "spell145_pylon11_keeper"
@@ -1083,7 +1589,7 @@ metadata/source_layer_id = 1106
 
 [node name="p63-5 structure" type="Sprite2D" parent="Figures/Spell145/Plate63" unique_id=1248124269]
 material = SubResource("plumes_spell145_pylon11")
-position = Vector2(9194, 239)
+position = Vector2(12373, 239)
 texture = ExtResource("spell145_pylon11")
 centered = false
 metadata/registry_id = "spell145_pylon11"
@@ -1091,14 +1597,14 @@ metadata/source_layer_id = 1107
 
 [node name="p63-5 adorer" type="Sprite2D" parent="Figures/Spell145/Plate63" unique_id=1698140621]
 visible = false
-position = Vector2(9316, 285)
+position = Vector2(12495, 285)
 texture = ExtResource("spell145_pylon11_adorer")
 centered = false
 metadata/registry_id = "spell145_pylon11_adorer"
 metadata/source_layer_id = 1109
 
 [node name="p63-6 god" type="Sprite2D" parent="Figures/Spell145/Plate63" unique_id=152359467]
-position = Vector2(9472, 251)
+position = Vector2(12651, 251)
 texture = ExtResource("spell145_pylon10_keeper")
 centered = false
 metadata/registry_id = "spell145_pylon10_keeper"
@@ -1106,7 +1612,7 @@ metadata/source_layer_id = 1110
 
 [node name="p63-6 structure" type="Sprite2D" parent="Figures/Spell145/Plate63" unique_id=976121562]
 material = SubResource("plumes_spell145_pylon10")
-position = Vector2(9614, 216)
+position = Vector2(12793, 216)
 texture = ExtResource("spell145_pylon10")
 centered = false
 metadata/registry_id = "spell145_pylon10"
@@ -1114,14 +1620,14 @@ metadata/source_layer_id = 1111
 
 [node name="p63-6 adorer" type="Sprite2D" parent="Figures/Spell145/Plate63" unique_id=1738609507]
 visible = false
-position = Vector2(9751, 268)
+position = Vector2(12930, 268)
 texture = ExtResource("spell145_pylon10_adorer")
 centered = false
 metadata/registry_id = "spell145_pylon10_adorer"
 metadata/source_layer_id = 1113
 
 [node name="p63-7 god" type="Sprite2D" parent="Figures/Spell145/Plate63" unique_id=639606877]
-position = Vector2(9886, 239)
+position = Vector2(13065, 239)
 texture = ExtResource("spell145_pylon9_keeper")
 centered = false
 metadata/registry_id = "spell145_pylon9_keeper"
@@ -1129,7 +1635,7 @@ metadata/source_layer_id = 1114
 
 [node name="p63-7 structure" type="Sprite2D" parent="Figures/Spell145/Plate63" unique_id=1019922485]
 material = SubResource("plumes_spell145_pylon9")
-position = Vector2(10038, 216)
+position = Vector2(13217, 216)
 texture = ExtResource("spell145_pylon9")
 centered = false
 metadata/registry_id = "spell145_pylon9"
@@ -1137,7 +1643,7 @@ metadata/source_layer_id = 1115
 
 [node name="p63-7 adorer" type="Sprite2D" parent="Figures/Spell145/Plate63" unique_id=1057063332]
 visible = false
-position = Vector2(10171, 272)
+position = Vector2(13350, 272)
 texture = ExtResource("spell145_pylon9_adorer")
 centered = false
 metadata/registry_id = "spell145_pylon9_adorer"
@@ -1146,7 +1652,7 @@ metadata/source_layer_id = 1117
 [node name="Plate64" type="Node2D" parent="Figures/Spell145" unique_id=65121866]
 
 [node name="p64-1 god" type="Sprite2D" parent="Figures/Spell145/Plate64" unique_id=1765676225]
-position = Vector2(5416, 199)
+position = Vector2(8595, 199)
 texture = ExtResource("spell145_pylon21_keeper")
 centered = false
 metadata/registry_id = "spell145_pylon21_keeper"
@@ -1154,7 +1660,7 @@ metadata/source_layer_id = 1118
 
 [node name="p64-1 structure" type="Sprite2D" parent="Figures/Spell145/Plate64" unique_id=2124972062]
 material = SubResource("plumes_spell145_pylon21")
-position = Vector2(5580, 196)
+position = Vector2(8759, 196)
 texture = ExtResource("spell145_pylon21")
 centered = false
 metadata/registry_id = "spell145_pylon21"
@@ -1162,14 +1668,14 @@ metadata/source_layer_id = 1119
 
 [node name="p64-1 adorer" type="Sprite2D" parent="Figures/Spell145/Plate64" unique_id=1918793575]
 visible = false
-position = Vector2(5727, 261)
+position = Vector2(8906, 261)
 texture = ExtResource("spell145_pylon21_adorer")
 centered = false
 metadata/registry_id = "spell145_pylon21_adorer"
 metadata/source_layer_id = 1121
 
 [node name="p64-2 god" type="Sprite2D" parent="Figures/Spell145/Plate64" unique_id=1553023893]
-position = Vector2(5881, 263)
+position = Vector2(9060, 263)
 texture = ExtResource("spell145_pylon20_keeper")
 centered = false
 metadata/registry_id = "spell145_pylon20_keeper"
@@ -1177,7 +1683,7 @@ metadata/source_layer_id = 1122
 
 [node name="p64-2 structure" type="Sprite2D" parent="Figures/Spell145/Plate64" unique_id=557205669]
 material = SubResource("plumes_spell145_pylon20")
-position = Vector2(5992, 216)
+position = Vector2(9171, 216)
 texture = ExtResource("spell145_pylon20")
 centered = false
 metadata/registry_id = "spell145_pylon20"
@@ -1185,14 +1691,14 @@ metadata/source_layer_id = 1123
 
 [node name="p64-2 adorer" type="Sprite2D" parent="Figures/Spell145/Plate64" unique_id=369983234]
 visible = false
-position = Vector2(6101, 276)
+position = Vector2(9280, 276)
 texture = ExtResource("spell145_pylon20_adorer")
 centered = false
 metadata/registry_id = "spell145_pylon20_adorer"
 metadata/source_layer_id = 1125
 
 [node name="p64-3 god" type="Sprite2D" parent="Figures/Spell145/Plate64" unique_id=943841378]
-position = Vector2(6233, 282)
+position = Vector2(9412, 282)
 texture = ExtResource("spell145_pylon19_keeper")
 centered = false
 metadata/registry_id = "spell145_pylon19_keeper"
@@ -1200,7 +1706,7 @@ metadata/source_layer_id = 1126
 
 [node name="p64-3 structure" type="Sprite2D" parent="Figures/Spell145/Plate64" unique_id=1918653551]
 material = SubResource("plumes_spell145_pylon19")
-position = Vector2(6340, 242)
+position = Vector2(9519, 242)
 texture = ExtResource("spell145_pylon19")
 centered = false
 metadata/registry_id = "spell145_pylon19"
@@ -1208,14 +1714,14 @@ metadata/source_layer_id = 1127
 
 [node name="p64-3 adorer" type="Sprite2D" parent="Figures/Spell145/Plate64" unique_id=1784155418]
 visible = false
-position = Vector2(6440, 283)
+position = Vector2(9619, 283)
 texture = ExtResource("spell145_pylon19_adorer")
 centered = false
 metadata/registry_id = "spell145_pylon19_adorer"
 metadata/source_layer_id = 1129
 
 [node name="p64-4 god" type="Sprite2D" parent="Figures/Spell145/Plate64" unique_id=489928709]
-position = Vector2(6572, 274)
+position = Vector2(9751, 274)
 texture = ExtResource("spell145_pylon18_keeper")
 centered = false
 metadata/registry_id = "spell145_pylon18_keeper"
@@ -1223,7 +1729,7 @@ metadata/source_layer_id = 1130
 
 [node name="p64-4 structure" type="Sprite2D" parent="Figures/Spell145/Plate64" unique_id=303910447]
 material = SubResource("plumes_spell145_pylon18")
-position = Vector2(6678, 217)
+position = Vector2(9857, 217)
 texture = ExtResource("spell145_pylon18")
 centered = false
 metadata/registry_id = "spell145_pylon18"
@@ -1231,14 +1737,14 @@ metadata/source_layer_id = 1131
 
 [node name="p64-4 adorer" type="Sprite2D" parent="Figures/Spell145/Plate64" unique_id=892602278]
 visible = false
-position = Vector2(6803, 273)
+position = Vector2(9982, 273)
 texture = ExtResource("spell145_pylon18_adorer")
 centered = false
 metadata/registry_id = "spell145_pylon18_adorer"
 metadata/source_layer_id = 1133
 
 [node name="p64-5 god" type="Sprite2D" parent="Figures/Spell145/Plate64" unique_id=480994297]
-position = Vector2(6933, 263)
+position = Vector2(10112, 263)
 texture = ExtResource("spell145_pylon17_keeper")
 centered = false
 metadata/registry_id = "spell145_pylon17_keeper"
@@ -1246,7 +1752,7 @@ metadata/source_layer_id = 1134
 
 [node name="p64-5 structure" type="Sprite2D" parent="Figures/Spell145/Plate64" unique_id=655975919]
 material = SubResource("plumes_spell145_pylon17")
-position = Vector2(7010, 206)
+position = Vector2(10189, 206)
 texture = ExtResource("spell145_pylon17")
 centered = false
 metadata/registry_id = "spell145_pylon17"
@@ -1254,14 +1760,14 @@ metadata/source_layer_id = 1135
 
 [node name="p64-5 adorer" type="Sprite2D" parent="Figures/Spell145/Plate64" unique_id=1219674454]
 visible = false
-position = Vector2(7154, 270)
+position = Vector2(10333, 270)
 texture = ExtResource("spell145_pylon17_adorer")
 centered = false
 metadata/registry_id = "spell145_pylon17_adorer"
 metadata/source_layer_id = 1137
 
 [node name="p64-6 god" type="Sprite2D" parent="Figures/Spell145/Plate64" unique_id=2074377135]
-position = Vector2(7287, 259)
+position = Vector2(10466, 259)
 texture = ExtResource("spell145_pylon16_keeper")
 centered = false
 metadata/registry_id = "spell145_pylon16_keeper"
@@ -1269,7 +1775,7 @@ metadata/source_layer_id = 1138
 
 [node name="p64-6 structure" type="Sprite2D" parent="Figures/Spell145/Plate64" unique_id=844117128]
 material = SubResource("plumes_spell145_pylon16")
-position = Vector2(7409, 227)
+position = Vector2(10588, 227)
 texture = ExtResource("spell145_pylon16")
 centered = false
 metadata/registry_id = "spell145_pylon16"
@@ -1277,14 +1783,181 @@ metadata/source_layer_id = 1139
 
 [node name="p64-6 adorer" type="Sprite2D" parent="Figures/Spell145/Plate64" unique_id=1246417564]
 visible = false
-position = Vector2(7523, 261)
+position = Vector2(10702, 261)
 texture = ExtResource("spell145_pylon16_adorer")
 centered = false
 metadata/registry_id = "spell145_pylon16_adorer"
 metadata/source_layer_id = 1141
 
+[node name="Spell147" type="Node2D" parent="Figures" unique_id=445026833]
+
+[node name="Plate68" type="Node2D" parent="Figures/Spell147" unique_id=611190564]
+
+[node name="p68-1 baboon" type="Sprite2D" parent="Figures/Spell147/Plate68" unique_id=666799919]
+position = Vector2(130, 235)
+texture = ExtResource("spell147_gate7_baboon")
+centered = false
+metadata/registry_id = "spell147_gate7_baboon"
+metadata/source_layer_id = 1061
+
+[node name="p68-1 stand" type="Sprite2D" parent="Figures/Spell147/Plate68" unique_id=1977158703]
+position = Vector2(332, 270)
+texture = ExtResource("spell147_gate7_stand")
+centered = false
+metadata/registry_id = "spell147_gate7_stand"
+metadata/source_layer_id = 1062
+
+[node name="p68-1 praying" type="Sprite2D" parent="Figures/Spell147/Plate68" unique_id=1421125332]
+visible = false
+position = Vector2(446, 266)
+texture = ExtResource("spell147_gate7_adorer")
+centered = false
+metadata/registry_id = "spell147_gate7_adorer"
+metadata/source_layer_id = 1063
+
+[node name="p68-2 baboon" type="Sprite2D" parent="Figures/Spell147/Plate68" unique_id=644056132]
+position = Vector2(640, 250)
+texture = ExtResource("spell147_gate6_baboon")
+centered = false
+metadata/registry_id = "spell147_gate6_baboon"
+metadata/source_layer_id = 1064
+
+[node name="p68-2 stand" type="Sprite2D" parent="Figures/Spell147/Plate68" unique_id=1485919779]
+position = Vector2(790, 328)
+texture = ExtResource("spell147_gate6_stand")
+centered = false
+metadata/registry_id = "spell147_gate6_stand"
+metadata/source_layer_id = 1065
+
+[node name="p68-2 praying" type="Sprite2D" parent="Figures/Spell147/Plate68" unique_id=356783440]
+visible = false
+position = Vector2(844, 274)
+texture = ExtResource("spell147_gate6_adorer")
+centered = false
+metadata/registry_id = "spell147_gate6_adorer"
+metadata/source_layer_id = 1066
+
+[node name="p68-3 baboon" type="Sprite2D" parent="Figures/Spell147/Plate68" unique_id=1371873429]
+position = Vector2(1000, 253)
+texture = ExtResource("spell147_gate5_baboon")
+centered = false
+metadata/registry_id = "spell147_gate5_baboon"
+metadata/source_layer_id = 1067
+
+[node name="p68-3 stand" type="Sprite2D" parent="Figures/Spell147/Plate68" unique_id=2059044472]
+position = Vector2(1148, 319)
+texture = ExtResource("spell147_gate5_stand")
+centered = false
+metadata/registry_id = "spell147_gate5_stand"
+metadata/source_layer_id = 1068
+
+[node name="p68-3 praying" type="Sprite2D" parent="Figures/Spell147/Plate68" unique_id=1210137851]
+visible = false
+position = Vector2(1195, 275)
+texture = ExtResource("spell147_gate5_adorer")
+centered = false
+metadata/registry_id = "spell147_gate5_adorer"
+metadata/source_layer_id = 1069
+
+[node name="p68-4 baboon" type="Sprite2D" parent="Figures/Spell147/Plate68" unique_id=1024938566]
+position = Vector2(1368, 249)
+texture = ExtResource("spell147_gate4_baboon")
+centered = false
+metadata/registry_id = "spell147_gate4_baboon"
+metadata/source_layer_id = 1070
+
+[node name="p68-4 stand" type="Sprite2D" parent="Figures/Spell147/Plate68" unique_id=1153880584]
+position = Vector2(1518, 350)
+texture = ExtResource("spell147_gate4_stand")
+centered = false
+metadata/registry_id = "spell147_gate4_stand"
+metadata/source_layer_id = 1071
+
+[node name="p68-4 praying" type="Sprite2D" parent="Figures/Spell147/Plate68" unique_id=1317488283]
+visible = false
+position = Vector2(1551, 281)
+texture = ExtResource("spell147_gate4_adorer")
+centered = false
+metadata/registry_id = "spell147_gate4_adorer"
+metadata/source_layer_id = 1072
+
+[node name="p68-5 stand" type="Sprite2D" parent="Figures/Spell147/Plate68" unique_id=1822473712]
+position = Vector2(1907, 296)
+texture = ExtResource("spell147_gate3_stand")
+centered = false
+metadata/registry_id = "spell147_gate3_stand"
+metadata/source_layer_id = 1085
+
+[node name="p68-5 baboon" type="Sprite2D" parent="Figures/Spell147/Plate68" unique_id=118934047]
+position = Vector2(1752, 240)
+texture = ExtResource("spell147_gate3_baboon")
+centered = false
+metadata/registry_id = "spell147_gate3_baboon"
+metadata/source_layer_id = 1084
+
+[node name="p68-5 praying" type="Sprite2D" parent="Figures/Spell147/Plate68" unique_id=1854126395]
+visible = false
+position = Vector2(1994, 266)
+texture = ExtResource("spell147_gate3_adorer")
+centered = false
+metadata/registry_id = "spell147_gate3_adorer"
+metadata/source_layer_id = 1083
+
+[node name="Plate67" type="Node2D" parent="Figures/Spell147" unique_id=1481188265]
+
+[node name="p67-4 baboon" type="Sprite2D" parent="Figures/Spell147/Plate67" unique_id=1215443358]
+position = Vector2(2220, 248)
+texture = ExtResource("spell147_gate2_baboon")
+centered = false
+metadata/registry_id = "spell147_gate2_baboon"
+metadata/source_layer_id = 1082
+
+[node name="p67-4 stand" type="Sprite2D" parent="Figures/Spell147/Plate67" unique_id=1077121183]
+position = Vector2(2390, 300)
+texture = ExtResource("spell147_gate2_stand")
+centered = false
+metadata/registry_id = "spell147_gate2_stand"
+metadata/source_layer_id = 1077
+
+[node name="p67-4 praying" type="Sprite2D" parent="Figures/Spell147/Plate67" unique_id=1794593651]
+visible = false
+position = Vector2(2458, 257)
+texture = ExtResource("spell147_gate2_adorer")
+centered = false
+metadata/registry_id = "spell147_gate2_adorer"
+metadata/source_layer_id = 1078
+
+[node name="p67-5 stand" type="Sprite2D" parent="Figures/Spell147/Plate67" unique_id=1734164303]
+position = Vector2(2994, 282)
+texture = ExtResource("spell147_gate1_stand")
+centered = false
+metadata/registry_id = "spell147_gate1_stand"
+metadata/source_layer_id = 1081
+
+[node name="p67-5 baboon" type="Sprite2D" parent="Figures/Spell147/Plate67" unique_id=1183489927]
+position = Vector2(2686, 229)
+texture = ExtResource("spell147_gate1_baboon")
+centered = false
+metadata/registry_id = "spell147_gate1_baboon"
+metadata/source_layer_id = 1080
+
+[node name="p67-5 praying" type="Sprite2D" parent="Figures/Spell147/Plate67" unique_id=1839635261]
+visible = false
+position = Vector2(3160, 250)
+texture = ExtResource("spell147_gate1_adorer")
+centered = false
+metadata/registry_id = "spell147_gate1_adorer"
+metadata/source_layer_id = 1079
+
+[node name="toptext" type="Sprite2D" parent="Figures/Spell147/Plate67" unique_id=1837680636]
+position = Vector2(1315, 67)
+texture = ExtResource("spell147_caption")
+centered = false
+metadata/registry_id = "spell147_caption"
+metadata/source_layer_id = 1058
+
 [node name="Avatar" type="Node2D" parent="." unique_id=521266551]
-position = Vector2(18050, 530)
+position = Vector2(21229, 530)
 script = ExtResource("avatar")
 
 [node name="Sprite" type="Sprite2D" parent="Avatar" unique_id=1436138206]
@@ -1295,8 +1968,1793 @@ offset = Vector2(0, -131.5)
 z_index = 6
 
 [node name="Camera" type="Camera2D" parent="." unique_id=1740783532]
-position = Vector2(17370, 418)
+position = Vector2(20549, 418)
 zoom = Vector2(0.77894735, 0.77894735)
 
 [node name="HUD" type="CanvasLayer" parent="." unique_id=651621786]
 script = ExtResource("hud")
+
+[node name="Hitboxes" type="Node2D" parent="." unique_id=2022747378]
+visible = false
+
+[node name="spell146_p65_1_gate" type="Area2D" parent="Hitboxes" unique_id=1901337234]
+position = Vector2(7034, 384)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell146_p65_1_gate"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell146_p65_1_gate" unique_id=1263468905]
+shape = SubResource("hitbox_spell146_p65_1_gate")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell146_p65_1_figure" type="Area2D" parent="Hitboxes" unique_id=1048111767]
+position = Vector2(7061, 439)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell146_p65_1_figure"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell146_p65_1_figure" unique_id=965037624]
+shape = SubResource("hitbox_spell146_p65_1_figure")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell146_p65_2_gate" type="Area2D" parent="Hitboxes" unique_id=847320348]
+position = Vector2(7390, 387)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell146_p65_2_gate"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell146_p65_2_gate" unique_id=1714215863]
+shape = SubResource("hitbox_spell146_p65_2_gate")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell146_p65_2_figure" type="Area2D" parent="Hitboxes" unique_id=1619291101]
+position = Vector2(7376, 430)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell146_p65_2_figure"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell146_p65_2_figure" unique_id=1376192283]
+shape = SubResource("hitbox_spell146_p65_2_figure")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell146_p65_3_gate" type="Area2D" parent="Hitboxes" unique_id=73335357]
+position = Vector2(7723, 392)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell146_p65_3_gate"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell146_p65_3_gate" unique_id=658416093]
+shape = SubResource("hitbox_spell146_p65_3_gate")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell146_p65_3_figure" type="Area2D" parent="Hitboxes" unique_id=249286186]
+position = Vector2(7719, 437)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell146_p65_3_figure"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell146_p65_3_figure" unique_id=248643172]
+shape = SubResource("hitbox_spell146_p65_3_figure")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell146_p65_4_gate" type="Area2D" parent="Hitboxes" unique_id=44095780]
+position = Vector2(8044, 392)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell146_p65_4_gate"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell146_p65_4_gate" unique_id=612685470]
+shape = SubResource("hitbox_spell146_p65_4_gate")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell146_p65_4_figure" type="Area2D" parent="Hitboxes" unique_id=1812718481]
+position = Vector2(8033, 449)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell146_p65_4_figure"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell146_p65_4_figure" unique_id=385719846]
+shape = SubResource("hitbox_spell146_p65_4_figure")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell146_p65_5_gate" type="Area2D" parent="Hitboxes" unique_id=259748469]
+position = Vector2(8362, 394)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell146_p65_5_gate"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell146_p65_5_gate" unique_id=963104123]
+shape = SubResource("hitbox_spell146_p65_5_gate")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell146_p65_5_figure" type="Area2D" parent="Hitboxes" unique_id=1509610501]
+position = Vector2(8388, 451)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell146_p65_5_figure"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell146_p65_5_figure" unique_id=958070254]
+shape = SubResource("hitbox_spell146_p65_5_figure")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell146_caption" type="Area2D" parent="Hitboxes" unique_id=1021964356]
+position = Vector2(7792, 116)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell146_caption"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell146_caption" unique_id=1296393273]
+shape = SubResource("hitbox_spell146_caption")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell146_p66_1_gate" type="Area2D" parent="Hitboxes" unique_id=989227744]
+position = Vector2(4591, 375)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell146_p66_1_gate"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell146_p66_1_gate" unique_id=1893739693]
+shape = SubResource("hitbox_spell146_p66_1_gate")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell146_p66_1_figure" type="Area2D" parent="Hitboxes" unique_id=1850093933]
+position = Vector2(4633, 425)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell146_p66_1_figure"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell146_p66_1_figure" unique_id=1657965891]
+shape = SubResource("hitbox_spell146_p66_1_figure")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell146_p66_2_gate" type="Area2D" parent="Hitboxes" unique_id=626115236]
+position = Vector2(4971, 375)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell146_p66_2_gate"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell146_p66_2_gate" unique_id=822816926]
+shape = SubResource("hitbox_spell146_p66_2_gate")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell146_p66_2_figure" type="Area2D" parent="Hitboxes" unique_id=1863959319]
+position = Vector2(4986, 429)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell146_p66_2_figure"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell146_p66_2_figure" unique_id=2111212636]
+shape = SubResource("hitbox_spell146_p66_2_figure")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell146_p66_3_gate" type="Area2D" parent="Hitboxes" unique_id=2059039074]
+position = Vector2(5328, 387)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell146_p66_3_gate"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell146_p66_3_gate" unique_id=104082978]
+shape = SubResource("hitbox_spell146_p66_3_gate")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell146_p66_3_figure" type="Area2D" parent="Hitboxes" unique_id=1471009391]
+position = Vector2(5343, 432)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell146_p66_3_figure"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell146_p66_3_figure" unique_id=1608709494]
+shape = SubResource("hitbox_spell146_p66_3_figure")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell146_p66_4_gate" type="Area2D" parent="Hitboxes" unique_id=1811374802]
+position = Vector2(5666, 384)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell146_p66_4_gate"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell146_p66_4_gate" unique_id=747113055]
+shape = SubResource("hitbox_spell146_p66_4_gate")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell146_p66_4_figure" type="Area2D" parent="Hitboxes" unique_id=14292625]
+position = Vector2(5666, 437)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell146_p66_4_figure"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell146_p66_4_figure" unique_id=199450650]
+shape = SubResource("hitbox_spell146_p66_4_figure")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell146_p66_5_gate" type="Area2D" parent="Hitboxes" unique_id=1317258645]
+position = Vector2(6005, 388)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell146_p66_5_gate"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell146_p66_5_gate" unique_id=591166215]
+shape = SubResource("hitbox_spell146_p66_5_gate")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell146_p66_5_figure" type="Area2D" parent="Hitboxes" unique_id=1660688668]
+position = Vector2(6019, 446)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell146_p66_5_figure"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell146_p66_5_figure" unique_id=50508943]
+shape = SubResource("hitbox_spell146_p66_5_figure")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell146_p66_6_gate" type="Area2D" parent="Hitboxes" unique_id=1240482146]
+position = Vector2(6367, 393)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell146_p66_6_gate"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell146_p66_6_gate" unique_id=1862673241]
+shape = SubResource("hitbox_spell146_p66_6_gate")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell146_p66_6_figure" type="Area2D" parent="Hitboxes" unique_id=315620124]
+position = Vector2(6347, 447)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell146_p66_6_figure"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell146_p66_6_figure" unique_id=1902129577]
+shape = SubResource("hitbox_spell146_p66_6_figure")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell146_p66_7_gate" type="Area2D" parent="Hitboxes" unique_id=1141347617]
+position = Vector2(6676, 404)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell146_p66_7_gate"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell146_p66_7_gate" unique_id=1800790521]
+shape = SubResource("hitbox_spell146_p66_7_gate")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell146_p66_7_figure" type="Area2D" parent="Hitboxes" unique_id=325577503]
+position = Vector2(6713, 444)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell146_p66_7_figure"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell146_p66_7_figure" unique_id=1916166835]
+shape = SubResource("hitbox_spell146_p66_7_figure")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell146_caption_portal8" type="Area2D" parent="Hitboxes" unique_id=1585044930]
+position = Vector2(6113, 114)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell146_caption_portal8"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell146_caption_portal8" unique_id=882446786]
+shape = SubResource("hitbox_spell146_caption_portal8")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell146_caption_portal6" type="Area2D" parent="Hitboxes" unique_id=1227772156]
+position = Vector2(6659, 116)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell146_caption_portal6"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell146_caption_portal6" unique_id=223411978]
+shape = SubResource("hitbox_spell146_caption_portal6")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell146_p67_1_gate" type="Area2D" parent="Hitboxes" unique_id=1371747135]
+position = Vector2(3532, 366)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell146_p67_1_gate"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell146_p67_1_gate" unique_id=805496599]
+shape = SubResource("hitbox_spell146_p67_1_gate")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell146_p67_1_figure" type="Area2D" parent="Hitboxes" unique_id=1880931134]
+position = Vector2(3522, 420)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell146_p67_1_figure"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell146_p67_1_figure" unique_id=1487360167]
+shape = SubResource("hitbox_spell146_p67_1_figure")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell146_p67_2_gate" type="Area2D" parent="Hitboxes" unique_id=871264650]
+position = Vector2(3875, 375)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell146_p67_2_gate"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell146_p67_2_gate" unique_id=1684127766]
+shape = SubResource("hitbox_spell146_p67_2_gate")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell146_p67_2_figure" type="Area2D" parent="Hitboxes" unique_id=739691241]
+position = Vector2(3897, 427)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell146_p67_2_figure"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell146_p67_2_figure" unique_id=2066442468]
+shape = SubResource("hitbox_spell146_p67_2_figure")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell146_p67_3_gate" type="Area2D" parent="Hitboxes" unique_id=1293919356]
+position = Vector2(4258, 356)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell146_p67_3_gate"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell146_p67_3_gate" unique_id=1581565974]
+shape = SubResource("hitbox_spell146_p67_3_gate")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell146_p67_3_figure" type="Area2D" parent="Hitboxes" unique_id=155386290]
+position = Vector2(4266, 428)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell146_p67_3_figure"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell146_p67_3_figure" unique_id=816495972]
+shape = SubResource("hitbox_spell146_p67_3_figure")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell144_room4_man" type="Area2D" parent="Hitboxes" unique_id=1560084870]
+position = Vector2(19105, 392)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell144_room4_man"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell144_room4_man" unique_id=131909895]
+shape = SubResource("hitbox_spell144_room4_man")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell144_room4_ram" type="Area2D" parent="Hitboxes" unique_id=567421819]
+position = Vector2(19226, 392)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell144_room4_ram"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell144_room4_ram" unique_id=770762837]
+shape = SubResource("hitbox_spell144_room4_ram")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell144_room4" type="Area2D" parent="Hitboxes" unique_id=2044641620]
+position = Vector2(19435, 393)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell144_room4"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell144_room4" unique_id=1928417905]
+shape = SubResource("hitbox_spell144_room4")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell144_room4_keeper" type="Area2D" parent="Hitboxes" unique_id=1840668028]
+position = Vector2(19452, 451)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell144_room4_keeper"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell144_room4_keeper" unique_id=1857451112]
+shape = SubResource("hitbox_spell144_room4_keeper")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell144_room3_man" type="Area2D" parent="Hitboxes" unique_id=12388854]
+position = Vector2(19677, 390)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell144_room3_man"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell144_room3_man" unique_id=966895037]
+shape = SubResource("hitbox_spell144_room3_man")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell144_room3_ram" type="Area2D" parent="Hitboxes" unique_id=2096947106]
+position = Vector2(19795, 395)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell144_room3_ram"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell144_room3_ram" unique_id=614798642]
+shape = SubResource("hitbox_spell144_room3_ram")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell144_room3" type="Area2D" parent="Hitboxes" unique_id=254768324]
+position = Vector2(19999, 386)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell144_room3"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell144_room3" unique_id=826748189]
+shape = SubResource("hitbox_spell144_room3")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell144_room3_keeper" type="Area2D" parent="Hitboxes" unique_id=186937210]
+position = Vector2(20003, 442)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell144_room3_keeper"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell144_room3_keeper" unique_id=284494249]
+shape = SubResource("hitbox_spell144_room3_keeper")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell144_room2_bull" type="Area2D" parent="Hitboxes" unique_id=2056257702]
+position = Vector2(20238, 382)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell144_room2_bull"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell144_room2_bull" unique_id=1159638552]
+shape = SubResource("hitbox_spell144_room2_bull")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell144_room2_ram" type="Area2D" parent="Hitboxes" unique_id=1989288450]
+position = Vector2(20387, 389)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell144_room2_ram"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell144_room2_ram" unique_id=501384916]
+shape = SubResource("hitbox_spell144_room2_ram")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell144_room2" type="Area2D" parent="Hitboxes" unique_id=1779264942]
+position = Vector2(20589, 380)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell144_room2"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell144_room2" unique_id=1051549368]
+shape = SubResource("hitbox_spell144_room2")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell144_room2_keeper" type="Area2D" parent="Hitboxes" unique_id=823474865]
+position = Vector2(20578, 424)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell144_room2_keeper"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell144_room2_keeper" unique_id=1283818657]
+shape = SubResource("hitbox_spell144_room2_keeper")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell144_room1_hawk" type="Area2D" parent="Hitboxes" unique_id=434156225]
+position = Vector2(20843, 393)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell144_room1_hawk"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell144_room1_hawk" unique_id=95891650]
+shape = SubResource("hitbox_spell144_room1_hawk")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell144_room1_man" type="Area2D" parent="Hitboxes" unique_id=1931598532]
+position = Vector2(20972, 388)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell144_room1_man"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell144_room1_man" unique_id=1819753916]
+shape = SubResource("hitbox_spell144_room1_man")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell144_room1" type="Area2D" parent="Hitboxes" unique_id=621558813]
+position = Vector2(21181, 386)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell144_room1"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell144_room1" unique_id=903234978]
+shape = SubResource("hitbox_spell144_room1")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell144_room1_keeper" type="Area2D" parent="Hitboxes" unique_id=1424971020]
+position = Vector2(21188, 440)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell144_room1_keeper"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell144_room1_keeper" unique_id=1382555652]
+shape = SubResource("hitbox_spell144_room1_keeper")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell144_caption" type="Area2D" parent="Hitboxes" unique_id=955610068]
+position = Vector2(20981, 108)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell144_caption"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell144_caption" unique_id=1205490690]
+shape = SubResource("hitbox_spell144_caption")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell144_room7_ram_1" type="Area2D" parent="Hitboxes" unique_id=1300022738]
+position = Vector2(17347, 400)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell144_room7_ram_1"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell144_room7_ram_1" unique_id=553254637]
+shape = SubResource("hitbox_spell144_room7_ram_1")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell144_room7_ram_2" type="Area2D" parent="Hitboxes" unique_id=1514366814]
+position = Vector2(17492, 403)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell144_room7_ram_2"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell144_room7_ram_2" unique_id=2141407179]
+shape = SubResource("hitbox_spell144_room7_ram_2")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell144_room7" type="Area2D" parent="Hitboxes" unique_id=731105729]
+position = Vector2(17685, 382)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell144_room7"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell144_room7" unique_id=1095534367]
+shape = SubResource("hitbox_spell144_room7")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell144_room7_keeper" type="Area2D" parent="Hitboxes" unique_id=1936567576]
+position = Vector2(17691, 451)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell144_room7_keeper"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell144_room7_keeper" unique_id=1232214993]
+shape = SubResource("hitbox_spell144_room7_keeper")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell144_room6_hawk" type="Area2D" parent="Hitboxes" unique_id=423646975]
+position = Vector2(17906, 392)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell144_room6_hawk"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell144_room6_hawk" unique_id=525275616]
+shape = SubResource("hitbox_spell144_room6_hawk")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell144_room6_ram" type="Area2D" parent="Hitboxes" unique_id=141209710]
+position = Vector2(18046, 387)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell144_room6_ram"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell144_room6_ram" unique_id=1047584514]
+shape = SubResource("hitbox_spell144_room6_ram")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell144_room6" type="Area2D" parent="Hitboxes" unique_id=1116701657]
+position = Vector2(18276, 379)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell144_room6"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell144_room6" unique_id=1055192997]
+shape = SubResource("hitbox_spell144_room6")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell144_room6_keeper" type="Area2D" parent="Hitboxes" unique_id=1346347643]
+position = Vector2(18261, 428)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell144_room6_keeper"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell144_room6_keeper" unique_id=1870588295]
+shape = SubResource("hitbox_spell144_room6_keeper")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell144_room5_bull" type="Area2D" parent="Hitboxes" unique_id=329515331]
+position = Vector2(18534, 391)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell144_room5_bull"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell144_room5_bull" unique_id=1523345775]
+shape = SubResource("hitbox_spell144_room5_bull")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell144_room5_ram" type="Area2D" parent="Hitboxes" unique_id=1241413710]
+position = Vector2(18671, 395)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell144_room5_ram"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell144_room5_ram" unique_id=1919627003]
+shape = SubResource("hitbox_spell144_room5_ram")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell144_room5" type="Area2D" parent="Hitboxes" unique_id=1395856812]
+position = Vector2(18900, 388)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell144_room5"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell144_room5" unique_id=145003396]
+shape = SubResource("hitbox_spell144_room5")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell144_room5_keeper" type="Area2D" parent="Hitboxes" unique_id=569149591]
+position = Vector2(18909, 441)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell144_room5_keeper"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell144_room5_keeper" unique_id=302646847]
+shape = SubResource("hitbox_spell144_room5_keeper")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_pylon2_keeper" type="Area2D" parent="Hitboxes" unique_id=751997821]
+position = Vector2(16351, 392)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_pylon2_keeper"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_pylon2_keeper" unique_id=1257367048]
+shape = SubResource("hitbox_spell145_pylon2_keeper")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_pylon2" type="Area2D" parent="Hitboxes" unique_id=1678185105]
+position = Vector2(16508, 362)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_pylon2"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_pylon2" unique_id=1402650812]
+shape = SubResource("hitbox_spell145_pylon2")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_pylon2_adorer" type="Area2D" parent="Hitboxes" unique_id=1102673238]
+position = Vector2(16663, 389)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_pylon2_adorer"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_pylon2_adorer" unique_id=700543962]
+shape = SubResource("hitbox_spell145_pylon2_adorer")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_pylon1_keeper" type="Area2D" parent="Hitboxes" unique_id=1135369694]
+position = Vector2(16848, 388)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_pylon1_keeper"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_pylon1_keeper" unique_id=1646692409]
+shape = SubResource("hitbox_spell145_pylon1_keeper")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_pylon1" type="Area2D" parent="Hitboxes" unique_id=2012528316]
+position = Vector2(17000, 362)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_pylon1"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_pylon1" unique_id=310384151]
+shape = SubResource("hitbox_spell145_pylon1")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_pylon1_adorer" type="Area2D" parent="Hitboxes" unique_id=1009584941]
+position = Vector2(17159, 395)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_pylon1_adorer"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_pylon1_adorer" unique_id=15219167]
+shape = SubResource("hitbox_spell145_pylon1_adorer")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_caption" type="Area2D" parent="Hitboxes" unique_id=1833313214]
+position = Vector2(16513, 99)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_caption"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_caption" unique_id=989375213]
+shape = SubResource("hitbox_spell145_caption")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_pylon8_keeper" type="Area2D" parent="Hitboxes" unique_id=1019573805]
+position = Vector2(13555, 383)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_pylon8_keeper"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_pylon8_keeper" unique_id=953506477]
+shape = SubResource("hitbox_spell145_pylon8_keeper")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_pylon8" type="Area2D" parent="Hitboxes" unique_id=86930633]
+position = Vector2(13701, 369)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_pylon8"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_pylon8" unique_id=1856485114]
+shape = SubResource("hitbox_spell145_pylon8")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_pylon8_adorer" type="Area2D" parent="Hitboxes" unique_id=33141348]
+position = Vector2(13809, 398)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_pylon8_adorer"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_pylon8_adorer" unique_id=1366327750]
+shape = SubResource("hitbox_spell145_pylon8_adorer")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_pylon7_keeper" type="Area2D" parent="Hitboxes" unique_id=1082731297]
+position = Vector2(14015, 378)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_pylon7_keeper"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_pylon7_keeper" unique_id=1560964332]
+shape = SubResource("hitbox_spell145_pylon7_keeper")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_pylon7" type="Area2D" parent="Hitboxes" unique_id=263731582]
+position = Vector2(14156, 372)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_pylon7"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_pylon7" unique_id=804488712]
+shape = SubResource("hitbox_spell145_pylon7")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_pylon7_adorer" type="Area2D" parent="Hitboxes" unique_id=1288907907]
+position = Vector2(14288, 408)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_pylon7_adorer"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_pylon7_adorer" unique_id=11798430]
+shape = SubResource("hitbox_spell145_pylon7_adorer")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_pylon6_keeper" type="Area2D" parent="Hitboxes" unique_id=1929295930]
+position = Vector2(14480, 396)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_pylon6_keeper"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_pylon6_keeper" unique_id=1888689587]
+shape = SubResource("hitbox_spell145_pylon6_keeper")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_pylon6" type="Area2D" parent="Hitboxes" unique_id=1446732629]
+position = Vector2(14616, 366)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_pylon6"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_pylon6" unique_id=710480297]
+shape = SubResource("hitbox_spell145_pylon6")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_pylon6_adorer" type="Area2D" parent="Hitboxes" unique_id=291853635]
+position = Vector2(14756, 399)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_pylon6_adorer"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_pylon6_adorer" unique_id=1272622472]
+shape = SubResource("hitbox_spell145_pylon6_adorer")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_pylon5_keeper" type="Area2D" parent="Hitboxes" unique_id=973581913]
+position = Vector2(14935, 389)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_pylon5_keeper"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_pylon5_keeper" unique_id=1969684312]
+shape = SubResource("hitbox_spell145_pylon5_keeper")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_pylon5" type="Area2D" parent="Hitboxes" unique_id=1243046419]
+position = Vector2(15094, 374)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_pylon5"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_pylon5" unique_id=1398796653]
+shape = SubResource("hitbox_spell145_pylon5")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_pylon5_adorer" type="Area2D" parent="Hitboxes" unique_id=1959389585]
+position = Vector2(15230, 402)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_pylon5_adorer"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_pylon5_adorer" unique_id=1247773271]
+shape = SubResource("hitbox_spell145_pylon5_adorer")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_pylon4_keeper" type="Area2D" parent="Hitboxes" unique_id=1863336962]
+position = Vector2(15428, 385)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_pylon4_keeper"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_pylon4_keeper" unique_id=957483270]
+shape = SubResource("hitbox_spell145_pylon4_keeper")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_pylon4" type="Area2D" parent="Hitboxes" unique_id=509154337]
+position = Vector2(15568, 369)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_pylon4"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_pylon4" unique_id=1545423414]
+shape = SubResource("hitbox_spell145_pylon4")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_pylon4_adorer" type="Area2D" parent="Hitboxes" unique_id=1170390173]
+position = Vector2(15698, 403)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_pylon4_adorer"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_pylon4_adorer" unique_id=1605759411]
+shape = SubResource("hitbox_spell145_pylon4_adorer")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_pylon3_keeper" type="Area2D" parent="Hitboxes" unique_id=298355883]
+position = Vector2(15886, 367)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_pylon3_keeper"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_pylon3_keeper" unique_id=1507983649]
+shape = SubResource("hitbox_spell145_pylon3_keeper")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_pylon3" type="Area2D" parent="Hitboxes" unique_id=1675311384]
+position = Vector2(16036, 374)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_pylon3"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_pylon3" unique_id=1696263749]
+shape = SubResource("hitbox_spell145_pylon3")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_pylon3_adorer" type="Area2D" parent="Hitboxes" unique_id=308692378]
+position = Vector2(16168, 403)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_pylon3_adorer"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_pylon3_adorer" unique_id=1679394216]
+shape = SubResource("hitbox_spell145_pylon3_adorer")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_pylon15_keeper" type="Area2D" parent="Hitboxes" unique_id=222882486]
+position = Vector2(10879, 402)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_pylon15_keeper"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_pylon15_keeper" unique_id=141274999]
+shape = SubResource("hitbox_spell145_pylon15_keeper")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_pylon15" type="Area2D" parent="Hitboxes" unique_id=1762329788]
+position = Vector2(10993, 385)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_pylon15"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_pylon15" unique_id=514635244]
+shape = SubResource("hitbox_spell145_pylon15")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_pylon15_adorer" type="Area2D" parent="Hitboxes" unique_id=1128490047]
+position = Vector2(11089, 406)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_pylon15_adorer"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_pylon15_adorer" unique_id=762763420]
+shape = SubResource("hitbox_spell145_pylon15_adorer")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_pylon14_keeper" type="Area2D" parent="Hitboxes" unique_id=2121346713]
+position = Vector2(11233, 396)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_pylon14_keeper"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_pylon14_keeper" unique_id=522721756]
+shape = SubResource("hitbox_spell145_pylon14_keeper")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_pylon14" type="Area2D" parent="Hitboxes" unique_id=910370676]
+position = Vector2(11346, 378)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_pylon14"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_pylon14" unique_id=632222513]
+shape = SubResource("hitbox_spell145_pylon14")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_pylon14_adorer" type="Area2D" parent="Hitboxes" unique_id=1272162572]
+position = Vector2(11451, 399)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_pylon14_adorer"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_pylon14_adorer" unique_id=1782691498]
+shape = SubResource("hitbox_spell145_pylon14_adorer")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_pylon13_keeper" type="Area2D" parent="Hitboxes" unique_id=30879124]
+position = Vector2(11585, 390)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_pylon13_keeper"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_pylon13_keeper" unique_id=1847330171]
+shape = SubResource("hitbox_spell145_pylon13_keeper")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_pylon13" type="Area2D" parent="Hitboxes" unique_id=1870287910]
+position = Vector2(11714, 380)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_pylon13"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_pylon13" unique_id=1245341638]
+shape = SubResource("hitbox_spell145_pylon13")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_pylon13_adorer" type="Area2D" parent="Hitboxes" unique_id=362303294]
+position = Vector2(11811, 398)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_pylon13_adorer"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_pylon13_adorer" unique_id=839251513]
+shape = SubResource("hitbox_spell145_pylon13_adorer")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_pylon12_keeper" type="Area2D" parent="Hitboxes" unique_id=448768372]
+position = Vector2(11959, 389)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_pylon12_keeper"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_pylon12_keeper" unique_id=939314198]
+shape = SubResource("hitbox_spell145_pylon12_keeper")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_pylon12" type="Area2D" parent="Hitboxes" unique_id=2030654254]
+position = Vector2(12078, 383)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_pylon12"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_pylon12" unique_id=1369571137]
+shape = SubResource("hitbox_spell145_pylon12")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_pylon12_adorer" type="Area2D" parent="Hitboxes" unique_id=1399725030]
+position = Vector2(12169, 409)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_pylon12_adorer"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_pylon12_adorer" unique_id=992021878]
+shape = SubResource("hitbox_spell145_pylon12_adorer")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_pylon11_keeper" type="Area2D" parent="Hitboxes" unique_id=519479363]
+position = Vector2(12319, 400)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_pylon11_keeper"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_pylon11_keeper" unique_id=294818076]
+shape = SubResource("hitbox_spell145_pylon11_keeper")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_pylon11" type="Area2D" parent="Hitboxes" unique_id=1068243883]
+position = Vector2(12439, 383)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_pylon11"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_pylon11" unique_id=356221131]
+shape = SubResource("hitbox_spell145_pylon11")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_pylon11_adorer" type="Area2D" parent="Hitboxes" unique_id=1264581609]
+position = Vector2(12545, 407)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_pylon11_adorer"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_pylon11_adorer" unique_id=717804089]
+shape = SubResource("hitbox_spell145_pylon11_adorer")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_pylon10_keeper" type="Area2D" parent="Hitboxes" unique_id=1637072961]
+position = Vector2(12723, 389)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_pylon10_keeper"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_pylon10_keeper" unique_id=1404060129]
+shape = SubResource("hitbox_spell145_pylon10_keeper")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_pylon10" type="Area2D" parent="Hitboxes" unique_id=581946791]
+position = Vector2(12859, 372)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_pylon10"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_pylon10" unique_id=624178644]
+shape = SubResource("hitbox_spell145_pylon10")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_pylon10_adorer" type="Area2D" parent="Hitboxes" unique_id=1495226207]
+position = Vector2(12976, 398)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_pylon10_adorer"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_pylon10_adorer" unique_id=1263658543]
+shape = SubResource("hitbox_spell145_pylon10_adorer")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_pylon9_keeper" type="Area2D" parent="Hitboxes" unique_id=274377720]
+position = Vector2(13145, 385)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_pylon9_keeper"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_pylon9_keeper" unique_id=2089566237]
+shape = SubResource("hitbox_spell145_pylon9_keeper")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_pylon9" type="Area2D" parent="Hitboxes" unique_id=395011510]
+position = Vector2(13279, 372)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_pylon9"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_pylon9" unique_id=177686656]
+shape = SubResource("hitbox_spell145_pylon9")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_pylon9_adorer" type="Area2D" parent="Hitboxes" unique_id=834824086]
+position = Vector2(13406, 400)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_pylon9_adorer"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_pylon9_adorer" unique_id=1919538217]
+shape = SubResource("hitbox_spell145_pylon9_adorer")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_pylon21_keeper" type="Area2D" parent="Hitboxes" unique_id=434651511]
+position = Vector2(8667, 365)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_pylon21_keeper"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_pylon21_keeper" unique_id=1935637802]
+shape = SubResource("hitbox_spell145_pylon21_keeper")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_pylon21" type="Area2D" parent="Hitboxes" unique_id=2118690282]
+position = Vector2(8833, 364)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_pylon21"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_pylon21" unique_id=36692043]
+shape = SubResource("hitbox_spell145_pylon21")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_pylon21_adorer" type="Area2D" parent="Hitboxes" unique_id=397610921]
+position = Vector2(8960, 397)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_pylon21_adorer"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_pylon21_adorer" unique_id=1756472830]
+shape = SubResource("hitbox_spell145_pylon21_adorer")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_pylon20_keeper" type="Area2D" parent="Hitboxes" unique_id=219713698]
+position = Vector2(9120, 397)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_pylon20_keeper"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_pylon20_keeper" unique_id=1917889766]
+shape = SubResource("hitbox_spell145_pylon20_keeper")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_pylon20" type="Area2D" parent="Hitboxes" unique_id=5929263]
+position = Vector2(9227, 372)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_pylon20"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_pylon20" unique_id=343531164]
+shape = SubResource("hitbox_spell145_pylon20")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_pylon20_adorer" type="Area2D" parent="Hitboxes" unique_id=651868245]
+position = Vector2(9330, 406)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_pylon20_adorer"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_pylon20_adorer" unique_id=162228309]
+shape = SubResource("hitbox_spell145_pylon20_adorer")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_pylon19_keeper" type="Area2D" parent="Hitboxes" unique_id=1546361369]
+position = Vector2(9470, 404)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_pylon19_keeper"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_pylon19_keeper" unique_id=1931458348]
+shape = SubResource("hitbox_spell145_pylon19_keeper")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_pylon19" type="Area2D" parent="Hitboxes" unique_id=424922209]
+position = Vector2(9579, 388)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_pylon19"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_pylon19" unique_id=1775928784]
+shape = SubResource("hitbox_spell145_pylon19")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_pylon19_adorer" type="Area2D" parent="Hitboxes" unique_id=79332594]
+position = Vector2(9669, 407)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_pylon19_adorer"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_pylon19_adorer" unique_id=2139198547]
+shape = SubResource("hitbox_spell145_pylon19_adorer")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_pylon18_keeper" type="Area2D" parent="Hitboxes" unique_id=1367166640]
+position = Vector2(9815, 400)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_pylon18_keeper"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_pylon18_keeper" unique_id=373016711]
+shape = SubResource("hitbox_spell145_pylon18_keeper")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_pylon18" type="Area2D" parent="Hitboxes" unique_id=1656603025]
+position = Vector2(9925, 375)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_pylon18"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_pylon18" unique_id=1457369747]
+shape = SubResource("hitbox_spell145_pylon18")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_pylon18_adorer" type="Area2D" parent="Hitboxes" unique_id=1128376153]
+position = Vector2(10030, 399)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_pylon18_adorer"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_pylon18_adorer" unique_id=1887820419]
+shape = SubResource("hitbox_spell145_pylon18_adorer")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_pylon17_keeper" type="Area2D" parent="Hitboxes" unique_id=390703438]
+position = Vector2(10162, 395)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_pylon17_keeper"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_pylon17_keeper" unique_id=1865461355]
+shape = SubResource("hitbox_spell145_pylon17_keeper")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_pylon17" type="Area2D" parent="Hitboxes" unique_id=61027139]
+position = Vector2(10267, 368)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_pylon17"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_pylon17" unique_id=956989942]
+shape = SubResource("hitbox_spell145_pylon17")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_pylon17_adorer" type="Area2D" parent="Hitboxes" unique_id=1239562583]
+position = Vector2(10383, 400)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_pylon17_adorer"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_pylon17_adorer" unique_id=240415043]
+shape = SubResource("hitbox_spell145_pylon17_adorer")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_pylon16_keeper" type="Area2D" parent="Hitboxes" unique_id=1891463308]
+position = Vector2(10530, 393)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_pylon16_keeper"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_pylon16_keeper" unique_id=158845445]
+shape = SubResource("hitbox_spell145_pylon16_keeper")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_pylon16" type="Area2D" parent="Hitboxes" unique_id=2022048657]
+position = Vector2(10650, 377)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_pylon16"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_pylon16" unique_id=1054580132]
+shape = SubResource("hitbox_spell145_pylon16")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell145_pylon16_adorer" type="Area2D" parent="Hitboxes" unique_id=1121921043]
+position = Vector2(10748, 393)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell145_pylon16_adorer"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell145_pylon16_adorer" unique_id=1731195114]
+shape = SubResource("hitbox_spell145_pylon16_adorer")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell147_gate7_baboon" type="Area2D" parent="Hitboxes" unique_id=293869007]
+position = Vector2(216, 381)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell147_gate7_baboon"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell147_gate7_baboon" unique_id=475005151]
+shape = SubResource("hitbox_spell147_gate7_baboon")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell147_gate7_stand" type="Area2D" parent="Hitboxes" unique_id=1266895658]
+position = Vector2(376, 400)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell147_gate7_stand"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell147_gate7_stand" unique_id=1935684986]
+shape = SubResource("hitbox_spell147_gate7_stand")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell147_gate7_adorer" type="Area2D" parent="Hitboxes" unique_id=2065527691]
+position = Vector2(508, 398)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell147_gate7_adorer"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell147_gate7_adorer" unique_id=415626068]
+shape = SubResource("hitbox_spell147_gate7_adorer")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell147_gate6_baboon" type="Area2D" parent="Hitboxes" unique_id=1652946377]
+position = Vector2(710, 390)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell147_gate6_baboon"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell147_gate6_baboon" unique_id=289260684]
+shape = SubResource("hitbox_spell147_gate6_baboon")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell147_gate6_stand" type="Area2D" parent="Hitboxes" unique_id=853625836]
+position = Vector2(826, 428)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell147_gate6_stand"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell147_gate6_stand" unique_id=31436729]
+shape = SubResource("hitbox_spell147_gate6_stand")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell147_gate6_adorer" type="Area2D" parent="Hitboxes" unique_id=342288273]
+position = Vector2(892, 402)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell147_gate6_adorer"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell147_gate6_adorer" unique_id=1788196099]
+shape = SubResource("hitbox_spell147_gate6_adorer")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell147_gate5_baboon" type="Area2D" parent="Hitboxes" unique_id=540744160]
+position = Vector2(1068, 391)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell147_gate5_baboon"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell147_gate5_baboon" unique_id=955501280]
+shape = SubResource("hitbox_spell147_gate5_baboon")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell147_gate5_stand" type="Area2D" parent="Hitboxes" unique_id=823956530]
+position = Vector2(1186, 425)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell147_gate5_stand"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell147_gate5_stand" unique_id=1364254702]
+shape = SubResource("hitbox_spell147_gate5_stand")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell147_gate5_adorer" type="Area2D" parent="Hitboxes" unique_id=506309298]
+position = Vector2(1253, 403)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell147_gate5_adorer"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell147_gate5_adorer" unique_id=1353858723]
+shape = SubResource("hitbox_spell147_gate5_adorer")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell147_gate4_baboon" type="Area2D" parent="Hitboxes" unique_id=1819934892]
+position = Vector2(1434, 389)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell147_gate4_baboon"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell147_gate4_baboon" unique_id=1826419706]
+shape = SubResource("hitbox_spell147_gate4_baboon")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell147_gate4_stand" type="Area2D" parent="Hitboxes" unique_id=409082998]
+position = Vector2(1546, 440)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell147_gate4_stand"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell147_gate4_stand" unique_id=474065058]
+shape = SubResource("hitbox_spell147_gate4_stand")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell147_gate4_adorer" type="Area2D" parent="Hitboxes" unique_id=788000421]
+position = Vector2(1609, 407)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell147_gate4_adorer"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell147_gate4_adorer" unique_id=2095558525]
+shape = SubResource("hitbox_spell147_gate4_adorer")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell147_gate3_stand" type="Area2D" parent="Hitboxes" unique_id=1663598177]
+position = Vector2(1951, 414)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell147_gate3_stand"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell147_gate3_stand" unique_id=252727587]
+shape = SubResource("hitbox_spell147_gate3_stand")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell147_gate3_baboon" type="Area2D" parent="Hitboxes" unique_id=646489895]
+position = Vector2(1826, 386)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell147_gate3_baboon"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell147_gate3_baboon" unique_id=1575318163]
+shape = SubResource("hitbox_spell147_gate3_baboon")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell147_gate3_adorer" type="Area2D" parent="Hitboxes" unique_id=2086839747]
+position = Vector2(2060, 398)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell147_gate3_adorer"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell147_gate3_adorer" unique_id=1524286177]
+shape = SubResource("hitbox_spell147_gate3_adorer")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell147_gate2_baboon" type="Area2D" parent="Hitboxes" unique_id=2069360246]
+position = Vector2(2290, 388)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell147_gate2_baboon"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell147_gate2_baboon" unique_id=901264178]
+shape = SubResource("hitbox_spell147_gate2_baboon")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell147_gate2_stand" type="Area2D" parent="Hitboxes" unique_id=447253488]
+position = Vector2(2426, 414)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell147_gate2_stand"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell147_gate2_stand" unique_id=2048127409]
+shape = SubResource("hitbox_spell147_gate2_stand")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell147_gate2_adorer" type="Area2D" parent="Hitboxes" unique_id=909631854]
+position = Vector2(2518, 393)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell147_gate2_adorer"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell147_gate2_adorer" unique_id=752623506]
+shape = SubResource("hitbox_spell147_gate2_adorer")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell147_gate1_stand" type="Area2D" parent="Hitboxes" unique_id=1327345935]
+position = Vector2(3068, 406)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell147_gate1_stand"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell147_gate1_stand" unique_id=562206838]
+shape = SubResource("hitbox_spell147_gate1_stand")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell147_gate1_baboon" type="Area2D" parent="Hitboxes" unique_id=1162189767]
+position = Vector2(2808, 381)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell147_gate1_baboon"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell147_gate1_baboon" unique_id=392687159]
+shape = SubResource("hitbox_spell147_gate1_baboon")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell147_gate1_adorer" type="Area2D" parent="Hitboxes" unique_id=1538580940]
+position = Vector2(3240, 390)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell147_gate1_adorer"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell147_gate1_adorer" unique_id=399333498]
+shape = SubResource("hitbox_spell147_gate1_adorer")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell147_caption" type="Area2D" parent="Hitboxes" unique_id=347751813]
+position = Vector2(2321, 121)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell147_caption"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell147_caption" unique_id=1286190987]
+shape = SubResource("hitbox_spell147_caption")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)

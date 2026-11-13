@@ -1,0 +1,964 @@
+{
+ "source": "art/fields110.mdp",
+ "sha256": "7c67168fb7b2d23570caad5c7c030c362276322f52fedfb50005db94dd7609e4",
+ "width": 10000,
+ "height": 3239,
+ "page": {
+  "x": 1040,
+  "y": 268,
+  "w": 7580,
+  "h": 2692
+ },
+ "scale": 1.5,
+ "view_height": 710,
+ "start": {
+  "x": 7000,
+  "y": 1230
+ },
+ "avatar": "walking_worshipper",
+ "lanes": [
+  {
+   "key": "top",
+   "ground": 1230,
+   "top": 570,
+   "bottom": 1280,
+   "inner_top": 610
+  },
+  {
+   "key": "middle",
+   "ground": 1943,
+   "top": 1283,
+   "bottom": 1993,
+   "inner_top": 1383
+  },
+  {
+   "key": "bottom",
+   "ground": 2754,
+   "top": 2094,
+   "bottom": 2804,
+   "inner_top": 2108
+  },
+  {
+   "key": "base",
+   "ground": 2935,
+   "top": 2250,
+   "bottom": 2960,
+   "inner_top": 2757
+  }
+ ],
+ "water": {
+  "x0": 2938,
+  "x1": 7087
+ },
+ "figures": {
+  "landing_steps": {
+   "x": 6391,
+   "y": 2654,
+   "w": 103,
+   "h": 102,
+   "plate": "PlateXLI",
+   "group": "Canal_deities_and_landing",
+   "source_layer": 26,
+   "source_name": "Landing steps"
+  },
+  "canal_god_3": {
+   "x": 6133,
+   "y": 2640,
+   "w": 67,
+   "h": 115,
+   "plate": "PlateXLI",
+   "group": "Canal_deities_and_landing",
+   "source_layer": 28,
+   "source_name": "Canal deity 3"
+  },
+  "canal_god_2": {
+   "x": 6069,
+   "y": 2637,
+   "w": 63,
+   "h": 118,
+   "plate": "PlateXLI",
+   "group": "Canal_deities_and_landing",
+   "source_layer": 29,
+   "source_name": "Canal deity 2"
+  },
+  "canal_god_1": {
+   "x": 5991,
+   "y": 2624,
+   "w": 73,
+   "h": 131,
+   "plate": "PlateXLI",
+   "group": "Canal_deities_and_landing",
+   "source_layer": 30,
+   "source_name": "Canal deity 1"
+  },
+  "throne_boat": {
+   "x": 4267,
+   "y": 2296,
+   "w": 1126,
+   "h": 344,
+   "plate": "PlateXLI",
+   "group": "Lower_oared_crossing",
+   "source_layer": 33,
+   "source_name": "Oared boat and landing"
+  },
+  "stairway_boat": {
+   "x": 3391,
+   "y": 2352,
+   "w": 772,
+   "h": 223,
+   "plate": "PlateXLI",
+   "group": "Lower_stairway_crossing",
+   "source_layer": 36,
+   "source_name": "Stairway boat"
+  },
+  "caption_bot_heron_island": {
+   "x": 3114,
+   "y": 2397,
+   "w": 235,
+   "h": 355,
+   "plate": "PlateXLI",
+   "group": "Lower_stairway_crossing",
+   "source_layer": 38,
+   "source_name": "Island with heron"
+  },
+  "plough_ox": {
+   "x": 6360,
+   "y": 1653,
+   "w": 416,
+   "h": 303,
+   "plate": "PlateXLI",
+   "group": "Ploughing_scene",
+   "source_layer": 41,
+   "source_name": "Ox"
+  },
+  "hoe_man": {
+   "x": 6704,
+   "y": 1603,
+   "w": 212,
+   "h": 354,
+   "plate": "PlateXLI",
+   "group": "Ploughing_scene",
+   "source_layer": 42,
+   "source_name": "Farmer with hoe"
+  },
+  "seed": {
+   "x": 6100,
+   "y": 1597,
+   "w": 167,
+   "h": 350,
+   "plate": "PlateXLI",
+   "group": "Reaping_and_sowing",
+   "source_layer": 45,
+   "source_name": "Seed stream"
+  },
+  "sower": {
+   "x": 6155,
+   "y": 1599,
+   "w": 157,
+   "h": 354,
+   "plate": "PlateXLI",
+   "group": "Reaping_and_sowing",
+   "source_layer": 46,
+   "source_name": "Sower"
+  },
+  "tree": {
+   "x": 5940,
+   "y": 1498,
+   "w": 135,
+   "h": 453,
+   "plate": "PlateXLI",
+   "group": "Reaping_and_sowing",
+   "source_layer": 48,
+   "source_name": "Palm"
+  },
+  "crops_right": {
+   "x": 5626,
+   "y": 1391,
+   "w": 234,
+   "h": 553,
+   "plate": "PlateXLI",
+   "group": "Reaping_and_sowing",
+   "source_layer": 50,
+   "source_name": "Crop bed right"
+  },
+  "crops_left": {
+   "x": 5285,
+   "y": 1391,
+   "w": 294,
+   "h": 550,
+   "plate": "PlateXLI",
+   "group": "Reaping_and_sowing",
+   "source_layer": 51,
+   "source_name": "Crop bed left"
+  },
+  "reaper_right": {
+   "x": 5655,
+   "y": 1600,
+   "w": 276,
+   "h": 345,
+   "plate": "PlateXLI",
+   "group": "Reaping_and_sowing",
+   "source_layer": 53,
+   "source_name": "Reaper right"
+  },
+  "reaper_left": {
+   "x": 5408,
+   "y": 1600,
+   "w": 248,
+   "h": 343,
+   "plate": "PlateXLI",
+   "group": "Reaping_and_sowing",
+   "source_layer": 54,
+   "source_name": "Reaper left"
+  },
+  "threshing_floor": {
+   "x": 4644,
+   "y": 1890,
+   "w": 671,
+   "h": 40,
+   "plate": "PlateXLI",
+   "group": "Harvest_and_threshing",
+   "source_layer": 57,
+   "source_name": "Threshing floor"
+  },
+  "flail_man": {
+   "x": 5095,
+   "y": 1498,
+   "w": 198,
+   "h": 408,
+   "plate": "PlateXLI",
+   "group": "Harvest_and_threshing",
+   "source_layer": 58,
+   "source_name": "Farmer with flail"
+  },
+  "threshing_ox": {
+   "x": 4640,
+   "y": 1608,
+   "w": 489,
+   "h": 303,
+   "plate": "PlateXLI",
+   "group": "Harvest_and_threshing",
+   "source_layer": 59,
+   "source_name": "Ox"
+  },
+  "grain_heap_right": {
+   "x": 4363,
+   "y": 1822,
+   "w": 246,
+   "h": 120,
+   "plate": "PlateXLI",
+   "group": "Harvest_and_threshing",
+   "source_layer": 61,
+   "source_name": "Grain heap right"
+  },
+  "grain_heap_left": {
+   "x": 4030,
+   "y": 1801,
+   "w": 280,
+   "h": 141,
+   "plate": "PlateXLI",
+   "group": "Harvest_and_threshing",
+   "source_layer": 62,
+   "source_name": "Grain heap left"
+  },
+  "heron": {
+   "x": 3630,
+   "y": 1513,
+   "w": 158,
+   "h": 147,
+   "plate": "PlateXLI",
+   "group": "Middle_offering_scene",
+   "source_layer": 65,
+   "source_name": "Heron on standard"
+  },
+  "adorant_heron": {
+   "x": 3810,
+   "y": 1591,
+   "w": 153,
+   "h": 352,
+   "plate": "PlateXLI",
+   "group": "Middle_offering_scene",
+   "source_layer": 67,
+   "source_name": "Standing adorant"
+  },
+  "kneeling_man": {
+   "x": 3541,
+   "y": 1720,
+   "w": 119,
+   "h": 212,
+   "plate": "PlateXLI",
+   "group": "Middle_offering_scene",
+   "source_layer": 68,
+   "source_name": "Kneeling figure"
+  },
+  "adorant_offering": {
+   "x": 3395,
+   "y": 1609,
+   "w": 161,
+   "h": 336,
+   "plate": "PlateXLI",
+   "group": "Middle_offering_scene",
+   "source_layer": 69,
+   "source_name": "Adorant"
+  },
+  "offering_stand": {
+   "x": 3275,
+   "y": 1672,
+   "w": 139,
+   "h": 273,
+   "plate": "PlateXLI",
+   "group": "Middle_offering_scene",
+   "source_layer": 71,
+   "source_name": "Offering stand"
+  },
+  "enthroned_god": {
+   "x": 3105,
+   "y": 1533,
+   "w": 205,
+   "h": 392,
+   "plate": "PlateXLI",
+   "group": "Middle_offering_scene",
+   "source_layer": 73,
+   "source_name": "Crowned deity"
+  },
+  "yoke_bearer": {
+   "x": 6727,
+   "y": 883,
+   "w": 178,
+   "h": 352,
+   "plate": "PlateXLI",
+   "group": "Upper_offering_procession",
+   "source_layer": 76,
+   "source_name": "Yoke bearer"
+  },
+  "walking_worshipper": {
+   "x": 6570,
+   "y": 872,
+   "w": 180,
+   "h": 362,
+   "plate": "PlateXLI",
+   "group": "Upper_offering_procession",
+   "source_layer": 77,
+   "source_name": "Walking figure"
+  },
+  "adorant_procession": {
+   "x": 6410,
+   "y": 874,
+   "w": 159,
+   "h": 359,
+   "plate": "PlateXLI",
+   "group": "Upper_offering_procession",
+   "source_layer": 78,
+   "source_name": "Adorant"
+  },
+  "cup_bearer_procession": {
+   "x": 6206,
+   "y": 871,
+   "w": 191,
+   "h": 361,
+   "plate": "PlateXLI",
+   "group": "Upper_offering_procession",
+   "source_layer": 79,
+   "source_name": "Offering bearer"
+  },
+  "heaped_stand": {
+   "x": 6078,
+   "y": 943,
+   "w": 155,
+   "h": 288,
+   "plate": "PlateXLI",
+   "group": "Upper_offering_procession",
+   "source_layer": 81,
+   "source_name": "Heaped offering stand"
+  },
+  "dais": {
+   "x": 5766,
+   "y": 1090,
+   "w": 271,
+   "h": 141,
+   "plate": "PlateXLI",
+   "group": "Upper_offering_procession",
+   "source_layer": 83,
+   "source_name": "Shared shrine"
+  },
+  "seated_god_3": {
+   "x": 5945,
+   "y": 872,
+   "w": 83,
+   "h": 227,
+   "plate": "PlateXLI",
+   "group": "Upper_offering_procession",
+   "source_layer": 84,
+   "source_name": "Seated deity 3"
+  },
+  "seated_god_2": {
+   "x": 5867,
+   "y": 869,
+   "w": 83,
+   "h": 230,
+   "plate": "PlateXLI",
+   "group": "Upper_offering_procession",
+   "source_layer": 85,
+   "source_name": "Seated deity 2"
+  },
+  "seated_god_1": {
+   "x": 5773,
+   "y": 869,
+   "w": 94,
+   "h": 230,
+   "plate": "PlateXLI",
+   "group": "Upper_offering_procession",
+   "source_layer": 86,
+   "source_name": "Seated deity 1"
+  },
+  "round_sign_3": {
+   "x": 5188,
+   "y": 620,
+   "w": 123,
+   "h": 107,
+   "plate": "PlateXLI",
+   "group": "Solar_crossing",
+   "source_layer": 89,
+   "source_name": "Star pool 3"
+  },
+  "round_sign_2": {
+   "x": 5042,
+   "y": 625,
+   "w": 127,
+   "h": 111,
+   "plate": "PlateXLI",
+   "group": "Solar_crossing",
+   "source_layer": 90,
+   "source_name": "Star pool 2"
+  },
+  "round_sign_1": {
+   "x": 4891,
+   "y": 620,
+   "w": 125,
+   "h": 110,
+   "plate": "PlateXLI",
+   "group": "Solar_crossing",
+   "source_layer": 91,
+   "source_name": "Star pool 1"
+  },
+  "boat": {
+   "x": 4827,
+   "y": 870,
+   "w": 914,
+   "h": 355,
+   "plate": "PlateXLI",
+   "group": "Solar_crossing",
+   "source_layer": 93,
+   "source_name": "Boat and rower"
+  },
+  "cup_bearer_boat": {
+   "x": 4655,
+   "y": 900,
+   "w": 175,
+   "h": 322,
+   "plate": "PlateXLI",
+   "group": "Solar_crossing",
+   "source_layer": 95,
+   "source_name": "Offering bearer"
+  },
+  "human_headed_bird": {
+   "x": 4214,
+   "y": 869,
+   "w": 307,
+   "h": 352,
+   "plate": "PlateXLI",
+   "group": "Upper_sacred_figures",
+   "source_layer": 98,
+   "source_name": "Ba bird"
+  },
+  "falcon": {
+   "x": 3958,
+   "y": 820,
+   "w": 198,
+   "h": 399,
+   "plate": "PlateXLI",
+   "group": "Upper_sacred_figures",
+   "source_layer": 99,
+   "source_name": "Falcon on shrine"
+  },
+  "bird_on_offerings": {
+   "x": 3700,
+   "y": 903,
+   "w": 143,
+   "h": 65,
+   "plate": "PlateXLI",
+   "group": "Upper_sacred_figures",
+   "source_layer": 101,
+   "source_name": "Bird on offerings"
+  },
+  "bird_stand": {
+   "x": 3700,
+   "y": 967,
+   "w": 157,
+   "h": 252,
+   "plate": "PlateXLI",
+   "group": "Upper_sacred_figures",
+   "source_layer": 102,
+   "source_name": "Offering stand"
+  },
+  "mummiform_god": {
+   "x": 3472,
+   "y": 797,
+   "w": 133,
+   "h": 422,
+   "plate": "PlateXLI",
+   "group": "Upper_sacred_figures",
+   "source_layer": 104,
+   "source_name": "Standing mummiform deity"
+  },
+  "panel1_goddesses": {
+   "x": 1090,
+   "y": 666,
+   "w": 255,
+   "h": 424,
+   "plate": "PlateXLII",
+   "group": "Panel_1",
+   "source_layer": 105
+  },
+  "panel1_barque": {
+   "x": 1340,
+   "y": 644,
+   "w": 495,
+   "h": 451,
+   "plate": "PlateXLII",
+   "group": "Panel_1",
+   "source_layer": 105
+  },
+  "panel2_enthroned": {
+   "x": 1095,
+   "y": 1295,
+   "w": 345,
+   "h": 439,
+   "plate": "PlateXLII",
+   "group": "Panel_2",
+   "source_layer": 105
+  },
+  "panel2_stand": {
+   "x": 1448,
+   "y": 1419,
+   "w": 100,
+   "h": 316,
+   "plate": "PlateXLII",
+   "group": "Panel_2",
+   "source_layer": 105
+  },
+  "panel2_deceased": {
+   "x": 1548,
+   "y": 1391,
+   "w": 182,
+   "h": 343,
+   "plate": "PlateXLII",
+   "group": "Panel_2",
+   "source_layer": 105
+  },
+  "panel2_adorant": {
+   "x": 1730,
+   "y": 1400,
+   "w": 105,
+   "h": 335,
+   "plate": "PlateXLII",
+   "group": "Panel_2",
+   "source_layer": 105
+  },
+  "panel3_gods": {
+   "x": 1070,
+   "y": 1996,
+   "w": 265,
+   "h": 321,
+   "plate": "PlateXLII",
+   "group": "Panel_3",
+   "source_layer": 105
+  },
+  "panel3_table": {
+   "x": 1395,
+   "y": 1939,
+   "w": 245,
+   "h": 381,
+   "plate": "PlateXLII",
+   "group": "Panel_3",
+   "source_layer": 105
+  },
+  "panel3_kneeling": {
+   "x": 1645,
+   "y": 2026,
+   "w": 165,
+   "h": 294,
+   "plate": "PlateXLII",
+   "group": "Panel_3",
+   "source_layer": 105
+  },
+  "panel4_gods": {
+   "x": 1070,
+   "y": 2576,
+   "w": 310,
+   "h": 338,
+   "plate": "PlateXLII",
+   "group": "Panel_4",
+   "source_layer": 105
+  },
+  "panel4_stand": {
+   "x": 1380,
+   "y": 2715,
+   "w": 95,
+   "h": 195,
+   "plate": "PlateXLII",
+   "group": "Panel_4",
+   "source_layer": 105
+  },
+  "panel4_table": {
+   "x": 1484,
+   "y": 2615,
+   "w": 156,
+   "h": 285,
+   "plate": "PlateXLII",
+   "group": "Panel_4",
+   "source_layer": 105
+  },
+  "panel4_kneeling": {
+   "x": 1640,
+   "y": 2575,
+   "w": 165,
+   "h": 325,
+   "plate": "PlateXLII",
+   "group": "Panel_4",
+   "source_layer": 105
+  },
+  "adorant_left": {
+   "x": 1946,
+   "y": 1904,
+   "w": 396,
+   "h": 1026,
+   "plate": "PlateXL",
+   "group": "Adorants",
+   "source_layer": 105
+  },
+  "adorant_right": {
+   "x": 8106,
+   "y": 1802,
+   "w": 384,
+   "h": 1128,
+   "plate": "PlateXL",
+   "group": "Adorants",
+   "source_layer": 106
+  },
+  "caption_top_oval_qenqenet": {
+   "x": 3103,
+   "y": 622,
+   "w": 252,
+   "h": 128,
+   "plate": "PlateXLI",
+   "group": "Captions_top",
+   "source_layer": 23
+  },
+  "caption_top_oval_no_sweat": {
+   "x": 3357,
+   "y": 626,
+   "w": 237,
+   "h": 127,
+   "plate": "PlateXLI",
+   "group": "Captions_top",
+   "source_layer": 23
+  },
+  "caption_top_oval_great_town": {
+   "x": 3103,
+   "y": 773,
+   "w": 242,
+   "h": 125,
+   "plate": "PlateXLI",
+   "group": "Captions_top",
+   "source_layer": 23
+  },
+  "caption_top_horizon_gods": {
+   "x": 3609,
+   "y": 635,
+   "w": 85,
+   "h": 139,
+   "plate": "PlateXLI",
+   "group": "Captions_top",
+   "source_layer": 23
+  },
+  "caption_top_hotep_falcon": {
+   "x": 3803,
+   "y": 644,
+   "w": 182,
+   "h": 88,
+   "plate": "PlateXLI",
+   "group": "Captions_top",
+   "source_layer": 23
+  },
+  "caption_top_being_hotep": {
+   "x": 3124,
+   "y": 997,
+   "w": 304,
+   "h": 174,
+   "plate": "PlateXLI",
+   "group": "Captions_top",
+   "source_layer": 23
+  },
+  "caption_top_osiris_cup": {
+   "x": 4677,
+   "y": 628,
+   "w": 86,
+   "h": 245,
+   "plate": "PlateXLI",
+   "group": "Captions_top",
+   "source_layer": 23
+  },
+  "caption_top_osiris_boat": {
+   "x": 5344,
+   "y": 631,
+   "w": 70,
+   "h": 228,
+   "plate": "PlateXLI",
+   "group": "Captions_top",
+   "source_layer": 23
+  },
+  "caption_top_rowing": {
+   "x": 5430,
+   "y": 622,
+   "w": 85,
+   "h": 249,
+   "plate": "PlateXLI",
+   "group": "Captions_top",
+   "source_layer": 23
+  },
+  "caption_top_great_ennead": {
+   "x": 5844,
+   "y": 635,
+   "w": 198,
+   "h": 70,
+   "plate": "PlateXLI",
+   "group": "Captions_top",
+   "source_layer": 23
+  },
+  "caption_top_osiris_procession": {
+   "x": 6195,
+   "y": 643,
+   "w": 274,
+   "h": 72,
+   "plate": "PlateXLI",
+   "group": "Captions_top",
+   "source_layer": 23
+  },
+  "caption_mid_hapi": {
+   "x": 3222,
+   "y": 1404,
+   "w": 90,
+   "h": 237,
+   "plate": "PlateXLI",
+   "group": "Captions_mid",
+   "source_layer": 23
+  },
+  "caption_mid_osiris": {
+   "x": 3387,
+   "y": 1396,
+   "w": 62,
+   "h": 195,
+   "plate": "PlateXLI",
+   "group": "Captions_mid",
+   "source_layer": 23
+  },
+  "caption_mid_overflow": {
+   "x": 3636,
+   "y": 1660,
+   "w": 125,
+   "h": 187,
+   "plate": "PlateXLI",
+   "group": "Captions_mid",
+   "source_layer": 23
+  },
+  "caption_mid_oval_hotep": {
+   "x": 3917,
+   "y": 1390,
+   "w": 205,
+   "h": 90,
+   "plate": "PlateXLI",
+   "group": "Captions_mid",
+   "source_layer": 23
+  },
+  "caption_mid_oval_great_green": {
+   "x": 4137,
+   "y": 1387,
+   "w": 197,
+   "h": 98,
+   "plate": "PlateXLI",
+   "group": "Captions_mid",
+   "source_layer": 23
+  },
+  "caption_mid_oval_flourishing": {
+   "x": 4344,
+   "y": 1384,
+   "w": 210,
+   "h": 98,
+   "plate": "PlateXLI",
+   "group": "Captions_mid",
+   "source_layer": 23
+  },
+  "caption_mid_oval_knife": {
+   "x": 4560,
+   "y": 1392,
+   "w": 219,
+   "h": 103,
+   "plate": "PlateXLI",
+   "group": "Captions_mid",
+   "source_layer": 23
+  },
+  "caption_mid_hippo_lake": {
+   "x": 3960,
+   "y": 1486,
+   "w": 867,
+   "h": 199,
+   "plate": "PlateXLI",
+   "group": "Captions_mid",
+   "source_layer": 23
+  },
+  "caption_mid_ploughing": {
+   "x": 6313,
+   "y": 1479,
+   "w": 325,
+   "h": 78,
+   "plate": "PlateXLI",
+   "group": "Captions_mid",
+   "source_layer": 23
+  },
+  "caption_bot_oval_food": {
+   "x": 3103,
+   "y": 2108,
+   "w": 194,
+   "h": 102,
+   "plate": "PlateXLI",
+   "group": "Captions_bot",
+   "source_layer": 23
+  },
+  "caption_bot_oval_slaughter": {
+   "x": 3297,
+   "y": 2108,
+   "w": 209,
+   "h": 102,
+   "plate": "PlateXLI",
+   "group": "Captions_bot",
+   "source_layer": 23
+  },
+  "caption_bot_oval_nehet": {
+   "x": 3105,
+   "y": 2210,
+   "w": 186,
+   "h": 84,
+   "plate": "PlateXLI",
+   "group": "Captions_bot",
+   "source_layer": 23
+  },
+  "caption_bot_oval_strong": {
+   "x": 3304,
+   "y": 2210,
+   "w": 190,
+   "h": 90,
+   "plate": "PlateXLI",
+   "group": "Captions_bot",
+   "source_layer": 23
+  },
+  "caption_bot_rehorakhty_bark": {
+   "x": 3599,
+   "y": 2155,
+   "w": 476,
+   "h": 161,
+   "plate": "PlateXLI",
+   "group": "Captions_bot",
+   "source_layer": 23
+  },
+  "caption_bot_throne_bark": {
+   "x": 4173,
+   "y": 2116,
+   "w": 906,
+   "h": 278,
+   "plate": "PlateXLI",
+   "group": "Captions_bot",
+   "source_layer": 23
+  },
+  "caption_bot_great_food": {
+   "x": 5521,
+   "y": 2119,
+   "w": 103,
+   "h": 227,
+   "plate": "PlateXLI",
+   "group": "Captions_bot",
+   "source_layer": 23
+  },
+  "caption_bot_island_re": {
+   "x": 5944,
+   "y": 2161,
+   "w": 115,
+   "h": 116,
+   "plate": "PlateXLI",
+   "group": "Captions_bot",
+   "source_layer": 23
+  },
+  "caption_bot_blessed": {
+   "x": 6235,
+   "y": 2106,
+   "w": 671,
+   "h": 239,
+   "plate": "PlateXLI",
+   "group": "Captions_bot",
+   "source_layer": 23
+  },
+  "caption_bot_birthplace": {
+   "x": 6285,
+   "y": 2495,
+   "w": 614,
+   "h": 86,
+   "plate": "PlateXLI",
+   "group": "Captions_bot",
+   "source_layer": 23
+  },
+  "caption_bot_destroying_water": {
+   "x": 5996,
+   "y": 2535,
+   "w": 113,
+   "h": 59,
+   "plate": "PlateXLI",
+   "group": "Captions_bot",
+   "source_layer": 23
+  },
+  "caption_bot_three_gods": {
+   "x": 5896,
+   "y": 2583,
+   "w": 71,
+   "h": 155,
+   "plate": "PlateXLI",
+   "group": "Captions_bot",
+   "source_layer": 23
+  }
+ },
+ "columns": {
+  "left_short": {
+   "x": 1844,
+   "y": 424,
+   "w": 550,
+   "h": 1346
+  },
+  "left_tall": {
+   "x": 2390,
+   "y": 424,
+   "w": 552,
+   "h": 2516
+  },
+  "right_tall": {
+   "x": 7082,
+   "y": 424,
+   "w": 885,
+   "h": 2516
+  },
+  "right_short": {
+   "x": 7960,
+   "y": 424,
+   "w": 652,
+   "h": 1243
+  }
+ }
+}

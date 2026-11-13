@@ -41,6 +41,7 @@ var _journal_scroll: ScrollContainer
 var _overlay_layouts: Array = []
 var _revision := 0
 var _title_label: Label
+var _flash: Tween              ## a success line turning green and back
 
 
 ## cfg keys: title, journal_hint, intro_title, intro_body, outro_title.
@@ -66,7 +67,7 @@ func setup(level: Node, cfg: Dictionary) -> void:
 	_held.modulate.a = 0.9
 	_held.visible = false
 	_root.add_child(_held)
-	_intro = _build_overlay(cfg.intro_title, cfg.intro_body, "Begin", dismiss_intro)
+	_intro = _build_overlay(cfg.intro_title, cfg.intro_body, "[enter]", dismiss_intro)
 	_intro.visible = true
 	_outro = _build_overlay(cfg.outro_title, "", "Go on", func(): Scroll.finish(level.scene_file_path.get_file().get_basename()))
 	_outro_text = _outro.find_child("Body", true, false)
@@ -119,11 +120,22 @@ func say(who: String, text: String, category := "default") -> void:
 	var color: Color = UI.TAG_HINT if category == "hint" else UI.TAG_MINIGAME if category == "minigame" else UI.TAG
 	_tag.add_theme_stylebox_override("panel", UI.box(color, UI.INK, 4, 12, 0))
 	_tag_label.add_theme_color_override("font_color", UI.INK if category == "hint" else UI.CREAM)
+	if _flash:
+		_flash.kill()
+		_say.remove_theme_color_override("default_color")
 	_text = UI.plain(text)
 	_tag_label.text = who
 	_tag.visible = who != ""
 	_revision += 1
 	_say.text = _keys(_text)   # always at the dialogue size (two font pixels to a screen pixel), never paged
+
+
+## The line just said is a success: it turns green and back to ink, in time with the success glow.
+func flash_success() -> void:
+	var tint := func(c: Color) -> void: _say.add_theme_color_override("default_color", c)
+	_flash = create_tween()
+	_flash.tween_method(tint, UI.INK, UI.SUCCESS_INK, UI.SUCCESS_IN).set_trans(Tween.TRANS_SINE)
+	_flash.tween_method(tint, UI.SUCCESS_INK, UI.INK, UI.SUCCESS_OUT).set_trans(Tween.TRANS_SINE)
 
 
 func _sync_pause() -> void:

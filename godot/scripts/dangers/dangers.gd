@@ -61,7 +61,6 @@ var _sheet_tex: Texture2D
 var actors := {}         ## sprite name -> Node2D pivot at the sprite's bottom centre
 var boxes := {}          ## encounter id -> Vector2(x0, x1)
 
-var _caption_regions := {}
 var _descriptions = preload("res://scripts/descriptions.gd").new("dangers")
 var _hints = preload("res://scripts/puzzles.gd").new()
 var solved := {}         ## encounter id -> true
@@ -116,6 +115,7 @@ var _fight_tweens: Array[Tween] = []
 var _hover := []                ## the actors glowing under the pointer
 var _caption := {}              ## the encounter whose caption glows under the pointer
 var _caption_glow: Sprite2D
+var _debug_menu: DebugMenu   ## debug builds only: T opens it
 
 @onready var avatar: Node2D = $Avatar
 @onready var _item_poses := {"ankh38": $Avatar/CarryAnkh, "sail38": $Avatar/CarryBreath}
@@ -129,8 +129,7 @@ var _caption_glow: Sprite2D
 
 func _ready() -> void:
 	level = JSON.parse_string(FileAccess.get_file_as_string(DATA_PATH))
-	for region in $CaptionRegions.get_children():
-		_caption_regions[region.get_meta("registry_id")] = region
+	_descriptions.use_boxes($Hitboxes)
 	var heka = level.get("heka", {})
 	if heka is Dictionary:
 		for words in heka.values():
@@ -207,6 +206,15 @@ func _ready() -> void:
 	hud.hint_pressed.connect(hint)
 	hud.restart_pressed.connect(reset)
 	hud.menu_pressed.connect(func(): get_tree().change_scene_to_file("res://scenes/menu.tscn"))
+	if OS.is_debug_build():
+		var entries := []
+		for e in ENCOUNTERS:
+			if e.kind != "note":
+				entries.append(["Complete %s %s" % [e.id, e.get("tag", "breath sign")], debug_complete.bind(e)])
+		entries.append(["Complete all", debug_complete_all])
+		_debug_menu = DebugMenu.new()
+		_debug_menu.setup(entries)
+		add_child(_debug_menu)
 	reset()
 	_maybe_run_cli()
 
@@ -410,6 +418,10 @@ func _carried_item_input(event: InputEvent) -> bool:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if _debug_menu and event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_T:
+		_debug_menu.toggle()
+		get_viewport().set_input_as_handled()
+		return
 	if hud.is_blocking() or finished:
 		return
 	if event.is_action_pressed("ui_cancel") and not fight.is_empty():   # Esc always steps out of a fight
@@ -475,7 +487,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		var subject := _inspection_at(p)
 		if subject != "":
 			var bounds := actor_rect(subject)
-			var destination := p.x if avatar.position.x >= bounds.position.x and avatar.position.x <= bounds.end.x else clampf(avatar.position.x, bounds.position.x, bounds.end.x)
+			var destination: float = avatar.reach(bounds)
 			walk_then(destination, _record_actor.bind(subject))
 			return
 		walk_then(p.x)
@@ -546,7 +558,7 @@ func _caption_at(p: Vector2) -> Dictionary:
 
 
 func _caption_rect(e: Dictionary) -> Rect2:
-	return _descriptions.region_bounds(_caption_regions["caption_" + e.id])
+	return _descriptions.box("caption_" + e.id)
 
 
 ## A caption glows like the creatures: the strip's drawing in its frame, and those of its signs
@@ -721,6 +733,7 @@ func _solve(e: Dictionary, item := "") -> void:
 		say("Scribe", _hints.message("interaction.pick_up") % item_name)
 	else:
 		say("Scribe", _hints.text("dangers." + e.id, "success"))
+	hud.flash_success()
 	if _stats.has(e.id):
 		_journal_fight(e.id)
 	else:
@@ -965,6 +978,46 @@ func leave_fight() -> void:
 		_crocs_close(out)
 	else:
 		out.call()
+
+
+# ---------------------------------------------------------------- debug (T menu)
+
+## One danger overcome as in play, where you stand. Its own fight, if running, is won as it is;
+## another one running is left at once. Spell 38 takes the breath sign. With the ankh taken,
+## spells 39-41 cannot be won, so nothing happens, as in play.
+func debug_complete(e: Dictionary) -> void:
+	if e.kind == "take":
+		take(e, "sail38")
+		return
+	if solved.has(e.id) or ("ankh38" in items and e.id in AFTER_CHOICE):
+		return
+	if fight.get("e") == e:
+		end_fight()
+		return
+	var x := avatar.position.x
+	var was := _instant
+	_instant = true     # no opening and closing of the vignette
+	if not fight.is_empty():
+		leave_fight()
+	start_fight(e)
+	end_fight()
+	_instant = was
+	avatar.position.x = x
+
+
+## Every danger overcome; the level's own ending follows (about 3 s later).
+func debug_complete_all() -> void:
+	if not fight.is_empty():
+		var was := _instant
+		_instant = true
+		leave_fight()
+		_instant = was
+	for e in ENCOUNTERS:
+		if e.kind == "take":    # the breath sign before the fights after it
+			debug_complete(e)
+	for e in ENCOUNTERS:
+		if e.kind in FIGHTS:
+			debug_complete(e)
 
 
 func _box_actors(e: Dictionary) -> Array:
@@ -2059,6 +2112,13 @@ func _autotest() -> void:
 	avatar.position.x = END_X - 15.0
 	_check_position()
 	expect.call(finished, "level finished at the end of the road")
+	reset()
+	debug_complete_all()
+	expect.call(current.is_empty() and items == ["sail38"] and fight.is_empty() and not finished,
+		"(debug) complete all: every danger overcome, the breath sign taken, the ending still to come")
+	expect.call(hud._flash.is_running(), "a success line flashes green in the strip")
+	say("Scribe", "")
+	expect.call(not hud._flash.is_running(), "the next line stops the green flash")
 	for id in _heka_by_spell():     # a spell's heka signs stop flashing once it is overcome, as the snake and breath signs do
 		var plain := []
 		for t in [PI / 10.0, PI / 10.0 + PI / 5.0]:     # the top and the bottom of the pulse

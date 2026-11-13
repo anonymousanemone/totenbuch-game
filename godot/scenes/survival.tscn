@@ -135,6 +135,138 @@ region = Rect2(6213, 180, 20, 357)
 atlas = ExtResource("strip")
 region = Rect2(5699, 180, 20, 357)
 
+[sub_resource type="RectangleShape2D" id="hitbox_spell43_osiris"]
+size = Vector2(160, 272)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell43_caption_1027"]
+size = Vector2(356, 128)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell44_shrine"]
+size = Vector2(216, 336)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell44_caption_1031"]
+size = Vector2(396, 124)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell44_staff_bearer"]
+size = Vector2(168, 248)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell45_mummy"]
+size = Vector2(120, 312)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell45_caption_1033"]
+size = Vector2(248, 128)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell46_staff_bearer"]
+size = Vector2(148, 248)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell46_caption_1036"]
+size = Vector2(272, 104)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell46_caption_1035"]
+size = Vector2(268, 128)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell47_bird_shrine"]
+size = Vector2(372, 252)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell47_caption_1038"]
+size = Vector2(376, 132)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell48_caption_1041"]
+size = Vector2(160, 120)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell48_walking_man"]
+size = Vector2(112, 280)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell49_staff_bearer"]
+size = Vector2(172, 276)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell49_caption_1042"]
+size = Vector2(416, 128)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell50_caption_1046"]
+size = Vector2(296, 140)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell50_walking_man"]
+size = Vector2(160, 304)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell50_mound"]
+size = Vector2(192, 336)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell51_walking_man"]
+size = Vector2(136, 244)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell51_caption_1047"]
+size = Vector2(228, 144)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell52_seated_man"]
+size = Vector2(196, 236)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell52_caption_1049"]
+size = Vector2(420, 128)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell53_seated_man"]
+size = Vector2(296, 320)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell53_caption_1129"]
+size = Vector2(488, 132)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell54_caption_1059"]
+size = Vector2(368, 128)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell54_breath"]
+size = Vector2(156, 284)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell55_caption_1061"]
+size = Vector2(92, 88)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell55_breath"]
+size = Vector2(160, 288)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell56_caption_1063"]
+size = Vector2(92, 84)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell56_ankh"]
+size = Vector2(168, 312)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell57_tree"]
+size = Vector2(244, 352)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell57_caption_1070"]
+size = Vector2(756, 144)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell58_drinking"]
+size = Vector2(160, 296)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell58_caption_1069"]
+size = Vector2(592, 120)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell59_tree"]
+size = Vector2(296, 388)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell59_caption_1071"]
+size = Vector2(228, 220)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell60_caption_1065"]
+size = Vector2(84, 92)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell60_breath"]
+size = Vector2(164, 292)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell61_caption_1067"]
+size = Vector2(88, 100)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell61_breath"]
+size = Vector2(160, 300)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell62_caption_1053"]
+size = Vector2(92, 100)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell62_breath"]
+size = Vector2(180, 292)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell63_water"]
+size = Vector2(492, 488)
+
 [node name="Survival" type="Node2D" unique_id=1746825655]
 script = ExtResource("level")
 
@@ -975,3 +1107,555 @@ zoom = Vector2(0.77894735, 0.77894735)
 
 [node name="HUD" type="CanvasLayer" parent="." unique_id=1319032082]
 script = ExtResource("hud")
+
+[node name="Hitboxes" type="Node2D" parent="." unique_id=1179933576]
+visible = false
+
+[node name="spell43_osiris" type="Area2D" parent="Hitboxes" unique_id=266785583]
+position = Vector2(8787, 400)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell43_osiris"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell43_osiris" unique_id=1969325289]
+shape = SubResource("hitbox_spell43_osiris")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell43_caption_1027" type="Area2D" parent="Hitboxes" unique_id=771987183]
+position = Vector2(8866, 109)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell43_caption_1027"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell43_caption_1027" unique_id=952596362]
+shape = SubResource("hitbox_spell43_caption_1027")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell44_shrine" type="Area2D" parent="Hitboxes" unique_id=734457716]
+position = Vector2(8280, 366)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell44_shrine"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell44_shrine" unique_id=2141471816]
+shape = SubResource("hitbox_spell44_shrine")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell44_caption_1031" type="Area2D" parent="Hitboxes" unique_id=810177106]
+position = Vector2(8433, 115)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell44_caption_1031"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell44_caption_1031" unique_id=118816171]
+shape = SubResource("hitbox_spell44_caption_1031")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell44_staff_bearer" type="Area2D" parent="Hitboxes" unique_id=1731536787]
+position = Vector2(8533, 412)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell44_staff_bearer"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell44_staff_bearer" unique_id=1952386890]
+shape = SubResource("hitbox_spell44_staff_bearer")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell45_mummy" type="Area2D" parent="Hitboxes" unique_id=229041006]
+position = Vector2(7956, 377)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell45_mummy"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell45_mummy" unique_id=1178895834]
+shape = SubResource("hitbox_spell45_mummy")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell45_caption_1033" type="Area2D" parent="Hitboxes" unique_id=870182278]
+position = Vector2(7984, 112)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell45_caption_1033"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell45_caption_1033" unique_id=1579357651]
+shape = SubResource("hitbox_spell45_caption_1033")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell46_staff_bearer" type="Area2D" parent="Hitboxes" unique_id=1042563404]
+position = Vector2(7706, 411)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell46_staff_bearer"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell46_staff_bearer" unique_id=925311900]
+shape = SubResource("hitbox_spell46_staff_bearer")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell46_caption_1036" type="Area2D" parent="Hitboxes" unique_id=1918248754]
+position = Vector2(7701, 235)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell46_caption_1036"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell46_caption_1036" unique_id=1505414789]
+shape = SubResource("hitbox_spell46_caption_1036")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell46_caption_1035" type="Area2D" parent="Hitboxes" unique_id=1496620640]
+position = Vector2(7704, 114)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell46_caption_1035"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell46_caption_1035" unique_id=614436877]
+shape = SubResource("hitbox_spell46_caption_1035")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell47_bird_shrine" type="Area2D" parent="Hitboxes" unique_id=946307604]
+position = Vector2(7354, 410)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell47_bird_shrine"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell47_bird_shrine" unique_id=615667511]
+shape = SubResource("hitbox_spell47_bird_shrine")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell47_caption_1038" type="Area2D" parent="Hitboxes" unique_id=1553428309]
+position = Vector2(7359, 115)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell47_caption_1038"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell47_caption_1038" unique_id=76769021]
+shape = SubResource("hitbox_spell47_caption_1038")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell48_caption_1041" type="Area2D" parent="Hitboxes" unique_id=582765515]
+position = Vector2(7021, 113)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell48_caption_1041"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell48_caption_1041" unique_id=594969733]
+shape = SubResource("hitbox_spell48_caption_1041")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell48_walking_man" type="Area2D" parent="Hitboxes" unique_id=1701296910]
+position = Vector2(6958, 394)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell48_walking_man"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell48_walking_man" unique_id=948361488]
+shape = SubResource("hitbox_spell48_walking_man")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell49_staff_bearer" type="Area2D" parent="Hitboxes" unique_id=1018885628]
+position = Vector2(6466, 396)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell49_staff_bearer"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell49_staff_bearer" unique_id=304928222]
+shape = SubResource("hitbox_spell49_staff_bearer")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell49_caption_1042" type="Area2D" parent="Hitboxes" unique_id=457684842]
+position = Vector2(6503, 112)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell49_caption_1042"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell49_caption_1042" unique_id=1224860660]
+shape = SubResource("hitbox_spell49_caption_1042")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell50_caption_1046" type="Area2D" parent="Hitboxes" unique_id=1207800185]
+position = Vector2(6023, 108)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell50_caption_1046"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell50_caption_1046" unique_id=327999908]
+shape = SubResource("hitbox_spell50_caption_1046")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell50_walking_man" type="Area2D" parent="Hitboxes" unique_id=1794082792]
+position = Vector2(5835, 382)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell50_walking_man"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell50_walking_man" unique_id=1335843034]
+shape = SubResource("hitbox_spell50_walking_man")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell50_mound" type="Area2D" parent="Hitboxes" unique_id=1695708496]
+position = Vector2(6048, 368)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell50_mound"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell50_mound" unique_id=1243490155]
+shape = SubResource("hitbox_spell50_mound")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell51_walking_man" type="Area2D" parent="Hitboxes" unique_id=1423772513]
+position = Vector2(5592, 412)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell51_walking_man"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell51_walking_man" unique_id=400915606]
+shape = SubResource("hitbox_spell51_walking_man")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell51_caption_1047" type="Area2D" parent="Hitboxes" unique_id=520534391]
+position = Vector2(5573, 111)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell51_caption_1047"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell51_caption_1047" unique_id=2047518501]
+shape = SubResource("hitbox_spell51_caption_1047")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell52_seated_man" type="Area2D" parent="Hitboxes" unique_id=139273771]
+position = Vector2(5240, 416)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell52_seated_man"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell52_seated_man" unique_id=1078631474]
+shape = SubResource("hitbox_spell52_seated_man")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell52_caption_1049" type="Area2D" parent="Hitboxes" unique_id=1160186039]
+position = Vector2(5174, 110)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell52_caption_1049"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell52_caption_1049" unique_id=1605643302]
+shape = SubResource("hitbox_spell52_caption_1049")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell53_seated_man" type="Area2D" parent="Hitboxes" unique_id=554885451]
+position = Vector2(4527, 374)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell53_seated_man"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell53_seated_man" unique_id=1844016092]
+shape = SubResource("hitbox_spell53_seated_man")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell53_caption_1129" type="Area2D" parent="Hitboxes" unique_id=1458333035]
+position = Vector2(4531, 120)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell53_caption_1129"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell53_caption_1129" unique_id=186918627]
+shape = SubResource("hitbox_spell53_caption_1129")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell54_caption_1059" type="Area2D" parent="Hitboxes" unique_id=178798674]
+position = Vector2(4072, 118)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell54_caption_1059"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell54_caption_1059" unique_id=234065551]
+shape = SubResource("hitbox_spell54_caption_1059")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell54_breath" type="Area2D" parent="Hitboxes" unique_id=1383226726]
+position = Vector2(4153, 393)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell54_breath"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell54_breath" unique_id=1026389278]
+shape = SubResource("hitbox_spell54_breath")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell55_caption_1061" type="Area2D" parent="Hitboxes" unique_id=422404400]
+position = Vector2(3715, 128)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell55_caption_1061"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell55_caption_1061" unique_id=567802434]
+shape = SubResource("hitbox_spell55_caption_1061")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell55_breath" type="Area2D" parent="Hitboxes" unique_id=1899713751]
+position = Vector2(3719, 391)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell55_breath"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell55_breath" unique_id=1229055611]
+shape = SubResource("hitbox_spell55_breath")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell56_caption_1063" type="Area2D" parent="Hitboxes" unique_id=183058757]
+position = Vector2(3427, 120)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell56_caption_1063"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell56_caption_1063" unique_id=462207220]
+shape = SubResource("hitbox_spell56_caption_1063")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell56_ankh" type="Area2D" parent="Hitboxes" unique_id=1877039189]
+position = Vector2(3463, 381)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell56_ankh"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell56_ankh" unique_id=1119570526]
+shape = SubResource("hitbox_spell56_ankh")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell57_tree" type="Area2D" parent="Hitboxes" unique_id=965869384]
+position = Vector2(2977, 359)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell57_tree"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell57_tree" unique_id=1198538961]
+shape = SubResource("hitbox_spell57_tree")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell57_caption_1070" type="Area2D" parent="Hitboxes" unique_id=1338184665]
+position = Vector2(2883, 117)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell57_caption_1070"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell57_caption_1070" unique_id=1878369760]
+shape = SubResource("hitbox_spell57_caption_1070")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell58_drinking" type="Area2D" parent="Hitboxes" unique_id=1134113728]
+position = Vector2(2302, 387)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell58_drinking"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell58_drinking" unique_id=1889231338]
+shape = SubResource("hitbox_spell58_drinking")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell58_caption_1069" type="Area2D" parent="Hitboxes" unique_id=360843489]
+position = Vector2(2170, 116)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell58_caption_1069"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell58_caption_1069" unique_id=1071479104]
+shape = SubResource("hitbox_spell58_caption_1069")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell59_tree" type="Area2D" parent="Hitboxes" unique_id=430910614]
+position = Vector2(1734, 343)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell59_tree"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell59_tree" unique_id=1513847961]
+shape = SubResource("hitbox_spell59_tree")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell59_caption_1071" type="Area2D" parent="Hitboxes" unique_id=948423798]
+position = Vector2(1732, 155)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell59_caption_1071"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell59_caption_1071" unique_id=1746755346]
+shape = SubResource("hitbox_spell59_caption_1071")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell60_caption_1065" type="Area2D" parent="Hitboxes" unique_id=1557258584]
+position = Vector2(1372, 116)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell60_caption_1065"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell60_caption_1065" unique_id=364895872]
+shape = SubResource("hitbox_spell60_caption_1065")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell60_breath" type="Area2D" parent="Hitboxes" unique_id=1720240837]
+position = Vector2(1396, 390)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell60_breath"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell60_breath" unique_id=328974078]
+shape = SubResource("hitbox_spell60_breath")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell61_caption_1067" type="Area2D" parent="Hitboxes" unique_id=43175531]
+position = Vector2(1083, 115)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell61_caption_1067"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell61_caption_1067" unique_id=1297930934]
+shape = SubResource("hitbox_spell61_caption_1067")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell61_breath" type="Area2D" parent="Hitboxes" unique_id=140760181]
+position = Vector2(1075, 384)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell61_breath"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell61_breath" unique_id=505270555]
+shape = SubResource("hitbox_spell61_breath")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell62_caption_1053" type="Area2D" parent="Hitboxes" unique_id=1583231235]
+position = Vector2(759, 113)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell62_caption_1053"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell62_caption_1053" unique_id=751873590]
+shape = SubResource("hitbox_spell62_caption_1053")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell62_breath" type="Area2D" parent="Hitboxes" unique_id=130085381]
+position = Vector2(749, 388)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell62_breath"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell62_breath" unique_id=307680520]
+shape = SubResource("hitbox_spell62_breath")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell63_water" type="Area2D" parent="Hitboxes" unique_id=81290597]
+position = Vector2(296, 295)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell63_water"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell63_water" unique_id=233562418]
+shape = SubResource("hitbox_spell63_water")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)

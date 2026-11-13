@@ -1,7 +1,9 @@
 # Archive
 
 Levels set aside for later: the Night Journey (cosmos), the Field of Offerings (field) and the
-Weighing of the Heart (hall). They are kept as they were, but are left out of the game, the tests
+Weighing of the Heart (hall). The Field of Offerings is back in the game as a level to walk and read
+(`godot/scenes/field.tscn`, cut from `art/fields110.mdp` by `tools/build_field.py`); what stays here
+is its puzzle script, `godot/scripts/field.gd`, for when its puzzles return. They are kept as they were, but are left out of the game, the tests
 and refactors. The folders mirror the repository (`godot/scenes`, `godot/scripts`, `godot/assets`,
 `tools`), so a level comes back by moving its files to the same paths and running the import:
 
@@ -45,6 +47,8 @@ The horizon, the snake and Ra's boat each bar the way until dealt with. `--skip=
 first N tasks; `--show-hits` outlines the click regions.
 
 ## The Field of Offerings (spell 110, pl. XLI)
+The puzzles below are the archived design (`godot/scripts/field.gd`, written against the old hand-cut art, which is no longer here). The level in the game has none of them yet: it is the whole scroll to walk and read.
+
 The whole page in three bands framed by water; the camera shows one band, and clicking another
 band crosses over (the lowest band is entered at its left end).
 

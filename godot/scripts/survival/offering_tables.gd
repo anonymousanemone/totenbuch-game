@@ -447,6 +447,7 @@ func _win() -> void:
 		UI.success_flash(game.pieces["spell52_altar" if sp == 52 else "spell53_offering_table"])
 		g = {}
 		game.hud.say("Scribe", game._hints.message("survival.covered52" if sp == 52 else "survival.heaped53"))
+		game.hud.flash_success()
 		_stand_up(sp))
 
 

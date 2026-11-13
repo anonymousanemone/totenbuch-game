@@ -1,104 +1,64 @@
 {
  "sources": [
   {
-   "path": "art/gates146.mdp",
-   "sha256": "d3a39f2fbfbfce1530868ebfbcfa5905decb88c97e5034e190e632ee827d8dd4",
+   "path": "art/gates146-147.mdp",
+   "sha256": "0798d492168506bf4bf85dfd376c29d63c461d23a2b070831ce52dc224dfe194",
    "x": 0
   },
   {
    "path": "art/gates144-145.mdp",
    "sha256": "4ba3dd921f29e4d4a905d4c990157a7f5aaa68a46771561c0b80697ffb436823",
-   "x": 5220
+   "x": 8399
   }
  ],
- "width": 18220,
+ "width": 21399,
  "height": 1500,
  "ground": 530,
  "view_height": 701,
  "scale": 1.5,
  "figures": {
-  "spell146_p65_1_gate": {
-   "x": 3727,
-   "y": 240,
-   "w": 254,
-   "h": 288,
+  "spell146_caption_portal8": {
+   "x": 5989,
+   "y": 72,
+   "w": 248,
+   "h": 83,
    "spell": 146,
-   "source_layer": 1024,
-   "source_name": "p65-1 gate",
+   "source_layer": 1022,
+   "source_name": "toptext3",
+   "plate": 66
+  },
+  "spell146_caption_portal6": {
+   "x": 6505,
+   "y": 66,
+   "w": 305,
+   "h": 97,
+   "spell": 146,
+   "source_layer": 1021,
+   "source_name": "toptext2",
+   "plate": 66
+  },
+  "spell146_caption": {
+   "x": 7036,
+   "y": 66,
+   "w": 1511,
+   "h": 100,
+   "spell": 146,
+   "source_layer": 1020,
+   "source_name": "toptext1",
    "plate": 65
   },
-  "spell146_p65_1_figure": {
-   "x": 3824,
-   "y": 353,
-   "w": 116,
-   "h": 170,
-   "spell": 146,
-   "source_layer": 1025,
-   "source_name": "p65-1 figure",
-   "plate": 65
-  },
-  "spell146_p65_2_gate": {
-   "x": 4093,
-   "y": 245,
-   "w": 234,
-   "h": 284,
-   "spell": 146,
-   "source_layer": 1026,
-   "source_name": "p65-2 gate",
-   "plate": 65
-  },
-  "spell146_p65_2_figure": {
-   "x": 4127,
-   "y": 336,
-   "w": 141,
-   "h": 188,
-   "spell": 146,
-   "source_layer": 1027,
-   "source_name": "p65-2 figure",
-   "plate": 65
-  },
-  "spell146_p65_3_gate": {
-   "x": 4434,
-   "y": 254,
-   "w": 220,
-   "h": 275,
-   "spell": 146,
-   "source_layer": 1028,
-   "source_name": "p65-3 gate",
-   "plate": 65
-  },
-  "spell146_p65_3_figure": {
-   "x": 4474,
-   "y": 349,
-   "w": 130,
-   "h": 176,
-   "spell": 146,
-   "source_layer": 1029,
-   "source_name": "p65-3 figure",
-   "plate": 65
-  },
-  "spell146_p65_4_gate": {
-   "x": 4755,
-   "y": 254,
-   "w": 219,
-   "h": 274,
-   "spell": 146,
-   "source_layer": 1030,
-   "source_name": "p65-4 gate",
-   "plate": 65
-  },
-  "spell146_p65_4_figure": {
-   "x": 4782,
-   "y": 371,
-   "w": 141,
-   "h": 154,
-   "spell": 146,
-   "source_layer": 1031,
-   "source_name": "p65-4 figure",
-   "plate": 65
+  "spell147_caption": {
+   "x": 1315,
+   "y": 67,
+   "w": 2012,
+   "h": 107,
+   "spell": 147,
+   "source_layer": 1058,
+   "source_name": "toptext",
+   "plate": 67
   },
   "spell146_p65_5_gate": {
-   "x": 5051,
+   "x": 8230,
    "y": 256,
    "w": 264,
    "h": 274,
@@ -108,7 +68,7 @@
    "plate": 65
   },
   "spell146_p65_5_figure": {
-   "x": 5155,
+   "x": 8334,
    "y": 373,
    "w": 108,
    "h": 153,
@@ -117,128 +77,88 @@
    "source_name": "p65-5 figure",
    "plate": 65
   },
-  "spell146_p66_1_gate": {
-   "x": 1272,
-   "y": 217,
-   "w": 278,
-   "h": 314,
+  "spell146_p65_4_gate": {
+   "x": 7934,
+   "y": 254,
+   "w": 219,
+   "h": 274,
    "spell": 146,
-   "source_layer": 1034,
-   "source_name": "p66-1 gate",
-   "plate": 66
+   "source_layer": 1030,
+   "source_name": "p65-4 gate",
+   "plate": 65
   },
-  "spell146_p66_1_figure": {
-   "x": 1380,
-   "y": 327,
-   "w": 146,
-   "h": 195,
+  "spell146_p65_4_figure": {
+   "x": 7961,
+   "y": 371,
+   "w": 141,
+   "h": 154,
    "spell": 146,
-   "source_layer": 1035,
-   "source_name": "p66-1 figure",
-   "plate": 66
+   "source_layer": 1031,
+   "source_name": "p65-4 figure",
+   "plate": 65
   },
-  "spell146_p66_2_gate": {
-   "x": 1674,
-   "y": 223,
-   "w": 236,
-   "h": 304,
+  "spell146_p65_3_gate": {
+   "x": 7613,
+   "y": 254,
+   "w": 220,
+   "h": 275,
    "spell": 146,
-   "source_layer": 1036,
-   "source_name": "p66-2 gate",
-   "plate": 66
+   "source_layer": 1028,
+   "source_name": "p65-3 gate",
+   "plate": 65
   },
-  "spell146_p66_2_figure": {
-   "x": 1751,
-   "y": 335,
-   "w": 111,
+  "spell146_p65_3_figure": {
+   "x": 7653,
+   "y": 349,
+   "w": 130,
+   "h": 176,
+   "spell": 146,
+   "source_layer": 1029,
+   "source_name": "p65-3 figure",
+   "plate": 65
+  },
+  "spell146_p65_2_gate": {
+   "x": 7272,
+   "y": 245,
+   "w": 234,
+   "h": 284,
+   "spell": 146,
+   "source_layer": 1026,
+   "source_name": "p65-2 gate",
+   "plate": 65
+  },
+  "spell146_p65_2_figure": {
+   "x": 7306,
+   "y": 336,
+   "w": 141,
    "h": 188,
    "spell": 146,
-   "source_layer": 1037,
-   "source_name": "p66-2 figure",
-   "plate": 66
+   "source_layer": 1027,
+   "source_name": "p65-2 figure",
+   "plate": 65
   },
-  "spell146_p66_3_gate": {
-   "x": 2025,
-   "y": 243,
-   "w": 248,
-   "h": 286,
-   "spell": 146,
-   "source_layer": 1038,
-   "source_name": "p66-3 gate",
-   "plate": 66
-  },
-  "spell146_p66_3_figure": {
-   "x": 2090,
-   "y": 334,
-   "w": 146,
-   "h": 195,
-   "spell": 146,
-   "source_layer": 1039,
-   "source_name": "p66-3 figure",
-   "plate": 66
-  },
-  "spell146_p66_4_gate": {
-   "x": 2335,
+  "spell146_p65_1_gate": {
+   "x": 6906,
    "y": 240,
-   "w": 303,
+   "w": 254,
    "h": 288,
    "spell": 146,
-   "source_layer": 1040,
-   "source_name": "p66-4 gate",
-   "plate": 66
+   "source_layer": 1024,
+   "source_name": "p65-1 gate",
+   "plate": 65
   },
-  "spell146_p66_4_figure": {
-   "x": 2437,
-   "y": 347,
-   "w": 98,
-   "h": 178,
+  "spell146_p65_1_figure": {
+   "x": 7003,
+   "y": 353,
+   "w": 116,
+   "h": 170,
    "spell": 146,
-   "source_layer": 1041,
-   "source_name": "p66-4 figure",
-   "plate": 66
-  },
-  "spell146_p66_5_gate": {
-   "x": 2672,
-   "y": 248,
-   "w": 307,
-   "h": 280,
-   "spell": 146,
-   "source_layer": 1042,
-   "source_name": "p66-5 gate",
-   "plate": 66
-  },
-  "spell146_p66_5_figure": {
-   "x": 2786,
-   "y": 364,
-   "w": 107,
-   "h": 162,
-   "spell": 146,
-   "source_layer": 1043,
-   "source_name": "p66-5 figure",
-   "plate": 66
-  },
-  "spell146_p66_6_gate": {
-   "x": 3038,
-   "y": 255,
-   "w": 298,
-   "h": 276,
-   "spell": 146,
-   "source_layer": 1044,
-   "source_name": "p66-6 gate",
-   "plate": 66
-  },
-  "spell146_p66_6_figure": {
-   "x": 3094,
-   "y": 363,
-   "w": 147,
-   "h": 165,
-   "spell": 146,
-   "source_layer": 1045,
-   "source_name": "p66-6 figure",
-   "plate": 66
+   "source_layer": 1025,
+   "source_name": "p65-1 figure",
+   "plate": 65
   },
   "spell146_p66_7_gate": {
-   "x": 3367,
+   "x": 6546,
    "y": 274,
    "w": 262,
    "h": 257,
@@ -248,7 +168,7 @@
    "plate": 66
   },
   "spell146_p66_7_figure": {
-   "x": 3482,
+   "x": 6661,
    "y": 358,
    "w": 101,
    "h": 171,
@@ -257,48 +177,128 @@
    "source_name": "p66-7 figure",
    "plate": 66
   },
-  "spell146_p67_1_gate": {
-   "x": 223,
-   "y": 204,
-   "w": 257,
-   "h": 324,
+  "spell146_p66_6_gate": {
+   "x": 6217,
+   "y": 255,
+   "w": 298,
+   "h": 276,
    "spell": 146,
-   "source_layer": 1048,
-   "source_name": "p67-1 gate",
-   "plate": 67
+   "source_layer": 1044,
+   "source_name": "p66-6 gate",
+   "plate": 66
   },
-  "spell146_p67_1_figure": {
-   "x": 271,
-   "y": 312,
-   "w": 143,
-   "h": 216,
+  "spell146_p66_6_figure": {
+   "x": 6273,
+   "y": 363,
+   "w": 147,
+   "h": 165,
    "spell": 146,
-   "source_layer": 1049,
-   "source_name": "p67-1 figure",
-   "plate": 67
+   "source_layer": 1045,
+   "source_name": "p66-6 figure",
+   "plate": 66
   },
-  "spell146_p67_2_gate": {
-   "x": 524,
-   "y": 219,
-   "w": 342,
-   "h": 309,
+  "spell146_p66_5_gate": {
+   "x": 5851,
+   "y": 248,
+   "w": 307,
+   "h": 280,
    "spell": 146,
-   "source_layer": 1050,
-   "source_name": "p67-2 gate",
-   "plate": 67
+   "source_layer": 1042,
+   "source_name": "p66-5 gate",
+   "plate": 66
   },
-  "spell146_p67_2_figure": {
-   "x": 654,
+  "spell146_p66_5_figure": {
+   "x": 5965,
+   "y": 364,
+   "w": 107,
+   "h": 162,
+   "spell": 146,
+   "source_layer": 1043,
+   "source_name": "p66-5 figure",
+   "plate": 66
+  },
+  "spell146_p66_4_gate": {
+   "x": 5514,
+   "y": 240,
+   "w": 303,
+   "h": 288,
+   "spell": 146,
+   "source_layer": 1040,
+   "source_name": "p66-4 gate",
+   "plate": 66
+  },
+  "spell146_p66_4_figure": {
+   "x": 5616,
+   "y": 347,
+   "w": 98,
+   "h": 178,
+   "spell": 146,
+   "source_layer": 1041,
+   "source_name": "p66-4 figure",
+   "plate": 66
+  },
+  "spell146_p66_3_gate": {
+   "x": 5204,
+   "y": 243,
+   "w": 248,
+   "h": 286,
+   "spell": 146,
+   "source_layer": 1038,
+   "source_name": "p66-3 gate",
+   "plate": 66
+  },
+  "spell146_p66_3_figure": {
+   "x": 5269,
+   "y": 334,
+   "w": 146,
+   "h": 195,
+   "spell": 146,
+   "source_layer": 1039,
+   "source_name": "p66-3 figure",
+   "plate": 66
+  },
+  "spell146_p66_2_gate": {
+   "x": 4853,
+   "y": 223,
+   "w": 236,
+   "h": 304,
+   "spell": 146,
+   "source_layer": 1036,
+   "source_name": "p66-2 gate",
+   "plate": 66
+  },
+  "spell146_p66_2_figure": {
+   "x": 4930,
+   "y": 335,
+   "w": 111,
+   "h": 188,
+   "spell": 146,
+   "source_layer": 1037,
+   "source_name": "p66-2 figure",
+   "plate": 66
+  },
+  "spell146_p66_1_gate": {
+   "x": 4451,
+   "y": 217,
+   "w": 278,
+   "h": 314,
+   "spell": 146,
+   "source_layer": 1034,
+   "source_name": "p66-1 gate",
+   "plate": 66
+  },
+  "spell146_p66_1_figure": {
+   "x": 4559,
    "y": 327,
-   "w": 127,
-   "h": 199,
+   "w": 146,
+   "h": 195,
    "spell": 146,
-   "source_layer": 1051,
-   "source_name": "p67-2 figure",
-   "plate": 67
+   "source_layer": 1035,
+   "source_name": "p66-1 figure",
+   "plate": 66
   },
   "spell146_p67_3_gate": {
-   "x": 923,
+   "x": 4102,
    "y": 182,
    "w": 312,
    "h": 348,
@@ -308,7 +308,7 @@
    "plate": 67
   },
   "spell146_p67_3_figure": {
-   "x": 1031,
+   "x": 4210,
    "y": 330,
    "w": 110,
    "h": 195,
@@ -317,8 +317,278 @@
    "source_name": "p67-3 figure",
    "plate": 67
   },
+  "spell146_p67_2_gate": {
+   "x": 3703,
+   "y": 219,
+   "w": 342,
+   "h": 309,
+   "spell": 146,
+   "source_layer": 1050,
+   "source_name": "p67-2 gate",
+   "plate": 67
+  },
+  "spell146_p67_2_figure": {
+   "x": 3833,
+   "y": 327,
+   "w": 127,
+   "h": 199,
+   "spell": 146,
+   "source_layer": 1051,
+   "source_name": "p67-2 figure",
+   "plate": 67
+  },
+  "spell146_p67_1_gate": {
+   "x": 3402,
+   "y": 204,
+   "w": 257,
+   "h": 324,
+   "spell": 146,
+   "source_layer": 1048,
+   "source_name": "p67-1 gate",
+   "plate": 67
+  },
+  "spell146_p67_1_figure": {
+   "x": 3450,
+   "y": 312,
+   "w": 143,
+   "h": 216,
+   "spell": 146,
+   "source_layer": 1049,
+   "source_name": "p67-1 figure",
+   "plate": 67
+  },
+  "spell147_gate7_baboon": {
+   "x": 130,
+   "y": 235,
+   "w": 171,
+   "h": 292,
+   "spell": 147,
+   "source_layer": 1061,
+   "source_name": "p68-1 baboon",
+   "plate": 68
+  },
+  "spell147_gate7_stand": {
+   "x": 332,
+   "y": 270,
+   "w": 88,
+   "h": 257,
+   "spell": 147,
+   "source_layer": 1062,
+   "source_name": "p68-1 stand",
+   "plate": 68
+  },
+  "spell147_gate7_adorer": {
+   "x": 446,
+   "y": 266,
+   "w": 123,
+   "h": 261,
+   "spell": 147,
+   "source_layer": 1063,
+   "source_name": "p68-1 praying",
+   "plate": 68
+  },
+  "spell147_gate6_baboon": {
+   "x": 640,
+   "y": 250,
+   "w": 139,
+   "h": 278,
+   "spell": 147,
+   "source_layer": 1064,
+   "source_name": "p68-2 baboon",
+   "plate": 68
+  },
+  "spell147_gate6_stand": {
+   "x": 790,
+   "y": 328,
+   "w": 70,
+   "h": 200,
+   "spell": 147,
+   "source_layer": 1065,
+   "source_name": "p68-2 stand",
+   "plate": 68
+  },
+  "spell147_gate6_adorer": {
+   "x": 844,
+   "y": 274,
+   "w": 96,
+   "h": 254,
+   "spell": 147,
+   "source_layer": 1066,
+   "source_name": "p68-2 praying",
+   "plate": 68
+  },
+  "spell147_gate5_baboon": {
+   "x": 1000,
+   "y": 253,
+   "w": 134,
+   "h": 275,
+   "spell": 147,
+   "source_layer": 1067,
+   "source_name": "p68-3 baboon",
+   "plate": 68
+  },
+  "spell147_gate5_stand": {
+   "x": 1148,
+   "y": 319,
+   "w": 73,
+   "h": 209,
+   "spell": 147,
+   "source_layer": 1068,
+   "source_name": "p68-3 stand",
+   "plate": 68
+  },
+  "spell147_gate5_adorer": {
+   "x": 1195,
+   "y": 275,
+   "w": 115,
+   "h": 253,
+   "spell": 147,
+   "source_layer": 1069,
+   "source_name": "p68-3 praying",
+   "plate": 68
+  },
+  "spell147_gate4_baboon": {
+   "x": 1368,
+   "y": 249,
+   "w": 130,
+   "h": 279,
+   "spell": 147,
+   "source_layer": 1070,
+   "source_name": "p68-4 baboon",
+   "plate": 68
+  },
+  "spell147_gate4_stand": {
+   "x": 1518,
+   "y": 350,
+   "w": 56,
+   "h": 178,
+   "spell": 147,
+   "source_layer": 1071,
+   "source_name": "p68-4 stand",
+   "plate": 68
+  },
+  "spell147_gate4_adorer": {
+   "x": 1551,
+   "y": 281,
+   "w": 114,
+   "h": 249,
+   "spell": 147,
+   "source_layer": 1072,
+   "source_name": "p68-4 praying",
+   "plate": 68
+  },
+  "spell147_gate3_stand": {
+   "x": 1907,
+   "y": 296,
+   "w": 87,
+   "h": 234,
+   "spell": 147,
+   "source_layer": 1085,
+   "source_name": "p68-5 stand",
+   "plate": 68
+  },
+  "spell147_gate3_baboon": {
+   "x": 1752,
+   "y": 240,
+   "w": 146,
+   "h": 290,
+   "spell": 147,
+   "source_layer": 1084,
+   "source_name": "p68-5 baboon",
+   "plate": 68
+  },
+  "spell147_gate3_adorer": {
+   "x": 1994,
+   "y": 266,
+   "w": 131,
+   "h": 264,
+   "spell": 147,
+   "source_layer": 1083,
+   "source_name": "p68-5 praying",
+   "plate": 68
+  },
+  "spell147_gate2_baboon": {
+   "x": 2220,
+   "y": 248,
+   "w": 139,
+   "h": 279,
+   "spell": 147,
+   "source_layer": 1082,
+   "source_name": "p67-4 baboon",
+   "plate": 67
+  },
+  "spell147_gate2_stand": {
+   "x": 2390,
+   "y": 300,
+   "w": 69,
+   "h": 227,
+   "spell": 147,
+   "source_layer": 1077,
+   "source_name": "p67-4 stand",
+   "plate": 67
+  },
+  "spell147_gate2_adorer": {
+   "x": 2458,
+   "y": 257,
+   "w": 118,
+   "h": 270,
+   "spell": 147,
+   "source_layer": 1078,
+   "source_name": "p67-4 praying",
+   "plate": 67
+  },
+  "spell147_gate1_stand": {
+   "x": 2994,
+   "y": 282,
+   "w": 148,
+   "h": 248,
+   "spell": 147,
+   "source_layer": 1081,
+   "source_name": "p67-5 stand",
+   "plate": 67
+  },
+  "spell147_gate1_baboon": {
+   "x": 2686,
+   "y": 229,
+   "w": 244,
+   "h": 301,
+   "spell": 147,
+   "source_layer": 1080,
+   "source_name": "p67-5 baboon",
+   "plate": 67
+  },
+  "spell147_gate1_adorer": {
+   "x": 3160,
+   "y": 250,
+   "w": 158,
+   "h": 280,
+   "spell": 147,
+   "source_layer": 1079,
+   "source_name": "p67-5 praying",
+   "plate": 67
+  },
+  "spell144_caption": {
+   "x": 20667,
+   "y": 50,
+   "w": 627,
+   "h": 114,
+   "spell": 144,
+   "source_layer": 1029,
+   "source_name": "toptext_spell144",
+   "plate": 60
+  },
+  "spell145_caption": {
+   "x": 15833,
+   "y": 31,
+   "w": 1357,
+   "h": 136,
+   "spell": 145,
+   "source_layer": 1028,
+   "source_name": "toptext_spell145",
+   "plate": 61
+  },
   "spell144_room4_man": {
-   "x": 15864,
+   "x": 19043,
    "y": 252,
    "w": 123,
    "h": 278,
@@ -328,7 +598,7 @@
    "plate": 60
   },
   "spell144_room4_ram": {
-   "x": 15987,
+   "x": 19166,
    "y": 254,
    "w": 120,
    "h": 275,
@@ -338,7 +608,7 @@
    "plate": 60
   },
   "spell144_room4": {
-   "x": 16140,
+   "x": 19319,
    "y": 255,
    "w": 232,
    "h": 274,
@@ -348,7 +618,7 @@
    "plate": 60
   },
   "spell144_room4_keeper": {
-   "x": 16213,
+   "x": 19392,
    "y": 383,
    "w": 118,
    "h": 133,
@@ -358,7 +628,7 @@
    "plate": 60
   },
   "spell144_room3_man": {
-   "x": 16436,
+   "x": 19615,
    "y": 252,
    "w": 123,
    "h": 276,
@@ -368,7 +638,7 @@
    "plate": 60
   },
   "spell144_room3_ram": {
-   "x": 16548,
+   "x": 19727,
    "y": 257,
    "w": 137,
    "h": 276,
@@ -378,7 +648,7 @@
    "plate": 60
   },
   "spell144_room3": {
-   "x": 16692,
+   "x": 19871,
    "y": 238,
    "w": 256,
    "h": 295,
@@ -388,7 +658,7 @@
    "plate": 60
   },
   "spell144_room3_keeper": {
-   "x": 16748,
+   "x": 19927,
    "y": 368,
    "w": 152,
    "h": 147,
@@ -398,7 +668,7 @@
    "plate": 60
   },
   "spell144_room2_bull": {
-   "x": 16985,
+   "x": 20164,
    "y": 228,
    "w": 145,
    "h": 306,
@@ -408,7 +678,7 @@
    "plate": 60
   },
   "spell144_room2_ram": {
-   "x": 17144,
+   "x": 20323,
    "y": 245,
    "w": 126,
    "h": 287,
@@ -418,7 +688,7 @@
    "plate": 60
   },
   "spell144_room2": {
-   "x": 17292,
+   "x": 20471,
    "y": 226,
    "w": 236,
    "h": 308,
@@ -428,7 +698,7 @@
    "plate": 60
   },
   "spell144_room2_keeper": {
-   "x": 17327,
+   "x": 20506,
    "y": 332,
    "w": 143,
    "h": 181,
@@ -438,7 +708,7 @@
    "plate": 60
   },
   "spell144_room1_hawk": {
-   "x": 17606,
+   "x": 20785,
    "y": 243,
    "w": 113,
    "h": 300,
@@ -448,7 +718,7 @@
    "plate": 60
   },
   "spell144_room1_man": {
-   "x": 17735,
+   "x": 20914,
    "y": 232,
    "w": 114,
    "h": 311,
@@ -458,7 +728,7 @@
    "plate": 60
   },
   "spell144_room1": {
-   "x": 17856,
+   "x": 21035,
    "y": 228,
    "w": 292,
    "h": 314,
@@ -468,7 +738,7 @@
    "plate": 60
   },
   "spell144_room1_keeper": {
-   "x": 17931,
+   "x": 21110,
    "y": 368,
    "w": 153,
    "h": 144,
@@ -478,7 +748,7 @@
    "plate": 60
   },
   "spell145_pylon2_keeper": {
-   "x": 13104,
+   "x": 16283,
    "y": 256,
    "w": 134,
    "h": 270,
@@ -488,7 +758,7 @@
    "plate": 61
   },
   "spell145_pylon2": {
-   "x": 13237,
+   "x": 16416,
    "y": 194,
    "w": 184,
    "h": 333,
@@ -503,7 +773,7 @@
    }
   },
   "spell145_pylon2_adorer": {
-   "x": 13420,
+   "x": 16599,
    "y": 251,
    "w": 127,
    "h": 275,
@@ -513,7 +783,7 @@
    "plate": 61
   },
   "spell145_pylon1_keeper": {
-   "x": 13581,
+   "x": 16760,
    "y": 248,
    "w": 174,
    "h": 279,
@@ -523,7 +793,7 @@
    "plate": 61
   },
   "spell145_pylon1": {
-   "x": 13737,
+   "x": 16916,
    "y": 196,
    "w": 165,
    "h": 331,
@@ -538,7 +808,7 @@
    }
   },
   "spell145_pylon1_adorer": {
-   "x": 13922,
+   "x": 17101,
    "y": 263,
    "w": 116,
    "h": 263,
@@ -548,7 +818,7 @@
    "plate": 61
   },
   "spell144_room7_ram_1": {
-   "x": 14114,
+   "x": 17293,
    "y": 270,
    "w": 108,
    "h": 257,
@@ -558,7 +828,7 @@
    "plate": 61
   },
   "spell144_room7_ram_2": {
-   "x": 14239,
+   "x": 17418,
    "y": 279,
    "w": 146,
    "h": 248,
@@ -568,7 +838,7 @@
    "plate": 61
   },
   "spell144_room7": {
-   "x": 14390,
+   "x": 17569,
    "y": 236,
    "w": 232,
    "h": 292,
@@ -578,7 +848,7 @@
    "plate": 61
   },
   "spell144_room7_keeper": {
-   "x": 14458,
+   "x": 17637,
    "y": 385,
    "w": 107,
    "h": 131,
@@ -588,7 +858,7 @@
    "plate": 61
   },
   "spell144_room6_hawk": {
-   "x": 14661,
+   "x": 17840,
    "y": 254,
    "w": 131,
    "h": 273,
@@ -598,7 +868,7 @@
    "plate": 61
   },
   "spell144_room6_ram": {
-   "x": 14803,
+   "x": 17982,
    "y": 241,
    "w": 125,
    "h": 292,
@@ -608,7 +878,7 @@
    "plate": 61
   },
   "spell144_room6": {
-   "x": 14969,
+   "x": 18148,
    "y": 229,
    "w": 256,
    "h": 298,
@@ -618,7 +888,7 @@
    "plate": 61
   },
   "spell144_room6_keeper": {
-   "x": 15000,
+   "x": 18179,
    "y": 336,
    "w": 162,
    "h": 181,
@@ -628,7 +898,7 @@
    "plate": 61
   },
   "spell144_room5_bull": {
-   "x": 15301,
+   "x": 18480,
    "y": 253,
    "w": 106,
    "h": 274,
@@ -638,7 +908,7 @@
    "plate": 61
   },
   "spell144_room5_ram": {
-   "x": 15426,
+   "x": 18605,
    "y": 263,
    "w": 132,
    "h": 264,
@@ -648,7 +918,7 @@
    "plate": 61
   },
   "spell144_room5": {
-   "x": 15603,
+   "x": 18782,
    "y": 248,
    "w": 234,
    "h": 280,
@@ -658,7 +928,7 @@
    "plate": 61
   },
   "spell144_room5_keeper": {
-   "x": 15662,
+   "x": 18841,
    "y": 365,
    "w": 136,
    "h": 152,
@@ -668,7 +938,7 @@
    "plate": 61
   },
   "spell145_pylon8_keeper": {
-   "x": 10306,
+   "x": 13485,
    "y": 239,
    "w": 140,
    "h": 288,
@@ -678,7 +948,7 @@
    "plate": 62
   },
   "spell145_pylon8": {
-   "x": 10456,
+   "x": 13635,
    "y": 211,
    "w": 129,
    "h": 315,
@@ -693,7 +963,7 @@
    }
   },
   "spell145_pylon8_adorer": {
-   "x": 10578,
+   "x": 13757,
    "y": 270,
    "w": 104,
    "h": 256,
@@ -703,7 +973,7 @@
    "plate": 62
   },
   "spell145_pylon7_keeper": {
-   "x": 10772,
+   "x": 13951,
    "y": 228,
    "w": 125,
    "h": 297,
@@ -713,7 +983,7 @@
    "plate": 62
   },
   "spell145_pylon7": {
-   "x": 10897,
+   "x": 14076,
    "y": 212,
    "w": 159,
    "h": 319,
@@ -728,7 +998,7 @@
    }
   },
   "spell145_pylon7_adorer": {
-   "x": 11045,
+   "x": 14224,
    "y": 282,
    "w": 127,
    "h": 249,
@@ -738,7 +1008,7 @@
    "plate": 62
   },
   "spell145_pylon6_keeper": {
-   "x": 11231,
+   "x": 14410,
    "y": 262,
    "w": 139,
    "h": 265,
@@ -748,7 +1018,7 @@
    "plate": 62
   },
   "spell145_pylon6": {
-   "x": 11353,
+   "x": 14532,
    "y": 204,
    "w": 165,
    "h": 322,
@@ -763,7 +1033,7 @@
    }
   },
   "spell145_pylon6_adorer": {
-   "x": 11519,
+   "x": 14698,
    "y": 271,
    "w": 116,
    "h": 255,
@@ -773,7 +1043,7 @@
    "plate": 62
   },
   "spell145_pylon5_keeper": {
-   "x": 11664,
+   "x": 14843,
    "y": 251,
    "w": 181,
    "h": 276,
@@ -783,7 +1053,7 @@
    "plate": 62
   },
   "spell145_pylon5": {
-   "x": 11837,
+   "x": 15016,
    "y": 212,
    "w": 153,
    "h": 322,
@@ -798,7 +1068,7 @@
    }
   },
   "spell145_pylon5_adorer": {
-   "x": 11999,
+   "x": 15178,
    "y": 274,
    "w": 101,
    "h": 253,
@@ -808,7 +1078,7 @@
    "plate": 62
   },
   "spell145_pylon4_keeper": {
-   "x": 12173,
+   "x": 15352,
    "y": 241,
    "w": 149,
    "h": 289,
@@ -818,7 +1088,7 @@
    "plate": 62
   },
   "spell145_pylon4": {
-   "x": 12315,
+   "x": 15494,
    "y": 213,
    "w": 149,
    "h": 311,
@@ -833,7 +1103,7 @@
    }
   },
   "spell145_pylon4_adorer": {
-   "x": 12467,
+   "x": 15646,
    "y": 279,
    "w": 104,
    "h": 247,
@@ -843,7 +1113,7 @@
    "plate": 62
   },
   "spell145_pylon3_keeper": {
-   "x": 12629,
+   "x": 15808,
    "y": 203,
    "w": 155,
    "h": 328,
@@ -853,7 +1123,7 @@
    "plate": 62
   },
   "spell145_pylon3": {
-   "x": 12781,
+   "x": 15960,
    "y": 216,
    "w": 151,
    "h": 315,
@@ -868,7 +1138,7 @@
    }
   },
   "spell145_pylon3_adorer": {
-   "x": 12937,
+   "x": 16116,
    "y": 279,
    "w": 103,
    "h": 248,
@@ -878,7 +1148,7 @@
    "plate": 62
   },
   "spell145_pylon15_keeper": {
-   "x": 7632,
+   "x": 10811,
    "y": 274,
    "w": 134,
    "h": 254,
@@ -888,7 +1158,7 @@
    "plate": 63
   },
   "spell145_pylon15": {
-   "x": 7756,
+   "x": 10935,
    "y": 239,
    "w": 115,
    "h": 290,
@@ -903,7 +1173,7 @@
    }
   },
   "spell145_pylon15_adorer": {
-   "x": 7868,
+   "x": 11047,
    "y": 284,
    "w": 84,
    "h": 244,
@@ -913,7 +1183,7 @@
    "plate": 63
   },
   "spell145_pylon14_keeper": {
-   "x": 7992,
+   "x": 11171,
    "y": 262,
    "w": 124,
    "h": 265,
@@ -923,7 +1193,7 @@
    "plate": 63
   },
   "spell145_pylon14": {
-   "x": 8103,
+   "x": 11282,
    "y": 228,
    "w": 128,
    "h": 298,
@@ -938,7 +1208,7 @@
    }
   },
   "spell145_pylon14_adorer": {
-   "x": 8222,
+   "x": 11401,
    "y": 271,
    "w": 100,
    "h": 255,
@@ -948,7 +1218,7 @@
    "plate": 63
   },
   "spell145_pylon13_keeper": {
-   "x": 8344,
+   "x": 11523,
    "y": 252,
    "w": 122,
    "h": 274,
@@ -958,7 +1228,7 @@
    "plate": 63
   },
   "spell145_pylon13": {
-   "x": 8477,
+   "x": 11656,
    "y": 232,
    "w": 114,
    "h": 295,
@@ -973,7 +1243,7 @@
    }
   },
   "spell145_pylon13_adorer": {
-   "x": 8584,
+   "x": 11763,
    "y": 268,
    "w": 95,
    "h": 258,
@@ -983,7 +1253,7 @@
    "plate": 63
   },
   "spell145_pylon12_keeper": {
-   "x": 8710,
+   "x": 11889,
    "y": 251,
    "w": 138,
    "h": 275,
@@ -993,7 +1263,7 @@
    "plate": 63
   },
   "spell145_pylon12": {
-   "x": 8847,
+   "x": 12026,
    "y": 239,
    "w": 105,
    "h": 286,
@@ -1008,7 +1278,7 @@
    }
   },
   "spell145_pylon12_adorer": {
-   "x": 8950,
+   "x": 12129,
    "y": 291,
    "w": 80,
    "h": 235,
@@ -1018,7 +1288,7 @@
    "plate": 63
   },
   "spell145_pylon11_keeper": {
-   "x": 9068,
+   "x": 12247,
    "y": 270,
    "w": 143,
    "h": 257,
@@ -1028,7 +1298,7 @@
    "plate": 63
   },
   "spell145_pylon11": {
-   "x": 9194,
+   "x": 12373,
    "y": 239,
    "w": 130,
    "h": 288,
@@ -1043,7 +1313,7 @@
    }
   },
   "spell145_pylon11_adorer": {
-   "x": 9316,
+   "x": 12495,
    "y": 285,
    "w": 98,
    "h": 242,
@@ -1053,7 +1323,7 @@
    "plate": 63
   },
   "spell145_pylon10_keeper": {
-   "x": 9472,
+   "x": 12651,
    "y": 251,
    "w": 143,
    "h": 275,
@@ -1063,7 +1333,7 @@
    "plate": 63
   },
   "spell145_pylon10": {
-   "x": 9614,
+   "x": 12793,
    "y": 216,
    "w": 131,
    "h": 311,
@@ -1078,7 +1348,7 @@
    }
   },
   "spell145_pylon10_adorer": {
-   "x": 9751,
+   "x": 12930,
    "y": 268,
    "w": 92,
    "h": 258,
@@ -1088,7 +1358,7 @@
    "plate": 63
   },
   "spell145_pylon9_keeper": {
-   "x": 9886,
+   "x": 13065,
    "y": 239,
    "w": 158,
    "h": 289,
@@ -1098,7 +1368,7 @@
    "plate": 63
   },
   "spell145_pylon9": {
-   "x": 10038,
+   "x": 13217,
    "y": 216,
    "w": 123,
    "h": 312,
@@ -1113,7 +1383,7 @@
    }
   },
   "spell145_pylon9_adorer": {
-   "x": 10171,
+   "x": 13350,
    "y": 272,
    "w": 109,
    "h": 256,
@@ -1123,7 +1393,7 @@
    "plate": 63
   },
   "spell145_pylon21_keeper": {
-   "x": 5416,
+   "x": 8595,
    "y": 199,
    "w": 143,
    "h": 332,
@@ -1133,7 +1403,7 @@
    "plate": 64
   },
   "spell145_pylon21": {
-   "x": 5580,
+   "x": 8759,
    "y": 196,
    "w": 148,
    "h": 335,
@@ -1148,7 +1418,7 @@
    }
   },
   "spell145_pylon21_adorer": {
-   "x": 5727,
+   "x": 8906,
    "y": 261,
    "w": 108,
    "h": 270,
@@ -1158,7 +1428,7 @@
    "plate": 64
   },
   "spell145_pylon20_keeper": {
-   "x": 5881,
+   "x": 9060,
    "y": 263,
    "w": 117,
    "h": 265,
@@ -1168,7 +1438,7 @@
    "plate": 64
   },
   "spell145_pylon20": {
-   "x": 5992,
+   "x": 9171,
    "y": 216,
    "w": 111,
    "h": 311,
@@ -1183,7 +1453,7 @@
    }
   },
   "spell145_pylon20_adorer": {
-   "x": 6101,
+   "x": 9280,
    "y": 276,
    "w": 99,
    "h": 257,
@@ -1193,7 +1463,7 @@
    "plate": 64
   },
   "spell145_pylon19_keeper": {
-   "x": 6233,
+   "x": 9412,
    "y": 282,
    "w": 116,
    "h": 244,
@@ -1203,7 +1473,7 @@
    "plate": 64
   },
   "spell145_pylon19": {
-   "x": 6340,
+   "x": 9519,
    "y": 242,
    "w": 117,
    "h": 289,
@@ -1218,7 +1488,7 @@
    }
   },
   "spell145_pylon19_adorer": {
-   "x": 6440,
+   "x": 9619,
    "y": 283,
    "w": 99,
    "h": 248,
@@ -1228,7 +1498,7 @@
    "plate": 64
   },
   "spell145_pylon18_keeper": {
-   "x": 6572,
+   "x": 9751,
    "y": 274,
    "w": 126,
    "h": 251,
@@ -1238,7 +1508,7 @@
    "plate": 64
   },
   "spell145_pylon18": {
-   "x": 6678,
+   "x": 9857,
    "y": 217,
    "w": 134,
    "h": 314,
@@ -1253,7 +1523,7 @@
    }
   },
   "spell145_pylon18_adorer": {
-   "x": 6803,
+   "x": 9982,
    "y": 273,
    "w": 96,
    "h": 251,
@@ -1263,7 +1533,7 @@
    "plate": 64
   },
   "spell145_pylon17_keeper": {
-   "x": 6933,
+   "x": 10112,
    "y": 263,
    "w": 100,
    "h": 262,
@@ -1273,7 +1543,7 @@
    "plate": 64
   },
   "spell145_pylon17": {
-   "x": 7010,
+   "x": 10189,
    "y": 206,
    "w": 154,
    "h": 322,
@@ -1288,7 +1558,7 @@
    }
   },
   "spell145_pylon17_adorer": {
-   "x": 7154,
+   "x": 10333,
    "y": 270,
    "w": 99,
    "h": 258,
@@ -1298,7 +1568,7 @@
    "plate": 64
   },
   "spell145_pylon16_keeper": {
-   "x": 7287,
+   "x": 10466,
    "y": 259,
    "w": 127,
    "h": 265,
@@ -1308,7 +1578,7 @@
    "plate": 64
   },
   "spell145_pylon16": {
-   "x": 7409,
+   "x": 10588,
    "y": 227,
    "w": 121,
    "h": 297,
@@ -1323,7 +1593,7 @@
    }
   },
   "spell145_pylon16_adorer": {
-   "x": 7523,
+   "x": 10702,
    "y": 261,
    "w": 89,
    "h": 264,
@@ -1334,5 +1604,5 @@
   }
  },
  "columns": [],
- "intro_body": "Explore the rooms, pylons and portals of spells 144\u2013146 and their keepers.\n\nWalk [b]right to left[/b] with [\u2190] [\u2192] or click the papyrus. Click a gate or one of its gods to inspect it. Open the Journal with [j]."
+ "intro_body": "Explore the gates, pylons and portals of spells 144\u2013147 and their keepers.\n\nWalk [b]right to left[/b] with [\u2190] [\u2192] or click the papyrus. Click a gate or one of its gods to inspect it. Open the Journal with [j]."
 }

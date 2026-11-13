@@ -52,6 +52,12 @@ func walk_to(x: float, on_arrive := Callable()) -> void:
 	_on_arrive = on_arrive
 
 
+## Where to stand to deal with what spans `r` (in x): its nearer edge, or, already in front of it,
+## where you are.
+func reach(r: Rect2) -> float:
+	return clampf(position.x, r.position.x, r.end.x)
+
+
 func stop() -> void:
 	_target = null
 	_on_arrive = Callable()

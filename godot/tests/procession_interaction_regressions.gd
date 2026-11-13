@@ -16,18 +16,27 @@ func arrive(level: Node) -> void:
 		level.avatar.position.x = level.avatar._target
 		level.avatar._process(0.0)
 
+## A point on figure `h`'s drawing (clicks hit drawings, and a box's middle may be empty paper).
+func on_figure(level: Node, h: Dictionary) -> Vector2:
+	for y in 21:
+		for x in 21:
+			var point: Vector2 = h.rect.position + h.rect.size * Vector2((x + 0.5) / 21.0, (y + 0.5) / 21.0)
+			if level._pick(point).get("spot", {}) == h:
+				return point
+	return h.rect.get_center()
+
+
 func _run() -> void:
 	var level = load("res://scenes/procession.tscn").instantiate()
 	root.add_child(level)
 	level.hud.dismiss_intro()
 	level.set_process(false)
 	level.avatar.set_process(false)
-	# Authored boxes may overlap and need not equal the artwork's alpha bounds.
-	# Verify each subject still has a clickable area under the real picking priorities.
-	for region_id in level._inspection_regions:
+	# Figures may overlap; verify each subject still has a clickable area under the real picking priorities.
+	for region_id in level.hotspots.map(func(h): return h.id) + level.CAPTIONS.map(func(c): return c.id):
 		if str(region_id).begins_with("caption_") or (region_id == "hauler" and not level.haul.hauler_shown()):
 			continue
-		var box: Rect2 = level._descriptions.region_bounds(level._inspection_regions[region_id])
+		var box: Rect2 = level._descriptions.box(region_id) if str(region_id).begins_with("caption_") else level._hot_rect(region_id)
 		var reachable := false
 		for y in 21:
 			for x in 21:
@@ -38,22 +47,20 @@ func _run() -> void:
 			if reachable: break
 		expect(reachable, "edited hitbox leaves the subject clickable: " + region_id)
 	var subject := Rect2(200, 100, 80, 100)
-	for sample in [[100.0, 200.0], [400.0, 280.0], [230.0, 250.0]]:
+	for sample in [[100.0, 200.0], [400.0, 280.0], [230.0, 230.0]]:
 		level.avatar.position.x = sample[0]
-		expect(level._reach(subject, Vector2(250, 150)) == sample[1], "approach uses nearest edge or clicked position")
-	level.avatar.position.x = 230
-	expect(level._reach(subject, Vector2(500, 150)) == 280, "approach stays within the subject bounds")
+		expect(level.avatar.reach(subject) == sample[1], "approach walks to the nearest edge, or stays put in front of it")
 	var mummy: Dictionary = level.hotspots.filter(func(h): return h.id == "anubis_and_the_mummy")[0]
-	level._click_world(mummy.rect.get_center())
+	level._click_world(on_figure(level, mummy))
 	expect(level.avatar.is_walking() and not level.water.active, "mummy click approaches without entering the water game")
 	arrive(level)
 	expect(not level.water.active and level.hud._text == level._descriptions.text("anubis_and_the_mummy", "unopened"), "mummy inspection explains the unopened mouth")
 	var woman: Dictionary = level.hotspots.filter(func(h): return h.id == "kneeling_woman")[0]
-	level._click_world(woman.rect.get_center())
+	level._click_world(on_figure(level, woman))
 	arrive(level)
 	expect(not level.water.active and level.hud._text == level._descriptions.text("kneeling_woman"), "kneeling woman is inspected without entering water")
 	var priest: Dictionary = level.hotspots.filter(func(h): return h.id == "priest_with_jar")[0]
-	level._click_world(priest.rect.get_center())
+	level._click_world(on_figure(level, priest))
 	arrive(level)
 	expect(level.water.active, "jar priest starts the water game")
 	level.leave_water()
@@ -64,7 +71,7 @@ func _run() -> void:
 	expect(level.mouth.carrying() == "adze", "arrival picks up the adze")
 	level.put_back()
 	var hints_before_recital: Dictionary = level._hints._steps.duplicate()
-	level._click_world(level._lector.rect.get_center())
+	level._click_world(on_figure(level, level._lector))
 	arrive(level)
 	expect(level.hud._text == level._descriptions.text("lector_with_plumes") + " " + level.PUZZLES.text("procession.standards", "feedback", "speaking"), "plumed lector click shows default description with speaking cue at the bottom")
 	expect(level._recital.get_child_count() == 8, "plumed lector still recites all eight standards")
@@ -196,7 +203,7 @@ func _run() -> void:
 		"plumed_ox": "A bull walking towards the sacrifice."
 	}
 	for animal_id in expected:
-		var box: Rect2 = level._descriptions.region_bounds(level._inspection_regions[animal_id])
+		var box: Rect2 = level._hot_rect(animal_id)
 		level._bulls_press(box.get_center())
 		expect(level.bulls.active and level.hud._text == expected[animal_id], "animal click shows its unresolved description during the game: " + animal_id)
 		expect(level.hud._tag.get_theme_stylebox("panel").bg_color == UI.TAG_MINIGAME,
@@ -216,38 +223,40 @@ func _run() -> void:
 	var menu = load("res://scenes/menu.tscn").instantiate()
 	root.add_child(menu)
 	var scroll = root.get_node("Scroll")
-	for entry in scroll.SCENES:
-		var card: Control = menu._cards.find_child(entry.key, true, false)
-		var picture: Control = card.get_node("Frame").get_child(0)
-		expect((picture.modulate.a == 1.0) == scroll.is_built(entry.key), "map ink follows playable scene availability: " + entry.key)
-		menu._choose(entry.key)
-		expect(menu._chosen_go.disabled == not scroll.is_built(entry.key), "playable map scenes are unlocked: " + entry.key)
 	var saved_progress: Array[String] = scroll.restored.duplicate()
-	for sample in [
-		{"finished": [], "current": "procession"},
-		{"finished": ["dangers"], "current": "procession"},
-		{"finished": ["procession"], "current": "cosmos"},
-		{"finished": ["procession", "cosmos"], "current": "dangers"},
-		{"finished": ["procession", "cosmos", "dangers"], "current": "survival"},
-		{"finished": ["procession", "cosmos", "dangers", "survival"], "current": "gates"},
-		{"finished": ["procession", "cosmos", "dangers", "survival", "gates"], "current": ""}
-	]:
-		scroll.restored.assign(sample.finished)
+	var built: Array = scroll.SCENES.map(func(e): return e.key).filter(scroll.is_built)
+	scroll.unlock_all = false   # as in a release build
+	for n in built.size() + 1:
+		var finished: Array[String] = []
+		finished.assign(built.slice(0, n))
+		var current: String = built[n] if n < built.size() else ""
+		scroll.restored.assign(finished)
 		menu._refresh_map()
-		expect(scroll.current() == sample.current, "map progress selects the first unfinished playable chapter: " + str(sample.finished))
-		expect(menu._play_key() == (sample.current if sample.current != "" else "procession"),
+		expect(scroll.current() == current, "map progress selects the first unfinished playable chapter: " + str(finished))
+		expect(menu._play_key() == (current if current != "" else "procession"),
 			"Play agrees with saved progress, with replay available after completion")
 		var markers: Array[String] = []
-		var unlocked := true
+		var rules := true
 		for entry in scroll.SCENES:
 			var card: Control = menu._cards.find_child(entry.key, true, false)
 			if card.get_node("Frame/Picture/Current").visible:
 				markers.append(entry.key)
+			var done: bool = entry.key in finished
+			rules = rules and (card.get_node("Frame/Picture").modulate.a == 1.0) == done
 			menu._choose(entry.key)
-			unlocked = unlocked and menu._chosen_go.disabled == not scroll.is_built(entry.key)
-		expect(unlocked, "all implemented chapters stay unlocked regardless of progress")
-		expect(markers == ([sample.current] if sample.current != "" else []),
+			rules = rules and menu._chosen_go.disabled == not (done or entry.key == current)
+			rules = rules and menu._map.chosen_view.visible == done
+		expect(rules, "only restored chapters are in dark ink and can be viewed; only they and the next can be played: " + str(finished))
+		expect(markers == ([current] if current != "" else []),
 			"You are here marks only unfinished progress, and disappears once everything is complete")
+	scroll.unlock_all = true    # as in a debug build
+	scroll.restored.assign([])
+	menu._refresh_map()
+	var debug_rules := true
+	for entry in scroll.SCENES:
+		menu._choose(entry.key)
+		debug_rules = debug_rules and menu._chosen_go.disabled == not scroll.is_built(entry.key) and menu._map.chosen_view.visible == scroll.is_built(entry.key)
+	expect(debug_rules, "debug builds can play and view every built chapter")
 	scroll.restored.assign(saved_progress)
 	menu.free()
 	print("PROCESSION INTERACTIONS ", "OK" if failures.is_empty() else "FAILED")

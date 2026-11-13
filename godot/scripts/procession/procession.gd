@@ -80,7 +80,8 @@ const REFOCUS := 0.8         ## s for the camera to ease to a new focus (the tab
 const CAPTION_LINE := 187.0  ## first row below the frame line over the figures: glows start here
 ## The captions in the top register, between its frame lines (rows): the titles of the spells, from
 ## C. H. S. Davis, The Egyptian Book of the Dead (1894), which translates this papyrus. Clicking one
-## shows it. (The third title of spell 15, over Ra, is the Opening of the Mouth's words: not here.)
+## shows it. (The third title of spell 15, over Ra, is the Opening of the Mouth's words: once they
+## are set there, they read as a caption too, `mouth_words`.)
 const CAPTIONS := [
 	{"spell": 1, "id": "caption_1"},
 	{"spell": 1, "id": "caption_2"},
@@ -101,7 +102,8 @@ const BULL_FIGURES := ["calf", "plumed_ox", "sacrifice"]
 const SLEDGE_PARTS := ["funerary_bier", "priest_with_censer"]
 
 var _descriptions = preload("res://scripts/descriptions.gd").new("procession")
-var _inspection_regions := {}
+var _figure_sprites := {}   ## registry ID -> the scene sprites drawn as that figure
+var _sledge_boxes := {}     ## SLEDGE_PARTS id -> its box in the sledge drawing's own px (it moves)
 var _inspection_sprites := {}
 var level: Dictionary
 var ground := 248.0          ## feet line inside the strip (from level.json)
@@ -133,6 +135,7 @@ var _standard_grab := Vector2.ZERO
 var _object_press: MoveableObject
 var _object_press_screen := Vector2.ZERO
 var _object_dragging := false
+var _over_ra := false        ## a dragged stand piece is over Ra (his clue shows once on the way in)
 var standard_objects := {}
 
 var _drag_from := Vector2.INF  ## where (screen px) the piece in hand was taken up, while the button is down
@@ -158,6 +161,7 @@ var _recital: Node2D
 var _recital_tween: Tween
 var _show_hits := false
 var _last_said := ""         ## the last line said, for the autotest
+var _debug_menu: DebugMenu   ## debug builds only: T opens it
 
 @onready var avatar: Node2D = $Avatar
 @onready var camera: Camera2D = $Camera
@@ -182,15 +186,16 @@ func _ready() -> void:
 	for node in find_children("*", "Sprite2D", true, false):
 		if node.has_meta("registry_id") and node.has_meta("source_layer_id"):
 			_inspection_sprites[node.get_meta("registry_id")] = node
-	for region in find_children("*", "Area2D", true, false):
-		if not region.has_meta("registry_id"):
-			continue
-		var id: String = region.get_meta("registry_id")
-		assert(not _inspection_regions.has(id), "Duplicate Procession inspection ID: " + id)
-		_inspection_regions[id] = region
+		if node.has_meta("registry_id"):
+			_figure_sprites.get_or_add(node.get_meta("registry_id"), []).append(node)
+	# The Hitboxes are an editor reference, except the poles', captions' and the sledge parts'
+	# (figures sharing one drawing): those boxes are what a click on them means.
+	_descriptions.use_boxes($Hitboxes)
+	for id in SLEDGE_PARTS:
+		_sledge_boxes[id] = $pieces/hauling/sledge/sprite.global_transform.affine_inverse() * _descriptions.box(id)
 	for source in level.hotspots:
 		var id: String = source.id
-		var h := {"id": id, "rect": _descriptions.region_bounds(_inspection_regions[id]), "label": _descriptions.entries[id].name}
+		var h := {"id": id, "rect": _hot_rect(id), "label": _descriptions.entries[id].name}
 		hotspots.append(h)
 		if id == "lector_priest":
 			_reader = h
@@ -215,9 +220,9 @@ func _ready() -> void:
 			item.setup(piece, p)
 			standard_objects[piece] = item
 	_recital = $pieces/recital
-	_bearer_rect = _descriptions.region_bounds($ArtworkLayers/goose_man_77/GooseBearerHit)
+	_bearer_rect = _descriptions.sprite_bounds($ArtworkLayers/goose_man_77)
 	offerings = $pieces/offering_table
-	offerings.setup(level.table, sprite_rects.goose, ground, _authored, _bearer_rect, _descriptions.region_bounds(_inspection_regions.lector_priest))
+	offerings.setup(level.table, sprite_rects.goose, ground, _authored, _bearer_rect, _hot_rect("lector_priest"))
 	offerings.changed.connect(_on_offerings_changed)
 	haul = $pieces/hauling
 	haul.setup(_pieces.ox, $Papyrus.material, self, $Strip.get_index() + 1, _authored)
@@ -261,6 +266,18 @@ func _ready() -> void:
 	hud.menu_pressed.connect(func(): get_tree().change_scene_to_file("res://scenes/menu.tscn"))
 	hud.hint_pressed.connect(hint)
 	hud.restart_pressed.connect(reset)
+	if OS.is_debug_build():
+		_debug_menu = DebugMenu.new()
+		_debug_menu.setup([
+			["Offering table: frond left", debug_table_frond],
+			["Complete hauling", debug_complete.bind("t1")],
+			["Complete standards", debug_complete.bind("t2")],
+			["Complete water", debug_complete.bind("t5")],
+			["Complete mouth", debug_complete.bind("t6")],
+			["Complete bulls", debug_complete.bind("t8")],
+			["Complete offering stand", debug_complete.bind("t7")],
+		])
+		add_child(_debug_menu)
 	reset()
 	_maybe_run_cli()
 
@@ -324,6 +341,10 @@ func _restore_all() -> void:
 # ---------------------------------------------------------------- input
 
 func _unhandled_input(event: InputEvent) -> void:
+	if _debug_menu and event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_T:
+		_debug_menu.toggle()
+		get_viewport().set_input_as_handled()
+		return
 	if hud.is_blocking() or finished:
 		return
 	if _object_press != null and _carried_input(event):
@@ -431,9 +452,11 @@ func _carried_input(event: InputEvent) -> bool:
 			_object_press.request_description()
 		if _object_dragging:
 			_object_press.move_held(get_global_mouse_position())
-			if ending.objects.values().has(_object_press) and ending.snap_held(get_global_mouse_position()):
-				_object_press = null
-				_object_dragging = false
+			if ending.objects.values().has(_object_press):
+				_drag_over_ra(get_global_mouse_position())
+				if ending.snap_held(get_global_mouse_position()):
+					_object_press = null
+					_object_dragging = false
 		return true
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		if not event.pressed:
@@ -447,7 +470,7 @@ func _carried_input(event: InputEvent) -> bool:
 					_object_press.cancel_hold()
 					var drop := get_global_mouse_position()
 					if _object_press == mouth.adze_object and mouth.back_rect().has_point(drop):
-						walk_then(_reach(mouth.back_rect(), drop), put_back)   # set back on its stand
+						walk_then(avatar.reach(mouth.back_rect()), put_back)   # set back on its stand
 					elif mouth.mummy_rect().has_point(drop):
 						enter_mouth()
 			_object_press = null
@@ -475,13 +498,13 @@ func _click_world(p: Vector2) -> void:
 	elif h.type == "plumes_locked":
 		bulls.plumes_object.request_description()
 	elif h.type == "ending":
-		walk_then(_reach(ending.place_rect() if h.id == "place" else ending.rect_of(h.id), p), act_ending.bind(h.id))
+		walk_then(avatar.reach(ending.place_rect() if h.id == "place" else ending.rect_of(h.id)), act_ending.bind(h.id))
 	elif h.type == "bearer":   # observe him after approaching; the lector starts the puzzle
-		walk_then(_reach(_bearer_rect, p), _describe_bearer)
+		walk_then(avatar.reach(_bearer_rect), _describe_bearer)
 	elif h.type == "hot" and h.spot == _table and solved.t3:
-		walk_then(_reach(h.spot.rect, p), record.bind(h.spot))
+		walk_then(avatar.reach(h.spot.rect), record.bind(h.spot))
 	elif h.type == "hot" and h.spot == _reader and solved.t3 and solved.t4:   # all done: no way back in, like the other finished puzzles
-		walk_then(_reach(h.spot.rect, p), record.bind(h.spot))
+		walk_then(avatar.reach(h.spot.rect), record.bind(h.spot))
 	elif h.type == "piece" or (h.type == "hot" and (h.spot == _table or h.spot == _reader)):
 		enter_table(h.get("spot", {}) == _reader)
 	elif h.type == "mouth":
@@ -497,7 +520,7 @@ func _click_world(p: Vector2) -> void:
 		_descriptions.show(h.id, hud)
 	elif h.type == "slot":
 		if solved.t2:
-			say_game("Standard-bearers", PUZZLES.text("procession.standards", "success"))
+			_describe_standard(h.id)
 		else:
 			enter_standards()
 	elif h.spot.id in HAUL_FIGURES and not haul.done:
@@ -505,37 +528,37 @@ func _click_world(p: Vector2) -> void:
 			var hl: Dictionary = level.sprites.haul_hauler
 			walk_then(hl.x + hl.w / 2.0, take_rope.bind(h.spot))
 		else:
-			walk_then(_reach(h.rect, p), record.bind(h.spot))
+			walk_then(avatar.reach(h.rect), record.bind(h.spot))
 	elif h.spot.id == "hauler":   # home: he has his rope again
-		walk_then(_reach(h.spot.rect, p), func():
+		walk_then(avatar.reach(h.spot.rect), func():
 			say_game("Hauler", PUZZLES.text("procession.haul", "feedback", "success_hauler"))
 			_add_journal(h.spot))
 	elif h.spot == _lector:   # stand in front of him (he faces left), to hear him
 		walk_then(h.spot.rect.position.x - STAND_GAP * unit - sprite_rects.avatar.size.x / 2.0, record.bind(h.spot))
 	else:
-		walk_then(_reach(h.spot.rect, p), record.bind(h.spot))
+		walk_then(avatar.reach(h.spot.rect), record.bind(h.spot))
 
 
 ## Viewing: a click only walks up to a figure or caption and reads about it.
 func _view_click(h: Dictionary, p: Vector2) -> void:
 	match h.get("type", ""):
 		"hot":
-			walk_then(_reach(h.spot.rect, p), _view_record.bind(h.spot))
+			walk_then(avatar.reach(h.spot.rect), _view_record.bind(h.spot))
 		"caption":
 			_descriptions.show(h.id, hud)
 		"bearer", "goose_locked":
-			walk_then(_reach(_bearer_rect, p), _describe_bearer)
+			walk_then(avatar.reach(_bearer_rect), _describe_bearer)
 		"offering_placed":
 			offerings.objects[h.id].request_description()
 		"plumes_locked":
 			bulls.plumes_object.request_description()
 		"slot":
-			say_game("Standard-bearers", PUZZLES.text("procession.standards", "success"))
+			_describe_standard(h.id)
 		"water":
 			var jar: Dictionary = hotspots.filter(func(s): return s.id == "priest_with_jar")[0]
-			walk_then(_reach(jar.rect, p), _view_record.bind(jar))
+			walk_then(avatar.reach(jar.rect), _view_record.bind(jar))
 		"ending":
-			walk_then(_reach(ending.place_rect() if h.id == "place" else ending.rect_of(h.id), p), _describe_object.bind("stand", "stand"))
+			walk_then(avatar.reach(ending.place_rect() if h.id == "place" else ending.rect_of(h.id)), _describe_object.bind("stand", "stand"))
 		_:
 			walk_then(p.x)
 
@@ -573,8 +596,7 @@ func _pick(p: Vector2) -> Dictionary:
 		return {"type": "mouth", "id": m}
 	if not water.active and water.on_jar(p):   # from along the scroll: step up to the water
 		return {"type": "water"}
-	_bearer_rect = _descriptions.region_bounds($ArtworkLayers/goose_man_77/GooseBearerHit)
-	if _bearer_rect.has_point(p):
+	if _descriptions.hit($ArtworkLayers/goose_man_77, p):
 		return {"type": "bearer", "rect": _bearer_rect}
 	for id in slot:
 		var piece: String = slot[id]
@@ -584,12 +606,14 @@ func _pick(p: Vector2) -> Dictionary:
 		var r := _slot_hit_rect(id)
 		if r.has_point(p):
 			return {"type": "slot", "id": id, "rect": r}
+	if mouth.done() and mouth.words_rect().has_point(p):
+		return {"type": "caption", "id": "mouth_words", "spell": 15, "rect": mouth.words_rect()}
 	for h in hotspots:
-		h.rect = _descriptions.region_bounds(_inspection_regions[h.id])
-		if h.rect.has_point(p):
+		h.rect = _hot_rect(h.id)
+		if _hot_hit(h.id, p):
 			return {"type": "hot", "spot": h, "rect": h.rect}
 	for c in CAPTIONS:
-		var r := _descriptions.region_bounds(_inspection_regions[c.id])
+		var r := _descriptions.box(c.id)
 		if r.has_point(p):
 			return {"type": "caption", "id": c.id, "spell": c.spell, "rect": r}
 	return {}
@@ -677,7 +701,7 @@ func _glow_targets(h: Dictionary) -> Array:
 				return [_inspection_sprites[h.spot.id]] + mouth.on_stand()
 			if h.spot.id in SLEDGE_PARTS:   # its own part of the sledge's drawing
 				var sprite := haul.sprite_of("haul_sledge")
-				var r: Rect2 = _descriptions.region_bounds(_inspection_regions[h.spot.id])
+				var r: Rect2 = _hot_rect(h.spot.id)
 				return [{"sprite": sprite, "region": sprite.global_transform.affine_inverse() * r}]
 			if h.spot.id == "priest_with_jar":   # he is a sprite now, his arm with him
 				return [water.priest_sprite(), water.arm_sprite()]
@@ -705,6 +729,7 @@ func _glow(target, level := GLOW) -> Sprite2D:
 
 ## A task done: what it set right glows pale green for a moment (targets as for _glow).
 func _success(targets: Array) -> void:
+	hud.flash_success()
 	for target in targets:
 		UI.flash_glow(_glow(target, UI.Glow.SUCCESS))
 
@@ -713,9 +738,40 @@ func _glow_strength(v: float, g: Sprite2D) -> void:
 	(g.material as ShaderMaterial).set_shader_parameter("strength", v)
 
 
+## The drawings a click on figure `id` means: those it glows as (_glow_targets), else (and while
+## _ready sets up the games) its sprites in the scene.
+func _hot_sprites(id: String) -> Array:
+	if HAUL_GLOW.has(id) and haul:
+		return HAUL_GLOW[id].map(func(nm): return haul.sprite_of(nm)).filter(func(sp): return sp != null)
+	match id:
+		"ox": return [_pieces.get("ox", _figure_sprites.ox[0])]
+		"calf" when bulls: return [bulls.calf_sprite()]
+		"plumed_ox" when bulls: return [bulls.ox_sprite()]
+		"priest_with_jar" when water: return [water.priest_sprite(), water.arm_sprite()]
+	return _figure_sprites.get(id, [])
+
+
+## Is `p` on figure `id`: inside its drawings' filled outlines (descriptions.gd `hit`), or in its
+## box for the sledge parts.
+func _hot_hit(id: String, p: Vector2) -> bool:
+	if id in SLEDGE_PARTS:
+		return _hot_rect(id).has_point(p)
+	return _hot_sprites(id).any(func(sp): return _descriptions.hit(sp, p))
+
+
+## Where figure `id` is now: its drawings' bounds (the sledge parts: their box, moving with it).
+func _hot_rect(id: String) -> Rect2:
+	if id in SLEDGE_PARTS:
+		return $pieces/hauling/sledge/sprite.global_transform * _sledge_boxes[id]
+	var rect := Rect2()
+	for sp in _hot_sprites(id):
+		var bounds := _descriptions.sprite_bounds(sp)
+		rect = bounds if not rect.has_area() else rect.merge(bounds)
+	return rect
+
+
 func _slot_hit_rect(id: String) -> Rect2:
-	var region: Area2D = $ArtworkLayers/standard_bearers_131.get_node(id)
-	var bounds := _descriptions.region_bounds(region)
+	var bounds := _descriptions.box(id)
 	if slot.get(id, "") != "":
 		bounds = bounds.merge(_descriptions.sprite_bounds(_pieces[slot[id]]))
 	return bounds
@@ -734,16 +790,6 @@ func max_x() -> float:
 
 func procession_moving() -> bool:
 	return solved.t1 and solved.t2
-
-
-## Where you walk to deal with what is at `r`, clicked at `p` (unless it has a place of its own to
-## stand): the nearest point of it to where you are, its left or right edge; already in front of it,
-## where you clicked (its middle, without a click).
-func _reach(r: Rect2, p := Vector2.INF) -> float:
-	var x := avatar.position.x
-	if x >= r.position.x and x <= r.end.x:
-		return r.get_center().x if p == Vector2.INF else clampf(p.x, r.position.x, r.end.x)
-	return clampf(x, r.position.x, r.end.x)
 
 
 ## Walk toward x and run `then` on arrival.
@@ -783,7 +829,7 @@ func _bull_subject_at(p: Vector2) -> String:
 	if bulls.pick(p) == "plumes":
 		return "plumed_ox" if bulls.crowned() else "sacrifice"
 	for id in BULL_FIGURES:
-		if _descriptions.region_bounds(_inspection_regions[id]).has_point(p):
+		if _hot_hit(id, p):
 			return id
 	return ""
 
@@ -795,7 +841,7 @@ func _bulls_press(p: Vector2) -> void:
 	var subject := _bull_subject_at(p)
 	if subject != "":
 		var h: Dictionary = hotspots.filter(func(spot): return spot.id == subject)[0]
-		h.rect = _descriptions.region_bounds(_inspection_regions[subject])
+		h.rect = _hot_rect(subject)
 		var content := _descriptions.line(subject, _description_variant(subject))
 		say_game(content.speaker, content.text)
 		_add_journal(h)
@@ -916,7 +962,7 @@ func _table_input(event: InputEvent) -> void:
 
 func _table_drop(p: Vector2) -> void:
 	_drag_from = Vector2.INF
-	if _bearer_rect.has_point(p):
+	if _descriptions.hit($ArtworkLayers/goose_man_77, p):
 		_act_bearer()
 	elif offerings.in_header(p):
 		offerings.park(p)
@@ -1012,6 +1058,14 @@ func _act_bearer() -> void:
 func _on_offerings_changed() -> void:
 	_check()
 	_render()
+
+
+## In order, a standard clicked still reads its own entry.
+func _describe_standard(id: String) -> void:
+	if slot[id] == "":
+		say_game("Standard-bearers", PUZZLES.text("procession.standards", "success"))
+	else:
+		standard_objects[slot[id]].request_description()
 
 
 func enter_standards() -> void:
@@ -1161,11 +1215,20 @@ func take_rope(h: Dictionary) -> void:
 	t.parallel().tween_property(hauler, "modulate:a", 1.0, INTO_POSE)
 
 
+## A stand piece dragged onto Ra: he points out the stand's foundation, as when clicked.
+func _drag_over_ra(p: Vector2) -> void:
+	var over := _hot_hit("ra_enthroned", p)
+	if over and not _over_ra:
+		ending.show_base_clue()
+	_over_ra = over
+
+
 ## Release a dragged stand piece at its valid place; an invalid drop or Esc returns it to you.
 func _stand_piece_input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel"):
 		ending.unhold()
 	elif event is InputEventMouseMotion:
+		_drag_over_ra(get_global_mouse_position())
 		ending.snap_held(get_global_mouse_position())
 	elif event is InputEventMouseButton and not event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		if ending.place_rect().has_point(get_global_mouse_position()):
@@ -1258,9 +1321,9 @@ func act_mouth(id: String, p := Vector2.INF) -> void:
 				say_game("Scribe", _hands_message())
 				return
 			if id == "adze":
-				walk_then(_reach(mouth.back_rect(), p), mouth.take_adze)
+				walk_then(avatar.reach(mouth.back_rect()), mouth.take_adze)
 			else:
-				walk_then(_reach(mouth.words_rect(), p), func():
+				walk_then(avatar.reach(mouth.words_rect()), func():
 					mouth.take_words()
 					mouth.words_object.request_description())
 		"mummy":   # with the adze in hand: go to the mummy and carve
@@ -1269,9 +1332,9 @@ func act_mouth(id: String, p := Vector2.INF) -> void:
 			else:
 				_descriptions.show("anubis_and_the_mummy", hud, _description_variant("anubis_and_the_mummy"))
 		"home":
-			walk_then(_reach(mouth.home_rect(), p), mouth.place_words)
+			walk_then(avatar.reach(mouth.home_rect()), mouth.place_words)
 		"back":     # where the adze or the words were taken from: they go back there
-			walk_then(_reach(mouth.back_rect(), p), put_back)
+			walk_then(avatar.reach(mouth.back_rect()), put_back)
 	_set_hover({})
 
 
@@ -1301,12 +1364,14 @@ func _check() -> void:
 		say_game("Standard-bearers", PUZZLES.text("procession.standards", "success"))
 		_success(POLES.map(func(p): return _pieces[slot[p]]))
 	if solved.t3 and not was.t3:
+		say_game("Lector priest", PUZZLES.text("procession.offerings", "success"))
 		_success([_table.rect] + offerings.placed_sprites())
 	if solved.t4 and not was.t4:
 		_success(offerings.bearer_sprites())
 	if solved.t5 and not was.t5:
 		_success([water.priest_sprite(), water.arm_sprite(), water.stream_sprite()])
-	if solved.t6 and not was.t6:
+	if solved.t6 and not was.t6:   # the words read out, as a caption reads when clicked
+		say_game("Scribe", '%s "%s"' % [PUZZLES.text("procession.opening_mouth", "success"), _descriptions.text("mouth_words")])
 		_success([mouth.glow_target("words"), mouth.glow_target("adze"), mouth.glow_target("mummy")])
 	if solved.t8 and not was.t8:
 		_success([bulls.calf_sprite(), bulls.ox_sprite(), bulls.plumes_sprite()])
@@ -1315,12 +1380,24 @@ func _check() -> void:
 	if rites and not were:
 		ending.show_imprint()     # the stela only shows the stand once everything else is right
 	if rites and not were and not solved.t7:
-		hud.say_later("Scribe", PUZZLES.message("procession.complete"), 1.6, "minigame")
+		var after := _generation
+		get_tree().create_timer(1.6, false).timeout.connect(func():
+			if after == _generation:
+				say_game("Scribe", _stela_news()))
 	if solved.values().all(func(v): return v) and not was.values().all(func(v): return v):
 		var generation := _generation
 		get_tree().create_timer(1.2, false).timeout.connect(func():
 			if generation == _generation:
 				finish())
+
+
+## The stand's imprint has come up on the stela: say so if it is in view (or very close), else
+## only which way something changed.
+func _stela_news() -> String:
+	var stela := _hot_rect("stela")
+	if _visible_rect().grow(100.0 * unit).intersects(stela):
+		return PUZZLES.message("procession.stela_glows")
+	return PUZZLES.message("procession.stela_far") % ("left" if stela.get_center().x < avatar.position.x else "right")
 
 
 ## Clicking a figure: record it in the journal, and run the figures that do something.
@@ -1662,6 +1739,16 @@ func _render() -> void:
 		_pieces[piece].visible = true
 
 
+## For the autotest: a point on figure `spot`'s drawing that nothing else lies over, else its centre.
+func _point_on(spot: Dictionary) -> Vector2:
+	for y in 21:
+		for x in 21:
+			var p: Vector2 = spot.rect.position + spot.rect.size * Vector2((x + 0.5) / 21.0, (y + 0.5) / 21.0)
+			if _hot_hit(spot.id, p) and _pick(p).get("spot", {}) == spot:
+				return p
+	return spot.rect.get_center()
+
+
 func _draw_overlay() -> void:
 	if _show_hits:  # dev: `--show-hits` outlines every click region
 		for id in SLOTS:
@@ -1848,29 +1935,29 @@ func _autotest() -> void:
 		if h.get("type") != "slot" or h.id != id:
 			missed.append(id)
 	for spot in hotspots:
-		var h := _pick(spot.rect.get_center())
+		var h := _pick(_point_on(spot))
 		if h.get("type") in ["piece", "ending", "water"]:
 			continue
 		if h.get("type") != "hot" or h.spot != spot:
 			missed.append(spot.label)
-	expect.call(missed.is_empty(), "every region picked by a click at its centre %s" % [missed])
+	expect.call(missed.is_empty(), "every figure picked by a click on its drawing %s" % [missed])
 	_set_hover(_pick(_slot_hit_rect("pole1").get_center()))
 	expect.call(_glows.size() == 16 and _glows[1].get_parent() == _pieces[slot.pole1], "a standard-bearer glows whole under the pointer: the man and his standard")
-	_set_hover(_pick(hotspots[0].rect.get_center()))
+	_set_hover(_pick(_point_on(hotspots[0])))
 	expect.call(_glows.size() == 1 and _glows[0].get_parent() == _inspection_sprites[hotspots[0].id], "a journal figure glows under the pointer")
 	_set_hover({})
 	expect.call(_glows.is_empty(), "nothing glows when the pointer leaves")
 	var was := avatar.position.x
 	var thing := Rect2(level.width / 2.0, 200.0, 100.0, 300.0)
 	avatar.position.x = thing.position.x - 300.0
-	var from_left := _reach(thing, thing.get_center())
+	var from_left: float = avatar.reach(thing)
 	avatar.position.x = thing.end.x + 300.0
-	var from_right := _reach(thing, thing.get_center())
+	var from_right: float = avatar.reach(thing)
 	avatar.position.x = thing.position.x + 20.0
-	var in_front := _reach(thing, thing.position + Vector2(70.0, 50.0))
+	var in_front: float = avatar.reach(thing)
 	avatar.position.x = was
-	expect.call(from_left == thing.position.x and from_right == thing.end.x and in_front == thing.position.x + 70.0,
-		"clicking a thing walks you to its nearer edge, or, in front of it already, to where you clicked")
+	expect.call(from_left == thing.position.x and from_right == thing.end.x and in_front == thing.position.x + 20.0,
+		"clicking a thing walks you to its nearer edge; in front of it already, you stay where you are")
 	var stand: Dictionary = hotspots.filter(func(h): return h.id == "offering_stand")[0]
 	_set_hover(_pick(stand.rect.get_center()))
 	expect.call(_glows.size() == 4 and _glows[0].get_parent() == _inspection_sprites[stand.id], "the adze's stand glows whole, with the rods, the foreleg and the adze")
@@ -1894,10 +1981,89 @@ func _autotest() -> void:
 	expect.call(_success_glowing(_pieces[slot.pole1]), "in order, the standards flash pale green")
 	act_slot(POLES[0])
 	expect.call(held == "" and solved.t2, "once in order the standards are locked")
+	_click_world(_descriptions.sprite_bounds(_pieces[slot.pole1]).get_center())
+	expect.call(hud._text == _descriptions.line(slot.pole1).text, "in order, a standard clicked still reads its entry")
 	expect.call(held == "", "hand empty after sorting the standards")
 	_autotest_table(expect)
 	print("AUTOTEST ", "OK" if fails.is_empty() else "FAILED")
 	get_tree().quit(0 if fails.is_empty() else 1)
+
+
+# ---------------------------------------------------------------- debug (T menu, and the autotest)
+
+## Set on every table piece that can go, lowest first, until only the palm frond is left.
+func _stack_table_but_frond() -> void:
+	for guard in 200:
+		var can := offerings.stackable().filter(func(id): return offerings.pieces[id].kind != "frond")
+		if can.is_empty():
+			return
+		_place_table_piece(can[0])
+
+
+func _place_table_piece(id: String) -> void:
+	if offerings.bearer == id:
+		_act_bearer()
+	else:
+		offerings.take(id)
+	offerings.drop_at(offerings.pieces[id].rect.get_center())
+
+
+## Whatever is under way stops and what is in hand goes back, as the game does it.
+func _debug_tidy() -> void:
+	mouth.leave()
+	if in_standards:
+		leave_standards()
+	haul.quit()
+	leave_water()
+	leave_bulls()
+	leave_table()
+	for i in 3:   # a stand piece, the adze or the words, a standard
+		put_back(true)
+
+
+## The offering table from scratch, at the table: every piece on but the palm frond, the goose
+## back with its bearer.
+func debug_table_frond() -> void:
+	_debug_tidy()
+	avatar.position.x = level.table.stand
+	_table_now()
+	offerings.reset()
+	_stack_table_but_frond()
+	offerings.take("goose")
+	_act_bearer()
+	_render()
+
+
+## One rite done where you stand; what follows is the game's own course.
+func debug_complete(rite: String) -> void:
+	if solved[rite]:
+		return
+	var x := avatar.position.x
+	var hauling := _hauling
+	_debug_tidy()
+	match rite:
+		"t1":
+			haul.restore()
+		"t2":
+			for p in POLES:
+				slot[p] = SLOTS[p].home
+			held = ""
+			held_from = ""
+		"t5":
+			water.restore()
+		"t6":
+			mouth.restore()
+		"t8":
+			bulls.restore()
+		"t7":
+			for nm in EndingStand.PIECES:
+				ending.take(nm)
+			for nm in EndingStand.PIECES:
+				ending.set_down()
+	_check()
+	if rite == "t1" and not hauling:   # the haul's success puts you beside the hauler; stay
+		avatar.position.x = x
+	_render()
 
 
 ## (autotest) A success flash is glowing behind `sprite`.
@@ -1981,7 +2147,7 @@ func _autotest_water(expect: Callable) -> void:
 	bare.atlas = $Strip.texture
 	bare.region = priest.rect
 	expect.call(ink.call(_journal_picture(priest.rect).get_image()) > ink.call(bare.get_image()) * 1.5, "he is not in the strip, but his Journal picture shows him (his sheet's frame as drawn)")
-	var h := _pick(priest.rect.get_center())
+	var h := _pick(_point_on(priest))
 	expect.call(h.get("type") == "hot" and h.spot == priest, "the priest with the jar can be clicked")
 	expect.call(_pick(water.arm_rect().get_center()).get("type") == "water", "his jar can be clicked from along the scroll")
 	_water_now()
@@ -2096,6 +2262,9 @@ func _autotest_mouth(expect: Callable) -> void:
 	expect.call(h.get("type") == "mouth" and h.id == "home", "their imprint over Ra takes them")
 	mouth.place_words()
 	expect.call(solved.t6 and not mouth._imprint.visible and mouth.words_rect() == home, "the words stand over Ra as drawn")
+	expect.call(_descriptions.text("mouth_words") in hud._text, "set in place, the words are read out")
+	var read := _pick(home.get_center())
+	expect.call(read.get("type") == "caption" and read.id == "mouth_words", "set in place, the words can be clicked and read, as a caption")
 	mouth.instant = false
 
 
@@ -2142,6 +2311,16 @@ func _autotest_ending(expect: Callable) -> void:
 	ending.instant = true
 	expect.call(ending.imprint_shown and ending._imprint.visible, "with every other rite done, the stand's imprint comes up on the stela")
 	expect.call(not ending._kneeler.visible, "the adorer before Ra is not there at the start")
+	var stand_x := avatar.position.x
+	var stela := _hot_rect("stela")
+	avatar.position.x = stela.get_center().x
+	_update_camera(1.0)
+	expect.call(_stela_news() == PUZZLES.message("procession.stela_glows"), "near the stela when its imprint comes up: it glows faintly")
+	avatar.position.x = max_x()
+	_update_camera(1.0)
+	expect.call(_stela_news() == PUZZLES.message("procession.stela_far") % "left", "far from the stela: only that something changed, and which way")
+	avatar.position.x = stand_x
+	_update_camera(1.0)
 	var at := {}
 	for nm in EndingStand.PIECES:
 		at[nm] = ending.where(nm)
@@ -2165,6 +2344,9 @@ func _autotest_ending(expect: Callable) -> void:
 	var r := ending.set_down()
 	expect.call(r == "unsupported" and not ending.placed.has("sun") and "sun" in ending.worn and ending.held == "", "the sun disc cannot go on before the stand: it goes back onto you")
 	ending.hold("lotus")
+	_drag_over_ra(_hot_rect("ra_enthroned").get_center())
+	expect.call(ending._base_clue.visible, "a stand piece dragged onto Ra shows the stand's foundation")
+	_drag_over_ra(Vector2.ZERO)
 	put_back()
 	expect.call("lotus" in ending.worn and ending.held == "", "let go elsewhere, it goes back onto you")
 	var h := _pick(ending.place_rect().get_center())
@@ -2219,27 +2401,27 @@ func _autotest_table(expect: Callable) -> void:
 	expect.call(offerings.clothes_showing(), "with his arms empty his clothes show")
 	offerings.put_back()
 	expect.call(offerings.bearer != "" and offerings.holding() == "", "the loaf goes back to him")
-	var frond_early := false
-	var guard := 0
-	while not offerings.complete() and guard < 200:
-		guard += 1
-		var can := offerings.stackable()
-		if can.is_empty():
-			break
-		var id: String = can[0]
-		if offerings.pieces[id].kind == "frond" and offerings.placed.size() < offerings.pieces.size() - 1:
-			frond_early = true
-		if offerings.bearer == id:
-			_act_bearer()
-		else:
-			offerings.take(id)
-		offerings.drop_at(offerings.pieces[id].rect.get_center())
+	var frond_early := offerings.stackable().any(func(id): return offerings.pieces[id].kind == "frond")
+	_stack_table_but_frond()
+	var left := offerings.stackable()
+	expect.call(left.size() == 1 and offerings.pieces[left[0]].kind == "frond" and offerings.placed.size() == offerings.pieces.size() - 1,
+		"everything but the palm frond can be set on first")
+	_place_table_piece(left[0])
 	expect.call(offerings.complete() and solved.t3, "the table rebuilt, lowest pieces first")
+	expect.call(_last_said == PUZZLES.text("procession.offerings", "success"), "the lector says the table is whole again")
 	expect.call(not frond_early, "the palm frond goes on last")
 	offerings.take("goose")
 	_act_bearer()
 	expect.call(solved.t4, "the goose is back with its bearer")
 	expect.call(not offerings.clothes_showing(), "the goose covers his clothes again")
+	leave_table()
+	debug_table_frond()
+	left = offerings.stackable()
+	expect.call(in_table and solved.t4 and not solved.t3 and left.size() == 1 and offerings.pieces[left[0]].kind == "frond",
+		"(debug) the table set up again with only the frond to place, the goose back with its bearer")
+	_place_table_piece(left[0])
+	expect.call(solved.t3, "(debug) placing the frond finishes the table")
+	expect.call(hud._text == PUZZLES.text("procession.offerings", "success") and hud._flash.is_running(), "the success line flashes green in the strip")
 	leave_table()
 	_autotest_water(expect)
 	_autotest_mouth(expect)

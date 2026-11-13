@@ -24,6 +24,7 @@ var _unit := 1.5
 
 func _ready() -> void:
 	_descriptions = preload("res://scripts/descriptions.gd").new(level_key)
+	_descriptions.use_boxes($Hitboxes)
 	level = JSON.parse_string(FileAccess.get_file_as_string("res://assets/%s/level.json" % level_key))
 	var chapter: Dictionary = Scroll.scene(level_key)
 	_unit = level.get("scale", 1.5)
@@ -92,8 +93,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			walk_then(point.x)
 		else:
 			var bounds: Rect2 = figures[id].global_transform * figures[id].get_rect()
-			var x: float = avatar.position.x
-			var destination := point.x if x >= bounds.position.x and x <= bounds.end.x else clampf(x, bounds.position.x, bounds.end.x)
+			var destination: float = avatar.reach(bounds)
 			walk_then(destination, record.bind(id))
 
 

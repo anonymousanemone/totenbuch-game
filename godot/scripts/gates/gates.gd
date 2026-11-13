@@ -1,6 +1,7 @@
-## The Gates (spells 144–146): Survival's exploration, plus the spell-145 pylons. Each pylon's
-## adorer stays hidden until its keeper's name is given (`name_given`); the avatar is a copy of
-## the first adorer, and the plumes answer every naming (PylonPlumes).
+## The Gates (spells 144–147): Survival's exploration, plus the spell-145 pylons. Each pylon's
+## adorer stays hidden until its keeper's name is given (`name_given`), and each spell-147 gate's
+## adorer until `reveal_adorer` is called for it; the avatar is a copy of the first adorer, and the
+## plumes answer every naming (PylonPlumes).
 extends "res://scripts/survival/survival.gd"
 
 const ADORER_FADE := 0.6    ## seconds for an adorer to appear
@@ -9,12 +10,10 @@ const ADORER_FADE := 0.6    ## seconds for an adorer to appear
 func reset() -> void:
 	super()
 	for id in figures:
-		if not id.begins_with("spell145_pylon"):
-			continue
 		if id.ends_with("_adorer"):
-			figures[id].visible = Scroll.viewing     # viewing: every keeper's name is given, as drawn
+			figures[id].visible = Scroll.viewing     # viewing: every adorer is shown, as drawn
 			figures[id].modulate.a = 1.0
-		elif id.count("_") == 1:
+		elif id.begins_with("spell145_pylon") and id.count("_") == 1:
 			PylonPlumes.still(figures[id])
 
 
@@ -22,8 +21,14 @@ func reset() -> void:
 ## keeper: the plumes answer, and a right name brings the adorer kneeling before the pylon.
 func name_given(number: int, accepted: bool) -> void:
 	PylonPlumes.react(figures["spell145_pylon%d" % number], accepted)
-	var adorer: Sprite2D = figures["spell145_pylon%d_adorer" % number]
-	if not accepted or adorer.visible:
+	if accepted:
+		reveal_adorer("spell145_pylon%d_adorer" % number)
+
+
+## Fades in the hidden adorer `id` (e.g. "spell147_gate3_adorer"); once shown, he stays.
+func reveal_adorer(id: String) -> void:
+	var adorer: Sprite2D = figures[id]
+	if adorer.visible:
 		return
 	adorer.modulate.a = 0.0
 	adorer.show()

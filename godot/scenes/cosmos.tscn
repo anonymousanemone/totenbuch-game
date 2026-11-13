@@ -63,6 +63,159 @@ shader = ExtResource("papyrus")
 shader_parameter/base = Color(0.906, 0.839, 0.682, 1)
 shader_parameter/fibre = Color(0.47, 0.35, 0.16, 1)
 
+[sub_resource type="RectangleShape2D" id="hitbox_isis_nephthys_kneeling"]
+size = Vector2(200.0, 260.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_nut_over_scarab"]
+size = Vector2(332.0, 280.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_osiris_enthroned"]
+size = Vector2(200.0, 348.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_offering_stand"]
+size = Vector2(156.0, 272.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_deceased_adoring"]
+size = Vector2(164.0, 288.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_anubis"]
+size = Vector2(164.0, 296.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_chest_bearer"]
+size = Vector2(240.0, 356.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_isis_nephthys_standing_1"]
+size = Vector2(236.0, 344.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_baboons_praising_1"]
+size = Vector2(324.0, 256.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_atum_evening_boat"]
+size = Vector2(748.0, 344.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_baboons_praising_2"]
+size = Vector2(332.0, 260.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_isis_nephthys_standing_2"]
+size = Vector2(228.0, 352.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_baboons_seated_x"]
+size = Vector2(316.0, 232.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_khepri_boat"]
+size = Vector2(696.0, 312.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_inscriptions_ix"]
+size = Vector2(2476.0, 148.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_deceased_kneeling"]
+size = Vector2(180.0, 236.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_two_apes_isis_nephthys"]
+size = Vector2(284.0, 200.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_falcon_on_standard"]
+size = Vector2(124.0, 292.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_great_cat_and_apep"]
+size = Vector2(292.0, 184.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_ished_tree"]
+size = Vector2(172.0, 336.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_small_seated_god"]
+size = Vector2(100.0, 148.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_twin_souls"]
+size = Vector2(336.0, 260.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_two_bowls"]
+size = Vector2(268.0, 204.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_horus_khenty_irty"]
+size = Vector2(148.0, 340.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spirit_with_emblem"]
+size = Vector2(116.0, 332.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_duamutef"]
+size = Vector2(88.0, 264.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_imsety"]
+size = Vector2(100.0, 264.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_chest_with_head_of_ra"]
+size = Vector2(172.0, 356.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_hapy"]
+size = Vector2(84.0, 248.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_qebehsenuef"]
+size = Vector2(92.0, 244.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_mehet_weret"]
+size = Vector2(316.0, 344.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_inscriptions_viii"]
+size = Vector2(2528.0, 136.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_offerer_before_cow"]
+size = Vector2(160.0, 260.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_wedjat_shrine"]
+size = Vector2(156.0, 296.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_thoth_baboon"]
+size = Vector2(124.0, 204.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_rosetau_gate"]
+size = Vector2(156.0, 348.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_heh_and_wadj_wer"]
+size = Vector2(592.0, 284.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_nephthys_kite"]
+size = Vector2(216.0, 200.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_mummy_on_bier"]
+size = Vector2(452.0, 216.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_isis_kite"]
+size = Vector2(168.0, 224.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_benu"]
+size = Vector2(196.0, 164.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_lion_tomorrow"]
+size = Vector2(208.0, 228.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_horizon"]
+size = Vector2(188.0, 128.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_inscriptions_vii"]
+size = Vector2(2604.0, 196.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_lion_yesterday"]
+size = Vector2(204.0, 232.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_sun_boat_with_crew"]
+size = Vector2(1180.0, 352.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_adorer_with_flowers"]
+size = Vector2(200.0, 356.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_adorer_before_boat"]
+size = Vector2(136.0, 288.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_ba"]
+size = Vector2(268.0, 304.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_falcon_on_perch"]
+size = Vector2(176.0, 320.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_senet_booth"]
+size = Vector2(336.0, 324.0)
+
 [node name="Cosmos" type="Node2D"]
 script = ExtResource("level")
 
@@ -464,3 +617,617 @@ zoom = Vector2(0.77894735, 0.77894735)
 
 [node name="HUD" type="CanvasLayer" parent="."]
 script = ExtResource("hud")
+
+[node name="Hitboxes" type="Node2D" parent="."]
+
+[node name="isis_nephthys_kneeling" type="Area2D" parent="Hitboxes"]
+position = Vector2(143.0, 404.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "isis_nephthys_kneeling"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/isis_nephthys_kneeling"]
+shape = SubResource("hitbox_isis_nephthys_kneeling")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="nut_over_scarab" type="Area2D" parent="Hitboxes"]
+position = Vector2(400.0, 394.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "nut_over_scarab"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/nut_over_scarab"]
+shape = SubResource("hitbox_nut_over_scarab")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="osiris_enthroned" type="Area2D" parent="Hitboxes"]
+position = Vector2(655.0, 362.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "osiris_enthroned"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/osiris_enthroned"]
+shape = SubResource("hitbox_osiris_enthroned")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="offering_stand" type="Area2D" parent="Hitboxes"]
+position = Vector2(824.0, 400.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "offering_stand"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/offering_stand"]
+shape = SubResource("hitbox_offering_stand")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="deceased_adoring" type="Area2D" parent="Hitboxes"]
+position = Vector2(973.0, 392.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "deceased_adoring"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/deceased_adoring"]
+shape = SubResource("hitbox_deceased_adoring")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="anubis" type="Area2D" parent="Hitboxes"]
+position = Vector2(1125.0, 387.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "anubis"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/anubis"]
+shape = SubResource("hitbox_anubis")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="chest_bearer" type="Area2D" parent="Hitboxes"]
+position = Vector2(1382.0, 359.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "chest_bearer"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/chest_bearer"]
+shape = SubResource("hitbox_chest_bearer")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="isis_nephthys_standing_1" type="Area2D" parent="Hitboxes"]
+position = Vector2(1609.0, 367.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "isis_nephthys_standing_1"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/isis_nephthys_standing_1"]
+shape = SubResource("hitbox_isis_nephthys_standing_1")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="baboons_praising_1" type="Area2D" parent="Hitboxes"]
+position = Vector2(1856.0, 410.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "baboons_praising_1"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/baboons_praising_1"]
+shape = SubResource("hitbox_baboons_praising_1")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="atum_evening_boat" type="Area2D" parent="Hitboxes"]
+position = Vector2(2348.0, 368.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "atum_evening_boat"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/atum_evening_boat"]
+shape = SubResource("hitbox_atum_evening_boat")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="baboons_praising_2" type="Area2D" parent="Hitboxes"]
+position = Vector2(3021.0, 409.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "baboons_praising_2"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/baboons_praising_2"]
+shape = SubResource("hitbox_baboons_praising_2")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="isis_nephthys_standing_2" type="Area2D" parent="Hitboxes"]
+position = Vector2(3271.0, 364.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "isis_nephthys_standing_2"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/isis_nephthys_standing_2"]
+shape = SubResource("hitbox_isis_nephthys_standing_2")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="baboons_seated_x" type="Area2D" parent="Hitboxes"]
+position = Vector2(3534.0, 421.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "baboons_seated_x"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/baboons_seated_x"]
+shape = SubResource("hitbox_baboons_seated_x")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="khepri_boat" type="Area2D" parent="Hitboxes"]
+position = Vector2(4033.0, 384.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "khepri_boat"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/khepri_boat"]
+shape = SubResource("hitbox_khepri_boat")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="inscriptions_ix" type="Area2D" parent="Hitboxes"]
+position = Vector2(5346.0, 119.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "inscriptions_ix"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/inscriptions_ix"]
+shape = SubResource("hitbox_inscriptions_ix")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="deceased_kneeling" type="Area2D" parent="Hitboxes"]
+position = Vector2(4417.0, 420.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "deceased_kneeling"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/deceased_kneeling"]
+shape = SubResource("hitbox_deceased_kneeling")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="two_apes_isis_nephthys" type="Area2D" parent="Hitboxes"]
+position = Vector2(4638.0, 438.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "two_apes_isis_nephthys"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/two_apes_isis_nephthys"]
+shape = SubResource("hitbox_two_apes_isis_nephthys")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="falcon_on_standard" type="Area2D" parent="Hitboxes"]
+position = Vector2(4852.0, 389.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "falcon_on_standard"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/falcon_on_standard"]
+shape = SubResource("hitbox_falcon_on_standard")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="great_cat_and_apep" type="Area2D" parent="Hitboxes"]
+position = Vector2(5020.0, 443.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "great_cat_and_apep"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/great_cat_and_apep"]
+shape = SubResource("hitbox_great_cat_and_apep")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="ished_tree" type="Area2D" parent="Hitboxes"]
+position = Vector2(5206.0, 370.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "ished_tree"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/ished_tree"]
+shape = SubResource("hitbox_ished_tree")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="small_seated_god" type="Area2D" parent="Hitboxes"]
+position = Vector2(5319.0, 463.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "small_seated_god"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/small_seated_god"]
+shape = SubResource("hitbox_small_seated_god")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="twin_souls" type="Area2D" parent="Hitboxes"]
+position = Vector2(5557.0, 406.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "twin_souls"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/twin_souls"]
+shape = SubResource("hitbox_twin_souls")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="two_bowls" type="Area2D" parent="Hitboxes"]
+position = Vector2(5850.0, 435.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "two_bowls"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/two_bowls"]
+shape = SubResource("hitbox_two_bowls")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="horus_khenty_irty" type="Area2D" parent="Hitboxes"]
+position = Vector2(6045.0, 367.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "horus_khenty_irty"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/horus_khenty_irty"]
+shape = SubResource("hitbox_horus_khenty_irty")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spirit_with_emblem" type="Area2D" parent="Hitboxes"]
+position = Vector2(6144.0, 374.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spirit_with_emblem"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spirit_with_emblem"]
+shape = SubResource("hitbox_spirit_with_emblem")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="duamutef" type="Area2D" parent="Hitboxes"]
+position = Vector2(6219.0, 406.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "duamutef"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/duamutef"]
+shape = SubResource("hitbox_duamutef")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="imsety" type="Area2D" parent="Hitboxes"]
+position = Vector2(6302.0, 405.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "imsety"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/imsety"]
+shape = SubResource("hitbox_imsety")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="chest_with_head_of_ra" type="Area2D" parent="Hitboxes"]
+position = Vector2(6429.0, 359.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "chest_with_head_of_ra"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/chest_with_head_of_ra"]
+shape = SubResource("hitbox_chest_with_head_of_ra")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="hapy" type="Area2D" parent="Hitboxes"]
+position = Vector2(6548.0, 411.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "hapy"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/hapy"]
+shape = SubResource("hitbox_hapy")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="qebehsenuef" type="Area2D" parent="Hitboxes"]
+position = Vector2(6620.0, 417.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "qebehsenuef"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/qebehsenuef"]
+shape = SubResource("hitbox_qebehsenuef")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="mehet_weret" type="Area2D" parent="Hitboxes"]
+position = Vector2(6814.0, 367.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "mehet_weret"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/mehet_weret"]
+shape = SubResource("hitbox_mehet_weret")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="inscriptions_viii" type="Area2D" parent="Hitboxes"]
+position = Vector2(8050.0, 109.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "inscriptions_viii"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/inscriptions_viii"]
+shape = SubResource("hitbox_inscriptions_viii")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="offerer_before_cow" type="Area2D" parent="Hitboxes"]
+position = Vector2(7041.0, 409.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "offerer_before_cow"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/offerer_before_cow"]
+shape = SubResource("hitbox_offerer_before_cow")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="wedjat_shrine" type="Area2D" parent="Hitboxes"]
+position = Vector2(7191.0, 390.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "wedjat_shrine"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/wedjat_shrine"]
+shape = SubResource("hitbox_wedjat_shrine")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="thoth_baboon" type="Area2D" parent="Hitboxes"]
+position = Vector2(7358.0, 434.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "thoth_baboon"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/thoth_baboon"]
+shape = SubResource("hitbox_thoth_baboon")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="rosetau_gate" type="Area2D" parent="Hitboxes"]
+position = Vector2(7503.0, 361.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "rosetau_gate"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/rosetau_gate"]
+shape = SubResource("hitbox_rosetau_gate")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="heh_and_wadj_wer" type="Area2D" parent="Hitboxes"]
+position = Vector2(7867.0, 398.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "heh_and_wadj_wer"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/heh_and_wadj_wer"]
+shape = SubResource("hitbox_heh_and_wadj_wer")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="nephthys_kite" type="Area2D" parent="Hitboxes"]
+position = Vector2(8253.0, 436.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "nephthys_kite"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/nephthys_kite"]
+shape = SubResource("hitbox_nephthys_kite")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="mummy_on_bier" type="Area2D" parent="Hitboxes"]
+position = Vector2(8578.0, 429.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "mummy_on_bier"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/mummy_on_bier"]
+shape = SubResource("hitbox_mummy_on_bier")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="isis_kite" type="Area2D" parent="Hitboxes"]
+position = Vector2(8880.0, 425.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "isis_kite"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/isis_kite"]
+shape = SubResource("hitbox_isis_kite")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="benu" type="Area2D" parent="Hitboxes"]
+position = Vector2(9054.0, 454.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "benu"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/benu"]
+shape = SubResource("hitbox_benu")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="lion_tomorrow" type="Area2D" parent="Hitboxes"]
+position = Vector2(9246.0, 422.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "lion_tomorrow"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/lion_tomorrow"]
+shape = SubResource("hitbox_lion_tomorrow")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="horizon" type="Area2D" parent="Hitboxes"]
+position = Vector2(9358.0, 347.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "horizon"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/horizon"]
+shape = SubResource("hitbox_horizon")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="inscriptions_vii" type="Area2D" parent="Hitboxes"]
+position = Vector2(10612.0, 148.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "inscriptions_vii"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/inscriptions_vii"]
+shape = SubResource("hitbox_inscriptions_vii")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="lion_yesterday" type="Area2D" parent="Hitboxes"]
+position = Vector2(9470.0, 420.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "lion_yesterday"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/lion_yesterday"]
+shape = SubResource("hitbox_lion_yesterday")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="sun_boat_with_crew" type="Area2D" parent="Hitboxes"]
+position = Vector2(10170.0, 359.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "sun_boat_with_crew"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/sun_boat_with_crew"]
+shape = SubResource("hitbox_sun_boat_with_crew")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="adorer_with_flowers" type="Area2D" parent="Hitboxes"]
+position = Vector2(10817.0, 361.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "adorer_with_flowers"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/adorer_with_flowers"]
+shape = SubResource("hitbox_adorer_with_flowers")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="adorer_before_boat" type="Area2D" parent="Hitboxes"]
+position = Vector2(10973.0, 395.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "adorer_before_boat"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/adorer_before_boat"]
+shape = SubResource("hitbox_adorer_before_boat")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="ba" type="Area2D" parent="Hitboxes"]
+position = Vector2(11167.0, 388.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "ba"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/ba"]
+shape = SubResource("hitbox_ba")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="falcon_on_perch" type="Area2D" parent="Hitboxes"]
+position = Vector2(11357.0, 380.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "falcon_on_perch"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/falcon_on_perch"]
+shape = SubResource("hitbox_falcon_on_perch")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="senet_booth" type="Area2D" parent="Hitboxes"]
+position = Vector2(11602.0, 376.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "senet_booth"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/senet_booth"]
+shape = SubResource("hitbox_senet_booth")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)

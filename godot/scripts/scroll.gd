@@ -1,7 +1,7 @@
 ## The whole scroll as the player walks it: its scenes in order, which are restored, and the
 ## settings, kept in user://scroll.cfg. An autoload (`Scroll`). A scene is built once
-## scenes/<key>.tscn exists; scenes not yet built are skipped when moving on. Every built scene can
-## be opened (nothing is locked yet).
+## scenes/<key>.tscn exists; scenes not yet built are skipped when moving on. Scenes unlock one at a
+## time, in order, and a scene can be viewed once restored; debug builds open and view every built scene.
 extends Node
 
 const SAVE := "user://scroll.cfg"
@@ -36,7 +36,7 @@ const SCENES := [
 	{"key": "boats", "act": "III", "title": "Thoth and the Boats", "spells": "93–109", "plates": "XXXIV–XXXIX",
 		"about": "Thoth, the palette, and the boats of the sky."},
 	{"key": "field", "act": "IV", "title": "The Field of Offerings", "spells": "110", "plates": "XL–XLII",
-		"about": "Plough, sow, reap and thresh; feed the gods; sail to the landing."},
+		"about": "Three registers framed by water: the offerings to the gods, the ploughing, sowing and reaping, and the boats to the landing."},
 	{"key": "souls", "act": "IV", "title": "The Souls of the Towns", "spells": "112–124", "plates": "XLIII–XLV",
 		"about": "The souls of Pe, Nekhen and Hermopolis; Anubis leads the way."},
 	{"key": "lake", "act": "V", "title": "The Lake of Fire", "spells": "126–143", "plates": "LI–LIX",
@@ -57,6 +57,7 @@ const SCENES := [
 
 var restored: Array[String] = []
 var viewing := false              ## the open scene is a restored scroll to walk and read: no puzzles
+var unlock_all := OS.is_debug_build()   ## every built scene can be played and viewed, whatever is restored
 var sound := 7                    ## 0..10
 var fullscreen := false
 
@@ -72,6 +73,16 @@ func _ready() -> void:
 
 func is_built(key: String) -> bool:
 	return ResourceLoader.exists(_path(key))
+
+
+## A built scene can be played once restored or when it is the next one (any built scene with `unlock_all`).
+func is_open(key: String) -> bool:
+	return is_built(key) and (unlock_all or key in restored or key == current())
+
+
+## A built scene can be viewed once restored (any built scene with `unlock_all`).
+func can_view(key: String) -> bool:
+	return is_built(key) and (unlock_all or key in restored)
 
 
 ## The first unfinished built scene; empty once every playable scene is complete.

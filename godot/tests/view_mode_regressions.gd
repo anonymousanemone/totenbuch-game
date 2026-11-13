@@ -60,6 +60,7 @@ func _run() -> void:
 	var map = load("res://scenes/scroll.tscn").instantiate()
 	root.add_child(map)
 	await process_frame
+	scroll.unlock_all = false
 	map.choose("procession")
 	expect(not map.chosen_view.visible, "map: an unrestored level offers no View")
 	scroll.restored.append("procession")
@@ -67,6 +68,11 @@ func _run() -> void:
 	expect(map.chosen_view.visible and map.chosen_view.text == "View" and map.chosen_go.text == "Play again", "map: a restored level offers Play again and View")
 	map.choose("hall")
 	expect(not map.chosen_view.visible, "map: an unbuilt level offers no View")
+	scroll.unlock_all = true
+	scroll.restored.clear()
+	map.choose("procession")
+	expect(map.chosen_view.visible, "map: in debug builds an unrestored level offers View")
+	scroll.unlock_all = OS.is_debug_build()
 	scroll.restored.assign(before)
 	map.queue_free()
 	await process_frame

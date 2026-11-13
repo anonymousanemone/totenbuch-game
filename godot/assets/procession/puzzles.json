@@ -1,6 +1,8 @@
 {
   "messages": {
-    "procession.complete": "The procession is in order. Head over to Ra on his throne.",
+    "procession.complete": "Off to the left, something glows.",
+    "procession.stela_glows": "The stela glows faintly.",
+    "procession.stela_far": "Something has changed to the %s.",
     "procession.start": "The procession has stalled. Walk left and see what is wrong. Click on things to examine them.",
     "procession.kneel": "The procession has arrived. Kneel before Ra as he sets."
   },
@@ -202,7 +204,7 @@
     },
     "procession.opening_mouth": {
       "instructions": "Help me finish his face. Click with the adze tip within the faint eye and mouth. [esc] steps away.",
-      "success": "The words stand over Ra again, as they are written.",
+      "success": "The words are back over Ra. They read:",
       "feedback": {
         "success_opened": "You touch the adze to the mummy's mouth. Its mouth opens, and words come out.",
         "adze_taken": "You take the adze from the low table: a hooked blade on a long handle.",

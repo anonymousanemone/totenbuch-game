@@ -29,6 +29,7 @@ enum Glow { DEFAULT, PROCESSION, DANGER, SUCCESS }
 const SUCCESS_GLOW := Color(160.0 / 255.0, 170.0 / 255.0, 114.0 / 255.0, 0.4)  ## dull olive green #a0aa72
 const SUCCESS_IN := 0.8       ## s for a success glow to come up ...
 const SUCCESS_OUT := 3.2      ## ... and to fade
+const SUCCESS_INK := Color("3f7a2a")  ## a success line in the strip turns this green, then back to ink
 const VIEW := Color(1.7, 1.25, 0.45)  ## tints the frame band while only walking and reading a restored scroll
 const DIM := Color(0.12, 0.08, 0.04, 0.5)
 const INK_TINT := Color(DANGER.r / INK.r, DANGER.g / INK.g, DANGER.b / INK.b)

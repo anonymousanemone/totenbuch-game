@@ -11,8 +11,9 @@ from C. H. S. Davis, *The Egyptian Book of the Dead* (1894), which translates th
 (`CAPTIONS` in `godot/scripts/procession/procession.gd`; each danger's `caption` and `title` in
 `godot/scripts/dangers/danger_encounters.gd`).
 
-Playable from the map: the Procession, Night Journey, Dangers, Survival and Sustenance, and Gates.
-The Field of Offerings and Weighing of the Heart are in `archive/` (see its README).
+Playable from the map: the Procession, Night Journey, Dangers, Survival and Sustenance, the Field of
+Offerings (to walk and read, without puzzles for now) and Gates. The Weighing of the Heart is in
+`archive/` (see its README).
 
 ## Levels
 

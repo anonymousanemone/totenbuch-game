@@ -1,0 +1,2273 @@
+[gd_scene format=3 uid="uid://by3solfgkckbx"]
+
+[ext_resource type="Texture2D" uid="uid://da18c7ihkkvqh" path="res://assets/field/figures/adorant_heron.png" id="adorant_heron"]
+[ext_resource type="Texture2D" uid="uid://cxtlmjx3kdlys" path="res://assets/field/figures/adorant_left.png" id="adorant_left"]
+[ext_resource type="Texture2D" uid="uid://bhtlgih2wa7kx" path="res://assets/field/figures/adorant_offering.png" id="adorant_offering"]
+[ext_resource type="Texture2D" uid="uid://cch36wrgi1yf4" path="res://assets/field/figures/adorant_procession.png" id="adorant_procession"]
+[ext_resource type="Texture2D" uid="uid://okpiaq6tn8g3" path="res://assets/field/figures/adorant_right.png" id="adorant_right"]
+[ext_resource type="Script" uid="uid://cfiivvydggr46" path="res://scripts/avatar.gd" id="avatar"]
+[ext_resource type="Texture2D" uid="uid://bbrmc7ytkkph" path="res://assets/field/figures/bird_on_offerings.png" id="bird_on_offerings"]
+[ext_resource type="Texture2D" uid="uid://djemhybt4es4j" path="res://assets/field/figures/bird_stand.png" id="bird_stand"]
+[ext_resource type="Texture2D" uid="uid://clwud3mfescpb" path="res://assets/field/figures/boat.png" id="boat"]
+[ext_resource type="Texture2D" uid="uid://dij6kn2j84qlc" path="res://assets/field/figures/canal_god_1.png" id="canal_god_1"]
+[ext_resource type="Texture2D" uid="uid://cgbtadig1j644" path="res://assets/field/figures/canal_god_2.png" id="canal_god_2"]
+[ext_resource type="Texture2D" uid="uid://chgcipsxblqpx" path="res://assets/field/figures/canal_god_3.png" id="canal_god_3"]
+[ext_resource type="Texture2D" uid="uid://cqswb05ynkvtk" path="res://assets/field/figures/caption_bot_birthplace.png" id="caption_bot_birthplace"]
+[ext_resource type="Texture2D" uid="uid://b0i04n83ut6cx" path="res://assets/field/figures/caption_bot_blessed.png" id="caption_bot_blessed"]
+[ext_resource type="Texture2D" uid="uid://d3kkynig3hyqj" path="res://assets/field/figures/caption_bot_destroying_water.png" id="caption_bot_destroying_water"]
+[ext_resource type="Texture2D" uid="uid://d21qyxxx2hgqq" path="res://assets/field/figures/caption_bot_great_food.png" id="caption_bot_great_food"]
+[ext_resource type="Texture2D" uid="uid://1kq31byk4oth" path="res://assets/field/figures/caption_bot_heron_island.png" id="caption_bot_heron_island"]
+[ext_resource type="Texture2D" uid="uid://d3isbycxex8cb" path="res://assets/field/figures/caption_bot_island_re.png" id="caption_bot_island_re"]
+[ext_resource type="Texture2D" uid="uid://degn2eqv054u" path="res://assets/field/figures/caption_bot_oval_food.png" id="caption_bot_oval_food"]
+[ext_resource type="Texture2D" uid="uid://c7dphmjr4j2wd" path="res://assets/field/figures/caption_bot_oval_nehet.png" id="caption_bot_oval_nehet"]
+[ext_resource type="Texture2D" uid="uid://d2x00e1fvg1ut" path="res://assets/field/figures/caption_bot_oval_slaughter.png" id="caption_bot_oval_slaughter"]
+[ext_resource type="Texture2D" uid="uid://cgiw4m8gsxcgf" path="res://assets/field/figures/caption_bot_oval_strong.png" id="caption_bot_oval_strong"]
+[ext_resource type="Texture2D" uid="uid://1iedp6mdkiek" path="res://assets/field/figures/caption_bot_rehorakhty_bark.png" id="caption_bot_rehorakhty_bark"]
+[ext_resource type="Texture2D" uid="uid://mwx4e2k2ucgp" path="res://assets/field/figures/caption_bot_three_gods.png" id="caption_bot_three_gods"]
+[ext_resource type="Texture2D" uid="uid://dmrlirmuep47g" path="res://assets/field/figures/caption_bot_throne_bark.png" id="caption_bot_throne_bark"]
+[ext_resource type="Texture2D" uid="uid://cqv321e6e52bw" path="res://assets/field/figures/caption_mid_hapi.png" id="caption_mid_hapi"]
+[ext_resource type="Texture2D" uid="uid://d2275f1on3cc2" path="res://assets/field/figures/caption_mid_hippo_lake.png" id="caption_mid_hippo_lake"]
+[ext_resource type="Texture2D" uid="uid://b2gsuaqoxgoom" path="res://assets/field/figures/caption_mid_osiris.png" id="caption_mid_osiris"]
+[ext_resource type="Texture2D" uid="uid://bpn6rm6qr70h1" path="res://assets/field/figures/caption_mid_oval_flourishing.png" id="caption_mid_oval_flourishing"]
+[ext_resource type="Texture2D" uid="uid://mrqvnnwm7klk" path="res://assets/field/figures/caption_mid_oval_great_green.png" id="caption_mid_oval_great_green"]
+[ext_resource type="Texture2D" uid="uid://b34yc7q4jy0qw" path="res://assets/field/figures/caption_mid_oval_hotep.png" id="caption_mid_oval_hotep"]
+[ext_resource type="Texture2D" uid="uid://dtb2hiu8as6v1" path="res://assets/field/figures/caption_mid_oval_knife.png" id="caption_mid_oval_knife"]
+[ext_resource type="Texture2D" uid="uid://cowqavy1ebqx8" path="res://assets/field/figures/caption_mid_overflow.png" id="caption_mid_overflow"]
+[ext_resource type="Texture2D" uid="uid://2m6ukmrllnyt" path="res://assets/field/figures/caption_mid_ploughing.png" id="caption_mid_ploughing"]
+[ext_resource type="Texture2D" uid="uid://ctqkeyp6pblf1" path="res://assets/field/figures/caption_top_being_hotep.png" id="caption_top_being_hotep"]
+[ext_resource type="Texture2D" uid="uid://d01dbidrrkikq" path="res://assets/field/figures/caption_top_great_ennead.png" id="caption_top_great_ennead"]
+[ext_resource type="Texture2D" uid="uid://dggexggsykn5x" path="res://assets/field/figures/caption_top_horizon_gods.png" id="caption_top_horizon_gods"]
+[ext_resource type="Texture2D" uid="uid://dq3eh751g10gl" path="res://assets/field/figures/caption_top_hotep_falcon.png" id="caption_top_hotep_falcon"]
+[ext_resource type="Texture2D" uid="uid://blipebuxxpjes" path="res://assets/field/figures/caption_top_osiris_boat.png" id="caption_top_osiris_boat"]
+[ext_resource type="Texture2D" uid="uid://cyaht3lks2d26" path="res://assets/field/figures/caption_top_osiris_cup.png" id="caption_top_osiris_cup"]
+[ext_resource type="Texture2D" uid="uid://y4yegegx0jl8" path="res://assets/field/figures/caption_top_osiris_procession.png" id="caption_top_osiris_procession"]
+[ext_resource type="Texture2D" uid="uid://dco50xkag2kk5" path="res://assets/field/figures/caption_top_oval_great_town.png" id="caption_top_oval_great_town"]
+[ext_resource type="Texture2D" uid="uid://dsb7oprlaoyai" path="res://assets/field/figures/caption_top_oval_no_sweat.png" id="caption_top_oval_no_sweat"]
+[ext_resource type="Texture2D" uid="uid://bmbrqt01x1p1p" path="res://assets/field/figures/caption_top_oval_qenqenet.png" id="caption_top_oval_qenqenet"]
+[ext_resource type="Texture2D" uid="uid://ds7ylfn1dx5kb" path="res://assets/field/figures/caption_top_rowing.png" id="caption_top_rowing"]
+[ext_resource type="Texture2D" uid="uid://c0ji4v5yur0oq" path="res://assets/field/figures/column_left_short.png" id="column_left_short"]
+[ext_resource type="Texture2D" uid="uid://o8tufjevu53p" path="res://assets/field/figures/column_left_tall.png" id="column_left_tall"]
+[ext_resource type="Texture2D" uid="uid://bq5do7e1hccbf" path="res://assets/field/figures/column_right_short.png" id="column_right_short"]
+[ext_resource type="Texture2D" uid="uid://bup1irh5hsudn" path="res://assets/field/figures/column_right_tall.png" id="column_right_tall"]
+[ext_resource type="Texture2D" uid="uid://bmwl0qy48chhu" path="res://assets/field/figures/crops_left.png" id="crops_left"]
+[ext_resource type="Texture2D" uid="uid://yiot3ouucjw" path="res://assets/field/figures/crops_right.png" id="crops_right"]
+[ext_resource type="Texture2D" uid="uid://bbufy3syufpi0" path="res://assets/field/figures/cup_bearer_boat.png" id="cup_bearer_boat"]
+[ext_resource type="Texture2D" uid="uid://dl4mgsyiqohra" path="res://assets/field/figures/cup_bearer_procession.png" id="cup_bearer_procession"]
+[ext_resource type="Texture2D" uid="uid://crlv5eif2w2sl" path="res://assets/field/figures/dais.png" id="dais"]
+[ext_resource type="Texture2D" uid="uid://b3lrl3y7qpyt5" path="res://assets/field/figures/enthroned_god.png" id="enthroned_god"]
+[ext_resource type="Texture2D" uid="uid://bmjft51uoa4rk" path="res://assets/field/figures/falcon.png" id="falcon"]
+[ext_resource type="Texture2D" uid="uid://w528qyv6f7fc" path="res://assets/field/figures/flail_man.png" id="flail_man"]
+[ext_resource type="Texture2D" uid="uid://cd0odcrialom5" path="res://assets/field/figures/grain_heap_left.png" id="grain_heap_left"]
+[ext_resource type="Texture2D" uid="uid://dy3354sjoemms" path="res://assets/field/figures/grain_heap_right.png" id="grain_heap_right"]
+[ext_resource type="Texture2D" uid="uid://dqogmt7ufb763" path="res://assets/field/figures/heaped_stand.png" id="heaped_stand"]
+[ext_resource type="Texture2D" uid="uid://ccuxpsn8d2uh2" path="res://assets/field/figures/heron.png" id="heron"]
+[ext_resource type="Texture2D" uid="uid://16qn2coooiv5" path="res://assets/field/figures/hoe_man.png" id="hoe_man"]
+[ext_resource type="Script" uid="uid://c8ayee7wdepte" path="res://scripts/hud.gd" id="hud"]
+[ext_resource type="Texture2D" uid="uid://8v4cndj5ue7j" path="res://assets/field/figures/human_headed_bird.png" id="human_headed_bird"]
+[ext_resource type="Texture2D" uid="uid://bbtor806vhq62" path="res://assets/field/figures/kneeling_man.png" id="kneeling_man"]
+[ext_resource type="Texture2D" uid="uid://dst2vumxnyh5k" path="res://assets/field/figures/landing_steps.png" id="landing_steps"]
+[ext_resource type="Script" uid="uid://2whlwu7p5xqd" path="res://scripts/field/field.gd" id="level"]
+[ext_resource type="Texture2D" uid="uid://oxbmg0bcl5dt" path="res://assets/field/figures/mummiform_god.png" id="mummiform_god"]
+[ext_resource type="Texture2D" uid="uid://ufe7wqcq7wp2" path="res://assets/field/figures/offering_stand.png" id="offering_stand"]
+[ext_resource type="Texture2D" uid="uid://celvyld13h5pq" path="res://assets/field/figures/panel1_barque.png" id="panel1_barque"]
+[ext_resource type="Texture2D" uid="uid://bh3m80xqmk20v" path="res://assets/field/figures/panel1_goddesses.png" id="panel1_goddesses"]
+[ext_resource type="Texture2D" uid="uid://v72pqqaqydb" path="res://assets/field/figures/panel2_adorant.png" id="panel2_adorant"]
+[ext_resource type="Texture2D" uid="uid://djfkt3gg3lhxj" path="res://assets/field/figures/panel2_deceased.png" id="panel2_deceased"]
+[ext_resource type="Texture2D" uid="uid://bikvxwx11a5gj" path="res://assets/field/figures/panel2_enthroned.png" id="panel2_enthroned"]
+[ext_resource type="Texture2D" uid="uid://dscj8orjj3ebd" path="res://assets/field/figures/panel2_stand.png" id="panel2_stand"]
+[ext_resource type="Texture2D" uid="uid://tf2okjji678k" path="res://assets/field/figures/panel3_gods.png" id="panel3_gods"]
+[ext_resource type="Texture2D" uid="uid://dfsuhv83sqpgi" path="res://assets/field/figures/panel3_kneeling.png" id="panel3_kneeling"]
+[ext_resource type="Texture2D" uid="uid://csr28jj416pk0" path="res://assets/field/figures/panel3_table.png" id="panel3_table"]
+[ext_resource type="Texture2D" uid="uid://np02i6tpk3sc" path="res://assets/field/figures/panel4_gods.png" id="panel4_gods"]
+[ext_resource type="Texture2D" uid="uid://cax5jo1dlvuer" path="res://assets/field/figures/panel4_kneeling.png" id="panel4_kneeling"]
+[ext_resource type="Texture2D" uid="uid://efdrdq8b1p7r" path="res://assets/field/figures/panel4_stand.png" id="panel4_stand"]
+[ext_resource type="Texture2D" uid="uid://djlelmr5fr3nx" path="res://assets/field/figures/panel4_table.png" id="panel4_table"]
+[ext_resource type="Shader" uid="uid://cuel7upwgpsc3" path="res://scripts/papyrus.gdshader" id="papyrus"]
+[ext_resource type="Texture2D" uid="uid://3vtyg4140wo8" path="res://assets/field/figures/plough_ox.png" id="plough_ox"]
+[ext_resource type="Texture2D" uid="uid://cc3syepcqhglk" path="res://assets/field/figures/reaper_left.png" id="reaper_left"]
+[ext_resource type="Texture2D" uid="uid://bodfub5kqtw70" path="res://assets/field/figures/reaper_right.png" id="reaper_right"]
+[ext_resource type="Texture2D" uid="uid://8bhc1luxg3cs" path="res://assets/field/figures/round_sign_1.png" id="round_sign_1"]
+[ext_resource type="Texture2D" uid="uid://bsell7dctagse" path="res://assets/field/figures/round_sign_2.png" id="round_sign_2"]
+[ext_resource type="Texture2D" uid="uid://bqdbbmdflliid" path="res://assets/field/figures/round_sign_3.png" id="round_sign_3"]
+[ext_resource type="Texture2D" uid="uid://d3j6ueqsqkeyo" path="res://assets/field/figures/seated_god_1.png" id="seated_god_1"]
+[ext_resource type="Texture2D" uid="uid://bdwtrv5g8xnru" path="res://assets/field/figures/seated_god_2.png" id="seated_god_2"]
+[ext_resource type="Texture2D" uid="uid://be25o5j4yddfj" path="res://assets/field/figures/seated_god_3.png" id="seated_god_3"]
+[ext_resource type="Texture2D" uid="uid://dymub1p2v0f7v" path="res://assets/field/figures/seed.png" id="seed"]
+[ext_resource type="Texture2D" uid="uid://1wiunubrf3qv" path="res://assets/field/figures/sower.png" id="sower"]
+[ext_resource type="Texture2D" uid="uid://c8olsvwx7nr7v" path="res://assets/field/figures/stairway_boat.png" id="stairway_boat"]
+[ext_resource type="Texture2D" uid="uid://cmx7ixlli28fp" path="res://assets/field/figures/strip.png" id="strip"]
+[ext_resource type="Texture2D" uid="uid://dg6g8p0od71lt" path="res://assets/field/figures/threshing_floor.png" id="threshing_floor"]
+[ext_resource type="Texture2D" uid="uid://bhuyxw6re7qsw" path="res://assets/field/figures/threshing_ox.png" id="threshing_ox"]
+[ext_resource type="Texture2D" uid="uid://tmbvi0lf8qsq" path="res://assets/field/figures/throne_boat.png" id="throne_boat"]
+[ext_resource type="Texture2D" uid="uid://cjkdyay7c8d21" path="res://assets/field/figures/tree.png" id="tree"]
+[ext_resource type="Texture2D" uid="uid://d0evnkmek6wlf" path="res://assets/field/figures/walking_worshipper.png" id="walking_worshipper"]
+[ext_resource type="Texture2D" uid="uid://bjs4r52254ipn" path="res://assets/field/figures/yoke_bearer.png" id="yoke_bearer"]
+
+[sub_resource type="ShaderMaterial" id="paper"]
+shader = ExtResource("papyrus")
+shader_parameter/base = Color(0.906, 0.839, 0.682, 1)
+shader_parameter/fibre = Color(0.47, 0.35, 0.16, 1)
+
+[sub_resource type="RectangleShape2D" id="hitbox_landing_steps"]
+size = Vector2(112, 112)
+
+[sub_resource type="RectangleShape2D" id="hitbox_canal_god_3"]
+size = Vector2(76, 124)
+
+[sub_resource type="RectangleShape2D" id="hitbox_canal_god_2"]
+size = Vector2(72, 128)
+
+[sub_resource type="RectangleShape2D" id="hitbox_canal_god_1"]
+size = Vector2(84, 140)
+
+[sub_resource type="RectangleShape2D" id="hitbox_throne_boat"]
+size = Vector2(1136, 352)
+
+[sub_resource type="RectangleShape2D" id="hitbox_stairway_boat"]
+size = Vector2(780, 232)
+
+[sub_resource type="RectangleShape2D" id="hitbox_caption_bot_heron_island"]
+size = Vector2(244, 364)
+
+[sub_resource type="RectangleShape2D" id="hitbox_plough_ox"]
+size = Vector2(424, 312)
+
+[sub_resource type="RectangleShape2D" id="hitbox_hoe_man"]
+size = Vector2(220, 364)
+
+[sub_resource type="RectangleShape2D" id="hitbox_seed"]
+size = Vector2(176, 360)
+
+[sub_resource type="RectangleShape2D" id="hitbox_sower"]
+size = Vector2(168, 364)
+
+[sub_resource type="RectangleShape2D" id="hitbox_tree"]
+size = Vector2(144, 464)
+
+[sub_resource type="RectangleShape2D" id="hitbox_crops_right"]
+size = Vector2(244, 564)
+
+[sub_resource type="RectangleShape2D" id="hitbox_crops_left"]
+size = Vector2(304, 560)
+
+[sub_resource type="RectangleShape2D" id="hitbox_reaper_right"]
+size = Vector2(284, 356)
+
+[sub_resource type="RectangleShape2D" id="hitbox_reaper_left"]
+size = Vector2(256, 352)
+
+[sub_resource type="RectangleShape2D" id="hitbox_threshing_floor"]
+size = Vector2(680, 48)
+
+[sub_resource type="RectangleShape2D" id="hitbox_flail_man"]
+size = Vector2(208, 416)
+
+[sub_resource type="RectangleShape2D" id="hitbox_threshing_ox"]
+size = Vector2(500, 312)
+
+[sub_resource type="RectangleShape2D" id="hitbox_grain_heap_right"]
+size = Vector2(256, 128)
+
+[sub_resource type="RectangleShape2D" id="hitbox_grain_heap_left"]
+size = Vector2(288, 152)
+
+[sub_resource type="RectangleShape2D" id="hitbox_heron"]
+size = Vector2(168, 156)
+
+[sub_resource type="RectangleShape2D" id="hitbox_adorant_heron"]
+size = Vector2(164, 360)
+
+[sub_resource type="RectangleShape2D" id="hitbox_kneeling_man"]
+size = Vector2(128, 220)
+
+[sub_resource type="RectangleShape2D" id="hitbox_adorant_offering"]
+size = Vector2(172, 344)
+
+[sub_resource type="RectangleShape2D" id="hitbox_offering_stand"]
+size = Vector2(148, 284)
+
+[sub_resource type="RectangleShape2D" id="hitbox_enthroned_god"]
+size = Vector2(216, 400)
+
+[sub_resource type="RectangleShape2D" id="hitbox_yoke_bearer"]
+size = Vector2(188, 360)
+
+[sub_resource type="RectangleShape2D" id="hitbox_walking_worshipper"]
+size = Vector2(188, 372)
+
+[sub_resource type="RectangleShape2D" id="hitbox_adorant_procession"]
+size = Vector2(168, 368)
+
+[sub_resource type="RectangleShape2D" id="hitbox_cup_bearer_procession"]
+size = Vector2(200, 372)
+
+[sub_resource type="RectangleShape2D" id="hitbox_heaped_stand"]
+size = Vector2(164, 296)
+
+[sub_resource type="RectangleShape2D" id="hitbox_dais"]
+size = Vector2(280, 152)
+
+[sub_resource type="RectangleShape2D" id="hitbox_seated_god_3"]
+size = Vector2(92, 236)
+
+[sub_resource type="RectangleShape2D" id="hitbox_seated_god_2"]
+size = Vector2(92, 240)
+
+[sub_resource type="RectangleShape2D" id="hitbox_seated_god_1"]
+size = Vector2(104, 240)
+
+[sub_resource type="RectangleShape2D" id="hitbox_boat"]
+size = Vector2(924, 364)
+
+[sub_resource type="RectangleShape2D" id="hitbox_cup_bearer_boat"]
+size = Vector2(184, 332)
+
+[sub_resource type="RectangleShape2D" id="hitbox_human_headed_bird"]
+size = Vector2(316, 360)
+
+[sub_resource type="RectangleShape2D" id="hitbox_falcon"]
+size = Vector2(208, 408)
+
+[sub_resource type="RectangleShape2D" id="hitbox_bird_on_offerings"]
+size = Vector2(152, 76)
+
+[sub_resource type="RectangleShape2D" id="hitbox_bird_stand"]
+size = Vector2(168, 260)
+
+[sub_resource type="RectangleShape2D" id="hitbox_mummiform_god"]
+size = Vector2(144, 432)
+
+[sub_resource type="RectangleShape2D" id="hitbox_caption_top_oval_qenqenet"]
+size = Vector2(260, 136)
+
+[sub_resource type="RectangleShape2D" id="hitbox_caption_top_oval_no_sweat"]
+size = Vector2(248, 136)
+
+[sub_resource type="RectangleShape2D" id="hitbox_caption_top_oval_great_town"]
+size = Vector2(252, 136)
+
+[sub_resource type="RectangleShape2D" id="hitbox_caption_top_horizon_gods"]
+size = Vector2(96, 148)
+
+[sub_resource type="RectangleShape2D" id="hitbox_caption_top_hotep_falcon"]
+size = Vector2(192, 96)
+
+[sub_resource type="RectangleShape2D" id="hitbox_caption_top_being_hotep"]
+size = Vector2(312, 184)
+
+[sub_resource type="RectangleShape2D" id="hitbox_caption_top_osiris_cup"]
+size = Vector2(96, 256)
+
+[sub_resource type="RectangleShape2D" id="hitbox_caption_top_osiris_boat"]
+size = Vector2(80, 236)
+
+[sub_resource type="RectangleShape2D" id="hitbox_caption_top_rowing"]
+size = Vector2(96, 260)
+
+[sub_resource type="RectangleShape2D" id="hitbox_caption_top_great_ennead"]
+size = Vector2(208, 80)
+
+[sub_resource type="RectangleShape2D" id="hitbox_caption_top_osiris_procession"]
+size = Vector2(284, 80)
+
+[sub_resource type="RectangleShape2D" id="hitbox_caption_mid_hapi"]
+size = Vector2(100, 248)
+
+[sub_resource type="RectangleShape2D" id="hitbox_caption_mid_osiris"]
+size = Vector2(72, 204)
+
+[sub_resource type="RectangleShape2D" id="hitbox_caption_mid_overflow"]
+size = Vector2(132, 196)
+
+[sub_resource type="RectangleShape2D" id="hitbox_caption_mid_oval_hotep"]
+size = Vector2(216, 100)
+
+[sub_resource type="RectangleShape2D" id="hitbox_caption_mid_oval_great_green"]
+size = Vector2(208, 108)
+
+[sub_resource type="RectangleShape2D" id="hitbox_caption_mid_oval_flourishing"]
+size = Vector2(220, 108)
+
+[sub_resource type="RectangleShape2D" id="hitbox_caption_mid_oval_knife"]
+size = Vector2(228, 112)
+
+[sub_resource type="RectangleShape2D" id="hitbox_caption_mid_hippo_lake"]
+size = Vector2(876, 208)
+
+[sub_resource type="RectangleShape2D" id="hitbox_caption_mid_ploughing"]
+size = Vector2(336, 88)
+
+[sub_resource type="RectangleShape2D" id="hitbox_caption_bot_oval_food"]
+size = Vector2(204, 112)
+
+[sub_resource type="RectangleShape2D" id="hitbox_caption_bot_oval_slaughter"]
+size = Vector2(220, 112)
+
+[sub_resource type="RectangleShape2D" id="hitbox_caption_bot_oval_nehet"]
+size = Vector2(196, 92)
+
+[sub_resource type="RectangleShape2D" id="hitbox_caption_bot_oval_strong"]
+size = Vector2(200, 100)
+
+[sub_resource type="RectangleShape2D" id="hitbox_caption_bot_rehorakhty_bark"]
+size = Vector2(484, 172)
+
+[sub_resource type="RectangleShape2D" id="hitbox_caption_bot_throne_bark"]
+size = Vector2(916, 288)
+
+[sub_resource type="RectangleShape2D" id="hitbox_caption_bot_great_food"]
+size = Vector2(112, 236)
+
+[sub_resource type="RectangleShape2D" id="hitbox_caption_bot_island_re"]
+size = Vector2(124, 124)
+
+[sub_resource type="RectangleShape2D" id="hitbox_caption_bot_blessed"]
+size = Vector2(680, 248)
+
+[sub_resource type="RectangleShape2D" id="hitbox_caption_bot_birthplace"]
+size = Vector2(624, 96)
+
+[sub_resource type="RectangleShape2D" id="hitbox_caption_bot_destroying_water"]
+size = Vector2(124, 68)
+
+[sub_resource type="RectangleShape2D" id="hitbox_caption_bot_three_gods"]
+size = Vector2(80, 164)
+
+[sub_resource type="RectangleShape2D" id="hitbox_panel1_goddesses"]
+size = Vector2(264, 432)
+
+[sub_resource type="RectangleShape2D" id="hitbox_panel1_barque"]
+size = Vector2(504, 460)
+
+[sub_resource type="RectangleShape2D" id="hitbox_panel2_enthroned"]
+size = Vector2(356, 448)
+
+[sub_resource type="RectangleShape2D" id="hitbox_panel2_stand"]
+size = Vector2(108, 324)
+
+[sub_resource type="RectangleShape2D" id="hitbox_panel2_deceased"]
+size = Vector2(192, 352)
+
+[sub_resource type="RectangleShape2D" id="hitbox_panel2_adorant"]
+size = Vector2(116, 344)
+
+[sub_resource type="RectangleShape2D" id="hitbox_panel3_gods"]
+size = Vector2(276, 332)
+
+[sub_resource type="RectangleShape2D" id="hitbox_panel3_table"]
+size = Vector2(256, 392)
+
+[sub_resource type="RectangleShape2D" id="hitbox_panel3_kneeling"]
+size = Vector2(176, 304)
+
+[sub_resource type="RectangleShape2D" id="hitbox_panel4_gods"]
+size = Vector2(320, 348)
+
+[sub_resource type="RectangleShape2D" id="hitbox_panel4_stand"]
+size = Vector2(104, 204)
+
+[sub_resource type="RectangleShape2D" id="hitbox_panel4_table"]
+size = Vector2(164, 296)
+
+[sub_resource type="RectangleShape2D" id="hitbox_panel4_kneeling"]
+size = Vector2(176, 336)
+
+[sub_resource type="RectangleShape2D" id="hitbox_adorant_left"]
+size = Vector2(404, 1036)
+
+[sub_resource type="RectangleShape2D" id="hitbox_adorant_right"]
+size = Vector2(392, 1136)
+
+[node name="Field" type="Node2D" unique_id=499345563]
+script = ExtResource("level")
+
+[node name="Papyrus" type="ColorRect" parent="." unique_id=1657180173]
+material = SubResource("paper")
+offset_left = -1000.0
+offset_top = -1000.0
+offset_right = 11000.0
+offset_bottom = 4300.0
+mouse_filter = 2
+
+[node name="Strip" type="Sprite2D" parent="." unique_id=535281878]
+position = Vector2(1040, 268)
+texture = ExtResource("strip")
+centered = false
+metadata/_edit_lock_ = true
+
+[node name="Figures" type="Node2D" parent="." unique_id=1833332070]
+
+[node name="PlateXLI" type="Node2D" parent="Figures" unique_id=1314799705]
+
+[node name="Canal_deities_and_landing" type="Node2D" parent="Figures/PlateXLI" unique_id=1169851763]
+
+[node name="landing_steps" type="Sprite2D" parent="Figures/PlateXLI/Canal_deities_and_landing" unique_id=81420762]
+position = Vector2(6391, 2654)
+texture = ExtResource("landing_steps")
+centered = false
+metadata/registry_id = "landing_steps"
+metadata/source_layer_id = 26
+
+[node name="canal_god_3" type="Sprite2D" parent="Figures/PlateXLI/Canal_deities_and_landing" unique_id=1378652670]
+position = Vector2(6133, 2640)
+texture = ExtResource("canal_god_3")
+centered = false
+metadata/registry_id = "canal_god_3"
+metadata/source_layer_id = 28
+
+[node name="canal_god_2" type="Sprite2D" parent="Figures/PlateXLI/Canal_deities_and_landing" unique_id=577573710]
+position = Vector2(6069, 2637)
+texture = ExtResource("canal_god_2")
+centered = false
+metadata/registry_id = "canal_god_2"
+metadata/source_layer_id = 29
+
+[node name="canal_god_1" type="Sprite2D" parent="Figures/PlateXLI/Canal_deities_and_landing" unique_id=1889106962]
+position = Vector2(5991, 2624)
+texture = ExtResource("canal_god_1")
+centered = false
+metadata/registry_id = "canal_god_1"
+metadata/source_layer_id = 30
+
+[node name="Lower_oared_crossing" type="Node2D" parent="Figures/PlateXLI" unique_id=1744223127]
+
+[node name="throne_boat" type="Sprite2D" parent="Figures/PlateXLI/Lower_oared_crossing" unique_id=705213845]
+position = Vector2(4267, 2296)
+texture = ExtResource("throne_boat")
+centered = false
+metadata/registry_id = "throne_boat"
+metadata/source_layer_id = 33
+
+[node name="Lower_stairway_crossing" type="Node2D" parent="Figures/PlateXLI" unique_id=1569239050]
+
+[node name="stairway_boat" type="Sprite2D" parent="Figures/PlateXLI/Lower_stairway_crossing" unique_id=382814209]
+position = Vector2(3391, 2352)
+texture = ExtResource("stairway_boat")
+centered = false
+metadata/registry_id = "stairway_boat"
+metadata/source_layer_id = 36
+
+[node name="caption_bot_heron_island" type="Sprite2D" parent="Figures/PlateXLI/Lower_stairway_crossing" unique_id=1900314974]
+position = Vector2(3114, 2397)
+texture = ExtResource("caption_bot_heron_island")
+centered = false
+metadata/registry_id = "caption_bot_heron_island"
+metadata/source_layer_id = 38
+
+[node name="Ploughing_scene" type="Node2D" parent="Figures/PlateXLI" unique_id=892083726]
+
+[node name="plough_ox" type="Sprite2D" parent="Figures/PlateXLI/Ploughing_scene" unique_id=669382023]
+position = Vector2(6360, 1653)
+texture = ExtResource("plough_ox")
+centered = false
+metadata/registry_id = "plough_ox"
+metadata/source_layer_id = 41
+
+[node name="hoe_man" type="Sprite2D" parent="Figures/PlateXLI/Ploughing_scene" unique_id=2030724702]
+position = Vector2(6704, 1603)
+texture = ExtResource("hoe_man")
+centered = false
+metadata/registry_id = "hoe_man"
+metadata/source_layer_id = 42
+
+[node name="Reaping_and_sowing" type="Node2D" parent="Figures/PlateXLI" unique_id=295325555]
+
+[node name="seed" type="Sprite2D" parent="Figures/PlateXLI/Reaping_and_sowing" unique_id=1878291880]
+position = Vector2(6100, 1597)
+texture = ExtResource("seed")
+centered = false
+metadata/registry_id = "seed"
+metadata/source_layer_id = 45
+
+[node name="sower" type="Sprite2D" parent="Figures/PlateXLI/Reaping_and_sowing" unique_id=591848668]
+position = Vector2(6155, 1599)
+texture = ExtResource("sower")
+centered = false
+metadata/registry_id = "sower"
+metadata/source_layer_id = 46
+
+[node name="tree" type="Sprite2D" parent="Figures/PlateXLI/Reaping_and_sowing" unique_id=1992155205]
+position = Vector2(5940, 1498)
+texture = ExtResource("tree")
+centered = false
+metadata/registry_id = "tree"
+metadata/source_layer_id = 48
+
+[node name="crops_right" type="Sprite2D" parent="Figures/PlateXLI/Reaping_and_sowing" unique_id=413420296]
+position = Vector2(5626, 1391)
+texture = ExtResource("crops_right")
+centered = false
+metadata/registry_id = "crops_right"
+metadata/source_layer_id = 50
+
+[node name="crops_left" type="Sprite2D" parent="Figures/PlateXLI/Reaping_and_sowing" unique_id=1337811968]
+position = Vector2(5285, 1391)
+texture = ExtResource("crops_left")
+centered = false
+metadata/registry_id = "crops_left"
+metadata/source_layer_id = 51
+
+[node name="reaper_right" type="Sprite2D" parent="Figures/PlateXLI/Reaping_and_sowing" unique_id=1910120475]
+position = Vector2(5655, 1600)
+texture = ExtResource("reaper_right")
+centered = false
+metadata/registry_id = "reaper_right"
+metadata/source_layer_id = 53
+
+[node name="reaper_left" type="Sprite2D" parent="Figures/PlateXLI/Reaping_and_sowing" unique_id=1975815445]
+position = Vector2(5408, 1600)
+texture = ExtResource("reaper_left")
+centered = false
+metadata/registry_id = "reaper_left"
+metadata/source_layer_id = 54
+
+[node name="Harvest_and_threshing" type="Node2D" parent="Figures/PlateXLI" unique_id=1444443213]
+
+[node name="threshing_floor" type="Sprite2D" parent="Figures/PlateXLI/Harvest_and_threshing" unique_id=373169200]
+position = Vector2(4644, 1890)
+texture = ExtResource("threshing_floor")
+centered = false
+metadata/registry_id = "threshing_floor"
+metadata/source_layer_id = 57
+
+[node name="flail_man" type="Sprite2D" parent="Figures/PlateXLI/Harvest_and_threshing" unique_id=958348550]
+position = Vector2(5095, 1498)
+texture = ExtResource("flail_man")
+centered = false
+metadata/registry_id = "flail_man"
+metadata/source_layer_id = 58
+
+[node name="threshing_ox" type="Sprite2D" parent="Figures/PlateXLI/Harvest_and_threshing" unique_id=648024924]
+position = Vector2(4640, 1608)
+texture = ExtResource("threshing_ox")
+centered = false
+metadata/registry_id = "threshing_ox"
+metadata/source_layer_id = 59
+
+[node name="grain_heap_right" type="Sprite2D" parent="Figures/PlateXLI/Harvest_and_threshing" unique_id=1087209214]
+position = Vector2(4363, 1822)
+texture = ExtResource("grain_heap_right")
+centered = false
+metadata/registry_id = "grain_heap_right"
+metadata/source_layer_id = 61
+
+[node name="grain_heap_left" type="Sprite2D" parent="Figures/PlateXLI/Harvest_and_threshing" unique_id=1680756119]
+position = Vector2(4030, 1801)
+texture = ExtResource("grain_heap_left")
+centered = false
+metadata/registry_id = "grain_heap_left"
+metadata/source_layer_id = 62
+
+[node name="Middle_offering_scene" type="Node2D" parent="Figures/PlateXLI" unique_id=2087572428]
+
+[node name="heron" type="Sprite2D" parent="Figures/PlateXLI/Middle_offering_scene" unique_id=196952954]
+position = Vector2(3630, 1513)
+texture = ExtResource("heron")
+centered = false
+metadata/registry_id = "heron"
+metadata/source_layer_id = 65
+
+[node name="adorant_heron" type="Sprite2D" parent="Figures/PlateXLI/Middle_offering_scene" unique_id=246153373]
+position = Vector2(3810, 1591)
+texture = ExtResource("adorant_heron")
+centered = false
+metadata/registry_id = "adorant_heron"
+metadata/source_layer_id = 67
+
+[node name="kneeling_man" type="Sprite2D" parent="Figures/PlateXLI/Middle_offering_scene" unique_id=1543191990]
+position = Vector2(3541, 1720)
+texture = ExtResource("kneeling_man")
+centered = false
+metadata/registry_id = "kneeling_man"
+metadata/source_layer_id = 68
+
+[node name="adorant_offering" type="Sprite2D" parent="Figures/PlateXLI/Middle_offering_scene" unique_id=1893949634]
+position = Vector2(3395, 1609)
+texture = ExtResource("adorant_offering")
+centered = false
+metadata/registry_id = "adorant_offering"
+metadata/source_layer_id = 69
+
+[node name="offering_stand" type="Sprite2D" parent="Figures/PlateXLI/Middle_offering_scene" unique_id=107873185]
+position = Vector2(3275, 1672)
+texture = ExtResource("offering_stand")
+centered = false
+metadata/registry_id = "offering_stand"
+metadata/source_layer_id = 71
+
+[node name="enthroned_god" type="Sprite2D" parent="Figures/PlateXLI/Middle_offering_scene" unique_id=2059297365]
+position = Vector2(3105, 1533)
+texture = ExtResource("enthroned_god")
+centered = false
+metadata/registry_id = "enthroned_god"
+metadata/source_layer_id = 73
+
+[node name="Upper_offering_procession" type="Node2D" parent="Figures/PlateXLI" unique_id=117301951]
+
+[node name="yoke_bearer" type="Sprite2D" parent="Figures/PlateXLI/Upper_offering_procession" unique_id=689401487]
+position = Vector2(6727, 883)
+texture = ExtResource("yoke_bearer")
+centered = false
+metadata/registry_id = "yoke_bearer"
+metadata/source_layer_id = 76
+
+[node name="walking_worshipper" type="Sprite2D" parent="Figures/PlateXLI/Upper_offering_procession" unique_id=939023544]
+position = Vector2(6570, 872)
+texture = ExtResource("walking_worshipper")
+centered = false
+metadata/registry_id = "walking_worshipper"
+metadata/source_layer_id = 77
+
+[node name="adorant_procession" type="Sprite2D" parent="Figures/PlateXLI/Upper_offering_procession" unique_id=1492684324]
+position = Vector2(6410, 874)
+texture = ExtResource("adorant_procession")
+centered = false
+metadata/registry_id = "adorant_procession"
+metadata/source_layer_id = 78
+
+[node name="cup_bearer_procession" type="Sprite2D" parent="Figures/PlateXLI/Upper_offering_procession" unique_id=539244429]
+position = Vector2(6206, 871)
+texture = ExtResource("cup_bearer_procession")
+centered = false
+metadata/registry_id = "cup_bearer_procession"
+metadata/source_layer_id = 79
+
+[node name="heaped_stand" type="Sprite2D" parent="Figures/PlateXLI/Upper_offering_procession" unique_id=2026595818]
+position = Vector2(6078, 943)
+texture = ExtResource("heaped_stand")
+centered = false
+metadata/registry_id = "heaped_stand"
+metadata/source_layer_id = 81
+
+[node name="dais" type="Sprite2D" parent="Figures/PlateXLI/Upper_offering_procession" unique_id=1377835440]
+position = Vector2(5766, 1090)
+texture = ExtResource("dais")
+centered = false
+metadata/registry_id = "dais"
+metadata/source_layer_id = 83
+
+[node name="seated_god_3" type="Sprite2D" parent="Figures/PlateXLI/Upper_offering_procession" unique_id=1617532365]
+position = Vector2(5945, 872)
+texture = ExtResource("seated_god_3")
+centered = false
+metadata/registry_id = "seated_god_3"
+metadata/source_layer_id = 84
+
+[node name="seated_god_2" type="Sprite2D" parent="Figures/PlateXLI/Upper_offering_procession" unique_id=1178034526]
+position = Vector2(5867, 869)
+texture = ExtResource("seated_god_2")
+centered = false
+metadata/registry_id = "seated_god_2"
+metadata/source_layer_id = 85
+
+[node name="seated_god_1" type="Sprite2D" parent="Figures/PlateXLI/Upper_offering_procession" unique_id=1836772741]
+position = Vector2(5773, 869)
+texture = ExtResource("seated_god_1")
+centered = false
+metadata/registry_id = "seated_god_1"
+metadata/source_layer_id = 86
+
+[node name="Solar_crossing" type="Node2D" parent="Figures/PlateXLI" unique_id=317019144]
+
+[node name="round_sign_3" type="Sprite2D" parent="Figures/PlateXLI/Solar_crossing" unique_id=905401858]
+position = Vector2(5188, 620)
+texture = ExtResource("round_sign_3")
+centered = false
+metadata/source_layer_id = 89
+
+[node name="round_sign_2" type="Sprite2D" parent="Figures/PlateXLI/Solar_crossing" unique_id=1265736724]
+position = Vector2(5042, 625)
+texture = ExtResource("round_sign_2")
+centered = false
+metadata/source_layer_id = 90
+
+[node name="round_sign_1" type="Sprite2D" parent="Figures/PlateXLI/Solar_crossing" unique_id=520388435]
+position = Vector2(4891, 620)
+texture = ExtResource("round_sign_1")
+centered = false
+metadata/source_layer_id = 91
+
+[node name="boat" type="Sprite2D" parent="Figures/PlateXLI/Solar_crossing" unique_id=797822027]
+position = Vector2(4827, 870)
+texture = ExtResource("boat")
+centered = false
+metadata/registry_id = "boat"
+metadata/source_layer_id = 93
+
+[node name="cup_bearer_boat" type="Sprite2D" parent="Figures/PlateXLI/Solar_crossing" unique_id=1405042753]
+position = Vector2(4655, 900)
+texture = ExtResource("cup_bearer_boat")
+centered = false
+metadata/registry_id = "cup_bearer_boat"
+metadata/source_layer_id = 95
+
+[node name="Upper_sacred_figures" type="Node2D" parent="Figures/PlateXLI" unique_id=665614058]
+
+[node name="human_headed_bird" type="Sprite2D" parent="Figures/PlateXLI/Upper_sacred_figures" unique_id=1441311653]
+position = Vector2(4214, 869)
+texture = ExtResource("human_headed_bird")
+centered = false
+metadata/registry_id = "human_headed_bird"
+metadata/source_layer_id = 98
+
+[node name="falcon" type="Sprite2D" parent="Figures/PlateXLI/Upper_sacred_figures" unique_id=336462695]
+position = Vector2(3958, 820)
+texture = ExtResource("falcon")
+centered = false
+metadata/registry_id = "falcon"
+metadata/source_layer_id = 99
+
+[node name="bird_on_offerings" type="Sprite2D" parent="Figures/PlateXLI/Upper_sacred_figures" unique_id=127164612]
+position = Vector2(3700, 903)
+texture = ExtResource("bird_on_offerings")
+centered = false
+metadata/registry_id = "bird_on_offerings"
+metadata/source_layer_id = 101
+
+[node name="bird_stand" type="Sprite2D" parent="Figures/PlateXLI/Upper_sacred_figures" unique_id=192741329]
+position = Vector2(3700, 967)
+texture = ExtResource("bird_stand")
+centered = false
+metadata/registry_id = "bird_stand"
+metadata/source_layer_id = 102
+
+[node name="mummiform_god" type="Sprite2D" parent="Figures/PlateXLI/Upper_sacred_figures" unique_id=444620842]
+position = Vector2(3472, 797)
+texture = ExtResource("mummiform_god")
+centered = false
+metadata/registry_id = "mummiform_god"
+metadata/source_layer_id = 104
+
+[node name="Captions_top" type="Node2D" parent="Figures/PlateXLI" unique_id=649323395]
+
+[node name="caption_top_oval_qenqenet" type="Sprite2D" parent="Figures/PlateXLI/Captions_top" unique_id=1129888025]
+position = Vector2(3103, 622)
+texture = ExtResource("caption_top_oval_qenqenet")
+centered = false
+metadata/registry_id = "caption_top_oval_qenqenet"
+metadata/source_layer_id = 23
+
+[node name="caption_top_oval_no_sweat" type="Sprite2D" parent="Figures/PlateXLI/Captions_top" unique_id=221353735]
+position = Vector2(3357, 626)
+texture = ExtResource("caption_top_oval_no_sweat")
+centered = false
+metadata/registry_id = "caption_top_oval_no_sweat"
+metadata/source_layer_id = 23
+
+[node name="caption_top_oval_great_town" type="Sprite2D" parent="Figures/PlateXLI/Captions_top" unique_id=253052599]
+position = Vector2(3103, 773)
+texture = ExtResource("caption_top_oval_great_town")
+centered = false
+metadata/registry_id = "caption_top_oval_great_town"
+metadata/source_layer_id = 23
+
+[node name="caption_top_horizon_gods" type="Sprite2D" parent="Figures/PlateXLI/Captions_top" unique_id=1635283323]
+position = Vector2(3609, 635)
+texture = ExtResource("caption_top_horizon_gods")
+centered = false
+metadata/registry_id = "caption_top_horizon_gods"
+metadata/source_layer_id = 23
+
+[node name="caption_top_hotep_falcon" type="Sprite2D" parent="Figures/PlateXLI/Captions_top" unique_id=759843729]
+position = Vector2(3803, 644)
+texture = ExtResource("caption_top_hotep_falcon")
+centered = false
+metadata/registry_id = "caption_top_hotep_falcon"
+metadata/source_layer_id = 23
+
+[node name="caption_top_being_hotep" type="Sprite2D" parent="Figures/PlateXLI/Captions_top" unique_id=300294880]
+position = Vector2(3124, 997)
+texture = ExtResource("caption_top_being_hotep")
+centered = false
+metadata/registry_id = "caption_top_being_hotep"
+metadata/source_layer_id = 23
+
+[node name="caption_top_osiris_cup" type="Sprite2D" parent="Figures/PlateXLI/Captions_top" unique_id=1055904639]
+position = Vector2(4677, 628)
+texture = ExtResource("caption_top_osiris_cup")
+centered = false
+metadata/registry_id = "caption_top_osiris_cup"
+metadata/source_layer_id = 23
+
+[node name="caption_top_osiris_boat" type="Sprite2D" parent="Figures/PlateXLI/Captions_top" unique_id=1688359089]
+position = Vector2(5344, 631)
+texture = ExtResource("caption_top_osiris_boat")
+centered = false
+metadata/registry_id = "caption_top_osiris_boat"
+metadata/source_layer_id = 23
+
+[node name="caption_top_rowing" type="Sprite2D" parent="Figures/PlateXLI/Captions_top" unique_id=1199601337]
+position = Vector2(5430, 622)
+texture = ExtResource("caption_top_rowing")
+centered = false
+metadata/registry_id = "caption_top_rowing"
+metadata/source_layer_id = 23
+
+[node name="caption_top_great_ennead" type="Sprite2D" parent="Figures/PlateXLI/Captions_top" unique_id=1437575230]
+position = Vector2(5844, 635)
+texture = ExtResource("caption_top_great_ennead")
+centered = false
+metadata/registry_id = "caption_top_great_ennead"
+metadata/source_layer_id = 23
+
+[node name="caption_top_osiris_procession" type="Sprite2D" parent="Figures/PlateXLI/Captions_top" unique_id=271232430]
+position = Vector2(6195, 643)
+texture = ExtResource("caption_top_osiris_procession")
+centered = false
+metadata/registry_id = "caption_top_osiris_procession"
+metadata/source_layer_id = 23
+
+[node name="Captions_mid" type="Node2D" parent="Figures/PlateXLI" unique_id=720938210]
+
+[node name="caption_mid_hapi" type="Sprite2D" parent="Figures/PlateXLI/Captions_mid" unique_id=340983427]
+position = Vector2(3222, 1404)
+texture = ExtResource("caption_mid_hapi")
+centered = false
+metadata/registry_id = "caption_mid_hapi"
+metadata/source_layer_id = 23
+
+[node name="caption_mid_osiris" type="Sprite2D" parent="Figures/PlateXLI/Captions_mid" unique_id=275725933]
+position = Vector2(3387, 1396)
+texture = ExtResource("caption_mid_osiris")
+centered = false
+metadata/registry_id = "caption_mid_osiris"
+metadata/source_layer_id = 23
+
+[node name="caption_mid_overflow" type="Sprite2D" parent="Figures/PlateXLI/Captions_mid" unique_id=1407644139]
+position = Vector2(3636, 1660)
+texture = ExtResource("caption_mid_overflow")
+centered = false
+metadata/registry_id = "caption_mid_overflow"
+metadata/source_layer_id = 23
+
+[node name="caption_mid_oval_hotep" type="Sprite2D" parent="Figures/PlateXLI/Captions_mid" unique_id=1562744651]
+position = Vector2(3917, 1390)
+texture = ExtResource("caption_mid_oval_hotep")
+centered = false
+metadata/registry_id = "caption_mid_oval_hotep"
+metadata/source_layer_id = 23
+
+[node name="caption_mid_oval_great_green" type="Sprite2D" parent="Figures/PlateXLI/Captions_mid" unique_id=1424247615]
+position = Vector2(4137, 1387)
+texture = ExtResource("caption_mid_oval_great_green")
+centered = false
+metadata/registry_id = "caption_mid_oval_great_green"
+metadata/source_layer_id = 23
+
+[node name="caption_mid_oval_flourishing" type="Sprite2D" parent="Figures/PlateXLI/Captions_mid" unique_id=1201745316]
+position = Vector2(4344, 1384)
+texture = ExtResource("caption_mid_oval_flourishing")
+centered = false
+metadata/registry_id = "caption_mid_oval_flourishing"
+metadata/source_layer_id = 23
+
+[node name="caption_mid_oval_knife" type="Sprite2D" parent="Figures/PlateXLI/Captions_mid" unique_id=155411769]
+position = Vector2(4560, 1392)
+texture = ExtResource("caption_mid_oval_knife")
+centered = false
+metadata/registry_id = "caption_mid_oval_knife"
+metadata/source_layer_id = 23
+
+[node name="caption_mid_hippo_lake" type="Sprite2D" parent="Figures/PlateXLI/Captions_mid" unique_id=425173226]
+position = Vector2(3960, 1486)
+texture = ExtResource("caption_mid_hippo_lake")
+centered = false
+metadata/registry_id = "caption_mid_hippo_lake"
+metadata/source_layer_id = 23
+
+[node name="caption_mid_ploughing" type="Sprite2D" parent="Figures/PlateXLI/Captions_mid" unique_id=2008386890]
+position = Vector2(6313, 1479)
+texture = ExtResource("caption_mid_ploughing")
+centered = false
+metadata/registry_id = "caption_mid_ploughing"
+metadata/source_layer_id = 23
+
+[node name="Captions_bot" type="Node2D" parent="Figures/PlateXLI" unique_id=1416305071]
+
+[node name="caption_bot_oval_food" type="Sprite2D" parent="Figures/PlateXLI/Captions_bot" unique_id=1926465895]
+position = Vector2(3103, 2108)
+texture = ExtResource("caption_bot_oval_food")
+centered = false
+metadata/registry_id = "caption_bot_oval_food"
+metadata/source_layer_id = 23
+
+[node name="caption_bot_oval_slaughter" type="Sprite2D" parent="Figures/PlateXLI/Captions_bot" unique_id=316607849]
+position = Vector2(3297, 2108)
+texture = ExtResource("caption_bot_oval_slaughter")
+centered = false
+metadata/registry_id = "caption_bot_oval_slaughter"
+metadata/source_layer_id = 23
+
+[node name="caption_bot_oval_nehet" type="Sprite2D" parent="Figures/PlateXLI/Captions_bot" unique_id=1763972975]
+position = Vector2(3105, 2210)
+texture = ExtResource("caption_bot_oval_nehet")
+centered = false
+metadata/registry_id = "caption_bot_oval_nehet"
+metadata/source_layer_id = 23
+
+[node name="caption_bot_oval_strong" type="Sprite2D" parent="Figures/PlateXLI/Captions_bot" unique_id=1709793495]
+position = Vector2(3304, 2210)
+texture = ExtResource("caption_bot_oval_strong")
+centered = false
+metadata/registry_id = "caption_bot_oval_strong"
+metadata/source_layer_id = 23
+
+[node name="caption_bot_rehorakhty_bark" type="Sprite2D" parent="Figures/PlateXLI/Captions_bot" unique_id=1832252203]
+position = Vector2(3599, 2155)
+texture = ExtResource("caption_bot_rehorakhty_bark")
+centered = false
+metadata/registry_id = "caption_bot_rehorakhty_bark"
+metadata/source_layer_id = 23
+
+[node name="caption_bot_throne_bark" type="Sprite2D" parent="Figures/PlateXLI/Captions_bot" unique_id=408429611]
+position = Vector2(4173, 2116)
+texture = ExtResource("caption_bot_throne_bark")
+centered = false
+metadata/registry_id = "caption_bot_throne_bark"
+metadata/source_layer_id = 23
+
+[node name="caption_bot_great_food" type="Sprite2D" parent="Figures/PlateXLI/Captions_bot" unique_id=1117947564]
+position = Vector2(5521, 2119)
+texture = ExtResource("caption_bot_great_food")
+centered = false
+metadata/registry_id = "caption_bot_great_food"
+metadata/source_layer_id = 23
+
+[node name="caption_bot_island_re" type="Sprite2D" parent="Figures/PlateXLI/Captions_bot" unique_id=835755024]
+position = Vector2(5944, 2161)
+texture = ExtResource("caption_bot_island_re")
+centered = false
+metadata/registry_id = "caption_bot_island_re"
+metadata/source_layer_id = 23
+
+[node name="caption_bot_blessed" type="Sprite2D" parent="Figures/PlateXLI/Captions_bot" unique_id=1388678552]
+position = Vector2(6235, 2106)
+texture = ExtResource("caption_bot_blessed")
+centered = false
+metadata/registry_id = "caption_bot_blessed"
+metadata/source_layer_id = 23
+
+[node name="caption_bot_birthplace" type="Sprite2D" parent="Figures/PlateXLI/Captions_bot" unique_id=1319834998]
+position = Vector2(6285, 2495)
+texture = ExtResource("caption_bot_birthplace")
+centered = false
+metadata/registry_id = "caption_bot_birthplace"
+metadata/source_layer_id = 23
+
+[node name="caption_bot_destroying_water" type="Sprite2D" parent="Figures/PlateXLI/Captions_bot" unique_id=1101223699]
+position = Vector2(5996, 2535)
+texture = ExtResource("caption_bot_destroying_water")
+centered = false
+metadata/registry_id = "caption_bot_destroying_water"
+metadata/source_layer_id = 23
+
+[node name="caption_bot_three_gods" type="Sprite2D" parent="Figures/PlateXLI/Captions_bot" unique_id=873769827]
+position = Vector2(5896, 2583)
+texture = ExtResource("caption_bot_three_gods")
+centered = false
+metadata/registry_id = "caption_bot_three_gods"
+metadata/source_layer_id = 23
+
+[node name="PlateXLII" type="Node2D" parent="Figures" unique_id=1581760303]
+
+[node name="Panel_1" type="Node2D" parent="Figures/PlateXLII" unique_id=1125280898]
+
+[node name="panel1_goddesses" type="Sprite2D" parent="Figures/PlateXLII/Panel_1" unique_id=1665307700]
+position = Vector2(1090, 666)
+texture = ExtResource("panel1_goddesses")
+centered = false
+metadata/registry_id = "panel1_goddesses"
+metadata/source_layer_id = 105
+
+[node name="panel1_barque" type="Sprite2D" parent="Figures/PlateXLII/Panel_1" unique_id=1450974661]
+position = Vector2(1340, 644)
+texture = ExtResource("panel1_barque")
+centered = false
+metadata/registry_id = "panel1_barque"
+metadata/source_layer_id = 105
+
+[node name="Panel_2" type="Node2D" parent="Figures/PlateXLII" unique_id=186070518]
+
+[node name="panel2_enthroned" type="Sprite2D" parent="Figures/PlateXLII/Panel_2" unique_id=1118922490]
+position = Vector2(1095, 1295)
+texture = ExtResource("panel2_enthroned")
+centered = false
+metadata/registry_id = "panel2_enthroned"
+metadata/source_layer_id = 105
+
+[node name="panel2_stand" type="Sprite2D" parent="Figures/PlateXLII/Panel_2" unique_id=1845129376]
+position = Vector2(1448, 1419)
+texture = ExtResource("panel2_stand")
+centered = false
+metadata/registry_id = "panel2_stand"
+metadata/source_layer_id = 105
+
+[node name="panel2_deceased" type="Sprite2D" parent="Figures/PlateXLII/Panel_2" unique_id=1544517246]
+position = Vector2(1548, 1391)
+texture = ExtResource("panel2_deceased")
+centered = false
+metadata/registry_id = "panel2_deceased"
+metadata/source_layer_id = 105
+
+[node name="panel2_adorant" type="Sprite2D" parent="Figures/PlateXLII/Panel_2" unique_id=2039831118]
+position = Vector2(1730, 1400)
+texture = ExtResource("panel2_adorant")
+centered = false
+metadata/registry_id = "panel2_adorant"
+metadata/source_layer_id = 105
+
+[node name="Panel_3" type="Node2D" parent="Figures/PlateXLII" unique_id=1997807489]
+
+[node name="panel3_gods" type="Sprite2D" parent="Figures/PlateXLII/Panel_3" unique_id=1571256252]
+position = Vector2(1070, 1996)
+texture = ExtResource("panel3_gods")
+centered = false
+metadata/registry_id = "panel3_gods"
+metadata/source_layer_id = 105
+
+[node name="panel3_table" type="Sprite2D" parent="Figures/PlateXLII/Panel_3" unique_id=166787360]
+position = Vector2(1395, 1939)
+texture = ExtResource("panel3_table")
+centered = false
+metadata/registry_id = "panel3_table"
+metadata/source_layer_id = 105
+
+[node name="panel3_kneeling" type="Sprite2D" parent="Figures/PlateXLII/Panel_3" unique_id=710000609]
+position = Vector2(1645, 2026)
+texture = ExtResource("panel3_kneeling")
+centered = false
+metadata/registry_id = "panel3_kneeling"
+metadata/source_layer_id = 105
+
+[node name="Panel_4" type="Node2D" parent="Figures/PlateXLII" unique_id=1069562098]
+
+[node name="panel4_gods" type="Sprite2D" parent="Figures/PlateXLII/Panel_4" unique_id=92870824]
+position = Vector2(1070, 2576)
+texture = ExtResource("panel4_gods")
+centered = false
+metadata/registry_id = "panel4_gods"
+metadata/source_layer_id = 105
+
+[node name="panel4_stand" type="Sprite2D" parent="Figures/PlateXLII/Panel_4" unique_id=1894447236]
+position = Vector2(1380, 2715)
+texture = ExtResource("panel4_stand")
+centered = false
+metadata/registry_id = "panel4_stand"
+metadata/source_layer_id = 105
+
+[node name="panel4_table" type="Sprite2D" parent="Figures/PlateXLII/Panel_4" unique_id=977315781]
+position = Vector2(1484, 2615)
+texture = ExtResource("panel4_table")
+centered = false
+metadata/registry_id = "panel4_table"
+metadata/source_layer_id = 105
+
+[node name="panel4_kneeling" type="Sprite2D" parent="Figures/PlateXLII/Panel_4" unique_id=780138356]
+position = Vector2(1640, 2575)
+texture = ExtResource("panel4_kneeling")
+centered = false
+metadata/registry_id = "panel4_kneeling"
+metadata/source_layer_id = 105
+
+[node name="PlateXL" type="Node2D" parent="Figures" unique_id=870980750]
+
+[node name="Adorants" type="Node2D" parent="Figures/PlateXL" unique_id=371763873]
+
+[node name="adorant_left" type="Sprite2D" parent="Figures/PlateXL/Adorants" unique_id=1112100112]
+position = Vector2(1946, 1904)
+texture = ExtResource("adorant_left")
+centered = false
+metadata/registry_id = "adorant_left"
+metadata/source_layer_id = 105
+
+[node name="adorant_right" type="Sprite2D" parent="Figures/PlateXL/Adorants" unique_id=1392537274]
+position = Vector2(8106, 1802)
+texture = ExtResource("adorant_right")
+centered = false
+metadata/registry_id = "adorant_right"
+metadata/source_layer_id = 106
+
+[node name="Avatar" type="Node2D" parent="." unique_id=2079541438]
+position = Vector2(7000, 1230)
+script = ExtResource("avatar")
+
+[node name="Sprite" type="Sprite2D" parent="Avatar" unique_id=844279568]
+texture = ExtResource("walking_worshipper")
+offset = Vector2(0, -181)
+
+[node name="Foreground" type="Node2D" parent="." unique_id=1548206422]
+z_index = 6
+
+[node name="LeftShort" type="Node2D" parent="Foreground" unique_id=823086717]
+position = Vector2(1844, 424)
+
+[node name="Papyrus" type="ColorRect" parent="Foreground/LeftShort" unique_id=1885456902]
+material = SubResource("paper")
+offset_right = 550.0
+offset_bottom = 1346.0
+mouse_filter = 2
+
+[node name="Ink" type="Sprite2D" parent="Foreground/LeftShort" unique_id=888889845]
+texture = ExtResource("column_left_short")
+centered = false
+
+[node name="LeftTall" type="Node2D" parent="Foreground" unique_id=874756957]
+position = Vector2(2390, 424)
+
+[node name="Papyrus" type="ColorRect" parent="Foreground/LeftTall" unique_id=1116992412]
+material = SubResource("paper")
+offset_right = 552.0
+offset_bottom = 2516.0
+mouse_filter = 2
+
+[node name="Ink" type="Sprite2D" parent="Foreground/LeftTall" unique_id=1137545914]
+texture = ExtResource("column_left_tall")
+centered = false
+
+[node name="RightTall" type="Node2D" parent="Foreground" unique_id=2081648103]
+position = Vector2(7082, 424)
+
+[node name="Papyrus" type="ColorRect" parent="Foreground/RightTall" unique_id=544159848]
+material = SubResource("paper")
+offset_right = 885.0
+offset_bottom = 2516.0
+mouse_filter = 2
+
+[node name="Ink" type="Sprite2D" parent="Foreground/RightTall" unique_id=1799886507]
+texture = ExtResource("column_right_tall")
+centered = false
+
+[node name="RightShort" type="Node2D" parent="Foreground" unique_id=2046663817]
+position = Vector2(7960, 424)
+
+[node name="Papyrus" type="ColorRect" parent="Foreground/RightShort" unique_id=1918616329]
+material = SubResource("paper")
+offset_right = 652.0
+offset_bottom = 1243.0
+mouse_filter = 2
+
+[node name="Ink" type="Sprite2D" parent="Foreground/RightShort" unique_id=1132980878]
+texture = ExtResource("column_right_short")
+centered = false
+
+[node name="Camera" type="Camera2D" parent="." unique_id=1596611201]
+position = Vector2(7000, 900)
+
+[node name="HUD" type="CanvasLayer" parent="." unique_id=1107779566]
+script = ExtResource("hud")
+
+[node name="Hitboxes" type="Node2D" parent="." unique_id=2066878204]
+visible = false
+
+[node name="landing_steps" type="Area2D" parent="Hitboxes" unique_id=295207958]
+position = Vector2(6443, 2706)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "landing_steps"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/landing_steps" unique_id=1638873446]
+shape = SubResource("hitbox_landing_steps")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="canal_god_3" type="Area2D" parent="Hitboxes" unique_id=1864817983]
+position = Vector2(6167, 2698)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "canal_god_3"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/canal_god_3" unique_id=1351179606]
+shape = SubResource("hitbox_canal_god_3")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="canal_god_2" type="Area2D" parent="Hitboxes" unique_id=1082758127]
+position = Vector2(6101, 2697)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "canal_god_2"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/canal_god_2" unique_id=826774351]
+shape = SubResource("hitbox_canal_god_2")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="canal_god_1" type="Area2D" parent="Hitboxes" unique_id=572515483]
+position = Vector2(6029, 2690)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "canal_god_1"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/canal_god_1" unique_id=276960471]
+shape = SubResource("hitbox_canal_god_1")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="throne_boat" type="Area2D" parent="Hitboxes" unique_id=449661619]
+position = Vector2(4831, 2468)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "throne_boat"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/throne_boat" unique_id=1020276377]
+shape = SubResource("hitbox_throne_boat")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="stairway_boat" type="Area2D" parent="Hitboxes" unique_id=287701216]
+position = Vector2(3777, 2464)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "stairway_boat"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/stairway_boat" unique_id=1253189580]
+shape = SubResource("hitbox_stairway_boat")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="caption_bot_heron_island" type="Area2D" parent="Hitboxes" unique_id=1924887033]
+position = Vector2(3232, 2575)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "caption_bot_heron_island"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/caption_bot_heron_island" unique_id=486357803]
+shape = SubResource("hitbox_caption_bot_heron_island")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="plough_ox" type="Area2D" parent="Hitboxes" unique_id=443714128]
+position = Vector2(6568, 1805)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "plough_ox"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/plough_ox" unique_id=151664447]
+shape = SubResource("hitbox_plough_ox")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="hoe_man" type="Area2D" parent="Hitboxes" unique_id=277924864]
+position = Vector2(6810, 1781)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "hoe_man"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/hoe_man" unique_id=1232157052]
+shape = SubResource("hitbox_hoe_man")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="seed" type="Area2D" parent="Hitboxes" unique_id=299085414]
+position = Vector2(6184, 1773)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "seed"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/seed" unique_id=92167887]
+shape = SubResource("hitbox_seed")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="sower" type="Area2D" parent="Hitboxes" unique_id=60647828]
+position = Vector2(6235, 1777)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "sower"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/sower" unique_id=212976846]
+shape = SubResource("hitbox_sower")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="tree" type="Area2D" parent="Hitboxes" unique_id=649955215]
+position = Vector2(6008, 1726)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "tree"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/tree" unique_id=925532966]
+shape = SubResource("hitbox_tree")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="crops_right" type="Area2D" parent="Hitboxes" unique_id=1841380397]
+position = Vector2(5744, 1669)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "crops_right"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/crops_right" unique_id=940482763]
+shape = SubResource("hitbox_crops_right")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="crops_left" type="Area2D" parent="Hitboxes" unique_id=1516135256]
+position = Vector2(5433, 1667)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "crops_left"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/crops_left" unique_id=1749520903]
+shape = SubResource("hitbox_crops_left")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="reaper_right" type="Area2D" parent="Hitboxes" unique_id=321683691]
+position = Vector2(5793, 1774)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "reaper_right"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/reaper_right" unique_id=526822855]
+shape = SubResource("hitbox_reaper_right")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="reaper_left" type="Area2D" parent="Hitboxes" unique_id=1029586849]
+position = Vector2(5532, 1772)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "reaper_left"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/reaper_left" unique_id=1210007823]
+shape = SubResource("hitbox_reaper_left")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="threshing_floor" type="Area2D" parent="Hitboxes" unique_id=2071669510]
+position = Vector2(4980, 1910)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "threshing_floor"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/threshing_floor" unique_id=322944496]
+shape = SubResource("hitbox_threshing_floor")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="flail_man" type="Area2D" parent="Hitboxes" unique_id=1070199451]
+position = Vector2(5195, 1702)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "flail_man"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/flail_man" unique_id=28102040]
+shape = SubResource("hitbox_flail_man")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="threshing_ox" type="Area2D" parent="Hitboxes" unique_id=151215218]
+position = Vector2(4886, 1760)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "threshing_ox"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/threshing_ox" unique_id=1643490845]
+shape = SubResource("hitbox_threshing_ox")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="grain_heap_right" type="Area2D" parent="Hitboxes" unique_id=413234912]
+position = Vector2(4487, 1882)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "grain_heap_right"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/grain_heap_right" unique_id=386923208]
+shape = SubResource("hitbox_grain_heap_right")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="grain_heap_left" type="Area2D" parent="Hitboxes" unique_id=2028173042]
+position = Vector2(4170, 1873)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "grain_heap_left"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/grain_heap_left" unique_id=1901154694]
+shape = SubResource("hitbox_grain_heap_left")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="heron" type="Area2D" parent="Hitboxes" unique_id=1540747782]
+position = Vector2(3710, 1587)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "heron"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/heron" unique_id=2098264396]
+shape = SubResource("hitbox_heron")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="adorant_heron" type="Area2D" parent="Hitboxes" unique_id=790144470]
+position = Vector2(3888, 1767)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "adorant_heron"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/adorant_heron" unique_id=117973717]
+shape = SubResource("hitbox_adorant_heron")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="kneeling_man" type="Area2D" parent="Hitboxes" unique_id=2097025769]
+position = Vector2(3601, 1826)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "kneeling_man"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/kneeling_man" unique_id=1437836358]
+shape = SubResource("hitbox_kneeling_man")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="adorant_offering" type="Area2D" parent="Hitboxes" unique_id=771367038]
+position = Vector2(3477, 1777)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "adorant_offering"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/adorant_offering" unique_id=1283414686]
+shape = SubResource("hitbox_adorant_offering")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="offering_stand" type="Area2D" parent="Hitboxes" unique_id=76175271]
+position = Vector2(3345, 1810)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "offering_stand"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/offering_stand" unique_id=784664736]
+shape = SubResource("hitbox_offering_stand")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="enthroned_god" type="Area2D" parent="Hitboxes" unique_id=1577104983]
+position = Vector2(3209, 1729)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "enthroned_god"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/enthroned_god" unique_id=1688376566]
+shape = SubResource("hitbox_enthroned_god")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="yoke_bearer" type="Area2D" parent="Hitboxes" unique_id=1609596621]
+position = Vector2(6817, 1059)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "yoke_bearer"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/yoke_bearer" unique_id=1209228969]
+shape = SubResource("hitbox_yoke_bearer")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="walking_worshipper" type="Area2D" parent="Hitboxes" unique_id=1096775393]
+position = Vector2(6660, 1054)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "walking_worshipper"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/walking_worshipper" unique_id=1980029133]
+shape = SubResource("hitbox_walking_worshipper")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="adorant_procession" type="Area2D" parent="Hitboxes" unique_id=385440921]
+position = Vector2(6490, 1054)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "adorant_procession"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/adorant_procession" unique_id=766338486]
+shape = SubResource("hitbox_adorant_procession")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="cup_bearer_procession" type="Area2D" parent="Hitboxes" unique_id=1906249874]
+position = Vector2(6302, 1053)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "cup_bearer_procession"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/cup_bearer_procession" unique_id=1504889060]
+shape = SubResource("hitbox_cup_bearer_procession")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="heaped_stand" type="Area2D" parent="Hitboxes" unique_id=292855110]
+position = Vector2(6156, 1087)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "heaped_stand"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/heaped_stand" unique_id=422863565]
+shape = SubResource("hitbox_heaped_stand")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="dais" type="Area2D" parent="Hitboxes" unique_id=2024424904]
+position = Vector2(5902, 1162)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "dais"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/dais" unique_id=1805302722]
+shape = SubResource("hitbox_dais")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="seated_god_3" type="Area2D" parent="Hitboxes" unique_id=254825091]
+position = Vector2(5987, 986)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "seated_god_3"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/seated_god_3" unique_id=1298971110]
+shape = SubResource("hitbox_seated_god_3")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="seated_god_2" type="Area2D" parent="Hitboxes" unique_id=807239161]
+position = Vector2(5909, 985)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "seated_god_2"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/seated_god_2" unique_id=1648170682]
+shape = SubResource("hitbox_seated_god_2")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="seated_god_1" type="Area2D" parent="Hitboxes" unique_id=311207848]
+position = Vector2(5821, 985)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "seated_god_1"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/seated_god_1" unique_id=552498060]
+shape = SubResource("hitbox_seated_god_1")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="boat" type="Area2D" parent="Hitboxes" unique_id=1787334961]
+position = Vector2(5285, 1048)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "boat"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/boat" unique_id=470258609]
+shape = SubResource("hitbox_boat")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="cup_bearer_boat" type="Area2D" parent="Hitboxes" unique_id=1720971300]
+position = Vector2(4743, 1062)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "cup_bearer_boat"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/cup_bearer_boat" unique_id=301235374]
+shape = SubResource("hitbox_cup_bearer_boat")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="human_headed_bird" type="Area2D" parent="Hitboxes" unique_id=574197429]
+position = Vector2(4368, 1045)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "human_headed_bird"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/human_headed_bird" unique_id=15091353]
+shape = SubResource("hitbox_human_headed_bird")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="falcon" type="Area2D" parent="Hitboxes" unique_id=629429970]
+position = Vector2(4058, 1020)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "falcon"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/falcon" unique_id=914355718]
+shape = SubResource("hitbox_falcon")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="bird_on_offerings" type="Area2D" parent="Hitboxes" unique_id=929595975]
+position = Vector2(3772, 937)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "bird_on_offerings"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/bird_on_offerings" unique_id=1521503161]
+shape = SubResource("hitbox_bird_on_offerings")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="bird_stand" type="Area2D" parent="Hitboxes" unique_id=1687346725]
+position = Vector2(3780, 1093)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "bird_stand"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/bird_stand" unique_id=399795158]
+shape = SubResource("hitbox_bird_stand")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="mummiform_god" type="Area2D" parent="Hitboxes" unique_id=880301304]
+position = Vector2(3540, 1009)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "mummiform_god"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/mummiform_god" unique_id=246327426]
+shape = SubResource("hitbox_mummiform_god")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="caption_top_oval_qenqenet" type="Area2D" parent="Hitboxes" unique_id=442989176]
+position = Vector2(3229, 686)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "caption_top_oval_qenqenet"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/caption_top_oval_qenqenet" unique_id=729650369]
+shape = SubResource("hitbox_caption_top_oval_qenqenet")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="caption_top_oval_no_sweat" type="Area2D" parent="Hitboxes" unique_id=487458168]
+position = Vector2(3477, 690)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "caption_top_oval_no_sweat"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/caption_top_oval_no_sweat" unique_id=297467039]
+shape = SubResource("hitbox_caption_top_oval_no_sweat")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="caption_top_oval_great_town" type="Area2D" parent="Hitboxes" unique_id=45490808]
+position = Vector2(3225, 837)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "caption_top_oval_great_town"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/caption_top_oval_great_town" unique_id=1589382481]
+shape = SubResource("hitbox_caption_top_oval_great_town")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="caption_top_horizon_gods" type="Area2D" parent="Hitboxes" unique_id=1576828106]
+position = Vector2(3653, 705)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "caption_top_horizon_gods"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/caption_top_horizon_gods" unique_id=175387804]
+shape = SubResource("hitbox_caption_top_horizon_gods")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="caption_top_hotep_falcon" type="Area2D" parent="Hitboxes" unique_id=1603629305]
+position = Vector2(3895, 688)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "caption_top_hotep_falcon"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/caption_top_hotep_falcon" unique_id=1919817649]
+shape = SubResource("hitbox_caption_top_hotep_falcon")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="caption_top_being_hotep" type="Area2D" parent="Hitboxes" unique_id=620157682]
+position = Vector2(3276, 1085)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "caption_top_being_hotep"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/caption_top_being_hotep" unique_id=1282893796]
+shape = SubResource("hitbox_caption_top_being_hotep")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="caption_top_osiris_cup" type="Area2D" parent="Hitboxes" unique_id=1544941609]
+position = Vector2(4721, 752)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "caption_top_osiris_cup"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/caption_top_osiris_cup" unique_id=2005326446]
+shape = SubResource("hitbox_caption_top_osiris_cup")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="caption_top_osiris_boat" type="Area2D" parent="Hitboxes" unique_id=982163035]
+position = Vector2(5380, 745)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "caption_top_osiris_boat"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/caption_top_osiris_boat" unique_id=1227003930]
+shape = SubResource("hitbox_caption_top_osiris_boat")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="caption_top_rowing" type="Area2D" parent="Hitboxes" unique_id=237943155]
+position = Vector2(5474, 748)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "caption_top_rowing"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/caption_top_rowing" unique_id=512747473]
+shape = SubResource("hitbox_caption_top_rowing")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="caption_top_great_ennead" type="Area2D" parent="Hitboxes" unique_id=528797179]
+position = Vector2(5944, 671)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "caption_top_great_ennead"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/caption_top_great_ennead" unique_id=287040308]
+shape = SubResource("hitbox_caption_top_great_ennead")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="caption_top_osiris_procession" type="Area2D" parent="Hitboxes" unique_id=1155261563]
+position = Vector2(6333, 679)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "caption_top_osiris_procession"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/caption_top_osiris_procession" unique_id=1948239035]
+shape = SubResource("hitbox_caption_top_osiris_procession")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="caption_mid_hapi" type="Area2D" parent="Hitboxes" unique_id=1384721776]
+position = Vector2(3268, 1524)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "caption_mid_hapi"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/caption_mid_hapi" unique_id=667981395]
+shape = SubResource("hitbox_caption_mid_hapi")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="caption_mid_osiris" type="Area2D" parent="Hitboxes" unique_id=509937718]
+position = Vector2(3419, 1494)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "caption_mid_osiris"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/caption_mid_osiris" unique_id=1332393323]
+shape = SubResource("hitbox_caption_mid_osiris")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="caption_mid_overflow" type="Area2D" parent="Hitboxes" unique_id=1233062730]
+position = Vector2(3698, 1754)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "caption_mid_overflow"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/caption_mid_overflow" unique_id=1084716512]
+shape = SubResource("hitbox_caption_mid_overflow")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="caption_mid_oval_hotep" type="Area2D" parent="Hitboxes" unique_id=1547117482]
+position = Vector2(4021, 1436)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "caption_mid_oval_hotep"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/caption_mid_oval_hotep" unique_id=2125057553]
+shape = SubResource("hitbox_caption_mid_oval_hotep")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="caption_mid_oval_great_green" type="Area2D" parent="Hitboxes" unique_id=1288320411]
+position = Vector2(4237, 1437)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "caption_mid_oval_great_green"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/caption_mid_oval_great_green" unique_id=1751603625]
+shape = SubResource("hitbox_caption_mid_oval_great_green")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="caption_mid_oval_flourishing" type="Area2D" parent="Hitboxes" unique_id=567304350]
+position = Vector2(4450, 1434)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "caption_mid_oval_flourishing"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/caption_mid_oval_flourishing" unique_id=1869580949]
+shape = SubResource("hitbox_caption_mid_oval_flourishing")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="caption_mid_oval_knife" type="Area2D" parent="Hitboxes" unique_id=2041735260]
+position = Vector2(4670, 1444)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "caption_mid_oval_knife"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/caption_mid_oval_knife" unique_id=96670481]
+shape = SubResource("hitbox_caption_mid_oval_knife")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="caption_mid_hippo_lake" type="Area2D" parent="Hitboxes" unique_id=1361482305]
+position = Vector2(4394, 1586)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "caption_mid_hippo_lake"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/caption_mid_hippo_lake" unique_id=239913737]
+shape = SubResource("hitbox_caption_mid_hippo_lake")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="caption_mid_ploughing" type="Area2D" parent="Hitboxes" unique_id=1344517507]
+position = Vector2(6477, 1519)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "caption_mid_ploughing"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/caption_mid_ploughing" unique_id=1178627797]
+shape = SubResource("hitbox_caption_mid_ploughing")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="caption_bot_oval_food" type="Area2D" parent="Hitboxes" unique_id=1457062128]
+position = Vector2(3201, 2160)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "caption_bot_oval_food"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/caption_bot_oval_food" unique_id=447910454]
+shape = SubResource("hitbox_caption_bot_oval_food")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="caption_bot_oval_slaughter" type="Area2D" parent="Hitboxes" unique_id=1560225989]
+position = Vector2(3403, 2160)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "caption_bot_oval_slaughter"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/caption_bot_oval_slaughter" unique_id=2021238441]
+shape = SubResource("hitbox_caption_bot_oval_slaughter")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="caption_bot_oval_nehet" type="Area2D" parent="Hitboxes" unique_id=625219173]
+position = Vector2(3199, 2252)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "caption_bot_oval_nehet"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/caption_bot_oval_nehet" unique_id=872780256]
+shape = SubResource("hitbox_caption_bot_oval_nehet")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="caption_bot_oval_strong" type="Area2D" parent="Hitboxes" unique_id=808043379]
+position = Vector2(3400, 2256)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "caption_bot_oval_strong"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/caption_bot_oval_strong" unique_id=574143479]
+shape = SubResource("hitbox_caption_bot_oval_strong")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="caption_bot_rehorakhty_bark" type="Area2D" parent="Hitboxes" unique_id=2141854783]
+position = Vector2(3837, 2237)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "caption_bot_rehorakhty_bark"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/caption_bot_rehorakhty_bark" unique_id=1993929849]
+shape = SubResource("hitbox_caption_bot_rehorakhty_bark")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="caption_bot_throne_bark" type="Area2D" parent="Hitboxes" unique_id=371669370]
+position = Vector2(4627, 2256)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "caption_bot_throne_bark"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/caption_bot_throne_bark" unique_id=1754123575]
+shape = SubResource("hitbox_caption_bot_throne_bark")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="caption_bot_great_food" type="Area2D" parent="Hitboxes" unique_id=1964195268]
+position = Vector2(5573, 2233)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "caption_bot_great_food"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/caption_bot_great_food" unique_id=241550753]
+shape = SubResource("hitbox_caption_bot_great_food")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="caption_bot_island_re" type="Area2D" parent="Hitboxes" unique_id=300977598]
+position = Vector2(6002, 2219)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "caption_bot_island_re"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/caption_bot_island_re" unique_id=242102111]
+shape = SubResource("hitbox_caption_bot_island_re")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="caption_bot_blessed" type="Area2D" parent="Hitboxes" unique_id=1371463046]
+position = Vector2(6571, 2226)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "caption_bot_blessed"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/caption_bot_blessed" unique_id=1369701018]
+shape = SubResource("hitbox_caption_bot_blessed")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="caption_bot_birthplace" type="Area2D" parent="Hitboxes" unique_id=1682741947]
+position = Vector2(6593, 2539)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "caption_bot_birthplace"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/caption_bot_birthplace" unique_id=1713953012]
+shape = SubResource("hitbox_caption_bot_birthplace")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="caption_bot_destroying_water" type="Area2D" parent="Hitboxes" unique_id=1082113191]
+position = Vector2(6054, 2565)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "caption_bot_destroying_water"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/caption_bot_destroying_water" unique_id=1219330450]
+shape = SubResource("hitbox_caption_bot_destroying_water")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="caption_bot_three_gods" type="Area2D" parent="Hitboxes" unique_id=1677579648]
+position = Vector2(5932, 2661)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "caption_bot_three_gods"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/caption_bot_three_gods" unique_id=494945277]
+shape = SubResource("hitbox_caption_bot_three_gods")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="panel1_goddesses" type="Area2D" parent="Hitboxes" unique_id=1059098398]
+position = Vector2(1218, 878)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "panel1_goddesses"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/panel1_goddesses" unique_id=883384840]
+shape = SubResource("hitbox_panel1_goddesses")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="panel1_barque" type="Area2D" parent="Hitboxes" unique_id=2146590020]
+position = Vector2(1588, 870)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "panel1_barque"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/panel1_barque" unique_id=31837906]
+shape = SubResource("hitbox_panel1_barque")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="panel2_enthroned" type="Area2D" parent="Hitboxes" unique_id=1229808460]
+position = Vector2(1269, 1515)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "panel2_enthroned"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/panel2_enthroned" unique_id=1978324691]
+shape = SubResource("hitbox_panel2_enthroned")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="panel2_stand" type="Area2D" parent="Hitboxes" unique_id=179447012]
+position = Vector2(1498, 1577)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "panel2_stand"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/panel2_stand" unique_id=1000447120]
+shape = SubResource("hitbox_panel2_stand")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="panel2_deceased" type="Area2D" parent="Hitboxes" unique_id=381957819]
+position = Vector2(1640, 1563)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "panel2_deceased"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/panel2_deceased" unique_id=1464220038]
+shape = SubResource("hitbox_panel2_deceased")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="panel2_adorant" type="Area2D" parent="Hitboxes" unique_id=429423962]
+position = Vector2(1784, 1568)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "panel2_adorant"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/panel2_adorant" unique_id=787755661]
+shape = SubResource("hitbox_panel2_adorant")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="panel3_gods" type="Area2D" parent="Hitboxes" unique_id=555155139]
+position = Vector2(1204, 2158)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "panel3_gods"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/panel3_gods" unique_id=811433734]
+shape = SubResource("hitbox_panel3_gods")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="panel3_table" type="Area2D" parent="Hitboxes" unique_id=1122822801]
+position = Vector2(1519, 2131)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "panel3_table"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/panel3_table" unique_id=1973152864]
+shape = SubResource("hitbox_panel3_table")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="panel3_kneeling" type="Area2D" parent="Hitboxes" unique_id=821717981]
+position = Vector2(1729, 2174)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "panel3_kneeling"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/panel3_kneeling" unique_id=1617010955]
+shape = SubResource("hitbox_panel3_kneeling")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="panel4_gods" type="Area2D" parent="Hitboxes" unique_id=1604360000]
+position = Vector2(1226, 2746)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "panel4_gods"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/panel4_gods" unique_id=243110691]
+shape = SubResource("hitbox_panel4_gods")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="panel4_stand" type="Area2D" parent="Hitboxes" unique_id=324931792]
+position = Vector2(1428, 2813)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "panel4_stand"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/panel4_stand" unique_id=451563496]
+shape = SubResource("hitbox_panel4_stand")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="panel4_table" type="Area2D" parent="Hitboxes" unique_id=309287122]
+position = Vector2(1562, 2759)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "panel4_table"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/panel4_table" unique_id=1380909963]
+shape = SubResource("hitbox_panel4_table")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="panel4_kneeling" type="Area2D" parent="Hitboxes" unique_id=1206185507]
+position = Vector2(1724, 2739)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "panel4_kneeling"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/panel4_kneeling" unique_id=630911208]
+shape = SubResource("hitbox_panel4_kneeling")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="adorant_left" type="Area2D" parent="Hitboxes" unique_id=653815870]
+position = Vector2(2144, 2418)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "adorant_left"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/adorant_left" unique_id=1921674350]
+shape = SubResource("hitbox_adorant_left")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="adorant_right" type="Area2D" parent="Hitboxes" unique_id=274868788]
+position = Vector2(8298, 2366)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "adorant_right"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/adorant_right" unique_id=1917895513]
+shape = SubResource("hitbox_adorant_right")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)

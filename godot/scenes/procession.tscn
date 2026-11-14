@@ -249,284 +249,284 @@ texture = ExtResource("2_strip")
 centered = false
 metadata/_edit_lock_ = true
 
-[node name="ArtworkLayers" type="Node2D" parent="." unique_id=1047177428]
+[node name="Figures" type="Node2D" parent="." unique_id=1047177428]
 
-[node name="mourners_119" type="Sprite2D" parent="ArtworkLayers" unique_id=1951225282]
+[node name="mourners" type="Sprite2D" parent="Figures" unique_id=1951225282]
 position = Vector2(14396, 203)
 texture = ExtResource("layer_119")
 centered = false
 metadata/source_layer_id = "119"
 metadata/registry_id = "mourners"
 
-[node name="mourning_women_121" type="Sprite2D" parent="ArtworkLayers" unique_id=1997278166]
+[node name="women_mourners" type="Sprite2D" parent="Figures" unique_id=1997278166]
 position = Vector2(13697, 218)
 texture = ExtResource("layer_121")
 centered = false
 metadata/source_layer_id = "121"
 metadata/registry_id = "women_mourners"
 
-[node name="canopy_frame_127" type="Sprite2D" parent="ArtworkLayers" unique_id=1998625185]
+[node name="canopy_frame" type="Sprite2D" parent="Figures" unique_id=1998625185]
 position = Vector2(13527, 236)
 texture = ExtResource("layer_127")
 centered = false
 metadata/source_layer_id = "127"
 metadata/registry_id = "canopy_frame"
 
-[node name="man_hauling_the_canopy_128" type="Sprite2D" parent="ArtworkLayers" unique_id=1977111158]
+[node name="man_hauling_the_canopy" type="Sprite2D" parent="Figures" unique_id=1977111158]
 position = Vector2(13297, 245)
 texture = ExtResource("layer_128")
 centered = false
 metadata/source_layer_id = "128"
 metadata/registry_id = "man_hauling_the_canopy"
 
-[node name="anubis_on_a_chest_129" type="Sprite2D" parent="ArtworkLayers" unique_id=1071921291]
+[node name="anubis_on_a_chest" type="Sprite2D" parent="Figures" unique_id=1071921291]
 position = Vector2(13032, 256)
 texture = ExtResource("layer_129")
 centered = false
 metadata/source_layer_id = "129"
 metadata/registry_id = "anubis_on_a_chest"
 
-[node name="man_hauling_anubis_130" type="Sprite2D" parent="ArtworkLayers" unique_id=566533427]
+[node name="man_hauling_anubis" type="Sprite2D" parent="Figures" unique_id=566533427]
 position = Vector2(12807, 254)
 texture = ExtResource("layer_130")
 centered = false
 metadata/source_layer_id = "130"
 metadata/registry_id = "man_hauling_anubis"
 
-[node name="standard_bearers_131" type="Sprite2D" parent="ArtworkLayers" unique_id=1452843401]
+[node name="standard_bearers" type="Sprite2D" parent="Figures" unique_id=1452843401]
 position = Vector2(9006, 246)
 texture = ExtResource("layer_131")
 centered = false
 metadata/source_layer_id = "131"
 
-[node name="walking_woman_1_140" type="Sprite2D" parent="ArtworkLayers" unique_id=1388312666]
+[node name="two_women" type="Sprite2D" parent="Figures" unique_id=1388312666]
 position = Vector2(8753, 243)
 texture = ExtResource("layer_140")
 centered = false
 metadata/source_layer_id = "140"
 metadata/registry_id = "two_women"
 
-[node name="yoke_bearer_142" type="Sprite2D" parent="ArtworkLayers" unique_id=1537154803]
+[node name="yoke_bearer" type="Sprite2D" parent="Figures" unique_id=1537154803]
 position = Vector2(8484, 244)
 texture = ExtResource("layer_142")
 centered = false
 metadata/source_layer_id = "142"
 metadata/registry_id = "yoke_bearer"
 
-[node name="canopy_bearer_143" type="Sprite2D" parent="ArtworkLayers" unique_id=477809563]
+[node name="canopy_bearer" type="Sprite2D" parent="Figures" unique_id=477809563]
 position = Vector2(8229, 199)
 texture = ExtResource("layer_143")
 centered = false
 metadata/source_layer_id = "143"
 metadata/registry_id = "canopy_bearer"
 
-[node name="sacrifice_146" type="Sprite2D" parent="ArtworkLayers" unique_id=1862630144]
+[node name="sacrifice" type="Sprite2D" parent="Figures" unique_id=1862630144]
 position = Vector2(6660, 270)
 texture = ExtResource("layer_146")
 centered = false
 metadata/source_layer_id = "146"
 metadata/registry_id = "sacrifice"
 
-[node name="trees_47" type="Sprite2D" parent="ArtworkLayers" unique_id=2087751067]
+[node name="trees" type="Sprite2D" parent="Figures" unique_id=2087751067]
 position = Vector2(4834, 310)
 texture = ExtResource("layer_47")
 centered = false
 metadata/source_layer_id = "47"
 
-[node name="man_with_a_water_jar_149" type="Sprite2D" parent="ArtworkLayers" unique_id=292498458]
+[node name="man_with_a_water_jar" type="Sprite2D" parent="Figures" unique_id=292498458]
 position = Vector2(4854, 202)
 texture = ExtResource("layer_149")
 centered = false
 metadata/source_layer_id = "149"
 metadata/registry_id = "man_with_a_water_jar"
 
-[node name="lector_priest_148" type="Sprite2D" parent="ArtworkLayers" unique_id=430804817]
+[node name="lector_priest" type="Sprite2D" parent="Figures" unique_id=430804817]
 position = Vector2(6107, 233)
 texture = ExtResource("layer_148")
 centered = false
 metadata/source_layer_id = "148"
 metadata/registry_id = "lector_priest"
 
-[node name="goose_man_77" type="Sprite2D" parent="ArtworkLayers" unique_id=1089609093]
+[node name="goose_man" type="Sprite2D" parent="Figures" unique_id=1089609093]
 position = Vector2(6412, 242)
 texture = ExtResource("layer_77")
 centered = false
 metadata/source_layer_id = "77"
 
-[node name="table_48" type="Sprite2D" parent="ArtworkLayers" unique_id=1948845674]
+[node name="offering_table" type="Sprite2D" parent="Figures" unique_id=1948845674]
 position = Vector2(5173, 351)
 texture = ExtResource("layer_48")
 centered = false
 metadata/source_layer_id = "48"
 metadata/registry_id = "offering_table"
 
-[node name="two_obelisks_153" type="Sprite2D" parent="ArtworkLayers" unique_id=1276350697]
+[node name="two_obelisks" type="Sprite2D" parent="Figures" unique_id=1276350697]
 position = Vector2(3613, 209)
 texture = ExtResource("layer_153")
 centered = false
 metadata/source_layer_id = "153"
 metadata/registry_id = "two_obelisks"
 
-[node name="priest_with_arm_censer_151" type="Sprite2D" parent="ArtworkLayers" unique_id=18355349]
+[node name="priest_with_arm_censer" type="Sprite2D" parent="Figures" unique_id=18355349]
 position = Vector2(4108, 247)
 texture = ExtResource("layer_151")
 centered = false
 metadata/source_layer_id = "151"
 metadata/registry_id = "priest_with_arm_censer"
 
-[node name="offering_table_169" type="Sprite2D" parent="ArtworkLayers" unique_id=1831762811]
+[node name="second_offering_table" type="Sprite2D" parent="Figures" unique_id=1831762811]
 position = Vector2(2487, 244)
 texture = ExtResource("layer_169")
 centered = false
 metadata/source_layer_id = "169"
 metadata/registry_id = "second_offering_table"
 
-[node name="lector_with_plumes_150" type="Sprite2D" parent="ArtworkLayers" unique_id=2016452678]
+[node name="lector_with_plumes" type="Sprite2D" parent="Figures" unique_id=2016452678]
 position = Vector2(4522, 190)
 texture = ExtResource("layer_150")
 centered = false
 metadata/source_layer_id = "150"
 metadata/registry_id = "lector_with_plumes"
 
-[node name="offering_stand_152" type="Sprite2D" parent="ArtworkLayers" unique_id=2020610222]
+[node name="offering_stand" type="Sprite2D" parent="Figures" unique_id=2020610222]
 position = Vector2(3948, 392)
 texture = ExtResource("layer_152")
 centered = false
 metadata/source_layer_id = "152"
 metadata/registry_id = "offering_stand"
 
-[node name="kneeling_woman_154" type="Sprite2D" parent="ArtworkLayers" unique_id=278100286]
+[node name="kneeling_woman" type="Sprite2D" parent="Figures" unique_id=278100286]
 position = Vector2(2122, 323)
 texture = ExtResource("layer_154")
 centered = false
 metadata/source_layer_id = "154"
 metadata/registry_id = "kneeling_woman"
 
-[node name="ra_enthroned_160" type="Sprite2D" parent="ArtworkLayers" unique_id=140866361]
+[node name="ra_enthroned" type="Sprite2D" parent="Figures" unique_id=140866361]
 position = Vector2(117, 189)
 texture = ExtResource("layer_160")
 centered = false
 metadata/source_layer_id = "160"
 metadata/registry_id = "ra_enthroned"
 
-[node name="tomb_chapel_158" type="Sprite2D" parent="ArtworkLayers" unique_id=1135524773]
+[node name="tomb_chapel" type="Sprite2D" parent="Figures" unique_id=1135524773]
 position = Vector2(1119, 197)
 texture = ExtResource("layer_158")
 centered = false
 metadata/source_layer_id = "158"
 metadata/registry_id = "tomb_chapel"
 
-[node name="stela_157" type="Sprite2D" parent="ArtworkLayers" unique_id=1813585218]
+[node name="stela" type="Sprite2D" parent="Figures" unique_id=1813585218]
 position = Vector2(1499, 191)
 texture = ExtResource("layer_157")
 centered = false
 metadata/source_layer_id = "157"
 metadata/registry_id = "stela"
 
-[node name="pieces" type="Node2D" parent="." unique_id=1220443640]
+[node name="Pieces" type="Node2D" parent="." unique_id=1220443640]
 
-[node name="standards" type="Node2D" parent="pieces" unique_id=1030382754]
+[node name="Standards" type="Node2D" parent="Pieces" unique_id=1030382754]
 
-[node name="jackal" type="Sprite2D" parent="pieces/standards" unique_id=51612338]
+[node name="jackal" type="Sprite2D" parent="Pieces/Standards" unique_id=51612338]
 position = Vector2(9069, 184)
 texture = ExtResource("tex_emb_e1")
 centered = false
 metadata/piece_id = "emb_e1"
 
-[node name="ibis" type="Sprite2D" parent="pieces/standards" unique_id=1011763125]
+[node name="ibis" type="Sprite2D" parent="Pieces/Standards" unique_id=1011763125]
 position = Vector2(9276, 184)
 texture = ExtResource("tex_emb_e2")
 centered = false
 metadata/piece_id = "emb_e2"
 
-[node name="falcon1" type="Sprite2D" parent="pieces/standards" unique_id=286110525]
+[node name="falcon1" type="Sprite2D" parent="Pieces/Standards" unique_id=286110525]
 position = Vector2(9487, 189)
 texture = ExtResource("tex_emb_e3")
 centered = false
 metadata/piece_id = "emb_e3"
 
-[node name="bull" type="Sprite2D" parent="pieces/standards" unique_id=1167180061]
+[node name="bull" type="Sprite2D" parent="Pieces/Standards" unique_id=1167180061]
 position = Vector2(9669, 187)
 texture = ExtResource("tex_emb_e4")
 centered = false
 metadata/piece_id = "emb_e4"
 
-[node name="vulture" type="Sprite2D" parent="pieces/standards" unique_id=619598494]
+[node name="vulture" type="Sprite2D" parent="Pieces/Standards" unique_id=619598494]
 position = Vector2(9880, 194)
 texture = ExtResource("tex_emb_e5")
 centered = false
 metadata/piece_id = "emb_e5"
 
-[node name="placenta" type="Sprite2D" parent="pieces/standards" unique_id=2031585435]
+[node name="placenta" type="Sprite2D" parent="Pieces/Standards" unique_id=2031585435]
 position = Vector2(10049, 201)
 texture = ExtResource("tex_emb_e6")
 centered = false
 metadata/piece_id = "emb_e6"
 
-[node name="plumes" type="Sprite2D" parent="pieces/standards" unique_id=455669913]
+[node name="plumes" type="Sprite2D" parent="Pieces/Standards" unique_id=455669913]
 position = Vector2(10258, 182)
 texture = ExtResource("tex_emb_e7")
 centered = false
 metadata/piece_id = "emb_e7"
 
-[node name="falcon2" type="Sprite2D" parent="pieces/standards" unique_id=1555936684]
+[node name="falcon2" type="Sprite2D" parent="Pieces/Standards" unique_id=1555936684]
 position = Vector2(10426, 192)
 texture = ExtResource("tex_emb_e8")
 centered = false
 metadata/piece_id = "emb_e8"
 
-[node name="hauling" type="Node2D" parent="pieces" unique_id=1813642255]
+[node name="Hauling" type="Node2D" parent="Pieces" unique_id=1813642255]
 position = Vector2(-1, 0)
 script = ExtResource("script_haul")
 
-[node name="ox" type="Sprite2D" parent="pieces/hauling" unique_id=209211883]
+[node name="ox" type="Sprite2D" parent="Pieces/Hauling" unique_id=209211883]
 position = Vector2(10604, 227)
 texture = ExtResource("tex_ox")
 centered = false
 metadata/piece_id = "ox"
 metadata/registry_id = "ox"
 
-[node name="sledge" type="Node2D" parent="pieces/hauling" unique_id=678563572]
+[node name="sledge" type="Node2D" parent="Pieces/Hauling" unique_id=678563572]
 position = Vector2(11287, 185)
 metadata/piece_id = "haul_sledge"
 metadata/_edit_group_ = true
 
-[node name="sprite" type="Sprite2D" parent="pieces/hauling/sledge" unique_id=1594620953]
+[node name="Sprite" type="Sprite2D" parent="Pieces/Hauling/sledge" unique_id=1594620953]
 texture = ExtResource("tex_haul_sledge")
 centered = false
 metadata/piece_id = "haul_sledge_art"
 metadata/registry_id = "funerary_bier"
 
-[node name="sun" type="Sprite2D" parent="pieces/hauling/sledge/sprite" unique_id=1857355170]
+[node name="sun" type="Sprite2D" parent="Pieces/Hauling/sledge/Sprite" unique_id=1857355170]
 position = Vector2(685.5, 173)
 texture = ExtResource("tex_sun")
 metadata/piece_id = "sun"
 
-[node name="hauler" type="Node2D" parent="pieces/hauling" unique_id=546995389]
+[node name="hauler" type="Node2D" parent="Pieces/Hauling" unique_id=546995389]
 position = Vector2(11405, 532)
 metadata/piece_id = "haul_hauler"
 metadata/_edit_group_ = true
 
-[node name="sprite" type="Sprite2D" parent="pieces/hauling/hauler" unique_id=1076803911]
+[node name="Sprite" type="Sprite2D" parent="Pieces/Hauling/hauler" unique_id=1076803911]
 position = Vector2(-68, -311)
 texture = ExtResource("tex_haul_hauler")
 centered = false
 metadata/piece_id = "haul_hauler_art"
 metadata/registry_id = "hauler"
 
-[node name="driver" type="Node2D" parent="pieces/hauling" unique_id=2040606113]
+[node name="driver" type="Node2D" parent="Pieces/Hauling" unique_id=2040606113]
 position = Vector2(10979, 184)
 metadata/piece_id = "haul_driver"
 metadata/_edit_group_ = true
 
-[node name="sprite" type="Sprite2D" parent="pieces/hauling/driver" unique_id=876969676]
+[node name="Sprite" type="Sprite2D" parent="Pieces/Hauling/driver" unique_id=876969676]
 position = Vector2(92, 23)
 texture = ExtResource("tex_haul_driver_body")
 centered = false
 metadata/piece_id = "haul_driver_art"
 metadata/registry_id = "ox_driver"
 
-[node name="arm" type="Sprite2D" parent="pieces/hauling/driver/sprite" unique_id=1407962012]
+[node name="arm" type="Sprite2D" parent="Pieces/Hauling/driver/Sprite" unique_id=1407962012]
 position = Vector2(49.3, 82.3)
 texture = ExtResource("tex_haul_driver_arm")
 centered = false
@@ -534,211 +534,211 @@ offset = Vector2(-131.3, -82.3)
 metadata/piece_id = "haul_driver_arm"
 metadata/registry_id = "ox_driver"
 
-[node name="offering_table" type="Node2D" parent="pieces" unique_id=1505178867]
+[node name="OfferingTable" type="Node2D" parent="Pieces" unique_id=1505178867]
 script = ExtResource("script_offering_table")
 
-[node name="layout" type="Node2D" parent="pieces/offering_table" unique_id=1454901085]
+[node name="Layout" type="Node2D" parent="Pieces/OfferingTable" unique_id=1454901085]
 
-[node name="t01_upright_loaf" type="Sprite2D" parent="pieces/offering_table/layout" unique_id=1394084033]
+[node name="t01_upright_loaf" type="Sprite2D" parent="Pieces/OfferingTable/Layout" unique_id=1394084033]
 position = Vector2(5507, 400)
 texture = ExtResource("tex_t01")
 centered = false
 metadata/piece_id = "t01"
 
-[node name="t02_long_loaf" type="Sprite2D" parent="pieces/offering_table/layout" unique_id=43820967]
+[node name="t02_long_loaf" type="Sprite2D" parent="Pieces/OfferingTable/Layout" unique_id=43820967]
 position = Vector2(5756, 465)
 texture = ExtResource("tex_t02")
 centered = false
 metadata/piece_id = "t02"
 
-[node name="t03_round_loaf4" type="Sprite2D" parent="pieces/offering_table/layout" unique_id=2099679732]
+[node name="t03_round_loaf4" type="Sprite2D" parent="Pieces/OfferingTable/Layout" unique_id=2099679732]
 position = Vector2(5551, 467)
 texture = ExtResource("tex_t03")
 centered = false
 metadata/piece_id = "t03"
 
-[node name="t04_round_loaf2" type="Sprite2D" parent="pieces/offering_table/layout" unique_id=2026563835]
+[node name="t04_round_loaf2" type="Sprite2D" parent="Pieces/OfferingTable/Layout" unique_id=2026563835]
 position = Vector2(5656, 468)
 texture = ExtResource("tex_t04")
 centered = false
 metadata/piece_id = "t04"
 
-[node name="t05_round_loaf3" type="Sprite2D" parent="pieces/offering_table/layout" unique_id=1599934757]
+[node name="t05_round_loaf3" type="Sprite2D" parent="Pieces/OfferingTable/Layout" unique_id=1599934757]
 position = Vector2(5603, 468)
 texture = ExtResource("tex_t05")
 centered = false
 metadata/piece_id = "t05"
 
-[node name="t06_round_loaf1" type="Sprite2D" parent="pieces/offering_table/layout" unique_id=1925550935]
+[node name="t06_round_loaf1" type="Sprite2D" parent="Pieces/OfferingTable/Layout" unique_id=1925550935]
 position = Vector2(5708, 472)
 texture = ExtResource("tex_t06")
 centered = false
 metadata/piece_id = "t06"
 
-[node name="t07_loaf2" type="Sprite2D" parent="pieces/offering_table/layout" unique_id=1446626280]
+[node name="t07_loaf2" type="Sprite2D" parent="Pieces/OfferingTable/Layout" unique_id=1446626280]
 position = Vector2(5555, 428)
 texture = ExtResource("tex_t07")
 centered = false
 metadata/piece_id = "t07"
 
-[node name="t08_loaf1" type="Sprite2D" parent="pieces/offering_table/layout" unique_id=96063142]
+[node name="t08_loaf1" type="Sprite2D" parent="Pieces/OfferingTable/Layout" unique_id=96063142]
 visible = false
 position = Vector2(5698, 428)
 texture = ExtResource("tex_t08")
 centered = false
 metadata/piece_id = "t08"
 
-[node name="t09_fruit2" type="Sprite2D" parent="pieces/offering_table/layout" unique_id=126222392]
+[node name="t09_fruit2" type="Sprite2D" parent="Pieces/OfferingTable/Layout" unique_id=126222392]
 position = Vector2(5467, 364)
 texture = ExtResource("tex_t09")
 centered = false
 metadata/piece_id = "t09"
 
-[node name="t10_leaf2" type="Sprite2D" parent="pieces/offering_table/layout" unique_id=1095307106]
+[node name="t10_leaf2" type="Sprite2D" parent="Pieces/OfferingTable/Layout" unique_id=1095307106]
 position = Vector2(5660, 347)
 texture = ExtResource("tex_t10")
 centered = false
 metadata/piece_id = "t10"
 
-[node name="t11_grain2" type="Sprite2D" parent="pieces/offering_table/layout" unique_id=1089604149]
+[node name="t11_grain2" type="Sprite2D" parent="Pieces/OfferingTable/Layout" unique_id=1089604149]
 position = Vector2(5823, 388)
 texture = ExtResource("tex_t11")
 centered = false
 metadata/piece_id = "t11"
 
-[node name="t12_leaf1" type="Sprite2D" parent="pieces/offering_table/layout" unique_id=509219936]
+[node name="t12_leaf1" type="Sprite2D" parent="Pieces/OfferingTable/Layout" unique_id=509219936]
 position = Vector2(5725, 358)
 texture = ExtResource("tex_t12")
 centered = false
 metadata/piece_id = "t12"
 
-[node name="t13_grain1" type="Sprite2D" parent="pieces/offering_table/layout" unique_id=902665149]
+[node name="t13_grain1" type="Sprite2D" parent="Pieces/OfferingTable/Layout" unique_id=902665149]
 position = Vector2(5785, 374)
 texture = ExtResource("tex_t13")
 centered = false
 metadata/piece_id = "t13"
 
-[node name="t14_leaf3" type="Sprite2D" parent="pieces/offering_table/layout" unique_id=270736175]
+[node name="t14_leaf3" type="Sprite2D" parent="Pieces/OfferingTable/Layout" unique_id=270736175]
 position = Vector2(5582, 353)
 texture = ExtResource("tex_t14")
 centered = false
 metadata/piece_id = "t14"
 
-[node name="t15_fruit1" type="Sprite2D" parent="pieces/offering_table/layout" unique_id=298370576]
+[node name="t15_fruit1" type="Sprite2D" parent="Pieces/OfferingTable/Layout" unique_id=298370576]
 position = Vector2(5548, 355)
 texture = ExtResource("tex_t15")
 centered = false
 metadata/piece_id = "t15"
 
-[node name="t16_offering" type="Sprite2D" parent="pieces/offering_table/layout" unique_id=1404080349]
+[node name="t16_offering" type="Sprite2D" parent="Pieces/OfferingTable/Layout" unique_id=1404080349]
 position = Vector2(5212, 310)
 texture = ExtResource("tex_t16")
 centered = false
 metadata/piece_id = "t16"
 
-[node name="t17_pomegranate" type="Sprite2D" parent="pieces/offering_table/layout" unique_id=1441438733]
+[node name="t17_pomegranate" type="Sprite2D" parent="Pieces/OfferingTable/Layout" unique_id=1441438733]
 position = Vector2(5687, 313)
 texture = ExtResource("tex_t17")
 centered = false
 metadata/piece_id = "t17"
 
-[node name="t18_cob2" type="Sprite2D" parent="pieces/offering_table/layout" unique_id=1908366925]
+[node name="t18_cob2" type="Sprite2D" parent="Pieces/OfferingTable/Layout" unique_id=1908366925]
 position = Vector2(5257, 346)
 texture = ExtResource("tex_t18")
 centered = false
 metadata/piece_id = "t18"
 
-[node name="t19_cob1" type="Sprite2D" parent="pieces/offering_table/layout" unique_id=1769592583]
+[node name="t19_cob1" type="Sprite2D" parent="Pieces/OfferingTable/Layout" unique_id=1769592583]
 position = Vector2(5776, 310)
 texture = ExtResource("tex_t19")
 centered = false
 metadata/piece_id = "t19"
 
-[node name="t20_leaf5" type="Sprite2D" parent="pieces/offering_table/layout" unique_id=1697521493]
+[node name="t20_leaf5" type="Sprite2D" parent="Pieces/OfferingTable/Layout" unique_id=1697521493]
 position = Vector2(5459, 310)
 texture = ExtResource("tex_t20")
 centered = false
 metadata/piece_id = "t20"
 
-[node name="t21_leaf4" type="Sprite2D" parent="pieces/offering_table/layout" unique_id=530920361]
+[node name="t21_leaf4" type="Sprite2D" parent="Pieces/OfferingTable/Layout" unique_id=530920361]
 position = Vector2(5567, 316)
 texture = ExtResource("tex_t21")
 centered = false
 metadata/piece_id = "t21"
 
-[node name="t22_goose2" type="Sprite2D" parent="pieces/offering_table/layout" unique_id=2122265733]
+[node name="t22_goose2" type="Sprite2D" parent="Pieces/OfferingTable/Layout" unique_id=2122265733]
 position = Vector2(5296, 274)
 texture = ExtResource("tex_t22")
 centered = false
 metadata/piece_id = "t22"
 
-[node name="t23_leaf6" type="Sprite2D" parent="pieces/offering_table/layout" unique_id=634790555]
+[node name="t23_leaf6" type="Sprite2D" parent="Pieces/OfferingTable/Layout" unique_id=634790555]
 position = Vector2(5665, 277)
 texture = ExtResource("tex_t23")
 centered = false
 metadata/piece_id = "t23"
 
-[node name="t24_goose1" type="Sprite2D" parent="pieces/offering_table/layout" unique_id=2071702013]
+[node name="t24_goose1" type="Sprite2D" parent="Pieces/OfferingTable/Layout" unique_id=2071702013]
 position = Vector2(5501, 265)
 texture = ExtResource("tex_t24")
 centered = false
 metadata/piece_id = "t24"
 
-[node name="t25_palm_frond" type="Sprite2D" parent="pieces/offering_table/layout" unique_id=809772263]
+[node name="t25_palm_frond" type="Sprite2D" parent="Pieces/OfferingTable/Layout" unique_id=809772263]
 position = Vector2(5905, 84)
 texture = ExtResource("tex_t25")
 centered = false
 metadata/piece_id = "t25"
 
-[node name="frond_place" type="Marker2D" parent="pieces/offering_table" unique_id=1022004730]
+[node name="FrondPlace" type="Marker2D" parent="Pieces/OfferingTable" unique_id=1022004730]
 position = Vector2(5272, 227)
 metadata/piece_id = "frond_place"
 
-[node name="goose" type="Sprite2D" parent="pieces/offering_table" unique_id=117667300]
+[node name="goose" type="Sprite2D" parent="Pieces/OfferingTable" unique_id=117667300]
 position = Vector2(5726.384, 457)
 texture = ExtResource("tex_goose")
 centered = false
 metadata/piece_id = "goose"
 
-[node name="clothes" type="Sprite2D" parent="pieces/offering_table" unique_id=1765695765]
+[node name="clothes" type="Sprite2D" parent="Pieces/OfferingTable" unique_id=1765695765]
 visible = false
 position = Vector2(6460, 368)
 texture = ExtResource("tex_clothes")
 centered = false
 metadata/piece_id = "clothes"
 
-[node name="held_loaf" type="Sprite2D" parent="pieces/offering_table" unique_id=1302825950]
+[node name="held_loaf" type="Sprite2D" parent="Pieces/OfferingTable" unique_id=1302825950]
 position = Vector2(6444.5, 388.5)
 texture = ExtResource("tex_t08")
 metadata/piece_id = "held_loaf"
 
-[node name="speech" type="Sprite2D" parent="pieces/offering_table" unique_id=1320383703]
+[node name="speech" type="Sprite2D" parent="Pieces/OfferingTable" unique_id=1320383703]
 visible = false
 metadata/piece_id = "table_speech"
 
-[node name="held" type="Sprite2D" parent="pieces/offering_table" unique_id=1105105266]
+[node name="held" type="Sprite2D" parent="Pieces/OfferingTable" unique_id=1105105266]
 visible = false
 metadata/piece_id = "table_held"
 
-[node name="bodies" type="Node2D" parent="pieces/offering_table" unique_id=215519282]
+[node name="Bodies" type="Node2D" parent="Pieces/OfferingTable" unique_id=215519282]
 
-[node name="water" type="Node2D" parent="pieces" unique_id=1553854919]
+[node name="Water" type="Node2D" parent="Pieces" unique_id=1553854919]
 script = ExtResource("script_pour_water")
 
-[node name="stream" type="Sprite2D" parent="pieces/water" unique_id=1694646221]
+[node name="stream" type="Sprite2D" parent="Pieces/Water" unique_id=1694646221]
 position = Vector2(1771, 188)
 texture = ExtResource("tex_water_stream")
 centered = false
 metadata/piece_id = "water_stream"
 
-[node name="priest" type="Sprite2D" parent="pieces/water" unique_id=102247317]
+[node name="priest" type="Sprite2D" parent="Pieces/Water" unique_id=102247317]
 position = Vector2(2286, 207)
 texture = ExtResource("tex_water_priest_body")
 centered = false
 metadata/piece_id = "water_priest"
 metadata/registry_id = "priest_with_jar"
 
-[node name="arm" type="Sprite2D" parent="pieces/water/priest" unique_id=126511209]
+[node name="arm" type="Sprite2D" parent="Pieces/Water/priest" unique_id=126511209]
 position = Vector2(3.4, 120.7)
 texture = ExtResource("tex_water_priest_arm")
 centered = false
@@ -746,10 +746,10 @@ offset = Vector2(-70.4, -129.7)
 metadata/piece_id = "water_priest_arm"
 metadata/registry_id = "priest_with_jar"
 
-[node name="opening_mouth" type="Node2D" parent="pieces" unique_id=1696754418]
+[node name="OpeningMouth" type="Node2D" parent="Pieces" unique_id=1696754418]
 script = ExtResource("script_opening_mouth")
 
-[node name="mummy" type="Sprite2D" parent="pieces/opening_mouth" unique_id=2026288228]
+[node name="mummy" type="Sprite2D" parent="Pieces/OpeningMouth" unique_id=2026288228]
 position = Vector2(1765, 200)
 texture = ExtResource("tex_mouth_mummy")
 centered = false
@@ -757,50 +757,50 @@ offset = Vector2(-22, 0)
 metadata/piece_id = "mouth_mummy"
 metadata/registry_id = "anubis_and_the_mummy"
 
-[node name="features" type="Sprite2D" parent="pieces/opening_mouth/mummy" unique_id=221700792]
+[node name="features" type="Sprite2D" parent="Pieces/OpeningMouth/mummy" unique_id=221700792]
 position = Vector2(165, 46)
 texture = ExtResource("tex_mouth_features")
 centered = false
 metadata/piece_id = "mouth_features"
 metadata/registry_id = "anubis_and_the_mummy"
 
-[node name="StandPosition" type="Marker2D" parent="pieces/opening_mouth" unique_id=1337845075]
+[node name="StandPosition" type="Marker2D" parent="Pieces/OpeningMouth" unique_id=1337845075]
 position = Vector2(2052.5, 526)
 
-[node name="adze" type="Sprite2D" parent="pieces/opening_mouth" unique_id=1067889]
+[node name="adze" type="Sprite2D" parent="Pieces/OpeningMouth" unique_id=1067889]
 position = Vector2(3967, 359)
 texture = ExtResource("tex_mouth_adze")
 centered = false
 metadata/piece_id = "mouth_adze"
 
-[node name="words" type="Sprite2D" parent="pieces/opening_mouth" unique_id=1884713422]
+[node name="words" type="Sprite2D" parent="Pieces/OpeningMouth" unique_id=1884713422]
 position = Vector2(504.5, 108.5)
 texture = ExtResource("tex_mouth_words")
 metadata/piece_id = "mouth_words"
 
-[node name="words_imprint" type="Sprite2D" parent="pieces/opening_mouth" unique_id=1402598587]
+[node name="words_imprint" type="Sprite2D" parent="Pieces/OpeningMouth" unique_id=1402598587]
 visible = false
 modulate = Color(1.9, 1, 0.6, 0.2)
 position = Vector2(504.5, 108.5)
 texture = ExtResource("tex_mouth_words")
 metadata/piece_id = "words_imprint"
 
-[node name="column" type="Sprite2D" parent="pieces/opening_mouth" unique_id=1830809144]
+[node name="column" type="Sprite2D" parent="Pieces/OpeningMouth" unique_id=1830809144]
 position = Vector2(3961, 312)
 texture = ExtResource("tex_mouth_column")
 centered = false
 metadata/piece_id = "mouth_column"
 
-[node name="spoon" type="Sprite2D" parent="pieces/opening_mouth" unique_id=838656982]
+[node name="spoon" type="Sprite2D" parent="Pieces/OpeningMouth" unique_id=838656982]
 position = Vector2(3960, 332)
 texture = ExtResource("tex_mouth_spoon")
 centered = false
 metadata/piece_id = "mouth_spoon"
 
-[node name="bulls" type="Node2D" parent="pieces" unique_id=1677221064]
+[node name="Bulls" type="Node2D" parent="Pieces" unique_id=1677221064]
 script = ExtResource("script_bulls")
 
-[node name="plumed_ox" type="Sprite2D" parent="pieces/bulls" unique_id=802838540]
+[node name="plumed_ox" type="Sprite2D" parent="Pieces/Bulls" unique_id=802838540]
 position = Vector2(8040, 525)
 texture = ExtResource("tex_plumed_ox")
 centered = false
@@ -808,68 +808,68 @@ offset = Vector2(-365, -285)
 metadata/piece_id = "plumed_ox"
 metadata/registry_id = "plumed_ox"
 
-[node name="calf" type="Sprite2D" parent="pieces/bulls" unique_id=691510915]
+[node name="calf" type="Sprite2D" parent="Pieces/Bulls" unique_id=691510915]
 position = Vector2(7483, 457)
 scale = Vector2(-1, 1)
 texture = ExtResource("tex_calf")
 metadata/piece_id = "calf"
 metadata/registry_id = "calf"
 
-[node name="plumes" type="Sprite2D" parent="pieces/bulls" unique_id=1441437649]
+[node name="plumes" type="Sprite2D" parent="Pieces/Bulls" unique_id=1441437649]
 position = Vector2(6886, 217)
 texture = ExtResource("tex_plumes")
 centered = false
 metadata/piece_id = "plumes"
 
-[node name="plumes_place" type="Marker2D" parent="pieces/bulls" unique_id=49479132]
+[node name="PlumesPlace" type="Marker2D" parent="Pieces/Bulls" unique_id=49479132]
 position = Vector2(7718, 209)
 metadata/piece_id = "plumes_place"
 
-[node name="ending" type="Node2D" parent="pieces" unique_id=291455752]
+[node name="Ending" type="Node2D" parent="Pieces" unique_id=291455752]
 script = ExtResource("script_ending")
 
-[node name="stela_imprint" type="Node2D" parent="pieces/ending" unique_id=1035572744]
+[node name="StelaImprint" type="Node2D" parent="Pieces/Ending" unique_id=1035572744]
 modulate = Color(1.9, 1, 0.6, 0.2)
 position = Vector2(1168, 94)
 scale = Vector2(0.75, 0.75)
 metadata/piece_id = "stela_imprint"
 
-[node name="stand" type="Sprite2D" parent="pieces/ending/stela_imprint" unique_id=958774361]
+[node name="stand" type="Sprite2D" parent="Pieces/Ending/StelaImprint" unique_id=958774361]
 position = Vector2(572, 343)
 texture = ExtResource("tex_stand")
 centered = false
 metadata/piece_id = "stand_place"
 
-[node name="sun" type="Sprite2D" parent="pieces/ending/stela_imprint" unique_id=167326742]
+[node name="sun" type="Sprite2D" parent="Pieces/Ending/StelaImprint" unique_id=167326742]
 position = Vector2(579, 303)
 texture = ExtResource("tex_sun")
 centered = false
 metadata/piece_id = "sun_place"
 
-[node name="lotus" type="Sprite2D" parent="pieces/ending/stela_imprint" unique_id=1536779773]
+[node name="lotus" type="Sprite2D" parent="Pieces/Ending/StelaImprint" unique_id=1536779773]
 position = Vector2(565, 224)
 texture = ExtResource("tex_lotus")
 centered = false
 metadata/piece_id = "lotus_place"
 
-[node name="stand" type="Sprite2D" parent="pieces/ending" unique_id=1367751320]
+[node name="stand" type="Sprite2D" parent="Pieces/Ending" unique_id=1367751320]
 position = Vector2(13595, 396.5)
 texture = ExtResource("tex_stand")
 metadata/piece_id = "stand"
 
-[node name="lotus" type="Sprite2D" parent="pieces/ending" unique_id=1177462859]
+[node name="lotus" type="Sprite2D" parent="Pieces/Ending" unique_id=1177462859]
 position = Vector2(2826.0002, 247.00009)
 rotation = 1.7470746
 texture = ExtResource("tex_lotus")
 metadata/piece_id = "lotus"
 
-[node name="kneeling_man" type="Sprite2D" parent="pieces/ending" unique_id=302206127]
+[node name="kneeling_man" type="Sprite2D" parent="Pieces/Ending" unique_id=302206127]
 position = Vector2(790, 248)
 texture = ExtResource("tex_kneeler")
 centered = false
 metadata/piece_id = "kneeler"
 
-[node name="recital" type="Node2D" parent="pieces" unique_id=510463387]
+[node name="Recital" type="Node2D" parent="Pieces" unique_id=510463387]
 
 [node name="Overlay" type="Node2D" parent="." unique_id=412122679]
 
@@ -1143,15 +1143,15 @@ metadata/registry_id = "lector_priest"
 shape = SubResource("inspection_lector_priest")
 debug_color = Color(0.35, 0.75, 0.9, 0.3)
 
-[node name="GooseBearerHit" type="Area2D" parent="Hitboxes" unique_id=1101312305]
+[node name="arms" type="Area2D" parent="Hitboxes" unique_id=1101312305]
 position = Vector2(6461.5, 385)
 collision_layer = 0
 collision_mask = 0
 monitoring = false
 monitorable = false
-metadata/interaction_id = "GooseBearerHit"
+metadata/interaction_id = "arms"
 
-[node name="Shape" type="CollisionShape2D" parent="Hitboxes/GooseBearerHit" unique_id=1007918322]
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/arms" unique_id=1007918322]
 shape = SubResource("hit_GooseBearerHit")
 debug_color = Color(0.35, 0.75, 0.9, 0.3)
 

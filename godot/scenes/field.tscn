@@ -388,6 +388,7 @@ offset_top = -1000.0
 offset_right = 11000.0
 offset_bottom = 4300.0
 mouse_filter = 2
+metadata/_edit_lock_ = true
 
 [node name="Strip" type="Sprite2D" parent="." unique_id=535281878]
 position = Vector2(1040, 268)
@@ -397,690 +398,690 @@ metadata/_edit_lock_ = true
 
 [node name="Figures" type="Node2D" parent="." unique_id=1833332070]
 
-[node name="PlateXLI" type="Node2D" parent="Figures" unique_id=1314799705]
+[node name="Plate41" type="Node2D" parent="Figures" unique_id=1314799705]
 
-[node name="Canal_deities_and_landing" type="Node2D" parent="Figures/PlateXLI" unique_id=1169851763]
+[node name="CanalDeitiesAndLanding" type="Node2D" parent="Figures/Plate41" unique_id=1169851763]
 
-[node name="landing_steps" type="Sprite2D" parent="Figures/PlateXLI/Canal_deities_and_landing" unique_id=81420762]
+[node name="landing_steps" type="Sprite2D" parent="Figures/Plate41/CanalDeitiesAndLanding" unique_id=81420762]
 position = Vector2(6391, 2654)
 texture = ExtResource("landing_steps")
 centered = false
 metadata/registry_id = "landing_steps"
 metadata/source_layer_id = 26
 
-[node name="canal_god_3" type="Sprite2D" parent="Figures/PlateXLI/Canal_deities_and_landing" unique_id=1378652670]
+[node name="canal_god_3" type="Sprite2D" parent="Figures/Plate41/CanalDeitiesAndLanding" unique_id=1378652670]
 position = Vector2(6133, 2640)
 texture = ExtResource("canal_god_3")
 centered = false
 metadata/registry_id = "canal_god_3"
 metadata/source_layer_id = 28
 
-[node name="canal_god_2" type="Sprite2D" parent="Figures/PlateXLI/Canal_deities_and_landing" unique_id=577573710]
+[node name="canal_god_2" type="Sprite2D" parent="Figures/Plate41/CanalDeitiesAndLanding" unique_id=577573710]
 position = Vector2(6069, 2637)
 texture = ExtResource("canal_god_2")
 centered = false
 metadata/registry_id = "canal_god_2"
 metadata/source_layer_id = 29
 
-[node name="canal_god_1" type="Sprite2D" parent="Figures/PlateXLI/Canal_deities_and_landing" unique_id=1889106962]
+[node name="canal_god_1" type="Sprite2D" parent="Figures/Plate41/CanalDeitiesAndLanding" unique_id=1889106962]
 position = Vector2(5991, 2624)
 texture = ExtResource("canal_god_1")
 centered = false
 metadata/registry_id = "canal_god_1"
 metadata/source_layer_id = 30
 
-[node name="Lower_oared_crossing" type="Node2D" parent="Figures/PlateXLI" unique_id=1744223127]
+[node name="LowerOaredCrossing" type="Node2D" parent="Figures/Plate41" unique_id=1744223127]
 
-[node name="throne_boat" type="Sprite2D" parent="Figures/PlateXLI/Lower_oared_crossing" unique_id=705213845]
+[node name="throne_boat" type="Sprite2D" parent="Figures/Plate41/LowerOaredCrossing" unique_id=705213845]
 position = Vector2(4267, 2296)
 texture = ExtResource("throne_boat")
 centered = false
 metadata/registry_id = "throne_boat"
 metadata/source_layer_id = 33
 
-[node name="Lower_stairway_crossing" type="Node2D" parent="Figures/PlateXLI" unique_id=1569239050]
+[node name="LowerStairwayCrossing" type="Node2D" parent="Figures/Plate41" unique_id=1569239050]
 
-[node name="stairway_boat" type="Sprite2D" parent="Figures/PlateXLI/Lower_stairway_crossing" unique_id=382814209]
+[node name="stairway_boat" type="Sprite2D" parent="Figures/Plate41/LowerStairwayCrossing" unique_id=382814209]
 position = Vector2(3391, 2352)
 texture = ExtResource("stairway_boat")
 centered = false
 metadata/registry_id = "stairway_boat"
 metadata/source_layer_id = 36
 
-[node name="caption_bot_heron_island" type="Sprite2D" parent="Figures/PlateXLI/Lower_stairway_crossing" unique_id=1900314974]
+[node name="caption_bot_heron_island" type="Sprite2D" parent="Figures/Plate41/LowerStairwayCrossing" unique_id=1900314974]
 position = Vector2(3114, 2397)
 texture = ExtResource("caption_bot_heron_island")
 centered = false
 metadata/registry_id = "caption_bot_heron_island"
 metadata/source_layer_id = 38
 
-[node name="Ploughing_scene" type="Node2D" parent="Figures/PlateXLI" unique_id=892083726]
+[node name="PloughingScene" type="Node2D" parent="Figures/Plate41" unique_id=892083726]
 
-[node name="plough_ox" type="Sprite2D" parent="Figures/PlateXLI/Ploughing_scene" unique_id=669382023]
+[node name="plough_ox" type="Sprite2D" parent="Figures/Plate41/PloughingScene" unique_id=669382023]
 position = Vector2(6360, 1653)
 texture = ExtResource("plough_ox")
 centered = false
 metadata/registry_id = "plough_ox"
 metadata/source_layer_id = 41
 
-[node name="hoe_man" type="Sprite2D" parent="Figures/PlateXLI/Ploughing_scene" unique_id=2030724702]
+[node name="hoe_man" type="Sprite2D" parent="Figures/Plate41/PloughingScene" unique_id=2030724702]
 position = Vector2(6704, 1603)
 texture = ExtResource("hoe_man")
 centered = false
 metadata/registry_id = "hoe_man"
 metadata/source_layer_id = 42
 
-[node name="Reaping_and_sowing" type="Node2D" parent="Figures/PlateXLI" unique_id=295325555]
+[node name="ReapingAndSowing" type="Node2D" parent="Figures/Plate41" unique_id=295325555]
 
-[node name="seed" type="Sprite2D" parent="Figures/PlateXLI/Reaping_and_sowing" unique_id=1878291880]
+[node name="seed" type="Sprite2D" parent="Figures/Plate41/ReapingAndSowing" unique_id=1878291880]
 position = Vector2(6100, 1597)
 texture = ExtResource("seed")
 centered = false
 metadata/registry_id = "seed"
 metadata/source_layer_id = 45
 
-[node name="sower" type="Sprite2D" parent="Figures/PlateXLI/Reaping_and_sowing" unique_id=591848668]
+[node name="sower" type="Sprite2D" parent="Figures/Plate41/ReapingAndSowing" unique_id=591848668]
 position = Vector2(6155, 1599)
 texture = ExtResource("sower")
 centered = false
 metadata/registry_id = "sower"
 metadata/source_layer_id = 46
 
-[node name="tree" type="Sprite2D" parent="Figures/PlateXLI/Reaping_and_sowing" unique_id=1992155205]
+[node name="tree" type="Sprite2D" parent="Figures/Plate41/ReapingAndSowing" unique_id=1992155205]
 position = Vector2(5940, 1498)
 texture = ExtResource("tree")
 centered = false
 metadata/registry_id = "tree"
 metadata/source_layer_id = 48
 
-[node name="crops_right" type="Sprite2D" parent="Figures/PlateXLI/Reaping_and_sowing" unique_id=413420296]
+[node name="crops_right" type="Sprite2D" parent="Figures/Plate41/ReapingAndSowing" unique_id=413420296]
 position = Vector2(5626, 1391)
 texture = ExtResource("crops_right")
 centered = false
 metadata/registry_id = "crops_right"
 metadata/source_layer_id = 50
 
-[node name="crops_left" type="Sprite2D" parent="Figures/PlateXLI/Reaping_and_sowing" unique_id=1337811968]
+[node name="crops_left" type="Sprite2D" parent="Figures/Plate41/ReapingAndSowing" unique_id=1337811968]
 position = Vector2(5285, 1391)
 texture = ExtResource("crops_left")
 centered = false
 metadata/registry_id = "crops_left"
 metadata/source_layer_id = 51
 
-[node name="reaper_right" type="Sprite2D" parent="Figures/PlateXLI/Reaping_and_sowing" unique_id=1910120475]
+[node name="reaper_right" type="Sprite2D" parent="Figures/Plate41/ReapingAndSowing" unique_id=1910120475]
 position = Vector2(5655, 1600)
 texture = ExtResource("reaper_right")
 centered = false
 metadata/registry_id = "reaper_right"
 metadata/source_layer_id = 53
 
-[node name="reaper_left" type="Sprite2D" parent="Figures/PlateXLI/Reaping_and_sowing" unique_id=1975815445]
+[node name="reaper_left" type="Sprite2D" parent="Figures/Plate41/ReapingAndSowing" unique_id=1975815445]
 position = Vector2(5408, 1600)
 texture = ExtResource("reaper_left")
 centered = false
 metadata/registry_id = "reaper_left"
 metadata/source_layer_id = 54
 
-[node name="Harvest_and_threshing" type="Node2D" parent="Figures/PlateXLI" unique_id=1444443213]
+[node name="HarvestAndThreshing" type="Node2D" parent="Figures/Plate41" unique_id=1444443213]
 
-[node name="threshing_floor" type="Sprite2D" parent="Figures/PlateXLI/Harvest_and_threshing" unique_id=373169200]
+[node name="threshing_floor" type="Sprite2D" parent="Figures/Plate41/HarvestAndThreshing" unique_id=373169200]
 position = Vector2(4644, 1890)
 texture = ExtResource("threshing_floor")
 centered = false
 metadata/registry_id = "threshing_floor"
 metadata/source_layer_id = 57
 
-[node name="flail_man" type="Sprite2D" parent="Figures/PlateXLI/Harvest_and_threshing" unique_id=958348550]
+[node name="flail_man" type="Sprite2D" parent="Figures/Plate41/HarvestAndThreshing" unique_id=958348550]
 position = Vector2(5095, 1498)
 texture = ExtResource("flail_man")
 centered = false
 metadata/registry_id = "flail_man"
 metadata/source_layer_id = 58
 
-[node name="threshing_ox" type="Sprite2D" parent="Figures/PlateXLI/Harvest_and_threshing" unique_id=648024924]
+[node name="threshing_ox" type="Sprite2D" parent="Figures/Plate41/HarvestAndThreshing" unique_id=648024924]
 position = Vector2(4640, 1608)
 texture = ExtResource("threshing_ox")
 centered = false
 metadata/registry_id = "threshing_ox"
 metadata/source_layer_id = 59
 
-[node name="grain_heap_right" type="Sprite2D" parent="Figures/PlateXLI/Harvest_and_threshing" unique_id=1087209214]
+[node name="grain_heap_right" type="Sprite2D" parent="Figures/Plate41/HarvestAndThreshing" unique_id=1087209214]
 position = Vector2(4363, 1822)
 texture = ExtResource("grain_heap_right")
 centered = false
 metadata/registry_id = "grain_heap_right"
 metadata/source_layer_id = 61
 
-[node name="grain_heap_left" type="Sprite2D" parent="Figures/PlateXLI/Harvest_and_threshing" unique_id=1680756119]
+[node name="grain_heap_left" type="Sprite2D" parent="Figures/Plate41/HarvestAndThreshing" unique_id=1680756119]
 position = Vector2(4030, 1801)
 texture = ExtResource("grain_heap_left")
 centered = false
 metadata/registry_id = "grain_heap_left"
 metadata/source_layer_id = 62
 
-[node name="Middle_offering_scene" type="Node2D" parent="Figures/PlateXLI" unique_id=2087572428]
+[node name="MiddleOfferingScene" type="Node2D" parent="Figures/Plate41" unique_id=2087572428]
 
-[node name="heron" type="Sprite2D" parent="Figures/PlateXLI/Middle_offering_scene" unique_id=196952954]
+[node name="heron" type="Sprite2D" parent="Figures/Plate41/MiddleOfferingScene" unique_id=196952954]
 position = Vector2(3630, 1513)
 texture = ExtResource("heron")
 centered = false
 metadata/registry_id = "heron"
 metadata/source_layer_id = 65
 
-[node name="adorant_heron" type="Sprite2D" parent="Figures/PlateXLI/Middle_offering_scene" unique_id=246153373]
+[node name="adorant_heron" type="Sprite2D" parent="Figures/Plate41/MiddleOfferingScene" unique_id=246153373]
 position = Vector2(3810, 1591)
 texture = ExtResource("adorant_heron")
 centered = false
 metadata/registry_id = "adorant_heron"
 metadata/source_layer_id = 67
 
-[node name="kneeling_man" type="Sprite2D" parent="Figures/PlateXLI/Middle_offering_scene" unique_id=1543191990]
+[node name="kneeling_man" type="Sprite2D" parent="Figures/Plate41/MiddleOfferingScene" unique_id=1543191990]
 position = Vector2(3541, 1720)
 texture = ExtResource("kneeling_man")
 centered = false
 metadata/registry_id = "kneeling_man"
 metadata/source_layer_id = 68
 
-[node name="adorant_offering" type="Sprite2D" parent="Figures/PlateXLI/Middle_offering_scene" unique_id=1893949634]
+[node name="adorant_offering" type="Sprite2D" parent="Figures/Plate41/MiddleOfferingScene" unique_id=1893949634]
 position = Vector2(3395, 1609)
 texture = ExtResource("adorant_offering")
 centered = false
 metadata/registry_id = "adorant_offering"
 metadata/source_layer_id = 69
 
-[node name="offering_stand" type="Sprite2D" parent="Figures/PlateXLI/Middle_offering_scene" unique_id=107873185]
+[node name="offering_stand" type="Sprite2D" parent="Figures/Plate41/MiddleOfferingScene" unique_id=107873185]
 position = Vector2(3275, 1672)
 texture = ExtResource("offering_stand")
 centered = false
 metadata/registry_id = "offering_stand"
 metadata/source_layer_id = 71
 
-[node name="enthroned_god" type="Sprite2D" parent="Figures/PlateXLI/Middle_offering_scene" unique_id=2059297365]
+[node name="enthroned_god" type="Sprite2D" parent="Figures/Plate41/MiddleOfferingScene" unique_id=2059297365]
 position = Vector2(3105, 1533)
 texture = ExtResource("enthroned_god")
 centered = false
 metadata/registry_id = "enthroned_god"
 metadata/source_layer_id = 73
 
-[node name="Upper_offering_procession" type="Node2D" parent="Figures/PlateXLI" unique_id=117301951]
+[node name="UpperOfferingProcession" type="Node2D" parent="Figures/Plate41" unique_id=117301951]
 
-[node name="yoke_bearer" type="Sprite2D" parent="Figures/PlateXLI/Upper_offering_procession" unique_id=689401487]
+[node name="yoke_bearer" type="Sprite2D" parent="Figures/Plate41/UpperOfferingProcession" unique_id=689401487]
 position = Vector2(6727, 883)
 texture = ExtResource("yoke_bearer")
 centered = false
 metadata/registry_id = "yoke_bearer"
 metadata/source_layer_id = 76
 
-[node name="walking_worshipper" type="Sprite2D" parent="Figures/PlateXLI/Upper_offering_procession" unique_id=939023544]
+[node name="walking_worshipper" type="Sprite2D" parent="Figures/Plate41/UpperOfferingProcession" unique_id=939023544]
 position = Vector2(6570, 872)
 texture = ExtResource("walking_worshipper")
 centered = false
 metadata/registry_id = "walking_worshipper"
 metadata/source_layer_id = 77
 
-[node name="adorant_procession" type="Sprite2D" parent="Figures/PlateXLI/Upper_offering_procession" unique_id=1492684324]
+[node name="adorant_procession" type="Sprite2D" parent="Figures/Plate41/UpperOfferingProcession" unique_id=1492684324]
 position = Vector2(6410, 874)
 texture = ExtResource("adorant_procession")
 centered = false
 metadata/registry_id = "adorant_procession"
 metadata/source_layer_id = 78
 
-[node name="cup_bearer_procession" type="Sprite2D" parent="Figures/PlateXLI/Upper_offering_procession" unique_id=539244429]
+[node name="cup_bearer_procession" type="Sprite2D" parent="Figures/Plate41/UpperOfferingProcession" unique_id=539244429]
 position = Vector2(6206, 871)
 texture = ExtResource("cup_bearer_procession")
 centered = false
 metadata/registry_id = "cup_bearer_procession"
 metadata/source_layer_id = 79
 
-[node name="heaped_stand" type="Sprite2D" parent="Figures/PlateXLI/Upper_offering_procession" unique_id=2026595818]
+[node name="heaped_stand" type="Sprite2D" parent="Figures/Plate41/UpperOfferingProcession" unique_id=2026595818]
 position = Vector2(6078, 943)
 texture = ExtResource("heaped_stand")
 centered = false
 metadata/registry_id = "heaped_stand"
 metadata/source_layer_id = 81
 
-[node name="dais" type="Sprite2D" parent="Figures/PlateXLI/Upper_offering_procession" unique_id=1377835440]
+[node name="dais" type="Sprite2D" parent="Figures/Plate41/UpperOfferingProcession" unique_id=1377835440]
 position = Vector2(5766, 1090)
 texture = ExtResource("dais")
 centered = false
 metadata/registry_id = "dais"
 metadata/source_layer_id = 83
 
-[node name="seated_god_3" type="Sprite2D" parent="Figures/PlateXLI/Upper_offering_procession" unique_id=1617532365]
+[node name="seated_god_3" type="Sprite2D" parent="Figures/Plate41/UpperOfferingProcession" unique_id=1617532365]
 position = Vector2(5945, 872)
 texture = ExtResource("seated_god_3")
 centered = false
 metadata/registry_id = "seated_god_3"
 metadata/source_layer_id = 84
 
-[node name="seated_god_2" type="Sprite2D" parent="Figures/PlateXLI/Upper_offering_procession" unique_id=1178034526]
+[node name="seated_god_2" type="Sprite2D" parent="Figures/Plate41/UpperOfferingProcession" unique_id=1178034526]
 position = Vector2(5867, 869)
 texture = ExtResource("seated_god_2")
 centered = false
 metadata/registry_id = "seated_god_2"
 metadata/source_layer_id = 85
 
-[node name="seated_god_1" type="Sprite2D" parent="Figures/PlateXLI/Upper_offering_procession" unique_id=1836772741]
+[node name="seated_god_1" type="Sprite2D" parent="Figures/Plate41/UpperOfferingProcession" unique_id=1836772741]
 position = Vector2(5773, 869)
 texture = ExtResource("seated_god_1")
 centered = false
 metadata/registry_id = "seated_god_1"
 metadata/source_layer_id = 86
 
-[node name="Solar_crossing" type="Node2D" parent="Figures/PlateXLI" unique_id=317019144]
+[node name="SolarCrossing" type="Node2D" parent="Figures/Plate41" unique_id=317019144]
 
-[node name="round_sign_3" type="Sprite2D" parent="Figures/PlateXLI/Solar_crossing" unique_id=905401858]
+[node name="round_sign_3" type="Sprite2D" parent="Figures/Plate41/SolarCrossing" unique_id=905401858]
 position = Vector2(5188, 620)
 texture = ExtResource("round_sign_3")
 centered = false
 metadata/source_layer_id = 89
 
-[node name="round_sign_2" type="Sprite2D" parent="Figures/PlateXLI/Solar_crossing" unique_id=1265736724]
+[node name="round_sign_2" type="Sprite2D" parent="Figures/Plate41/SolarCrossing" unique_id=1265736724]
 position = Vector2(5042, 625)
 texture = ExtResource("round_sign_2")
 centered = false
 metadata/source_layer_id = 90
 
-[node name="round_sign_1" type="Sprite2D" parent="Figures/PlateXLI/Solar_crossing" unique_id=520388435]
+[node name="round_sign_1" type="Sprite2D" parent="Figures/Plate41/SolarCrossing" unique_id=520388435]
 position = Vector2(4891, 620)
 texture = ExtResource("round_sign_1")
 centered = false
 metadata/source_layer_id = 91
 
-[node name="boat" type="Sprite2D" parent="Figures/PlateXLI/Solar_crossing" unique_id=797822027]
+[node name="boat" type="Sprite2D" parent="Figures/Plate41/SolarCrossing" unique_id=797822027]
 position = Vector2(4827, 870)
 texture = ExtResource("boat")
 centered = false
 metadata/registry_id = "boat"
 metadata/source_layer_id = 93
 
-[node name="cup_bearer_boat" type="Sprite2D" parent="Figures/PlateXLI/Solar_crossing" unique_id=1405042753]
+[node name="cup_bearer_boat" type="Sprite2D" parent="Figures/Plate41/SolarCrossing" unique_id=1405042753]
 position = Vector2(4655, 900)
 texture = ExtResource("cup_bearer_boat")
 centered = false
 metadata/registry_id = "cup_bearer_boat"
 metadata/source_layer_id = 95
 
-[node name="Upper_sacred_figures" type="Node2D" parent="Figures/PlateXLI" unique_id=665614058]
+[node name="UpperSacredFigures" type="Node2D" parent="Figures/Plate41" unique_id=665614058]
 
-[node name="human_headed_bird" type="Sprite2D" parent="Figures/PlateXLI/Upper_sacred_figures" unique_id=1441311653]
+[node name="human_headed_bird" type="Sprite2D" parent="Figures/Plate41/UpperSacredFigures" unique_id=1441311653]
 position = Vector2(4214, 869)
 texture = ExtResource("human_headed_bird")
 centered = false
 metadata/registry_id = "human_headed_bird"
 metadata/source_layer_id = 98
 
-[node name="falcon" type="Sprite2D" parent="Figures/PlateXLI/Upper_sacred_figures" unique_id=336462695]
+[node name="falcon" type="Sprite2D" parent="Figures/Plate41/UpperSacredFigures" unique_id=336462695]
 position = Vector2(3958, 820)
 texture = ExtResource("falcon")
 centered = false
 metadata/registry_id = "falcon"
 metadata/source_layer_id = 99
 
-[node name="bird_on_offerings" type="Sprite2D" parent="Figures/PlateXLI/Upper_sacred_figures" unique_id=127164612]
+[node name="bird_on_offerings" type="Sprite2D" parent="Figures/Plate41/UpperSacredFigures" unique_id=127164612]
 position = Vector2(3700, 903)
 texture = ExtResource("bird_on_offerings")
 centered = false
 metadata/registry_id = "bird_on_offerings"
 metadata/source_layer_id = 101
 
-[node name="bird_stand" type="Sprite2D" parent="Figures/PlateXLI/Upper_sacred_figures" unique_id=192741329]
+[node name="bird_stand" type="Sprite2D" parent="Figures/Plate41/UpperSacredFigures" unique_id=192741329]
 position = Vector2(3700, 967)
 texture = ExtResource("bird_stand")
 centered = false
 metadata/registry_id = "bird_stand"
 metadata/source_layer_id = 102
 
-[node name="mummiform_god" type="Sprite2D" parent="Figures/PlateXLI/Upper_sacred_figures" unique_id=444620842]
+[node name="mummiform_god" type="Sprite2D" parent="Figures/Plate41/UpperSacredFigures" unique_id=444620842]
 position = Vector2(3472, 797)
 texture = ExtResource("mummiform_god")
 centered = false
 metadata/registry_id = "mummiform_god"
 metadata/source_layer_id = 104
 
-[node name="Captions_top" type="Node2D" parent="Figures/PlateXLI" unique_id=649323395]
+[node name="CaptionsTop" type="Node2D" parent="Figures/Plate41" unique_id=649323395]
 
-[node name="caption_top_oval_qenqenet" type="Sprite2D" parent="Figures/PlateXLI/Captions_top" unique_id=1129888025]
+[node name="caption_top_oval_qenqenet" type="Sprite2D" parent="Figures/Plate41/CaptionsTop" unique_id=1129888025]
 position = Vector2(3103, 622)
 texture = ExtResource("caption_top_oval_qenqenet")
 centered = false
 metadata/registry_id = "caption_top_oval_qenqenet"
 metadata/source_layer_id = 23
 
-[node name="caption_top_oval_no_sweat" type="Sprite2D" parent="Figures/PlateXLI/Captions_top" unique_id=221353735]
+[node name="caption_top_oval_no_sweat" type="Sprite2D" parent="Figures/Plate41/CaptionsTop" unique_id=221353735]
 position = Vector2(3357, 626)
 texture = ExtResource("caption_top_oval_no_sweat")
 centered = false
 metadata/registry_id = "caption_top_oval_no_sweat"
 metadata/source_layer_id = 23
 
-[node name="caption_top_oval_great_town" type="Sprite2D" parent="Figures/PlateXLI/Captions_top" unique_id=253052599]
+[node name="caption_top_oval_great_town" type="Sprite2D" parent="Figures/Plate41/CaptionsTop" unique_id=253052599]
 position = Vector2(3103, 773)
 texture = ExtResource("caption_top_oval_great_town")
 centered = false
 metadata/registry_id = "caption_top_oval_great_town"
 metadata/source_layer_id = 23
 
-[node name="caption_top_horizon_gods" type="Sprite2D" parent="Figures/PlateXLI/Captions_top" unique_id=1635283323]
+[node name="caption_top_horizon_gods" type="Sprite2D" parent="Figures/Plate41/CaptionsTop" unique_id=1635283323]
 position = Vector2(3609, 635)
 texture = ExtResource("caption_top_horizon_gods")
 centered = false
 metadata/registry_id = "caption_top_horizon_gods"
 metadata/source_layer_id = 23
 
-[node name="caption_top_hotep_falcon" type="Sprite2D" parent="Figures/PlateXLI/Captions_top" unique_id=759843729]
+[node name="caption_top_hotep_falcon" type="Sprite2D" parent="Figures/Plate41/CaptionsTop" unique_id=759843729]
 position = Vector2(3803, 644)
 texture = ExtResource("caption_top_hotep_falcon")
 centered = false
 metadata/registry_id = "caption_top_hotep_falcon"
 metadata/source_layer_id = 23
 
-[node name="caption_top_being_hotep" type="Sprite2D" parent="Figures/PlateXLI/Captions_top" unique_id=300294880]
+[node name="caption_top_being_hotep" type="Sprite2D" parent="Figures/Plate41/CaptionsTop" unique_id=300294880]
 position = Vector2(3124, 997)
 texture = ExtResource("caption_top_being_hotep")
 centered = false
 metadata/registry_id = "caption_top_being_hotep"
 metadata/source_layer_id = 23
 
-[node name="caption_top_osiris_cup" type="Sprite2D" parent="Figures/PlateXLI/Captions_top" unique_id=1055904639]
+[node name="caption_top_osiris_cup" type="Sprite2D" parent="Figures/Plate41/CaptionsTop" unique_id=1055904639]
 position = Vector2(4677, 628)
 texture = ExtResource("caption_top_osiris_cup")
 centered = false
 metadata/registry_id = "caption_top_osiris_cup"
 metadata/source_layer_id = 23
 
-[node name="caption_top_osiris_boat" type="Sprite2D" parent="Figures/PlateXLI/Captions_top" unique_id=1688359089]
+[node name="caption_top_osiris_boat" type="Sprite2D" parent="Figures/Plate41/CaptionsTop" unique_id=1688359089]
 position = Vector2(5344, 631)
 texture = ExtResource("caption_top_osiris_boat")
 centered = false
 metadata/registry_id = "caption_top_osiris_boat"
 metadata/source_layer_id = 23
 
-[node name="caption_top_rowing" type="Sprite2D" parent="Figures/PlateXLI/Captions_top" unique_id=1199601337]
+[node name="caption_top_rowing" type="Sprite2D" parent="Figures/Plate41/CaptionsTop" unique_id=1199601337]
 position = Vector2(5430, 622)
 texture = ExtResource("caption_top_rowing")
 centered = false
 metadata/registry_id = "caption_top_rowing"
 metadata/source_layer_id = 23
 
-[node name="caption_top_great_ennead" type="Sprite2D" parent="Figures/PlateXLI/Captions_top" unique_id=1437575230]
+[node name="caption_top_great_ennead" type="Sprite2D" parent="Figures/Plate41/CaptionsTop" unique_id=1437575230]
 position = Vector2(5844, 635)
 texture = ExtResource("caption_top_great_ennead")
 centered = false
 metadata/registry_id = "caption_top_great_ennead"
 metadata/source_layer_id = 23
 
-[node name="caption_top_osiris_procession" type="Sprite2D" parent="Figures/PlateXLI/Captions_top" unique_id=271232430]
+[node name="caption_top_osiris_procession" type="Sprite2D" parent="Figures/Plate41/CaptionsTop" unique_id=271232430]
 position = Vector2(6195, 643)
 texture = ExtResource("caption_top_osiris_procession")
 centered = false
 metadata/registry_id = "caption_top_osiris_procession"
 metadata/source_layer_id = 23
 
-[node name="Captions_mid" type="Node2D" parent="Figures/PlateXLI" unique_id=720938210]
+[node name="CaptionsMid" type="Node2D" parent="Figures/Plate41" unique_id=720938210]
 
-[node name="caption_mid_hapi" type="Sprite2D" parent="Figures/PlateXLI/Captions_mid" unique_id=340983427]
+[node name="caption_mid_hapi" type="Sprite2D" parent="Figures/Plate41/CaptionsMid" unique_id=340983427]
 position = Vector2(3222, 1404)
 texture = ExtResource("caption_mid_hapi")
 centered = false
 metadata/registry_id = "caption_mid_hapi"
 metadata/source_layer_id = 23
 
-[node name="caption_mid_osiris" type="Sprite2D" parent="Figures/PlateXLI/Captions_mid" unique_id=275725933]
+[node name="caption_mid_osiris" type="Sprite2D" parent="Figures/Plate41/CaptionsMid" unique_id=275725933]
 position = Vector2(3387, 1396)
 texture = ExtResource("caption_mid_osiris")
 centered = false
 metadata/registry_id = "caption_mid_osiris"
 metadata/source_layer_id = 23
 
-[node name="caption_mid_overflow" type="Sprite2D" parent="Figures/PlateXLI/Captions_mid" unique_id=1407644139]
+[node name="caption_mid_overflow" type="Sprite2D" parent="Figures/Plate41/CaptionsMid" unique_id=1407644139]
 position = Vector2(3636, 1660)
 texture = ExtResource("caption_mid_overflow")
 centered = false
 metadata/registry_id = "caption_mid_overflow"
 metadata/source_layer_id = 23
 
-[node name="caption_mid_oval_hotep" type="Sprite2D" parent="Figures/PlateXLI/Captions_mid" unique_id=1562744651]
+[node name="caption_mid_oval_hotep" type="Sprite2D" parent="Figures/Plate41/CaptionsMid" unique_id=1562744651]
 position = Vector2(3917, 1390)
 texture = ExtResource("caption_mid_oval_hotep")
 centered = false
 metadata/registry_id = "caption_mid_oval_hotep"
 metadata/source_layer_id = 23
 
-[node name="caption_mid_oval_great_green" type="Sprite2D" parent="Figures/PlateXLI/Captions_mid" unique_id=1424247615]
+[node name="caption_mid_oval_great_green" type="Sprite2D" parent="Figures/Plate41/CaptionsMid" unique_id=1424247615]
 position = Vector2(4137, 1387)
 texture = ExtResource("caption_mid_oval_great_green")
 centered = false
 metadata/registry_id = "caption_mid_oval_great_green"
 metadata/source_layer_id = 23
 
-[node name="caption_mid_oval_flourishing" type="Sprite2D" parent="Figures/PlateXLI/Captions_mid" unique_id=1201745316]
+[node name="caption_mid_oval_flourishing" type="Sprite2D" parent="Figures/Plate41/CaptionsMid" unique_id=1201745316]
 position = Vector2(4344, 1384)
 texture = ExtResource("caption_mid_oval_flourishing")
 centered = false
 metadata/registry_id = "caption_mid_oval_flourishing"
 metadata/source_layer_id = 23
 
-[node name="caption_mid_oval_knife" type="Sprite2D" parent="Figures/PlateXLI/Captions_mid" unique_id=155411769]
+[node name="caption_mid_oval_knife" type="Sprite2D" parent="Figures/Plate41/CaptionsMid" unique_id=155411769]
 position = Vector2(4560, 1392)
 texture = ExtResource("caption_mid_oval_knife")
 centered = false
 metadata/registry_id = "caption_mid_oval_knife"
 metadata/source_layer_id = 23
 
-[node name="caption_mid_hippo_lake" type="Sprite2D" parent="Figures/PlateXLI/Captions_mid" unique_id=425173226]
+[node name="caption_mid_hippo_lake" type="Sprite2D" parent="Figures/Plate41/CaptionsMid" unique_id=425173226]
 position = Vector2(3960, 1486)
 texture = ExtResource("caption_mid_hippo_lake")
 centered = false
 metadata/registry_id = "caption_mid_hippo_lake"
 metadata/source_layer_id = 23
 
-[node name="caption_mid_ploughing" type="Sprite2D" parent="Figures/PlateXLI/Captions_mid" unique_id=2008386890]
+[node name="caption_mid_ploughing" type="Sprite2D" parent="Figures/Plate41/CaptionsMid" unique_id=2008386890]
 position = Vector2(6313, 1479)
 texture = ExtResource("caption_mid_ploughing")
 centered = false
 metadata/registry_id = "caption_mid_ploughing"
 metadata/source_layer_id = 23
 
-[node name="Captions_bot" type="Node2D" parent="Figures/PlateXLI" unique_id=1416305071]
+[node name="CaptionsBot" type="Node2D" parent="Figures/Plate41" unique_id=1416305071]
 
-[node name="caption_bot_oval_food" type="Sprite2D" parent="Figures/PlateXLI/Captions_bot" unique_id=1926465895]
+[node name="caption_bot_oval_food" type="Sprite2D" parent="Figures/Plate41/CaptionsBot" unique_id=1926465895]
 position = Vector2(3103, 2108)
 texture = ExtResource("caption_bot_oval_food")
 centered = false
 metadata/registry_id = "caption_bot_oval_food"
 metadata/source_layer_id = 23
 
-[node name="caption_bot_oval_slaughter" type="Sprite2D" parent="Figures/PlateXLI/Captions_bot" unique_id=316607849]
+[node name="caption_bot_oval_slaughter" type="Sprite2D" parent="Figures/Plate41/CaptionsBot" unique_id=316607849]
 position = Vector2(3297, 2108)
 texture = ExtResource("caption_bot_oval_slaughter")
 centered = false
 metadata/registry_id = "caption_bot_oval_slaughter"
 metadata/source_layer_id = 23
 
-[node name="caption_bot_oval_nehet" type="Sprite2D" parent="Figures/PlateXLI/Captions_bot" unique_id=1763972975]
+[node name="caption_bot_oval_nehet" type="Sprite2D" parent="Figures/Plate41/CaptionsBot" unique_id=1763972975]
 position = Vector2(3105, 2210)
 texture = ExtResource("caption_bot_oval_nehet")
 centered = false
 metadata/registry_id = "caption_bot_oval_nehet"
 metadata/source_layer_id = 23
 
-[node name="caption_bot_oval_strong" type="Sprite2D" parent="Figures/PlateXLI/Captions_bot" unique_id=1709793495]
+[node name="caption_bot_oval_strong" type="Sprite2D" parent="Figures/Plate41/CaptionsBot" unique_id=1709793495]
 position = Vector2(3304, 2210)
 texture = ExtResource("caption_bot_oval_strong")
 centered = false
 metadata/registry_id = "caption_bot_oval_strong"
 metadata/source_layer_id = 23
 
-[node name="caption_bot_rehorakhty_bark" type="Sprite2D" parent="Figures/PlateXLI/Captions_bot" unique_id=1832252203]
+[node name="caption_bot_rehorakhty_bark" type="Sprite2D" parent="Figures/Plate41/CaptionsBot" unique_id=1832252203]
 position = Vector2(3599, 2155)
 texture = ExtResource("caption_bot_rehorakhty_bark")
 centered = false
 metadata/registry_id = "caption_bot_rehorakhty_bark"
 metadata/source_layer_id = 23
 
-[node name="caption_bot_throne_bark" type="Sprite2D" parent="Figures/PlateXLI/Captions_bot" unique_id=408429611]
+[node name="caption_bot_throne_bark" type="Sprite2D" parent="Figures/Plate41/CaptionsBot" unique_id=408429611]
 position = Vector2(4173, 2116)
 texture = ExtResource("caption_bot_throne_bark")
 centered = false
 metadata/registry_id = "caption_bot_throne_bark"
 metadata/source_layer_id = 23
 
-[node name="caption_bot_great_food" type="Sprite2D" parent="Figures/PlateXLI/Captions_bot" unique_id=1117947564]
+[node name="caption_bot_great_food" type="Sprite2D" parent="Figures/Plate41/CaptionsBot" unique_id=1117947564]
 position = Vector2(5521, 2119)
 texture = ExtResource("caption_bot_great_food")
 centered = false
 metadata/registry_id = "caption_bot_great_food"
 metadata/source_layer_id = 23
 
-[node name="caption_bot_island_re" type="Sprite2D" parent="Figures/PlateXLI/Captions_bot" unique_id=835755024]
+[node name="caption_bot_island_re" type="Sprite2D" parent="Figures/Plate41/CaptionsBot" unique_id=835755024]
 position = Vector2(5944, 2161)
 texture = ExtResource("caption_bot_island_re")
 centered = false
 metadata/registry_id = "caption_bot_island_re"
 metadata/source_layer_id = 23
 
-[node name="caption_bot_blessed" type="Sprite2D" parent="Figures/PlateXLI/Captions_bot" unique_id=1388678552]
+[node name="caption_bot_blessed" type="Sprite2D" parent="Figures/Plate41/CaptionsBot" unique_id=1388678552]
 position = Vector2(6235, 2106)
 texture = ExtResource("caption_bot_blessed")
 centered = false
 metadata/registry_id = "caption_bot_blessed"
 metadata/source_layer_id = 23
 
-[node name="caption_bot_birthplace" type="Sprite2D" parent="Figures/PlateXLI/Captions_bot" unique_id=1319834998]
+[node name="caption_bot_birthplace" type="Sprite2D" parent="Figures/Plate41/CaptionsBot" unique_id=1319834998]
 position = Vector2(6285, 2495)
 texture = ExtResource("caption_bot_birthplace")
 centered = false
 metadata/registry_id = "caption_bot_birthplace"
 metadata/source_layer_id = 23
 
-[node name="caption_bot_destroying_water" type="Sprite2D" parent="Figures/PlateXLI/Captions_bot" unique_id=1101223699]
+[node name="caption_bot_destroying_water" type="Sprite2D" parent="Figures/Plate41/CaptionsBot" unique_id=1101223699]
 position = Vector2(5996, 2535)
 texture = ExtResource("caption_bot_destroying_water")
 centered = false
 metadata/registry_id = "caption_bot_destroying_water"
 metadata/source_layer_id = 23
 
-[node name="caption_bot_three_gods" type="Sprite2D" parent="Figures/PlateXLI/Captions_bot" unique_id=873769827]
+[node name="caption_bot_three_gods" type="Sprite2D" parent="Figures/Plate41/CaptionsBot" unique_id=873769827]
 position = Vector2(5896, 2583)
 texture = ExtResource("caption_bot_three_gods")
 centered = false
 metadata/registry_id = "caption_bot_three_gods"
 metadata/source_layer_id = 23
 
-[node name="PlateXLII" type="Node2D" parent="Figures" unique_id=1581760303]
+[node name="Plate42" type="Node2D" parent="Figures" unique_id=1581760303]
 
-[node name="Panel_1" type="Node2D" parent="Figures/PlateXLII" unique_id=1125280898]
+[node name="Panel1" type="Node2D" parent="Figures/Plate42" unique_id=1125280898]
 
-[node name="panel1_goddesses" type="Sprite2D" parent="Figures/PlateXLII/Panel_1" unique_id=1665307700]
+[node name="panel1_goddesses" type="Sprite2D" parent="Figures/Plate42/Panel1" unique_id=1665307700]
 position = Vector2(1090, 666)
 texture = ExtResource("panel1_goddesses")
 centered = false
 metadata/registry_id = "panel1_goddesses"
 metadata/source_layer_id = 105
 
-[node name="panel1_barque" type="Sprite2D" parent="Figures/PlateXLII/Panel_1" unique_id=1450974661]
+[node name="panel1_barque" type="Sprite2D" parent="Figures/Plate42/Panel1" unique_id=1450974661]
 position = Vector2(1340, 644)
 texture = ExtResource("panel1_barque")
 centered = false
 metadata/registry_id = "panel1_barque"
 metadata/source_layer_id = 105
 
-[node name="Panel_2" type="Node2D" parent="Figures/PlateXLII" unique_id=186070518]
+[node name="Panel2" type="Node2D" parent="Figures/Plate42" unique_id=186070518]
 
-[node name="panel2_enthroned" type="Sprite2D" parent="Figures/PlateXLII/Panel_2" unique_id=1118922490]
+[node name="panel2_enthroned" type="Sprite2D" parent="Figures/Plate42/Panel2" unique_id=1118922490]
 position = Vector2(1095, 1295)
 texture = ExtResource("panel2_enthroned")
 centered = false
 metadata/registry_id = "panel2_enthroned"
 metadata/source_layer_id = 105
 
-[node name="panel2_stand" type="Sprite2D" parent="Figures/PlateXLII/Panel_2" unique_id=1845129376]
+[node name="panel2_stand" type="Sprite2D" parent="Figures/Plate42/Panel2" unique_id=1845129376]
 position = Vector2(1448, 1419)
 texture = ExtResource("panel2_stand")
 centered = false
 metadata/registry_id = "panel2_stand"
 metadata/source_layer_id = 105
 
-[node name="panel2_deceased" type="Sprite2D" parent="Figures/PlateXLII/Panel_2" unique_id=1544517246]
+[node name="panel2_deceased" type="Sprite2D" parent="Figures/Plate42/Panel2" unique_id=1544517246]
 position = Vector2(1548, 1391)
 texture = ExtResource("panel2_deceased")
 centered = false
 metadata/registry_id = "panel2_deceased"
 metadata/source_layer_id = 105
 
-[node name="panel2_adorant" type="Sprite2D" parent="Figures/PlateXLII/Panel_2" unique_id=2039831118]
+[node name="panel2_adorant" type="Sprite2D" parent="Figures/Plate42/Panel2" unique_id=2039831118]
 position = Vector2(1730, 1400)
 texture = ExtResource("panel2_adorant")
 centered = false
 metadata/registry_id = "panel2_adorant"
 metadata/source_layer_id = 105
 
-[node name="Panel_3" type="Node2D" parent="Figures/PlateXLII" unique_id=1997807489]
+[node name="Panel3" type="Node2D" parent="Figures/Plate42" unique_id=1997807489]
 
-[node name="panel3_gods" type="Sprite2D" parent="Figures/PlateXLII/Panel_3" unique_id=1571256252]
+[node name="panel3_gods" type="Sprite2D" parent="Figures/Plate42/Panel3" unique_id=1571256252]
 position = Vector2(1070, 1996)
 texture = ExtResource("panel3_gods")
 centered = false
 metadata/registry_id = "panel3_gods"
 metadata/source_layer_id = 105
 
-[node name="panel3_table" type="Sprite2D" parent="Figures/PlateXLII/Panel_3" unique_id=166787360]
+[node name="panel3_table" type="Sprite2D" parent="Figures/Plate42/Panel3" unique_id=166787360]
 position = Vector2(1395, 1939)
 texture = ExtResource("panel3_table")
 centered = false
 metadata/registry_id = "panel3_table"
 metadata/source_layer_id = 105
 
-[node name="panel3_kneeling" type="Sprite2D" parent="Figures/PlateXLII/Panel_3" unique_id=710000609]
+[node name="panel3_kneeling" type="Sprite2D" parent="Figures/Plate42/Panel3" unique_id=710000609]
 position = Vector2(1645, 2026)
 texture = ExtResource("panel3_kneeling")
 centered = false
 metadata/registry_id = "panel3_kneeling"
 metadata/source_layer_id = 105
 
-[node name="Panel_4" type="Node2D" parent="Figures/PlateXLII" unique_id=1069562098]
+[node name="Panel4" type="Node2D" parent="Figures/Plate42" unique_id=1069562098]
 
-[node name="panel4_gods" type="Sprite2D" parent="Figures/PlateXLII/Panel_4" unique_id=92870824]
+[node name="panel4_gods" type="Sprite2D" parent="Figures/Plate42/Panel4" unique_id=92870824]
 position = Vector2(1070, 2576)
 texture = ExtResource("panel4_gods")
 centered = false
 metadata/registry_id = "panel4_gods"
 metadata/source_layer_id = 105
 
-[node name="panel4_stand" type="Sprite2D" parent="Figures/PlateXLII/Panel_4" unique_id=1894447236]
+[node name="panel4_stand" type="Sprite2D" parent="Figures/Plate42/Panel4" unique_id=1894447236]
 position = Vector2(1380, 2715)
 texture = ExtResource("panel4_stand")
 centered = false
 metadata/registry_id = "panel4_stand"
 metadata/source_layer_id = 105
 
-[node name="panel4_table" type="Sprite2D" parent="Figures/PlateXLII/Panel_4" unique_id=977315781]
+[node name="panel4_table" type="Sprite2D" parent="Figures/Plate42/Panel4" unique_id=977315781]
 position = Vector2(1484, 2615)
 texture = ExtResource("panel4_table")
 centered = false
 metadata/registry_id = "panel4_table"
 metadata/source_layer_id = 105
 
-[node name="panel4_kneeling" type="Sprite2D" parent="Figures/PlateXLII/Panel_4" unique_id=780138356]
+[node name="panel4_kneeling" type="Sprite2D" parent="Figures/Plate42/Panel4" unique_id=780138356]
 position = Vector2(1640, 2575)
 texture = ExtResource("panel4_kneeling")
 centered = false
 metadata/registry_id = "panel4_kneeling"
 metadata/source_layer_id = 105
 
-[node name="PlateXL" type="Node2D" parent="Figures" unique_id=870980750]
+[node name="Plate40" type="Node2D" parent="Figures" unique_id=870980750]
 
-[node name="Adorants" type="Node2D" parent="Figures/PlateXL" unique_id=371763873]
+[node name="Adorants" type="Node2D" parent="Figures/Plate40" unique_id=371763873]
 
-[node name="adorant_left" type="Sprite2D" parent="Figures/PlateXL/Adorants" unique_id=1112100112]
+[node name="adorant_left" type="Sprite2D" parent="Figures/Plate40/Adorants" unique_id=1112100112]
 position = Vector2(1946, 1904)
 texture = ExtResource("adorant_left")
 centered = false
 metadata/registry_id = "adorant_left"
 metadata/source_layer_id = 105
 
-[node name="adorant_right" type="Sprite2D" parent="Figures/PlateXL/Adorants" unique_id=1392537274]
+[node name="adorant_right" type="Sprite2D" parent="Figures/Plate40/Adorants" unique_id=1392537274]
 position = Vector2(8106, 1802)
 texture = ExtResource("adorant_right")
 centered = false

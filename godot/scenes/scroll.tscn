@@ -953,7 +953,7 @@ metadata/font_size = 16
 layout_mode = 2
 theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
 theme_override_font_sizes/font_size = 16
-text = "Spells 21–29"
+text = "Spells 21–30"
 metadata/font_size = 16
 
 [node name="ActIIHeading" type="HBoxContainer" parent="Levels/Acts" unique_id=284660088]
@@ -1783,7 +1783,7 @@ metadata/font_size = 16
 layout_mode = 2
 theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
 theme_override_font_sizes/font_size = 16
-text = "Spells 149–150"
+text = "Spells 149"
 metadata/font_size = 16
 
 [node name="ActVIHeading" type="HBoxContainer" parent="Levels/Acts" unique_id=1965883599]

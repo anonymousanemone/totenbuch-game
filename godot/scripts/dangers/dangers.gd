@@ -124,7 +124,7 @@ var _debug_menu: DebugMenu   ## debug builds only: T opens it
 @onready var overlay: Node2D = $Overlay
 ## The column of signs between spells 41 and 40 (the papyrus and the strip's ink there, drawn
 ## again over him): walking on, he passes behind it. Hidden while a fight is open.
-@onready var column: Node2D = $Column
+@onready var column: Node2D = $Foreground/Column
 
 
 func _ready() -> void:
@@ -139,7 +139,7 @@ func _ready() -> void:
 	avatar.speed *= unit
 	avatar.bob_height *= unit
 	# Scene transforms own placement; registry.json owns descriptions, level.json source-art data.
-	for actor in $actors.find_children("*", "Node2D", true, false):
+	for actor in $Pieces.find_children("*", "Node2D", true, false):
 		if not actor.has_meta("actor_id"):
 			continue
 		var id: String = actor.get_meta("actor_id")
@@ -177,7 +177,7 @@ func _ready() -> void:
 	overlay.draw.connect(_draw_overlay)
 	_arena = Node2D.new()
 	add_child(_arena)
-	move_child(_arena, $actors.get_index())
+	move_child(_arena, $Pieces.get_index())
 	_arena_cover = ColorRect.new()
 	_arena_cover.material = $Papyrus.material
 	_arena_cover.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -228,13 +228,13 @@ func _make_actor(tex: Texture2D, r: Rect2) -> Sprite2D:
 	sprite.texture = tex
 	sprite.centered = false
 	sprite.offset = Vector2(-r.size.x / 2.0, -r.size.y)
-	$actors.add_child(sprite)
+	$Pieces.add_child(sprite)
 	return sprite
 
 
 ## Multipart creatures keep a separate drawing so heads can move or hide independently.
 func _picture(actor: Node2D) -> Sprite2D:
-	return actor as Sprite2D if actor is Sprite2D else actor.get_node("sprite") as Sprite2D
+	return actor as Sprite2D if actor is Sprite2D else actor.get_node("Sprite") as Sprite2D
 
 
 func reset() -> void:

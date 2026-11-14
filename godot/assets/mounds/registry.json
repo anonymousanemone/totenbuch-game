@@ -1,0 +1,373 @@
+{
+ "references": {},
+ "entries": {
+  "spell149_mound14_adorer": {
+   "name": "Adorer",
+   "descriptions": {
+    "default": "A figure in a wig raises one hand in adoration."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell149_mound14_stand": {
+   "name": "Stand",
+   "descriptions": {
+    "default": "A tall stand narrows at the waist and splays at the foot, with a small dish on top."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell149_mound14_falcon": {
+   "name": "Falcon",
+   "descriptions": {
+    "default": "A falcon stands on a low base, its tail feathers trailing behind it."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell149_mound14_snake": {
+   "name": "Snake",
+   "descriptions": {
+    "default": "A snake winds in loops along the ground, its head raised."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell149_mound14_kneeling_figure": {
+   "name": "Kneeling figure",
+   "descriptions": {
+    "default": "A figure kneels with one knee raised and an arm lifted, in a banded kilt."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell149_mound14_mummy": {
+   "name": "Mummy",
+   "descriptions": {
+    "default": "A wrapped figure stands upright with one arm raised, a small round sign at its side."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell149_mound14_two_headed_figure": {
+   "name": "Two-headed figure",
+   "descriptions": {
+    "default": "A figure with two heads walks with a knife in each hand."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell149_mound14_anubis": {
+   "name": "Jackal-headed god",
+   "descriptions": {
+    "default": "A god with a jackal's head stands upright in a banded kilt."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell149_mound14_lower_sphinx": {
+   "name": "Sphinx",
+   "descriptions": {
+    "default": "A sphinx with a wigged human head lies down."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell149_mound14_upper_sphinx": {
+   "name": "Sphinx",
+   "descriptions": {
+    "default": "A sphinx with a wigged human head lies down."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell149_mound14_reclining_figure": {
+   "name": "Reclining figure",
+   "descriptions": {
+    "default": "A figure lies stretched out flat, its body banded like a mummy's."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell149_mound13_crocodile_headed_figure": {
+   "name": "Crocodile-headed figure",
+   "descriptions": {
+    "default": "A figure with a crocodile's head and a long wig stands upright."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell149_mound13_scarab": {
+   "name": "Scarab",
+   "descriptions": {
+    "default": "A scarab beetle with a round disc on its back, its legs curving beneath it."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell149_mound13_seated_god": {
+   "name": "Seated god",
+   "descriptions": {
+    "default": "A god in a tall headdress sits on a block seat, holding upright stems in one hand."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell149_mound13_dais": {
+   "name": "Dais",
+   "descriptions": {
+    "default": "A low dais is drawn as two long lines under the seated god."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell149_mound12_beast": {
+   "name": "Beast",
+   "descriptions": {
+    "default": "A heavy beast with a curling tail and a mane stands on short legs, its mouth open."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell149_mound12_knife_stand": {
+   "name": "Knife stand",
+   "descriptions": {
+    "default": "A stand with a flared base crossed with bands holds a bunch of upright blades."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell149_mound11_stepped_mound": {
+   "name": "Stepped mound",
+   "descriptions": {
+    "default": "A mound rises in steps on one side to a flat top and curves round at the other end."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell149_mound11_outer_guardian": {
+   "name": "Outer guardian",
+   "descriptions": {
+    "default": "A guardian with a tail walks with a knife in each hand."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell149_mound11_inner_guardian": {
+   "name": "Inner guardian",
+   "descriptions": {
+    "default": "A guardian with a lion's head and long hair stands holding a knife."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell149_mound10_arch": {
+   "name": "Arch",
+   "descriptions": {
+    "default": "A tall arched shape is crossed by two diagonal lines."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell149_mound10_guardian": {
+   "name": "Guardian",
+   "descriptions": {
+    "default": "A guardian in a banded kilt raises two knives above his head."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell149_mound10_winged_figure": {
+   "name": "Winged figure",
+   "descriptions": {
+    "default": "A thin figure stands with outspread wings, its head turned to one side."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell149_mound9_serpent": {
+   "name": "Serpent",
+   "descriptions": {
+    "default": "A long creature with a crested head and a body of fine feathers slopes down from its raised head to a pointed tail."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell149_mound9_guardian": {
+   "name": "Guardian",
+   "descriptions": {
+    "default": "A guardian with snakes rising from his head holds a knife in one hand."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell149_mound8_guardian": {
+   "name": "Guardian",
+   "descriptions": {
+    "default": "A guardian with snakes rising from his head and long hair down his back holds a knife."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell149_mound8_sign": {
+   "name": "Sign",
+   "descriptions": {
+    "default": "A long loop is drawn round a row of short strokes like a feather."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell149_mound7_guardian": {
+   "name": "Guardian",
+   "descriptions": {
+    "default": "A guardian with a bird's head holds a knife in one hand."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell149_mound7_lower_sign": {
+   "name": "Lower sign",
+   "descriptions": {
+    "default": "A long loop is drawn round a wavy snake."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell149_mound7_upper_sign": {
+   "name": "Upper sign",
+   "descriptions": {
+    "default": "A long loop is drawn round a row of short strokes like a feather."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell149_mound6_guardian": {
+   "name": "Guardian",
+   "descriptions": {
+    "default": "A guardian with a bird's head and a tail holds a knife."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell149_mound6_lower_sign": {
+   "name": "Lower sign",
+   "descriptions": {
+    "default": "A long narrow loop encloses a thin, pointed shape."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell149_mound6_upper_sign": {
+   "name": "Upper sign",
+   "descriptions": {
+    "default": "A narrow band is folded back on itself into three bars."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell149_mound5_god_on_sphinx": {
+   "name": "God on a sphinx",
+   "descriptions": {
+    "default": "A god in a banded kilt stands on a crouching sphinx, one hand held out."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell149_mound5_oval": {
+   "name": "Oval",
+   "descriptions": {
+    "default": "An oval is crossed by two curved lines."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell149_mound5_eye": {
+   "name": "Eye",
+   "descriptions": {
+    "default": "A small eye is drawn alone."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell149_mound4_three_bearers": {
+   "name": "Three bearers",
+   "descriptions": {
+    "default": "Three men stand in a row with their arms raised, together holding up a board over their heads."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell149_mound4_snake_on_board": {
+   "name": "Snake on a board",
+   "descriptions": {
+    "default": "A long snake winds in loops along a straight board."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell149_mound4_pillar": {
+   "name": "Pillar",
+   "descriptions": {
+    "default": "A tall slender pillar stands upright."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell149_mound4_three_headed_figure": {
+   "name": "Three-headed figure",
+   "descriptions": {
+    "default": "A figure with three heads stands upright, his arms at his sides."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell149_mound3_guardian": {
+   "name": "Guardian",
+   "descriptions": {
+    "default": "A guardian with long hair and a banded kilt holds a knife."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell149_mound3_sign": {
+   "name": "Sign",
+   "descriptions": {
+    "default": "A narrow loop is folded back on itself, with a round end."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell149_mound2_guardian": {
+   "name": "Guardian",
+   "descriptions": {
+    "default": "A guardian in a banded kilt and a long cloak holds a knife."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell149_mound2_basin": {
+   "name": "Basin",
+   "descriptions": {
+    "default": "A wide basin curves like a shallow bowl."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell149_mound1_guardian": {
+   "name": "Guardian",
+   "descriptions": {
+    "default": "A guardian with a spray of spikes on his head holds a knife."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell149_mound1_sign": {
+   "name": "Sign",
+   "descriptions": {
+    "default": "A square sign with a T-shaped stem is drawn on a base."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  }
+ }
+}

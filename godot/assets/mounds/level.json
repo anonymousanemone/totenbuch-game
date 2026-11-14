@@ -1,0 +1,432 @@
+{
+ "source": "art/mounds149.mdp",
+ "sha256": "703182dba55bf0b546d91180986268cec20d4e364489f1ad1ebdad7866163f5c",
+ "width": 7506,
+ "height": 1500,
+ "ground": 526,
+ "view_top": 20,
+ "view_height": 741,
+ "scale": 1.5,
+ "start": {
+  "x": 7416,
+  "y": 526
+ },
+ "avatar": "spell149_mound14_adorer",
+ "figures": {
+  "spell149_mound14_adorer": {
+   "x": 51,
+   "y": 327,
+   "w": 58,
+   "h": 197,
+   "group": "Spell149/Mound14",
+   "source_layer": 2029,
+   "source_name": "adorer"
+  },
+  "spell149_mound14_stand": {
+   "x": 391,
+   "y": 338,
+   "w": 55,
+   "h": 186,
+   "group": "Spell149/Mound14",
+   "source_layer": 2030,
+   "source_name": "stand"
+  },
+  "spell149_mound14_falcon": {
+   "x": 219,
+   "y": 425,
+   "w": 101,
+   "h": 99,
+   "group": "Spell149/Mound14",
+   "source_layer": 2031,
+   "source_name": "falcon"
+  },
+  "spell149_mound14_snake": {
+   "x": 563,
+   "y": 430,
+   "w": 138,
+   "h": 94,
+   "group": "Spell149/Mound14",
+   "source_layer": 2032,
+   "source_name": "snake"
+  },
+  "spell149_mound14_kneeling_figure": {
+   "x": 53,
+   "y": 349,
+   "w": 129,
+   "h": 176,
+   "group": "Spell149/Mound14",
+   "source_layer": 2033,
+   "source_name": "kneeling figure"
+  },
+  "spell149_mound14_mummy": {
+   "x": 287,
+   "y": 301,
+   "w": 113,
+   "h": 224,
+   "group": "Spell149/Mound14",
+   "source_layer": 2034,
+   "source_name": "mummy"
+  },
+  "spell149_mound14_two_headed_figure": {
+   "x": 165,
+   "y": 344,
+   "w": 117,
+   "h": 180,
+   "group": "Spell149/Mound14",
+   "source_layer": 2035,
+   "source_name": "two-headed figure"
+  },
+  "spell149_mound14_anubis": {
+   "x": 456,
+   "y": 299,
+   "w": 245,
+   "h": 226,
+   "group": "Spell149/Mound14",
+   "source_layer": 2036,
+   "source_name": "anubis"
+  },
+  "spell149_mound14_lower_sphinx": {
+   "x": 552,
+   "y": 368,
+   "w": 140,
+   "h": 59,
+   "group": "Spell149/Mound14",
+   "source_layer": 2037,
+   "source_name": "lower sphinx"
+  },
+  "spell149_mound14_upper_sphinx": {
+   "x": 555,
+   "y": 289,
+   "w": 143,
+   "h": 64,
+   "group": "Spell149/Mound14",
+   "source_layer": 2038,
+   "source_name": "upper sphinx"
+  },
+  "spell149_mound14_reclining_figure": {
+   "x": 478,
+   "y": 194,
+   "w": 212,
+   "h": 64,
+   "group": "Spell149/Mound14",
+   "source_layer": 2039,
+   "source_name": "reclining figure"
+  },
+  "spell149_mound13_crocodile_headed_figure": {
+   "x": 1274,
+   "y": 252,
+   "w": 126,
+   "h": 274,
+   "group": "Spell149/Mound13",
+   "source_layer": 2040,
+   "source_name": "crocodile-headed figure"
+  },
+  "spell149_mound13_scarab": {
+   "x": 1127,
+   "y": 350,
+   "w": 96,
+   "h": 158,
+   "group": "Spell149/Mound13",
+   "source_layer": 2041,
+   "source_name": "scarab"
+  },
+  "spell149_mound13_seated_god": {
+   "x": 770,
+   "y": 255,
+   "w": 179,
+   "h": 252,
+   "group": "Spell149/Mound13",
+   "source_layer": 2042,
+   "source_name": "seated god"
+  },
+  "spell149_mound13_dais": {
+   "x": 756,
+   "y": 501,
+   "w": 362,
+   "h": 25,
+   "group": "Spell149/Mound13",
+   "source_layer": 2043,
+   "source_name": "dais"
+  },
+  "spell149_mound12_beast": {
+   "x": 1442,
+   "y": 339,
+   "w": 332,
+   "h": 187,
+   "group": "Spell149/Mound12",
+   "source_layer": 2044,
+   "source_name": "beast"
+  },
+  "spell149_mound12_knife_stand": {
+   "x": 1762,
+   "y": 321,
+   "w": 102,
+   "h": 205,
+   "group": "Spell149/Mound12",
+   "source_layer": 2045,
+   "source_name": "knife stand"
+  },
+  "spell149_mound11_stepped_mound": {
+   "x": 2101,
+   "y": 223,
+   "w": 547,
+   "h": 303,
+   "group": "Spell149/Mound11",
+   "source_layer": 2046,
+   "source_name": "stepped mound"
+  },
+  "spell149_mound11_outer_guardian": {
+   "x": 1889,
+   "y": 227,
+   "w": 218,
+   "h": 298,
+   "group": "Spell149/Mound11",
+   "source_layer": 2047,
+   "source_name": "outer guardian"
+  },
+  "spell149_mound11_inner_guardian": {
+   "x": 2338,
+   "y": 261,
+   "w": 134,
+   "h": 264,
+   "group": "Spell149/Mound11",
+   "source_layer": 2048,
+   "source_name": "inner guardian"
+  },
+  "spell149_mound10_arch": {
+   "x": 3098,
+   "y": 251,
+   "w": 150,
+   "h": 277,
+   "group": "Spell149/Mound10",
+   "source_layer": 2049,
+   "source_name": "arch"
+  },
+  "spell149_mound10_guardian": {
+   "x": 2940,
+   "y": 186,
+   "w": 144,
+   "h": 340,
+   "group": "Spell149/Mound10",
+   "source_layer": 2050,
+   "source_name": "guardian"
+  },
+  "spell149_mound10_winged_figure": {
+   "x": 2678,
+   "y": 255,
+   "w": 247,
+   "h": 272,
+   "group": "Spell149/Mound10",
+   "source_layer": 2051,
+   "source_name": "winged figure"
+  },
+  "spell149_mound9_serpent": {
+   "x": 3502,
+   "y": 192,
+   "w": 306,
+   "h": 334,
+   "group": "Spell149/Mound9",
+   "source_layer": 2052,
+   "source_name": "serpent"
+  },
+  "spell149_mound9_guardian": {
+   "x": 3330,
+   "y": 200,
+   "w": 191,
+   "h": 326,
+   "group": "Spell149/Mound9",
+   "source_layer": 2053,
+   "source_name": "guardian"
+  },
+  "spell149_mound8_guardian": {
+   "x": 3858,
+   "y": 189,
+   "w": 184,
+   "h": 343,
+   "group": "Spell149/Mound8",
+   "source_layer": 2054,
+   "source_name": "guardian"
+  },
+  "spell149_mound8_sign": {
+   "x": 4064,
+   "y": 361,
+   "w": 163,
+   "h": 75,
+   "group": "Spell149/Mound8",
+   "source_layer": 2055,
+   "source_name": "sign"
+  },
+  "spell149_mound7_guardian": {
+   "x": 4286,
+   "y": 213,
+   "w": 178,
+   "h": 316,
+   "group": "Spell149/Mound7",
+   "source_layer": 2056,
+   "source_name": "guardian"
+  },
+  "spell149_mound7_lower_sign": {
+   "x": 4474,
+   "y": 419,
+   "w": 211,
+   "h": 92,
+   "group": "Spell149/Mound7",
+   "source_layer": 2057,
+   "source_name": "lower sign"
+  },
+  "spell149_mound7_upper_sign": {
+   "x": 4485,
+   "y": 323,
+   "w": 181,
+   "h": 82,
+   "group": "Spell149/Mound7",
+   "source_layer": 2058,
+   "source_name": "upper sign"
+  },
+  "spell149_mound6_guardian": {
+   "x": 4723,
+   "y": 262,
+   "w": 186,
+   "h": 264,
+   "group": "Spell149/Mound6",
+   "source_layer": 2059,
+   "source_name": "guardian"
+  },
+  "spell149_mound6_lower_sign": {
+   "x": 4853,
+   "y": 460,
+   "w": 149,
+   "h": 56,
+   "group": "Spell149/Mound6",
+   "source_layer": 2060,
+   "source_name": "lower sign"
+  },
+  "spell149_mound6_upper_sign": {
+   "x": 4895,
+   "y": 382,
+   "w": 114,
+   "h": 65,
+   "group": "Spell149/Mound6",
+   "source_layer": 2061,
+   "source_name": "upper sign"
+  },
+  "spell149_mound5_god_on_sphinx": {
+   "x": 5143,
+   "y": 255,
+   "w": 323,
+   "h": 271,
+   "group": "Spell149/Mound5",
+   "source_layer": 2062,
+   "source_name": "god on sphinx"
+  },
+  "spell149_mound5_oval": {
+   "x": 5326,
+   "y": 308,
+   "w": 107,
+   "h": 56,
+   "group": "Spell149/Mound5",
+   "source_layer": 2063,
+   "source_name": "oval"
+  },
+  "spell149_mound5_eye": {
+   "x": 5278,
+   "y": 244,
+   "w": 53,
+   "h": 26,
+   "group": "Spell149/Mound5",
+   "source_layer": 2064,
+   "source_name": "eye"
+  },
+  "spell149_mound4_three_bearers": {
+   "x": 5737,
+   "y": 336,
+   "w": 281,
+   "h": 190,
+   "group": "Spell149/Mound4",
+   "source_layer": 2065,
+   "source_name": "three bearers"
+  },
+  "spell149_mound4_snake_on_board": {
+   "x": 5737,
+   "y": 222,
+   "w": 293,
+   "h": 119,
+   "group": "Spell149/Mound4",
+   "source_layer": 2066,
+   "source_name": "snake on board"
+  },
+  "spell149_mound4_pillar": {
+   "x": 5675,
+   "y": 238,
+   "w": 72,
+   "h": 287,
+   "group": "Spell149/Mound4",
+   "source_layer": 2067,
+   "source_name": "pillar"
+  },
+  "spell149_mound4_three_headed_figure": {
+   "x": 5560,
+   "y": 232,
+   "w": 85,
+   "h": 293,
+   "group": "Spell149/Mound4",
+   "source_layer": 2068,
+   "source_name": "three-headed figure"
+  },
+  "spell149_mound3_guardian": {
+   "x": 6172,
+   "y": 210,
+   "w": 196,
+   "h": 315,
+   "group": "Spell149/Mound3",
+   "source_layer": 2069,
+   "source_name": "guardian"
+  },
+  "spell149_mound3_sign": {
+   "x": 6313,
+   "y": 400,
+   "w": 111,
+   "h": 50,
+   "group": "Spell149/Mound3",
+   "source_layer": 2070,
+   "source_name": "sign"
+  },
+  "spell149_mound2_guardian": {
+   "x": 6581,
+   "y": 230,
+   "w": 266,
+   "h": 296,
+   "group": "Spell149/Mound2",
+   "source_layer": 2071,
+   "source_name": "guardian"
+  },
+  "spell149_mound2_basin": {
+   "x": 6814,
+   "y": 409,
+   "w": 167,
+   "h": 64,
+   "group": "Spell149/Mound2",
+   "source_layer": 2072,
+   "source_name": "basin"
+  },
+  "spell149_mound1_guardian": {
+   "x": 7229,
+   "y": 221,
+   "w": 159,
+   "h": 306,
+   "group": "Spell149/Mound1",
+   "source_layer": 2073,
+   "source_name": "guardian"
+  },
+  "spell149_mound1_sign": {
+   "x": 7339,
+   "y": 407,
+   "w": 95,
+   "h": 84,
+   "group": "Spell149/Mound1",
+   "source_layer": 2074,
+   "source_name": "sign"
+  }
+ },
+ "columns": {}
+}

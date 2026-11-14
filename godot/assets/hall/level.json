@@ -1,0 +1,766 @@
+{
+ "source": "art/judgement125.mdp",
+ "sha256": "c8d60c8459d7ca1102ecd5c58acf72a5ff5b7bfc8c2e1526aab4b75a9c869b63",
+ "width": 6279,
+ "height": 2870,
+ "ground": 2797,
+ "view_top": 40,
+ "view_height": 2850,
+ "scale": 5.9,
+ "start": {
+  "x": 5612,
+  "y": 2797
+ },
+ "avatar": "spell125_adoring_deceased",
+ "figures": {
+  "spell125_adoring_deceased": {
+   "x": 5400,
+   "y": 1638,
+   "w": 424,
+   "h": 1160,
+   "group": "Spell125/Arrival",
+   "source_layer": 64,
+   "source_name": "Adoring deceased",
+   "avatar_only": true
+  },
+  "spell125_maat": {
+   "x": 4590,
+   "y": 1461,
+   "w": 435,
+   "h": 1337,
+   "group": "Spell125/Arrival",
+   "source_layer": 66,
+   "source_name": "Maat"
+  },
+  "spell125_balance_post_and_plummet": {
+   "x": 3524,
+   "y": 1705,
+   "w": 194,
+   "h": 1096,
+   "group": "Spell125/WeighingOfTheHeart",
+   "source_layer": 71,
+   "source_name": "Balance post and plummet"
+  },
+  "spell125_balance_beam": {
+   "x": 2995,
+   "y": 1721,
+   "w": 1261,
+   "h": 121,
+   "group": "Spell125/WeighingOfTheHeart",
+   "source_layer": 72,
+   "source_name": "Balance beam"
+  },
+  "spell125_plummet": {
+   "x": 3549,
+   "y": 1704,
+   "w": 40,
+   "h": 218,
+   "group": "Spell125/WeighingOfTheHeart",
+   "source_layer": 231,
+   "source_name": "plummet"
+  },
+  "spell125_right_pan_and_suspension": {
+   "x": 4177,
+   "y": 1831,
+   "w": 210,
+   "h": 662,
+   "group": "Spell125/WeighingOfTheHeart",
+   "source_layer": 73,
+   "source_name": "Right pan and suspension"
+  },
+  "spell125_left_pan_and_suspension": {
+   "x": 2901,
+   "y": 1836,
+   "w": 186,
+   "h": 647,
+   "group": "Spell125/WeighingOfTheHeart",
+   "source_layer": 74,
+   "source_name": "Left pan and suspension"
+  },
+  "spell125_baboon": {
+   "x": 3543,
+   "y": 1481,
+   "w": 217,
+   "h": 232,
+   "group": "Spell125/WeighingOfTheHeart",
+   "source_layer": 79,
+   "source_name": "Baboon"
+  },
+  "spell125_heart": {
+   "x": 4240,
+   "y": 2360,
+   "w": 88,
+   "h": 101,
+   "group": "Spell125/WeighingOfTheHeart",
+   "source_layer": 76,
+   "source_name": "Heart"
+  },
+  "spell125_maat_figure_in_pan": {
+   "x": 2950,
+   "y": 2250,
+   "w": 80,
+   "h": 208,
+   "group": "Spell125/WeighingOfTheHeart",
+   "source_layer": 77,
+   "source_name": "Maat figure in pan"
+  },
+  "spell125_scale_attendant": {
+   "x": 3552,
+   "y": 1932,
+   "w": 422,
+   "h": 871,
+   "group": "Spell125/WeighingOfTheHeart",
+   "source_layer": 81,
+   "source_name": "falcon head"
+  },
+  "spell125_anubis": {
+   "x": 3015,
+   "y": 2016,
+   "w": 423,
+   "h": 784,
+   "group": "Spell125/WeighingOfTheHeart",
+   "source_layer": 82,
+   "source_name": "Anubis"
+  },
+  "spell125_attendant": {
+   "x": 4314,
+   "y": 2274,
+   "w": 276,
+   "h": 527,
+   "group": "Spell125/WeighingOfTheHeart",
+   "source_layer": 68,
+   "source_name": "attendant"
+  },
+  "spell125_kneeling_deities": {
+   "x": 2220,
+   "y": 1707,
+   "w": 179,
+   "h": 180,
+   "group": "Spell125/OfferingsBeforeOsiris",
+   "source_layer": 93,
+   "source_name": "Kneeling deities"
+  },
+  "spell125_lion_sign": {
+   "x": 2240,
+   "y": 1976,
+   "w": 150,
+   "h": 66,
+   "group": "Spell125/OfferingsBeforeOsiris",
+   "source_layer": 230,
+   "source_name": "Layer231"
+  },
+  "spell125_lotus_offering_table": {
+   "x": 1648,
+   "y": 1581,
+   "w": 370,
+   "h": 1220,
+   "group": "Spell125/OfferingsBeforeOsiris",
+   "source_layer": 96,
+   "source_name": "Lotus offering table"
+  },
+  "spell125_funerary_genii": {
+   "x": 1668,
+   "y": 1330,
+   "w": 337,
+   "h": 248,
+   "group": "Spell125/OfferingsBeforeOsiris",
+   "source_layer": 100,
+   "source_name": "Son of Horus 4"
+  },
+  "spell125_thoth": {
+   "x": 2414,
+   "y": 1841,
+   "w": 449,
+   "h": 958,
+   "group": "Spell125/OfferingsBeforeOsiris",
+   "source_layer": 85,
+   "source_name": "Thoth"
+  },
+  "spell125_staff": {
+   "x": 2423,
+   "y": 2091,
+   "w": 108,
+   "h": 690,
+   "group": "Spell125/OfferingsBeforeOsiris",
+   "source_layer": 87,
+   "source_name": "staff"
+  },
+  "spell125_ammit": {
+   "x": 2026,
+   "y": 2095,
+   "w": 366,
+   "h": 707,
+   "group": "Spell125/OfferingsBeforeOsiris",
+   "source_layer": 90,
+   "source_name": "Ammit"
+  },
+  "spell125_osiris_shrine": {
+   "x": 419,
+   "y": 818,
+   "w": 1294,
+   "h": 1998,
+   "group": "Spell125/OsirisShrine",
+   "source_layer": 222,
+   "source_name": "osiris frame"
+  },
+  "spell125_dais": {
+   "x": 550,
+   "y": 2484,
+   "w": 985,
+   "h": 264,
+   "group": "Spell125/OsirisShrine",
+   "source_layer": 106,
+   "source_name": "Dais"
+  },
+  "spell125_draped_standard": {
+   "x": 1252,
+   "y": 1634,
+   "w": 214,
+   "h": 713,
+   "group": "Spell125/OsirisShrine",
+   "source_layer": 109,
+   "source_name": "Draped standard"
+  },
+  "spell125_osiris": {
+   "x": 584,
+   "y": 1146,
+   "w": 712,
+   "h": 1363,
+   "group": "Spell125/OsirisShrine",
+   "source_layer": 229,
+   "source_name": "osiris"
+  },
+  "spell125_judges_platform": {
+   "x": 1716,
+   "y": 827,
+   "w": 4286,
+   "h": 285,
+   "group": "Spell125/Judges",
+   "source_layer": 223,
+   "source_name": "platform"
+  },
+  "spell125_worshipper": {
+   "x": 5730,
+   "y": 812,
+   "w": 210,
+   "h": 260,
+   "group": "Spell125/Judges",
+   "source_layer": 114,
+   "source_name": "worshipper"
+  },
+  "spell125_offering_stand": {
+   "x": 5620,
+   "y": 812,
+   "w": 110,
+   "h": 261,
+   "group": "Spell125/Judges",
+   "source_layer": 116,
+   "source_name": "offering stand"
+  },
+  "spell125_assessor_42": {
+   "x": 5484,
+   "y": 788,
+   "w": 108,
+   "h": 283,
+   "group": "Spell125/Judges",
+   "source_layer": 119,
+   "source_name": "Assessor 42"
+  },
+  "spell125_assessor_41": {
+   "x": 5363,
+   "y": 800,
+   "w": 104,
+   "h": 272,
+   "group": "Spell125/Judges",
+   "source_layer": 120,
+   "source_name": "Assessor 41"
+  },
+  "spell125_assessor_40": {
+   "x": 5239,
+   "y": 794,
+   "w": 102,
+   "h": 279,
+   "group": "Spell125/Judges",
+   "source_layer": 121,
+   "source_name": "Assessor 40"
+  },
+  "spell125_assessor_39": {
+   "x": 5121,
+   "y": 800,
+   "w": 106,
+   "h": 274,
+   "group": "Spell125/Judges",
+   "source_layer": 122,
+   "source_name": "Assessor 39"
+  },
+  "spell125_assessor_38": {
+   "x": 4989,
+   "y": 796,
+   "w": 110,
+   "h": 278,
+   "group": "Spell125/Judges",
+   "source_layer": 123,
+   "source_name": "Assessor 38"
+  },
+  "spell125_assessor_37": {
+   "x": 4871,
+   "y": 812,
+   "w": 102,
+   "h": 263,
+   "group": "Spell125/Judges",
+   "source_layer": 124,
+   "source_name": "Assessor 37"
+  },
+  "spell125_assessor_36": {
+   "x": 4765,
+   "y": 810,
+   "w": 98,
+   "h": 266,
+   "group": "Spell125/Judges",
+   "source_layer": 125,
+   "source_name": "Assessor 36"
+  },
+  "spell125_assessor_35": {
+   "x": 4663,
+   "y": 808,
+   "w": 93,
+   "h": 269,
+   "group": "Spell125/Judges",
+   "source_layer": 126,
+   "source_name": "Assessor 35"
+  },
+  "spell125_assessor_34": {
+   "x": 4551,
+   "y": 816,
+   "w": 101,
+   "h": 261,
+   "group": "Spell125/Judges",
+   "source_layer": 127,
+   "source_name": "Assessor 34"
+  },
+  "spell125_assessor_33": {
+   "x": 4436,
+   "y": 834,
+   "w": 99,
+   "h": 244,
+   "group": "Spell125/Judges",
+   "source_layer": 128,
+   "source_name": "Assessor 33"
+  },
+  "spell125_assessor_32": {
+   "x": 4352,
+   "y": 831,
+   "w": 86,
+   "h": 248,
+   "group": "Spell125/Judges",
+   "source_layer": 129,
+   "source_name": "Assessor 32"
+  },
+  "spell125_assessor_31": {
+   "x": 4240,
+   "y": 826,
+   "w": 95,
+   "h": 253,
+   "group": "Spell125/Judges",
+   "source_layer": 130,
+   "source_name": "Assessor 31"
+  },
+  "spell125_assessor_30": {
+   "x": 4134,
+   "y": 827,
+   "w": 92,
+   "h": 253,
+   "group": "Spell125/Judges",
+   "source_layer": 131,
+   "source_name": "Assessor 30"
+  },
+  "spell125_assessor_29": {
+   "x": 4029,
+   "y": 830,
+   "w": 96,
+   "h": 251,
+   "group": "Spell125/Judges",
+   "source_layer": 132,
+   "source_name": "Assessor 29"
+  },
+  "spell125_assessor_28": {
+   "x": 3932,
+   "y": 835,
+   "w": 87,
+   "h": 246,
+   "group": "Spell125/Judges",
+   "source_layer": 135,
+   "source_name": "Assessor 28"
+  },
+  "spell125_assessor_27": {
+   "x": 3838,
+   "y": 837,
+   "w": 90,
+   "h": 245,
+   "group": "Spell125/Judges",
+   "source_layer": 136,
+   "source_name": "Assessor 27"
+  },
+  "spell125_assessor_26": {
+   "x": 3751,
+   "y": 833,
+   "w": 84,
+   "h": 249,
+   "group": "Spell125/Judges",
+   "source_layer": 137,
+   "source_name": "Assessor 26"
+  },
+  "spell125_assessor_25": {
+   "x": 3659,
+   "y": 835,
+   "w": 86,
+   "h": 248,
+   "group": "Spell125/Judges",
+   "source_layer": 138,
+   "source_name": "Assessor 25"
+  },
+  "spell125_assessor_24": {
+   "x": 3563,
+   "y": 836,
+   "w": 87,
+   "h": 248,
+   "group": "Spell125/Judges",
+   "source_layer": 139,
+   "source_name": "Assessor 24"
+  },
+  "spell125_assessor_23": {
+   "x": 3471,
+   "y": 836,
+   "w": 90,
+   "h": 248,
+   "group": "Spell125/Judges",
+   "source_layer": 140,
+   "source_name": "Assessor 23"
+  },
+  "spell125_assessor_22": {
+   "x": 3385,
+   "y": 840,
+   "w": 75,
+   "h": 245,
+   "group": "Spell125/Judges",
+   "source_layer": 141,
+   "source_name": "Assessor 22"
+  },
+  "spell125_assessor_21": {
+   "x": 3293,
+   "y": 842,
+   "w": 81,
+   "h": 243,
+   "group": "Spell125/Judges",
+   "source_layer": 142,
+   "source_name": "Assessor 21"
+  },
+  "spell125_assessor_20": {
+   "x": 3198,
+   "y": 847,
+   "w": 79,
+   "h": 239,
+   "group": "Spell125/Judges",
+   "source_layer": 143,
+   "source_name": "Assessor 20"
+  },
+  "spell125_assessor_19": {
+   "x": 3090,
+   "y": 848,
+   "w": 85,
+   "h": 239,
+   "group": "Spell125/Judges",
+   "source_layer": 144,
+   "source_name": "Assessor 19"
+  },
+  "spell125_assessor_18": {
+   "x": 2995,
+   "y": 847,
+   "w": 85,
+   "h": 240,
+   "group": "Spell125/Judges",
+   "source_layer": 145,
+   "source_name": "Assessor 18"
+  },
+  "spell125_assessor_17": {
+   "x": 2896,
+   "y": 860,
+   "w": 85,
+   "h": 228,
+   "group": "Spell125/Judges",
+   "source_layer": 146,
+   "source_name": "Assessor 17"
+  },
+  "spell125_assessor_16": {
+   "x": 2795,
+   "y": 862,
+   "w": 95,
+   "h": 226,
+   "group": "Spell125/Judges",
+   "source_layer": 147,
+   "source_name": "Assessor 16"
+  },
+  "spell125_assessor_15": {
+   "x": 2727,
+   "y": 864,
+   "w": 75,
+   "h": 225,
+   "group": "Spell125/Judges",
+   "source_layer": 148,
+   "source_name": "Assessor 15"
+  },
+  "spell125_assessor_14": {
+   "x": 2646,
+   "y": 861,
+   "w": 73,
+   "h": 228,
+   "group": "Spell125/Judges",
+   "source_layer": 151,
+   "source_name": "Assessor 14"
+  },
+  "spell125_assessor_13": {
+   "x": 2543,
+   "y": 857,
+   "w": 99,
+   "h": 233,
+   "group": "Spell125/Judges",
+   "source_layer": 152,
+   "source_name": "Assessor 13"
+  },
+  "spell125_assessor_12": {
+   "x": 2490,
+   "y": 882,
+   "w": 69,
+   "h": 209,
+   "group": "Spell125/Judges",
+   "source_layer": 153,
+   "source_name": "Assessor 12"
+  },
+  "spell125_assessor_11": {
+   "x": 2420,
+   "y": 871,
+   "w": 74,
+   "h": 220,
+   "group": "Spell125/Judges",
+   "source_layer": 154,
+   "source_name": "Assessor 11"
+  },
+  "spell125_assessor_10": {
+   "x": 2353,
+   "y": 872,
+   "w": 72,
+   "h": 219,
+   "group": "Spell125/Judges",
+   "source_layer": 155,
+   "source_name": "Assessor 10"
+  },
+  "spell125_assessor_09": {
+   "x": 2287,
+   "y": 871,
+   "w": 67,
+   "h": 221,
+   "group": "Spell125/Judges",
+   "source_layer": 156,
+   "source_name": "Assessor 09"
+  },
+  "spell125_assessor_08": {
+   "x": 2219,
+   "y": 879,
+   "w": 64,
+   "h": 213,
+   "group": "Spell125/Judges",
+   "source_layer": 157,
+   "source_name": "Assessor 08"
+  },
+  "spell125_assessor_07": {
+   "x": 2149,
+   "y": 875,
+   "w": 69,
+   "h": 218,
+   "group": "Spell125/Judges",
+   "source_layer": 158,
+   "source_name": "Assessor 07"
+  },
+  "spell125_assessor_06": {
+   "x": 2076,
+   "y": 885,
+   "w": 68,
+   "h": 208,
+   "group": "Spell125/Judges",
+   "source_layer": 159,
+   "source_name": "Assessor 06"
+  },
+  "spell125_assessor_05": {
+   "x": 2003,
+   "y": 887,
+   "w": 67,
+   "h": 207,
+   "group": "Spell125/Judges",
+   "source_layer": 160,
+   "source_name": "Assessor 05"
+  },
+  "spell125_assessor_04": {
+   "x": 1939,
+   "y": 895,
+   "w": 67,
+   "h": 199,
+   "group": "Spell125/Judges",
+   "source_layer": 161,
+   "source_name": "Assessor 04"
+  },
+  "spell125_assessor_03": {
+   "x": 1868,
+   "y": 891,
+   "w": 71,
+   "h": 203,
+   "group": "Spell125/Judges",
+   "source_layer": 162,
+   "source_name": "Assessor 03"
+  },
+  "spell125_assessor_02": {
+   "x": 1795,
+   "y": 894,
+   "w": 73,
+   "h": 201,
+   "group": "Spell125/Judges",
+   "source_layer": 163,
+   "source_name": "Assessor 02"
+  },
+  "spell125_assessor_01": {
+   "x": 1730,
+   "y": 899,
+   "w": 68,
+   "h": 196,
+   "group": "Spell125/Judges",
+   "source_layer": 164,
+   "source_name": "Assessor 01"
+  },
+  "spell125_cornice_line": {
+   "x": 329,
+   "y": 168,
+   "w": 5529,
+   "h": 289,
+   "group": "Spell125/RoofFrieze",
+   "source_layer": 225,
+   "source_name": "Layer226"
+  },
+  "spell125_roof_motifs": {
+   "x": 709,
+   "y": 163,
+   "w": 5067,
+   "h": 277,
+   "group": "Spell125/RoofFrieze",
+   "source_layer": 186,
+   "source_name": "roof motifs"
+  },
+  "spell125_eastern_guardian": {
+   "x": 5789,
+   "y": 158,
+   "w": 378,
+   "h": 319,
+   "group": "Spell125/RoofFrieze",
+   "source_layer": 205,
+   "source_name": "eastern guardian"
+  },
+  "spell125_central_emblem": {
+   "x": 2930,
+   "y": 202,
+   "w": 463,
+   "h": 231,
+   "group": "Spell125/RoofFrieze",
+   "source_layer": 208,
+   "source_name": "central emblem"
+  },
+  "spell125_western_guardian": {
+   "x": 124,
+   "y": 138,
+   "w": 581,
+   "h": 387,
+   "group": "Spell125/RoofFrieze",
+   "source_layer": 210,
+   "source_name": "western guardian"
+  },
+  "spell125_text_damaged_column": {
+   "x": 5246,
+   "y": 1826,
+   "w": 138,
+   "h": 949,
+   "group": "Spell125/Captions",
+   "source_layer": 211,
+   "source_name": "Layer212"
+  },
+  "spell125_text_arrival": {
+   "x": 4339,
+   "y": 1076,
+   "w": 1660,
+   "h": 1341,
+   "group": "Spell125/Captions",
+   "source_layer": 213,
+   "source_name": "Layer214"
+  },
+  "spell125_text_osiris": {
+   "x": 1080,
+   "y": 1088,
+   "w": 422,
+   "h": 444,
+   "group": "Spell125/Captions",
+   "source_layer": 214,
+   "source_name": "Layer215"
+  },
+  "spell125_text_altar": {
+   "x": 1992,
+   "y": 1669,
+   "w": 191,
+   "h": 297,
+   "group": "Spell125/Captions",
+   "source_layer": 215,
+   "source_name": "Layer216"
+  },
+  "spell125_text_genii": {
+   "x": 2222,
+   "y": 1287,
+   "w": 168,
+   "h": 147,
+   "group": "Spell125/Captions",
+   "source_layer": 216,
+   "source_name": "Layer217"
+  },
+  "spell125_text_thoth": {
+   "x": 2466,
+   "y": 1120,
+   "w": 349,
+   "h": 570,
+   "group": "Spell125/Captions",
+   "source_layer": 217,
+   "source_name": "Layer218"
+  },
+  "spell125_text_balance": {
+   "x": 3100,
+   "y": 1143,
+   "w": 416,
+   "h": 434,
+   "group": "Spell125/Captions",
+   "source_layer": 218,
+   "source_name": "Layer219"
+  },
+  "spell125_text_attendant": {
+   "x": 3844,
+   "y": 1845,
+   "w": 78,
+   "h": 87,
+   "group": "Spell125/Captions",
+   "source_layer": 226,
+   "source_name": "Layer227"
+  },
+  "spell125_text_deities": {
+   "x": 2247,
+   "y": 1899,
+   "w": 118,
+   "h": 77,
+   "group": "Spell125/Captions",
+   "source_layer": 227,
+   "source_name": "Layer228"
+  }
+ },
+ "columns": {}
+}

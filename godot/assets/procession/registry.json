@@ -1,81 +1,98 @@
 {
+ "references": {
+  "Davis 1894": "Davis, C. H. S. The Egyptian Book of the Dead: The Most Ancient and the Most Important of the Extant Religious Texts of Ancient Egypt. New York and London: G. P. Putnam's Sons, 1894. (English version of Pierret's French translation of P. Turin 1791.) https://sites.dlib.nyu.edu/viewer/books/ifa_egypt000060",
+  "Godley 1921": "Herodotus. The Histories, trans. A. D. Godley. Vol. II (Books III–IV). Loeb Classical Library. Cambridge, MA: Harvard University Press, 1921. https://penelope.uchicago.edu/Thayer/E/Roman/Texts/Herodotus/3a%2A.html",
+  "Tawfik 2022": "Tawfik, T. S. \"Spell 1 of the Book of the Dead and Its Vignette.\" In R. Lucarelli and M. A. Stadler (eds.), The Oxford Handbook of the Egyptian Book of the Dead, 357–372. Oxford: Oxford University Press, 2022.",
+  "Mosher 2022": "Mosher, M. \"Illustrations in Saite through Ptolemaic Books of the Dead.\" In R. Lucarelli and M. A. Stadler (eds.), The Oxford Handbook of the Egyptian Book of the Dead, 445–486. Oxford: Oxford University Press, 2022. (Partly read.)"
+ },
  "entries": {
   "mourners": {
    "name": "Mourners",
    "descriptions": {
     "default": "Two mourners with arms raised: the lament at the head of the procession."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Tawfik 2022"
   },
   "women_mourners": {
    "name": "Women mourners",
    "descriptions": {
     "default": "Six women walk with their hands to their chests."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Tawfik 2022"
   },
   "canopy_frame": {
    "name": "Canopy frame",
    "descriptions": {
     "default": "An empty canopy frame carried in the procession."
    },
-   "journal": true
+   "journal": true,
+   "reference": "as drawn"
   },
   "man_hauling_the_canopy": {
    "name": "Man hauling the canopy",
    "descriptions": {
     "default": "A man hauls the canopy frame on its sledge by a rope."
    },
-   "journal": true
+   "journal": true,
+   "reference": "as drawn"
   },
   "anubis_on_a_chest": {
    "name": "Anubis on a chest",
    "descriptions": {
     "default": "Anubis as a jackal on a chest, dragged on a sledge. You will meet him again at the judgment."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Tawfik 2022 (the chest of the canopic jars)"
   },
   "man_hauling_anubis": {
    "name": "Man hauling Anubis",
    "descriptions": {
     "default": "A man hauls Anubis's chest on its sledge by a rope."
    },
-   "journal": true
+   "journal": true,
+   "reference": "as drawn"
   },
   "funerary_bier": {
    "name": "The funerary bier",
    "descriptions": {
     "default": "A processional boat with the funerary bier."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Tawfik 2022"
   },
   "priest_with_censer": {
    "name": "Priest with censer",
    "descriptions": {
     "default": "A priest walks before the bier with a censer, offering incense."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Tawfik 2022 (the Sem-priest)"
   },
   "hauler": {
    "name": "Hauler",
    "descriptions": {
     "default": "A man hauls the sledge rope."
    },
-   "journal": true
+   "journal": true,
+   "reference": "as drawn"
   },
   "ox_driver": {
    "name": "Ox-driver",
    "descriptions": {
     "default": "A man with a stick drives the ox that pulls the sledge."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Tawfik 2022"
   },
   "ox": {
    "name": "Ox",
    "descriptions": {
     "default": "The ox pulls the sledge with the mummy's bier."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Tawfik 2022"
   },
   "plumed_ox": {
    "name": "Plumed ox",
@@ -83,7 +100,8 @@
     "default": "The sacred apis bull, crowned with plumes, walking along the procession.",
     "unresolved": "A bull walking towards the sacrifice."
    },
-   "journal": true
+   "journal": true,
+   "reference": ""
   },
   "calf": {
    "name": "Calf",
@@ -91,28 +109,32 @@
     "default": "A young calf leaps toward the plumed ox.",
     "unsettled": "The young calf shakes at the sight of the sacrifice."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Tawfik 2022 (the cow and calf scene)"
   },
   "canopy_bearer": {
    "name": "Canopy-bearer",
    "descriptions": {
     "default": "A man walks under a portable canopy."
    },
-   "journal": true
+   "journal": true,
+   "reference": "as drawn"
   },
   "yoke_bearer": {
    "name": "Yoke-bearer",
    "descriptions": {
     "default": "A man carries two vessels on a shoulder yoke."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Tawfik 2022"
   },
   "two_women": {
    "name": "Two women",
    "descriptions": {
     "default": "Two women walk in the procession."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Tawfik 2022"
   },
   "sacrifice": {
    "name": "The sacrifice",
@@ -120,78 +142,153 @@
     "default": "A bull is thrown down and butchered.",
     "unresolved": "The Apis bull should never be slaughtered. (Not even Cambyses did it, despite what Herodotus claimed.)"
    },
-   "journal": true
+   "journal": true,
+   "reference": "Tawfik 2022; Godley 1921 (Herodotus 3.27–29)"
   },
   "lector_priest": {
    "name": "Lector priest",
    "descriptions": {
     "default": "The lector priest reads from a scroll."
    },
-   "journal": true
+   "journal": true,
+   "reference": "as drawn"
   },
   "second_offering_table": {
    "name": "Offering table",
    "descriptions": {
     "default": "Another large pile of offerings, with more architectural integrity."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Tawfik 2022"
   },
   "offering_table": {
    "name": "Offering table",
    "descriptions": {
-    "default": "A great heaped table of bread, meat, fowl and fruit, between pairs of trees.",
+    "default": "A great heaped table of bread, meat, fowl and fruit, between palm leaves.",
     "collapsed": "The offering table has collapsed. Only a few loaves, a small head and a pomegranate still stand; everything else lies on the floor between the bouquets. Speak with the lector priest beside it."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Tawfik 2022"
   },
   "man_with_a_water_jar": {
    "name": "Man with a water jar",
    "descriptions": {
     "default": "A man holds a water jar over the offering table for purification."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Tawfik 2022"
   },
   "two_obelisks": {
    "name": "Two obelisks",
    "descriptions": {
     "default": "Two obelisks stand on their bases."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Tawfik 2022"
   },
   "offering_stand": {
    "name": "Low table",
    "descriptions": {
     "default": "A small stand with two rods, a hooked adze, and a foreleg laid on it."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Tawfik 2022 (the instruments for the Opening of the Mouth)"
   },
   "priest_with_arm_censer": {
    "name": "Priest with arm-censer",
    "descriptions": {
     "default": "He holds incense over the small stand, purifying the sacred implements for the Opening of the Mouth ritual."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Tawfik 2022; Tawfik reads the object as the wer-hekaw (a ram-headed tool for the Opening of the Mouth), not a censer"
   },
   "lector_with_plumes": {
    "name": "Lector with plumes",
    "descriptions": {
     "default": "A lector priest in a two-feather headdress reads something from a sheet."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Tawfik 2022"
+  },
+  "emb_e1": {
+   "name": "Jackal standard",
+   "descriptions": {
+    "default": "A standard carried on a pole, topped with a jackal."
+   },
+   "journal": false,
+   "reference": "as drawn"
+  },
+  "emb_e2": {
+   "name": "Ibis standard",
+   "descriptions": {
+    "default": "A standard carried on a pole, topped with an ibis."
+   },
+   "journal": false,
+   "reference": "as drawn"
+  },
+  "emb_e3": {
+   "name": "Falcon standard",
+   "descriptions": {
+    "default": "A standard carried on a pole, topped with a falcon."
+   },
+   "journal": false,
+   "reference": "as drawn"
+  },
+  "emb_e4": {
+   "name": "Bull standard",
+   "descriptions": {
+    "default": "A standard carried on a pole, topped with a bull."
+   },
+   "journal": false,
+   "reference": "as drawn"
+  },
+  "emb_e5": {
+   "name": "Vulture standard",
+   "descriptions": {
+    "default": "A standard carried on a pole, topped with a vulture."
+   },
+   "journal": false,
+   "reference": "as drawn"
+  },
+  "emb_e6": {
+   "name": "Placenta standard",
+   "descriptions": {
+    "default": "A standard carried on a pole, topped with the placenta emblem."
+   },
+   "journal": false,
+   "reference": "as drawn"
+  },
+  "emb_e7": {
+   "name": "Plumes standard",
+   "descriptions": {
+    "default": "A standard carried on a pole, topped with two plumes."
+   },
+   "journal": false,
+   "reference": "as drawn"
+  },
+  "emb_e8": {
+   "name": "Falcon standard",
+   "descriptions": {
+    "default": "A standard carried on a pole, topped with a falcon, like the third."
+   },
+   "journal": false,
+   "reference": "as drawn"
   },
   "priest_with_jar": {
    "name": "Priest with jar",
    "descriptions": {
     "default": "A priest raises a round jar and pours purifying water. The wavy line is the stream: it arches over Anubis and the mummy."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Tawfik 2022"
   },
   "kneeling_woman": {
    "name": "Kneeling woman",
    "descriptions": {
     "default": "A woman kneels with her hands raised, under the stream of water."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Tawfik 2022 (the widow)"
   },
   "anubis_and_the_mummy": {
    "name": "Anubis and the mummy",
@@ -199,7 +296,8 @@
     "default": "Anubis holds the mummy upright on a low base before the tomb.",
     "unopened": "Anubis holds the mummy upright on a low base before the tomb. The mummy's mouth is not opened yet, and needs the right tool."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Tawfik 2022 (a priest in a jackal mask, as Anubis)"
   },
   "stela": {
    "name": "Stela",
@@ -207,49 +305,64 @@
     "default": "A round-topped stela under the winged sun. Faint on its face: a stand, the sun disc on it, a lotus bending over it.",
     "blank": "A round-topped stela under the winged sun. Its face is blank."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Tawfik 2022"
   },
   "tomb_chapel": {
    "name": "Tomb chapel",
    "descriptions": {
     "default": "The tomb: a chapel with a cornice, crowned by a small pyramid."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Tawfik 2022"
   },
   "ra_enthroned": {
    "name": "Ra enthroned",
    "descriptions": {
     "default": "Ra sits on his throne with the sun disc on his head and a staff in his hand."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Tawfik 2022 (Re-Horakhty, the last scene of spell 1)"
   },
   "caption_1": {
    "name": "Spell 1",
    "descriptions": {
     "default": "Beginning of the chapters about the going forth by day and the carrying of the shades into the Netherworld."
    },
-   "journal": false
+   "journal": false,
+   "reference": "Davis 1894"
   },
   "caption_2": {
    "name": "Spell 1",
    "descriptions": {
     "default": "To be said on the day of burial in order to go in after coming forth."
    },
-   "journal": false
+   "journal": false,
+   "reference": "Davis 1894"
   },
   "caption_3": {
-   "name": "Spell 15",
+   "name": "Spell 1",
    "descriptions": {
     "default": "Adoration to Ra when he rises above the eastern horizon in Heaven."
    },
-   "journal": false
+   "journal": false,
+   "reference": "Davis 1894; Tawfik 2022 (the Ra scene ends spell 1; Davis and Mosher 2022 put it with spell 15)"
   },
   "caption_4": {
-   "name": "Spell 15",
+   "name": "Spell 1",
    "descriptions": {
     "default": "Adoration to the sun when it sets in the Land of Life."
    },
-   "journal": false
+   "journal": false,
+   "reference": "Davis 1894; Tawfik 2022 (the Ra scene ends spell 1; Davis and Mosher 2022 put it with spell 15)"
+  },
+  "mouth_words": {
+   "name": "Spell 1",
+   "descriptions": {
+    "default": "Adoration to Tmu setting down in the Land of Life."
+   },
+   "journal": false,
+   "reference": "Davis 1894 (the third title of spell 15); Tawfik 2022 (the Ra scene ends spell 1)"
   }
  }
 }

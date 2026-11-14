@@ -1,0 +1,728 @@
+{
+ "references": {
+  "Backes TBP": "Backes, B. (trans.). German translations of P. Turin 1791 (TM 57201, Ptolemaic) and of New Kingdom witnesses, in Das altägyptische Totenbuch: Ein digitales Textzeugenarchiv (Totenbuch-Projekt, Bonn/Cologne), https://totenbuch.awk.nrw.de/spruch/110 (also /spruch/145, /spruch/146). Accessed 2026-11-05.",
+  "Allen 1960": "Allen, T. G. The Egyptian Book of the Dead: Documents in the Oriental Institute Museum at the University of Chicago. OIP 82. Chicago: University of Chicago Press, 1960. https://isac-assets.s3.amazonaws.com/isac-publications/oip82.pdf"
+ },
+ "entries": {
+  "caption_top_osiris_procession": {
+   "name": "Osiris N.",
+   "descriptions": {
+    "default": "\"Osiris N., justified.\" The deceased, at the head of the procession arriving in the field."
+   },
+   "journal": false,
+   "reference": "Backes TBP; placement is my reading"
+  },
+  "caption_top_great_ennead": {
+   "name": "The Great Ennead",
+   "descriptions": {
+    "default": "\"The Great Ennead.\" The three seated gods are the company of the gods, waiting to be fed."
+   },
+   "journal": false,
+   "reference": "Backes TBP; Allen 1960 (same label in P. Ryerson)"
+  },
+  "caption_top_rowing": {
+   "name": "Rowing",
+   "descriptions": {
+    "default": "\"Rowing in the waters of Hotep.\""
+   },
+   "journal": false,
+   "reference": "Backes TBP; Allen 1960 has \"paddling in Hotep's lake\""
+  },
+  "caption_top_osiris_boat": {
+   "name": "Osiris N.",
+   "descriptions": {
+    "default": "\"Osiris N., justified.\" The deceased sits in the boat."
+   },
+   "journal": false,
+   "reference": "Backes TBP"
+  },
+  "caption_top_osiris_cup": {
+   "name": "Osiris N.",
+   "descriptions": {
+    "default": "\"Osiris N., justified.\" The deceased holds out an offering."
+   },
+   "journal": false,
+   "reference": "Backes TBP"
+  },
+  "caption_top_hotep_falcon": {
+   "name": "Hotep",
+   "descriptions": {
+    "default": "\"Hotep, the great god, lord of the sky.\" The falcon on the shrine is Hotep, lord of the Field of Offerings."
+   },
+   "journal": false,
+   "reference": "Backes TBP; Allen 1960 (falcon named the same in P. Ryerson)"
+  },
+  "caption_top_horizon_gods": {
+   "name": "The gods of the horizon",
+   "descriptions": {
+    "default": "\"The gods of the horizon.\""
+   },
+   "journal": false,
+   "reference": "Backes TBP; that it labels the mummiform god is my reading"
+  },
+  "caption_top_oval_no_sweat": {
+   "name": "A place in the field",
+   "descriptions": {
+    "default": "A place of the field, named in an oval: \"There is no sweat\"."
+   },
+   "journal": false,
+   "reference": "Backes TBP; Allen 1960 reads the matching Ryerson oval as Hetpet; which oval is my guess"
+  },
+  "caption_top_oval_qenqenet": {
+   "name": "Qenqenet",
+   "descriptions": {
+    "default": "A place of the field, named in an oval: Qenqenet, \"the beating place.\""
+   },
+   "journal": false,
+   "reference": "Backes TBP (\"Schlage-Stätte\"); Allen 1960 (Qnqnt); which oval is my guess"
+  },
+  "caption_top_oval_great_town": {
+   "name": "The Great Town",
+   "descriptions": {
+    "default": "A place of the field, named in an oval: \"the Great Town.\""
+   },
+   "journal": false,
+   "reference": "Backes TBP; Allen 1960 \"City of the Great One\""
+  },
+  "caption_top_being_hotep": {
+   "name": "Being Hotep",
+   "descriptions": {
+    "default": "\"Being Hotep in the fields of the foremost ones.\""
+   },
+   "journal": false,
+   "reference": "Backes TBP (\"Vorderen\" marked uncertain); Allen 1960 Ryerson: \"Existing as Hotep, lord of the fields, with breath in his nose\""
+  },
+  "caption_mid_ploughing": {
+   "name": "Ploughing",
+   "descriptions": {
+    "default": "\"Ploughing the sky along its length.\" The field is as long as the sky."
+   },
+   "journal": false,
+   "reference": "Backes TBP; Allen 1960 \"plowing\" in a region \"the length of which is (the length of) the sky\""
+  },
+  "caption_mid_oval_knife": {
+   "name": "A place in the field",
+   "descriptions": {
+    "default": "A place of the field, named in an oval: \"Knife Place\". The name is written with a knife alone."
+   },
+   "journal": false,
+   "reference": "Backes TBP; Allen 1960 notes the oval written with knife alone, which CT calls \"Lady of the Two Lands\""
+  },
+  "caption_mid_oval_flourishing": {
+   "name": "A place in the field",
+   "descriptions": {
+    "default": "A place of the field, named in an oval: \"the Flourishing One.\""
+   },
+   "journal": false,
+   "reference": "Backes TBP; Allen 1960 \"the Verdant\"; which oval is my guess"
+  },
+  "caption_mid_oval_great_green": {
+   "name": "The Great Green",
+   "descriptions": {
+    "default": "A place of the field, named in an oval: \"the Great Green.\""
+   },
+   "journal": false,
+   "reference": "Backes TBP (first word unread); Allen 1960 \"Ring of the Sea\" (?); which oval is my guess"
+  },
+  "caption_mid_oval_hotep": {
+   "name": "A place in the field",
+   "descriptions": {
+    "default": "A place of the field, named in an oval: \"Hotep\" or \"Food,\" followed by a knife (uncertain reading)."
+   },
+   "journal": false,
+   "reference": "Backes TBP; Allen 1960 \"the Peaceful\"; which oval is my guess"
+  },
+  "caption_mid_hippo_lake": {
+   "name": "The Opening of the Hippopotamus",
+   "descriptions": {
+    "default": "\"The Opening of the Hippopotamus. Its length is a thousand leagues; its breadth cannot be told. There are no fish in it, no islands in it, no snakes in it.\""
+   },
+   "journal": false,
+   "reference": "Backes TBP; Allen 1960 \"lake of the hippopotamus ... no fish, no snakes, and no plants\""
+  },
+  "caption_mid_overflow": {
+   "name": "Giving the overflow",
+   "descriptions": {
+    "default": "\"Giving the overflow.\" The deceased presents the flood's abundance."
+   },
+   "journal": false,
+   "reference": "Backes TBP; Allen 1960 \"presenting the overflow\"; placement is my reading"
+  },
+  "caption_mid_osiris": {
+   "name": "Osiris N.",
+   "descriptions": {
+    "default": "\"Osiris N., justified.\""
+   },
+   "journal": false,
+   "reference": "Backes TBP"
+  },
+  "caption_mid_hapi": {
+   "name": "Hapi",
+   "descriptions": {
+    "default": "\"Hapi, father of the gods.\" The enthroned god is the Inundation."
+   },
+   "journal": false,
+   "reference": "Backes TBP; Allen 1960 \"the Inundation, father of the gods\"; the archived level.json calls him Hetep"
+  },
+  "caption_bot_blessed": {
+   "name": "The place of the blessed",
+   "descriptions": {
+    "default": "\"The place of the blessed. They are seven cubits tall; the emmer is three cubits, and it is the worthy ones who reap it.\""
+   },
+   "journal": false,
+   "reference": "Backes TBP; Allen 1960 Ryerson: \"Seat of the blessed. (The height of its barley) is 7 cubits, its stalk(s) 3 cubits. It is the blameless mummy that reaps them.\""
+  },
+  "caption_bot_island_re": {
+   "name": "The god in it",
+   "descriptions": {
+    "default": "\"The god in it: Re.\""
+   },
+   "journal": false,
+   "reference": "Backes TBP; Allen 1960 Ryerson: \"the birthplace of the god. This city is Qenqenet. The God who is in it is Re\"; placement is my reading"
+  },
+  "caption_bot_birthplace": {
+   "name": "Birthplace of the gods",
+   "descriptions": {
+    "default": "\"Birthplace of the gods ... a blameless thing.\""
+   },
+   "journal": false,
+   "reference": "Backes TBP (middle words unread, \"der im Wüten ist\" uncertain); placement is my reading"
+  },
+  "caption_bot_three_gods": {
+   "name": "Shu, Tefnut and Geb",
+   "descriptions": {
+    "default": "\"Those who belong to the ones who made it. Shu, Tefnut, Geb.\""
+   },
+   "journal": false,
+   "reference": "Backes TBP (first line marked uncertain); Allen 1960 Ryerson: \"(they) who eat it: Shu, Tefnut, and Geb\""
+  },
+  "caption_bot_throne_bark": {
+   "name": "The bark of Wennefer",
+   "descriptions": {
+    "default": "\"Destroying, Driving Away\" (uncertain reading): the name of the bark with the throne. \"The god in it: Wennefer.\""
+   },
+   "journal": false,
+   "reference": "Backes TBP; Allen 1960 Ryerson: \"the holy throne; the god who occupies it is Unnofer\"; split between this line and the column beside it is my reading"
+  },
+  "caption_bot_great_food": {
+   "name": "Great Food",
+   "descriptions": {
+    "default": "\"The place of Great Food.\""
+   },
+   "journal": false,
+   "reference": "Backes TBP; placement is my reading"
+  },
+  "caption_bot_rehorakhty_bark": {
+   "name": "The bark of Re-Harakhty",
+   "descriptions": {
+    "default": "\"The bark of Re-Harakhty when he crosses to the Field of Reeds.\""
+   },
+   "journal": false,
+   "reference": "Backes TBP; Allen 1960 Ryerson: \"the bark of Re-Harakhte when he crosses to the Field of Rush(es)\""
+  },
+  "caption_bot_destroying_water": {
+   "name": "The Destroying One",
+   "descriptions": {
+    "default": "\"The Destroying One\": a stretch of water."
+   },
+   "journal": false,
+   "reference": "Backes TBP; Allen 1960 has an uncertain legend above the two barks, possibly \"disturbing the water\""
+  },
+  "caption_bot_oval_slaughter": {
+   "name": "Slaughter",
+   "descriptions": {
+    "default": "An island of the field, named in an oval: \"Slaughter.\""
+   },
+   "journal": false,
+   "reference": "Backes TBP; Allen 1960 reads the Ryerson ovals as Dpf(?)t, Hz't, the Powerful, the United; which oval is my guess"
+  },
+  "caption_bot_oval_food": {
+   "name": "Food",
+   "descriptions": {
+    "default": "An island of the field, named in an oval: \"Food.\""
+   },
+   "journal": false,
+   "reference": "Backes TBP; which oval is my guess"
+  },
+  "caption_bot_oval_strong": {
+   "name": "The Strong One",
+   "descriptions": {
+    "default": "An island of the field, named in an oval: \"the Strong One.\""
+   },
+   "journal": false,
+   "reference": "Backes TBP; Allen 1960 \"the Powerful\"; which oval is my guess"
+  },
+  "caption_bot_oval_nehet": {
+   "name": "The waters of Nehet",
+   "descriptions": {
+    "default": "A water of the field, named in an oval: \"the waters of Nehet.\""
+   },
+   "journal": false,
+   "reference": "Backes TBP; which oval is my guess"
+  },
+  "caption_bot_heron_island": {
+   "name": "The island with the bird",
+   "descriptions": {
+    "default": "An island ringed by water, its name written with a single bird: perhaps \"the common folk.\""
+   },
+   "journal": false,
+   "reference": "Allen 1960 (Ryerson's lower-left pool, \"rḫyt\", marked uncertain); not in Backes TBP's list"
+  },
+  "landing_steps": {
+   "name": "Landing steps",
+   "descriptions": {
+    "default": "A short flight of steps rises at the water's edge."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "canal_god_3": {
+   "name": "Seated god",
+   "descriptions": {
+    "default": "One of three gods who sit in a row beside the channel, one knee raised."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "canal_god_2": {
+   "name": "Seated god",
+   "descriptions": {
+    "default": "One of three gods who sit in a row beside the channel, one knee raised."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "canal_god_1": {
+   "name": "Seated god",
+   "descriptions": {
+    "default": "One of three gods who sit in a row beside the channel, one knee raised."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "throne_boat": {
+   "name": "Boat with a throne",
+   "descriptions": {
+    "default": "A boat with a snake's head at each end carries a throne; bundles of oars lean at both ends."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "stairway_boat": {
+   "name": "Boat with a stairway",
+   "descriptions": {
+    "default": "A boat with a snake's head at each end carries a flight of steps amidships."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "plough_ox": {
+   "name": "Ox",
+   "descriptions": {
+    "default": "An ox with long horns walks forward."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "hoe_man": {
+   "name": "Man with a hoe",
+   "descriptions": {
+    "default": "A man works the earth with a hoe behind the ox."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "seed": {
+   "name": "Seed",
+   "descriptions": {
+    "default": "Seed falls in dotted streams in a wide arc from the sower."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "sower": {
+   "name": "Sower",
+   "descriptions": {
+    "default": "A man throws seed with one arm raised above his head."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "tree": {
+   "name": "Tree",
+   "descriptions": {
+    "default": "A tall slender tree with many fine branches stands between the reapers and the sower."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "crops_right": {
+   "name": "Standing grain",
+   "descriptions": {
+    "default": "Tall ripe grain stands in a bed, its ears high above the reapers."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "crops_left": {
+   "name": "Standing grain",
+   "descriptions": {
+    "default": "Tall ripe grain stands in a bed, its ears high above the reapers."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "reaper_right": {
+   "name": "Reaper",
+   "descriptions": {
+    "default": "A man bends to cut the standing grain with a sickle."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "reaper_left": {
+   "name": "Reaper",
+   "descriptions": {
+    "default": "A man bends to cut the standing grain with a sickle."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "threshing_floor": {
+   "name": "Threshing floor",
+   "descriptions": {
+    "default": "The threshing floor is drawn as a long low strip of dotted ground."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "flail_man": {
+   "name": "Man with a flail",
+   "descriptions": {
+    "default": "A man raises a flail behind the ox on the threshing floor."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "threshing_ox": {
+   "name": "Ox",
+   "descriptions": {
+    "default": "An ox walks on the threshing floor."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "grain_heap_right": {
+   "name": "Heap of grain",
+   "descriptions": {
+    "default": "A domed heap of grain, its surface marked with small ears."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "grain_heap_left": {
+   "name": "Heap of grain",
+   "descriptions": {
+    "default": "A domed heap of grain, its surface marked with round grains."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "heron": {
+   "name": "Heron",
+   "descriptions": {
+    "default": "A heron with a long beak is drawn above a small standard."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "adorant_heron": {
+   "name": "Adorant",
+   "descriptions": {
+    "default": "A man raises one hand in adoration beside the heron."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "kneeling_man": {
+   "name": "Kneeling man",
+   "descriptions": {
+    "default": "A man kneels with his arms folded on his knee."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "adorant_offering": {
+   "name": "Adorant",
+   "descriptions": {
+    "default": "A man stands before the offering stand with both hands raised."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "offering_stand": {
+   "name": "Offering stand",
+   "descriptions": {
+    "default": "A slender stand carries offerings under a curving leaf, before the enthroned god."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "enthroned_god": {
+   "name": "Enthroned god",
+   "descriptions": {
+    "default": "A god sits on a block throne beneath a tall crown of upright stems."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "yoke_bearer": {
+   "name": "Man with a yoke",
+   "descriptions": {
+    "default": "A man at the tail of the line carries a bar across his shoulders."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "walking_worshipper": {
+   "name": "Walking worshipper",
+   "descriptions": {
+    "default": "A man walks forward in the line of worshippers, one arm hanging at his side."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "adorant_procession": {
+   "name": "Adorant",
+   "descriptions": {
+    "default": "A man in the line of worshippers raises one hand in adoration."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "cup_bearer_procession": {
+   "name": "Cup bearer",
+   "descriptions": {
+    "default": "A man at the head of the line holds out a small cup."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "heaped_stand": {
+   "name": "Heaped offering stand",
+   "descriptions": {
+    "default": "A tall stand heaped with offerings stands before the seated gods: loaves and fruit, with a leaf curving over them."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "dais": {
+   "name": "Dais",
+   "descriptions": {
+    "default": "A low dais with a ribbed top carries the three seated gods."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "seated_god_3": {
+   "name": "Seated god",
+   "descriptions": {
+    "default": "One of three gods who sit side by side on a dais, each with a crown on his head."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "seated_god_2": {
+   "name": "Seated god",
+   "descriptions": {
+    "default": "One of three gods who sit side by side on a dais, each with a crown on his head."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "seated_god_1": {
+   "name": "Seated god",
+   "descriptions": {
+    "default": "One of three gods who sit side by side on a dais, each with a crown on his head."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "boat": {
+   "name": "The boat",
+   "descriptions": {
+    "default": "A long boat with curving ends carries a table of tall jars and two bowls on stands; a man sits in it holding a pole."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "cup_bearer_boat": {
+   "name": "Cup bearer",
+   "descriptions": {
+    "default": "A man holds out a small cup toward the boat."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "human_headed_bird": {
+   "name": "Human-headed bird",
+   "descriptions": {
+    "default": "A bird with a human head, a long wig and a broad collar stands on a base, its tail trailing behind it."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "falcon": {
+   "name": "Falcon",
+   "descriptions": {
+    "default": "A falcon stands on a tall pedestal."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "bird_on_offerings": {
+   "name": "Bird on the offerings",
+   "descriptions": {
+    "default": "A bird lies on top of the offerings on the stand beneath it."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "bird_stand": {
+   "name": "Offering stand",
+   "descriptions": {
+    "default": "A tall stand carries a row of small round offerings."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "mummiform_god": {
+   "name": "Mummiform god",
+   "descriptions": {
+    "default": "A god stands upright in mummy wrappings, with three heads crowded at the top, a cross on his chest and long bands down his body."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "panel1_goddesses": {
+   "name": "Two goddesses",
+   "descriptions": {
+    "default": "Two women stand side by side, each with a sign on her head, each holding a long staff."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "panel1_barque": {
+   "name": "Boat with a shrine",
+   "descriptions": {
+    "default": "A boat with high curving ends carries a shrine with a scarab beetle in it, and stands on a block patterned with waves."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "panel2_enthroned": {
+   "name": "Enthroned god and goddess",
+   "descriptions": {
+    "default": "A god sits on a throne in a tall crown with his sceptres, and a goddess stands behind him."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "panel2_stand": {
+   "name": "Offering stand",
+   "descriptions": {
+    "default": "A slender stand holds a round object, with a fan-shaped plume behind it."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "panel2_deceased": {
+   "name": "Man with a staff",
+   "descriptions": {
+    "default": "A man stands facing the throne with a long staff in his hand."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "panel2_adorant": {
+   "name": "Adorant",
+   "descriptions": {
+    "default": "A man raises both hands in adoration."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "panel3_gods": {
+   "name": "Two seated gods",
+   "descriptions": {
+    "default": "Two gods sit side by side on a block, knees raised, in long wigs and collars."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "panel3_table": {
+   "name": "Offering table",
+   "descriptions": {
+    "default": "A table stands on four tall jars; an animal lies on it, with a tray of offerings above."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "panel3_kneeling": {
+   "name": "Kneeling man",
+   "descriptions": {
+    "default": "A man kneels with both hands raised in adoration."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "panel4_gods": {
+   "name": "Two seated gods",
+   "descriptions": {
+    "default": "Two gods sit side by side on a block, knees raised, in long wigs and collars."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "panel4_stand": {
+   "name": "Offering stand",
+   "descriptions": {
+    "default": "A small stand holds a spray of upright stems."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "panel4_table": {
+   "name": "Offering table",
+   "descriptions": {
+    "default": "A table stands on four tall jars; an animal with long curved horns lies on it."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "panel4_kneeling": {
+   "name": "Kneeling man",
+   "descriptions": {
+    "default": "A man kneels with both hands raised in adoration."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "adorant_left": {
+   "name": "Large adorant",
+   "descriptions": {
+    "default": "A large figure stands in a long dress and sash with both hands raised, framed by columns of hieroglyphs."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "adorant_right": {
+   "name": "Large adorant",
+   "descriptions": {
+    "default": "A large figure stands in a long dress and sash with both hands raised, framed by columns of hieroglyphs."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  }
+ }
+}

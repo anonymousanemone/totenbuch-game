@@ -3,7 +3,9 @@
 Levels set aside for later: the Night Journey (cosmos), the Field of Offerings (field) and the
 Weighing of the Heart (hall). The Field of Offerings is back in the game as a level to walk and read
 (`godot/scenes/field.tscn`, cut from `art/fields110.mdp` by `tools/build_field.py`); what stays here
-is its puzzle script, `godot/scripts/field.gd`, for when its puzzles return. They are kept as they were, but are left out of the game, the tests
+is its puzzle script, `godot/scripts/field.gd`, for when its puzzles return. The Weighing of the Heart is likewise
+back as a level to walk and read (`godot/scenes/hall.tscn`, cut from `art/judgement125.mdp` by
+`tools/build_walk.py hall`); its puzzle version stays here. They are kept as they were, but are left out of the game, the tests
 and refactors. The folders mirror the repository (`godot/scenes`, `godot/scripts`, `godot/assets`,
 `tools`), so a level comes back by moving its files to the same paths and running the import:
 

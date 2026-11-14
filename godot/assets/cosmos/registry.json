@@ -1,368 +1,427 @@
 {
+ "references": {
+  "Davis 1894": "Davis, C. H. S. The Egyptian Book of the Dead: The Most Ancient and the Most Important of the Extant Religious Texts of Ancient Egypt. New York and London: G. P. Putnam's Sons, 1894. (English version of Pierret's French translation of P. Turin 1791.) https://sites.dlib.nyu.edu/viewer/books/ifa_egypt000060",
+  "TBP Spruch 17": "Das altägyptische Totenbuch: Ein digitales Textzeugenarchiv (Totenbuch-Projekt, Bonn/Cologne), page for spell 17: B. Backes's German translation of P. Turin 1791 (TM 57201, Ptolemaic) and the list of motifs on its vignettes. https://totenbuch.awk.nrw.de/spruch/17. Accessed 2026-11-06.",
+  "Renouf & Naville 1904": "Renouf, P. Le Page, and E. Naville. The Egyptian Book of the Dead: Translation and Commentary (The Life-Work of Sir Peter le Page Renouf, vol. IV). London, 1904. Project Gutenberg eBook 69566, https://www.gutenberg.org/files/69566/69566-h/69566-h.htm",
+  "Lucarelli 2022": "Lucarelli, R. \"Gods and Demons in the Book of the Dead: The Gods of the Netherworld between Myth and Funerary Religion.\" In R. Lucarelli and M. A. Stadler (eds.), The Oxford Handbook of the Egyptian Book of the Dead, 421–432. Oxford: Oxford University Press, 2022.",
+  "Stadler 2022": "Stadler, M. A. \"The Book of the Dead as a Source for the Study of Ancient Egyptian Religion: Methodology, Problems, Prospects.\" In R. Lucarelli and M. A. Stadler (eds.), The Oxford Handbook of the Egyptian Book of the Dead, 263–278. Oxford: Oxford University Press, 2022. (Partly read.)"
+ },
  "entries": {
   "isis_nephthys_kneeling": {
    "name": "Nephthys and Isis",
    "descriptions": {
     "default": "Nephthys and Isis kneel side by side, their name signs on their heads: the basket on a house for Nephthys, the throne for Isis."
    },
-   "journal": true
+   "journal": true,
+   "reference": "TBP Spruch 17 (lists the Nephthys sign and the throne sign among this vignette's motifs)"
   },
   "nut_over_scarab": {
    "name": "Nut",
    "descriptions": {
     "default": "A goddess, probably Nut, the sky, bends low over a lying lion and a scarab: the sun, soon to be born again from her body."
    },
-   "journal": true
+   "journal": true,
+   "reference": "that the goddess is Nut is unsourced"
   },
   "osiris_enthroned": {
    "name": "Osiris enthroned",
    "descriptions": {
     "default": "Osiris sits on his throne in the tall atef crown, holding his sceptre, as the dead man comes before him."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Davis 1894"
   },
   "offering_stand": {
    "name": "Offering stand",
    "descriptions": {
     "default": "A tall stand with a round loaf and a lotus flower, set before Osiris."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Davis 1894"
   },
   "deceased_adoring": {
    "name": "The deceased in praise",
    "descriptions": {
     "default": "The dead man raises his hands in praise before Osiris."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Davis 1894"
   },
   "anubis": {
    "name": "Anubis",
    "descriptions": {
     "default": "Anubis, the jackal-headed god of embalming, stands behind the dead man as he worships Osiris."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Davis 1894"
   },
   "chest_bearer": {
    "name": "Bearer of the chest",
    "descriptions": {
     "default": "A man carries a chest high on one hand. It may be the funeral chest \"containing the bowels of Osiris\", which Anubis guards."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Davis 1894"
   },
   "isis_nephthys_standing_1": {
    "name": "Nephthys and Isis",
    "descriptions": {
     "default": "Nephthys and Isis raise a hand toward the boat; Isis holds an ankh. \"Isis cast away his impurities, Nephthys cut off his sins.\""
    },
-   "journal": true
+   "journal": true,
+   "reference": "Davis 1894"
   },
   "baboons_praising_1": {
    "name": "Two baboons",
    "descriptions": {
     "default": "Two baboons stand upright and raise their paws in praise of the sun in its boat."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Davis 1894"
   },
   "atum_evening_boat": {
    "name": "Atum's boat",
    "descriptions": {
     "default": "A god crowned with the sun disc sits in his boat before a stand with a lotus. He is probably Atum, the evening sun, who in the text \"built thy house\" and crosses to the eastern horizon."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Davis 1894"
   },
   "baboons_praising_2": {
    "name": "Two baboons",
    "descriptions": {
     "default": "Two baboons stand upright and raise their paws in praise of the sun in its boat."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Davis 1894"
   },
   "isis_nephthys_standing_2": {
    "name": "Isis and Nephthys",
    "descriptions": {
     "default": "Isis and Nephthys stand with a hand raised, each holding an ankh. The dead man \"was conceived by Isis, begotten by Nephthys.\""
    },
-   "journal": true
+   "journal": true,
+   "reference": "Davis 1894"
   },
   "baboons_seated_x": {
    "name": "Two seated baboons",
    "descriptions": {
     "default": "Two baboons squat on their haunches, greeting the sun."
    },
-   "journal": true
+   "journal": true,
+   "reference": "as drawn"
   },
   "khepri_boat": {
    "name": "Khepri's boat",
    "descriptions": {
     "default": "Khepri, the rising sun, rides in his boat. \"O Chepera in his bark! ... Chepera in his bark is Harmachis himself.\""
    },
-   "journal": true
+   "journal": true,
+   "reference": "Davis 1894"
   },
   "inscriptions_ix": {
    "name": "Inscriptions",
    "descriptions": {
     "default": "The heading of the chapter continues: \"May the living soul of the Osiris N be, among the devotees, near the great company of the gods in the Amenti, after the burying.\""
    },
-   "journal": true
+   "journal": true,
+   "reference": "Davis 1894"
   },
   "deceased_kneeling": {
    "name": "The deceased kneeling",
    "descriptions": {
     "default": "The dead man kneels with both hands raised before Khepri's boat."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Davis 1894"
   },
   "two_apes_isis_nephthys": {
    "name": "Two apes",
    "descriptions": {
-    "default": "Two baboons squat facing the boat of the rising sun. They may stand for Isis and Nephthys, whom the text calls the two guardians beside Khepri's bark."
+    "default": "Two baboons squat facing the boat of the rising sun. They may stand for Isis and Nephthys: the text names the \"reckoners\" whom Khepri in his bark empowers as the baboon, Isis and Nephthys."
    },
-   "journal": true
+   "journal": true,
+   "reference": "TBP Spruch 17 (Backes: the Abrechner are the baboon, Isis and Nephthys); Davis 1894 (\"the two girls\")"
   },
   "falcon_on_standard": {
    "name": "Falcon on a standard",
    "descriptions": {
     "default": "A falcon perches on a tall standard, a flail at its back. It looks like the sign for the West, but why it stands here is not known. The dead man \"flies away like a hawk.\""
    },
-   "journal": true
+   "journal": true,
+   "reference": "Davis 1894; \"the sign for the West\" is unsourced"
   },
   "great_cat_and_apep": {
    "name": "The great cat",
    "descriptions": {
     "default": "\"I am this great cat who frequenteth the Persea tree in Heliopolis.\" The cat is Ra himself, holding down the snake, the enemy of the sun, on the night of battle."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Davis 1894; Lucarelli 2022 (reads the cat as Atum, the snake as Apophis)"
   },
   "ished_tree": {
    "name": "The persea tree",
    "descriptions": {
     "default": "The sacred persea tree of Heliopolis, where the great cat fights the snake."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Davis 1894"
   },
   "small_seated_god": {
    "name": "Small seated figure",
    "descriptions": {
     "default": "A small figure with a beaked head sits beside the tree with one knee drawn up. Who it is is not known."
    },
-   "journal": true
+   "journal": true,
+   "reference": "as drawn"
   },
   "twin_souls": {
    "name": "The twin souls",
    "descriptions": {
     "default": "Two bearded gods sit on thrones: Osiris and Ra. Osiris enters Djedu and meets the soul of Ra there, and \"the soul of the one embraces the soul of the other.\""
    },
-   "journal": true
+   "journal": true,
+   "reference": "Davis 1894; Stadler 2022 reads Mendes for Djedu"
   },
   "two_bowls": {
    "name": "Two bowls",
    "descriptions": {
     "default": "Two ribbed bowls stand side by side with signs heaped on them. What they show is not known."
    },
-   "journal": true
+   "journal": true,
+   "reference": "as drawn"
   },
   "horus_khenty_irty": {
    "name": "Horus of the two eyes",
    "descriptions": {
     "default": "A god stands beneath a pair of eyes: Horus Khenty-irty, \"Horus foremost of the two eyes\", one of the Seven Glorious Ones whom Anubis set to protect the sarcophagus of Osiris."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Davis 1894; Stadler 2022 (Horus Mekhenti-irty); the translation \"foremost of the two eyes\" is unsourced"
   },
   "spirit_with_emblem": {
    "name": "Spirit with a sign on his head",
    "descriptions": {
     "default": "A bearded god with a curled sign on his head: one of the Seven Glorious Ones, with the sons of Horus, who protect the sarcophagus of Osiris. Which of the Seven he is is not known."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Davis 1894"
   },
   "duamutef": {
    "name": "Duamutef",
    "descriptions": {
     "default": "A mummy-shaped god with a jackal's head: Duamutef, one of the four sons of Horus who protect the sarcophagus of Osiris."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Davis 1894"
   },
   "imsety": {
    "name": "Imsety",
    "descriptions": {
     "default": "A mummy-shaped god with a human head: Imsety, one of the four sons of Horus who protect the sarcophagus of Osiris."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Davis 1894"
   },
   "chest_with_head_of_ra": {
    "name": "Head rising from the chest",
    "descriptions": {
     "default": "A head rises from the top of a tall chest between the four sons of Horus. The chest may be the funeral chest of Osiris; the head may be the sun god's."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Davis 1894"
   },
   "hapy": {
    "name": "Hapy",
    "descriptions": {
     "default": "A mummy-shaped god with a baboon's head: Hapy, one of the four sons of Horus who protect the sarcophagus of Osiris."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Davis 1894"
   },
   "qebehsenuef": {
    "name": "Qebehsenuef",
    "descriptions": {
     "default": "A mummy-shaped god with a falcon's head: Qebehsenuef, one of the four sons of Horus who protect the sarcophagus of Osiris."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Davis 1894"
   },
   "mehet_weret": {
    "name": "Mehet-weret",
    "descriptions": {
     "default": "The great cow of the sky lies on a shrine, a flail on her back and a sun disc with plumes on her head. The dead man \"sees the sun born of Yesterday above the thigh of the cow Mehurit.\""
    },
-   "journal": true
+   "journal": true,
+   "reference": "Davis 1894"
   },
   "inscriptions_viii": {
    "name": "Inscriptions",
    "descriptions": {
     "default": "The heading of the chapter continues: \"about going out by day, about performing all the transformations in which one is pleased to be, about playing at draughts, about being in the sacred place.\""
    },
-   "journal": true
+   "journal": true,
+   "reference": "Davis 1894"
   },
   "offerer_before_cow": {
    "name": "Offering to the cow",
    "descriptions": {
     "default": "A man raises one hand and holds up a small offering toward the great cow."
    },
-   "journal": true
+   "journal": true,
+   "reference": "as drawn"
   },
   "wedjat_shrine": {
    "name": "The Eye of Horus",
    "descriptions": {
     "default": "The wedjat eye rests on a shrine: the sacred Eye, made whole again after the fight of Horus with Seth."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Davis 1894"
   },
   "thoth_baboon": {
    "name": "Thoth as a baboon",
    "descriptions": {
     "default": "A baboon squats facing the Eye of Horus. It is probably Thoth, who sets the Eye's hair in order and washes it when it weeps, giving back its life and health."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Davis 1894"
   },
   "rosetau_gate": {
    "name": "The gate",
    "descriptions": {
-    "default": "A tall gate with a snake inside and three blades on its roof: the gate through which Atum passes to reach the eastern horizon. Other copies name it the gate of Rosetau."
+    "default": "A tall gate with a snake inside and three blades on its roof. The text names two gates here: the Gate of the Desert, through which Atum passes to the eastern horizon, and Rosetau. Which one is drawn is not known."
    },
-   "journal": true
+   "journal": true,
+   "reference": "TBP Spruch 17 (Backes: Tor der Wüste, Rasetjau); Davis 1894 (only the gate Atum passes through)"
   },
   "heh_and_wadj_wer": {
    "name": "Heh and Wadj-wer",
    "descriptions": {
     "default": "Two figures kneel, each reaching a hand over a small pool: Heh, \"Passing over Millions of Years\", and Wadj-wer, the \"Great Green\". Their pools are the basin of natron and the basin of nitre, where the dead man is purified."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Davis 1894"
   },
   "nephthys_kite": {
    "name": "Nephthys as a kite",
    "descriptions": {
     "default": "Nephthys in the form of a kite, her sign of a basket on a house on her head, mourns at the head of the bier."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Renouf & Naville 1904 (Isis and Nephthys as two kites); TBP Spruch 17 (lists kites, the Nephthys sign and the throne sign among this vignette's motifs)"
   },
   "mummy_on_bier": {
    "name": "The mummy on the bier",
    "descriptions": {
     "default": "The mummy lies on a bier shaped like a lion, mourned by Isis and Nephthys as kites at its foot and head."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Renouf & Naville 1904 (Isis and Nephthys as two kites)"
   },
   "isis_kite": {
    "name": "Isis as a kite",
    "descriptions": {
     "default": "Isis in the form of a kite, her throne sign on her head, mourns at the foot of the bier."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Renouf & Naville 1904 (Isis and Nephthys as two kites); TBP Spruch 17 (lists kites, the Nephthys sign and the throne sign among this vignette's motifs)"
   },
   "benu": {
    "name": "The Benu",
    "descriptions": {
     "default": "The Benu heron. \"I am this great Bennou who is in Heliopolis\": Osiris, whose body is the law of all that exists, of endless time and eternity."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Davis 1894"
   },
   "lion_tomorrow": {
    "name": "Lion of Tomorrow",
    "descriptions": {
     "default": "The other lion of the horizon. \"I am Yesterday and I know To-morrow\": Tomorrow is Ra, who rises again each morning."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Davis 1894"
   },
   "horizon": {
    "name": "The horizon",
    "descriptions": {
     "default": "The sun disc between two hills: the horizon, where the sun sets and rises, between the lions of Yesterday and Tomorrow."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Davis 1894"
   },
   "inscriptions_vii": {
    "name": "Inscriptions",
    "descriptions": {
     "default": "The heading of the chapter: \"A chapter concerning the resurrection of the shades, about going out by day of the Netherworld, about being one of the retinue of Osiris, about feeding upon the loaves of the Good Being,\""
    },
-   "journal": true
+   "journal": true,
+   "reference": "Davis 1894"
   },
   "lion_yesterday": {
    "name": "Lion of Yesterday",
    "descriptions": {
     "default": "One of the two lions that hold up the horizon. \"Yesterday is Osiris,\" the text explains."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Davis 1894"
   },
   "sun_boat_with_crew": {
    "name": "Sun boat with its crew",
    "descriptions": {
     "default": "The sun boat sails with six gods standing in it, spears in hand. On a stand in the middle lies a crowned creature beneath the sun disc; what it is is not known."
    },
-   "journal": true
+   "journal": true,
+   "reference": "as drawn"
   },
   "adorer_with_flowers": {
    "name": "Bearer of Min",
    "descriptions": {
     "default": "A man holds up a small statue of Min (Khem) on his arm and presents a lotus flower to the dead man."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Davis 1894"
   },
   "adorer_before_boat": {
    "name": "The deceased adoring",
    "descriptions": {
     "default": "The dead man raises both hands in praise before the man who carries the statue of Min and the lotus."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Davis 1894"
   },
   "ba": {
    "name": "The ba",
    "descriptions": {
     "default": "A bird with a man's head and a god's beard stands on a low stand: the ba, the soul of the deceased, free to leave the tomb by day. It carries a djed, the sign of stability, and beside it stands the sign for the West."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Davis 1894"
   },
   "falcon_on_perch": {
    "name": "Sign of the West",
    "descriptions": {
     "default": "A falcon with a flail stands on a perch beside the ba: the sign for the West, the Amenti, the land of the dead."
    },
-   "journal": true
+   "journal": true,
+   "reference": "\"the sign for the West\" is unsourced"
   },
   "senet_booth": {
    "name": "The booth",
    "descriptions": {
     "default": "The deceased sits in a booth with his staff, before a small altar of loaves. The heading promises him the sacred place and a game of draughts (senet)."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Davis 1894; Stadler 2022 (\"playing the senet game, sitting in a pavilion\")"
   },
   "deceased_with_staff": {
    "name": "The deceased",
    "descriptions": {
     "default": "The dead man stands with his staff, ready to set out: he goes out by day in any form he pleases."
    },
-   "journal": false
+   "journal": false,
+   "reference": "Davis 1894"
   }
  }
 }

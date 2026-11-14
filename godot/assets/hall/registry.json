@@ -1,0 +1,663 @@
+{
+ "references": {
+  "Davis 1894": "Davis, C. H. S. The Egyptian Book of the Dead: The Most Ancient and the Most Important of the Extant Religious Texts of Ancient Egypt. New York and London: G. P. Putnam's Sons, 1894. (English version of Pierret's French translation of P. Turin 1791.) https://sites.dlib.nyu.edu/viewer/books/ifa_egypt000060"
+ },
+ "entries": {
+  "spell125_maat": {
+   "name": "Ma'at",
+   "descriptions": {
+    "default": "A tall goddess with a feather on her head stands holding an ankh and a long staff. Davis has the deceased introduced into the hall by Truth."
+   },
+   "journal": true,
+   "reference": "Davis 1894"
+  },
+  "spell125_balance_post_and_plummet": {
+   "name": "Balance post",
+   "descriptions": {
+    "default": "A tall post carries the balance, with a plumb line hanging beside it."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell125_balance_beam": {
+   "name": "Balance beam",
+   "descriptions": {
+    "default": "The long beam of the balance, a hook at each end."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell125_plummet": {
+   "name": "Plumb line",
+   "descriptions": {
+    "default": "A plumb line hangs from the beam of the balance, a small weight at its end."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell125_right_pan_and_suspension": {
+   "name": "Right pan",
+   "descriptions": {
+    "default": "A pan hangs from the beam on cords. The heart lies in it."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell125_left_pan_and_suspension": {
+   "name": "Left pan",
+   "descriptions": {
+    "default": "A pan hangs from the beam on cords. The image of Truth sits in it."
+   },
+   "journal": true,
+   "reference": "Davis 1894"
+  },
+  "spell125_baboon": {
+   "name": "Baboon",
+   "descriptions": {
+    "default": "A baboon sits on a flat perch at the top of the balance post."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell125_heart": {
+   "name": "Heart",
+   "descriptions": {
+    "default": "The heart is drawn as a jar with two handles, and lies in the right pan. Davis has it weighed against the image of Truth."
+   },
+   "journal": true,
+   "reference": "Davis 1894"
+  },
+  "spell125_maat_figure_in_pan": {
+   "name": "Image of Truth",
+   "descriptions": {
+    "default": "A small seated figure with a feather on her head sits in the left pan: the image of Truth that the heart must weigh the same as."
+   },
+   "journal": true,
+   "reference": "Davis 1894"
+  },
+  "spell125_scale_attendant": {
+   "name": "Falcon-headed attendant",
+   "descriptions": {
+    "default": "A figure with a falcon's head and a long wig stands by the post of the balance with one arm raised toward it, an ankh in the other hand. Davis has Horus and Anubis weigh the heart."
+   },
+   "journal": true,
+   "reference": "Davis 1894"
+  },
+  "spell125_anubis": {
+   "name": "Anubis",
+   "descriptions": {
+    "default": "A god with a jackal's head stands at the left pan, one arm stretched toward it and an ankh in the other hand. Davis has him announce that the heart weighs the same as Truth."
+   },
+   "journal": true,
+   "reference": "Davis 1894"
+  },
+  "spell125_attendant": {
+   "name": "Small attendant",
+   "descriptions": {
+    "default": "A small figure in a long kilt stands with one arm raised toward the pan beside him and the other held out."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell125_kneeling_deities": {
+   "name": "Genii of destiny",
+   "descriptions": {
+    "default": "Two figures in long wigs and banded garments sit side by side with their knees drawn up. Davis has two genii of destiny, Shai and Ranen, sit above the beast."
+   },
+   "journal": true,
+   "reference": "Davis 1894"
+  },
+  "spell125_lion_sign": {
+   "name": "Lion sign",
+   "descriptions": {
+    "default": "A lion's head is drawn on a long low base, a hieroglyph beside the two seated figures."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell125_lotus_offering_table": {
+   "name": "Altar of offerings",
+   "descriptions": {
+    "default": "An altar loaded with offerings is topped with a bundle of lotus, and stands on a tall slender stem; a tall lotus bud rises on either side of its foot. Davis has the four funerary genii above it."
+   },
+   "journal": true,
+   "reference": "Davis 1894"
+  },
+  "spell125_funerary_genii": {
+   "name": "Four funerary genii",
+   "descriptions": {
+    "default": "Four mummiform figures stand in a row above the altar, with the head of a man, of an ape, of a jackal and of a falcon. Davis has the four funerary genii here."
+   },
+   "journal": true,
+   "reference": "Davis 1894"
+  },
+  "spell125_thoth": {
+   "name": "Thoth",
+   "descriptions": {
+    "default": "A god with an ibis's head holds a pen to a palette. Davis has Thoth, lord of the divine words, register the sentence."
+   },
+   "journal": true,
+   "reference": "Davis 1894"
+  },
+  "spell125_staff": {
+   "name": "Figure on a crook",
+   "descriptions": {
+    "default": "A tiny figure squats on top of a shepherd's crook."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell125_ammit": {
+   "name": "Beast of the Amenti",
+   "descriptions": {
+    "default": "A fantastic beast with gaping jaws sits on a pedestal in the shape of a pylon, its top ribbed, watching the balance. Davis calls her the one who destroys the foes by devouring them."
+   },
+   "journal": true,
+   "reference": "Davis 1894"
+  },
+  "spell125_osiris_shrine": {
+   "name": "Shrine",
+   "descriptions": {
+    "default": "The tall frame of Osiris's shrine stands on a low base, a ribbed cornice over its top."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell125_dais": {
+   "name": "Dais",
+   "descriptions": {
+    "default": "A long dais under the throne, its side decorated with a row of ankh signs above a low flight of steps."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell125_draped_standard": {
+   "name": "Draped standard",
+   "descriptions": {
+    "default": "A tall pole rises from a base, a long spotted cloth hanging from it."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell125_osiris": {
+   "name": "Osiris",
+   "descriptions": {
+    "default": "Osiris sits enthroned in the atef crown, the crook and flail held across his breast. The scene is his."
+   },
+   "journal": true,
+   "reference": "Davis 1894"
+  },
+  "spell125_judges_platform": {
+   "name": "Judges' platform",
+   "descriptions": {
+    "default": "A long low ledge runs along the foot of the row of judges."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell125_worshipper": {
+   "name": "Kneeling deity",
+   "descriptions": {
+    "default": "A figure in a long wig kneels with both arms raised before an offering stand."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell125_offering_stand": {
+   "name": "Offering standard",
+   "descriptions": {
+    "default": "A slender stand with a flared foot carries a round object under a cone-shaped cap."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell125_assessor_42": {
+   "name": "Assessor 42",
+   "descriptions": {
+    "default": "A judge sits wrapped in bands, the feather of truth on his head. The deceased says to him: \"O the Stridor gone out of On! I did not do evil.\""
+   },
+   "journal": true,
+   "reference": "Davis 1894; which judge hears which invocation is my reading"
+  },
+  "spell125_assessor_41": {
+   "name": "Assessor 41",
+   "descriptions": {
+    "default": "A judge sits wrapped in bands, the feather of truth on his head. The deceased says to him: \"O the one who opens his mouth, gone out of Keraon! I did not commit violence.\""
+   },
+   "journal": true,
+   "reference": "Davis 1894; which judge hears which invocation is my reading"
+  },
+  "spell125_assessor_40": {
+   "name": "Assessor 40",
+   "descriptions": {
+    "default": "A judge sits wrapped in bands, the feather of truth on his head. The deceased says to him: \"O nostril gone out of Hermopolis! I did not torment any heart.\""
+   },
+   "journal": true,
+   "reference": "Davis 1894; which judge hears which invocation is my reading"
+  },
+  "spell125_assessor_39": {
+   "name": "Assessor 39",
+   "descriptions": {
+    "default": "A judge sits wrapped in bands, the feather of truth on his head. The deceased says to him: \"O eater of Spirits gone out of the windows of Heaven! I did not steal.\""
+   },
+   "journal": true,
+   "reference": "Davis 1894; which judge hears which invocation is my reading"
+  },
+  "spell125_assessor_38": {
+   "name": "Assessor 38",
+   "descriptions": {
+    "default": "A judge sits wrapped in bands, the feather of truth on his head. The deceased says to him: \"O . . . . gone out of Restau! I did not get any man treacherously killed.\""
+   },
+   "journal": true,
+   "reference": "Davis 1894; which judge hears which invocation is my reading"
+  },
+  "spell125_assessor_37": {
+   "name": "Assessor 37",
+   "descriptions": {
+    "default": "A judge sits wrapped in bands, the feather of truth on his head. The deceased says to him: \"O Double Lion gone out of Heaven! I did not lessen the offerings.\""
+   },
+   "journal": true,
+   "reference": "Davis 1894; which judge hears which invocation is my reading"
+  },
+  "spell125_assessor_36": {
+   "name": "Assessor 36",
+   "descriptions": {
+    "default": "A judge sits wrapped in bands, the feather of truth on his head. The deceased says to him: \"O the Eye of Flame gone out of Sechem! I did not do any harm.\""
+   },
+   "journal": true,
+   "reference": "Davis 1894; which judge hears which invocation is my reading"
+  },
+  "spell125_assessor_35": {
+   "name": "Assessor 35",
+   "descriptions": {
+    "default": "A judge sits wrapped in bands, the feather of truth on his head. The deceased says to him: \"O the Face of Flames appearing when going back and gone out of Heliopolis! I did not carry off the sacred things.\""
+   },
+   "journal": true,
+   "reference": "Davis 1894; which judge hears which invocation is my reading"
+  },
+  "spell125_assessor_34": {
+   "name": "Assessor 34",
+   "descriptions": {
+    "default": "A judge sits wrapped in bands, the feather of truth on his head. The deceased says to him: \"O the one who takes possession of the bones gone out of Heracleopolis! I did not utter any lie.\""
+   },
+   "journal": true,
+   "reference": "Davis 1894; which judge hears which invocation is my reading"
+  },
+  "spell125_assessor_33": {
+   "name": "Assessor 33",
+   "descriptions": {
+    "default": "A judge sits wrapped in bands, the feather of truth on his head. The deceased says to him: \"O Breath of Flame gone out of Memphis! I did not carry off what belongs (to others).\""
+   },
+   "journal": true,
+   "reference": "Davis 1894; which judge hears which invocation is my reading"
+  },
+  "spell125_assessor_32": {
+   "name": "Assessor 32",
+   "descriptions": {
+    "default": "A judge sits wrapped in bands, the feather of truth on his head. The deceased says to him: \"O Land of Bubastis gone out of the mysterious dwelling! I did not make any one weep.\""
+   },
+   "journal": true,
+   "reference": "Davis 1894; which judge hears which invocation is my reading"
+  },
+  "spell125_assessor_31": {
+   "name": "Assessor 31",
+   "descriptions": {
+    "default": "A judge sits wrapped in bands, the feather of truth on his head. The deceased says to him: \"O the one whose head is behind gone out of the passage! I did not commit the act of self-pollution.\""
+   },
+   "journal": true,
+   "reference": "Davis 1894; which judge hears which invocation is my reading"
+  },
+  "spell125_assessor_30": {
+   "name": "Assessor 30",
+   "descriptions": {
+    "default": "A judge sits wrapped in bands, the feather of truth on his head. The deceased says to him: \"O Kerti gone out of the Amenti! I did not fornicate.\""
+   },
+   "journal": true,
+   "reference": "Davis 1894; which judge hears which invocation is my reading"
+  },
+  "spell125_assessor_29": {
+   "name": "Assessor 29",
+   "descriptions": {
+    "default": "A judge sits wrapped in bands, the feather of truth on his head. The deceased says to him: \"O the Glowing Feet gone out of the night! I did not get any suppressed wrath.\""
+   },
+   "journal": true,
+   "reference": "Davis 1894; which judge hears which invocation is my reading"
+  },
+  "spell125_assessor_28": {
+   "name": "Assessor 28",
+   "descriptions": {
+    "default": "A judge sits wrapped in bands, the feather of truth on his head. The deceased says to him: \"O the White-Toothed One gone out of his borders! I did not trespass.\""
+   },
+   "journal": true,
+   "reference": "Davis 1894; which judge hears which invocation is my reading"
+  },
+  "spell125_assessor_27": {
+   "name": "Assessor 27",
+   "descriptions": {
+    "default": "A judge sits wrapped in bands, the feather of truth on his head. The deceased says to him: \"O Eater of Blood gone out of the place of execution! I did not kill the sacred animals.\""
+   },
+   "journal": true,
+   "reference": "Davis 1894; which judge hears which invocation is my reading"
+  },
+  "spell125_assessor_26": {
+   "name": "Assessor 26",
+   "descriptions": {
+    "default": "A judge sits wrapped in bands, the feather of truth on his head. The deceased says to him: \"O Eater of Bowels gone out of the dwelling of the thirty! I did not commit any perfidy.\""
+   },
+   "journal": true,
+   "reference": "Davis 1894; which judge hears which invocation is my reading"
+  },
+  "spell125_assessor_25": {
+   "name": "Assessor 25",
+   "descriptions": {
+    "default": "A judge sits wrapped in bands, the feather of truth on his head. The deceased says to him: \"O Master of Truth gone out of the Region of Truth! I did not damage any cultivated piece of land.\""
+   },
+   "journal": true,
+   "reference": "Davis 1894; which judge hears which invocation is my reading"
+  },
+  "spell125_assessor_24": {
+   "name": "Assessor 24",
+   "descriptions": {
+    "default": "A judge sits wrapped in bands, the feather of truth on his head. The deceased says to him: \"O the Turner Away gone out of Bubastis! I was not an accuser.\""
+   },
+   "journal": true,
+   "reference": "Davis 1894; which judge hears which invocation is my reading"
+  },
+  "spell125_assessor_23": {
+   "name": "Assessor 23",
+   "descriptions": {
+    "default": "A judge sits wrapped in bands, the feather of truth on his head. The deceased says to him: \"O Follower gone out of Heliopolis! I did not make my mouth work.\""
+   },
+   "journal": true,
+   "reference": "Davis 1894; which judge hears which invocation is my reading"
+  },
+  "spell125_assessor_22": {
+   "name": "Assessor 22",
+   "descriptions": {
+    "default": "A judge sits wrapped in bands, the feather of truth on his head. The deceased says to him: \"O the doubly-wicked, gone out of . . . .! I was angry only when there was reason for.\""
+   },
+   "journal": true,
+   "reference": "Davis 1894; which judge hears which invocation is my reading"
+  },
+  "spell125_assessor_21": {
+   "name": "Assessor 21",
+   "descriptions": {
+    "default": "A judge sits wrapped in bands, the feather of truth on his head. The deceased says to him: \"O Double Viper ouamem gone out of . . . .! I had no intercourse with a married woman.\""
+   },
+   "journal": true,
+   "reference": "Davis 1894; which judge hears which invocation is my reading"
+  },
+  "spell125_assessor_20": {
+   "name": "Assessor 20",
+   "descriptions": {
+    "default": "A judge sits wrapped in bands, the feather of truth on his head. The deceased says to him: \"O the One Contemplating what is brought in the dwelling of Khem! I did not pollute myself.\""
+   },
+   "journal": true,
+   "reference": "Davis 1894; which judge hears which invocation is my reading"
+  },
+  "spell125_assessor_19": {
+   "name": "Assessor 19",
+   "descriptions": {
+    "default": "A judge sits wrapped in bands, the feather of truth on his head. The deceased says to him: \"O Chiefs gone out of the trees nar, gone out of Tattu! I did not cause any terror.\""
+   },
+   "journal": true,
+   "reference": "Davis 1894; which judge hears which invocation is my reading"
+  },
+  "spell125_assessor_18": {
+   "name": "Assessor 18",
+   "descriptions": {
+    "default": "A judge sits wrapped in bands, the feather of truth on his head. The deceased says to him: \"O Lord of Sechem gone out of Kherouou! I did not trespass.\""
+   },
+   "journal": true,
+   "reference": "Davis 1894; which judge hears which invocation is my reading"
+  },
+  "spell125_assessor_17": {
+   "name": "Assessor 17",
+   "descriptions": {
+    "default": "A judge sits wrapped in bands, the feather of truth on his head. The deceased says to him: \"O Director of the Words gone out of the Great House! I did not burn my mouth.\""
+   },
+   "journal": true,
+   "reference": "Davis 1894; which judge hears which invocation is my reading"
+  },
+  "spell125_assessor_16": {
+   "name": "Assessor 16",
+   "descriptions": {
+    "default": "A judge sits wrapped in bands, the feather of truth on his head. The deceased says to him: \"O Child gone out of Hageh! I did not turn a deaf ear to the words of Truth.\""
+   },
+   "journal": true,
+   "reference": "Davis 1894; which judge hears which invocation is my reading"
+  },
+  "spell125_assessor_15": {
+   "name": "Assessor 15",
+   "descriptions": {
+    "default": "A judge sits wrapped in bands, the feather of truth on his head. The deceased says to him: \"O Ke ne menti, gone out of Nem! I did not do any witchcraft.\""
+   },
+   "journal": true,
+   "reference": "Davis 1894; which judge hears which invocation is my reading"
+  },
+  "spell125_assessor_14": {
+   "name": "Assessor 14",
+   "descriptions": {
+    "default": "A judge sits wrapped in bands, the feather of truth on his head. The deceased says to him: \"O Good-Bringer gone out of Saïs! I was not a bully.\""
+   },
+   "journal": true,
+   "reference": "Davis 1894; which judge hears which invocation is my reading"
+  },
+  "spell125_assessor_13": {
+   "name": "Assessor 13",
+   "descriptions": {
+    "default": "A judge sits wrapped in bands, the feather of truth on his head. The deceased says to him: \"O the One who Takes Possession of the Words gone out of Ouns! I did not commit any act of rebellion.\""
+   },
+   "journal": true,
+   "reference": "Davis 1894; which judge hears which invocation is my reading"
+  },
+  "spell125_assessor_12": {
+   "name": "Assessor 12",
+   "descriptions": {
+    "default": "A judge sits wrapped in bands, the feather of truth on his head. The deceased says to him: \"O Master of the Faces: gone out of Nedjat! I did not make any rash judgment.\""
+   },
+   "journal": true,
+   "reference": "Davis 1894; which judge hears which invocation is my reading"
+  },
+  "spell125_assessor_11": {
+   "name": "Assessor 11",
+   "descriptions": {
+    "default": "A judge sits wrapped in bands, the feather of truth on his head. The deceased says to him: \"O the God of the House of Execution, gone out of Outent! I did not cut the skin of the sacred cattle.\""
+   },
+   "journal": true,
+   "reference": "Davis 1894; which judge hears which invocation is my reading"
+  },
+  "spell125_assessor_10": {
+   "name": "Assessor 10",
+   "descriptions": {
+    "default": "A judge sits wrapped in bands, the feather of truth on his head. The deceased says to him: \"O Master of the Double Horn, gone out of Saïs! I did not use too many words when speaking.\""
+   },
+   "journal": true,
+   "reference": "Davis 1894; which judge hears which invocation is my reading"
+  },
+  "spell125_assessor_09": {
+   "name": "Assessor 9",
+   "descriptions": {
+    "default": "A judge sits wrapped in bands, the feather of truth on his head. The deceased says to him: \"O Nofre-Tmu, gone out of Memphis! I did not wound! I did not do any harm to a sick one.\""
+   },
+   "journal": true,
+   "reference": "Davis 1894; which judge hears which invocation is my reading"
+  },
+  "spell125_assessor_08": {
+   "name": "Assessor 8",
+   "descriptions": {
+    "default": "A judge sits wrapped in bands, the feather of truth on his head. The deceased says to him: \"O Tmu at his moment, gone out of Tattu! I did not do any witchcraft against the King, I did not do any witchcraft against my father.\""
+   },
+   "journal": true,
+   "reference": "Davis 1894; which judge hears which invocation is my reading"
+  },
+  "spell125_assessor_07": {
+   "name": "Assessor 7",
+   "descriptions": {
+    "default": "A judge sits wrapped in bands, the feather of truth on his head. The deceased says to him: \"O the One who acts according to his Heart gone out of Sahou! I did not soil the water.\""
+   },
+   "journal": true,
+   "reference": "Davis 1894; which judge hears which invocation is my reading"
+  },
+  "spell125_assessor_06": {
+   "name": "Assessor 6",
+   "descriptions": {
+    "default": "A judge sits wrapped in bands, the feather of truth on his head. The deceased says to him: \"O the Priest gone out of the Heavenly Abyss! I did not commit any exaggeration of words.\""
+   },
+   "journal": true,
+   "reference": "Davis 1894; which judge hears which invocation is my reading"
+  },
+  "spell125_assessor_05": {
+   "name": "Assessor 5",
+   "descriptions": {
+    "default": "A judge sits wrapped in bands, the feather of truth on his head. The deceased says to him: \"O the One who makes the Intelligent Ones thrive, gone out of Saïs! I did not blaspheme a god.\""
+   },
+   "journal": true,
+   "reference": "Davis 1894; which judge hears which invocation is my reading"
+  },
+  "spell125_assessor_04": {
+   "name": "Assessor 4",
+   "descriptions": {
+    "default": "A judge sits wrapped in bands, the feather of truth on his head. The deceased says to him: \"O the One who Associates the Splendors, gone out of Heliopolis! I did not lessen the bread consecrated to the gods. I did not make the slave be misused by his master.\""
+   },
+   "journal": true,
+   "reference": "Davis 1894; which judge hears which invocation is my reading"
+  },
+  "spell125_assessor_03": {
+   "name": "Assessor 3",
+   "descriptions": {
+    "default": "A judge sits wrapped in bands, the feather of truth on his head. The deceased says to him: \"O the One who Associates the Offerings, gone out of his retreat! I did not act only according to my schemes and preferences; I was not imperious.\""
+   },
+   "journal": true,
+   "reference": "Davis 1894; which judge hears which invocation is my reading"
+  },
+  "spell125_assessor_02": {
+   "name": "Assessor 2",
+   "descriptions": {
+    "default": "A judge sits wrapped in bands, the feather of truth on his head. The deceased says to him: \"O the One who Disposes his Head, gone out of his temple! I did not impose my schemes. I did not strip the mummies of their stuffs.\""
+   },
+   "journal": true,
+   "reference": "Davis 1894; which judge hears which invocation is my reading"
+  },
+  "spell125_assessor_01": {
+   "name": "Assessor 1",
+   "descriptions": {
+    "default": "A judge sits wrapped in bands, the feather of truth on his head. The deceased says to him: \"O the One who Brings in his Arm, gone out of Auker! I did not despise God in my heart.\""
+   },
+   "journal": true,
+   "reference": "Davis 1894; which judge hears which invocation is my reading"
+  },
+  "spell125_cornice_line": {
+   "name": "Cornice line",
+   "descriptions": {
+    "default": "A long ledge runs under the row of cobras and signs along the top of the hall."
+   },
+   "journal": false,
+   "reference": "as drawn"
+  },
+  "spell125_roof_motifs": {
+   "name": "Cornice signs",
+   "descriptions": {
+    "default": "Twelve groups of three signs ornament the cornice: a rearing cobra, an arch with a tie round its stem, and a tall striped shape curled at the top. The groups on the left and on the right mirror each other. Davis describes them as groups formed with the hieroglyphs of truth and of fire and an uraeus."
+   },
+   "journal": false,
+   "reference": "Davis 1894"
+  },
+  "spell125_eastern_guardian": {
+   "name": "Eastern baboon",
+   "descriptions": {
+    "default": "A baboon in a long wig kneels at the right-hand end of the cornice and poises a pair of scales. Davis has one at each end of the row."
+   },
+   "journal": false,
+   "reference": "Davis 1894"
+  },
+  "spell125_central_emblem": {
+   "name": "Tmu and the two eyes",
+   "descriptions": {
+    "default": "A god kneels with his arms stretched out above two eyes, each in an oval. Davis has Tmu here between the sixth and seventh groups of signs."
+   },
+   "journal": false,
+   "reference": "Davis 1894"
+  },
+  "spell125_western_guardian": {
+   "name": "Western baboon",
+   "descriptions": {
+    "default": "A baboon in a long wig kneels at the left-hand end of the cornice and poises a pair of scales. Davis has one at each end of the row."
+   },
+   "journal": false,
+   "reference": "Davis 1894"
+  },
+  "spell125_text_damaged_column": {
+   "name": "Damaged column of text",
+   "descriptions": {
+    "default": "A column of hieroglyphs runs down the page between the deceased and Ma'at, its outline broken where the drawing is damaged."
+   },
+   "journal": false,
+   "reference": "as drawn"
+  },
+  "spell125_text_arrival": {
+   "name": "Text over Ma'at and the deceased",
+   "descriptions": {
+    "default": "A row of short columns of hieroglyphs hangs from the rule above Ma'at, and a long column runs down beside the deceased."
+   },
+   "journal": false,
+   "reference": "as drawn"
+  },
+  "spell125_text_osiris": {
+   "name": "Text before Osiris",
+   "descriptions": {
+    "default": "Three columns of hieroglyphs stand before the face of Osiris, inside his shrine."
+   },
+   "journal": false,
+   "reference": "as drawn"
+  },
+  "spell125_text_altar": {
+   "name": "Text by the altar",
+   "descriptions": {
+    "default": "Two columns of hieroglyphs stand beside the altar of offerings."
+   },
+   "journal": false,
+   "reference": "as drawn"
+  },
+  "spell125_text_genii": {
+   "name": "Text by the genii",
+   "descriptions": {
+    "default": "Two short columns of hieroglyphs stand above the two seated figures."
+   },
+   "journal": false,
+   "reference": "as drawn"
+  },
+  "spell125_text_thoth": {
+   "name": "Text over Thoth",
+   "descriptions": {
+    "default": "Three columns of hieroglyphs stand above Thoth's head and his writing."
+   },
+   "journal": false,
+   "reference": "as drawn"
+  },
+  "spell125_text_balance": {
+   "name": "Text over the balance",
+   "descriptions": {
+    "default": "Three columns of hieroglyphs stand above the beam of the balance, to one side of the baboon."
+   },
+   "journal": false,
+   "reference": "as drawn"
+  },
+  "spell125_text_attendant": {
+   "name": "Sign by the attendant",
+   "descriptions": {
+    "default": "A bird sign and a tall stroke stand beside the raised hand of the falcon-headed attendant."
+   },
+   "journal": false,
+   "reference": "as drawn"
+  },
+  "spell125_text_deities": {
+   "name": "Signs under the seated figures",
+   "descriptions": {
+    "default": "A short group of hieroglyphs, ending in a round sign over a bar, is drawn under the two seated figures."
+   },
+   "journal": false,
+   "reference": "as drawn"
+  }
+ }
+}

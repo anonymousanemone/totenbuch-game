@@ -96,7 +96,7 @@ func _test_procession_hitboxes() -> void:
 	for entry in data.hotspots:
 		json_boxes[entry.id] = entry
 	for id in data.slots:
-		json_boxes["GooseBearerHit" if id == "arms" else id] = data.slots[id]
+		json_boxes[id] = data.slots[id]
 	var scene = load("res://scenes/procession.tscn").instantiate()
 	var count := 0
 	for area in scene.get_node("Hitboxes").get_children():
@@ -156,7 +156,7 @@ func _test_procession_scene_pieces() -> void:
 	var data = JSON.parse_string(FileAccess.get_file_as_string("res://assets/procession/level.json"))
 	var nodes := {}
 	var unique := true
-	for node in scene.get_node("pieces").find_children("*", "Node2D", true, false):
+	for node in scene.get_node("Pieces").find_children("*", "Node2D", true, false):
 		if node.has_meta("piece_id"):
 			var id: String = node.get_meta("piece_id")
 			unique = unique and not nodes.has(id)
@@ -243,7 +243,7 @@ func _test_dangers_scene_actors() -> void:
 	var sheet_data = JSON.parse_string(FileAccess.get_file_as_string("res://assets/dangers/animation/spearers.json"))
 	var ids := {}
 	var aligned := true
-	for actor in scene.get_node("actors").find_children("*", "Node2D", true, false):
+	for actor in scene.get_node("Pieces").find_children("*", "Node2D", true, false):
 		if not actor.has_meta("actor_id"):
 			continue
 		var id: String = actor.get_meta("actor_id")
@@ -257,15 +257,15 @@ func _test_dangers_scene_actors() -> void:
 	var cam: Camera2D = scene.get_node("Camera")
 	_expect(absf(cam.position.x - scene.get_node("Avatar").position.x) < 1000.0 and cam.zoom.x < 1.0,
 		"the dangers camera is authored where the level starts")
-	_expect(scene.get_node("actors/spell31_crocs/croc31a") == ids.c31a
-		and scene.get_node("actors/spell31_crocs/spear_bearer") == ids.spear31,
+	_expect(scene.get_node("Pieces/Spell31/croc31a") == ids.c31a
+		and scene.get_node("Pieces/Spell31/spear_bearer") == ids.spear31,
 		"actors have readable names and are organized beneath their spell")
 	var simple := true
 	for id in ids:
 		if id in ["snake33", "snake35", "apep", "snake41"]:
-			simple = simple and not ids[id] is Sprite2D and ids[id].has_node("sprite")
+			simple = simple and not ids[id] is Sprite2D and ids[id].has_node("Sprite")
 		else:
-			simple = simple and ids[id] is Sprite2D and not ids[id].has_node("sprite")
+			simple = simple and ids[id] is Sprite2D and not ids[id].has_node("Sprite")
 	_expect(simple, "single-picture actors are Sprite2D nodes; multipart snakes retain their drawing child")
 	var avatar_in_front := true
 	for id in ids:
@@ -274,7 +274,7 @@ func _test_dangers_scene_actors() -> void:
 	var drawn: bool = ids.ankh38.visible and ids.sail38.visible
 	for id in sheet_data.bearers:
 		var actor = ids[id]
-		var picture: Sprite2D = actor if actor is Sprite2D else actor.get_node("sprite")
+		var picture: Sprite2D = actor if actor is Sprite2D else actor.get_node("Sprite")
 		var frame: AtlasTexture = picture.texture
 		drawn = drawn and actor.visible and frame.region.position == Vector2(sheet_data.rest * sheet_data.cell[0], sheet_data.bearers[id].row * sheet_data.cell[1])
 	_expect(drawn, "editor shows the ankh and the sail held out, and all spear-bearers in their drawn poses")
@@ -371,7 +371,7 @@ func _test_donkey_hover() -> void:
 	var encounter: Dictionary = scene.ENCOUNTERS.filter(func(e): return e.id == "e40")[0]
 	var sheaf: Dictionary = scene.ENCOUNTERS.filter(func(e): return e.id == "e41")[0]
 	scene.gate = {}   # the road open past spell 38
-	var between := Rect2(scene.column.position, (scene.column.get_node("papyrus") as ColorRect).size)
+	var between := Rect2(scene.column.position, (scene.column.get_node("Papyrus") as ColorRect).size)
 	_expect(scene.column.visible and scene.column.z_index > scene.avatar.z_index
 		and between.position.x >= scene.span(sheaf).y and between.end.x <= scene.span(encounter).x + 1.0,
 		"walking from spell 40 to 41, he passes behind the column of signs between them")

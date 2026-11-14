@@ -31,6 +31,34 @@ foreground inscriptions, starting avatar, camera, and HUD as saved nodes. Organi
 artwork by spell and retain stable IDs in node metadata. Use one `Sprite2D` for one
 picture; introduce parents only for meaningful groups, pivots, or behavior.
 
+### Skeleton and naming
+
+Every level scene uses the same skeleton, in draw order (a scene has the ones it needs):
+`Papyrus`, `Strip`, `Figures`, `Pieces`, `Overlay`, `Avatar`, `Foreground`, `Camera`, `HUD`,
+`Hitboxes`.
+
+- `Papyrus` is the backdrop `ColorRect`. Lock it in the editor (`metadata/_edit_lock_ = true`) so
+  it is never picked or dragged by accident; a build tool writing a scene writes the lock too.
+- `Strip` is the plate artwork, a `Sprite2D`. A level of several panels makes it a `Node2D` holding
+  one `Sprite2D` per panel, named by the spells it covers (Gates: `Strip146_147`, `Strip144_145`).
+- `Figures` is the artwork that stays put; `Pieces` is what scripts move or animate (actors,
+  puzzle pieces, pivots). Text that covers the avatar is `Foreground/<Name>/{Papyrus, Ink}`.
+- Structural nodes are `PascalCase`, with no spaces or underscores: groups (`Spell146`, `Plate65`,
+  `Panel1`, `AdorationScene`), parts (`Sprite`, `Shape`) and markers (`CarryAdze`, `FrondPlace`).
+  Numbers are Arabic (`Plate41`, never `PlateXLI`). The picture of a pivot is always `Sprite`.
+  Group by spell (`Figures/Spell<N>`), then by plate (`Plate<N>`) or panel (`Panel<N>`) where the
+  level needs it; use a descriptive group (`AdorationScene`) only where there is no spell to name.
+- Content nodes are `snake_case` and named by their ID: a figure sprite and its `Hitboxes` box both
+  carry its registry ID. IDs read `[spell<N>_]<thing>[_<role>][_<n>]`: `spell146_p65_1_gate`,
+  `canal_god_3`; the ordinal is `_<n>`, and a letter only where the source uses one.
+- Never put a source layer number, or a layer name with spaces, in a node name: the layer id goes in
+  `metadata/source_layer_id`. When an exporter names nodes, it names them from the registry key
+  (or, with none, the layer name without its number), never straight from the `.mdp` layer name.
+- Where several nodes share one registry entry, `registry_id` metadata links them. Where a script
+  keys a node by a data ID that is not its name (`actor_id` in Dangers, `piece_id` in Procession and
+  Survival), the name says the role (`spear_bearer`, `ox`) and the metadata is the ID: keep it when
+  renaming. Do not add a second ID field that just repeats the name.
+
 The intended arrangement must be visible in the Godot editor. Scene positions are
 authoritative; runtime setup must reuse the saved nodes rather than rebuild the level
 or overwrite editor placement. Keep source coordinates separately in the metadata.

@@ -1,0 +1,833 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/walk/walk.gd" id="level"]
+[ext_resource type="Script" path="res://scripts/avatar.gd" id="avatar"]
+[ext_resource type="Script" path="res://scripts/hud.gd" id="hud"]
+[ext_resource type="Shader" path="res://scripts/papyrus.gdshader" id="papyrus"]
+[ext_resource type="Texture2D" path="res://assets/mouth/figures/strip.png" id="strip"]
+[ext_resource type="Texture2D" path="res://assets/mouth/figures/spell30_pedestal.png" id="spell30_pedestal"]
+[ext_resource type="Texture2D" path="res://assets/mouth/figures/spell30_caption.png" id="spell30_caption"]
+[ext_resource type="Texture2D" path="res://assets/mouth/figures/spell30_adorer.png" id="spell30_adorer"]
+[ext_resource type="Texture2D" path="res://assets/mouth/figures/spell30_scarab.png" id="spell30_scarab"]
+[ext_resource type="Texture2D" path="res://assets/mouth/figures/spell28_pedestal.png" id="spell28_pedestal"]
+[ext_resource type="Texture2D" path="res://assets/mouth/figures/spell28_caption.png" id="spell28_caption"]
+[ext_resource type="Texture2D" path="res://assets/mouth/figures/spell28_adorer.png" id="spell28_adorer"]
+[ext_resource type="Texture2D" path="res://assets/mouth/figures/spell28_ankh.png" id="spell28_ankh"]
+[ext_resource type="Texture2D" path="res://assets/mouth/figures/spell28_seated_god.png" id="spell28_seated_god"]
+[ext_resource type="Texture2D" path="res://assets/mouth/figures/spell27_caption.png" id="spell27_caption"]
+[ext_resource type="Texture2D" path="res://assets/mouth/figures/spell27_kneeling_man.png" id="spell27_kneeling_man"]
+[ext_resource type="Texture2D" path="res://assets/mouth/figures/spell27_four_gods.png" id="spell27_four_gods"]
+[ext_resource type="Texture2D" path="res://assets/mouth/figures/spell27_bench.png" id="spell27_bench"]
+[ext_resource type="Texture2D" path="res://assets/mouth/figures/spell26_pedestal.png" id="spell26_pedestal"]
+[ext_resource type="Texture2D" path="res://assets/mouth/figures/spell26_caption.png" id="spell26_caption"]
+[ext_resource type="Texture2D" path="res://assets/mouth/figures/spell26_kneeling_man.png" id="spell26_kneeling_man"]
+[ext_resource type="Texture2D" path="res://assets/mouth/figures/spell26_ba_bird.png" id="spell26_ba_bird"]
+[ext_resource type="Texture2D" path="res://assets/mouth/figures/spell25_caption.png" id="spell25_caption"]
+[ext_resource type="Texture2D" path="res://assets/mouth/figures/spell25_right_man.png" id="spell25_right_man"]
+[ext_resource type="Texture2D" path="res://assets/mouth/figures/spell25_left_man.png" id="spell25_left_man"]
+[ext_resource type="Texture2D" path="res://assets/mouth/figures/spell24_caption.png" id="spell24_caption"]
+[ext_resource type="Texture2D" path="res://assets/mouth/figures/spell24_gesturing_man.png" id="spell24_gesturing_man"]
+[ext_resource type="Texture2D" path="res://assets/mouth/figures/spell24_man_with_staff.png" id="spell24_man_with_staff"]
+[ext_resource type="Texture2D" path="res://assets/mouth/figures/spell23_caption.png" id="spell23_caption"]
+[ext_resource type="Texture2D" path="res://assets/mouth/figures/spell23_man_with_jar.png" id="spell23_man_with_jar"]
+[ext_resource type="Texture2D" path="res://assets/mouth/figures/spell23_man_with_staff.png" id="spell23_man_with_staff"]
+[ext_resource type="Texture2D" path="res://assets/mouth/figures/spell22_caption.png" id="spell22_caption"]
+[ext_resource type="Texture2D" path="res://assets/mouth/figures/spell21_caption.png" id="spell21_caption"]
+[ext_resource type="Texture2D" path="res://assets/mouth/figures/spell21_22_offering_man.png" id="spell21_22_offering_man"]
+[ext_resource type="Texture2D" path="res://assets/mouth/figures/spell21_22_standing_man.png" id="spell21_22_standing_man"]
+[ext_resource type="Texture2D" path="res://assets/mouth/figures/spell21_22_seated_man.png" id="spell21_22_seated_man"]
+[ext_resource type="Texture2D" path="res://assets/mouth/figures/column_1.png" id="column_1"]
+[ext_resource type="Texture2D" path="res://assets/mouth/figures/column_2.png" id="column_2"]
+[ext_resource type="Texture2D" path="res://assets/mouth/figures/column_3.png" id="column_3"]
+
+[sub_resource type="ShaderMaterial" id="paper"]
+shader = ExtResource("papyrus")
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell30_pedestal"]
+size = Vector2(128.0, 64.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell30_caption"]
+size = Vector2(592.0, 128.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell30_adorer"]
+size = Vector2(148.0, 288.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell30_scarab"]
+size = Vector2(160.0, 280.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell28_pedestal"]
+size = Vector2(148.0, 108.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell28_caption"]
+size = Vector2(684.0, 120.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell28_adorer"]
+size = Vector2(136.0, 276.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell28_ankh"]
+size = Vector2(112.0, 276.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell28_seated_god"]
+size = Vector2(148.0, 264.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell27_caption"]
+size = Vector2(588.0, 164.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell27_kneeling_man"]
+size = Vector2(212.0, 208.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell27_four_gods"]
+size = Vector2(360.0, 184.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell27_bench"]
+size = Vector2(368.0, 36.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell26_pedestal"]
+size = Vector2(160.0, 40.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell26_caption"]
+size = Vector2(564.0, 108.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell26_kneeling_man"]
+size = Vector2(168.0, 264.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell26_ba_bird"]
+size = Vector2(248.0, 292.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell25_caption"]
+size = Vector2(348.0, 132.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell25_right_man"]
+size = Vector2(140.0, 280.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell25_left_man"]
+size = Vector2(168.0, 300.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell24_caption"]
+size = Vector2(624.0, 116.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell24_gesturing_man"]
+size = Vector2(176.0, 308.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell24_man_with_staff"]
+size = Vector2(184.0, 320.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell23_caption"]
+size = Vector2(484.0, 136.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell23_man_with_jar"]
+size = Vector2(160.0, 300.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell23_man_with_staff"]
+size = Vector2(192.0, 312.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell22_caption"]
+size = Vector2(284.0, 120.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell21_caption"]
+size = Vector2(264.0, 132.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell21_22_offering_man"]
+size = Vector2(200.0, 276.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell21_22_standing_man"]
+size = Vector2(144.0, 296.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell21_22_seated_man"]
+size = Vector2(184.0, 300.0)
+
+[node name="Mouth" type="Node2D"]
+script = ExtResource("level")
+level_key = "mouth"
+title = "Mouth and Heart"
+intro_title = "Spells 21–30: Mouth and Heart"
+intro_body = "Explore the spells for the mouth and the heart as they are drawn.\n\nWalk [b]right to left[/b] with [←] [→] or click the papyrus. Click a figure or caption to walk up to it and read about it. Open the Journal with [j]."
+
+[node name="Papyrus" type="ColorRect" parent="."]
+material = SubResource("paper")
+offset_left = -1000.0
+offset_top = -1000.0
+offset_right = 5898.0
+offset_bottom = 2600.0
+mouse_filter = 2
+metadata/_edit_lock_ = true
+
+[node name="Strip" type="Sprite2D" parent="."]
+texture = ExtResource("strip")
+centered = false
+metadata/_edit_lock_ = true
+
+[node name="Figures" type="Node2D" parent="."]
+
+[node name="Spell30" type="Node2D" parent="Figures"]
+
+[node name="spell30_pedestal" type="Sprite2D" parent="Figures/Spell30"]
+position = Vector2(270, 468)
+texture = ExtResource("spell30_pedestal")
+centered = false
+metadata/registry_id = "spell30_pedestal"
+metadata/source_layer_id = 1187
+
+[node name="spell30_caption" type="Sprite2D" parent="Figures/Spell30"]
+position = Vector2(53, 52)
+texture = ExtResource("spell30_caption")
+centered = false
+metadata/registry_id = "spell30_caption"
+metadata/source_layer_id = 1188
+
+[node name="spell30_adorer" type="Sprite2D" parent="Figures/Spell30"]
+position = Vector2(503, 248)
+texture = ExtResource("spell30_adorer")
+centered = false
+metadata/registry_id = "spell30_adorer"
+metadata/source_layer_id = 1189
+
+[node name="spell30_scarab" type="Sprite2D" parent="Figures/Spell30"]
+position = Vector2(261, 259)
+texture = ExtResource("spell30_scarab")
+centered = false
+metadata/registry_id = "spell30_scarab"
+metadata/source_layer_id = 1190
+
+[node name="Spell28" type="Node2D" parent="Figures"]
+
+[node name="spell28_pedestal" type="Sprite2D" parent="Figures/Spell28"]
+position = Vector2(925, 426)
+texture = ExtResource("spell28_pedestal")
+centered = false
+metadata/registry_id = "spell28_pedestal"
+metadata/source_layer_id = 1191
+
+[node name="spell28_caption" type="Sprite2D" parent="Figures/Spell28"]
+position = Vector2(694, 63)
+texture = ExtResource("spell28_caption")
+centered = false
+metadata/registry_id = "spell28_caption"
+metadata/source_layer_id = 1192
+
+[node name="spell28_adorer" type="Sprite2D" parent="Figures/Spell28"]
+position = Vector2(1242, 266)
+texture = ExtResource("spell28_adorer")
+centered = false
+metadata/registry_id = "spell28_adorer"
+metadata/source_layer_id = 1193
+
+[node name="spell28_ankh" type="Sprite2D" parent="Figures/Spell28"]
+position = Vector2(1120, 263)
+texture = ExtResource("spell28_ankh")
+centered = false
+metadata/registry_id = "spell28_ankh"
+metadata/source_layer_id = 1194
+
+[node name="spell28_seated_god" type="Sprite2D" parent="Figures/Spell28"]
+position = Vector2(925, 276)
+texture = ExtResource("spell28_seated_god")
+centered = false
+metadata/registry_id = "spell28_seated_god"
+metadata/source_layer_id = 1195
+
+[node name="Spell27" type="Node2D" parent="Figures"]
+
+[node name="spell27_caption" type="Sprite2D" parent="Figures/Spell27"]
+position = Vector2(1380, 28)
+texture = ExtResource("spell27_caption")
+centered = false
+metadata/registry_id = "spell27_caption"
+metadata/source_layer_id = 1196
+
+[node name="spell27_kneeling_man" type="Sprite2D" parent="Figures/Spell27"]
+position = Vector2(1752, 326)
+texture = ExtResource("spell27_kneeling_man")
+centered = false
+metadata/registry_id = "spell27_kneeling_man"
+metadata/source_layer_id = 1197
+
+[node name="spell27_four_gods" type="Sprite2D" parent="Figures/Spell27"]
+position = Vector2(1390, 325)
+texture = ExtResource("spell27_four_gods")
+centered = false
+metadata/registry_id = "spell27_four_gods"
+metadata/source_layer_id = 1198
+
+[node name="spell27_bench" type="Sprite2D" parent="Figures/Spell27"]
+position = Vector2(1390, 498)
+texture = ExtResource("spell27_bench")
+centered = false
+metadata/registry_id = "spell27_bench"
+metadata/source_layer_id = 1199
+
+[node name="Spell26" type="Node2D" parent="Figures"]
+
+[node name="spell26_pedestal" type="Sprite2D" parent="Figures/Spell26"]
+position = Vector2(2332, 495)
+texture = ExtResource("spell26_pedestal")
+centered = false
+metadata/registry_id = "spell26_pedestal"
+metadata/source_layer_id = 1200
+
+[node name="spell26_caption" type="Sprite2D" parent="Figures/Spell26"]
+position = Vector2(2067, 59)
+texture = ExtResource("spell26_caption")
+centered = false
+metadata/registry_id = "spell26_caption"
+metadata/source_layer_id = 1201
+
+[node name="spell26_kneeling_man" type="Sprite2D" parent="Figures/Spell26"]
+position = Vector2(2482, 273)
+texture = ExtResource("spell26_kneeling_man")
+centered = false
+metadata/registry_id = "spell26_kneeling_man"
+metadata/source_layer_id = 1202
+
+[node name="spell26_ba_bird" type="Sprite2D" parent="Figures/Spell26"]
+position = Vector2(2248, 244)
+texture = ExtResource("spell26_ba_bird")
+centered = false
+metadata/registry_id = "spell26_ba_bird"
+metadata/source_layer_id = 1203
+
+[node name="Spell25" type="Node2D" parent="Figures"]
+
+[node name="spell25_caption" type="Sprite2D" parent="Figures/Spell25"]
+position = Vector2(2682, 57)
+texture = ExtResource("spell25_caption")
+centered = false
+metadata/registry_id = "spell25_caption"
+metadata/source_layer_id = 1204
+
+[node name="spell25_right_man" type="Sprite2D" parent="Figures/Spell25"]
+position = Vector2(2897, 255)
+texture = ExtResource("spell25_right_man")
+centered = false
+metadata/registry_id = "spell25_right_man"
+metadata/source_layer_id = 1205
+
+[node name="spell25_left_man" type="Sprite2D" parent="Figures/Spell25"]
+position = Vector2(2691, 235)
+texture = ExtResource("spell25_left_man")
+centered = false
+metadata/registry_id = "spell25_left_man"
+metadata/source_layer_id = 1206
+
+[node name="Spell24" type="Node2D" parent="Figures"]
+
+[node name="spell24_caption" type="Sprite2D" parent="Figures/Spell24"]
+position = Vector2(3154, 60)
+texture = ExtResource("spell24_caption")
+centered = false
+metadata/registry_id = "spell24_caption"
+metadata/source_layer_id = 1207
+
+[node name="spell24_gesturing_man" type="Sprite2D" parent="Figures/Spell24"]
+position = Vector2(3577, 229)
+texture = ExtResource("spell24_gesturing_man")
+centered = false
+metadata/registry_id = "spell24_gesturing_man"
+metadata/source_layer_id = 1208
+
+[node name="spell24_man_with_staff" type="Sprite2D" parent="Figures/Spell24"]
+position = Vector2(3243, 214)
+texture = ExtResource("spell24_man_with_staff")
+centered = false
+metadata/registry_id = "spell24_man_with_staff"
+metadata/source_layer_id = 1209
+
+[node name="Spell23" type="Node2D" parent="Figures"]
+
+[node name="spell23_caption" type="Sprite2D" parent="Figures/Spell23"]
+position = Vector2(3778, 51)
+texture = ExtResource("spell23_caption")
+centered = false
+metadata/registry_id = "spell23_caption"
+metadata/source_layer_id = 1210
+
+[node name="spell23_man_with_jar" type="Sprite2D" parent="Figures/Spell23"]
+position = Vector2(4068, 239)
+texture = ExtResource("spell23_man_with_jar")
+centered = false
+metadata/registry_id = "spell23_man_with_jar"
+metadata/source_layer_id = 1211
+
+[node name="spell23_man_with_staff" type="Sprite2D" parent="Figures/Spell23"]
+position = Vector2(3841, 225)
+texture = ExtResource("spell23_man_with_staff")
+centered = false
+metadata/registry_id = "spell23_man_with_staff"
+metadata/source_layer_id = 1212
+
+[node name="Spell21And22" type="Node2D" parent="Figures"]
+
+[node name="spell22_caption" type="Sprite2D" parent="Figures/Spell21And22"]
+position = Vector2(4281, 51)
+texture = ExtResource("spell22_caption")
+centered = false
+metadata/registry_id = "spell22_caption"
+metadata/source_layer_id = 1213
+
+[node name="spell21_caption" type="Sprite2D" parent="Figures/Spell21And22"]
+position = Vector2(4575, 52)
+texture = ExtResource("spell21_caption")
+centered = false
+metadata/registry_id = "spell21_caption"
+metadata/source_layer_id = 1217
+
+[node name="spell21_22_offering_man" type="Sprite2D" parent="Figures/Spell21And22"]
+position = Vector2(4632, 263)
+texture = ExtResource("spell21_22_offering_man")
+centered = false
+metadata/registry_id = "spell21_22_offering_man"
+metadata/source_layer_id = 1214
+
+[node name="spell21_22_standing_man" type="Sprite2D" parent="Figures/Spell21And22"]
+position = Vector2(4498, 243)
+texture = ExtResource("spell21_22_standing_man")
+centered = false
+metadata/registry_id = "spell21_22_standing_man"
+metadata/source_layer_id = 1215
+
+[node name="spell21_22_seated_man" type="Sprite2D" parent="Figures/Spell21And22"]
+position = Vector2(4330, 236)
+texture = ExtResource("spell21_22_seated_man")
+centered = false
+metadata/registry_id = "spell21_22_seated_man"
+metadata/source_layer_id = 1216
+
+[node name="Avatar" type="Node2D" parent="."]
+position = Vector2(4808, 526)
+script = ExtResource("avatar")
+drawn_facing = -1
+
+[node name="Sprite" type="Sprite2D" parent="Avatar"]
+texture = ExtResource("spell24_man_with_staff")
+offset = Vector2(0, -155.5)
+
+[node name="Foreground" type="Node2D" parent="."]
+z_index = 6
+
+[node name="Column1" type="Node2D" parent="Foreground"]
+position = Vector2(30, 168)
+
+[node name="Papyrus" type="ColorRect" parent="Foreground/Column1"]
+material = SubResource("paper")
+offset_right = 141.0
+offset_bottom = 1332.0
+mouse_filter = 2
+
+[node name="Ink" type="Sprite2D" parent="Foreground/Column1"]
+texture = ExtResource("column_1")
+centered = false
+
+[node name="Column2" type="Node2D" parent="Foreground"]
+position = Vector2(650, 180)
+
+[node name="Papyrus" type="ColorRect" parent="Foreground/Column2"]
+material = SubResource("paper")
+offset_right = 256.0
+offset_bottom = 1320.0
+mouse_filter = 2
+
+[node name="Ink" type="Sprite2D" parent="Foreground/Column2"]
+texture = ExtResource("column_2")
+centered = false
+
+[node name="Column3" type="Node2D" parent="Foreground"]
+position = Vector2(1977, 186)
+
+[node name="Papyrus" type="ColorRect" parent="Foreground/Column3"]
+material = SubResource("paper")
+offset_right = 222.0
+offset_bottom = 1314.0
+mouse_filter = 2
+
+[node name="Ink" type="Sprite2D" parent="Foreground/Column3"]
+texture = ExtResource("column_3")
+centered = false
+
+[node name="Camera" type="Camera2D" parent="."]
+position = Vector2(4808, 418)
+
+[node name="HUD" type="CanvasLayer" parent="."]
+script = ExtResource("hud")
+
+[node name="Hitboxes" type="Node2D" parent="."]
+
+[node name="spell30_pedestal" type="Area2D" parent="Hitboxes"]
+position = Vector2(330.0, 496.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell30_pedestal"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell30_pedestal"]
+shape = SubResource("hitbox_spell30_pedestal")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell30_caption" type="Area2D" parent="Hitboxes"]
+position = Vector2(345.0, 112.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell30_caption"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell30_caption"]
+shape = SubResource("hitbox_spell30_caption")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell30_adorer" type="Area2D" parent="Hitboxes"]
+position = Vector2(573.0, 388.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell30_adorer"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell30_adorer"]
+shape = SubResource("hitbox_spell30_adorer")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell30_scarab" type="Area2D" parent="Hitboxes"]
+position = Vector2(337.0, 395.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell30_scarab"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell30_scarab"]
+shape = SubResource("hitbox_spell30_scarab")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell28_pedestal" type="Area2D" parent="Hitboxes"]
+position = Vector2(995.0, 476.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell28_pedestal"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell28_pedestal"]
+shape = SubResource("hitbox_spell28_pedestal")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell28_caption" type="Area2D" parent="Hitboxes"]
+position = Vector2(1032.0, 119.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell28_caption"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell28_caption"]
+shape = SubResource("hitbox_spell28_caption")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell28_adorer" type="Area2D" parent="Hitboxes"]
+position = Vector2(1306.0, 400.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell28_adorer"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell28_adorer"]
+shape = SubResource("hitbox_spell28_adorer")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell28_ankh" type="Area2D" parent="Hitboxes"]
+position = Vector2(1172.0, 397.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell28_ankh"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell28_ankh"]
+shape = SubResource("hitbox_spell28_ankh")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell28_seated_god" type="Area2D" parent="Hitboxes"]
+position = Vector2(995.0, 404.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell28_seated_god"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell28_seated_god"]
+shape = SubResource("hitbox_spell28_seated_god")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell27_caption" type="Area2D" parent="Hitboxes"]
+position = Vector2(1670.0, 106.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell27_caption"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell27_caption"]
+shape = SubResource("hitbox_spell27_caption")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell27_kneeling_man" type="Area2D" parent="Hitboxes"]
+position = Vector2(1854.0, 426.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell27_kneeling_man"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell27_kneeling_man"]
+shape = SubResource("hitbox_spell27_kneeling_man")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell27_four_gods" type="Area2D" parent="Hitboxes"]
+position = Vector2(1566.0, 413.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell27_four_gods"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell27_four_gods"]
+shape = SubResource("hitbox_spell27_four_gods")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell27_bench" type="Area2D" parent="Hitboxes"]
+position = Vector2(1570.0, 512.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell27_bench"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell27_bench"]
+shape = SubResource("hitbox_spell27_bench")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell26_pedestal" type="Area2D" parent="Hitboxes"]
+position = Vector2(2408.0, 511.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell26_pedestal"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell26_pedestal"]
+shape = SubResource("hitbox_spell26_pedestal")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell26_caption" type="Area2D" parent="Hitboxes"]
+position = Vector2(2345.0, 109.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell26_caption"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell26_caption"]
+shape = SubResource("hitbox_spell26_caption")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell26_kneeling_man" type="Area2D" parent="Hitboxes"]
+position = Vector2(2562.0, 401.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell26_kneeling_man"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell26_kneeling_man"]
+shape = SubResource("hitbox_spell26_kneeling_man")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell26_ba_bird" type="Area2D" parent="Hitboxes"]
+position = Vector2(2368.0, 386.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell26_ba_bird"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell26_ba_bird"]
+shape = SubResource("hitbox_spell26_ba_bird")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell25_caption" type="Area2D" parent="Hitboxes"]
+position = Vector2(2852.0, 119.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell25_caption"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell25_caption"]
+shape = SubResource("hitbox_spell25_caption")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell25_right_man" type="Area2D" parent="Hitboxes"]
+position = Vector2(2963.0, 391.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell25_right_man"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell25_right_man"]
+shape = SubResource("hitbox_spell25_right_man")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell25_left_man" type="Area2D" parent="Hitboxes"]
+position = Vector2(2771.0, 381.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell25_left_man"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell25_left_man"]
+shape = SubResource("hitbox_spell25_left_man")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell24_caption" type="Area2D" parent="Hitboxes"]
+position = Vector2(3462.0, 114.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell24_caption"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell24_caption"]
+shape = SubResource("hitbox_spell24_caption")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell24_gesturing_man" type="Area2D" parent="Hitboxes"]
+position = Vector2(3661.0, 379.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell24_gesturing_man"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell24_gesturing_man"]
+shape = SubResource("hitbox_spell24_gesturing_man")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell24_man_with_staff" type="Area2D" parent="Hitboxes"]
+position = Vector2(3331.0, 370.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell24_man_with_staff"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell24_man_with_staff"]
+shape = SubResource("hitbox_spell24_man_with_staff")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell23_caption" type="Area2D" parent="Hitboxes"]
+position = Vector2(4016.0, 115.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell23_caption"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell23_caption"]
+shape = SubResource("hitbox_spell23_caption")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell23_man_with_jar" type="Area2D" parent="Hitboxes"]
+position = Vector2(4144.0, 385.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell23_man_with_jar"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell23_man_with_jar"]
+shape = SubResource("hitbox_spell23_man_with_jar")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell23_man_with_staff" type="Area2D" parent="Hitboxes"]
+position = Vector2(3933.0, 377.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell23_man_with_staff"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell23_man_with_staff"]
+shape = SubResource("hitbox_spell23_man_with_staff")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell22_caption" type="Area2D" parent="Hitboxes"]
+position = Vector2(4419.0, 107.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell22_caption"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell22_caption"]
+shape = SubResource("hitbox_spell22_caption")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell21_caption" type="Area2D" parent="Hitboxes"]
+position = Vector2(4703.0, 114.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell21_caption"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell21_caption"]
+shape = SubResource("hitbox_spell21_caption")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell21_22_offering_man" type="Area2D" parent="Hitboxes"]
+position = Vector2(4728.0, 397.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell21_22_offering_man"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell21_22_offering_man"]
+shape = SubResource("hitbox_spell21_22_offering_man")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell21_22_standing_man" type="Area2D" parent="Hitboxes"]
+position = Vector2(4566.0, 387.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell21_22_standing_man"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell21_22_standing_man"]
+shape = SubResource("hitbox_spell21_22_standing_man")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell21_22_seated_man" type="Area2D" parent="Hitboxes"]
+position = Vector2(4418.0, 382.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell21_22_seated_man"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell21_22_seated_man"]
+shape = SubResource("hitbox_spell21_22_seated_man")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)

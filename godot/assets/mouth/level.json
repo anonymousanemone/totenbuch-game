@@ -1,0 +1,316 @@
+{
+ "source": "art/heart21-30.mdp",
+ "sha256": "8e51be5d30996400486114c7681e9a967fc4824ce107f687d2d12d8fc18fc309",
+ "width": 4898,
+ "height": 1500,
+ "ground": 526,
+ "view_top": 20,
+ "view_height": 741,
+ "scale": 1.5,
+ "start": {
+  "x": 4808,
+  "y": 526
+ },
+ "avatar": "spell24_man_with_staff",
+ "figures": {
+  "spell30_pedestal": {
+   "x": 270,
+   "y": 468,
+   "w": 120,
+   "h": 56,
+   "group": "Spell30",
+   "source_layer": 1187,
+   "source_name": "pedestal"
+  },
+  "spell30_caption": {
+   "x": 53,
+   "y": 52,
+   "w": 584,
+   "h": 119,
+   "group": "Spell30",
+   "source_layer": 1188,
+   "source_name": "toptext"
+  },
+  "spell30_adorer": {
+   "x": 503,
+   "y": 248,
+   "w": 137,
+   "h": 279,
+   "group": "Spell30",
+   "source_layer": 1189,
+   "source_name": "adorer"
+  },
+  "spell30_scarab": {
+   "x": 261,
+   "y": 259,
+   "w": 151,
+   "h": 269,
+   "group": "Spell30",
+   "source_layer": 1190,
+   "source_name": "scarab"
+  },
+  "spell28_pedestal": {
+   "x": 925,
+   "y": 426,
+   "w": 137,
+   "h": 98,
+   "group": "Spell28",
+   "source_layer": 1191,
+   "source_name": "pedestal"
+  },
+  "spell28_caption": {
+   "x": 694,
+   "y": 63,
+   "w": 674,
+   "h": 112,
+   "group": "Spell28",
+   "source_layer": 1192,
+   "source_name": "toptext"
+  },
+  "spell28_adorer": {
+   "x": 1242,
+   "y": 266,
+   "w": 128,
+   "h": 267,
+   "group": "Spell28",
+   "source_layer": 1193,
+   "source_name": "adorer"
+  },
+  "spell28_ankh": {
+   "x": 1120,
+   "y": 263,
+   "w": 103,
+   "h": 266,
+   "group": "Spell28",
+   "source_layer": 1194,
+   "source_name": "ankh"
+  },
+  "spell28_seated_god": {
+   "x": 925,
+   "y": 276,
+   "w": 138,
+   "h": 253,
+   "group": "Spell28",
+   "source_layer": 1195,
+   "source_name": "seated god"
+  },
+  "spell27_caption": {
+   "x": 1380,
+   "y": 28,
+   "w": 578,
+   "h": 155,
+   "group": "Spell27",
+   "source_layer": 1196,
+   "source_name": "toptext"
+  },
+  "spell27_kneeling_man": {
+   "x": 1752,
+   "y": 326,
+   "w": 201,
+   "h": 200,
+   "group": "Spell27",
+   "source_layer": 1197,
+   "source_name": "kneeling man"
+  },
+  "spell27_four_gods": {
+   "x": 1390,
+   "y": 325,
+   "w": 352,
+   "h": 175,
+   "group": "Spell27",
+   "source_layer": 1198,
+   "source_name": "four gods"
+  },
+  "spell27_bench": {
+   "x": 1390,
+   "y": 498,
+   "w": 360,
+   "h": 28,
+   "group": "Spell27",
+   "source_layer": 1199,
+   "source_name": "bench"
+  },
+  "spell26_pedestal": {
+   "x": 2332,
+   "y": 495,
+   "w": 152,
+   "h": 29,
+   "group": "Spell26",
+   "source_layer": 1200,
+   "source_name": "pedestal"
+  },
+  "spell26_caption": {
+   "x": 2067,
+   "y": 59,
+   "w": 553,
+   "h": 97,
+   "group": "Spell26",
+   "source_layer": 1201,
+   "source_name": "toptext"
+  },
+  "spell26_kneeling_man": {
+   "x": 2482,
+   "y": 273,
+   "w": 159,
+   "h": 254,
+   "group": "Spell26",
+   "source_layer": 1202,
+   "source_name": "kneeling man"
+  },
+  "spell26_ba_bird": {
+   "x": 2248,
+   "y": 244,
+   "w": 237,
+   "h": 282,
+   "group": "Spell26",
+   "source_layer": 1203,
+   "source_name": "ba bird"
+  },
+  "spell25_caption": {
+   "x": 2682,
+   "y": 57,
+   "w": 338,
+   "h": 121,
+   "group": "Spell25",
+   "source_layer": 1204,
+   "source_name": "toptext"
+  },
+  "spell25_right_man": {
+   "x": 2897,
+   "y": 255,
+   "w": 132,
+   "h": 271,
+   "group": "Spell25",
+   "source_layer": 1205,
+   "source_name": "right man"
+  },
+  "spell25_left_man": {
+   "x": 2691,
+   "y": 235,
+   "w": 160,
+   "h": 291,
+   "group": "Spell25",
+   "source_layer": 1206,
+   "source_name": "left man"
+  },
+  "spell24_caption": {
+   "x": 3154,
+   "y": 60,
+   "w": 614,
+   "h": 107,
+   "group": "Spell24",
+   "source_layer": 1207,
+   "source_name": "toptext"
+  },
+  "spell24_gesturing_man": {
+   "x": 3577,
+   "y": 229,
+   "w": 167,
+   "h": 297,
+   "group": "Spell24",
+   "source_layer": 1208,
+   "source_name": "gesturing man"
+  },
+  "spell24_man_with_staff": {
+   "x": 3243,
+   "y": 214,
+   "w": 176,
+   "h": 311,
+   "group": "Spell24",
+   "source_layer": 1209,
+   "source_name": "man with staff"
+  },
+  "spell23_caption": {
+   "x": 3778,
+   "y": 51,
+   "w": 474,
+   "h": 126,
+   "group": "Spell23",
+   "source_layer": 1210,
+   "source_name": "toptext"
+  },
+  "spell23_man_with_jar": {
+   "x": 4068,
+   "y": 239,
+   "w": 151,
+   "h": 289,
+   "group": "Spell23",
+   "source_layer": 1211,
+   "source_name": "man with jar"
+  },
+  "spell23_man_with_staff": {
+   "x": 3841,
+   "y": 225,
+   "w": 182,
+   "h": 303,
+   "group": "Spell23",
+   "source_layer": 1212,
+   "source_name": "man with staff"
+  },
+  "spell22_caption": {
+   "x": 4281,
+   "y": 51,
+   "w": 274,
+   "h": 112,
+   "group": "Spell21And22",
+   "source_layer": 1213,
+   "source_name": "toptext"
+  },
+  "spell21_caption": {
+   "x": 4575,
+   "y": 52,
+   "w": 256,
+   "h": 121,
+   "group": "Spell21And22",
+   "source_layer": 1217,
+   "source_name": "toptext2"
+  },
+  "spell21_22_offering_man": {
+   "x": 4632,
+   "y": 263,
+   "w": 189,
+   "h": 267,
+   "group": "Spell21And22",
+   "source_layer": 1214,
+   "source_name": "offering man"
+  },
+  "spell21_22_standing_man": {
+   "x": 4498,
+   "y": 243,
+   "w": 133,
+   "h": 286,
+   "group": "Spell21And22",
+   "source_layer": 1215,
+   "source_name": "standing man"
+  },
+  "spell21_22_seated_man": {
+   "x": 4330,
+   "y": 236,
+   "w": 173,
+   "h": 292,
+   "group": "Spell21And22",
+   "source_layer": 1216,
+   "source_name": "seated man"
+  }
+ },
+ "columns": {
+  "column_1": {
+   "x": 30,
+   "y": 168,
+   "w": 141,
+   "h": 1332
+  },
+  "column_2": {
+   "x": 650,
+   "y": 180,
+   "w": 256,
+   "h": 1320
+  },
+  "column_3": {
+   "x": 1977,
+   "y": 186,
+   "w": 222,
+   "h": 1314
+  }
+ }
+}

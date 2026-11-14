@@ -1,0 +1,1953 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/walk/walk.gd" id="level"]
+[ext_resource type="Script" path="res://scripts/avatar.gd" id="avatar"]
+[ext_resource type="Script" path="res://scripts/hud.gd" id="hud"]
+[ext_resource type="Shader" path="res://scripts/papyrus.gdshader" id="papyrus"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/strip.png" id="strip"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_adoring_deceased.png" id="spell125_adoring_deceased"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_maat.png" id="spell125_maat"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_balance_post_and_plummet.png" id="spell125_balance_post_and_plummet"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_balance_beam.png" id="spell125_balance_beam"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_plummet.png" id="spell125_plummet"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_right_pan_and_suspension.png" id="spell125_right_pan_and_suspension"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_left_pan_and_suspension.png" id="spell125_left_pan_and_suspension"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_baboon.png" id="spell125_baboon"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_heart.png" id="spell125_heart"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_maat_figure_in_pan.png" id="spell125_maat_figure_in_pan"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_scale_attendant.png" id="spell125_scale_attendant"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_anubis.png" id="spell125_anubis"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_attendant.png" id="spell125_attendant"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_kneeling_deities.png" id="spell125_kneeling_deities"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_lion_sign.png" id="spell125_lion_sign"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_lotus_offering_table.png" id="spell125_lotus_offering_table"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_funerary_genii.png" id="spell125_funerary_genii"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_thoth.png" id="spell125_thoth"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_staff.png" id="spell125_staff"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_ammit.png" id="spell125_ammit"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_osiris_shrine.png" id="spell125_osiris_shrine"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_dais.png" id="spell125_dais"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_draped_standard.png" id="spell125_draped_standard"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_osiris.png" id="spell125_osiris"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_judges_platform.png" id="spell125_judges_platform"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_worshipper.png" id="spell125_worshipper"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_offering_stand.png" id="spell125_offering_stand"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_assessor_42.png" id="spell125_assessor_42"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_assessor_41.png" id="spell125_assessor_41"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_assessor_40.png" id="spell125_assessor_40"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_assessor_39.png" id="spell125_assessor_39"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_assessor_38.png" id="spell125_assessor_38"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_assessor_37.png" id="spell125_assessor_37"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_assessor_36.png" id="spell125_assessor_36"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_assessor_35.png" id="spell125_assessor_35"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_assessor_34.png" id="spell125_assessor_34"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_assessor_33.png" id="spell125_assessor_33"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_assessor_32.png" id="spell125_assessor_32"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_assessor_31.png" id="spell125_assessor_31"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_assessor_30.png" id="spell125_assessor_30"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_assessor_29.png" id="spell125_assessor_29"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_assessor_28.png" id="spell125_assessor_28"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_assessor_27.png" id="spell125_assessor_27"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_assessor_26.png" id="spell125_assessor_26"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_assessor_25.png" id="spell125_assessor_25"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_assessor_24.png" id="spell125_assessor_24"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_assessor_23.png" id="spell125_assessor_23"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_assessor_22.png" id="spell125_assessor_22"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_assessor_21.png" id="spell125_assessor_21"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_assessor_20.png" id="spell125_assessor_20"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_assessor_19.png" id="spell125_assessor_19"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_assessor_18.png" id="spell125_assessor_18"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_assessor_17.png" id="spell125_assessor_17"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_assessor_16.png" id="spell125_assessor_16"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_assessor_15.png" id="spell125_assessor_15"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_assessor_14.png" id="spell125_assessor_14"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_assessor_13.png" id="spell125_assessor_13"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_assessor_12.png" id="spell125_assessor_12"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_assessor_11.png" id="spell125_assessor_11"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_assessor_10.png" id="spell125_assessor_10"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_assessor_09.png" id="spell125_assessor_09"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_assessor_08.png" id="spell125_assessor_08"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_assessor_07.png" id="spell125_assessor_07"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_assessor_06.png" id="spell125_assessor_06"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_assessor_05.png" id="spell125_assessor_05"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_assessor_04.png" id="spell125_assessor_04"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_assessor_03.png" id="spell125_assessor_03"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_assessor_02.png" id="spell125_assessor_02"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_assessor_01.png" id="spell125_assessor_01"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_cornice_line.png" id="spell125_cornice_line"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_roof_motifs.png" id="spell125_roof_motifs"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_eastern_guardian.png" id="spell125_eastern_guardian"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_central_emblem.png" id="spell125_central_emblem"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_western_guardian.png" id="spell125_western_guardian"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_text_damaged_column.png" id="spell125_text_damaged_column"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_text_arrival.png" id="spell125_text_arrival"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_text_osiris.png" id="spell125_text_osiris"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_text_altar.png" id="spell125_text_altar"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_text_genii.png" id="spell125_text_genii"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_text_thoth.png" id="spell125_text_thoth"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_text_balance.png" id="spell125_text_balance"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_text_attendant.png" id="spell125_text_attendant"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_text_deities.png" id="spell125_text_deities"]
+
+[sub_resource type="ShaderMaterial" id="paper"]
+shader = ExtResource("papyrus")
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_maat"]
+size = Vector2(444.0, 1348.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_balance_post_and_plummet"]
+size = Vector2(200.0, 1104.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_balance_beam"]
+size = Vector2(1272.0, 132.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_plummet"]
+size = Vector2(48.0, 228.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_right_pan_and_suspension"]
+size = Vector2(220.0, 672.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_left_pan_and_suspension"]
+size = Vector2(196.0, 656.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_baboon"]
+size = Vector2(228.0, 240.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_heart"]
+size = Vector2(96.0, 112.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_maat_figure_in_pan"]
+size = Vector2(88.0, 216.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_scale_attendant"]
+size = Vector2(432.0, 880.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_anubis"]
+size = Vector2(432.0, 792.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_attendant"]
+size = Vector2(284.0, 536.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_kneeling_deities"]
+size = Vector2(188.0, 188.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_lion_sign"]
+size = Vector2(160.0, 76.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_lotus_offering_table"]
+size = Vector2(380.0, 1228.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_funerary_genii"]
+size = Vector2(344.0, 256.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_thoth"]
+size = Vector2(456.0, 968.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_staff"]
+size = Vector2(116.0, 700.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_ammit"]
+size = Vector2(376.0, 716.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_osiris_shrine"]
+size = Vector2(1304.0, 2008.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_dais"]
+size = Vector2(996.0, 272.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_draped_standard"]
+size = Vector2(224.0, 720.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_osiris"]
+size = Vector2(720.0, 1372.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_judges_platform"]
+size = Vector2(4296.0, 296.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_worshipper"]
+size = Vector2(220.0, 268.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_offering_stand"]
+size = Vector2(120.0, 272.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_assessor_42"]
+size = Vector2(116.0, 292.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_assessor_41"]
+size = Vector2(112.0, 280.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_assessor_40"]
+size = Vector2(112.0, 288.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_assessor_39"]
+size = Vector2(116.0, 284.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_assessor_38"]
+size = Vector2(120.0, 288.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_assessor_37"]
+size = Vector2(112.0, 272.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_assessor_36"]
+size = Vector2(108.0, 276.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_assessor_35"]
+size = Vector2(104.0, 280.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_assessor_34"]
+size = Vector2(112.0, 272.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_assessor_33"]
+size = Vector2(108.0, 252.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_assessor_32"]
+size = Vector2(96.0, 256.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_assessor_31"]
+size = Vector2(104.0, 264.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_assessor_30"]
+size = Vector2(100.0, 264.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_assessor_29"]
+size = Vector2(104.0, 260.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_assessor_28"]
+size = Vector2(96.0, 256.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_assessor_27"]
+size = Vector2(100.0, 256.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_assessor_26"]
+size = Vector2(92.0, 260.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_assessor_25"]
+size = Vector2(96.0, 256.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_assessor_24"]
+size = Vector2(96.0, 256.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_assessor_23"]
+size = Vector2(100.0, 256.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_assessor_22"]
+size = Vector2(84.0, 256.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_assessor_21"]
+size = Vector2(92.0, 252.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_assessor_20"]
+size = Vector2(88.0, 248.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_assessor_19"]
+size = Vector2(96.0, 248.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_assessor_18"]
+size = Vector2(96.0, 248.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_assessor_17"]
+size = Vector2(96.0, 236.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_assessor_16"]
+size = Vector2(104.0, 236.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_assessor_15"]
+size = Vector2(84.0, 236.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_assessor_14"]
+size = Vector2(84.0, 236.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_assessor_13"]
+size = Vector2(108.0, 244.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_assessor_12"]
+size = Vector2(80.0, 220.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_assessor_11"]
+size = Vector2(84.0, 228.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_assessor_10"]
+size = Vector2(80.0, 228.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_assessor_09"]
+size = Vector2(76.0, 232.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_assessor_08"]
+size = Vector2(72.0, 224.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_assessor_07"]
+size = Vector2(80.0, 228.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_assessor_06"]
+size = Vector2(76.0, 216.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_assessor_05"]
+size = Vector2(76.0, 216.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_assessor_04"]
+size = Vector2(76.0, 208.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_assessor_03"]
+size = Vector2(80.0, 212.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_assessor_02"]
+size = Vector2(84.0, 212.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_assessor_01"]
+size = Vector2(76.0, 204.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_cornice_line"]
+size = Vector2(5540.0, 300.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_roof_motifs"]
+size = Vector2(5076.0, 288.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_eastern_guardian"]
+size = Vector2(388.0, 328.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_central_emblem"]
+size = Vector2(472.0, 240.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_western_guardian"]
+size = Vector2(592.0, 396.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_text_damaged_column"]
+size = Vector2(148.0, 960.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_text_arrival"]
+size = Vector2(1668.0, 1352.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_text_osiris"]
+size = Vector2(432.0, 452.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_text_altar"]
+size = Vector2(200.0, 308.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_text_genii"]
+size = Vector2(176.0, 156.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_text_thoth"]
+size = Vector2(360.0, 580.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_text_balance"]
+size = Vector2(424.0, 444.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_text_attendant"]
+size = Vector2(88.0, 96.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell125_text_deities"]
+size = Vector2(128.0, 88.0)
+
+[node name="Hall" type="Node2D"]
+script = ExtResource("level")
+level_key = "hall"
+title = "The Weighing of the Heart"
+intro_title = "Spell 125: The Hall of the Two Truths"
+intro_body = "Explore the hall as it is drawn: Ma’at, the balance, the forty-two judges and Osiris in his shrine.\n\nWalk [b]right to left[/b] with [←] [→] or click the papyrus. Click a figure to walk up to it and read its description. Open the Journal with [j]."
+
+[node name="Papyrus" type="ColorRect" parent="."]
+material = SubResource("paper")
+offset_left = -1000.0
+offset_top = -1000.0
+offset_right = 7279.0
+offset_bottom = 3870.0
+mouse_filter = 2
+metadata/_edit_lock_ = true
+
+[node name="Strip" type="Sprite2D" parent="."]
+texture = ExtResource("strip")
+centered = false
+metadata/_edit_lock_ = true
+
+[node name="Figures" type="Node2D" parent="."]
+
+[node name="Spell125" type="Node2D" parent="Figures"]
+
+[node name="Arrival" type="Node2D" parent="Figures/Spell125"]
+
+[node name="spell125_maat" type="Sprite2D" parent="Figures/Spell125/Arrival"]
+position = Vector2(4590, 1461)
+texture = ExtResource("spell125_maat")
+centered = false
+metadata/registry_id = "spell125_maat"
+metadata/source_layer_id = 66
+
+[node name="WeighingOfTheHeart" type="Node2D" parent="Figures/Spell125"]
+
+[node name="spell125_balance_post_and_plummet" type="Sprite2D" parent="Figures/Spell125/WeighingOfTheHeart"]
+position = Vector2(3524, 1705)
+texture = ExtResource("spell125_balance_post_and_plummet")
+centered = false
+metadata/registry_id = "spell125_balance_post_and_plummet"
+metadata/source_layer_id = 71
+
+[node name="spell125_balance_beam" type="Sprite2D" parent="Figures/Spell125/WeighingOfTheHeart"]
+position = Vector2(2995, 1721)
+texture = ExtResource("spell125_balance_beam")
+centered = false
+metadata/registry_id = "spell125_balance_beam"
+metadata/source_layer_id = 72
+
+[node name="spell125_plummet" type="Sprite2D" parent="Figures/Spell125/WeighingOfTheHeart"]
+position = Vector2(3549, 1704)
+texture = ExtResource("spell125_plummet")
+centered = false
+metadata/registry_id = "spell125_plummet"
+metadata/source_layer_id = 231
+
+[node name="spell125_right_pan_and_suspension" type="Sprite2D" parent="Figures/Spell125/WeighingOfTheHeart"]
+position = Vector2(4177, 1831)
+texture = ExtResource("spell125_right_pan_and_suspension")
+centered = false
+metadata/registry_id = "spell125_right_pan_and_suspension"
+metadata/source_layer_id = 73
+
+[node name="spell125_left_pan_and_suspension" type="Sprite2D" parent="Figures/Spell125/WeighingOfTheHeart"]
+position = Vector2(2901, 1836)
+texture = ExtResource("spell125_left_pan_and_suspension")
+centered = false
+metadata/registry_id = "spell125_left_pan_and_suspension"
+metadata/source_layer_id = 74
+
+[node name="spell125_baboon" type="Sprite2D" parent="Figures/Spell125/WeighingOfTheHeart"]
+position = Vector2(3543, 1481)
+texture = ExtResource("spell125_baboon")
+centered = false
+metadata/registry_id = "spell125_baboon"
+metadata/source_layer_id = 79
+
+[node name="spell125_heart" type="Sprite2D" parent="Figures/Spell125/WeighingOfTheHeart"]
+position = Vector2(4240, 2360)
+texture = ExtResource("spell125_heart")
+centered = false
+metadata/registry_id = "spell125_heart"
+metadata/source_layer_id = 76
+
+[node name="spell125_maat_figure_in_pan" type="Sprite2D" parent="Figures/Spell125/WeighingOfTheHeart"]
+position = Vector2(2950, 2250)
+texture = ExtResource("spell125_maat_figure_in_pan")
+centered = false
+metadata/registry_id = "spell125_maat_figure_in_pan"
+metadata/source_layer_id = 77
+
+[node name="spell125_scale_attendant" type="Sprite2D" parent="Figures/Spell125/WeighingOfTheHeart"]
+position = Vector2(3552, 1932)
+texture = ExtResource("spell125_scale_attendant")
+centered = false
+metadata/registry_id = "spell125_scale_attendant"
+metadata/source_layer_id = 81
+
+[node name="spell125_anubis" type="Sprite2D" parent="Figures/Spell125/WeighingOfTheHeart"]
+position = Vector2(3015, 2016)
+texture = ExtResource("spell125_anubis")
+centered = false
+metadata/registry_id = "spell125_anubis"
+metadata/source_layer_id = 82
+
+[node name="spell125_attendant" type="Sprite2D" parent="Figures/Spell125/WeighingOfTheHeart"]
+position = Vector2(4314, 2274)
+texture = ExtResource("spell125_attendant")
+centered = false
+metadata/registry_id = "spell125_attendant"
+metadata/source_layer_id = 68
+
+[node name="OfferingsBeforeOsiris" type="Node2D" parent="Figures/Spell125"]
+
+[node name="spell125_kneeling_deities" type="Sprite2D" parent="Figures/Spell125/OfferingsBeforeOsiris"]
+position = Vector2(2220, 1707)
+texture = ExtResource("spell125_kneeling_deities")
+centered = false
+metadata/registry_id = "spell125_kneeling_deities"
+metadata/source_layer_id = 93
+
+[node name="spell125_lion_sign" type="Sprite2D" parent="Figures/Spell125/OfferingsBeforeOsiris"]
+position = Vector2(2240, 1976)
+texture = ExtResource("spell125_lion_sign")
+centered = false
+metadata/registry_id = "spell125_lion_sign"
+metadata/source_layer_id = 230
+
+[node name="spell125_lotus_offering_table" type="Sprite2D" parent="Figures/Spell125/OfferingsBeforeOsiris"]
+position = Vector2(1648, 1581)
+texture = ExtResource("spell125_lotus_offering_table")
+centered = false
+metadata/registry_id = "spell125_lotus_offering_table"
+metadata/source_layer_id = 96
+
+[node name="spell125_funerary_genii" type="Sprite2D" parent="Figures/Spell125/OfferingsBeforeOsiris"]
+position = Vector2(1668, 1330)
+texture = ExtResource("spell125_funerary_genii")
+centered = false
+metadata/registry_id = "spell125_funerary_genii"
+metadata/source_layer_id = 100
+
+[node name="spell125_thoth" type="Sprite2D" parent="Figures/Spell125/OfferingsBeforeOsiris"]
+position = Vector2(2414, 1841)
+texture = ExtResource("spell125_thoth")
+centered = false
+metadata/registry_id = "spell125_thoth"
+metadata/source_layer_id = 85
+
+[node name="spell125_staff" type="Sprite2D" parent="Figures/Spell125/OfferingsBeforeOsiris"]
+position = Vector2(2423, 2091)
+texture = ExtResource("spell125_staff")
+centered = false
+metadata/registry_id = "spell125_staff"
+metadata/source_layer_id = 87
+
+[node name="spell125_ammit" type="Sprite2D" parent="Figures/Spell125/OfferingsBeforeOsiris"]
+position = Vector2(2026, 2095)
+texture = ExtResource("spell125_ammit")
+centered = false
+metadata/registry_id = "spell125_ammit"
+metadata/source_layer_id = 90
+
+[node name="OsirisShrine" type="Node2D" parent="Figures/Spell125"]
+
+[node name="spell125_osiris_shrine" type="Sprite2D" parent="Figures/Spell125/OsirisShrine"]
+position = Vector2(419, 818)
+texture = ExtResource("spell125_osiris_shrine")
+centered = false
+metadata/registry_id = "spell125_osiris_shrine"
+metadata/source_layer_id = 222
+
+[node name="spell125_dais" type="Sprite2D" parent="Figures/Spell125/OsirisShrine"]
+position = Vector2(550, 2484)
+texture = ExtResource("spell125_dais")
+centered = false
+metadata/registry_id = "spell125_dais"
+metadata/source_layer_id = 106
+
+[node name="spell125_draped_standard" type="Sprite2D" parent="Figures/Spell125/OsirisShrine"]
+position = Vector2(1252, 1634)
+texture = ExtResource("spell125_draped_standard")
+centered = false
+metadata/registry_id = "spell125_draped_standard"
+metadata/source_layer_id = 109
+
+[node name="spell125_osiris" type="Sprite2D" parent="Figures/Spell125/OsirisShrine"]
+position = Vector2(584, 1146)
+texture = ExtResource("spell125_osiris")
+centered = false
+metadata/registry_id = "spell125_osiris"
+metadata/source_layer_id = 229
+
+[node name="Judges" type="Node2D" parent="Figures/Spell125"]
+
+[node name="spell125_judges_platform" type="Sprite2D" parent="Figures/Spell125/Judges"]
+position = Vector2(1716, 827)
+texture = ExtResource("spell125_judges_platform")
+centered = false
+metadata/registry_id = "spell125_judges_platform"
+metadata/source_layer_id = 223
+
+[node name="spell125_worshipper" type="Sprite2D" parent="Figures/Spell125/Judges"]
+position = Vector2(5730, 812)
+texture = ExtResource("spell125_worshipper")
+centered = false
+metadata/registry_id = "spell125_worshipper"
+metadata/source_layer_id = 114
+
+[node name="spell125_offering_stand" type="Sprite2D" parent="Figures/Spell125/Judges"]
+position = Vector2(5620, 812)
+texture = ExtResource("spell125_offering_stand")
+centered = false
+metadata/registry_id = "spell125_offering_stand"
+metadata/source_layer_id = 116
+
+[node name="spell125_assessor_42" type="Sprite2D" parent="Figures/Spell125/Judges"]
+position = Vector2(5484, 788)
+texture = ExtResource("spell125_assessor_42")
+centered = false
+metadata/registry_id = "spell125_assessor_42"
+metadata/source_layer_id = 119
+
+[node name="spell125_assessor_41" type="Sprite2D" parent="Figures/Spell125/Judges"]
+position = Vector2(5363, 800)
+texture = ExtResource("spell125_assessor_41")
+centered = false
+metadata/registry_id = "spell125_assessor_41"
+metadata/source_layer_id = 120
+
+[node name="spell125_assessor_40" type="Sprite2D" parent="Figures/Spell125/Judges"]
+position = Vector2(5239, 794)
+texture = ExtResource("spell125_assessor_40")
+centered = false
+metadata/registry_id = "spell125_assessor_40"
+metadata/source_layer_id = 121
+
+[node name="spell125_assessor_39" type="Sprite2D" parent="Figures/Spell125/Judges"]
+position = Vector2(5121, 800)
+texture = ExtResource("spell125_assessor_39")
+centered = false
+metadata/registry_id = "spell125_assessor_39"
+metadata/source_layer_id = 122
+
+[node name="spell125_assessor_38" type="Sprite2D" parent="Figures/Spell125/Judges"]
+position = Vector2(4989, 796)
+texture = ExtResource("spell125_assessor_38")
+centered = false
+metadata/registry_id = "spell125_assessor_38"
+metadata/source_layer_id = 123
+
+[node name="spell125_assessor_37" type="Sprite2D" parent="Figures/Spell125/Judges"]
+position = Vector2(4871, 812)
+texture = ExtResource("spell125_assessor_37")
+centered = false
+metadata/registry_id = "spell125_assessor_37"
+metadata/source_layer_id = 124
+
+[node name="spell125_assessor_36" type="Sprite2D" parent="Figures/Spell125/Judges"]
+position = Vector2(4765, 810)
+texture = ExtResource("spell125_assessor_36")
+centered = false
+metadata/registry_id = "spell125_assessor_36"
+metadata/source_layer_id = 125
+
+[node name="spell125_assessor_35" type="Sprite2D" parent="Figures/Spell125/Judges"]
+position = Vector2(4663, 808)
+texture = ExtResource("spell125_assessor_35")
+centered = false
+metadata/registry_id = "spell125_assessor_35"
+metadata/source_layer_id = 126
+
+[node name="spell125_assessor_34" type="Sprite2D" parent="Figures/Spell125/Judges"]
+position = Vector2(4551, 816)
+texture = ExtResource("spell125_assessor_34")
+centered = false
+metadata/registry_id = "spell125_assessor_34"
+metadata/source_layer_id = 127
+
+[node name="spell125_assessor_33" type="Sprite2D" parent="Figures/Spell125/Judges"]
+position = Vector2(4436, 834)
+texture = ExtResource("spell125_assessor_33")
+centered = false
+metadata/registry_id = "spell125_assessor_33"
+metadata/source_layer_id = 128
+
+[node name="spell125_assessor_32" type="Sprite2D" parent="Figures/Spell125/Judges"]
+position = Vector2(4352, 831)
+texture = ExtResource("spell125_assessor_32")
+centered = false
+metadata/registry_id = "spell125_assessor_32"
+metadata/source_layer_id = 129
+
+[node name="spell125_assessor_31" type="Sprite2D" parent="Figures/Spell125/Judges"]
+position = Vector2(4240, 826)
+texture = ExtResource("spell125_assessor_31")
+centered = false
+metadata/registry_id = "spell125_assessor_31"
+metadata/source_layer_id = 130
+
+[node name="spell125_assessor_30" type="Sprite2D" parent="Figures/Spell125/Judges"]
+position = Vector2(4134, 827)
+texture = ExtResource("spell125_assessor_30")
+centered = false
+metadata/registry_id = "spell125_assessor_30"
+metadata/source_layer_id = 131
+
+[node name="spell125_assessor_29" type="Sprite2D" parent="Figures/Spell125/Judges"]
+position = Vector2(4029, 830)
+texture = ExtResource("spell125_assessor_29")
+centered = false
+metadata/registry_id = "spell125_assessor_29"
+metadata/source_layer_id = 132
+
+[node name="spell125_assessor_28" type="Sprite2D" parent="Figures/Spell125/Judges"]
+position = Vector2(3932, 835)
+texture = ExtResource("spell125_assessor_28")
+centered = false
+metadata/registry_id = "spell125_assessor_28"
+metadata/source_layer_id = 135
+
+[node name="spell125_assessor_27" type="Sprite2D" parent="Figures/Spell125/Judges"]
+position = Vector2(3838, 837)
+texture = ExtResource("spell125_assessor_27")
+centered = false
+metadata/registry_id = "spell125_assessor_27"
+metadata/source_layer_id = 136
+
+[node name="spell125_assessor_26" type="Sprite2D" parent="Figures/Spell125/Judges"]
+position = Vector2(3751, 833)
+texture = ExtResource("spell125_assessor_26")
+centered = false
+metadata/registry_id = "spell125_assessor_26"
+metadata/source_layer_id = 137
+
+[node name="spell125_assessor_25" type="Sprite2D" parent="Figures/Spell125/Judges"]
+position = Vector2(3659, 835)
+texture = ExtResource("spell125_assessor_25")
+centered = false
+metadata/registry_id = "spell125_assessor_25"
+metadata/source_layer_id = 138
+
+[node name="spell125_assessor_24" type="Sprite2D" parent="Figures/Spell125/Judges"]
+position = Vector2(3563, 836)
+texture = ExtResource("spell125_assessor_24")
+centered = false
+metadata/registry_id = "spell125_assessor_24"
+metadata/source_layer_id = 139
+
+[node name="spell125_assessor_23" type="Sprite2D" parent="Figures/Spell125/Judges"]
+position = Vector2(3471, 836)
+texture = ExtResource("spell125_assessor_23")
+centered = false
+metadata/registry_id = "spell125_assessor_23"
+metadata/source_layer_id = 140
+
+[node name="spell125_assessor_22" type="Sprite2D" parent="Figures/Spell125/Judges"]
+position = Vector2(3385, 840)
+texture = ExtResource("spell125_assessor_22")
+centered = false
+metadata/registry_id = "spell125_assessor_22"
+metadata/source_layer_id = 141
+
+[node name="spell125_assessor_21" type="Sprite2D" parent="Figures/Spell125/Judges"]
+position = Vector2(3293, 842)
+texture = ExtResource("spell125_assessor_21")
+centered = false
+metadata/registry_id = "spell125_assessor_21"
+metadata/source_layer_id = 142
+
+[node name="spell125_assessor_20" type="Sprite2D" parent="Figures/Spell125/Judges"]
+position = Vector2(3198, 847)
+texture = ExtResource("spell125_assessor_20")
+centered = false
+metadata/registry_id = "spell125_assessor_20"
+metadata/source_layer_id = 143
+
+[node name="spell125_assessor_19" type="Sprite2D" parent="Figures/Spell125/Judges"]
+position = Vector2(3090, 848)
+texture = ExtResource("spell125_assessor_19")
+centered = false
+metadata/registry_id = "spell125_assessor_19"
+metadata/source_layer_id = 144
+
+[node name="spell125_assessor_18" type="Sprite2D" parent="Figures/Spell125/Judges"]
+position = Vector2(2995, 847)
+texture = ExtResource("spell125_assessor_18")
+centered = false
+metadata/registry_id = "spell125_assessor_18"
+metadata/source_layer_id = 145
+
+[node name="spell125_assessor_17" type="Sprite2D" parent="Figures/Spell125/Judges"]
+position = Vector2(2896, 860)
+texture = ExtResource("spell125_assessor_17")
+centered = false
+metadata/registry_id = "spell125_assessor_17"
+metadata/source_layer_id = 146
+
+[node name="spell125_assessor_16" type="Sprite2D" parent="Figures/Spell125/Judges"]
+position = Vector2(2795, 862)
+texture = ExtResource("spell125_assessor_16")
+centered = false
+metadata/registry_id = "spell125_assessor_16"
+metadata/source_layer_id = 147
+
+[node name="spell125_assessor_15" type="Sprite2D" parent="Figures/Spell125/Judges"]
+position = Vector2(2727, 864)
+texture = ExtResource("spell125_assessor_15")
+centered = false
+metadata/registry_id = "spell125_assessor_15"
+metadata/source_layer_id = 148
+
+[node name="spell125_assessor_14" type="Sprite2D" parent="Figures/Spell125/Judges"]
+position = Vector2(2646, 861)
+texture = ExtResource("spell125_assessor_14")
+centered = false
+metadata/registry_id = "spell125_assessor_14"
+metadata/source_layer_id = 151
+
+[node name="spell125_assessor_13" type="Sprite2D" parent="Figures/Spell125/Judges"]
+position = Vector2(2543, 857)
+texture = ExtResource("spell125_assessor_13")
+centered = false
+metadata/registry_id = "spell125_assessor_13"
+metadata/source_layer_id = 152
+
+[node name="spell125_assessor_12" type="Sprite2D" parent="Figures/Spell125/Judges"]
+position = Vector2(2490, 882)
+texture = ExtResource("spell125_assessor_12")
+centered = false
+metadata/registry_id = "spell125_assessor_12"
+metadata/source_layer_id = 153
+
+[node name="spell125_assessor_11" type="Sprite2D" parent="Figures/Spell125/Judges"]
+position = Vector2(2420, 871)
+texture = ExtResource("spell125_assessor_11")
+centered = false
+metadata/registry_id = "spell125_assessor_11"
+metadata/source_layer_id = 154
+
+[node name="spell125_assessor_10" type="Sprite2D" parent="Figures/Spell125/Judges"]
+position = Vector2(2353, 872)
+texture = ExtResource("spell125_assessor_10")
+centered = false
+metadata/registry_id = "spell125_assessor_10"
+metadata/source_layer_id = 155
+
+[node name="spell125_assessor_09" type="Sprite2D" parent="Figures/Spell125/Judges"]
+position = Vector2(2287, 871)
+texture = ExtResource("spell125_assessor_09")
+centered = false
+metadata/registry_id = "spell125_assessor_09"
+metadata/source_layer_id = 156
+
+[node name="spell125_assessor_08" type="Sprite2D" parent="Figures/Spell125/Judges"]
+position = Vector2(2219, 879)
+texture = ExtResource("spell125_assessor_08")
+centered = false
+metadata/registry_id = "spell125_assessor_08"
+metadata/source_layer_id = 157
+
+[node name="spell125_assessor_07" type="Sprite2D" parent="Figures/Spell125/Judges"]
+position = Vector2(2149, 875)
+texture = ExtResource("spell125_assessor_07")
+centered = false
+metadata/registry_id = "spell125_assessor_07"
+metadata/source_layer_id = 158
+
+[node name="spell125_assessor_06" type="Sprite2D" parent="Figures/Spell125/Judges"]
+position = Vector2(2076, 885)
+texture = ExtResource("spell125_assessor_06")
+centered = false
+metadata/registry_id = "spell125_assessor_06"
+metadata/source_layer_id = 159
+
+[node name="spell125_assessor_05" type="Sprite2D" parent="Figures/Spell125/Judges"]
+position = Vector2(2003, 887)
+texture = ExtResource("spell125_assessor_05")
+centered = false
+metadata/registry_id = "spell125_assessor_05"
+metadata/source_layer_id = 160
+
+[node name="spell125_assessor_04" type="Sprite2D" parent="Figures/Spell125/Judges"]
+position = Vector2(1939, 895)
+texture = ExtResource("spell125_assessor_04")
+centered = false
+metadata/registry_id = "spell125_assessor_04"
+metadata/source_layer_id = 161
+
+[node name="spell125_assessor_03" type="Sprite2D" parent="Figures/Spell125/Judges"]
+position = Vector2(1868, 891)
+texture = ExtResource("spell125_assessor_03")
+centered = false
+metadata/registry_id = "spell125_assessor_03"
+metadata/source_layer_id = 162
+
+[node name="spell125_assessor_02" type="Sprite2D" parent="Figures/Spell125/Judges"]
+position = Vector2(1795, 894)
+texture = ExtResource("spell125_assessor_02")
+centered = false
+metadata/registry_id = "spell125_assessor_02"
+metadata/source_layer_id = 163
+
+[node name="spell125_assessor_01" type="Sprite2D" parent="Figures/Spell125/Judges"]
+position = Vector2(1730, 899)
+texture = ExtResource("spell125_assessor_01")
+centered = false
+metadata/registry_id = "spell125_assessor_01"
+metadata/source_layer_id = 164
+
+[node name="RoofFrieze" type="Node2D" parent="Figures/Spell125"]
+
+[node name="spell125_cornice_line" type="Sprite2D" parent="Figures/Spell125/RoofFrieze"]
+position = Vector2(329, 168)
+texture = ExtResource("spell125_cornice_line")
+centered = false
+metadata/registry_id = "spell125_cornice_line"
+metadata/source_layer_id = 225
+
+[node name="spell125_roof_motifs" type="Sprite2D" parent="Figures/Spell125/RoofFrieze"]
+position = Vector2(709, 163)
+texture = ExtResource("spell125_roof_motifs")
+centered = false
+metadata/registry_id = "spell125_roof_motifs"
+metadata/source_layer_id = 186
+
+[node name="spell125_eastern_guardian" type="Sprite2D" parent="Figures/Spell125/RoofFrieze"]
+position = Vector2(5789, 158)
+texture = ExtResource("spell125_eastern_guardian")
+centered = false
+metadata/registry_id = "spell125_eastern_guardian"
+metadata/source_layer_id = 205
+
+[node name="spell125_central_emblem" type="Sprite2D" parent="Figures/Spell125/RoofFrieze"]
+position = Vector2(2930, 202)
+texture = ExtResource("spell125_central_emblem")
+centered = false
+metadata/registry_id = "spell125_central_emblem"
+metadata/source_layer_id = 208
+
+[node name="spell125_western_guardian" type="Sprite2D" parent="Figures/Spell125/RoofFrieze"]
+position = Vector2(124, 138)
+texture = ExtResource("spell125_western_guardian")
+centered = false
+metadata/registry_id = "spell125_western_guardian"
+metadata/source_layer_id = 210
+
+[node name="Captions" type="Node2D" parent="Figures/Spell125"]
+
+[node name="spell125_text_damaged_column" type="Sprite2D" parent="Figures/Spell125/Captions"]
+position = Vector2(5246, 1826)
+texture = ExtResource("spell125_text_damaged_column")
+centered = false
+metadata/registry_id = "spell125_text_damaged_column"
+metadata/source_layer_id = 211
+
+[node name="spell125_text_arrival" type="Sprite2D" parent="Figures/Spell125/Captions"]
+position = Vector2(4339, 1076)
+texture = ExtResource("spell125_text_arrival")
+centered = false
+metadata/registry_id = "spell125_text_arrival"
+metadata/source_layer_id = 213
+
+[node name="spell125_text_osiris" type="Sprite2D" parent="Figures/Spell125/Captions"]
+position = Vector2(1080, 1088)
+texture = ExtResource("spell125_text_osiris")
+centered = false
+metadata/registry_id = "spell125_text_osiris"
+metadata/source_layer_id = 214
+
+[node name="spell125_text_altar" type="Sprite2D" parent="Figures/Spell125/Captions"]
+position = Vector2(1992, 1669)
+texture = ExtResource("spell125_text_altar")
+centered = false
+metadata/registry_id = "spell125_text_altar"
+metadata/source_layer_id = 215
+
+[node name="spell125_text_genii" type="Sprite2D" parent="Figures/Spell125/Captions"]
+position = Vector2(2222, 1287)
+texture = ExtResource("spell125_text_genii")
+centered = false
+metadata/registry_id = "spell125_text_genii"
+metadata/source_layer_id = 216
+
+[node name="spell125_text_thoth" type="Sprite2D" parent="Figures/Spell125/Captions"]
+position = Vector2(2466, 1120)
+texture = ExtResource("spell125_text_thoth")
+centered = false
+metadata/registry_id = "spell125_text_thoth"
+metadata/source_layer_id = 217
+
+[node name="spell125_text_balance" type="Sprite2D" parent="Figures/Spell125/Captions"]
+position = Vector2(3100, 1143)
+texture = ExtResource("spell125_text_balance")
+centered = false
+metadata/registry_id = "spell125_text_balance"
+metadata/source_layer_id = 218
+
+[node name="spell125_text_attendant" type="Sprite2D" parent="Figures/Spell125/Captions"]
+position = Vector2(3844, 1845)
+texture = ExtResource("spell125_text_attendant")
+centered = false
+metadata/registry_id = "spell125_text_attendant"
+metadata/source_layer_id = 226
+
+[node name="spell125_text_deities" type="Sprite2D" parent="Figures/Spell125/Captions"]
+position = Vector2(2247, 1899)
+texture = ExtResource("spell125_text_deities")
+centered = false
+metadata/registry_id = "spell125_text_deities"
+metadata/source_layer_id = 227
+
+[node name="Avatar" type="Node2D" parent="."]
+position = Vector2(5612, 2797)
+script = ExtResource("avatar")
+drawn_facing = -1
+
+[node name="Sprite" type="Sprite2D" parent="Avatar"]
+texture = ExtResource("spell125_adoring_deceased")
+offset = Vector2(0, -580)
+
+[node name="Camera" type="Camera2D" parent="."]
+position = Vector2(5612, 2689)
+
+[node name="HUD" type="CanvasLayer" parent="."]
+script = ExtResource("hud")
+
+[node name="Hitboxes" type="Node2D" parent="."]
+
+[node name="spell125_maat" type="Area2D" parent="Hitboxes"]
+position = Vector2(4808.0, 2131.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_maat"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_maat"]
+shape = SubResource("hitbox_spell125_maat")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_balance_post_and_plummet" type="Area2D" parent="Hitboxes"]
+position = Vector2(3624.0, 2253.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_balance_post_and_plummet"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_balance_post_and_plummet"]
+shape = SubResource("hitbox_spell125_balance_post_and_plummet")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_balance_beam" type="Area2D" parent="Hitboxes"]
+position = Vector2(3627.0, 1783.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_balance_beam"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_balance_beam"]
+shape = SubResource("hitbox_spell125_balance_beam")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_plummet" type="Area2D" parent="Hitboxes"]
+position = Vector2(3569.0, 1814.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_plummet"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_plummet"]
+shape = SubResource("hitbox_spell125_plummet")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_right_pan_and_suspension" type="Area2D" parent="Hitboxes"]
+position = Vector2(4283.0, 2163.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_right_pan_and_suspension"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_right_pan_and_suspension"]
+shape = SubResource("hitbox_spell125_right_pan_and_suspension")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_left_pan_and_suspension" type="Area2D" parent="Hitboxes"]
+position = Vector2(2995.0, 2160.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_left_pan_and_suspension"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_left_pan_and_suspension"]
+shape = SubResource("hitbox_spell125_left_pan_and_suspension")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_baboon" type="Area2D" parent="Hitboxes"]
+position = Vector2(3653.0, 1597.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_baboon"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_baboon"]
+shape = SubResource("hitbox_spell125_baboon")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_heart" type="Area2D" parent="Hitboxes"]
+position = Vector2(4284.0, 2412.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_heart"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_heart"]
+shape = SubResource("hitbox_spell125_heart")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_maat_figure_in_pan" type="Area2D" parent="Hitboxes"]
+position = Vector2(2990.0, 2354.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_maat_figure_in_pan"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_maat_figure_in_pan"]
+shape = SubResource("hitbox_spell125_maat_figure_in_pan")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_scale_attendant" type="Area2D" parent="Hitboxes"]
+position = Vector2(3764.0, 2368.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_scale_attendant"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_scale_attendant"]
+shape = SubResource("hitbox_spell125_scale_attendant")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_anubis" type="Area2D" parent="Hitboxes"]
+position = Vector2(3227.0, 2408.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_anubis"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_anubis"]
+shape = SubResource("hitbox_spell125_anubis")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_attendant" type="Area2D" parent="Hitboxes"]
+position = Vector2(4452.0, 2538.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_attendant"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_attendant"]
+shape = SubResource("hitbox_spell125_attendant")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_kneeling_deities" type="Area2D" parent="Hitboxes"]
+position = Vector2(2310.0, 1797.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_kneeling_deities"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_kneeling_deities"]
+shape = SubResource("hitbox_spell125_kneeling_deities")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_lion_sign" type="Area2D" parent="Hitboxes"]
+position = Vector2(2316.0, 2010.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_lion_sign"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_lion_sign"]
+shape = SubResource("hitbox_spell125_lion_sign")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_lotus_offering_table" type="Area2D" parent="Hitboxes"]
+position = Vector2(1834.0, 2191.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_lotus_offering_table"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_lotus_offering_table"]
+shape = SubResource("hitbox_spell125_lotus_offering_table")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_funerary_genii" type="Area2D" parent="Hitboxes"]
+position = Vector2(1836.0, 1454.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_funerary_genii"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_funerary_genii"]
+shape = SubResource("hitbox_spell125_funerary_genii")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_thoth" type="Area2D" parent="Hitboxes"]
+position = Vector2(2638.0, 2321.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_thoth"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_thoth"]
+shape = SubResource("hitbox_spell125_thoth")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_staff" type="Area2D" parent="Hitboxes"]
+position = Vector2(2477.0, 2437.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_staff"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_staff"]
+shape = SubResource("hitbox_spell125_staff")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_ammit" type="Area2D" parent="Hitboxes"]
+position = Vector2(2210.0, 2449.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_ammit"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_ammit"]
+shape = SubResource("hitbox_spell125_ammit")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_osiris_shrine" type="Area2D" parent="Hitboxes"]
+position = Vector2(1067.0, 1818.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_osiris_shrine"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_osiris_shrine"]
+shape = SubResource("hitbox_spell125_osiris_shrine")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_dais" type="Area2D" parent="Hitboxes"]
+position = Vector2(1044.0, 2616.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_dais"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_dais"]
+shape = SubResource("hitbox_spell125_dais")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_draped_standard" type="Area2D" parent="Hitboxes"]
+position = Vector2(1360.0, 1990.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_draped_standard"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_draped_standard"]
+shape = SubResource("hitbox_spell125_draped_standard")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_osiris" type="Area2D" parent="Hitboxes"]
+position = Vector2(940.0, 1828.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_osiris"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_osiris"]
+shape = SubResource("hitbox_spell125_osiris")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_judges_platform" type="Area2D" parent="Hitboxes"]
+position = Vector2(3860.0, 971.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_judges_platform"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_judges_platform"]
+shape = SubResource("hitbox_spell125_judges_platform")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_worshipper" type="Area2D" parent="Hitboxes"]
+position = Vector2(5836.0, 942.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_worshipper"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_worshipper"]
+shape = SubResource("hitbox_spell125_worshipper")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_offering_stand" type="Area2D" parent="Hitboxes"]
+position = Vector2(5676.0, 944.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_offering_stand"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_offering_stand"]
+shape = SubResource("hitbox_spell125_offering_stand")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_assessor_42" type="Area2D" parent="Hitboxes"]
+position = Vector2(5538.0, 930.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_assessor_42"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_assessor_42"]
+shape = SubResource("hitbox_spell125_assessor_42")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_assessor_41" type="Area2D" parent="Hitboxes"]
+position = Vector2(5415.0, 936.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_assessor_41"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_assessor_41"]
+shape = SubResource("hitbox_spell125_assessor_41")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_assessor_40" type="Area2D" parent="Hitboxes"]
+position = Vector2(5291.0, 934.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_assessor_40"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_assessor_40"]
+shape = SubResource("hitbox_spell125_assessor_40")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_assessor_39" type="Area2D" parent="Hitboxes"]
+position = Vector2(5175.0, 938.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_assessor_39"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_assessor_39"]
+shape = SubResource("hitbox_spell125_assessor_39")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_assessor_38" type="Area2D" parent="Hitboxes"]
+position = Vector2(5045.0, 936.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_assessor_38"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_assessor_38"]
+shape = SubResource("hitbox_spell125_assessor_38")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_assessor_37" type="Area2D" parent="Hitboxes"]
+position = Vector2(4923.0, 944.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_assessor_37"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_assessor_37"]
+shape = SubResource("hitbox_spell125_assessor_37")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_assessor_36" type="Area2D" parent="Hitboxes"]
+position = Vector2(4815.0, 944.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_assessor_36"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_assessor_36"]
+shape = SubResource("hitbox_spell125_assessor_36")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_assessor_35" type="Area2D" parent="Hitboxes"]
+position = Vector2(4711.0, 944.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_assessor_35"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_assessor_35"]
+shape = SubResource("hitbox_spell125_assessor_35")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_assessor_34" type="Area2D" parent="Hitboxes"]
+position = Vector2(4603.0, 948.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_assessor_34"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_assessor_34"]
+shape = SubResource("hitbox_spell125_assessor_34")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_assessor_33" type="Area2D" parent="Hitboxes"]
+position = Vector2(4486.0, 956.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_assessor_33"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_assessor_33"]
+shape = SubResource("hitbox_spell125_assessor_33")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_assessor_32" type="Area2D" parent="Hitboxes"]
+position = Vector2(4396.0, 955.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_assessor_32"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_assessor_32"]
+shape = SubResource("hitbox_spell125_assessor_32")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_assessor_31" type="Area2D" parent="Hitboxes"]
+position = Vector2(4288.0, 954.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_assessor_31"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_assessor_31"]
+shape = SubResource("hitbox_spell125_assessor_31")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_assessor_30" type="Area2D" parent="Hitboxes"]
+position = Vector2(4180.0, 955.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_assessor_30"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_assessor_30"]
+shape = SubResource("hitbox_spell125_assessor_30")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_assessor_29" type="Area2D" parent="Hitboxes"]
+position = Vector2(4077.0, 956.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_assessor_29"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_assessor_29"]
+shape = SubResource("hitbox_spell125_assessor_29")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_assessor_28" type="Area2D" parent="Hitboxes"]
+position = Vector2(3976.0, 959.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_assessor_28"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_assessor_28"]
+shape = SubResource("hitbox_spell125_assessor_28")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_assessor_27" type="Area2D" parent="Hitboxes"]
+position = Vector2(3884.0, 961.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_assessor_27"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_assessor_27"]
+shape = SubResource("hitbox_spell125_assessor_27")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_assessor_26" type="Area2D" parent="Hitboxes"]
+position = Vector2(3793.0, 959.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_assessor_26"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_assessor_26"]
+shape = SubResource("hitbox_spell125_assessor_26")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_assessor_25" type="Area2D" parent="Hitboxes"]
+position = Vector2(3703.0, 959.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_assessor_25"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_assessor_25"]
+shape = SubResource("hitbox_spell125_assessor_25")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_assessor_24" type="Area2D" parent="Hitboxes"]
+position = Vector2(3607.0, 960.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_assessor_24"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_assessor_24"]
+shape = SubResource("hitbox_spell125_assessor_24")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_assessor_23" type="Area2D" parent="Hitboxes"]
+position = Vector2(3517.0, 960.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_assessor_23"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_assessor_23"]
+shape = SubResource("hitbox_spell125_assessor_23")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_assessor_22" type="Area2D" parent="Hitboxes"]
+position = Vector2(3423.0, 964.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_assessor_22"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_assessor_22"]
+shape = SubResource("hitbox_spell125_assessor_22")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_assessor_21" type="Area2D" parent="Hitboxes"]
+position = Vector2(3335.0, 964.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_assessor_21"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_assessor_21"]
+shape = SubResource("hitbox_spell125_assessor_21")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_assessor_20" type="Area2D" parent="Hitboxes"]
+position = Vector2(3238.0, 967.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_assessor_20"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_assessor_20"]
+shape = SubResource("hitbox_spell125_assessor_20")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_assessor_19" type="Area2D" parent="Hitboxes"]
+position = Vector2(3134.0, 968.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_assessor_19"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_assessor_19"]
+shape = SubResource("hitbox_spell125_assessor_19")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_assessor_18" type="Area2D" parent="Hitboxes"]
+position = Vector2(3039.0, 967.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_assessor_18"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_assessor_18"]
+shape = SubResource("hitbox_spell125_assessor_18")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_assessor_17" type="Area2D" parent="Hitboxes"]
+position = Vector2(2940.0, 974.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_assessor_17"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_assessor_17"]
+shape = SubResource("hitbox_spell125_assessor_17")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_assessor_16" type="Area2D" parent="Hitboxes"]
+position = Vector2(2843.0, 976.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_assessor_16"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_assessor_16"]
+shape = SubResource("hitbox_spell125_assessor_16")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_assessor_15" type="Area2D" parent="Hitboxes"]
+position = Vector2(2765.0, 978.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_assessor_15"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_assessor_15"]
+shape = SubResource("hitbox_spell125_assessor_15")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_assessor_14" type="Area2D" parent="Hitboxes"]
+position = Vector2(2684.0, 975.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_assessor_14"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_assessor_14"]
+shape = SubResource("hitbox_spell125_assessor_14")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_assessor_13" type="Area2D" parent="Hitboxes"]
+position = Vector2(2593.0, 975.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_assessor_13"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_assessor_13"]
+shape = SubResource("hitbox_spell125_assessor_13")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_assessor_12" type="Area2D" parent="Hitboxes"]
+position = Vector2(2526.0, 988.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_assessor_12"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_assessor_12"]
+shape = SubResource("hitbox_spell125_assessor_12")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_assessor_11" type="Area2D" parent="Hitboxes"]
+position = Vector2(2458.0, 981.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_assessor_11"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_assessor_11"]
+shape = SubResource("hitbox_spell125_assessor_11")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_assessor_10" type="Area2D" parent="Hitboxes"]
+position = Vector2(2389.0, 982.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_assessor_10"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_assessor_10"]
+shape = SubResource("hitbox_spell125_assessor_10")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_assessor_09" type="Area2D" parent="Hitboxes"]
+position = Vector2(2321.0, 983.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_assessor_09"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_assessor_09"]
+shape = SubResource("hitbox_spell125_assessor_09")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_assessor_08" type="Area2D" parent="Hitboxes"]
+position = Vector2(2251.0, 987.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_assessor_08"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_assessor_08"]
+shape = SubResource("hitbox_spell125_assessor_08")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_assessor_07" type="Area2D" parent="Hitboxes"]
+position = Vector2(2185.0, 985.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_assessor_07"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_assessor_07"]
+shape = SubResource("hitbox_spell125_assessor_07")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_assessor_06" type="Area2D" parent="Hitboxes"]
+position = Vector2(2110.0, 989.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_assessor_06"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_assessor_06"]
+shape = SubResource("hitbox_spell125_assessor_06")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_assessor_05" type="Area2D" parent="Hitboxes"]
+position = Vector2(2037.0, 991.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_assessor_05"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_assessor_05"]
+shape = SubResource("hitbox_spell125_assessor_05")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_assessor_04" type="Area2D" parent="Hitboxes"]
+position = Vector2(1973.0, 995.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_assessor_04"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_assessor_04"]
+shape = SubResource("hitbox_spell125_assessor_04")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_assessor_03" type="Area2D" parent="Hitboxes"]
+position = Vector2(1904.0, 993.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_assessor_03"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_assessor_03"]
+shape = SubResource("hitbox_spell125_assessor_03")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_assessor_02" type="Area2D" parent="Hitboxes"]
+position = Vector2(1833.0, 996.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_assessor_02"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_assessor_02"]
+shape = SubResource("hitbox_spell125_assessor_02")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_assessor_01" type="Area2D" parent="Hitboxes"]
+position = Vector2(1764.0, 997.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_assessor_01"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_assessor_01"]
+shape = SubResource("hitbox_spell125_assessor_01")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_cornice_line" type="Area2D" parent="Hitboxes"]
+position = Vector2(3095.0, 314.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_cornice_line"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_cornice_line"]
+shape = SubResource("hitbox_spell125_cornice_line")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_roof_motifs" type="Area2D" parent="Hitboxes"]
+position = Vector2(3243.0, 303.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_roof_motifs"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_roof_motifs"]
+shape = SubResource("hitbox_spell125_roof_motifs")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_eastern_guardian" type="Area2D" parent="Hitboxes"]
+position = Vector2(5979.0, 318.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_eastern_guardian"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_eastern_guardian"]
+shape = SubResource("hitbox_spell125_eastern_guardian")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_central_emblem" type="Area2D" parent="Hitboxes"]
+position = Vector2(3162.0, 318.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_central_emblem"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_central_emblem"]
+shape = SubResource("hitbox_spell125_central_emblem")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_western_guardian" type="Area2D" parent="Hitboxes"]
+position = Vector2(416.0, 332.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_western_guardian"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_western_guardian"]
+shape = SubResource("hitbox_spell125_western_guardian")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_text_damaged_column" type="Area2D" parent="Hitboxes"]
+position = Vector2(5316.0, 2302.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_text_damaged_column"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_text_damaged_column"]
+shape = SubResource("hitbox_spell125_text_damaged_column")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_text_arrival" type="Area2D" parent="Hitboxes"]
+position = Vector2(5169.0, 1748.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_text_arrival"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_text_arrival"]
+shape = SubResource("hitbox_spell125_text_arrival")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_text_osiris" type="Area2D" parent="Hitboxes"]
+position = Vector2(1292.0, 1310.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_text_osiris"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_text_osiris"]
+shape = SubResource("hitbox_spell125_text_osiris")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_text_altar" type="Area2D" parent="Hitboxes"]
+position = Vector2(2088.0, 1819.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_text_altar"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_text_altar"]
+shape = SubResource("hitbox_spell125_text_altar")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_text_genii" type="Area2D" parent="Hitboxes"]
+position = Vector2(2306.0, 1361.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_text_genii"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_text_genii"]
+shape = SubResource("hitbox_spell125_text_genii")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_text_thoth" type="Area2D" parent="Hitboxes"]
+position = Vector2(2642.0, 1406.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_text_thoth"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_text_thoth"]
+shape = SubResource("hitbox_spell125_text_thoth")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_text_balance" type="Area2D" parent="Hitboxes"]
+position = Vector2(3308.0, 1361.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_text_balance"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_text_balance"]
+shape = SubResource("hitbox_spell125_text_balance")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_text_attendant" type="Area2D" parent="Hitboxes"]
+position = Vector2(3884.0, 1889.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_text_attendant"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_text_attendant"]
+shape = SubResource("hitbox_spell125_text_attendant")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell125_text_deities" type="Area2D" parent="Hitboxes"]
+position = Vector2(2307.0, 1939.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell125_text_deities"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell125_text_deities"]
+shape = SubResource("hitbox_spell125_text_deities")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)

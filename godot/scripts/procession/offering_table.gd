@@ -93,8 +93,8 @@ func setup(table: Dictionary, goose: Rect2, ground_y: float, nodes: Dictionary, 
 		if pieces[id].kind == "frond" and table.has("frond_rest"):
 			_last_park[id] = nodes[id].position + _tex[id].get_size() / 2.0
 
-	_placed_layer = $layout
-	_bodies = $bodies
+	_placed_layer = $Layout
+	_bodies = $Bodies
 	for id in pieces.keys() + ["goose"]:
 		var item := MoveableObject.new()
 		add_child(item)

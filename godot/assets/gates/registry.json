@@ -1,926 +1,1283 @@
 {
+ "references": {
+  "Allen 1974": "Allen, T. G. The Book of the Dead or Going Forth by Day: Ideas of the Ancient Egyptians concerning the Hereafter as Expressed in Their Own Terms. SAOC 37. Chicago: University of Chicago Press, 1974. https://isac-assets.s3.amazonaws.com/isac-publications/saoc37.pdf (Spells 144-147 only.)",
+  "Davis 1894": "Davis, C. H. S. The Egyptian Book of the Dead: The Most Ancient and the Most Important of the Extant Religious Texts of Ancient Egypt. New York and London: G. P. Putnam's Sons, 1894. (English version of Pierret's French translation of P. Turin 1791.) https://sites.dlib.nyu.edu/viewer/books/ifa_egypt000060",
+  "DemonBase": "DemonBase, the database of the Ancient Egyptian Demonology Project, University of Chicago. Cited by entry number. Data export demons.tab, accessed 2026-11-12. (Entries for spells 144-147 only.)"
+ },
  "entries": {
-  "spell146_p65_1_gate": {
-   "name": "Fifth portal",
+  "spell146_p65_5_gate": {
+   "name": "First portal",
    "descriptions": {
-    "default": "The fifth portal of the House of Osiris, topped with a long snake. Inside crouches an ibis-headed god, holding a knife. The portal is called \"The Flame, the Mistress of the Breaths for the Nostrils.\" Its keeper is \"the one who puts the foes to flight.\""
-   }
+    "default": "\"Lady of Trembling, lofty of battlements, supreme one, lady of breaking and entering, uttering proclamations, warding off storms, rescuing the plundered whether present or far away.\""
+   },
+   "reference": "Allen 1974"
   },
-  "spell146_p65_1_figure": {
-   "name": "Fifth portal guardian",
+  "spell146_p65_5_figure": {
+   "name": "Keeper of the first portal",
    "descriptions": {
-    "default": "The fifth portal of the House of Osiris, topped with a long snake. Inside crouches an ibis-headed god, holding a knife. The portal is called \"The Flame, the Mistress of the Breaths for the Nostrils.\" Its keeper is \"the one who puts the foes to flight.\""
-   }
-  },
-  "spell146_p65_2_gate": {
-   "name": "Fourth portal",
-   "descriptions": {
-    "default": "The fourth portal of the House of Osiris, topped with a long snake. Inside crouches a bull-headed god, holding a knife. The portal is called \"The one who is in possession of the Sword, the Regent of the Earth.\" Its keeper is \"the one who strikes the cattle.\""
-   }
-  },
-  "spell146_p65_2_figure": {
-   "name": "Fourth portal guardian",
-   "descriptions": {
-    "default": "The fourth portal of the House of Osiris, topped with a long snake. Inside crouches a bull-headed god, holding a knife. The portal is called \"The one who is in possession of the Sword, the Regent of the Earth.\" Its keeper is \"the one who strikes the cattle.\""
-   }
-  },
-  "spell146_p65_3_gate": {
-   "name": "Third portal",
-   "descriptions": {
-    "default": "The third portal of the House of Osiris, topped with a long snake. Inside crouches a monkey-headed god, holding a knife. The portal is called \"The Mistress of the Altars, the Mistress of the Offerings.\" Its keeper is \"the one who performs the unction.\""
-   }
-  },
-  "spell146_p65_3_figure": {
-   "name": "Third portal guardian",
-   "descriptions": {
-    "default": "The third portal of the House of Osiris, topped with a long snake. Inside crouches a monkey-headed god, holding a knife. The portal is called \"The Mistress of the Altars, the Mistress of the Offerings.\" Its keeper is \"the one who performs the unction.\""
-   }
+    "default": "A crocodile-headed god crouches inside the first portal as its keeper. \"Terrible\" is his name."
+   },
+   "reference": "Allen 1974; DemonBase 3724 \"Terrible-one\" (Davis: \"Veneration\"); Davis 1894 for the head"
   },
   "spell146_p65_4_gate": {
    "name": "Second portal",
    "descriptions": {
-    "default": "The second portal of the House of Osiris, topped with an ankh among six vipers. Inside crouches a man-headed god with three vipers on his head, holding a knife. The portal is called \"The Mistress of Heaven, the Regent of Earth.\" Its keeper is \"Bringing forth of Ptah.\""
-   }
+    "default": "\"Lady of the Sky, mistress of the Two Lands, wailer, lady of all mankind, reckoning everyone.\""
+   },
+   "reference": "Allen 1974"
   },
   "spell146_p65_4_figure": {
-   "name": "Second portal guardian",
+   "name": "Keeper of the second portal",
    "descriptions": {
-    "default": "The second portal of the House of Osiris, topped with an ankh among six vipers. Inside crouches a man-headed god with three vipers on his head, holding a knife. The portal is called \"The Mistress of Heaven, the Regent of Earth.\" Its keeper is \"Bringing forth of Ptah.\""
-   }
+    "default": "A man-headed god with three vipers on his head crouches inside the second portal as its keeper. \"Child of the Posterior\" is his name."
+   },
+   "reference": "Allen 1974; DemonBase 3726 \"Creature-of-charms\" settles neither (Davis: \"Bringing forth of Ptah\"); Davis 1894 for the head"
   },
-  "spell146_p65_5_gate": {
-   "name": "First portal",
+  "spell146_p65_3_gate": {
+   "name": "Third portal",
    "descriptions": {
-    "default": "The first portal of the House of Osiris, topped with a long snake. Inside crouches a crocodile-headed god, holding a knife. The portal is called \"The mistress of the Terror, the height of walls.\" Its keeper is \"Veneration.\""
-   }
+    "default": "\"Lady of the Altar, great of offerings, refreshing every God in her on the day of sailing upstream to Abydos.\""
+   },
+   "reference": "Allen 1974"
   },
-  "spell146_p65_5_figure": {
-   "name": "First portal guardian",
+  "spell146_p65_3_figure": {
+   "name": "Keeper of the third portal",
    "descriptions": {
-    "default": "The first portal of the House of Osiris, topped with a long snake. Inside crouches a crocodile-headed god, holding a knife. The portal is called \"The mistress of the Terror, the height of walls.\" Its keeper is \"Veneration.\""
-   }
+    "default": "A monkey-headed god crouches inside the third portal as its keeper. \"Brightener\" is his name."
+   },
+   "reference": "Allen 1974; DemonBase 3728 \"Sweetener\" settles neither (Davis: \"the one who performs the unction\"); Davis 1894 for the head"
   },
-  "spell146_p66_1_gate": {
-   "name": "Twelfth portal",
+  "spell146_p65_2_gate": {
+   "name": "Fourth portal",
    "descriptions": {
-    "default": "The twelfth portal of the House of Osiris, topped with a large snake. Inside crouches a god with a cobra for a head, holding a knife. The portal is called \"The one that the earth invokes, the Mistress of the Shades.\""
-   }
+    "default": "\"Mighty of Knives, mistress of the Two Lands, punishing the enemies of the weary-hearted one, fulfilling the wishes of him who is void of evil.\""
+   },
+   "reference": "Allen 1974"
   },
-  "spell146_p66_1_figure": {
-   "name": "Twelfth portal guardian",
+  "spell146_p65_2_figure": {
+   "name": "Keeper of the fourth portal",
    "descriptions": {
-    "default": "The twelfth portal of the House of Osiris, topped with a large snake. Inside crouches a god with a cobra for a head, holding a knife. The portal is called \"The one that the earth invokes, the Mistress of the Shades.\""
-   }
+    "default": "A bull-headed god crouches inside the fourth portal as its keeper. \"Longhorn\" is his name."
+   },
+   "reference": "Allen 1974; DemonBase 3730 \"Long-horned-Bull\" (Davis: \"the one who strikes the cattle\"); Davis 1894 for the head"
   },
-  "spell146_p66_2_gate": {
-   "name": "Eleventh portal",
+  "spell146_p65_1_gate": {
+   "name": "Fifth portal",
    "descriptions": {
-    "default": "The eleventh portal of the House of Osiris, topped with two cats. Inside crouches a monkey-headed god, holding a knife. The portal is called \"The god of the Sword, the Flame Destroying the Foes, the Terror of every Gate.\""
-   }
+    "default": "\"Fire, lady of magic, joyous one to whom prayer is made without a bald-head coming near her.\""
+   },
+   "reference": "Allen 1974"
   },
-  "spell146_p66_2_figure": {
-   "name": "Eleventh portal guardian",
+  "spell146_p65_1_figure": {
+   "name": "Keeper of the fifth portal",
    "descriptions": {
-    "default": "The eleventh portal of the House of Osiris, topped with two cats. Inside crouches a monkey-headed god, holding a knife. The portal is called \"The god of the Sword, the Flame Destroying the Foes, the Terror of every Gate.\""
-   }
-  },
-  "spell146_p66_3_gate": {
-   "name": "Tenth portal",
-   "descriptions": {
-    "default": "The tenth portal of the House of Osiris, topped with a large snake. Inside crouches a man-headed god with two tall feathers and ram's horns, holding a knife. The portal is called \"The One who makes longer the outcries.\" Its keeper is \"the great one who locks up.\""
-   }
-  },
-  "spell146_p66_3_figure": {
-   "name": "Tenth portal guardian",
-   "descriptions": {
-    "default": "The tenth portal of the House of Osiris, topped with a large snake. Inside crouches a man-headed god with two tall feathers and ram's horns, holding a knife. The portal is called \"The One who makes longer the outcries.\" Its keeper is \"the great one who locks up.\""
-   }
-  },
-  "spell146_p66_4_gate": {
-   "name": "Ninth portal",
-   "descriptions": {
-    "default": "The ninth portal of the House of Osiris, topped with a long snake. Inside crouches a hare-headed god, holding a knife. The portal is called \"The One who is on the forehead of the Mistress of the Forces.\" Its keeper is \"Djetes.\""
-   }
-  },
-  "spell146_p66_4_figure": {
-   "name": "Ninth portal guardian",
-   "descriptions": {
-    "default": "The ninth portal of the House of Osiris, topped with a long snake. Inside crouches a hare-headed god, holding a knife. The portal is called \"The One who is on the forehead of the Mistress of the Forces.\" Its keeper is \"Djetes.\""
-   }
-  },
-  "spell146_p66_5_gate": {
-   "name": "Eighth portal",
-   "descriptions": {
-    "default": "The eighth portal of the House of Osiris, topped with a snake with a sun disc and horns. Inside crouches a man-headed god, holding a knife. The portal is called \"The Blazing Flame which is not extinguished.\" Its keeper is \"the one who protects his body.\""
-   }
-  },
-  "spell146_p66_5_figure": {
-   "name": "Eighth portal guardian",
-   "descriptions": {
-    "default": "The eighth portal of the House of Osiris, topped with a snake with a sun disc and horns. Inside crouches a man-headed god, holding a knife. The portal is called \"The Blazing Flame which is not extinguished.\" Its keeper is \"the one who protects his body.\""
-   }
-  },
-  "spell146_p66_6_gate": {
-   "name": "Seventh portal",
-   "descriptions": {
-    "default": "The seventh portal of the House of Osiris, topped with a long snake. Inside crouches a man-headed god, holding a knife. The portal is called \"The Cloud Enveloping the Fainting One.\" Its keeper is \"Kenti.\""
-   }
-  },
-  "spell146_p66_6_figure": {
-   "name": "Seventh portal guardian",
-   "descriptions": {
-    "default": "The seventh portal of the House of Osiris, topped with a long snake. Inside crouches a man-headed god, holding a knife. The portal is called \"The Cloud Enveloping the Fainting One.\" Its keeper is \"Kenti.\""
-   }
+    "default": "An ibis-headed god crouches inside the fifth portal as its keeper. \"Slayer of the Foe\" is his name."
+   },
+   "reference": "Allen 1974; DemonBase 3732 \"Narrow-bended\" settles neither (Davis: \"the one who puts the foes to flight\"); Davis 1894 for the head"
   },
   "spell146_p66_7_gate": {
    "name": "Sixth portal",
    "descriptions": {
-    "default": "The sixth portal of the House of Osiris, topped with six vipers. Inside crouches a god with a cobra for a head, holding a knife. The portal is called \"The Mistress of the Prostrations.\" Its keeper is \"the Gatherer.\""
-   }
+    "default": "\"Lady of Darkness, loud-roaring, whose length and breadth are unknown, whose character has not been recognized from her beginning, on whom are snakes innumerable, she who was born before the weary-hearted one.\""
+   },
+   "reference": "Allen 1974"
   },
   "spell146_p66_7_figure": {
-   "name": "Sixth portal guardian",
+   "name": "Keeper of the sixth portal",
    "descriptions": {
-    "default": "The sixth portal of the House of Osiris, topped with six vipers. Inside crouches a god with a cobra for a head, holding a knife. The portal is called \"The Mistress of the Prostrations.\" Its keeper is \"the Gatherer.\""
-   }
+    "default": "A cobra-headed god crouches inside the sixth portal as its keeper. \"the Gatherer\" is his name."
+   },
+   "reference": "Davis 1894; DemonBase 3734 \"Uniter\" (Allen: \"Gangster\", uncertain)"
   },
-  "spell146_p67_1_gate": {
-   "name": "Fifteenth portal",
+  "spell146_p66_6_gate": {
+   "name": "Seventh portal",
    "descriptions": {
-    "default": "The fifteenth portal of the House of Osiris, topped with a row of plumes. Inside crouches a man-headed god, holding a knife. The portal is called \"The Red Soul in Mourning, investigator going out by night.\""
-   }
+    "default": "\"Iggyt Veiling the Weary One, mourner who desires to conceal the body.\""
+   },
+   "reference": "Allen 1974"
   },
-  "spell146_p67_1_figure": {
-   "name": "Fifteenth portal guardian",
+  "spell146_p66_6_figure": {
+   "name": "Keeper of the seventh portal",
    "descriptions": {
-    "default": "The fifteenth portal of the House of Osiris, topped with a row of plumes. Inside crouches a man-headed god, holding a knife. The portal is called \"The Red Soul in Mourning, investigator going out by night.\""
-   }
+    "default": "A man-headed god crouches inside the seventh portal as its keeper. \"He of Iknt\" is his name."
+   },
+   "reference": "Allen 1974; DemonBase 3736 \"Scooper\" settles neither (Davis: \"Kenti\"); Davis 1894 for the head"
   },
-  "spell146_p67_2_gate": {
-   "name": "Fourteenth portal",
+  "spell146_p66_5_gate": {
+   "name": "Eighth portal",
    "descriptions": {
-    "default": "The fourteenth portal of the House of Osiris, topped with a snake and a bull's head. Inside crouches a hawk-headed god, holding a knife. The portal is called \"The Mistress of Terror, slaughtering amidst blood.\""
-   }
+    "default": "\"Kindler of Flames, Quencher of Embers, skilled in use of fire, quick of hand, slaying without compunction, whom none want to pass through for fear of her pain.\""
+   },
+   "reference": "Allen 1974"
   },
-  "spell146_p67_2_figure": {
-   "name": "Fourteenth portal guardian",
+  "spell146_p66_5_figure": {
+   "name": "Keeper of the eighth portal",
    "descriptions": {
-    "default": "The fourteenth portal of the House of Osiris, topped with a snake and a bull's head. Inside crouches a hawk-headed god, holding a knife. The portal is called \"The Mistress of Terror, slaughtering amidst blood.\""
-   }
+    "default": "A man-headed god crouches inside the eighth portal as its keeper. \"He Who Protects His Body\" is his name."
+   },
+   "reference": "Allen 1974; Davis 1894 agrees (\"the one who protects his body\"); Davis 1894 for the head"
+  },
+  "spell146_p66_4_gate": {
+   "name": "Ninth portal",
+   "descriptions": {
+    "default": "\"Foremost One, tranquil Possessor of Power, Offspring of her lord, 350 hundred-cubits in circumference, sown with green stone of Upper Egypt, who raises up the Enterer and veils the weary one, who makes gifts to her Lord every day.\""
+   },
+   "reference": "Allen 1974"
+  },
+  "spell146_p66_4_figure": {
+   "name": "Keeper of the ninth portal",
+   "descriptions": {
+    "default": "A hare-headed god crouches inside the ninth portal as its keeper. \"Fowler\" is his name."
+   },
+   "reference": "Allen 1974; DemonBase 3740 \"Catcher\" (Davis: \"Djetes\"); Davis 1894 for the head"
+  },
+  "spell146_p66_3_gate": {
+   "name": "Tenth portal",
+   "descriptions": {
+    "default": "\"Loud-voiced, awaker of outcries, laugher, terrible in awesomeness, she who repels not him that is within her.\""
+   },
+   "reference": "Allen 1974"
+  },
+  "spell146_p66_3_figure": {
+   "name": "Keeper of the tenth portal",
+   "descriptions": {
+    "default": "A man-headed god with two tall feathers and ram's horns crouches inside the tenth portal as its keeper. \"Great Embracer\" is his name."
+   },
+   "reference": "Allen 1974; DemonBase 3742 \"Great-Embracer\" (Davis: \"the great one who locks up\"); Davis 1894 for the head"
+  },
+  "spell146_p66_2_gate": {
+   "name": "Eleventh portal",
+   "descriptions": {
+    "default": "\"She Who Cuts Repeatedly, who burns rebels, terror of every portal, to whom jubilation is made each day at twilight.\""
+   },
+   "reference": "Allen 1974"
+  },
+  "spell146_p66_2_figure": {
+   "name": "Keeper of the eleventh portal",
+   "descriptions": {
+    "default": "A monkey-headed god crouches inside the eleventh portal as its keeper. He is the veiler of the Weary One."
+   },
+   "reference": "Allen 1974 (the portal \"is under the inspection of the veiler of the weary one\"); Davis 1894 for the head"
+  },
+  "spell146_p66_1_gate": {
+   "name": "Twelfth portal",
+   "descriptions": {
+    "default": "\"She Whom Her Two Lands Invoke, who annihilates them that come at dawn, bright one, lady of the blessed, hearkening to her Lord every day.\""
+   },
+   "reference": "Allen 1974"
+  },
+  "spell146_p66_1_figure": {
+   "name": "Keeper of the twelfth portal",
+   "descriptions": {
+    "default": "A cobra-headed god crouches inside the twelfth portal as its keeper. He is the veiler of the Weary One."
+   },
+   "reference": "Allen 1974 (the portal \"is under the inspection of the veiler of the weary one\"); Davis 1894 for the head"
   },
   "spell146_p67_3_gate": {
    "name": "Thirteenth portal",
    "descriptions": {
-    "default": "The thirteenth portal of the House of Osiris, topped with two seated figures of the Nile god. Inside crouches a crocodile-headed god with an ostrich feather, holding a knife. The portal is called \"The one who tows Isis.\""
-   }
+    "default": "\"She over Whom Isis Has Extended Her Arms, whom the inundation instructs in his secrets.\""
+   },
+   "reference": "Allen 1974"
   },
   "spell146_p67_3_figure": {
-   "name": "Thirteenth portal guardian",
+   "name": "Keeper of the thirteenth portal",
    "descriptions": {
-    "default": "The thirteenth portal of the House of Osiris, topped with two seated figures of the Nile god. Inside crouches a crocodile-headed god with an ostrich feather, holding a knife. The portal is called \"The one who tows Isis.\""
-   }
+    "default": "A crocodile-headed god with an ostrich feather crouches inside the thirteenth portal as its keeper. He is the veiler of the Weary One."
+   },
+   "reference": "Allen 1974 (the portal \"is under the inspection of the veiler of the weary one\"); Davis 1894 for the head"
+  },
+  "spell146_p67_2_gate": {
+   "name": "Fourteenth portal",
+   "descriptions": {
+    "default": "\"Lady of Wrath, dancing on red blood, for whom the Haker-feast is celebrated on the day of hearing wrongs.\""
+   },
+   "reference": "Allen 1974"
+  },
+  "spell146_p67_2_figure": {
+   "name": "Keeper of the fourteenth portal",
+   "descriptions": {
+    "default": "A hawk-headed god crouches inside the fourteenth portal as its keeper. He is the veiler of the Weary One."
+   },
+   "reference": "Allen 1974 (the portal \"is under the inspection of the veiler of the weary one\"); Davis 1894 for the head"
+  },
+  "spell146_p67_1_gate": {
+   "name": "Fifteenth portal",
+   "descriptions": {
+    "default": "\"Hostile Soul, red of eyelashes, cross-eyed one who goes forth by night, who seizes the rebel by his coil, who extends her arms to the weary-hearted one at his appointed instant, who comes back if she goes away.\""
+   },
+   "reference": "Allen 1974"
+  },
+  "spell146_p67_1_figure": {
+   "name": "Keeper of the fifteenth portal",
+   "descriptions": {
+    "default": "A man-headed god crouches inside the fifteenth portal as its keeper. He is the veiler of the Weary One."
+   },
+   "reference": "Allen 1974 (the portal \"is under the inspection of the veiler of the weary one\"); Davis 1894 for the head"
   },
   "spell144_room4_keeper": {
-   "name": "Fourth room keeper",
+   "name": "Keeper of the fourth gate",
    "descriptions": {
-    "default": "A dog-headed god kneels inside the fourth room, holding two knives, under a roof of blades and two cobras. He is the keeper of its door, \"repelling the multitudes of words.\""
+    "default": "A dog-headed god, \"Repulsive of Face, Gossiper\", is the keeper of the fourth gate."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974; Davis 1894 for the head; DemonBase 3612 \"Repellent-face and Many-voiced\""
   },
   "spell144_room3_keeper": {
-   "name": "Third room keeper",
+   "name": "Keeper of the third gate",
    "descriptions": {
-    "default": "A god with a scarab for a head kneels inside the third room, holding two knives, under a roof of blades and two cobras. He is the keeper of its door, \"eating the excrement of the one who reaches it.\""
+    "default": "A scarab-headed god, \"Eater of the Excrement of His Posterior\", is the keeper of the third gate."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974; Davis 1894 for the head; DemonBase 3609 \"Eater-of-Detritus-of-his-Rear\""
   },
   "spell144_room2_keeper": {
-   "name": "Second room keeper",
+   "name": "Keeper of the second gate",
    "descriptions": {
-    "default": "A crocodile-headed god kneels inside the second room, holding two knives, under a roof of blades and two cobras. He is the keeper of its door, \"Toun-ha.\""
+    "default": "A crocodile-headed god, \"Toun-ha\", is the keeper of the second gate."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Davis 1894; DemonBase 3606 dwn-ḥꜢ.t, which \"Toun-ha\" transliterates (Allen: \"Attentive\", uncertain)"
   },
   "spell144_room1_keeper": {
-   "name": "First room keeper",
+   "name": "Keeper of the first gate",
    "descriptions": {
-    "default": "A god kneels inside the first room, holding two knives, under a roof of blades and two cobras. He is the keeper of its door, \"overthrowing the multitude of the forms.\""
+    "default": "A god, \"Face-downward, Numerous of Shapes\", is the keeper of the first gate."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974; DemonBase 3603 \"Inverted-face-and-many-formed-One\" (Davis: \"overthrowing the multitude of the forms\"); Davis gives no head"
   },
   "spell144_room7_keeper": {
-   "name": "Seventh room keeper",
+   "name": "Keeper of the seventh gate",
    "descriptions": {
-    "default": "A god with a cobra for a head kneels inside the seventh room, holding two knives, under a roof of blades and two cobras. He is the keeper of its door, \"Mates-sen, their executioner.\""
+    "default": "A cobra-headed god, \"the Keenest of Them\", is the keeper of the seventh gate."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974; Davis 1894 for the head (uraeus); DemonBase 3621 \"Their-Sharpener\" (Davis: \"Mates-sen, their executioner\")"
   },
   "spell144_room6_keeper": {
-   "name": "Sixth room keeper",
+   "name": "Keeper of the sixth gate",
    "descriptions": {
-    "default": "A monkey-headed god sits inside the sixth room, holding two knives, under a roof of blades and two cobras. He is the keeper of its door, \"An-Ketitau-Kehabu-Kheru.\""
+    "default": "A monkey-headed god, \"Clawer of Bread, Violent of Voice\", is the keeper of the sixth gate."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974; Davis 1894 for the head; DemonBase 3618 \"Bread-scooper and violent voiced\""
   },
   "spell144_room5_keeper": {
-   "name": "Fifth room keeper",
+   "name": "Keeper of the fifth gate",
    "descriptions": {
-    "default": "A god with a round, front-facing head kneels inside the fifth room, holding two knives, under a roof of blades and two cobras. He is the keeper of its door, \"living upon reptiles.\""
+    "default": "A god with a round, front-facing head, \"the one who lives upon reptiles\", is the keeper of the fifth gate."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Davis 1894 (who leaves the head blank; head as drawn); DemonBase 3615 \"Living-on-worms\" (Allen: \"He Who Lives on Rotten Meat\")"
   },
   "spell144_room1": {
-   "name": "First room",
+   "name": "First gate",
    "descriptions": {
-    "default": "A god kneels inside the first room, holding two knives, under a roof of blades and two cobras. He is the keeper of its door, \"overthrowing the multitude of the forms.\""
+    "default": "The first gate."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974"
   },
   "spell144_room1_man": {
-   "name": "Man-headed god",
+   "name": "Guardian of the first gate",
    "descriptions": {
-    "default": "A man-headed god stands before the first room. The room has two attendants, its watcher, \"Smet\", and its herald, \"Sahatu-Kheru, the utterer of imprecations\"; which of them he is, is not known."
+    "default": "A man-headed god, \"Eavesdropper\", is the guardian of the first gate."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974; Davis 1894 for the head; DemonBase 3604 \"Overhearer\" (Davis: \"Smet\"); keeper, guardian, announcer from right to left after DemonBase"
   },
   "spell144_room1_hawk": {
-   "name": "Hawk-headed god",
+   "name": "Announcer of the first gate",
    "descriptions": {
-    "default": "A hawk-headed god stands before the first room. The room has two attendants, its watcher, \"Smet\", and its herald, \"Sahatu-Kheru, the utterer of imprecations\"; which of them he is, is not known."
+    "default": "A hawk-headed god, \"Sad of Voice\", is the announcer of the first gate."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974 (\"Sad\" uncertain); Davis 1894 for the head; DemonBase 3605 \"Loud-voiced-One\" settles neither (Davis: \"Sahatu-Kheru, the utterer of imprecations\"); keeper, guardian, announcer from right to left after DemonBase"
   },
   "spell144_room2": {
-   "name": "Second room",
+   "name": "Second gate",
    "descriptions": {
-    "default": "A crocodile-headed god kneels inside the second room, holding two knives, under a roof of blades and two cobras. He is the keeper of its door, \"Toun-ha.\""
+    "default": "The second gate."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974"
   },
   "spell144_room2_ram": {
-   "name": "Ram-headed god",
+   "name": "Guardian of the second gate",
    "descriptions": {
-    "default": "A ram-headed god stands before the second room. The room has two attendants, its watcher, \"Skati\", and its herald, \"Ashu\"; which of them he is, is not known."
+    "default": "A ram-headed god, \"Sqd-faced\", is the guardian of the second gate."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974; Davis 1894 for the head; DemonBase 3607 \"Alerted-faced-One\" (Davis: \"Skati\"); keeper, guardian, announcer from right to left after DemonBase"
   },
   "spell144_room2_bull": {
-   "name": "Bull-headed god",
+   "name": "Announcer of the second gate",
    "descriptions": {
-    "default": "A bull-headed god stands before the second room. The room has two attendants, its watcher, \"Skati\", and its herald, \"Ashu\"; which of them he is, is not known."
+    "default": "A bull-headed god, \"Fiercely Bright\", is the announcer of the second gate."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974; Davis 1894 for the head; DemonBase 3608 \"Glowing-One\" (Davis: \"Asbu\"); keeper, guardian, announcer from right to left after DemonBase"
   },
   "spell144_room3": {
-   "name": "Third room",
+   "name": "Third gate",
    "descriptions": {
-    "default": "A god with a scarab for a head kneels inside the third room, holding two knives, under a roof of blades and two cobras. He is the keeper of its door, \"eating the excrement of the one who reaches it.\""
+    "default": "The third gate."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974"
   },
   "spell144_room3_ram": {
-   "name": "Ram-headed god",
+   "name": "Guardian of the third gate",
    "descriptions": {
-    "default": "A ram-headed god stands before the third room. The room has two attendants, its watcher, \"the one with a Vigilant Face\", and its herald, \"Usaaau\"; which of them he is, is not known."
+    "default": "A ram-headed god, \"Alert of Face\", is the guardian of the third gate."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974; Davis 1894 for the head; DemonBase 3610 \"Alert-of-face\" (Davis: \"the one with a Vigilant Face\"); keeper, guardian, announcer from right to left after DemonBase"
   },
   "spell144_room3_man": {
-   "name": "Man-headed god",
+   "name": "Announcer of the third gate",
    "descriptions": {
-    "default": "A man-headed god stands before the third room. The room has two attendants, its watcher, \"the one with a Vigilant Face\", and its herald, \"Usaaau\"; which of them he is, is not known."
+    "default": "A man-headed god, \"Reviler\", is the announcer of the third gate."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974; Davis 1894 for the head; DemonBase 3611 \"Conspiring-One\" (Davis: \"Usaaau\"); keeper, guardian, announcer from right to left after DemonBase"
   },
   "spell144_room4": {
-   "name": "Fourth room",
+   "name": "Fourth gate",
    "descriptions": {
-    "default": "A dog-headed god kneels inside the fourth room, holding two knives, under a roof of blades and two cobras. He is the keeper of its door, \"repelling the multitudes of words.\""
+    "default": "The fourth gate."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974"
   },
   "spell144_room4_ram": {
-   "name": "Ram-headed god",
+   "name": "Guardian of the fourth gate",
    "descriptions": {
-    "default": "A ram-headed god stands before the fourth room. The room has two attendants, its watcher, \"the one with a Vigilant Heart\", and its herald, \"Aa-her-Khesef-ati, great to repel the crocodile\"; which of them he is, is not known."
+    "default": "A ram-headed god, \"the one with a Vigilant Heart\", is the guardian of the fourth gate."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Davis 1894; DemonBase 3613 \"Alert-Hearted\" (Allen: \"Alert of Mind\"); keeper, guardian, announcer from right to left after DemonBase"
   },
   "spell144_room4_man": {
-   "name": "Man-headed god",
+   "name": "Announcer of the fourth gate",
    "descriptions": {
-    "default": "A man-headed god stands before the fourth room. The room has two attendants, its watcher, \"the one with a Vigilant Heart\", and its herald, \"Aa-her-Khesef-ati, great to repel the crocodile\"; which of them he is, is not known."
+    "default": "A man-headed god, \"Big-faced, Repeller of the Crocodile\", is the announcer of the fourth gate."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974; Davis 1894 for the head; DemonBase 3614 \"Great-faced and repeller of the aggressor\"; keeper, guardian, announcer from right to left after DemonBase"
   },
   "spell144_room5": {
-   "name": "Fifth room",
+   "name": "Fifth gate",
    "descriptions": {
-    "default": "A god with a round, front-facing head kneels inside the fifth room, holding two knives, under a roof of blades and two cobras. He is the keeper of its door, \"living upon reptiles.\""
+    "default": "The fifth gate."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974"
   },
   "spell144_room5_ram": {
-   "name": "Ram-headed god",
+   "name": "Guardian of the fifth gate",
    "descriptions": {
-    "default": "A ram-headed god stands before the fifth room. The room has two attendants, its watcher, \"Usheb\", and its herald, \"Nebet-hi-Kehabu-at\"; which of them he is, is not known."
+    "default": "A ram-headed god, \"Usheb\", is the guardian of the fifth gate."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Davis 1894; DemonBase 3616 \"Swallower\" (Allen leaves it as ꜣšbw); keeper, guardian, announcer from right to left after DemonBase"
   },
   "spell144_room5_bull": {
-   "name": "Bull-headed god",
+   "name": "Announcer of the fifth gate",
    "descriptions": {
-    "default": "A bull-headed god stands before the fifth room. The room has two attendants, its watcher, \"Usheb\", and its herald, \"Nebet-hi-Kehabu-at\"; which of them he is, is not known."
+    "default": "A bull-headed god, \"Hippopotamus-faced, Violent of Strength\", is the announcer of the fifth gate."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974; Davis 1894 for the head; DemonBase 3617 \"Hippopotamus-faced-one and strong on power\"; keeper, guardian, announcer from right to left after DemonBase"
   },
   "spell144_room6": {
-   "name": "Sixth room",
+   "name": "Sixth gate",
    "descriptions": {
-    "default": "A monkey-headed god sits inside the sixth room, holding two knives, under a roof of blades and two cobras. He is the keeper of its door, \"An-Ketitau-Kehabu-Kheru.\""
+    "default": "The sixth gate."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974"
   },
   "spell144_room6_ram": {
-   "name": "Ram-headed god",
+   "name": "Guardian of the sixth gate",
    "descriptions": {
-    "default": "A ram-headed god stands before the sixth room. The room has two attendants, its watcher, \"An-hi\", and its herald, \"the one who strikes for the keeper of Heaven\"; which of them he is, is not known."
+    "default": "A ram-headed god, \"An-hi\", is the guardian of the sixth gate."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Davis 1894; DemonBase 3619 jnj ḥr \"Face-bringer\" (Allen: \"Face-Remover\", uncertain); keeper, guardian, announcer from right to left after DemonBase"
   },
   "spell144_room6_hawk": {
-   "name": "Hawk-headed god",
+   "name": "Announcer of the sixth gate",
    "descriptions": {
-    "default": "A hawk-headed god stands before the sixth room. The room has two attendants, its watcher, \"An-hi\", and its herald, \"the one who strikes for the keeper of Heaven\"; which of them he is, is not known."
+    "default": "A hawk-headed god, \"Keen of Face, Attached to the Lake\", is the announcer of the sixth gate."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974; Davis 1894 for the head; DemonBase 3620 \"Sharpened-face and follower of the great lake\"; keeper, guardian, announcer from right to left after DemonBase"
   },
   "spell144_room7": {
-   "name": "Seventh room",
+   "name": "Seventh gate",
    "descriptions": {
-    "default": "A god with a cobra for a head kneels inside the seventh room, holding two knives, under a roof of blades and two cobras. He is the keeper of its door, \"Mates-sen, their executioner.\""
+    "default": "The seventh gate."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974"
   },
   "spell144_room7_ram_1": {
-   "name": "Ram-headed god",
+   "name": "Announcer of the seventh gate",
    "descriptions": {
-    "default": "A ram-headed god stands before the seventh room. The room has two attendants, its watcher, \"the Great by his word\", and its herald, \"the Expeller of the overthrower\"; which of them he is, is not known."
+    "default": "A ram-headed god, \"Repeller of Attackers\", is the announcer of the seventh gate."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974; Davis 1894 for the head; DemonBase 3623 \"Repeller of the assailants\"; keeper, guardian, announcer from right to left after DemonBase"
   },
   "spell144_room7_ram_2": {
-   "name": "Ram-headed god",
+   "name": "Guardian of the seventh gate",
    "descriptions": {
-    "default": "A ram-headed god stands before the seventh room. The room has two attendants, its watcher, \"the Great by his word\", and its herald, \"the Expeller of the overthrower\"; which of them he is, is not known."
+    "default": "A ram-headed god, \"Loud-voiced\", is the guardian of the seventh gate."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974; Davis 1894 for the head; DemonBase 3622 \"Loud-voiced\"; keeper, guardian, announcer from right to left after DemonBase"
   },
   "spell145_pylon1": {
    "name": "First pylon",
    "descriptions": {
-    "default": "The first pylon of the Field of Reeds, a tall gate crowned with blades. Its name begins \"The mistress, terrible and great, the dominating wall.\""
+    "default": "\"Lady of Trembling, lofty of battlements, supreme one, lady of breaking and entering, uttering proclamations, warding off the storm, rescuing the plundered whether present or far away.\""
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974, 21st-dynasty text"
   },
   "spell145_pylon1_keeper": {
-   "name": "Hawk-headed god",
+   "name": "Keeper of the first pylon",
    "descriptions": {
-    "default": "A hawk-headed god keeps the first pylon, a knife in one hand and a blade raised in the other."
+    "default": "A hawk-headed god looks over the first pylon as its keeper. \"Terrible\" is his name."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974 (Davis gives no name); Davis 1894 for the head"
   },
   "spell145_pylon1_adorer": {
    "name": "The deceased adoring",
    "descriptions": {
     "default": "The deceased raises his hands before the first pylon. He knows its name and the name of its keeper, and is told: \"Go through, thou art pure.\""
    },
-   "journal": false
+   "journal": false,
+   "reference": "Davis 1894"
   },
   "spell145_pylon2": {
    "name": "Second pylon",
    "descriptions": {
-    "default": "The second pylon of the Field of Reeds, a tall gate crowned with blades. Its name begins \"Inspiring veneration to the earth by thy flanks.\""
+    "default": "\"Lady of the Sky, mistress of the Two Lands, terrorizing the land of Tibu.\""
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974, 21st-dynasty text"
   },
   "spell145_pylon2_keeper": {
-   "name": "God with two cobras",
+   "name": "Keeper of the second pylon",
    "descriptions": {
-    "default": "A god with two cobras in place of a head keeps the second pylon, a knife in one hand and a blade raised in the other. Davis names him \"Ra's offspring.\""
+    "default": "A god with two cobras in place of a head looks over the second pylon as its keeper. \"Child of the Posterior\" is his name."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974; DemonBase 3628 msj pḥ (Davis: \"Ra's offspring\"; Allen's 21st-dynasty text: \"Child of Ptah\"); Davis 1894 for the head"
   },
   "spell145_pylon2_adorer": {
    "name": "The deceased adoring",
    "descriptions": {
     "default": "The deceased raises his hands before the second pylon. He knows its name and the name of its keeper, and is told: \"Go through, thou art pure.\""
    },
-   "journal": false
+   "journal": false,
+   "reference": "Davis 1894"
   },
   "spell145_pylon3": {
    "name": "Third pylon",
    "descriptions": {
-    "default": "The third pylon of the Field of Reeds, a tall gate crowned with blades. Its name begins \"Present of the day of the starting of the bark for Abydos.\""
+    "default": "\"Lady of the Altar, great of offerings, giving to them that are yonder, presenting offerings, she at whose doorway the Gods sat at ease on that day of sailing upstream to Abydos.\""
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974, 21st-dynasty text"
   },
   "spell145_pylon3_keeper": {
-   "name": "Ram-headed god",
+   "name": "Keeper of the third pylon",
    "descriptions": {
-    "default": "A ram-headed god keeps the third pylon, a knife in one hand and a blade raised in the other. Davis names him \"Fig-tree.\""
+    "default": "A ram-headed god looks over the third pylon as its keeper. \"Brightener\" is his name."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974; DemonBase 3630 \"Sweetener\" settles neither (Davis: \"Fig-tree\"); Davis 1894 for the head"
   },
   "spell145_pylon3_adorer": {
    "name": "The deceased adoring",
    "descriptions": {
     "default": "The deceased raises his hands before the third pylon. He knows its name and the name of its keeper, and is told: \"Go through, thou art pure.\""
    },
-   "journal": false
+   "journal": false,
+   "reference": "Davis 1894"
   },
   "spell145_pylon4": {
    "name": "Fourth pylon",
    "descriptions": {
-    "default": "The fourth pylon of the Field of Reeds, a tall gate crowned with blades. Its name begins \"The presiding over the executions of the mistress ruling the earth.\""
+    "default": "\"Mighty of Knife, mistress of her Two Lands, punishing the enemies of the Weary-hearted One, fulfilling the wish of him who is void of evil.\""
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974, 21st-dynasty text"
   },
   "spell145_pylon4_keeper": {
-   "name": "Ram-headed god",
+   "name": "Keeper of the fourth pylon",
    "descriptions": {
-    "default": "A ram-headed god keeps the fourth pylon, a knife in one hand and a blade raised in the other. Davis names him \"the Immolator of cattle.\""
+    "default": "A ram-headed god looks over the fourth pylon as its keeper. \"Longhorn\" is his name."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974; DemonBase 3632 \"Long-horned-Bull\" (Davis: \"the Immolator of cattle\"); Davis 1894 for the head"
   },
   "spell145_pylon4_adorer": {
    "name": "The deceased adoring",
    "descriptions": {
     "default": "The deceased raises his hands before the fourth pylon. He knows its name and the name of its keeper, and is told: \"Go through, thou art pure.\""
    },
-   "journal": false
+   "journal": false,
+   "reference": "Davis 1894"
   },
   "spell145_pylon5": {
    "name": "Fifth pylon",
    "descriptions": {
-    "default": "The fifth pylon of the Field of Reeds, a tall gate crowned with blades. Its name begins \"The one whom beseeches he who does not enter through her at first.\""
+    "default": "\"Protectress, Lady of praise, lady of the universe, she to whom prayers are made without a Bald-Head coming near her.\""
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974, 21st-dynasty text"
   },
   "spell145_pylon5_keeper": {
-   "name": "Foreign-looking god",
+   "name": "Keeper of the fifth pylon",
    "descriptions": {
-    "default": "A god with a man's head of foreign type, his hair standing up keeps the fifth pylon, a knife in one hand and a blade raised in the other. Davis names him \"He who puts the foes to flight.\""
+    "default": "A god with a man's head of foreign type, his hair standing up looks over the fifth pylon as its keeper. \"Slayer of the Foe\" is his name."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974; DemonBase 3634 \"Narrow-bended\" settles neither (Davis: \"He who puts the foes to flight\"); Davis 1894 for the head"
   },
   "spell145_pylon5_adorer": {
    "name": "The deceased adoring",
    "descriptions": {
     "default": "The deceased raises his hands before the fifth pylon. He knows its name and the name of its keeper, and is told: \"Go through, thou art pure.\""
    },
-   "journal": false
+   "journal": false,
+   "reference": "Davis 1894"
   },
   "spell145_pylon6": {
    "name": "Sixth pylon",
    "descriptions": {
-    "default": "The sixth pylon of the Field of Reeds, a tall gate crowned with blades. Its name begins \"The master of the roarings whose neither height nor width are known.\""
+    "default": "\"Lady of Obeisance, loud-roaring, whose height is known no more than her breadth, whose creator has not been discovered since the beginning of time, whose crawlers on their bellies are innumerable, she who was born before the Weary-hearted One.\""
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974, 21st-dynasty text"
   },
   "spell145_pylon6_keeper": {
-   "name": "Hawk-headed god",
+   "name": "Keeper of the sixth pylon",
    "descriptions": {
-    "default": "A hawk-headed god keeps the sixth pylon, a knife in one hand and a blade raised in the other. Davis names him \"the Gatherer.\""
+    "default": "A hawk-headed god looks over the sixth pylon as its keeper. \"the Gatherer\" is his name."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Davis 1894; DemonBase 3636 \"Uniter\" (Allen: \"Gangster\", uncertain)"
   },
   "spell145_pylon6_adorer": {
    "name": "The deceased adoring",
    "descriptions": {
     "default": "The deceased raises his hands before the sixth pylon. He knows its name and the name of its keeper, and is told: \"Go through, thou art pure.\""
    },
-   "journal": false
+   "journal": false,
+   "reference": "Davis 1894"
   },
   "spell145_pylon7": {
    "name": "Seventh pylon",
    "descriptions": {
-    "default": "The seventh pylon of the Field of Reeds, a tall gate crowned with blades. Its name begins \"The cloud enveloping the suffering, the one grieving over the one she loves.\""
+    "default": "\"Storm Cloud Veiling the Weary One, mourner whose desire it is to conceal the body.\""
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974, 21st-dynasty text"
   },
   "spell145_pylon7_keeper": {
-   "name": "Jackal-headed god",
+   "name": "Keeper of the seventh pylon",
    "descriptions": {
-    "default": "A jackal-headed god keeps the seventh pylon, a knife in one hand and a blade raised in the other. Davis names him \"Neith.\""
+    "default": "A jackal-headed god looks over the seventh pylon as its keeper. \"He of Iknt\" is his name."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974; DemonBase 3638 \"Scooper\" settles neither (Davis: \"Neith\"); Davis 1894 for the head"
   },
   "spell145_pylon7_adorer": {
    "name": "The deceased adoring",
    "descriptions": {
     "default": "The deceased raises his hands before the seventh pylon. He knows its name and the name of its keeper, and is told: \"Go through, thou art pure.\""
    },
-   "journal": false
+   "journal": false,
+   "reference": "Davis 1894"
   },
   "spell145_pylon8": {
    "name": "Eighth pylon",
    "descriptions": {
-    "default": "The eighth pylon of the Field of Reeds, a tall gate crowned with blades. Its name begins \"The one who belongs to her mistress, the Strong.\""
+    "default": "\"Possessor of Power as offspring of her mysterious realm, 300 hundred-cubits in circumference, millions of millions of cubits in depth and in the height of her Summit.\""
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974, 21st-dynasty text, Davis 1894 for the order (Allen has this name at the ninth portal)"
   },
   "spell145_pylon8_keeper": {
-   "name": "God with two cobras",
+   "name": "Keeper of the eighth pylon",
    "descriptions": {
-    "default": "A god with two cobras in place of a head keeps the eighth pylon, a knife in one hand and a blade raised in the other. Davis names him \"Djeses.\""
+    "default": "A god with two cobras in place of a head looks over the eighth pylon as its keeper. \"Fowler\" is his name."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974, Davis 1894 for the order (Allen has him at the ninth portal); DemonBase 3642 \"Catcher\" (Davis: \"Djeses\"); Davis 1894 for the head"
   },
   "spell145_pylon8_adorer": {
    "name": "The deceased adoring",
    "descriptions": {
     "default": "The deceased raises his hands before the eighth pylon. He knows its name and the name of its keeper, and is told: \"Go through, thou art pure.\""
    },
-   "journal": false
+   "journal": false,
+   "reference": "Davis 1894"
   },
   "spell145_pylon9": {
    "name": "Ninth pylon",
    "descriptions": {
-    "default": "The ninth pylon of the Field of Reeds, a tall gate crowned with blades. Its name begins \"The fire and the flame which are not extinguished.\""
+    "default": "\"Kindler of Flame Without Quenching Her Embers, skilled in use of fire, whom none wants to pass through for fear of her pain.\""
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974, 21st-dynasty text, Davis 1894 for the order (Allen has this name at the eighth portal)"
   },
   "spell145_pylon9_keeper": {
-   "name": "Jackal-headed god",
+   "name": "Keeper of the ninth pylon",
    "descriptions": {
-    "default": "A jackal-headed god keeps the ninth pylon, a knife in one hand and a blade raised in the other. Davis names him \"Terror, the master of his roarings, the protector of his body.\""
+    "default": "A jackal-headed god looks over the ninth pylon as its keeper. \"He Who Protects His Body\" is his name."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974, Davis 1894 for the order (Allen has him at the eighth portal); DemonBase 3640 \"Protector of his body\" (Davis: \"Terror, the master of his roarings, the protector of his body\"); Davis 1894 for the head"
   },
   "spell145_pylon9_adorer": {
    "name": "The deceased adoring",
    "descriptions": {
     "default": "The deceased raises his hands before the ninth pylon. He knows its name and the name of its keeper, and is told: \"Go through, thou art pure.\""
    },
-   "journal": false
+   "journal": false,
+   "reference": "Davis 1894"
   },
   "spell145_pylon10": {
    "name": "Tenth pylon",
    "descriptions": {
-    "default": "The tenth pylon of the Field of Reeds, a tall gate crowned with blades. Its name begins \"Height of the gates, the exciter of the clamors of those who dread his approaching.\""
+    "default": "\"Lofty of Double Doors, awaker of outcries, to whom one's respect is due, who cries out at the top of her voice, terror of the enemy, there being no limit to what is within her.\""
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974, 21st-dynasty text"
   },
   "spell145_pylon10_keeper": {
-   "name": "Man-headed god",
+   "name": "Keeper of the tenth pylon",
    "descriptions": {
-    "default": "A man-headed, bearded god keeps the tenth pylon, a knife in one hand and a blade raised in the other. Davis names him \"the Great one who locks up.\""
+    "default": "A man-headed, bearded god looks over the tenth pylon as its keeper. \"Great Embracer\" is his name."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974; DemonBase 3644 \"Great-Embracer\" (Davis: \"the Great one who locks up\"); Davis 1894 for the head"
   },
   "spell145_pylon10_adorer": {
    "name": "The deceased adoring",
    "descriptions": {
     "default": "The deceased raises his hands before the tenth pylon. He knows its name and the name of its keeper, and is told: \"Go through, thou art pure.\""
    },
-   "journal": false
+   "journal": false,
+   "reference": "Davis 1894"
   },
   "spell145_pylon11": {
    "name": "Eleventh pylon",
    "descriptions": {
-    "default": "The eleventh pylon of the Field of Reeds, a tall gate crowned with blades. Its name begins \"Reiteration of the flame of immolation against the foes, the terror of every gate.\""
+    "default": "\"She Who Cuts Repeatedly, who burns rebels, chief of all the portals, to whom jubilation is made on the day of hearing wrongs.\""
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974, 21st-dynasty text"
   },
   "spell145_pylon11_keeper": {
-   "name": "Lion-headed god",
+   "name": "Keeper of the eleventh pylon",
    "descriptions": {
-    "default": "A lion-headed god keeps the eleventh pylon, a knife in one hand and a blade raised in the other."
+    "default": "A lion-headed god looks over the eleventh pylon as its keeper. He is the veiler of the Weary One."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974 (21st-dynasty text: the pylon \"is under the inspection of the veiler of the Weary One\"); Davis 1894 for the head"
   },
   "spell145_pylon11_adorer": {
    "name": "The deceased adoring",
    "descriptions": {
     "default": "The deceased raises his hands before the eleventh pylon. He knows its name and the name of its keeper, and is told: \"Go through, thou art pure.\""
    },
-   "journal": false
+   "journal": false,
+   "reference": "Davis 1894"
   },
   "spell145_pylon12": {
    "name": "Twelfth pylon",
    "descriptions": {
-    "default": "The twelfth pylon of the Field of Reeds, a tall gate crowned with blades. Its name begins \"The one who goes around the earth and dispels those who come.\""
+    "default": "\"Traverser of the Two Lands, who hacks to pieces them that come at dawn, lofty one, blessed lady who hearkens to the voice of her Lord every day.\""
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974, 21st-dynasty text"
   },
   "spell145_pylon12_keeper": {
-   "name": "Cat-headed god",
+   "name": "Keeper of the twelfth pylon",
    "descriptions": {
-    "default": "A cat-headed god keeps the twelfth pylon, a knife in one hand and a blade raised in the other."
+    "default": "A cat-headed god looks over the twelfth pylon as its keeper. He is the veiler of the Weary One."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974 (21st-dynasty text: the pylon \"is under the inspection of the veiler of the Weary One\"); Davis 1894 for the head"
   },
   "spell145_pylon12_adorer": {
    "name": "The deceased adoring",
    "descriptions": {
     "default": "The deceased raises his hands before the twelfth pylon. He knows its name and the name of its keeper, and is told: \"Go through, thou art pure.\""
    },
-   "journal": false
+   "journal": false,
+   "reference": "Davis 1894"
   },
   "spell145_pylon13": {
    "name": "Thirteenth pylon",
    "descriptions": {
-    "default": "The thirteenth pylon of the Field of Reeds, a tall gate crowned with blades. Its name begins \"The one towing the gods, whose arms are in adoration of his face.\""
+    "default": "\"She to Whose Face the Ennead Extend Their Arms in Praise, one whom the Inundation instructs as One Who Is with Him.\""
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974, 21st-dynasty text"
   },
   "spell145_pylon13_keeper": {
-   "name": "Hare-headed god",
+   "name": "Keeper of the thirteenth pylon",
    "descriptions": {
-    "default": "A hare-headed god keeps the thirteenth pylon, a knife in one hand and a blade raised in the other."
+    "default": "A hare-headed god looks over the thirteenth pylon as its keeper. He is the veiler of the Weary One."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974 (21st-dynasty text: the pylon \"is under the inspection of the veiler of the Weary One\"); Davis 1894 for the head"
   },
   "spell145_pylon13_adorer": {
    "name": "The deceased adoring",
    "descriptions": {
     "default": "The deceased raises his hands before the thirteenth pylon. He knows its name and the name of its keeper, and is told: \"Go through, thou art pure.\""
    },
-   "journal": false
+   "journal": false,
+   "reference": "Davis 1894"
   },
   "spell145_pylon14": {
    "name": "Fourteenth pylon",
    "descriptions": {
-    "default": "The fourteenth pylon of the Field of Reeds, a tall gate crowned with blades. Its name begins \"The chief of the spirits, Tesher in mourning, the goddess in tears going out by night.\""
+    "default": "\"Great of Renown, red of eyelashes, Iakhbyt who goes forth by night, who drives away the rebel with what he has planned, who offers her equipment to the Weary-hearted One at the great moment.\""
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974, 21st-dynasty text, Davis 1894 for the order (Allen has this name at the fifteenth portal)"
   },
   "spell145_pylon14_keeper": {
-   "name": "Lion-headed god",
+   "name": "Keeper of the fourteenth pylon",
    "descriptions": {
-    "default": "A lion-headed god keeps the fourteenth pylon, a knife in one hand and a blade raised in the other."
+    "default": "A lion-headed god looks over the fourteenth pylon as its keeper. He is the veiler of the Weary One."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974 (21st-dynasty text: the pylon \"is under the inspection of the veiler of the Weary One\"); Davis 1894 for the head"
   },
   "spell145_pylon14_adorer": {
    "name": "The deceased adoring",
    "descriptions": {
     "default": "The deceased raises his hands before the fourteenth pylon. He knows its name and the name of its keeper, and is told: \"Go through, thou art pure.\""
    },
-   "journal": false
+   "journal": false,
+   "reference": "Davis 1894"
   },
   "spell145_pylon15": {
    "name": "Fifteenth pylon",
    "descriptions": {
-    "default": "The fifteenth pylon of the Field of Reeds, a tall gate crowned with blades. Its name begins \"The lord of terror, slaughtering amidst blood.\""
+    "default": "\"Lady of Wrath, dancing on red blood, for whom the Haker-feast is celebrated with the brazier on the day of hearing wrongs.\""
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974, 21st-dynasty text, Davis 1894 for the order (Allen has this name at the fourteenth portal)"
   },
   "spell145_pylon15_keeper": {
-   "name": "Crocodile-headed god",
+   "name": "Keeper of the fifteenth pylon",
    "descriptions": {
-    "default": "A crocodile-headed god keeps the fifteenth pylon, a knife in one hand and a blade raised in the other."
+    "default": "A crocodile-headed god looks over the fifteenth pylon as its keeper. He is the veiler of the Weary One."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974 (21st-dynasty text: the pylon \"is under the inspection of the veiler of the Weary One\"); Davis 1894 for the head"
   },
   "spell145_pylon15_adorer": {
    "name": "The deceased adoring",
    "descriptions": {
     "default": "The deceased raises his hands before the fifteenth pylon. He knows its name and the name of its keeper, and is told: \"Go through, thou art pure.\""
    },
-   "journal": false
+   "journal": false,
+   "reference": "Davis 1894"
   },
   "spell145_pylon16": {
    "name": "Sixteenth pylon",
    "descriptions": {
-    "default": "The sixteenth pylon of the Field of Reeds, a tall gate crowned with blades. Its name begins \"The lord of the veneration, the pursuing of the foes, the flame blazing when it appears.\""
+    "default": "\"Terror, laying hand on rebels whom she burns with her heat when she goes forth, creating the extent of the earth.\""
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974, 21st-dynasty text"
   },
   "spell145_pylon16_keeper": {
-   "name": "Monkey-headed god",
+   "name": "Keeper of the sixteenth pylon",
    "descriptions": {
-    "default": "A monkey-headed god keeps the sixteenth pylon, a knife in one hand and a blade raised in the other."
+    "default": "A monkey-headed god looks over the sixteenth pylon as its keeper. He is the veiler of the Weary One."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974 (21st-dynasty text: the pylon \"is under the inspection of the veiler of the Weary One\"); Davis 1894 for the head"
   },
   "spell145_pylon16_adorer": {
    "name": "The deceased adoring",
    "descriptions": {
     "default": "The deceased raises his hands before the sixteenth pylon. He knows its name and the name of its keeper, and is told: \"Go through, thou art pure.\""
    },
-   "journal": false
+   "journal": false,
+   "reference": "Davis 1894"
   },
   "spell145_pylon17": {
    "name": "Seventeenth pylon",
    "descriptions": {
-    "default": "The seventeenth pylon of the Field of Reeds, a tall gate crowned with blades. Its name begins \"Greatness of the horizon, the lord of the blood.\""
+    "default": "\"Great in the Horizon, lady of red blood, dancing on blood, Iahyt of Sekhmet, lady of parching heat.\""
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974, 21st-dynasty text"
   },
   "spell145_pylon17_keeper": {
-   "name": "Man-headed god",
+   "name": "Keeper of the seventeenth pylon",
    "descriptions": {
-    "default": "A man-headed, bearded god keeps the seventeenth pylon, a knife in one hand and a blade raised in the other."
+    "default": "A man-headed, bearded god looks over the seventeenth pylon as its keeper. He is the veiler of the Weary One."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974 (21st-dynasty text: the pylon \"is under the inspection of the veiler of the Weary One\"); Davis 1894 for the head"
   },
   "spell145_pylon17_adorer": {
    "name": "The deceased adoring",
    "descriptions": {
     "default": "The deceased raises his hands before the seventeenth pylon. He knows its name and the name of its keeper, and is told: \"Go through, thou art pure.\""
    },
-   "journal": false
+   "journal": false,
+   "reference": "Davis 1894"
   },
   "spell145_pylon18": {
    "name": "Eighteenth pylon",
    "descriptions": {
-    "default": "The eighteenth pylon of the Field of Reeds, a tall gate crowned with blades. Its name begins \"Love of the flame, the first of the devotees, the lord of the slaughtering-place.\""
+    "default": "\"She Who Loves Heat, pure one whom leopards obey, who loves to cut off the heads of the worthy, lady of the Palace, slaying rebels at eventide.\""
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974, 21st-dynasty text"
   },
   "spell145_pylon18_keeper": {
-   "name": "Dog-headed god",
+   "name": "Keeper of the eighteenth pylon",
    "descriptions": {
-    "default": "A dog-headed god keeps the eighteenth pylon, a knife in one hand and a blade raised in the other."
+    "default": "A dog-headed god looks over the eighteenth pylon as its keeper. He is the veiler of the Weary One."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974 (21st-dynasty text: the pylon \"is under the inspection of the veiler of the Weary One\"); Davis 1894 for the head"
   },
   "spell145_pylon18_adorer": {
    "name": "The deceased adoring",
    "descriptions": {
     "default": "The deceased raises his hands before the eighteenth pylon. He knows its name and the name of its keeper, and is told: \"Go through, thou art pure.\""
    },
-   "journal": false
+   "journal": false,
+   "reference": "Davis 1894"
   },
   "spell145_pylon19": {
    "name": "Nineteenth pylon",
    "descriptions": {
-    "default": "The nineteenth pylon of the Field of Reeds, a tall gate crowned with blades. Its name begins \"The one who prepares the light of duration, the mistress of the flame and of the writings of Thoth.\""
+    "default": "\"She Who Proclaims Protection throughout Her Lifetime, great of heat, possessor of symbols of power, namely the writings of Thoth Himself.\""
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974, 21st-dynasty text"
   },
   "spell145_pylon19_keeper": {
-   "name": "Ibis-headed god",
+   "name": "Keeper of the nineteenth pylon",
    "descriptions": {
-    "default": "An ibis-headed god keeps the nineteenth pylon, a knife in one hand and a blade raised in the other."
+    "default": "An ibis-headed god looks over the nineteenth pylon as its keeper. He is the veiler of the Weary One."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974 (21st-dynasty text: the pylon \"is under the inspection of the veiler of the Weary One\"); Davis 1894 for the head"
   },
   "spell145_pylon19_adorer": {
    "name": "The deceased adoring",
    "descriptions": {
     "default": "The deceased raises his hands before the nineteenth pylon. He knows its name and the name of its keeper, and is told: \"Go through, thou art pure.\""
    },
-   "journal": false
+   "journal": false,
+   "reference": "Davis 1894"
   },
   "spell145_pylon20": {
    "name": "Twentieth pylon",
    "descriptions": {
-    "default": "The twentieth pylon of the Field of Reeds, a tall gate crowned with blades. Its name begins \"The one invoking his lord, the uraeus-field, the covering of the hidden.\""
+    "default": "\"She Who Is within the Hovering Shelter of Her Lord, Respected One, veiled one whose form is hidden, who seizes breasts and opens of herself.\""
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974, 21st-dynasty text"
   },
   "spell145_pylon20_keeper": {
-   "name": "Front-facing god",
+   "name": "Keeper of the twentieth pylon",
    "descriptions": {
-    "default": "A god whose human face is shown from the front keeps the twentieth pylon, a knife in one hand and a blade raised in the other."
+    "default": "A god whose human face is shown from the front looks over the twentieth pylon as its keeper. He is the veiler of the Weary One."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974 (21st-dynasty text: the pylon \"is under the inspection of the veiler of the Weary One\"); Davis 1894 for the head"
   },
   "spell145_pylon20_adorer": {
    "name": "The deceased adoring",
    "descriptions": {
     "default": "The deceased raises his hands before the twentieth pylon. He knows its name and the name of its keeper, and is told: \"Go through, thou art pure.\""
    },
-   "journal": false
+   "journal": false,
+   "reference": "Davis 1894"
   },
   "spell145_pylon21": {
    "name": "Twenty-first pylon",
    "descriptions": {
-    "default": "The twenty-first pylon of the Field of Reeds, a tall gate crowned with blades. Its name begins \"The sword hitting at the calling of its name, the god hiding his face.\""
+    "default": "\"She Who Sharpens Flint To Speak for Her, Pale of Face, who cannot be overturned, whose flame descends.\""
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974, 21st-dynasty text"
   },
   "spell145_pylon21_keeper": {
-   "name": "Bes",
+   "name": "Keeper of the twenty-first pylon",
    "descriptions": {
-    "default": "Bes, the lion-maned dwarf god with a plumed crown, keeps the twenty-first pylon, a knife in one hand and a blade raised in the other. With him is his avenger, \"the Devouring One.\""
+    "default": "Bes, the lion-maned dwarf god with a plumed crown, looks over the twenty-first pylon as its keeper. \"Giraffe\" is his name. Seven gods keep the pylon with him."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974 (21st-dynasty text); Davis 1894 for the head (Davis names \"the Devouring One\" as the avenger of the god he keeps)"
   },
   "spell145_pylon21_adorer": {
    "name": "The deceased adoring",
    "descriptions": {
     "default": "The deceased raises his hands before the twenty-first pylon. He knows its name and the name of its keeper, and is told: \"Go through, thou art pure.\""
    },
-   "journal": false
+   "journal": false,
+   "reference": "Davis 1894"
   },
   "spell146_portal1": {
    "name": "First portal",
    "descriptions": {
-    "default": "The first portal of the House of Osiris, topped with a long snake. Inside crouches a crocodile-headed god, holding a knife. The portal is called \"The mistress of the Terror, the height of walls.\" Its keeper is \"Veneration.\""
+    "default": "\"Lady of Trembling, lofty of battlements, supreme one, lady of breaking and entering, uttering proclamations, warding off storms, rescuing the plundered whether present or far away.\""
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974"
   },
   "spell146_portal2": {
    "name": "Second portal",
    "descriptions": {
-    "default": "The second portal of the House of Osiris, topped with an ankh among six vipers. Inside crouches a man-headed god with three vipers on his head, holding a knife. The portal is called \"The Mistress of Heaven, the Regent of Earth.\" Its keeper is \"Bringing forth of Ptah.\""
+    "default": "\"Lady of the Sky, mistress of the Two Lands, wailer, lady of all mankind, reckoning everyone.\""
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974"
   },
   "spell146_portal3": {
    "name": "Third portal",
    "descriptions": {
-    "default": "The third portal of the House of Osiris, topped with a long snake. Inside crouches a monkey-headed god, holding a knife. The portal is called \"The Mistress of the Altars, the Mistress of the Offerings.\" Its keeper is \"the one who performs the unction.\""
+    "default": "\"Lady of the Altar, great of offerings, refreshing every God in her on the day of sailing upstream to Abydos.\""
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974"
   },
   "spell146_portal4": {
    "name": "Fourth portal",
    "descriptions": {
-    "default": "The fourth portal of the House of Osiris, topped with a long snake. Inside crouches a bull-headed god, holding a knife. The portal is called \"The one who is in possession of the Sword, the Regent of the Earth.\" Its keeper is \"the one who strikes the cattle.\""
+    "default": "\"Mighty of Knives, mistress of the Two Lands, punishing the enemies of the weary-hearted one, fulfilling the wishes of him who is void of evil.\""
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974"
   },
   "spell146_portal5": {
    "name": "Fifth portal",
    "descriptions": {
-    "default": "The fifth portal of the House of Osiris, topped with a long snake. Inside crouches an ibis-headed god, holding a knife. The portal is called \"The Flame, the Mistress of the Breaths for the Nostrils.\" Its keeper is \"the one who puts the foes to flight.\""
+    "default": "\"Fire, lady of magic, joyous one to whom prayer is made without a bald-head coming near her.\""
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974"
   },
   "spell146_portal6": {
    "name": "Sixth portal",
    "descriptions": {
-    "default": "The sixth portal of the House of Osiris, topped with six vipers. Inside crouches a god with a cobra for a head, holding a knife. The portal is called \"The Mistress of the Prostrations.\" Its keeper is \"the Gatherer.\""
+    "default": "\"Lady of Darkness, loud-roaring, whose length and breadth are unknown, whose character has not been recognized from her beginning, on whom are snakes innumerable, she who was born before the weary-hearted one.\""
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974"
   },
   "spell146_portal7": {
    "name": "Seventh portal",
    "descriptions": {
-    "default": "The seventh portal of the House of Osiris, topped with a long snake. Inside crouches a man-headed god, holding a knife. The portal is called \"The Cloud Enveloping the Fainting One.\" Its keeper is \"Kenti.\""
+    "default": "\"Iggyt Veiling the Weary One, mourner who desires to conceal the body.\""
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974"
   },
   "spell146_portal8": {
    "name": "Eighth portal",
    "descriptions": {
-    "default": "The eighth portal of the House of Osiris, topped with a snake with a sun disc and horns. Inside crouches a man-headed god, holding a knife. The portal is called \"The Blazing Flame which is not extinguished.\" Its keeper is \"the one who protects his body.\""
+    "default": "\"Kindler of Flames, Quencher of Embers, skilled in use of fire, quick of hand, slaying without compunction, whom none want to pass through for fear of her pain.\""
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974"
   },
   "spell146_portal9": {
    "name": "Ninth portal",
    "descriptions": {
-    "default": "The ninth portal of the House of Osiris, topped with a long snake. Inside crouches a hare-headed god, holding a knife. The portal is called \"The One who is on the forehead of the Mistress of the Forces.\" Its keeper is \"Djetes.\""
+    "default": "\"Foremost One, tranquil Possessor of Power, Offspring of her lord, 350 hundred-cubits in circumference, sown with green stone of Upper Egypt, who raises up the Enterer and veils the weary one, who makes gifts to her Lord every day.\""
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974"
   },
   "spell146_portal10": {
    "name": "Tenth portal",
    "descriptions": {
-    "default": "The tenth portal of the House of Osiris, topped with a large snake. Inside crouches a man-headed god with two tall feathers and ram's horns, holding a knife. The portal is called \"The One who makes longer the outcries.\" Its keeper is \"the great one who locks up.\""
+    "default": "\"Loud-voiced, awaker of outcries, laugher, terrible in awesomeness, she who repels not him that is within her.\""
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974"
   },
   "spell146_portal11": {
    "name": "Eleventh portal",
    "descriptions": {
-    "default": "The eleventh portal of the House of Osiris, topped with two cats. Inside crouches a monkey-headed god, holding a knife. The portal is called \"The god of the Sword, the Flame Destroying the Foes, the Terror of every Gate.\""
+    "default": "\"She Who Cuts Repeatedly, who burns rebels, terror of every portal, to whom jubilation is made each day at twilight.\""
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974"
   },
   "spell146_portal12": {
    "name": "Twelfth portal",
    "descriptions": {
-    "default": "The twelfth portal of the House of Osiris, topped with a large snake. Inside crouches a god with a cobra for a head, holding a knife. The portal is called \"The one that the earth invokes, the Mistress of the Shades.\""
+    "default": "\"She Whom Her Two Lands Invoke, who annihilates them that come at dawn, bright one, lady of the blessed, hearkening to her Lord every day.\""
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974"
   },
   "spell146_portal13": {
    "name": "Thirteenth portal",
    "descriptions": {
-    "default": "The thirteenth portal of the House of Osiris, topped with two seated figures of the Nile god. Inside crouches a crocodile-headed god with an ostrich feather, holding a knife. The portal is called \"The one who tows Isis.\""
+    "default": "\"She over Whom Isis Has Extended Her Arms, whom the inundation instructs in his secrets.\""
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974"
   },
   "spell146_portal14": {
    "name": "Fourteenth portal",
    "descriptions": {
-    "default": "The fourteenth portal of the House of Osiris, topped with a snake and a bull's head. Inside crouches a hawk-headed god, holding a knife. The portal is called \"The Mistress of Terror, slaughtering amidst blood.\""
+    "default": "\"Lady of Wrath, dancing on red blood, for whom the Haker-feast is celebrated on the day of hearing wrongs.\""
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974"
   },
   "spell146_portal15": {
    "name": "Fifteenth portal",
    "descriptions": {
-    "default": "The fifteenth portal of the House of Osiris, topped with a row of plumes. Inside crouches a man-headed god, holding a knife. The portal is called \"The Red Soul in Mourning, investigator going out by night.\""
+    "default": "\"Hostile Soul, red of eyelashes, cross-eyed one who goes forth by night, who seizes the rebel by his coil, who extends her arms to the weary-hearted one at his appointed instant, who comes back if she goes away.\""
    },
-   "journal": true
+   "journal": true,
+   "reference": "Allen 1974"
+  },
+  "spell147_gate1_baboon": {
+   "name": "God of the first gate",
+   "descriptions": {
+    "default": "A baboon-headed god stands at the first gate of the House of Osiris, holding a staff. The gate has a guardian, \"Eavesdropper,\" and an announcer, \"Roaring-voiced.\""
+   },
+   "journal": true,
+   "reference": "Allen 1974; DemonBase 3823-3824 (Davis: \"the Fire-passer\", \"the one who Fascinates by his Words\"); Davis 1894 for the head (\"monkey-headed\")"
+  },
+  "spell147_gate1_stand": {
+   "name": "Offering stand at the first gate",
+   "descriptions": {
+    "default": "An offering stand before the god of the first gate. Offerings are made to the gods of the gates \"upon earth.\""
+   },
+   "journal": true,
+   "reference": "Allen 1974; stand as drawn"
+  },
+  "spell147_gate1_adorer": {
+   "name": "The deceased at the first gate",
+   "descriptions": {
+    "default": "The deceased raises his hands before the god of the first gate."
+   },
+   "journal": false,
+   "reference": "Davis 1894"
+  },
+  "spell147_gate2_baboon": {
+   "name": "God of the second gate",
+   "descriptions": {
+    "default": "A baboon-headed god stands at the second gate of the House of Osiris, holding a staff. The gate has a guardian, \"Sqd-faced,\" and an announcer, \"Aseb.\""
+   },
+   "journal": true,
+   "reference": "Allen 1974, Davis 1894 for the announcer; DemonBase 3826-3827 \"Alerted-faced-One\", \"Slicer [glowing one]\" (Allen's announcer: Wsd); Davis 1894 for the head (\"monkey-headed\")"
+  },
+  "spell147_gate2_stand": {
+   "name": "Offering stand at the second gate",
+   "descriptions": {
+    "default": "An offering stand before the god of the second gate. Offerings are made to the gods of the gates \"upon earth.\""
+   },
+   "journal": true,
+   "reference": "Allen 1974; stand as drawn"
+  },
+  "spell147_gate2_adorer": {
+   "name": "The deceased at the second gate",
+   "descriptions": {
+    "default": "The deceased raises his hands before the god of the second gate."
+   },
+   "journal": false,
+   "reference": "Davis 1894"
+  },
+  "spell147_gate3_baboon": {
+   "name": "God of the third gate",
+   "descriptions": {
+    "default": "A baboon-headed god stands at the third gate of the House of Osiris, holding a staff. The gate has a guardian, \"Alert of Face,\" and an announcer, \"the Great One.\""
+   },
+   "journal": true,
+   "reference": "Allen 1974; Davis 1894 agrees; Davis 1894 for the head (\"monkey-headed\")"
+  },
+  "spell147_gate3_stand": {
+   "name": "Offering stand at the third gate",
+   "descriptions": {
+    "default": "An offering stand before the god of the third gate. Offerings are made to the gods of the gates \"upon earth.\""
+   },
+   "journal": true,
+   "reference": "Allen 1974; stand as drawn"
+  },
+  "spell147_gate3_adorer": {
+   "name": "The deceased at the third gate",
+   "descriptions": {
+    "default": "The deceased raises his hands before the god of the third gate."
+   },
+   "journal": false,
+   "reference": "Davis 1894"
+  },
+  "spell147_gate4_baboon": {
+   "name": "God of the fourth gate",
+   "descriptions": {
+    "default": "A baboon-headed god stands at the fourth gate of the House of Osiris, holding a staff. The gate has a guardian, \"Flame,\" and an announcer, \"Hippopotamus-faced, Violent of Strength.\""
+   },
+   "journal": true,
+   "reference": "Davis 1894 for the order (Allen has these as the fifth gate) and the guardian, Allen 1974 for the announcer; DemonBase 3835-3836 \"Incinerating [swallower]\", \"Strong-Hippopotamus-faced-one\" (Allen: Ššbw; Davis: \"Flame of Face, seizing its opportunity\"); Davis 1894 for the head (\"monkey-headed\")"
+  },
+  "spell147_gate4_stand": {
+   "name": "Offering stand at the fourth gate",
+   "descriptions": {
+    "default": "An offering stand before the god of the fourth gate. Offerings are made to the gods of the gates \"upon earth.\""
+   },
+   "journal": true,
+   "reference": "Allen 1974; stand as drawn"
+  },
+  "spell147_gate4_adorer": {
+   "name": "The deceased at the fourth gate",
+   "descriptions": {
+    "default": "The deceased raises his hands before the god of the fourth gate."
+   },
+   "journal": false,
+   "reference": "Davis 1894"
+  },
+  "spell147_gate5_baboon": {
+   "name": "God of the fifth gate",
+   "descriptions": {
+    "default": "A baboon-headed god stands at the fifth gate of the House of Osiris, holding a staff. The gate has a guardian, \"Alert of Head,\" and an announcer, \"Repeller of the Crocodile.\""
+   },
+   "journal": true,
+   "reference": "Allen 1974, Davis 1894 for the order (Allen has these as the fourth gate); DemonBase 3832-3833 \"Alert-Headed\", \"Repeller of the Aggressor\" (Davis: \"The One who Lifts up his Face\"); Davis 1894 for the head (\"monkey-headed\")"
+  },
+  "spell147_gate5_stand": {
+   "name": "Offering stand at the fifth gate",
+   "descriptions": {
+    "default": "An offering stand before the god of the fifth gate. Offerings are made to the gods of the gates \"upon earth.\""
+   },
+   "journal": true,
+   "reference": "Allen 1974; stand as drawn"
+  },
+  "spell147_gate5_adorer": {
+   "name": "The deceased at the fifth gate",
+   "descriptions": {
+    "default": "The deceased raises his hands before the god of the fifth gate."
+   },
+   "journal": false,
+   "reference": "Davis 1894"
+  },
+  "spell147_gate6_baboon": {
+   "name": "God of the sixth gate",
+   "descriptions": {
+    "default": "A baboon-headed god stands at the sixth gate of the House of Osiris, holding a staff. The gate has a guardian, \"the One whose Face brings in the Flame,\" and an announcer, \"Keen of Face, Attached to the Lake.\""
+   },
+   "journal": true,
+   "reference": "Allen 1974, Davis 1894 for the guardian; DemonBase 3838-3839 (guardian \"Face-bringer\"; Allen: \"Face-Remover\", uncertain); Davis 1894 for the head (\"monkey-headed\")"
+  },
+  "spell147_gate6_stand": {
+   "name": "Offering stand at the sixth gate",
+   "descriptions": {
+    "default": "An offering stand before the god of the sixth gate. Offerings are made to the gods of the gates \"upon earth.\""
+   },
+   "journal": true,
+   "reference": "Allen 1974; stand as drawn"
+  },
+  "spell147_gate6_adorer": {
+   "name": "The deceased at the sixth gate",
+   "descriptions": {
+    "default": "The deceased raises his hands before the god of the sixth gate."
+   },
+   "journal": false,
+   "reference": "Davis 1894"
+  },
+  "spell147_gate7_baboon": {
+   "name": "God of the seventh gate",
+   "descriptions": {
+    "default": "A baboon-headed god stands at the seventh gate of the House of Osiris, holding a staff. The gate has a guardian, \"Loud-voiced,\" and an announcer, \"Repeller of Attackers.\""
+   },
+   "journal": true,
+   "reference": "Allen 1974; DemonBase 3841-3842; Davis 1894 for the head (\"monkey-headed\")"
+  },
+  "spell147_gate7_stand": {
+   "name": "Offering stand at the seventh gate",
+   "descriptions": {
+    "default": "An offering stand before the god of the seventh gate. Offerings are made to the gods of the gates \"upon earth.\""
+   },
+   "journal": true,
+   "reference": "Allen 1974; stand as drawn"
+  },
+  "spell147_gate7_adorer": {
+   "name": "The deceased at the seventh gate",
+   "descriptions": {
+    "default": "The deceased raises his hands before the god of the seventh gate."
+   },
+   "journal": false,
+   "reference": "Davis 1894"
+  },
+  "spell144_caption": {
+   "name": "Spell 144 title",
+   "descriptions": {
+    "default": "\"The knowledge of the names of the keepers of the seven rooms.\""
+   },
+   "journal": false,
+   "reference": "Davis 1894"
+  },
+  "spell145_caption": {
+   "name": "Spell 145 title",
+   "descriptions": {
+    "default": "\"The beginning of the gates of the Field Aarru in the dwelling of Osiris.\""
+   },
+   "journal": false,
+   "reference": "Davis 1894"
+  },
+  "spell146_caption": {
+   "name": "Spell 146 title",
+   "descriptions": {
+    "default": "\"The beginning of the gates of the domain of Osiris in the field Aarru.\""
+   },
+   "journal": false,
+   "reference": "Davis 1894"
+  },
+  "spell147_caption": {
+   "name": "Spell 147 title",
+   "descriptions": {
+    "default": "\"The second chapter about the halls in the house of Osiris, the residing in Amenti, and about the gods in their residence to whom offerings are made on earth.\""
+   },
+   "journal": false,
+   "reference": "Davis 1894"
+  },
+  "spell146_caption_portal6": {
+   "name": "Label above the sixth portal",
+   "descriptions": {
+    "default": "\"Born true of voice.\""
+   },
+   "journal": false,
+   "reference": "own translation"
+  },
+  "spell146_caption_portal8": {
+   "name": "Label above the eighth portal",
+   "descriptions": {
+    "default": "\"True of voice.\""
+   },
+   "journal": false,
+   "reference": "own translation"
   }
  }
 }

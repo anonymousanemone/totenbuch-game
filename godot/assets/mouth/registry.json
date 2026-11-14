@@ -1,0 +1,255 @@
+{
+ "references": {
+  "Davis 1894": "Davis, C. H. S. The Egyptian Book of the Dead: The Most Ancient and the Most Important of the Extant Religious Texts of Ancient Egypt. New York and London: G. P. Putnam's Sons, 1894. (English version of Pierret's French translation of P. Turin 1791.) https://sites.dlib.nyu.edu/viewer/books/ifa_egypt000060"
+ },
+ "entries": {
+  "spell30_pedestal": {
+   "name": "Pedestal",
+   "descriptions": {
+    "default": "A low pedestal stands under the scarab."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell30_caption": {
+   "name": "Spell 30",
+   "descriptions": {
+    "default": "A chapter about not letting the heart of the man act against him in the Netherworld."
+   },
+   "journal": false,
+   "reference": "Davis 1894"
+  },
+  "spell30_adorer": {
+   "name": "Adorer",
+   "descriptions": {
+    "default": "The deceased kneels before the scarab with both hands raised in adoration."
+   },
+   "journal": true,
+   "reference": "Davis 1894"
+  },
+  "spell30_scarab": {
+   "name": "Scarab",
+   "descriptions": {
+    "default": "A large scarab beetle with a sun disc over its head stands on a pedestal."
+   },
+   "journal": true,
+   "reference": "Davis 1894"
+  },
+  "spell28_pedestal": {
+   "name": "Pedestal",
+   "descriptions": {
+    "default": "A low block carries the seated god."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell28_caption": {
+   "name": "Spell 28",
+   "descriptions": {
+    "default": "A chapter about not depriving the man of his heart in the Netherworld."
+   },
+   "journal": false,
+   "reference": "Davis 1894"
+  },
+  "spell28_adorer": {
+   "name": "Adorer",
+   "descriptions": {
+    "default": "The deceased stands with both hands raised in adoration before the god."
+   },
+   "journal": true,
+   "reference": "Davis 1894"
+  },
+  "spell28_ankh": {
+   "name": "Ankh",
+   "descriptions": {
+    "default": "A tall ankh stands upright, a tied band hanging from its arms."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell28_seated_god": {
+   "name": "Seated god",
+   "descriptions": {
+    "default": "A god in a long wig and a striped garment sits on a pedestal with his knees drawn up, a staff beside him."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell27_caption": {
+   "name": "Spell 27",
+   "descriptions": {
+    "default": "A chapter about not letting the man be deprived of his heart in the Netherworld."
+   },
+   "journal": false,
+   "reference": "Davis 1894"
+  },
+  "spell27_kneeling_man": {
+   "name": "Kneeling man",
+   "descriptions": {
+    "default": "The deceased kneels with the sign of the heart held against his breast and one hand raised before the four gods."
+   },
+   "journal": true,
+   "reference": "Davis 1894"
+  },
+  "spell27_four_gods": {
+   "name": "Four gods",
+   "descriptions": {
+    "default": "Four gods sit in a row on a bench, each wrapped in bands and holding an ankh: the first has a bird's head, the second a jackal's, the third a beast's and the fourth a man's. Davis names them Amset, Hapi, Tiaoumautef and Kebhsennouf."
+   },
+   "journal": true,
+   "reference": "Davis 1894"
+  },
+  "spell27_bench": {
+   "name": "Bench",
+   "descriptions": {
+    "default": "A long low bench carries the four gods."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell26_pedestal": {
+   "name": "Pedestal",
+   "descriptions": {
+    "default": "A low pedestal carries the bird."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell26_caption": {
+   "name": "Spell 26",
+   "descriptions": {
+    "default": "A chapter about giving back to the man his heart in the Netherworld."
+   },
+   "journal": false,
+   "reference": "Davis 1894"
+  },
+  "spell26_kneeling_man": {
+   "name": "Kneeling man",
+   "descriptions": {
+    "default": "The deceased kneels with the sign of the heart held against his breast and one hand raised before the bird."
+   },
+   "journal": true,
+   "reference": "Davis 1894"
+  },
+  "spell26_ba_bird": {
+   "name": "Human-headed bird",
+   "descriptions": {
+    "default": "A bird with a man's head and a long wig stands on a pedestal, its tail trailing behind it: the emblem of the soul."
+   },
+   "journal": true,
+   "reference": "Davis 1894"
+  },
+  "spell25_caption": {
+   "name": "Spell 25",
+   "descriptions": {
+    "default": "A chapter about making the man remember in the Netherworld."
+   },
+   "journal": false,
+   "reference": "Davis 1894"
+  },
+  "spell25_right_man": {
+   "name": "Man on the right",
+   "descriptions": {
+    "default": "A man stands with one hand raised in front of him."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell25_left_man": {
+   "name": "Man on the left",
+   "descriptions": {
+    "default": "A man stands facing him, holding a small object in one hand."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell24_caption": {
+   "name": "Spell 24",
+   "descriptions": {
+    "default": "A chapter about the bringing of the magic charms by the man, with himself, in the Netherworld."
+   },
+   "journal": false,
+   "reference": "Davis 1894"
+  },
+  "spell24_gesturing_man": {
+   "name": "Man gesturing",
+   "descriptions": {
+    "default": "A man stands with one hand held out in front of him."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell24_man_with_staff": {
+   "name": "Man with a staff",
+   "descriptions": {
+    "default": "A man in a long wig stands with a tall staff in one hand."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell23_caption": {
+   "name": "Spell 23",
+   "descriptions": {
+    "default": "A chapter about opening the man's mouth in the Netherworld."
+   },
+   "journal": false,
+   "reference": "Davis 1894"
+  },
+  "spell23_man_with_jar": {
+   "name": "Man with a jar",
+   "descriptions": {
+    "default": "A man holds a small round jar in one hand and raises the other."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell23_man_with_staff": {
+   "name": "Man with a staff",
+   "descriptions": {
+    "default": "A man in a long wig stands with a tall staff in his hand."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell22_caption": {
+   "name": "Spell 22",
+   "descriptions": {
+    "default": "Another chapter about giving back his mouth to the man in the Netherworld."
+   },
+   "journal": false,
+   "reference": "Davis 1894; which of the two texts is 22 is my reading"
+  },
+  "spell21_caption": {
+   "name": "Spell 21",
+   "descriptions": {
+    "default": "A chapter about giving back his mouth to the man in the Netherworld."
+   },
+   "journal": false,
+   "reference": "Davis 1894; which of the two texts is 21 is my reading"
+  },
+  "spell21_22_offering_man": {
+   "name": "Offering man",
+   "descriptions": {
+    "default": "A man holds out a small object on one outstretched arm and a shallow bowl in the other hand. Davis has a priest presenting a vase and the ram-headed wand to two personages."
+   },
+   "journal": true,
+   "reference": "Davis 1894"
+  },
+  "spell21_22_standing_man": {
+   "name": "Standing man",
+   "descriptions": {
+    "default": "A man stands with a long staff in one hand: the standing one of the two personages."
+   },
+   "journal": true,
+   "reference": "Davis 1894"
+  },
+  "spell21_22_seated_man": {
+   "name": "Seated man",
+   "descriptions": {
+    "default": "A man sits on a chair with a latticed side, a staff in his hand: the seated one of the two personages."
+   },
+   "journal": true,
+   "reference": "Davis 1894"
+  }
+ }
+}

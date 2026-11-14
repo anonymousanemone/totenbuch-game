@@ -1,0 +1,1138 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/walk/walk.gd" id="level"]
+[ext_resource type="Script" path="res://scripts/avatar.gd" id="avatar"]
+[ext_resource type="Script" path="res://scripts/hud.gd" id="hud"]
+[ext_resource type="Shader" path="res://scripts/papyrus.gdshader" id="papyrus"]
+[ext_resource type="Texture2D" path="res://assets/mounds/figures/strip.png" id="strip"]
+[ext_resource type="Texture2D" path="res://assets/mounds/figures/spell149_mound14_adorer.png" id="spell149_mound14_adorer"]
+[ext_resource type="Texture2D" path="res://assets/mounds/figures/spell149_mound14_stand.png" id="spell149_mound14_stand"]
+[ext_resource type="Texture2D" path="res://assets/mounds/figures/spell149_mound14_falcon.png" id="spell149_mound14_falcon"]
+[ext_resource type="Texture2D" path="res://assets/mounds/figures/spell149_mound14_snake.png" id="spell149_mound14_snake"]
+[ext_resource type="Texture2D" path="res://assets/mounds/figures/spell149_mound14_kneeling_figure.png" id="spell149_mound14_kneeling_figure"]
+[ext_resource type="Texture2D" path="res://assets/mounds/figures/spell149_mound14_mummy.png" id="spell149_mound14_mummy"]
+[ext_resource type="Texture2D" path="res://assets/mounds/figures/spell149_mound14_two_headed_figure.png" id="spell149_mound14_two_headed_figure"]
+[ext_resource type="Texture2D" path="res://assets/mounds/figures/spell149_mound14_anubis.png" id="spell149_mound14_anubis"]
+[ext_resource type="Texture2D" path="res://assets/mounds/figures/spell149_mound14_lower_sphinx.png" id="spell149_mound14_lower_sphinx"]
+[ext_resource type="Texture2D" path="res://assets/mounds/figures/spell149_mound14_upper_sphinx.png" id="spell149_mound14_upper_sphinx"]
+[ext_resource type="Texture2D" path="res://assets/mounds/figures/spell149_mound14_reclining_figure.png" id="spell149_mound14_reclining_figure"]
+[ext_resource type="Texture2D" path="res://assets/mounds/figures/spell149_mound13_crocodile_headed_figure.png" id="spell149_mound13_crocodile_headed_figure"]
+[ext_resource type="Texture2D" path="res://assets/mounds/figures/spell149_mound13_scarab.png" id="spell149_mound13_scarab"]
+[ext_resource type="Texture2D" path="res://assets/mounds/figures/spell149_mound13_seated_god.png" id="spell149_mound13_seated_god"]
+[ext_resource type="Texture2D" path="res://assets/mounds/figures/spell149_mound13_dais.png" id="spell149_mound13_dais"]
+[ext_resource type="Texture2D" path="res://assets/mounds/figures/spell149_mound12_beast.png" id="spell149_mound12_beast"]
+[ext_resource type="Texture2D" path="res://assets/mounds/figures/spell149_mound12_knife_stand.png" id="spell149_mound12_knife_stand"]
+[ext_resource type="Texture2D" path="res://assets/mounds/figures/spell149_mound11_stepped_mound.png" id="spell149_mound11_stepped_mound"]
+[ext_resource type="Texture2D" path="res://assets/mounds/figures/spell149_mound11_outer_guardian.png" id="spell149_mound11_outer_guardian"]
+[ext_resource type="Texture2D" path="res://assets/mounds/figures/spell149_mound11_inner_guardian.png" id="spell149_mound11_inner_guardian"]
+[ext_resource type="Texture2D" path="res://assets/mounds/figures/spell149_mound10_arch.png" id="spell149_mound10_arch"]
+[ext_resource type="Texture2D" path="res://assets/mounds/figures/spell149_mound10_guardian.png" id="spell149_mound10_guardian"]
+[ext_resource type="Texture2D" path="res://assets/mounds/figures/spell149_mound10_winged_figure.png" id="spell149_mound10_winged_figure"]
+[ext_resource type="Texture2D" path="res://assets/mounds/figures/spell149_mound9_serpent.png" id="spell149_mound9_serpent"]
+[ext_resource type="Texture2D" path="res://assets/mounds/figures/spell149_mound9_guardian.png" id="spell149_mound9_guardian"]
+[ext_resource type="Texture2D" path="res://assets/mounds/figures/spell149_mound8_guardian.png" id="spell149_mound8_guardian"]
+[ext_resource type="Texture2D" path="res://assets/mounds/figures/spell149_mound8_sign.png" id="spell149_mound8_sign"]
+[ext_resource type="Texture2D" path="res://assets/mounds/figures/spell149_mound7_guardian.png" id="spell149_mound7_guardian"]
+[ext_resource type="Texture2D" path="res://assets/mounds/figures/spell149_mound7_lower_sign.png" id="spell149_mound7_lower_sign"]
+[ext_resource type="Texture2D" path="res://assets/mounds/figures/spell149_mound7_upper_sign.png" id="spell149_mound7_upper_sign"]
+[ext_resource type="Texture2D" path="res://assets/mounds/figures/spell149_mound6_guardian.png" id="spell149_mound6_guardian"]
+[ext_resource type="Texture2D" path="res://assets/mounds/figures/spell149_mound6_lower_sign.png" id="spell149_mound6_lower_sign"]
+[ext_resource type="Texture2D" path="res://assets/mounds/figures/spell149_mound6_upper_sign.png" id="spell149_mound6_upper_sign"]
+[ext_resource type="Texture2D" path="res://assets/mounds/figures/spell149_mound5_god_on_sphinx.png" id="spell149_mound5_god_on_sphinx"]
+[ext_resource type="Texture2D" path="res://assets/mounds/figures/spell149_mound5_oval.png" id="spell149_mound5_oval"]
+[ext_resource type="Texture2D" path="res://assets/mounds/figures/spell149_mound5_eye.png" id="spell149_mound5_eye"]
+[ext_resource type="Texture2D" path="res://assets/mounds/figures/spell149_mound4_three_bearers.png" id="spell149_mound4_three_bearers"]
+[ext_resource type="Texture2D" path="res://assets/mounds/figures/spell149_mound4_snake_on_board.png" id="spell149_mound4_snake_on_board"]
+[ext_resource type="Texture2D" path="res://assets/mounds/figures/spell149_mound4_pillar.png" id="spell149_mound4_pillar"]
+[ext_resource type="Texture2D" path="res://assets/mounds/figures/spell149_mound4_three_headed_figure.png" id="spell149_mound4_three_headed_figure"]
+[ext_resource type="Texture2D" path="res://assets/mounds/figures/spell149_mound3_guardian.png" id="spell149_mound3_guardian"]
+[ext_resource type="Texture2D" path="res://assets/mounds/figures/spell149_mound3_sign.png" id="spell149_mound3_sign"]
+[ext_resource type="Texture2D" path="res://assets/mounds/figures/spell149_mound2_guardian.png" id="spell149_mound2_guardian"]
+[ext_resource type="Texture2D" path="res://assets/mounds/figures/spell149_mound2_basin.png" id="spell149_mound2_basin"]
+[ext_resource type="Texture2D" path="res://assets/mounds/figures/spell149_mound1_guardian.png" id="spell149_mound1_guardian"]
+[ext_resource type="Texture2D" path="res://assets/mounds/figures/spell149_mound1_sign.png" id="spell149_mound1_sign"]
+
+[sub_resource type="ShaderMaterial" id="paper"]
+shader = ExtResource("papyrus")
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell149_mound14_adorer"]
+size = Vector2(68.0, 208.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell149_mound14_stand"]
+size = Vector2(64.0, 196.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell149_mound14_falcon"]
+size = Vector2(112.0, 108.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell149_mound14_snake"]
+size = Vector2(148.0, 104.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell149_mound14_kneeling_figure"]
+size = Vector2(140.0, 184.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell149_mound14_mummy"]
+size = Vector2(120.0, 232.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell149_mound14_two_headed_figure"]
+size = Vector2(128.0, 188.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell149_mound14_anubis"]
+size = Vector2(256.0, 236.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell149_mound14_lower_sphinx"]
+size = Vector2(148.0, 68.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell149_mound14_upper_sphinx"]
+size = Vector2(152.0, 72.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell149_mound14_reclining_figure"]
+size = Vector2(220.0, 72.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell149_mound13_crocodile_headed_figure"]
+size = Vector2(136.0, 284.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell149_mound13_scarab"]
+size = Vector2(104.0, 168.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell149_mound13_seated_god"]
+size = Vector2(188.0, 260.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell149_mound13_dais"]
+size = Vector2(372.0, 36.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell149_mound12_beast"]
+size = Vector2(340.0, 196.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell149_mound12_knife_stand"]
+size = Vector2(112.0, 216.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell149_mound11_stepped_mound"]
+size = Vector2(556.0, 312.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell149_mound11_outer_guardian"]
+size = Vector2(228.0, 308.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell149_mound11_inner_guardian"]
+size = Vector2(144.0, 272.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell149_mound10_arch"]
+size = Vector2(160.0, 288.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell149_mound10_guardian"]
+size = Vector2(152.0, 348.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell149_mound10_winged_figure"]
+size = Vector2(256.0, 280.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell149_mound9_serpent"]
+size = Vector2(316.0, 344.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell149_mound9_guardian"]
+size = Vector2(200.0, 336.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell149_mound8_guardian"]
+size = Vector2(192.0, 352.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell149_mound8_sign"]
+size = Vector2(172.0, 84.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell149_mound7_guardian"]
+size = Vector2(188.0, 324.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell149_mound7_lower_sign"]
+size = Vector2(220.0, 100.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell149_mound7_upper_sign"]
+size = Vector2(192.0, 92.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell149_mound6_guardian"]
+size = Vector2(196.0, 272.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell149_mound6_lower_sign"]
+size = Vector2(160.0, 64.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell149_mound6_upper_sign"]
+size = Vector2(124.0, 76.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell149_mound5_god_on_sphinx"]
+size = Vector2(332.0, 280.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell149_mound5_oval"]
+size = Vector2(116.0, 64.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell149_mound5_eye"]
+size = Vector2(60.0, 36.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell149_mound4_three_bearers"]
+size = Vector2(292.0, 200.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell149_mound4_snake_on_board"]
+size = Vector2(304.0, 128.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell149_mound4_pillar"]
+size = Vector2(80.0, 296.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell149_mound4_three_headed_figure"]
+size = Vector2(96.0, 304.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell149_mound3_guardian"]
+size = Vector2(204.0, 324.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell149_mound3_sign"]
+size = Vector2(120.0, 60.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell149_mound2_guardian"]
+size = Vector2(276.0, 304.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell149_mound2_basin"]
+size = Vector2(176.0, 72.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell149_mound1_guardian"]
+size = Vector2(168.0, 316.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell149_mound1_sign"]
+size = Vector2(104.0, 92.0)
+
+[node name="Mounds" type="Node2D"]
+script = ExtResource("level")
+level_key = "mounds"
+title = "The Fourteen Mounds"
+intro_title = "Spell 149: The Fourteen Mounds"
+intro_body = "Explore the mounds as they are drawn: fourteen in a row, each with its guardians.\n\nWalk [b]right to left[/b] with [←] [→] or click the papyrus. Click a figure to walk up to it and read its description. Open the Journal with [j]."
+
+[node name="Papyrus" type="ColorRect" parent="."]
+material = SubResource("paper")
+offset_left = -1000.0
+offset_top = -1000.0
+offset_right = 8506.0
+offset_bottom = 2600.0
+mouse_filter = 2
+metadata/_edit_lock_ = true
+
+[node name="Strip" type="Sprite2D" parent="."]
+texture = ExtResource("strip")
+centered = false
+metadata/_edit_lock_ = true
+
+[node name="Figures" type="Node2D" parent="."]
+
+[node name="Spell149" type="Node2D" parent="Figures"]
+
+[node name="Mound14" type="Node2D" parent="Figures/Spell149"]
+
+[node name="spell149_mound14_adorer" type="Sprite2D" parent="Figures/Spell149/Mound14"]
+position = Vector2(51, 327)
+texture = ExtResource("spell149_mound14_adorer")
+centered = false
+metadata/registry_id = "spell149_mound14_adorer"
+metadata/source_layer_id = 2029
+
+[node name="spell149_mound14_stand" type="Sprite2D" parent="Figures/Spell149/Mound14"]
+position = Vector2(391, 338)
+texture = ExtResource("spell149_mound14_stand")
+centered = false
+metadata/registry_id = "spell149_mound14_stand"
+metadata/source_layer_id = 2030
+
+[node name="spell149_mound14_falcon" type="Sprite2D" parent="Figures/Spell149/Mound14"]
+position = Vector2(219, 425)
+texture = ExtResource("spell149_mound14_falcon")
+centered = false
+metadata/registry_id = "spell149_mound14_falcon"
+metadata/source_layer_id = 2031
+
+[node name="spell149_mound14_snake" type="Sprite2D" parent="Figures/Spell149/Mound14"]
+position = Vector2(563, 430)
+texture = ExtResource("spell149_mound14_snake")
+centered = false
+metadata/registry_id = "spell149_mound14_snake"
+metadata/source_layer_id = 2032
+
+[node name="spell149_mound14_kneeling_figure" type="Sprite2D" parent="Figures/Spell149/Mound14"]
+position = Vector2(53, 349)
+texture = ExtResource("spell149_mound14_kneeling_figure")
+centered = false
+metadata/registry_id = "spell149_mound14_kneeling_figure"
+metadata/source_layer_id = 2033
+
+[node name="spell149_mound14_mummy" type="Sprite2D" parent="Figures/Spell149/Mound14"]
+position = Vector2(287, 301)
+texture = ExtResource("spell149_mound14_mummy")
+centered = false
+metadata/registry_id = "spell149_mound14_mummy"
+metadata/source_layer_id = 2034
+
+[node name="spell149_mound14_two_headed_figure" type="Sprite2D" parent="Figures/Spell149/Mound14"]
+position = Vector2(165, 344)
+texture = ExtResource("spell149_mound14_two_headed_figure")
+centered = false
+metadata/registry_id = "spell149_mound14_two_headed_figure"
+metadata/source_layer_id = 2035
+
+[node name="spell149_mound14_anubis" type="Sprite2D" parent="Figures/Spell149/Mound14"]
+position = Vector2(456, 299)
+texture = ExtResource("spell149_mound14_anubis")
+centered = false
+metadata/registry_id = "spell149_mound14_anubis"
+metadata/source_layer_id = 2036
+
+[node name="spell149_mound14_lower_sphinx" type="Sprite2D" parent="Figures/Spell149/Mound14"]
+position = Vector2(552, 368)
+texture = ExtResource("spell149_mound14_lower_sphinx")
+centered = false
+metadata/registry_id = "spell149_mound14_lower_sphinx"
+metadata/source_layer_id = 2037
+
+[node name="spell149_mound14_upper_sphinx" type="Sprite2D" parent="Figures/Spell149/Mound14"]
+position = Vector2(555, 289)
+texture = ExtResource("spell149_mound14_upper_sphinx")
+centered = false
+metadata/registry_id = "spell149_mound14_upper_sphinx"
+metadata/source_layer_id = 2038
+
+[node name="spell149_mound14_reclining_figure" type="Sprite2D" parent="Figures/Spell149/Mound14"]
+position = Vector2(478, 194)
+texture = ExtResource("spell149_mound14_reclining_figure")
+centered = false
+metadata/registry_id = "spell149_mound14_reclining_figure"
+metadata/source_layer_id = 2039
+
+[node name="Mound13" type="Node2D" parent="Figures/Spell149"]
+
+[node name="spell149_mound13_crocodile_headed_figure" type="Sprite2D" parent="Figures/Spell149/Mound13"]
+position = Vector2(1274, 252)
+texture = ExtResource("spell149_mound13_crocodile_headed_figure")
+centered = false
+metadata/registry_id = "spell149_mound13_crocodile_headed_figure"
+metadata/source_layer_id = 2040
+
+[node name="spell149_mound13_scarab" type="Sprite2D" parent="Figures/Spell149/Mound13"]
+position = Vector2(1127, 350)
+texture = ExtResource("spell149_mound13_scarab")
+centered = false
+metadata/registry_id = "spell149_mound13_scarab"
+metadata/source_layer_id = 2041
+
+[node name="spell149_mound13_seated_god" type="Sprite2D" parent="Figures/Spell149/Mound13"]
+position = Vector2(770, 255)
+texture = ExtResource("spell149_mound13_seated_god")
+centered = false
+metadata/registry_id = "spell149_mound13_seated_god"
+metadata/source_layer_id = 2042
+
+[node name="spell149_mound13_dais" type="Sprite2D" parent="Figures/Spell149/Mound13"]
+position = Vector2(756, 501)
+texture = ExtResource("spell149_mound13_dais")
+centered = false
+metadata/registry_id = "spell149_mound13_dais"
+metadata/source_layer_id = 2043
+
+[node name="Mound12" type="Node2D" parent="Figures/Spell149"]
+
+[node name="spell149_mound12_beast" type="Sprite2D" parent="Figures/Spell149/Mound12"]
+position = Vector2(1442, 339)
+texture = ExtResource("spell149_mound12_beast")
+centered = false
+metadata/registry_id = "spell149_mound12_beast"
+metadata/source_layer_id = 2044
+
+[node name="spell149_mound12_knife_stand" type="Sprite2D" parent="Figures/Spell149/Mound12"]
+position = Vector2(1762, 321)
+texture = ExtResource("spell149_mound12_knife_stand")
+centered = false
+metadata/registry_id = "spell149_mound12_knife_stand"
+metadata/source_layer_id = 2045
+
+[node name="Mound11" type="Node2D" parent="Figures/Spell149"]
+
+[node name="spell149_mound11_stepped_mound" type="Sprite2D" parent="Figures/Spell149/Mound11"]
+position = Vector2(2101, 223)
+texture = ExtResource("spell149_mound11_stepped_mound")
+centered = false
+metadata/registry_id = "spell149_mound11_stepped_mound"
+metadata/source_layer_id = 2046
+
+[node name="spell149_mound11_outer_guardian" type="Sprite2D" parent="Figures/Spell149/Mound11"]
+position = Vector2(1889, 227)
+texture = ExtResource("spell149_mound11_outer_guardian")
+centered = false
+metadata/registry_id = "spell149_mound11_outer_guardian"
+metadata/source_layer_id = 2047
+
+[node name="spell149_mound11_inner_guardian" type="Sprite2D" parent="Figures/Spell149/Mound11"]
+position = Vector2(2338, 261)
+texture = ExtResource("spell149_mound11_inner_guardian")
+centered = false
+metadata/registry_id = "spell149_mound11_inner_guardian"
+metadata/source_layer_id = 2048
+
+[node name="Mound10" type="Node2D" parent="Figures/Spell149"]
+
+[node name="spell149_mound10_arch" type="Sprite2D" parent="Figures/Spell149/Mound10"]
+position = Vector2(3098, 251)
+texture = ExtResource("spell149_mound10_arch")
+centered = false
+metadata/registry_id = "spell149_mound10_arch"
+metadata/source_layer_id = 2049
+
+[node name="spell149_mound10_guardian" type="Sprite2D" parent="Figures/Spell149/Mound10"]
+position = Vector2(2940, 186)
+texture = ExtResource("spell149_mound10_guardian")
+centered = false
+metadata/registry_id = "spell149_mound10_guardian"
+metadata/source_layer_id = 2050
+
+[node name="spell149_mound10_winged_figure" type="Sprite2D" parent="Figures/Spell149/Mound10"]
+position = Vector2(2678, 255)
+texture = ExtResource("spell149_mound10_winged_figure")
+centered = false
+metadata/registry_id = "spell149_mound10_winged_figure"
+metadata/source_layer_id = 2051
+
+[node name="Mound9" type="Node2D" parent="Figures/Spell149"]
+
+[node name="spell149_mound9_serpent" type="Sprite2D" parent="Figures/Spell149/Mound9"]
+position = Vector2(3502, 192)
+texture = ExtResource("spell149_mound9_serpent")
+centered = false
+metadata/registry_id = "spell149_mound9_serpent"
+metadata/source_layer_id = 2052
+
+[node name="spell149_mound9_guardian" type="Sprite2D" parent="Figures/Spell149/Mound9"]
+position = Vector2(3330, 200)
+texture = ExtResource("spell149_mound9_guardian")
+centered = false
+metadata/registry_id = "spell149_mound9_guardian"
+metadata/source_layer_id = 2053
+
+[node name="Mound8" type="Node2D" parent="Figures/Spell149"]
+
+[node name="spell149_mound8_guardian" type="Sprite2D" parent="Figures/Spell149/Mound8"]
+position = Vector2(3858, 189)
+texture = ExtResource("spell149_mound8_guardian")
+centered = false
+metadata/registry_id = "spell149_mound8_guardian"
+metadata/source_layer_id = 2054
+
+[node name="spell149_mound8_sign" type="Sprite2D" parent="Figures/Spell149/Mound8"]
+position = Vector2(4064, 361)
+texture = ExtResource("spell149_mound8_sign")
+centered = false
+metadata/registry_id = "spell149_mound8_sign"
+metadata/source_layer_id = 2055
+
+[node name="Mound7" type="Node2D" parent="Figures/Spell149"]
+
+[node name="spell149_mound7_guardian" type="Sprite2D" parent="Figures/Spell149/Mound7"]
+position = Vector2(4286, 213)
+texture = ExtResource("spell149_mound7_guardian")
+centered = false
+metadata/registry_id = "spell149_mound7_guardian"
+metadata/source_layer_id = 2056
+
+[node name="spell149_mound7_lower_sign" type="Sprite2D" parent="Figures/Spell149/Mound7"]
+position = Vector2(4474, 419)
+texture = ExtResource("spell149_mound7_lower_sign")
+centered = false
+metadata/registry_id = "spell149_mound7_lower_sign"
+metadata/source_layer_id = 2057
+
+[node name="spell149_mound7_upper_sign" type="Sprite2D" parent="Figures/Spell149/Mound7"]
+position = Vector2(4485, 323)
+texture = ExtResource("spell149_mound7_upper_sign")
+centered = false
+metadata/registry_id = "spell149_mound7_upper_sign"
+metadata/source_layer_id = 2058
+
+[node name="Mound6" type="Node2D" parent="Figures/Spell149"]
+
+[node name="spell149_mound6_guardian" type="Sprite2D" parent="Figures/Spell149/Mound6"]
+position = Vector2(4723, 262)
+texture = ExtResource("spell149_mound6_guardian")
+centered = false
+metadata/registry_id = "spell149_mound6_guardian"
+metadata/source_layer_id = 2059
+
+[node name="spell149_mound6_lower_sign" type="Sprite2D" parent="Figures/Spell149/Mound6"]
+position = Vector2(4853, 460)
+texture = ExtResource("spell149_mound6_lower_sign")
+centered = false
+metadata/registry_id = "spell149_mound6_lower_sign"
+metadata/source_layer_id = 2060
+
+[node name="spell149_mound6_upper_sign" type="Sprite2D" parent="Figures/Spell149/Mound6"]
+position = Vector2(4895, 382)
+texture = ExtResource("spell149_mound6_upper_sign")
+centered = false
+metadata/registry_id = "spell149_mound6_upper_sign"
+metadata/source_layer_id = 2061
+
+[node name="Mound5" type="Node2D" parent="Figures/Spell149"]
+
+[node name="spell149_mound5_god_on_sphinx" type="Sprite2D" parent="Figures/Spell149/Mound5"]
+position = Vector2(5143, 255)
+texture = ExtResource("spell149_mound5_god_on_sphinx")
+centered = false
+metadata/registry_id = "spell149_mound5_god_on_sphinx"
+metadata/source_layer_id = 2062
+
+[node name="spell149_mound5_oval" type="Sprite2D" parent="Figures/Spell149/Mound5"]
+position = Vector2(5326, 308)
+texture = ExtResource("spell149_mound5_oval")
+centered = false
+metadata/registry_id = "spell149_mound5_oval"
+metadata/source_layer_id = 2063
+
+[node name="spell149_mound5_eye" type="Sprite2D" parent="Figures/Spell149/Mound5"]
+position = Vector2(5278, 244)
+texture = ExtResource("spell149_mound5_eye")
+centered = false
+metadata/registry_id = "spell149_mound5_eye"
+metadata/source_layer_id = 2064
+
+[node name="Mound4" type="Node2D" parent="Figures/Spell149"]
+
+[node name="spell149_mound4_three_bearers" type="Sprite2D" parent="Figures/Spell149/Mound4"]
+position = Vector2(5737, 336)
+texture = ExtResource("spell149_mound4_three_bearers")
+centered = false
+metadata/registry_id = "spell149_mound4_three_bearers"
+metadata/source_layer_id = 2065
+
+[node name="spell149_mound4_snake_on_board" type="Sprite2D" parent="Figures/Spell149/Mound4"]
+position = Vector2(5737, 222)
+texture = ExtResource("spell149_mound4_snake_on_board")
+centered = false
+metadata/registry_id = "spell149_mound4_snake_on_board"
+metadata/source_layer_id = 2066
+
+[node name="spell149_mound4_pillar" type="Sprite2D" parent="Figures/Spell149/Mound4"]
+position = Vector2(5675, 238)
+texture = ExtResource("spell149_mound4_pillar")
+centered = false
+metadata/registry_id = "spell149_mound4_pillar"
+metadata/source_layer_id = 2067
+
+[node name="spell149_mound4_three_headed_figure" type="Sprite2D" parent="Figures/Spell149/Mound4"]
+position = Vector2(5560, 232)
+texture = ExtResource("spell149_mound4_three_headed_figure")
+centered = false
+metadata/registry_id = "spell149_mound4_three_headed_figure"
+metadata/source_layer_id = 2068
+
+[node name="Mound3" type="Node2D" parent="Figures/Spell149"]
+
+[node name="spell149_mound3_guardian" type="Sprite2D" parent="Figures/Spell149/Mound3"]
+position = Vector2(6172, 210)
+texture = ExtResource("spell149_mound3_guardian")
+centered = false
+metadata/registry_id = "spell149_mound3_guardian"
+metadata/source_layer_id = 2069
+
+[node name="spell149_mound3_sign" type="Sprite2D" parent="Figures/Spell149/Mound3"]
+position = Vector2(6313, 400)
+texture = ExtResource("spell149_mound3_sign")
+centered = false
+metadata/registry_id = "spell149_mound3_sign"
+metadata/source_layer_id = 2070
+
+[node name="Mound2" type="Node2D" parent="Figures/Spell149"]
+
+[node name="spell149_mound2_guardian" type="Sprite2D" parent="Figures/Spell149/Mound2"]
+position = Vector2(6581, 230)
+texture = ExtResource("spell149_mound2_guardian")
+centered = false
+metadata/registry_id = "spell149_mound2_guardian"
+metadata/source_layer_id = 2071
+
+[node name="spell149_mound2_basin" type="Sprite2D" parent="Figures/Spell149/Mound2"]
+position = Vector2(6814, 409)
+texture = ExtResource("spell149_mound2_basin")
+centered = false
+metadata/registry_id = "spell149_mound2_basin"
+metadata/source_layer_id = 2072
+
+[node name="Mound1" type="Node2D" parent="Figures/Spell149"]
+
+[node name="spell149_mound1_guardian" type="Sprite2D" parent="Figures/Spell149/Mound1"]
+position = Vector2(7229, 221)
+texture = ExtResource("spell149_mound1_guardian")
+centered = false
+metadata/registry_id = "spell149_mound1_guardian"
+metadata/source_layer_id = 2073
+
+[node name="spell149_mound1_sign" type="Sprite2D" parent="Figures/Spell149/Mound1"]
+position = Vector2(7339, 407)
+texture = ExtResource("spell149_mound1_sign")
+centered = false
+metadata/registry_id = "spell149_mound1_sign"
+metadata/source_layer_id = 2074
+
+[node name="Avatar" type="Node2D" parent="."]
+position = Vector2(7416, 526)
+script = ExtResource("avatar")
+drawn_facing = 1
+
+[node name="Sprite" type="Sprite2D" parent="Avatar"]
+texture = ExtResource("spell149_mound14_adorer")
+offset = Vector2(0, -98.5)
+
+[node name="Camera" type="Camera2D" parent="."]
+position = Vector2(7416, 418)
+
+[node name="HUD" type="CanvasLayer" parent="."]
+script = ExtResource("hud")
+
+[node name="Hitboxes" type="Node2D" parent="."]
+
+[node name="spell149_mound14_adorer" type="Area2D" parent="Hitboxes"]
+position = Vector2(81.0, 427.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell149_mound14_adorer"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell149_mound14_adorer"]
+shape = SubResource("hitbox_spell149_mound14_adorer")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell149_mound14_stand" type="Area2D" parent="Hitboxes"]
+position = Vector2(419.0, 432.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell149_mound14_stand"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell149_mound14_stand"]
+shape = SubResource("hitbox_spell149_mound14_stand")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell149_mound14_falcon" type="Area2D" parent="Hitboxes"]
+position = Vector2(271.0, 475.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell149_mound14_falcon"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell149_mound14_falcon"]
+shape = SubResource("hitbox_spell149_mound14_falcon")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell149_mound14_snake" type="Area2D" parent="Hitboxes"]
+position = Vector2(633.0, 478.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell149_mound14_snake"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell149_mound14_snake"]
+shape = SubResource("hitbox_spell149_mound14_snake")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell149_mound14_kneeling_figure" type="Area2D" parent="Hitboxes"]
+position = Vector2(119.0, 437.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell149_mound14_kneeling_figure"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell149_mound14_kneeling_figure"]
+shape = SubResource("hitbox_spell149_mound14_kneeling_figure")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell149_mound14_mummy" type="Area2D" parent="Hitboxes"]
+position = Vector2(343.0, 413.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell149_mound14_mummy"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell149_mound14_mummy"]
+shape = SubResource("hitbox_spell149_mound14_mummy")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell149_mound14_two_headed_figure" type="Area2D" parent="Hitboxes"]
+position = Vector2(225.0, 434.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell149_mound14_two_headed_figure"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell149_mound14_two_headed_figure"]
+shape = SubResource("hitbox_spell149_mound14_two_headed_figure")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell149_mound14_anubis" type="Area2D" parent="Hitboxes"]
+position = Vector2(580.0, 413.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell149_mound14_anubis"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell149_mound14_anubis"]
+shape = SubResource("hitbox_spell149_mound14_anubis")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell149_mound14_lower_sphinx" type="Area2D" parent="Hitboxes"]
+position = Vector2(622.0, 398.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell149_mound14_lower_sphinx"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell149_mound14_lower_sphinx"]
+shape = SubResource("hitbox_spell149_mound14_lower_sphinx")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell149_mound14_upper_sphinx" type="Area2D" parent="Hitboxes"]
+position = Vector2(627.0, 321.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell149_mound14_upper_sphinx"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell149_mound14_upper_sphinx"]
+shape = SubResource("hitbox_spell149_mound14_upper_sphinx")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell149_mound14_reclining_figure" type="Area2D" parent="Hitboxes"]
+position = Vector2(584.0, 226.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell149_mound14_reclining_figure"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell149_mound14_reclining_figure"]
+shape = SubResource("hitbox_spell149_mound14_reclining_figure")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell149_mound13_crocodile_headed_figure" type="Area2D" parent="Hitboxes"]
+position = Vector2(1338.0, 390.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell149_mound13_crocodile_headed_figure"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell149_mound13_crocodile_headed_figure"]
+shape = SubResource("hitbox_spell149_mound13_crocodile_headed_figure")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell149_mound13_scarab" type="Area2D" parent="Hitboxes"]
+position = Vector2(1175.0, 430.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell149_mound13_scarab"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell149_mound13_scarab"]
+shape = SubResource("hitbox_spell149_mound13_scarab")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell149_mound13_seated_god" type="Area2D" parent="Hitboxes"]
+position = Vector2(860.0, 381.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell149_mound13_seated_god"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell149_mound13_seated_god"]
+shape = SubResource("hitbox_spell149_mound13_seated_god")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell149_mound13_dais" type="Area2D" parent="Hitboxes"]
+position = Vector2(938.0, 515.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell149_mound13_dais"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell149_mound13_dais"]
+shape = SubResource("hitbox_spell149_mound13_dais")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell149_mound12_beast" type="Area2D" parent="Hitboxes"]
+position = Vector2(1608.0, 433.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell149_mound12_beast"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell149_mound12_beast"]
+shape = SubResource("hitbox_spell149_mound12_beast")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell149_mound12_knife_stand" type="Area2D" parent="Hitboxes"]
+position = Vector2(1814.0, 425.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell149_mound12_knife_stand"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell149_mound12_knife_stand"]
+shape = SubResource("hitbox_spell149_mound12_knife_stand")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell149_mound11_stepped_mound" type="Area2D" parent="Hitboxes"]
+position = Vector2(2375.0, 375.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell149_mound11_stepped_mound"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell149_mound11_stepped_mound"]
+shape = SubResource("hitbox_spell149_mound11_stepped_mound")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell149_mound11_outer_guardian" type="Area2D" parent="Hitboxes"]
+position = Vector2(1999.0, 377.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell149_mound11_outer_guardian"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell149_mound11_outer_guardian"]
+shape = SubResource("hitbox_spell149_mound11_outer_guardian")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell149_mound11_inner_guardian" type="Area2D" parent="Hitboxes"]
+position = Vector2(2406.0, 393.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell149_mound11_inner_guardian"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell149_mound11_inner_guardian"]
+shape = SubResource("hitbox_spell149_mound11_inner_guardian")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell149_mound10_arch" type="Area2D" parent="Hitboxes"]
+position = Vector2(3174.0, 391.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell149_mound10_arch"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell149_mound10_arch"]
+shape = SubResource("hitbox_spell149_mound10_arch")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell149_mound10_guardian" type="Area2D" parent="Hitboxes"]
+position = Vector2(3012.0, 356.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell149_mound10_guardian"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell149_mound10_guardian"]
+shape = SubResource("hitbox_spell149_mound10_guardian")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell149_mound10_winged_figure" type="Area2D" parent="Hitboxes"]
+position = Vector2(2802.0, 391.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell149_mound10_winged_figure"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell149_mound10_winged_figure"]
+shape = SubResource("hitbox_spell149_mound10_winged_figure")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell149_mound9_serpent" type="Area2D" parent="Hitboxes"]
+position = Vector2(3656.0, 360.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell149_mound9_serpent"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell149_mound9_serpent"]
+shape = SubResource("hitbox_spell149_mound9_serpent")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell149_mound9_guardian" type="Area2D" parent="Hitboxes"]
+position = Vector2(3426.0, 364.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell149_mound9_guardian"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell149_mound9_guardian"]
+shape = SubResource("hitbox_spell149_mound9_guardian")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell149_mound8_guardian" type="Area2D" parent="Hitboxes"]
+position = Vector2(3950.0, 361.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell149_mound8_guardian"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell149_mound8_guardian"]
+shape = SubResource("hitbox_spell149_mound8_guardian")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell149_mound8_sign" type="Area2D" parent="Hitboxes"]
+position = Vector2(4146.0, 399.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell149_mound8_sign"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell149_mound8_sign"]
+shape = SubResource("hitbox_spell149_mound8_sign")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell149_mound7_guardian" type="Area2D" parent="Hitboxes"]
+position = Vector2(4376.0, 371.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell149_mound7_guardian"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell149_mound7_guardian"]
+shape = SubResource("hitbox_spell149_mound7_guardian")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell149_mound7_lower_sign" type="Area2D" parent="Hitboxes"]
+position = Vector2(4580.0, 465.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell149_mound7_lower_sign"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell149_mound7_lower_sign"]
+shape = SubResource("hitbox_spell149_mound7_lower_sign")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell149_mound7_upper_sign" type="Area2D" parent="Hitboxes"]
+position = Vector2(4577.0, 365.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell149_mound7_upper_sign"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell149_mound7_upper_sign"]
+shape = SubResource("hitbox_spell149_mound7_upper_sign")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell149_mound6_guardian" type="Area2D" parent="Hitboxes"]
+position = Vector2(4817.0, 394.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell149_mound6_guardian"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell149_mound6_guardian"]
+shape = SubResource("hitbox_spell149_mound6_guardian")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell149_mound6_lower_sign" type="Area2D" parent="Hitboxes"]
+position = Vector2(4929.0, 488.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell149_mound6_lower_sign"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell149_mound6_lower_sign"]
+shape = SubResource("hitbox_spell149_mound6_lower_sign")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell149_mound6_upper_sign" type="Area2D" parent="Hitboxes"]
+position = Vector2(4953.0, 416.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell149_mound6_upper_sign"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell149_mound6_upper_sign"]
+shape = SubResource("hitbox_spell149_mound6_upper_sign")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell149_mound5_god_on_sphinx" type="Area2D" parent="Hitboxes"]
+position = Vector2(5305.0, 391.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell149_mound5_god_on_sphinx"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell149_mound5_god_on_sphinx"]
+shape = SubResource("hitbox_spell149_mound5_god_on_sphinx")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell149_mound5_oval" type="Area2D" parent="Hitboxes"]
+position = Vector2(5380.0, 336.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell149_mound5_oval"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell149_mound5_oval"]
+shape = SubResource("hitbox_spell149_mound5_oval")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell149_mound5_eye" type="Area2D" parent="Hitboxes"]
+position = Vector2(5304.0, 258.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell149_mound5_eye"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell149_mound5_eye"]
+shape = SubResource("hitbox_spell149_mound5_eye")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell149_mound4_three_bearers" type="Area2D" parent="Hitboxes"]
+position = Vector2(5879.0, 432.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell149_mound4_three_bearers"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell149_mound4_three_bearers"]
+shape = SubResource("hitbox_spell149_mound4_three_bearers")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell149_mound4_snake_on_board" type="Area2D" parent="Hitboxes"]
+position = Vector2(5885.0, 282.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell149_mound4_snake_on_board"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell149_mound4_snake_on_board"]
+shape = SubResource("hitbox_spell149_mound4_snake_on_board")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell149_mound4_pillar" type="Area2D" parent="Hitboxes"]
+position = Vector2(5711.0, 382.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell149_mound4_pillar"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell149_mound4_pillar"]
+shape = SubResource("hitbox_spell149_mound4_pillar")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell149_mound4_three_headed_figure" type="Area2D" parent="Hitboxes"]
+position = Vector2(5604.0, 380.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell149_mound4_three_headed_figure"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell149_mound4_three_headed_figure"]
+shape = SubResource("hitbox_spell149_mound4_three_headed_figure")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell149_mound3_guardian" type="Area2D" parent="Hitboxes"]
+position = Vector2(6270.0, 368.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell149_mound3_guardian"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell149_mound3_guardian"]
+shape = SubResource("hitbox_spell149_mound3_guardian")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell149_mound3_sign" type="Area2D" parent="Hitboxes"]
+position = Vector2(6369.0, 426.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell149_mound3_sign"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell149_mound3_sign"]
+shape = SubResource("hitbox_spell149_mound3_sign")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell149_mound2_guardian" type="Area2D" parent="Hitboxes"]
+position = Vector2(6715.0, 378.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell149_mound2_guardian"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell149_mound2_guardian"]
+shape = SubResource("hitbox_spell149_mound2_guardian")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell149_mound2_basin" type="Area2D" parent="Hitboxes"]
+position = Vector2(6898.0, 441.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell149_mound2_basin"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell149_mound2_basin"]
+shape = SubResource("hitbox_spell149_mound2_basin")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell149_mound1_guardian" type="Area2D" parent="Hitboxes"]
+position = Vector2(7309.0, 375.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell149_mound1_guardian"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell149_mound1_guardian"]
+shape = SubResource("hitbox_spell149_mound1_guardian")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell149_mound1_sign" type="Area2D" parent="Hitboxes"]
+position = Vector2(7387.0, 449.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell149_mound1_sign"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell149_mound1_sign"]
+shape = SubResource("hitbox_spell149_mound1_sign")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)

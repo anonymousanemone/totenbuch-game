@@ -175,7 +175,7 @@ func _ready() -> void:
 	unit = level.get("scale", 1.0)
 	avatar.speed *= unit
 	avatar.bob_height *= unit
-	for node in $pieces.find_children("*", "Node2D", true, false):
+	for node in $Pieces.find_children("*", "Node2D", true, false):
 		if node.has_meta("piece_id"):
 			var id: String = node.get_meta("piece_id")
 			assert(not _authored.has(id), "Duplicate Procession piece ID: " + id)
@@ -192,7 +192,7 @@ func _ready() -> void:
 	# (figures sharing one drawing): those boxes are what a click on them means.
 	_descriptions.use_boxes($Hitboxes)
 	for id in SLEDGE_PARTS:
-		_sledge_boxes[id] = $pieces/hauling/sledge/sprite.global_transform.affine_inverse() * _descriptions.box(id)
+		_sledge_boxes[id] = $Pieces/Hauling/sledge/Sprite.global_transform.affine_inverse() * _descriptions.box(id)
 	for source in level.hotspots:
 		var id: String = source.id
 		var h := {"id": id, "rect": _hot_rect(id), "label": _descriptions.entries[id].name}
@@ -219,31 +219,31 @@ func _ready() -> void:
 			add_child(item)
 			item.setup(piece, p)
 			standard_objects[piece] = item
-	_recital = $pieces/recital
-	_bearer_rect = _descriptions.sprite_bounds($ArtworkLayers/goose_man_77)
-	offerings = $pieces/offering_table
+	_recital = $Pieces/Recital
+	_bearer_rect = _descriptions.sprite_bounds($Figures/goose_man)
+	offerings = $Pieces/OfferingTable
 	offerings.setup(level.table, sprite_rects.goose, ground, _authored, _bearer_rect, _hot_rect("lector_priest"))
 	offerings.changed.connect(_on_offerings_changed)
-	haul = $pieces/hauling
+	haul = $Pieces/Hauling
 	haul.setup(_pieces.ox, $Papyrus.material, self, $Strip.get_index() + 1, _authored)
 	haul.said.connect(say_game)
 	haul.finished.connect(_check)
-	ending = $pieces/ending
+	ending = $Pieces/Ending
 	ending.setup(level, _authored, avatar)
 	ending.said.connect(say_game)
 	ending.changed.connect(func():
 		_check()
 		_render())
 	ending.ended.connect(_ended)
-	water = $pieces/water
+	water = $Pieces/Water
 	water.setup(level, "res://assets/procession/figures/%s.png", _authored)
 	water.said.connect(say_game)
 	water.finished.connect(_check)
-	bulls = $pieces/bulls
+	bulls = $Pieces/Bulls
 	bulls.setup(level, _authored)
 	bulls.said.connect(say_game)
 	bulls.finished.connect(_check)
-	mouth = $pieces/opening_mouth
+	mouth = $Pieces/OpeningMouth
 	mouth.setup(level, _authored, avatar)
 	for item in ending.objects.values() + offerings.objects.values() + standard_objects.values() + [mouth.adze_object, mouth.words_object, bulls.plumes_object]:
 		item.description_requested.connect(_describe_object)
@@ -596,7 +596,7 @@ func _pick(p: Vector2) -> Dictionary:
 		return {"type": "mouth", "id": m}
 	if not water.active and water.on_jar(p):   # from along the scroll: step up to the water
 		return {"type": "water"}
-	if _descriptions.hit($ArtworkLayers/goose_man_77, p):
+	if _descriptions.hit($Figures/goose_man, p):
 		return {"type": "bearer", "rect": _bearer_rect}
 	for id in slot:
 		var piece: String = slot[id]
@@ -762,7 +762,7 @@ func _hot_hit(id: String, p: Vector2) -> bool:
 ## Where figure `id` is now: its drawings' bounds (the sledge parts: their box, moving with it).
 func _hot_rect(id: String) -> Rect2:
 	if id in SLEDGE_PARTS:
-		return $pieces/hauling/sledge/sprite.global_transform * _sledge_boxes[id]
+		return $Pieces/Hauling/sledge/Sprite.global_transform * _sledge_boxes[id]
 	var rect := Rect2()
 	for sp in _hot_sprites(id):
 		var bounds := _descriptions.sprite_bounds(sp)
@@ -962,7 +962,7 @@ func _table_input(event: InputEvent) -> void:
 
 func _table_drop(p: Vector2) -> void:
 	_drag_from = Vector2.INF
-	if _descriptions.hit($ArtworkLayers/goose_man_77, p):
+	if _descriptions.hit($Figures/goose_man, p):
 		_act_bearer()
 	elif offerings.in_header(p):
 		offerings.park(p)
@@ -1303,7 +1303,7 @@ func _hands_full() -> bool:
 ## The Opening of the Mouth: take the adze, touch it to the mummy, take the words it speaks, and
 ## set them at their imprint over Ra.
 func _mouth_stand_x() -> float:
-	return $pieces/opening_mouth/StandPosition.global_position.x
+	return $Pieces/OpeningMouth/StandPosition.global_position.x
 
 
 ## Clear the mummy's face before entering the close view.

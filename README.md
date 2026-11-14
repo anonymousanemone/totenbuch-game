@@ -12,8 +12,9 @@ from C. H. S. Davis, *The Egyptian Book of the Dead* (1894), which translates th
 `godot/scripts/dangers/danger_encounters.gd`).
 
 Playable from the map: the Procession, Night Journey, Dangers, Survival and Sustenance, the Field of
-Offerings (to walk and read, without puzzles for now) and Gates. The Weighing of the Heart is in
-`archive/` (see its README).
+Offerings (to walk and read, without puzzles for now), Gates, the Fourteen Mounds, Mouth and Heart,
+and the Weighing of the Heart (the last three also to walk and read, cut by `tools/build_walk.py`).
+The puzzles of the Weighing of the Heart are in `archive/` (see its README).
 
 ## Levels
 
@@ -67,16 +68,32 @@ reuse them and apply startup visibility and state instead of rebuilding the leve
 
 Runtime creation stays for temporary effects, spawned copies, loose physics bodies and the HUD.
 
+**Naming:** every level scene has the same skeleton and one naming convention.
+
+- Skeleton, in draw order (a scene has the ones it needs): `Papyrus`, `Strip`, `Figures`, `Pieces`,
+  `Overlay`, `Avatar`, `Foreground`, `Camera`, `HUD`, `Hitboxes`. `Figures` is the artwork, `Pieces`
+  what scripts move, `Foreground/<Name>/{Papyrus, Ink}` text that covers the avatar. In Gates `Strip`
+  holds `Strip146_147` and `Strip144_145`.
+- Structural nodes are `PascalCase`, without spaces or underscores: groups (`Spell146`, `Plate65`,
+  `Panel1`, `AdorationScene`), parts (`Sprite`, `Shape`) and markers (`CarryAdze`, `FrondPlace`).
+  Numbers are Arabic (`Plate41`, never `PlateXLI`). A pivot's picture is `Sprite`.
+- Content nodes are `snake_case` and named by their ID: a figure sprite and its `Hitboxes` box are both
+  its registry ID. Where several nodes share one entry, `registry_id` metadata links them.
+- Where a script keys a node by a data ID that is not its name (`actor_id` in Dangers, `piece_id` in
+  Procession and Survival), the name says the role (`spear_bearer`, `ox`) and the metadata is the ID: keep
+  it when renaming.
+- No source layer number or layer name in a name: that is `source_layer_id` metadata.
+
 **Menus:** `godot/scenes/menus.tscn` is the title page; `godot/scenes/scroll.tscn` is the map (21 level
 cards by act, 1280 × 1686). Keep cards' `key` metadata in sync with `Scroll.SCENES`.
 
-**Procession** (`pieces/standards`, `hauling`, `offering_table`, `water`, `opening_mouth`, `ending`):
+**Procession** (`Pieces/Standards`, `Hauling`, `OfferingTable`, `Water`, `OpeningMouth`, `Ending`):
 each piece has a `piece_id` in Inspector > Metadata; keep it when renaming. The editor shows a mixed
 arrangement (standards seated, table heaped, goose on the floor, stand/sun/lotus at their hiding
-places, water drawn in full); runtime reset applies the puzzle start. `frond_place` marks the frond's
-restored position; move a hauling pivot, not its `sprite` child.
+places, water drawn in full); runtime reset applies the puzzle start. `FrondPlace` marks the frond's
+restored position; move a hauling pivot, not its `Sprite` child.
 
-**Dangers** (`actors`, spell folders like `spell31_crocs`, plain `Node` organizers): each actor has an
+**Dangers** (`Pieces`, spell folders like `Spell31`, plain `Node` organizers): each actor has an
 `actor_id` matching its data key. Move the named actor; startup derives its home and bounds from its
 position. Keep IDs and sprite offsets (they preserve foot pivots) intact. `size` metadata is the
 original drawing bounds.

@@ -1,4 +1,10 @@
 {
+ "references": {
+  "Davis 1894": "Davis, C. H. S. The Egyptian Book of the Dead: The Most Ancient and the Most Important of the Extant Religious Texts of Ancient Egypt. New York and London: G. P. Putnam's Sons, 1894. (English version of Pierret's French translation of P. Turin 1791.) https://sites.dlib.nyu.edu/viewer/books/ifa_egypt000060",
+  "Weber 2022": "Weber, F. \"Thematic Groups and Sequences of Spells.\" In R. Lucarelli and M. A. Stadler (eds.), The Oxford Handbook of the Egyptian Book of the Dead, 341–356. Oxford: Oxford University Press, 2022.",
+  "Lucarelli 2022": "Lucarelli, R. \"Gods and Demons in the Book of the Dead: The Gods of the Netherworld between Myth and Funerary Religion.\" In R. Lucarelli and M. A. Stadler (eds.), The Oxford Handbook of the Egyptian Book of the Dead, 421–432. Oxford: Oxford University Press, 2022.",
+  "Mosher 2022": "Mosher, M. \"Illustrations in Saite through Ptolemaic Books of the Dead.\" In R. Lucarelli and M. A. Stadler (eds.), The Oxford Handbook of the Egyptian Book of the Dead, 445–486. Oxford: Oxford University Press, 2022. (Partly read.)"
+ },
  "entries": {
   "e31": {
    "name": "Crocodiles of spell 31",
@@ -8,7 +14,8 @@
 	"default": "Crocodiles guard the road.",
 	"settled": "They come to take the magic of the deceased. Turned back with the spear."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Davis 1894; spell summary, the rest is game text"
   },
   "e32": {
    "name": "Crocodiles of spell 32",
@@ -18,7 +25,8 @@
 	"default": "Crocodiles wait on both sides.",
 	"settled": "One for each quarter of the sky. Turned back two at a time."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Davis 1894; spell summary, the rest is game text"
   },
   "e33": {
    "name": "The lunging snake",
@@ -27,7 +35,8 @@
 	"default": "A coiled snake blocks the way.",
 	"settled": "Spell 33, against a snake. Struck three times as it sprang."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Davis 1894; spell summary, the rest is game text"
   },
   "e35": {
    "name": "The snakes on the ground",
@@ -37,7 +46,8 @@
 	"default": "A snake lies on the ground.",
 	"settled": "Spell 35. Fourteen snakes speared as they darted in."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Davis 1894; spell summary, the rest is game text"
   },
   "e36": {
    "name": "The Apshai beetle",
@@ -47,7 +57,8 @@
 	"default": "The Apshai beetles dart across the road.",
 	"settled": "Spell 36. Pinned with the point of the spear."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Davis 1894; the name \"Apshai\" is not in Davis (unsourced); the rest is game text"
   },
   "e37": {
    "name": "The two Merti snakes",
@@ -57,7 +68,8 @@
 	"default": "Two Merti snakes wait on either side.",
 	"settled": "Spell 37. Each struck twice as it sprang."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Davis 1894; Weber 2022 (the Merety, two goddesses often shown as snakes); the rest is game text"
   },
   "e38": {
    "name": "The breath of life",
@@ -65,7 +77,8 @@
 	"default": "The signs of life and breath are offered to you. Only one can be taken.",
 	"settled": "Spell 38, for living on air. One sign taken from his hand."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Davis 1894; Mosher 2022 (the ankh and air signs, and the two mrty-snakes); the rest is game text"
   },
   "e39": {
    "name": "Apep",
@@ -74,7 +87,8 @@
 	"default": "Apep stretches across the road.",
 	"settled": "Spell 39, repelling Apep. Every wave of him pressed down at the spear point."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Davis 1894; Lucarelli 2022 (Apophis, with Rerek as an earlier form); the rest is game text"
   },
   "e40": {
    "name": "The Eater of the Ass",
@@ -85,7 +99,8 @@
    },
    "journal": true,
    "speech": "Follow the snake along the donkey's back and strike it three times, without spearing the ass beneath it.",
-   "speaker": "Scribe"
+   "speaker": "Scribe",
+   "reference": "Davis 1894; spell summary, the rest is game text"
   },
   "e41": {
    "name": "The snake in the sheaf",
@@ -94,77 +109,88 @@
 	"default": "Something stirs inside the sheaf.",
 	"settled": "Spell 41. Speared through the sheaf, and pinned on top of it."
    },
-   "journal": true
+   "journal": true,
+   "reference": "Davis 1894; spell summary, the rest is game text"
   },
   "caption_e31": {
    "name": "Spell 31",
    "descriptions": {
 	"default": "A chapter about repelling the reptiles that come to take off the man's magic charms in the Netherworld."
    },
-   "journal": false
+   "journal": false,
+   "reference": "Davis 1894"
   },
   "caption_e32": {
    "name": "Spell 32",
    "descriptions": {
 	"default": "A chapter about repelling the crocodiles coming to deprive the deceased from his magic power in the Netherworld."
    },
-   "journal": false
+   "journal": false,
+   "reference": "Davis 1894"
   },
   "caption_e33": {
    "name": "Spell 33",
    "descriptions": {
 	"default": "A chapter about repelling any reptile."
    },
-   "journal": false
+   "journal": false,
+   "reference": "Davis 1894"
   },
   "caption_e35": {
    "name": "Spell 35",
    "descriptions": {
 	"default": "A chapter about not letting the man be devoured by any reptile in the Netherworld."
    },
-   "journal": false
+   "journal": false,
+   "reference": "Davis 1894"
   },
   "caption_e36": {
    "name": "Spell 36",
    "descriptions": {
 	"default": "A chapter about opposing the flesh eating insects."
    },
-   "journal": false
+   "journal": false,
+   "reference": "Davis 1894"
   },
   "caption_e37": {
    "name": "Spell 37",
    "descriptions": {
 	"default": "A chapter about opposing the two eyed-ureus."
    },
-   "journal": false
+   "journal": false,
+   "reference": "Davis 1894"
   },
   "caption_e38": {
    "name": "Spell 38",
    "descriptions": {
 	"default": "A chapter about living by the breath of air in the Netherworld. It is said to oppose the asps."
    },
-   "journal": false
+   "journal": false,
+   "reference": "Davis 1894"
   },
   "caption_e39": {
    "name": "Spell 39",
    "descriptions": {
 	"default": "A chapter about opposing serpent-Rekrek in the Netherworld."
    },
-   "journal": false
+   "journal": false,
+   "reference": "Davis 1894"
   },
   "caption_e40": {
    "name": "Spell 40",
    "descriptions": {
 	"default": "A chapter about repelling the Eater of the Ass."
    },
-   "journal": false
+   "journal": false,
+   "reference": "Davis 1894"
   },
   "caption_e41": {
    "name": "Spell 41",
    "descriptions": {
 	"default": "A chapter about preventing being injured in the Netherworld."
    },
-   "journal": false
+   "journal": false,
+   "reference": "Davis 1894"
   }
  }
 }

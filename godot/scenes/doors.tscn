@@ -1,9 +1,16 @@
 [gd_scene format=3]
 
-[ext_resource type="Script" path="res://scripts/walk/walk.gd" id="level"]
+[ext_resource type="Script" path="res://scripts/doors/doors.gd" id="level"]
 [ext_resource type="Script" path="res://scripts/avatar.gd" id="avatar"]
 [ext_resource type="Script" path="res://scripts/hud.gd" id="hud"]
 [ext_resource type="Shader" path="res://scripts/papyrus.gdshader" id="papyrus"]
+[ext_resource type="Shader" path="res://scripts/figure.gdshader" id="figure_shader"]
+[ext_resource type="Texture2D" path="res://assets/doors/animation/spell161_door_left_swing.png" id="spell161_door_left_swing"]
+[ext_resource type="Texture2D" path="res://assets/doors/animation/spell161_door_right_swing.png" id="spell161_door_right_swing"]
+[ext_resource type="Texture2D" path="res://assets/doors/animation/spell161_thoth_1_swing.png" id="spell161_thoth_1_swing"]
+[ext_resource type="Texture2D" path="res://assets/doors/animation/spell161_thoth_2_swing.png" id="spell161_thoth_2_swing"]
+[ext_resource type="Texture2D" path="res://assets/doors/animation/spell161_thoth_3_swing.png" id="spell161_thoth_3_swing"]
+[ext_resource type="Texture2D" path="res://assets/doors/animation/spell161_thoth_4_swing.png" id="spell161_thoth_4_swing"]
 [ext_resource type="Texture2D" path="res://assets/doors/figures/strip.png" id="strip"]
 [ext_resource type="Texture2D" path="res://assets/doors/figures/spell161_thoth_1.png" id="spell161_thoth_1"]
 [ext_resource type="Texture2D" path="res://assets/doors/figures/spell161_thoth_1_caption.png" id="spell161_thoth_1_caption"]
@@ -21,6 +28,9 @@
 
 [sub_resource type="ShaderMaterial" id="paper"]
 shader = ExtResource("papyrus")
+
+[sub_resource type="ShaderMaterial" id="figure"]
+shader = ExtResource("figure_shader")
 
 [sub_resource type="RectangleShape2D" id="hitbox_spell161_thoth_1"]
 size = Vector2(268.0, 436.0)
@@ -170,6 +180,67 @@ texture = ExtResource("spell161_thoth_4")
 centered = false
 metadata/registry_id = "spell161_thoth_4"
 metadata/source_layer_id = 6
+
+[node name="Pieces" type="Node2D" parent="."]
+visible = false
+
+[node name="Door" type="Node2D" parent="Pieces"]
+
+[node name="Behind" type="ColorRect" parent="Pieces/Door"]
+offset_left = 218.0
+offset_top = 50.0
+offset_right = 1144.0
+offset_bottom = 1887.0
+mouse_filter = 2
+color = Color(0.180392, 0.113725, 0.062745, 1)
+
+[node name="spell161_door_left" type="Sprite2D" parent="Pieces/Door"]
+material = SubResource("figure")
+position = Vector2(218, 50)
+texture = ExtResource("spell161_door_left_swing")
+centered = false
+hframes = 12
+
+[node name="spell161_door_right" type="Sprite2D" parent="Pieces/Door"]
+material = SubResource("figure")
+position = Vector2(681, 50)
+texture = ExtResource("spell161_door_right_swing")
+centered = false
+hframes = 12
+
+[node name="Thoths" type="Node2D" parent="Pieces"]
+
+[node name="spell161_thoth_1" type="Sprite2D" parent="Pieces/Thoths"]
+material = SubResource("figure")
+position = Vector2(892, 534)
+texture = ExtResource("spell161_thoth_1_swing")
+centered = false
+hframes = 12
+metadata/registry_id = "spell161_thoth_1"
+
+[node name="spell161_thoth_2" type="Sprite2D" parent="Pieces/Thoths"]
+material = SubResource("figure")
+position = Vector2(53, 488)
+texture = ExtResource("spell161_thoth_2_swing")
+centered = false
+hframes = 12
+metadata/registry_id = "spell161_thoth_2"
+
+[node name="spell161_thoth_3" type="Sprite2D" parent="Pieces/Thoths"]
+material = SubResource("figure")
+position = Vector2(889, 1392)
+texture = ExtResource("spell161_thoth_3_swing")
+centered = false
+hframes = 12
+metadata/registry_id = "spell161_thoth_3"
+
+[node name="spell161_thoth_4" type="Sprite2D" parent="Pieces/Thoths"]
+material = SubResource("figure")
+position = Vector2(40, 1393)
+texture = ExtResource("spell161_thoth_4_swing")
+centered = false
+hframes = 12
+metadata/registry_id = "spell161_thoth_4"
 
 [node name="Avatar" type="Node2D" parent="."]
 position = Vector2(1102, 1868)

@@ -24,6 +24,8 @@
 [ext_resource type="Texture2D" uid="uid://brb5gktoenxyy" path="res://assets/menu/doors.png" id="24_w0u2i"]
 [ext_resource type="Texture2D" uid="uid://dsci8fyy2dv3" path="res://assets/menu/hall.png" id="25_lo0pm"]
 
+[ext_resource type="Texture2D" path="res://assets/ui/icon_settings.png" id="icon_settings"]
+
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pbf8f"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uu2ls"]
@@ -609,43 +611,3154 @@ border_width_right = 4
 border_width_bottom = 4
 border_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
 
-[node name="Scroll" type="ColorRect" unique_id=1992633067]
+[sub_resource type="StyleBoxFlat" id="tag_box"]
+content_margin_left = 12.0
+content_margin_right = 12.0
+bg_color = Color(0.5882353, 0.24313726, 0.15686275, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[sub_resource type="StyleBoxFlat" id="here_box"]
+content_margin_left = 10.0
+content_margin_right = 10.0
+bg_color = Color(0.5882353, 0.24313726, 0.15686275, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[sub_resource type="StyleBoxFlat" id="frame_box"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.8862745, 0.8156863, 0.6509804, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.8862745, 0.8156863, 0.6509804, 1)
+
+[node name="Scroll" type="ColorRect"]
 script = ExtResource("scroll_logic")
-offset_right = 1280.0
-offset_bottom = 1686.0
+offset_right = 7124.0
+offset_bottom = 720.0
 mouse_filter = 2
 theme = SubResource("Theme_irvca")
 color = Color(0.8862745, 0.8156863, 0.6509804, 1)
 
-[node name="Header" type="HBoxContainer" parent="." unique_id=75676494]
-layout_mode = 0
+[node name="Levels" type="ScrollContainer" parent="."]
+layout_mode = 1
 anchor_right = 1.0
-offset_left = 40.0
-offset_top = 16.0
-offset_right = -40.0
-theme_override_constants/separation = 22
-metadata/_edit_lock_ = true
+anchor_bottom = 1.0
+offset_top = 96.0
+offset_bottom = -174.0
+follow_focus = true
+horizontal_scroll_mode = 3
+vertical_scroll_mode = 0
 
-[node name="Heading" type="Label" parent="Header" unique_id=1233315948]
+[node name="Acts" type="HBoxContainer" parent="Levels"]
+layout_mode = 2
+size_flags_vertical = 3
+layout_direction = 3
+theme_override_constants/separation = 0
+
+[node name="PadRight" type="Control" parent="Levels/Acts"]
+custom_minimum_size = Vector2(28, 0)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="CapRight" type="Control" parent="Levels/Acts"]
+custom_minimum_size = Vector2(12, 0)
+layout_mode = 2
+layout_direction = 2
+mouse_filter = 2
+
+[node name="OuterTop" type="ColorRect" parent="Levels/Acts/CapRight"]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 4.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="OuterBottom" type="ColorRect" parent="Levels/Acts/CapRight"]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = -4.0
+offset_right = 0.0
+offset_bottom = 0.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="OuterSide" type="ColorRect" parent="Levels/Acts/CapRight"]
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -4.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="InnerTop" type="ColorRect" parent="Levels/Acts/CapRight"]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 0.0
+offset_top = 8.0
+offset_right = 4.0
+offset_bottom = 12.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="InnerBottom" type="ColorRect" parent="Levels/Acts/CapRight"]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 1.0
+anchor_right = 0.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = -12.0
+offset_right = 4.0
+offset_bottom = -8.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="InnerSide" type="ColorRect" parent="Levels/Acts/CapRight"]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 8.0
+offset_right = 4.0
+offset_bottom = -8.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="Prologue" type="VBoxContainer" parent="Levels/Acts"]
+layout_mode = 2
+layout_direction = 2
+theme_override_constants/separation = 0
+
+[node name="Top" type="Control" parent="Levels/Acts/Prologue"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Outer" type="ColorRect" parent="Levels/Acts/Prologue/Top"]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 4.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="Inner" type="ColorRect" parent="Levels/Acts/Prologue/Top"]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = -4.0
+offset_right = 0.0
+offset_bottom = 0.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="Caption" type="MarginContainer" parent="Levels/Acts/Prologue"]
+custom_minimum_size = Vector2(0, 68)
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 8
+
+[node name="Title" type="Label" parent="Levels/Acts/Prologue/Caption"]
+size_flags_vertical = 4
+horizontal_alignment = 1
+autowrap_mode = 3
+theme_override_constants/line_spacing = 2
 layout_mode = 2
 theme_override_colors/font_color = Color(0.5882353, 0.24313726, 0.15686275, 1)
+theme_override_font_sizes/font_size = 24
+text = "Prologue"
+metadata/font_size = 24
+
+[node name="Rule" type="ColorRect" parent="Levels/Acts/Prologue"]
+custom_minimum_size = Vector2(0, 4)
+layout_mode = 2
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="Cards" type="HBoxContainer" parent="Levels/Acts/Prologue"]
+layout_mode = 2
+size_flags_vertical = 3
+layout_direction = 3
+theme_override_constants/separation = 0
+
+[node name="prologue" type="VBoxContainer" parent="Levels/Acts/Prologue/Cards"]
+custom_minimum_size = Vector2(380, 0)
+layout_mode = 2
+layout_direction = 2
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+theme_override_constants/separation = 0
+metadata/key = "prologue"
+
+[node name="Space" type="Control" parent="Levels/Acts/Prologue/Cards/prologue"]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Frame" type="PanelContainer" parent="Levels/Acts/Prologue/Cards/prologue"]
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+theme_override_styles/panel = SubResource("frame_box")
+
+[node name="Picture" type="TextureRect" parent="Levels/Acts/Prologue/Cards/prologue/Frame"]
+custom_minimum_size = Vector2(342, 208)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("prologue_picture")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Restored" type="TextureRect" parent="Levels/Acts/Prologue/Cards/prologue/Frame/Picture"]
+visible = false
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -34.0
+offset_top = -38.0
+offset_right = -6.0
+offset_bottom = -6.0
+mouse_filter = 2
+texture = ExtResource("5_4wg3f")
+
+[node name="Current" type="PanelContainer" parent="Levels/Acts/Prologue/Cards/prologue/Frame/Picture"]
+visible = false
+layout_mode = 0
+offset_left = -7.0
+offset_top = -54.0
+offset_right = -7.0
+offset_bottom = -54.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("here_box")
+
+[node name="Label" type="Label" parent="Levels/Acts/Prologue/Cards/prologue/Frame/Picture/Current"]
+custom_minimum_size = Vector2(0, 20)
+vertical_alignment = 1
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
+theme_override_font_sizes/font_size = 16
+text = "You are here"
+metadata/font_size = 16
+
+[node name="Gap" type="Control" parent="Levels/Acts/Prologue/Cards/prologue"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Title" type="Label" parent="Levels/Acts/Prologue/Cards/prologue"]
+custom_minimum_size = Vector2(350, 0)
+size_flags_horizontal = 4
+theme_override_constants/line_spacing = 2
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+theme_override_font_sizes/font_size = 24
+text = "Guarding the Body"
+metadata/font_size = 24
+
+[node name="Gap2" type="Control" parent="Levels/Acts/Prologue/Cards/prologue"]
+custom_minimum_size = Vector2(0, 6)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Spells" type="Label" parent="Levels/Acts/Prologue/Cards/prologue"]
+custom_minimum_size = Vector2(350, 0)
+size_flags_horizontal = 4
+layout_mode = 2
+theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
+theme_override_font_sizes/font_size = 16
+text = "Spells 151–154 — pl. LXXIV–LXXV"
+metadata/font_size = 16
+
+[node name="Bottom" type="Control" parent="Levels/Acts/Prologue"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Inner" type="ColorRect" parent="Levels/Acts/Prologue/Bottom"]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 4.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="Outer" type="ColorRect" parent="Levels/Acts/Prologue/Bottom"]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = -4.0
+offset_right = 0.0
+offset_bottom = 0.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="Gap1" type="Control" parent="Levels/Acts"]
+custom_minimum_size = Vector2(12, 0)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Left" type="ColorRect" parent="Levels/Acts/Gap1"]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 4.0
+offset_bottom = 0.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="Right" type="ColorRect" parent="Levels/Acts/Gap1"]
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -4.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="ActI" type="VBoxContainer" parent="Levels/Acts"]
+layout_mode = 2
+layout_direction = 2
+theme_override_constants/separation = 0
+
+[node name="Top" type="Control" parent="Levels/Acts/ActI"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Outer" type="ColorRect" parent="Levels/Acts/ActI/Top"]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 4.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="Inner" type="ColorRect" parent="Levels/Acts/ActI/Top"]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = -4.0
+offset_right = 0.0
+offset_bottom = 0.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="Caption" type="MarginContainer" parent="Levels/Acts/ActI"]
+custom_minimum_size = Vector2(0, 68)
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 8
+
+[node name="Title" type="Label" parent="Levels/Acts/ActI/Caption"]
+size_flags_vertical = 4
+horizontal_alignment = 1
+autowrap_mode = 3
+theme_override_constants/line_spacing = 2
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5882353, 0.24313726, 0.15686275, 1)
+theme_override_font_sizes/font_size = 24
+text = "Act I — Burial and going forth"
+metadata/font_size = 24
+
+[node name="Rule" type="ColorRect" parent="Levels/Acts/ActI"]
+custom_minimum_size = Vector2(0, 4)
+layout_mode = 2
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="Cards" type="HBoxContainer" parent="Levels/Acts/ActI"]
+layout_mode = 2
+size_flags_vertical = 3
+layout_direction = 3
+theme_override_constants/separation = 0
+
+[node name="procession" type="VBoxContainer" parent="Levels/Acts/ActI/Cards"]
+custom_minimum_size = Vector2(380, 0)
+layout_mode = 2
+layout_direction = 2
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+theme_override_constants/separation = 0
+metadata/key = "procession"
+
+[node name="Space" type="Control" parent="Levels/Acts/ActI/Cards/procession"]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Frame" type="PanelContainer" parent="Levels/Acts/ActI/Cards/procession"]
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+theme_override_styles/panel = SubResource("frame_box")
+
+[node name="Picture" type="TextureRect" parent="Levels/Acts/ActI/Cards/procession/Frame"]
+custom_minimum_size = Vector2(342, 208)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("4_p1t5q")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Restored" type="TextureRect" parent="Levels/Acts/ActI/Cards/procession/Frame/Picture"]
+visible = false
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -34.0
+offset_top = -38.0
+offset_right = -6.0
+offset_bottom = -6.0
+mouse_filter = 2
+texture = ExtResource("5_4wg3f")
+
+[node name="Current" type="PanelContainer" parent="Levels/Acts/ActI/Cards/procession/Frame/Picture"]
+visible = false
+layout_mode = 0
+offset_left = -7.0
+offset_top = -54.0
+offset_right = -7.0
+offset_bottom = -54.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("here_box")
+
+[node name="Label" type="Label" parent="Levels/Acts/ActI/Cards/procession/Frame/Picture/Current"]
+custom_minimum_size = Vector2(0, 20)
+vertical_alignment = 1
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
+theme_override_font_sizes/font_size = 16
+text = "You are here"
+metadata/font_size = 16
+
+[node name="Gap" type="Control" parent="Levels/Acts/ActI/Cards/procession"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Title" type="Label" parent="Levels/Acts/ActI/Cards/procession"]
+custom_minimum_size = Vector2(350, 0)
+size_flags_horizontal = 4
+theme_override_constants/line_spacing = 2
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+theme_override_font_sizes/font_size = 24
+text = "The Funeral Procession"
+metadata/font_size = 24
+
+[node name="Gap2" type="Control" parent="Levels/Acts/ActI/Cards/procession"]
+custom_minimum_size = Vector2(0, 6)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Spells" type="Label" parent="Levels/Acts/ActI/Cards/procession"]
+custom_minimum_size = Vector2(350, 0)
+size_flags_horizontal = 4
+layout_mode = 2
+theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
+theme_override_font_sizes/font_size = 16
+text = "Spells 1–15 — pl. I–VI"
+metadata/font_size = 16
+
+[node name="DividerCosmos" type="Control" parent="Levels/Acts/ActI/Cards"]
+custom_minimum_size = Vector2(12, 0)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Left" type="ColorRect" parent="Levels/Acts/ActI/Cards/DividerCosmos"]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 4.0
+offset_bottom = 0.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="Right" type="ColorRect" parent="Levels/Acts/ActI/Cards/DividerCosmos"]
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -4.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="cosmos" type="VBoxContainer" parent="Levels/Acts/ActI/Cards"]
+custom_minimum_size = Vector2(380, 0)
+layout_mode = 2
+layout_direction = 2
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+theme_override_constants/separation = 0
+metadata/key = "cosmos"
+
+[node name="Space" type="Control" parent="Levels/Acts/ActI/Cards/cosmos"]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Frame" type="PanelContainer" parent="Levels/Acts/ActI/Cards/cosmos"]
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+theme_override_styles/panel = SubResource("frame_box")
+
+[node name="Picture" type="TextureRect" parent="Levels/Acts/ActI/Cards/cosmos/Frame"]
+custom_minimum_size = Vector2(342, 208)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("6_yt8p8")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Restored" type="TextureRect" parent="Levels/Acts/ActI/Cards/cosmos/Frame/Picture"]
+visible = false
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -34.0
+offset_top = -38.0
+offset_right = -6.0
+offset_bottom = -6.0
+mouse_filter = 2
+texture = ExtResource("5_4wg3f")
+
+[node name="Current" type="PanelContainer" parent="Levels/Acts/ActI/Cards/cosmos/Frame/Picture"]
+visible = false
+layout_mode = 0
+offset_left = -7.0
+offset_top = -54.0
+offset_right = -7.0
+offset_bottom = -54.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("here_box")
+
+[node name="Label" type="Label" parent="Levels/Acts/ActI/Cards/cosmos/Frame/Picture/Current"]
+custom_minimum_size = Vector2(0, 20)
+vertical_alignment = 1
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
+theme_override_font_sizes/font_size = 16
+text = "You are here"
+metadata/font_size = 16
+
+[node name="Gap" type="Control" parent="Levels/Acts/ActI/Cards/cosmos"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Title" type="Label" parent="Levels/Acts/ActI/Cards/cosmos"]
+custom_minimum_size = Vector2(350, 0)
+size_flags_horizontal = 4
+theme_override_constants/line_spacing = 2
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+theme_override_font_sizes/font_size = 24
+text = "The Night Journey"
+metadata/font_size = 24
+
+[node name="Gap2" type="Control" parent="Levels/Acts/ActI/Cards/cosmos"]
+custom_minimum_size = Vector2(0, 6)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Spells" type="Label" parent="Levels/Acts/ActI/Cards/cosmos"]
+custom_minimum_size = Vector2(350, 0)
+size_flags_horizontal = 4
+layout_mode = 2
+theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
+theme_override_font_sizes/font_size = 16
+text = "Spells 17 — pl. VII–XI"
+metadata/font_size = 16
+
+[node name="DividerCouncils" type="Control" parent="Levels/Acts/ActI/Cards"]
+custom_minimum_size = Vector2(12, 0)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Left" type="ColorRect" parent="Levels/Acts/ActI/Cards/DividerCouncils"]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 4.0
+offset_bottom = 0.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="Right" type="ColorRect" parent="Levels/Acts/ActI/Cards/DividerCouncils"]
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -4.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="councils" type="VBoxContainer" parent="Levels/Acts/ActI/Cards"]
+custom_minimum_size = Vector2(380, 0)
+layout_mode = 2
+layout_direction = 2
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+theme_override_constants/separation = 0
+metadata/key = "councils"
+
+[node name="Space" type="Control" parent="Levels/Acts/ActI/Cards/councils"]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Frame" type="PanelContainer" parent="Levels/Acts/ActI/Cards/councils"]
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+theme_override_styles/panel = SubResource("frame_box")
+
+[node name="Picture" type="TextureRect" parent="Levels/Acts/ActI/Cards/councils/Frame"]
+custom_minimum_size = Vector2(342, 208)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("7_2l4wu")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Restored" type="TextureRect" parent="Levels/Acts/ActI/Cards/councils/Frame/Picture"]
+visible = false
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -34.0
+offset_top = -38.0
+offset_right = -6.0
+offset_bottom = -6.0
+mouse_filter = 2
+texture = ExtResource("5_4wg3f")
+
+[node name="Current" type="PanelContainer" parent="Levels/Acts/ActI/Cards/councils/Frame/Picture"]
+visible = false
+layout_mode = 0
+offset_left = -7.0
+offset_top = -54.0
+offset_right = -7.0
+offset_bottom = -54.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("here_box")
+
+[node name="Label" type="Label" parent="Levels/Acts/ActI/Cards/councils/Frame/Picture/Current"]
+custom_minimum_size = Vector2(0, 20)
+vertical_alignment = 1
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
+theme_override_font_sizes/font_size = 16
+text = "You are here"
+metadata/font_size = 16
+
+[node name="Gap" type="Control" parent="Levels/Acts/ActI/Cards/councils"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Title" type="Label" parent="Levels/Acts/ActI/Cards/councils"]
+custom_minimum_size = Vector2(350, 0)
+size_flags_horizontal = 4
+theme_override_constants/line_spacing = 2
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+theme_override_font_sizes/font_size = 24
+text = "The Councils"
+metadata/font_size = 24
+
+[node name="Gap2" type="Control" parent="Levels/Acts/ActI/Cards/councils"]
+custom_minimum_size = Vector2(0, 6)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Spells" type="Label" parent="Levels/Acts/ActI/Cards/councils"]
+custom_minimum_size = Vector2(350, 0)
+size_flags_horizontal = 4
+layout_mode = 2
+theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
+theme_override_font_sizes/font_size = 16
+text = "Spells 18 — pl. XI–XIII"
+metadata/font_size = 16
+
+[node name="DividerMouth" type="Control" parent="Levels/Acts/ActI/Cards"]
+custom_minimum_size = Vector2(12, 0)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Left" type="ColorRect" parent="Levels/Acts/ActI/Cards/DividerMouth"]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 4.0
+offset_bottom = 0.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="Right" type="ColorRect" parent="Levels/Acts/ActI/Cards/DividerMouth"]
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -4.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="mouth" type="VBoxContainer" parent="Levels/Acts/ActI/Cards"]
+custom_minimum_size = Vector2(380, 0)
+layout_mode = 2
+layout_direction = 2
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+theme_override_constants/separation = 0
+metadata/key = "mouth"
+
+[node name="Space" type="Control" parent="Levels/Acts/ActI/Cards/mouth"]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Frame" type="PanelContainer" parent="Levels/Acts/ActI/Cards/mouth"]
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+theme_override_styles/panel = SubResource("frame_box")
+
+[node name="Picture" type="TextureRect" parent="Levels/Acts/ActI/Cards/mouth/Frame"]
+custom_minimum_size = Vector2(342, 208)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("8_tn0x0")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Restored" type="TextureRect" parent="Levels/Acts/ActI/Cards/mouth/Frame/Picture"]
+visible = false
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -34.0
+offset_top = -38.0
+offset_right = -6.0
+offset_bottom = -6.0
+mouse_filter = 2
+texture = ExtResource("5_4wg3f")
+
+[node name="Current" type="PanelContainer" parent="Levels/Acts/ActI/Cards/mouth/Frame/Picture"]
+visible = false
+layout_mode = 0
+offset_left = -7.0
+offset_top = -54.0
+offset_right = -7.0
+offset_bottom = -54.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("here_box")
+
+[node name="Label" type="Label" parent="Levels/Acts/ActI/Cards/mouth/Frame/Picture/Current"]
+custom_minimum_size = Vector2(0, 20)
+vertical_alignment = 1
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
+theme_override_font_sizes/font_size = 16
+text = "You are here"
+metadata/font_size = 16
+
+[node name="Gap" type="Control" parent="Levels/Acts/ActI/Cards/mouth"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Title" type="Label" parent="Levels/Acts/ActI/Cards/mouth"]
+custom_minimum_size = Vector2(350, 0)
+size_flags_horizontal = 4
+theme_override_constants/line_spacing = 2
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+theme_override_font_sizes/font_size = 24
+text = "Mouth and Heart"
+metadata/font_size = 24
+
+[node name="Gap2" type="Control" parent="Levels/Acts/ActI/Cards/mouth"]
+custom_minimum_size = Vector2(0, 6)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Spells" type="Label" parent="Levels/Acts/ActI/Cards/mouth"]
+custom_minimum_size = Vector2(350, 0)
+size_flags_horizontal = 4
+layout_mode = 2
+theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
+theme_override_font_sizes/font_size = 16
+text = "Spells 21–30 — pl. XIV–XV"
+metadata/font_size = 16
+
+[node name="Bottom" type="Control" parent="Levels/Acts/ActI"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Inner" type="ColorRect" parent="Levels/Acts/ActI/Bottom"]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 4.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="Outer" type="ColorRect" parent="Levels/Acts/ActI/Bottom"]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = -4.0
+offset_right = 0.0
+offset_bottom = 0.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="Gap2" type="Control" parent="Levels/Acts"]
+custom_minimum_size = Vector2(12, 0)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Left" type="ColorRect" parent="Levels/Acts/Gap2"]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 4.0
+offset_bottom = 0.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="Right" type="ColorRect" parent="Levels/Acts/Gap2"]
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -4.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="ActII" type="VBoxContainer" parent="Levels/Acts"]
+layout_mode = 2
+layout_direction = 2
+theme_override_constants/separation = 0
+
+[node name="Top" type="Control" parent="Levels/Acts/ActII"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Outer" type="ColorRect" parent="Levels/Acts/ActII/Top"]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 4.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="Inner" type="ColorRect" parent="Levels/Acts/ActII/Top"]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = -4.0
+offset_right = 0.0
+offset_bottom = 0.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="Caption" type="MarginContainer" parent="Levels/Acts/ActII"]
+custom_minimum_size = Vector2(0, 68)
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 8
+
+[node name="Title" type="Label" parent="Levels/Acts/ActII/Caption"]
+size_flags_vertical = 4
+horizontal_alignment = 1
+autowrap_mode = 3
+theme_override_constants/line_spacing = 2
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5882353, 0.24313726, 0.15686275, 1)
+theme_override_font_sizes/font_size = 24
+text = "Act II — Survival"
+metadata/font_size = 24
+
+[node name="Rule" type="ColorRect" parent="Levels/Acts/ActII"]
+custom_minimum_size = Vector2(0, 4)
+layout_mode = 2
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="Cards" type="HBoxContainer" parent="Levels/Acts/ActII"]
+layout_mode = 2
+size_flags_vertical = 3
+layout_direction = 3
+theme_override_constants/separation = 0
+
+[node name="dangers" type="VBoxContainer" parent="Levels/Acts/ActII/Cards"]
+custom_minimum_size = Vector2(380, 0)
+layout_mode = 2
+layout_direction = 2
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+theme_override_constants/separation = 0
+metadata/key = "dangers"
+
+[node name="Space" type="Control" parent="Levels/Acts/ActII/Cards/dangers"]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Frame" type="PanelContainer" parent="Levels/Acts/ActII/Cards/dangers"]
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+theme_override_styles/panel = SubResource("frame_box")
+
+[node name="Picture" type="TextureRect" parent="Levels/Acts/ActII/Cards/dangers/Frame"]
+custom_minimum_size = Vector2(342, 208)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("9_p4842")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Restored" type="TextureRect" parent="Levels/Acts/ActII/Cards/dangers/Frame/Picture"]
+visible = false
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -34.0
+offset_top = -38.0
+offset_right = -6.0
+offset_bottom = -6.0
+mouse_filter = 2
+texture = ExtResource("5_4wg3f")
+
+[node name="Current" type="PanelContainer" parent="Levels/Acts/ActII/Cards/dangers/Frame/Picture"]
+visible = false
+layout_mode = 0
+offset_left = -7.0
+offset_top = -54.0
+offset_right = -7.0
+offset_bottom = -54.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("here_box")
+
+[node name="Label" type="Label" parent="Levels/Acts/ActII/Cards/dangers/Frame/Picture/Current"]
+custom_minimum_size = Vector2(0, 20)
+vertical_alignment = 1
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
+theme_override_font_sizes/font_size = 16
+text = "You are here"
+metadata/font_size = 16
+
+[node name="Gap" type="Control" parent="Levels/Acts/ActII/Cards/dangers"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Title" type="Label" parent="Levels/Acts/ActII/Cards/dangers"]
+custom_minimum_size = Vector2(350, 0)
+size_flags_horizontal = 4
+theme_override_constants/line_spacing = 2
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+theme_override_font_sizes/font_size = 24
+text = "Dangers on the Road"
+metadata/font_size = 24
+
+[node name="Gap2" type="Control" parent="Levels/Acts/ActII/Cards/dangers"]
+custom_minimum_size = Vector2(0, 6)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Spells" type="Label" parent="Levels/Acts/ActII/Cards/dangers"]
+custom_minimum_size = Vector2(350, 0)
+size_flags_horizontal = 4
+layout_mode = 2
+theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
+theme_override_font_sizes/font_size = 16
+text = "Spells 31–42 — pl. XVI–XIX"
+metadata/font_size = 16
+
+[node name="DividerSurvival" type="Control" parent="Levels/Acts/ActII/Cards"]
+custom_minimum_size = Vector2(12, 0)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Left" type="ColorRect" parent="Levels/Acts/ActII/Cards/DividerSurvival"]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 4.0
+offset_bottom = 0.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="Right" type="ColorRect" parent="Levels/Acts/ActII/Cards/DividerSurvival"]
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -4.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="survival" type="VBoxContainer" parent="Levels/Acts/ActII/Cards"]
+custom_minimum_size = Vector2(380, 0)
+layout_mode = 2
+layout_direction = 2
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+theme_override_constants/separation = 0
+metadata/key = "survival"
+
+[node name="Space" type="Control" parent="Levels/Acts/ActII/Cards/survival"]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Frame" type="PanelContainer" parent="Levels/Acts/ActII/Cards/survival"]
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+theme_override_styles/panel = SubResource("frame_box")
+
+[node name="Picture" type="TextureRect" parent="Levels/Acts/ActII/Cards/survival/Frame"]
+custom_minimum_size = Vector2(342, 208)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("10_e3ks8")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Restored" type="TextureRect" parent="Levels/Acts/ActII/Cards/survival/Frame/Picture"]
+visible = false
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -34.0
+offset_top = -38.0
+offset_right = -6.0
+offset_bottom = -6.0
+mouse_filter = 2
+texture = ExtResource("5_4wg3f")
+
+[node name="Current" type="PanelContainer" parent="Levels/Acts/ActII/Cards/survival/Frame/Picture"]
+visible = false
+layout_mode = 0
+offset_left = -7.0
+offset_top = -54.0
+offset_right = -7.0
+offset_bottom = -54.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("here_box")
+
+[node name="Label" type="Label" parent="Levels/Acts/ActII/Cards/survival/Frame/Picture/Current"]
+custom_minimum_size = Vector2(0, 20)
+vertical_alignment = 1
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
+theme_override_font_sizes/font_size = 16
+text = "You are here"
+metadata/font_size = 16
+
+[node name="Gap" type="Control" parent="Levels/Acts/ActII/Cards/survival"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Title" type="Label" parent="Levels/Acts/ActII/Cards/survival"]
+custom_minimum_size = Vector2(350, 0)
+size_flags_horizontal = 4
+theme_override_constants/line_spacing = 2
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+theme_override_font_sizes/font_size = 24
+text = "Survival and Sustenance"
+metadata/font_size = 24
+
+[node name="Gap2" type="Control" parent="Levels/Acts/ActII/Cards/survival"]
+custom_minimum_size = Vector2(0, 6)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Spells" type="Label" parent="Levels/Acts/ActII/Cards/survival"]
+custom_minimum_size = Vector2(350, 0)
+size_flags_horizontal = 4
+layout_mode = 2
+theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
+theme_override_font_sizes/font_size = 16
+text = "Spells 43–63 — pl. XX–XXIII"
+metadata/font_size = 16
+
+[node name="Bottom" type="Control" parent="Levels/Acts/ActII"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Inner" type="ColorRect" parent="Levels/Acts/ActII/Bottom"]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 4.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="Outer" type="ColorRect" parent="Levels/Acts/ActII/Bottom"]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = -4.0
+offset_right = 0.0
+offset_bottom = 0.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="Gap3" type="Control" parent="Levels/Acts"]
+custom_minimum_size = Vector2(12, 0)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Left" type="ColorRect" parent="Levels/Acts/Gap3"]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 4.0
+offset_bottom = 0.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="Right" type="ColorRect" parent="Levels/Acts/Gap3"]
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -4.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="ActIII" type="VBoxContainer" parent="Levels/Acts"]
+layout_mode = 2
+layout_direction = 2
+theme_override_constants/separation = 0
+
+[node name="Top" type="Control" parent="Levels/Acts/ActIII"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Outer" type="ColorRect" parent="Levels/Acts/ActIII/Top"]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 4.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="Inner" type="ColorRect" parent="Levels/Acts/ActIII/Top"]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = -4.0
+offset_right = 0.0
+offset_bottom = 0.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="Caption" type="MarginContainer" parent="Levels/Acts/ActIII"]
+custom_minimum_size = Vector2(0, 68)
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 8
+
+[node name="Title" type="Label" parent="Levels/Acts/ActIII/Caption"]
+size_flags_vertical = 4
+horizontal_alignment = 1
+autowrap_mode = 3
+theme_override_constants/line_spacing = 2
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5882353, 0.24313726, 0.15686275, 1)
+theme_override_font_sizes/font_size = 24
+text = "Act III — Food, breath and transformations"
+metadata/font_size = 24
+
+[node name="Rule" type="ColorRect" parent="Levels/Acts/ActIII"]
+custom_minimum_size = Vector2(0, 4)
+layout_mode = 2
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="Cards" type="HBoxContainer" parent="Levels/Acts/ActIII"]
+layout_mode = 2
+size_flags_vertical = 3
+layout_direction = 3
+theme_override_constants/separation = 0
+
+[node name="forth" type="VBoxContainer" parent="Levels/Acts/ActIII/Cards"]
+custom_minimum_size = Vector2(380, 0)
+layout_mode = 2
+layout_direction = 2
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+theme_override_constants/separation = 0
+metadata/key = "forth"
+
+[node name="Space" type="Control" parent="Levels/Acts/ActIII/Cards/forth"]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Frame" type="PanelContainer" parent="Levels/Acts/ActIII/Cards/forth"]
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+theme_override_styles/panel = SubResource("frame_box")
+
+[node name="Picture" type="TextureRect" parent="Levels/Acts/ActIII/Cards/forth/Frame"]
+custom_minimum_size = Vector2(342, 208)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("11_dt7y3")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Restored" type="TextureRect" parent="Levels/Acts/ActIII/Cards/forth/Frame/Picture"]
+visible = false
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -34.0
+offset_top = -38.0
+offset_right = -6.0
+offset_bottom = -6.0
+mouse_filter = 2
+texture = ExtResource("5_4wg3f")
+
+[node name="Current" type="PanelContainer" parent="Levels/Acts/ActIII/Cards/forth/Frame/Picture"]
+visible = false
+layout_mode = 0
+offset_left = -7.0
+offset_top = -54.0
+offset_right = -7.0
+offset_bottom = -54.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("here_box")
+
+[node name="Label" type="Label" parent="Levels/Acts/ActIII/Cards/forth/Frame/Picture/Current"]
+custom_minimum_size = Vector2(0, 20)
+vertical_alignment = 1
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
+theme_override_font_sizes/font_size = 16
+text = "You are here"
+metadata/font_size = 16
+
+[node name="Gap" type="Control" parent="Levels/Acts/ActIII/Cards/forth"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Title" type="Label" parent="Levels/Acts/ActIII/Cards/forth"]
+custom_minimum_size = Vector2(350, 0)
+size_flags_horizontal = 4
+theme_override_constants/line_spacing = 2
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+theme_override_font_sizes/font_size = 24
+text = "Coming Forth by Day"
+metadata/font_size = 24
+
+[node name="Gap2" type="Control" parent="Levels/Acts/ActIII/Cards/forth"]
+custom_minimum_size = Vector2(0, 6)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Spells" type="Label" parent="Levels/Acts/ActIII/Cards/forth"]
+custom_minimum_size = Vector2(350, 0)
+size_flags_horizontal = 4
+layout_mode = 2
+theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
+theme_override_font_sizes/font_size = 16
+text = "Spells 64–75 — pl. XXIII–XXVII"
+metadata/font_size = 16
+
+[node name="DividerForms" type="Control" parent="Levels/Acts/ActIII/Cards"]
+custom_minimum_size = Vector2(12, 0)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Left" type="ColorRect" parent="Levels/Acts/ActIII/Cards/DividerForms"]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 4.0
+offset_bottom = 0.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="Right" type="ColorRect" parent="Levels/Acts/ActIII/Cards/DividerForms"]
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -4.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="forms" type="VBoxContainer" parent="Levels/Acts/ActIII/Cards"]
+custom_minimum_size = Vector2(380, 0)
+layout_mode = 2
+layout_direction = 2
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+theme_override_constants/separation = 0
+metadata/key = "forms"
+
+[node name="Space" type="Control" parent="Levels/Acts/ActIII/Cards/forms"]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Frame" type="PanelContainer" parent="Levels/Acts/ActIII/Cards/forms"]
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+theme_override_styles/panel = SubResource("frame_box")
+
+[node name="Picture" type="TextureRect" parent="Levels/Acts/ActIII/Cards/forms/Frame"]
+custom_minimum_size = Vector2(342, 208)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("12_dpgsj")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Restored" type="TextureRect" parent="Levels/Acts/ActIII/Cards/forms/Frame/Picture"]
+visible = false
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -34.0
+offset_top = -38.0
+offset_right = -6.0
+offset_bottom = -6.0
+mouse_filter = 2
+texture = ExtResource("5_4wg3f")
+
+[node name="Current" type="PanelContainer" parent="Levels/Acts/ActIII/Cards/forms/Frame/Picture"]
+visible = false
+layout_mode = 0
+offset_left = -7.0
+offset_top = -54.0
+offset_right = -7.0
+offset_bottom = -54.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("here_box")
+
+[node name="Label" type="Label" parent="Levels/Acts/ActIII/Cards/forms/Frame/Picture/Current"]
+custom_minimum_size = Vector2(0, 20)
+vertical_alignment = 1
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
+theme_override_font_sizes/font_size = 16
+text = "You are here"
+metadata/font_size = 16
+
+[node name="Gap" type="Control" parent="Levels/Acts/ActIII/Cards/forms"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Title" type="Label" parent="Levels/Acts/ActIII/Cards/forms"]
+custom_minimum_size = Vector2(350, 0)
+size_flags_horizontal = 4
+theme_override_constants/line_spacing = 2
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+theme_override_font_sizes/font_size = 24
+text = "Transformations"
+metadata/font_size = 24
+
+[node name="Gap2" type="Control" parent="Levels/Acts/ActIII/Cards/forms"]
+custom_minimum_size = Vector2(0, 6)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Spells" type="Label" parent="Levels/Acts/ActIII/Cards/forms"]
+custom_minimum_size = Vector2(350, 0)
+size_flags_horizontal = 4
+layout_mode = 2
+theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
+theme_override_font_sizes/font_size = 16
+text = "Spells 76–88 — pl. XXVIII–XXXIII"
+metadata/font_size = 16
+
+[node name="DividerBa" type="Control" parent="Levels/Acts/ActIII/Cards"]
+custom_minimum_size = Vector2(12, 0)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Left" type="ColorRect" parent="Levels/Acts/ActIII/Cards/DividerBa"]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 4.0
+offset_bottom = 0.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="Right" type="ColorRect" parent="Levels/Acts/ActIII/Cards/DividerBa"]
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -4.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="ba" type="VBoxContainer" parent="Levels/Acts/ActIII/Cards"]
+custom_minimum_size = Vector2(380, 0)
+layout_mode = 2
+layout_direction = 2
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+theme_override_constants/separation = 0
+metadata/key = "ba"
+
+[node name="Space" type="Control" parent="Levels/Acts/ActIII/Cards/ba"]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Frame" type="PanelContainer" parent="Levels/Acts/ActIII/Cards/ba"]
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+theme_override_styles/panel = SubResource("frame_box")
+
+[node name="Picture" type="TextureRect" parent="Levels/Acts/ActIII/Cards/ba/Frame"]
+custom_minimum_size = Vector2(342, 208)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("13_y5jyt")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Restored" type="TextureRect" parent="Levels/Acts/ActIII/Cards/ba/Frame/Picture"]
+visible = false
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -34.0
+offset_top = -38.0
+offset_right = -6.0
+offset_bottom = -6.0
+mouse_filter = 2
+texture = ExtResource("5_4wg3f")
+
+[node name="Current" type="PanelContainer" parent="Levels/Acts/ActIII/Cards/ba/Frame/Picture"]
+visible = false
+layout_mode = 0
+offset_left = -7.0
+offset_top = -54.0
+offset_right = -7.0
+offset_bottom = -54.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("here_box")
+
+[node name="Label" type="Label" parent="Levels/Acts/ActIII/Cards/ba/Frame/Picture/Current"]
+custom_minimum_size = Vector2(0, 20)
+vertical_alignment = 1
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
+theme_override_font_sizes/font_size = 16
+text = "You are here"
+metadata/font_size = 16
+
+[node name="Gap" type="Control" parent="Levels/Acts/ActIII/Cards/ba"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Title" type="Label" parent="Levels/Acts/ActIII/Cards/ba"]
+custom_minimum_size = Vector2(350, 0)
+size_flags_horizontal = 4
+theme_override_constants/line_spacing = 2
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+theme_override_font_sizes/font_size = 24
+text = "Ba and Tomb"
+metadata/font_size = 24
+
+[node name="Gap2" type="Control" parent="Levels/Acts/ActIII/Cards/ba"]
+custom_minimum_size = Vector2(0, 6)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Spells" type="Label" parent="Levels/Acts/ActIII/Cards/ba"]
+custom_minimum_size = Vector2(350, 0)
+size_flags_horizontal = 4
+layout_mode = 2
+theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
+theme_override_font_sizes/font_size = 16
+text = "Spells 89–92 — pl. XXXIII"
+metadata/font_size = 16
+
+[node name="DividerBoats" type="Control" parent="Levels/Acts/ActIII/Cards"]
+custom_minimum_size = Vector2(12, 0)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Left" type="ColorRect" parent="Levels/Acts/ActIII/Cards/DividerBoats"]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 4.0
+offset_bottom = 0.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="Right" type="ColorRect" parent="Levels/Acts/ActIII/Cards/DividerBoats"]
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -4.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="boats" type="VBoxContainer" parent="Levels/Acts/ActIII/Cards"]
+custom_minimum_size = Vector2(380, 0)
+layout_mode = 2
+layout_direction = 2
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+theme_override_constants/separation = 0
+metadata/key = "boats"
+
+[node name="Space" type="Control" parent="Levels/Acts/ActIII/Cards/boats"]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Frame" type="PanelContainer" parent="Levels/Acts/ActIII/Cards/boats"]
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+theme_override_styles/panel = SubResource("frame_box")
+
+[node name="Picture" type="TextureRect" parent="Levels/Acts/ActIII/Cards/boats/Frame"]
+custom_minimum_size = Vector2(342, 208)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("14_f3wiw")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Restored" type="TextureRect" parent="Levels/Acts/ActIII/Cards/boats/Frame/Picture"]
+visible = false
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -34.0
+offset_top = -38.0
+offset_right = -6.0
+offset_bottom = -6.0
+mouse_filter = 2
+texture = ExtResource("5_4wg3f")
+
+[node name="Current" type="PanelContainer" parent="Levels/Acts/ActIII/Cards/boats/Frame/Picture"]
+visible = false
+layout_mode = 0
+offset_left = -7.0
+offset_top = -54.0
+offset_right = -7.0
+offset_bottom = -54.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("here_box")
+
+[node name="Label" type="Label" parent="Levels/Acts/ActIII/Cards/boats/Frame/Picture/Current"]
+custom_minimum_size = Vector2(0, 20)
+vertical_alignment = 1
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
+theme_override_font_sizes/font_size = 16
+text = "You are here"
+metadata/font_size = 16
+
+[node name="Gap" type="Control" parent="Levels/Acts/ActIII/Cards/boats"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Title" type="Label" parent="Levels/Acts/ActIII/Cards/boats"]
+custom_minimum_size = Vector2(350, 0)
+size_flags_horizontal = 4
+theme_override_constants/line_spacing = 2
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+theme_override_font_sizes/font_size = 24
+text = "Thoth and the Boats"
+metadata/font_size = 24
+
+[node name="Gap2" type="Control" parent="Levels/Acts/ActIII/Cards/boats"]
+custom_minimum_size = Vector2(0, 6)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Spells" type="Label" parent="Levels/Acts/ActIII/Cards/boats"]
+custom_minimum_size = Vector2(350, 0)
+size_flags_horizontal = 4
+layout_mode = 2
+theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
+theme_override_font_sizes/font_size = 16
+text = "Spells 93–109 — pl. XXXIV–XXXIX"
+metadata/font_size = 16
+
+[node name="Bottom" type="Control" parent="Levels/Acts/ActIII"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Inner" type="ColorRect" parent="Levels/Acts/ActIII/Bottom"]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 4.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="Outer" type="ColorRect" parent="Levels/Acts/ActIII/Bottom"]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = -4.0
+offset_right = 0.0
+offset_bottom = 0.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="Gap4" type="Control" parent="Levels/Acts"]
+custom_minimum_size = Vector2(12, 0)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Left" type="ColorRect" parent="Levels/Acts/Gap4"]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 4.0
+offset_bottom = 0.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="Right" type="ColorRect" parent="Levels/Acts/Gap4"]
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -4.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="ActIV" type="VBoxContainer" parent="Levels/Acts"]
+layout_mode = 2
+layout_direction = 2
+theme_override_constants/separation = 0
+
+[node name="Top" type="Control" parent="Levels/Acts/ActIV"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Outer" type="ColorRect" parent="Levels/Acts/ActIV/Top"]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 4.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="Inner" type="ColorRect" parent="Levels/Acts/ActIV/Top"]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = -4.0
+offset_right = 0.0
+offset_bottom = 0.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="Caption" type="MarginContainer" parent="Levels/Acts/ActIV"]
+custom_minimum_size = Vector2(0, 68)
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 8
+
+[node name="Title" type="Label" parent="Levels/Acts/ActIV/Caption"]
+size_flags_vertical = 4
+horizontal_alignment = 1
+autowrap_mode = 3
+theme_override_constants/line_spacing = 2
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5882353, 0.24313726, 0.15686275, 1)
+theme_override_font_sizes/font_size = 24
+text = "Act IV — The Field of Reeds"
+metadata/font_size = 24
+
+[node name="Rule" type="ColorRect" parent="Levels/Acts/ActIV"]
+custom_minimum_size = Vector2(0, 4)
+layout_mode = 2
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="Cards" type="HBoxContainer" parent="Levels/Acts/ActIV"]
+layout_mode = 2
+size_flags_vertical = 3
+layout_direction = 3
+theme_override_constants/separation = 0
+
+[node name="field" type="VBoxContainer" parent="Levels/Acts/ActIV/Cards"]
+custom_minimum_size = Vector2(380, 0)
+layout_mode = 2
+layout_direction = 2
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+theme_override_constants/separation = 0
+metadata/key = "field"
+
+[node name="Space" type="Control" parent="Levels/Acts/ActIV/Cards/field"]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Frame" type="PanelContainer" parent="Levels/Acts/ActIV/Cards/field"]
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+theme_override_styles/panel = SubResource("frame_box")
+
+[node name="Picture" type="TextureRect" parent="Levels/Acts/ActIV/Cards/field/Frame"]
+custom_minimum_size = Vector2(342, 208)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("15_nmfc1")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Restored" type="TextureRect" parent="Levels/Acts/ActIV/Cards/field/Frame/Picture"]
+visible = false
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -34.0
+offset_top = -38.0
+offset_right = -6.0
+offset_bottom = -6.0
+mouse_filter = 2
+texture = ExtResource("5_4wg3f")
+
+[node name="Current" type="PanelContainer" parent="Levels/Acts/ActIV/Cards/field/Frame/Picture"]
+visible = false
+layout_mode = 0
+offset_left = -7.0
+offset_top = -54.0
+offset_right = -7.0
+offset_bottom = -54.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("here_box")
+
+[node name="Label" type="Label" parent="Levels/Acts/ActIV/Cards/field/Frame/Picture/Current"]
+custom_minimum_size = Vector2(0, 20)
+vertical_alignment = 1
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
+theme_override_font_sizes/font_size = 16
+text = "You are here"
+metadata/font_size = 16
+
+[node name="Gap" type="Control" parent="Levels/Acts/ActIV/Cards/field"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Title" type="Label" parent="Levels/Acts/ActIV/Cards/field"]
+custom_minimum_size = Vector2(350, 0)
+size_flags_horizontal = 4
+theme_override_constants/line_spacing = 2
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+theme_override_font_sizes/font_size = 24
+text = "The Field of Offerings"
+metadata/font_size = 24
+
+[node name="Gap2" type="Control" parent="Levels/Acts/ActIV/Cards/field"]
+custom_minimum_size = Vector2(0, 6)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Spells" type="Label" parent="Levels/Acts/ActIV/Cards/field"]
+custom_minimum_size = Vector2(350, 0)
+size_flags_horizontal = 4
+layout_mode = 2
+theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
+theme_override_font_sizes/font_size = 16
+text = "Spells 110 — pl. XL–XLII"
+metadata/font_size = 16
+
+[node name="DividerSouls" type="Control" parent="Levels/Acts/ActIV/Cards"]
+custom_minimum_size = Vector2(12, 0)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Left" type="ColorRect" parent="Levels/Acts/ActIV/Cards/DividerSouls"]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 4.0
+offset_bottom = 0.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="Right" type="ColorRect" parent="Levels/Acts/ActIV/Cards/DividerSouls"]
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -4.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="souls" type="VBoxContainer" parent="Levels/Acts/ActIV/Cards"]
+custom_minimum_size = Vector2(380, 0)
+layout_mode = 2
+layout_direction = 2
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+theme_override_constants/separation = 0
+metadata/key = "souls"
+
+[node name="Space" type="Control" parent="Levels/Acts/ActIV/Cards/souls"]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Frame" type="PanelContainer" parent="Levels/Acts/ActIV/Cards/souls"]
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+theme_override_styles/panel = SubResource("frame_box")
+
+[node name="Picture" type="TextureRect" parent="Levels/Acts/ActIV/Cards/souls/Frame"]
+custom_minimum_size = Vector2(342, 208)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("16_nimr0")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Restored" type="TextureRect" parent="Levels/Acts/ActIV/Cards/souls/Frame/Picture"]
+visible = false
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -34.0
+offset_top = -38.0
+offset_right = -6.0
+offset_bottom = -6.0
+mouse_filter = 2
+texture = ExtResource("5_4wg3f")
+
+[node name="Current" type="PanelContainer" parent="Levels/Acts/ActIV/Cards/souls/Frame/Picture"]
+visible = false
+layout_mode = 0
+offset_left = -7.0
+offset_top = -54.0
+offset_right = -7.0
+offset_bottom = -54.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("here_box")
+
+[node name="Label" type="Label" parent="Levels/Acts/ActIV/Cards/souls/Frame/Picture/Current"]
+custom_minimum_size = Vector2(0, 20)
+vertical_alignment = 1
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
+theme_override_font_sizes/font_size = 16
+text = "You are here"
+metadata/font_size = 16
+
+[node name="Gap" type="Control" parent="Levels/Acts/ActIV/Cards/souls"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Title" type="Label" parent="Levels/Acts/ActIV/Cards/souls"]
+custom_minimum_size = Vector2(350, 0)
+size_flags_horizontal = 4
+theme_override_constants/line_spacing = 2
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+theme_override_font_sizes/font_size = 24
+text = "The Souls of the Towns"
+metadata/font_size = 24
+
+[node name="Gap2" type="Control" parent="Levels/Acts/ActIV/Cards/souls"]
+custom_minimum_size = Vector2(0, 6)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Spells" type="Label" parent="Levels/Acts/ActIV/Cards/souls"]
+custom_minimum_size = Vector2(350, 0)
+size_flags_horizontal = 4
+layout_mode = 2
+theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
+theme_override_font_sizes/font_size = 16
+text = "Spells 112–124 — pl. XLIII–XLV"
+metadata/font_size = 16
+
+[node name="Bottom" type="Control" parent="Levels/Acts/ActIV"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Inner" type="ColorRect" parent="Levels/Acts/ActIV/Bottom"]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 4.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="Outer" type="ColorRect" parent="Levels/Acts/ActIV/Bottom"]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = -4.0
+offset_right = 0.0
+offset_bottom = 0.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="Gap5" type="Control" parent="Levels/Acts"]
+custom_minimum_size = Vector2(12, 0)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Left" type="ColorRect" parent="Levels/Acts/Gap5"]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 4.0
+offset_bottom = 0.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="Right" type="ColorRect" parent="Levels/Acts/Gap5"]
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -4.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="ActV" type="VBoxContainer" parent="Levels/Acts"]
+layout_mode = 2
+layout_direction = 2
+theme_override_constants/separation = 0
+
+[node name="Top" type="Control" parent="Levels/Acts/ActV"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Outer" type="ColorRect" parent="Levels/Acts/ActV/Top"]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 4.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="Inner" type="ColorRect" parent="Levels/Acts/ActV/Top"]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = -4.0
+offset_right = 0.0
+offset_bottom = 0.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="Caption" type="MarginContainer" parent="Levels/Acts/ActV"]
+custom_minimum_size = Vector2(0, 68)
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 8
+
+[node name="Title" type="Label" parent="Levels/Acts/ActV/Caption"]
+size_flags_vertical = 4
+horizontal_alignment = 1
+autowrap_mode = 3
+theme_override_constants/line_spacing = 2
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5882353, 0.24313726, 0.15686275, 1)
+theme_override_font_sizes/font_size = 24
+text = "Act V — Gates and guardians"
+metadata/font_size = 24
+
+[node name="Rule" type="ColorRect" parent="Levels/Acts/ActV"]
+custom_minimum_size = Vector2(0, 4)
+layout_mode = 2
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="Cards" type="HBoxContainer" parent="Levels/Acts/ActV"]
+layout_mode = 2
+size_flags_vertical = 3
+layout_direction = 3
+theme_override_constants/separation = 0
+
+[node name="lake" type="VBoxContainer" parent="Levels/Acts/ActV/Cards"]
+custom_minimum_size = Vector2(380, 0)
+layout_mode = 2
+layout_direction = 2
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+theme_override_constants/separation = 0
+metadata/key = "lake"
+
+[node name="Space" type="Control" parent="Levels/Acts/ActV/Cards/lake"]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Frame" type="PanelContainer" parent="Levels/Acts/ActV/Cards/lake"]
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+theme_override_styles/panel = SubResource("frame_box")
+
+[node name="Picture" type="TextureRect" parent="Levels/Acts/ActV/Cards/lake/Frame"]
+custom_minimum_size = Vector2(342, 208)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("17_ompfu")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Restored" type="TextureRect" parent="Levels/Acts/ActV/Cards/lake/Frame/Picture"]
+visible = false
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -34.0
+offset_top = -38.0
+offset_right = -6.0
+offset_bottom = -6.0
+mouse_filter = 2
+texture = ExtResource("5_4wg3f")
+
+[node name="Current" type="PanelContainer" parent="Levels/Acts/ActV/Cards/lake/Frame/Picture"]
+visible = false
+layout_mode = 0
+offset_left = -7.0
+offset_top = -54.0
+offset_right = -7.0
+offset_bottom = -54.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("here_box")
+
+[node name="Label" type="Label" parent="Levels/Acts/ActV/Cards/lake/Frame/Picture/Current"]
+custom_minimum_size = Vector2(0, 20)
+vertical_alignment = 1
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
+theme_override_font_sizes/font_size = 16
+text = "You are here"
+metadata/font_size = 16
+
+[node name="Gap" type="Control" parent="Levels/Acts/ActV/Cards/lake"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Title" type="Label" parent="Levels/Acts/ActV/Cards/lake"]
+custom_minimum_size = Vector2(350, 0)
+size_flags_horizontal = 4
+theme_override_constants/line_spacing = 2
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+theme_override_font_sizes/font_size = 24
+text = "The Lake of Fire"
+metadata/font_size = 24
+
+[node name="Gap2" type="Control" parent="Levels/Acts/ActV/Cards/lake"]
+custom_minimum_size = Vector2(0, 6)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Spells" type="Label" parent="Levels/Acts/ActV/Cards/lake"]
+custom_minimum_size = Vector2(350, 0)
+size_flags_horizontal = 4
+layout_mode = 2
+theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
+theme_override_font_sizes/font_size = 16
+text = "Spells 126–143 — pl. LI–LIX"
+metadata/font_size = 16
+
+[node name="DividerGates" type="Control" parent="Levels/Acts/ActV/Cards"]
+custom_minimum_size = Vector2(12, 0)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Left" type="ColorRect" parent="Levels/Acts/ActV/Cards/DividerGates"]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 4.0
+offset_bottom = 0.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="Right" type="ColorRect" parent="Levels/Acts/ActV/Cards/DividerGates"]
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -4.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="gates" type="VBoxContainer" parent="Levels/Acts/ActV/Cards"]
+custom_minimum_size = Vector2(380, 0)
+layout_mode = 2
+layout_direction = 2
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+theme_override_constants/separation = 0
+metadata/key = "gates"
+
+[node name="Space" type="Control" parent="Levels/Acts/ActV/Cards/gates"]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Frame" type="PanelContainer" parent="Levels/Acts/ActV/Cards/gates"]
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+theme_override_styles/panel = SubResource("frame_box")
+
+[node name="Picture" type="TextureRect" parent="Levels/Acts/ActV/Cards/gates/Frame"]
+custom_minimum_size = Vector2(342, 208)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("18_pf3rn")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Restored" type="TextureRect" parent="Levels/Acts/ActV/Cards/gates/Frame/Picture"]
+visible = false
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -34.0
+offset_top = -38.0
+offset_right = -6.0
+offset_bottom = -6.0
+mouse_filter = 2
+texture = ExtResource("5_4wg3f")
+
+[node name="Current" type="PanelContainer" parent="Levels/Acts/ActV/Cards/gates/Frame/Picture"]
+visible = false
+layout_mode = 0
+offset_left = -7.0
+offset_top = -54.0
+offset_right = -7.0
+offset_bottom = -54.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("here_box")
+
+[node name="Label" type="Label" parent="Levels/Acts/ActV/Cards/gates/Frame/Picture/Current"]
+custom_minimum_size = Vector2(0, 20)
+vertical_alignment = 1
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
+theme_override_font_sizes/font_size = 16
+text = "You are here"
+metadata/font_size = 16
+
+[node name="Gap" type="Control" parent="Levels/Acts/ActV/Cards/gates"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Title" type="Label" parent="Levels/Acts/ActV/Cards/gates"]
+custom_minimum_size = Vector2(350, 0)
+size_flags_horizontal = 4
+theme_override_constants/line_spacing = 2
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+theme_override_font_sizes/font_size = 24
+text = "The Gates"
+metadata/font_size = 24
+
+[node name="Gap2" type="Control" parent="Levels/Acts/ActV/Cards/gates"]
+custom_minimum_size = Vector2(0, 6)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Spells" type="Label" parent="Levels/Acts/ActV/Cards/gates"]
+custom_minimum_size = Vector2(350, 0)
+size_flags_horizontal = 4
+layout_mode = 2
+theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
+theme_override_font_sizes/font_size = 16
+text = "Spells 144–146 — pl. LX–LXVII"
+metadata/font_size = 16
+
+[node name="DividerMounds" type="Control" parent="Levels/Acts/ActV/Cards"]
+custom_minimum_size = Vector2(12, 0)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Left" type="ColorRect" parent="Levels/Acts/ActV/Cards/DividerMounds"]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 4.0
+offset_bottom = 0.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="Right" type="ColorRect" parent="Levels/Acts/ActV/Cards/DividerMounds"]
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -4.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="mounds" type="VBoxContainer" parent="Levels/Acts/ActV/Cards"]
+custom_minimum_size = Vector2(380, 0)
+layout_mode = 2
+layout_direction = 2
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+theme_override_constants/separation = 0
+metadata/key = "mounds"
+
+[node name="Space" type="Control" parent="Levels/Acts/ActV/Cards/mounds"]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Frame" type="PanelContainer" parent="Levels/Acts/ActV/Cards/mounds"]
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+theme_override_styles/panel = SubResource("frame_box")
+
+[node name="Picture" type="TextureRect" parent="Levels/Acts/ActV/Cards/mounds/Frame"]
+custom_minimum_size = Vector2(342, 208)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("21_eq53r")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Restored" type="TextureRect" parent="Levels/Acts/ActV/Cards/mounds/Frame/Picture"]
+visible = false
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -34.0
+offset_top = -38.0
+offset_right = -6.0
+offset_bottom = -6.0
+mouse_filter = 2
+texture = ExtResource("5_4wg3f")
+
+[node name="Current" type="PanelContainer" parent="Levels/Acts/ActV/Cards/mounds/Frame/Picture"]
+visible = false
+layout_mode = 0
+offset_left = -7.0
+offset_top = -54.0
+offset_right = -7.0
+offset_bottom = -54.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("here_box")
+
+[node name="Label" type="Label" parent="Levels/Acts/ActV/Cards/mounds/Frame/Picture/Current"]
+custom_minimum_size = Vector2(0, 20)
+vertical_alignment = 1
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
+theme_override_font_sizes/font_size = 16
+text = "You are here"
+metadata/font_size = 16
+
+[node name="Gap" type="Control" parent="Levels/Acts/ActV/Cards/mounds"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Title" type="Label" parent="Levels/Acts/ActV/Cards/mounds"]
+custom_minimum_size = Vector2(350, 0)
+size_flags_horizontal = 4
+theme_override_constants/line_spacing = 2
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+theme_override_font_sizes/font_size = 24
+text = "The Fourteen Mounds"
+metadata/font_size = 24
+
+[node name="Gap2" type="Control" parent="Levels/Acts/ActV/Cards/mounds"]
+custom_minimum_size = Vector2(0, 6)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Spells" type="Label" parent="Levels/Acts/ActV/Cards/mounds"]
+custom_minimum_size = Vector2(350, 0)
+size_flags_horizontal = 4
+layout_mode = 2
+theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
+theme_override_font_sizes/font_size = 16
+text = "Spells 149 — pl. LXXI–LXXIII"
+metadata/font_size = 16
+
+[node name="Bottom" type="Control" parent="Levels/Acts/ActV"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Inner" type="ColorRect" parent="Levels/Acts/ActV/Bottom"]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 4.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="Outer" type="ColorRect" parent="Levels/Acts/ActV/Bottom"]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = -4.0
+offset_right = 0.0
+offset_bottom = 0.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="Gap6" type="Control" parent="Levels/Acts"]
+custom_minimum_size = Vector2(12, 0)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Left" type="ColorRect" parent="Levels/Acts/Gap6"]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 4.0
+offset_bottom = 0.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="Right" type="ColorRect" parent="Levels/Acts/Gap6"]
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -4.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="ActVI" type="VBoxContainer" parent="Levels/Acts"]
+layout_mode = 2
+layout_direction = 2
+theme_override_constants/separation = 0
+
+[node name="Top" type="Control" parent="Levels/Acts/ActVI"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Outer" type="ColorRect" parent="Levels/Acts/ActVI/Top"]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 4.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="Inner" type="ColorRect" parent="Levels/Acts/ActVI/Top"]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = -4.0
+offset_right = 0.0
+offset_bottom = 0.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="Caption" type="MarginContainer" parent="Levels/Acts/ActVI"]
+custom_minimum_size = Vector2(0, 68)
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 8
+
+[node name="Title" type="Label" parent="Levels/Acts/ActVI/Caption"]
+size_flags_vertical = 4
+horizontal_alignment = 1
+autowrap_mode = 3
+theme_override_constants/line_spacing = 2
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5882353, 0.24313726, 0.15686275, 1)
+theme_override_font_sizes/font_size = 24
+text = "Act VI — The Weighing of the Heart"
+metadata/font_size = 24
+
+[node name="Rule" type="ColorRect" parent="Levels/Acts/ActVI"]
+custom_minimum_size = Vector2(0, 4)
+layout_mode = 2
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="Cards" type="HBoxContainer" parent="Levels/Acts/ActVI"]
+layout_mode = 2
+size_flags_vertical = 3
+layout_direction = 3
+theme_override_constants/separation = 0
+
+[node name="doors" type="VBoxContainer" parent="Levels/Acts/ActVI/Cards"]
+custom_minimum_size = Vector2(380, 0)
+layout_mode = 2
+layout_direction = 2
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+theme_override_constants/separation = 0
+metadata/key = "doors"
+
+[node name="Space" type="Control" parent="Levels/Acts/ActVI/Cards/doors"]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Frame" type="PanelContainer" parent="Levels/Acts/ActVI/Cards/doors"]
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+theme_override_styles/panel = SubResource("frame_box")
+
+[node name="Picture" type="TextureRect" parent="Levels/Acts/ActVI/Cards/doors/Frame"]
+custom_minimum_size = Vector2(342, 208)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("24_w0u2i")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Restored" type="TextureRect" parent="Levels/Acts/ActVI/Cards/doors/Frame/Picture"]
+visible = false
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -34.0
+offset_top = -38.0
+offset_right = -6.0
+offset_bottom = -6.0
+mouse_filter = 2
+texture = ExtResource("5_4wg3f")
+
+[node name="Current" type="PanelContainer" parent="Levels/Acts/ActVI/Cards/doors/Frame/Picture"]
+visible = false
+layout_mode = 0
+offset_left = -7.0
+offset_top = -54.0
+offset_right = -7.0
+offset_bottom = -54.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("here_box")
+
+[node name="Label" type="Label" parent="Levels/Acts/ActVI/Cards/doors/Frame/Picture/Current"]
+custom_minimum_size = Vector2(0, 20)
+vertical_alignment = 1
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
+theme_override_font_sizes/font_size = 16
+text = "You are here"
+metadata/font_size = 16
+
+[node name="Gap" type="Control" parent="Levels/Acts/ActVI/Cards/doors"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Title" type="Label" parent="Levels/Acts/ActVI/Cards/doors"]
+custom_minimum_size = Vector2(350, 0)
+size_flags_horizontal = 4
+theme_override_constants/line_spacing = 2
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+theme_override_font_sizes/font_size = 24
+text = "Thoth Opens the Sky"
+metadata/font_size = 24
+
+[node name="Gap2" type="Control" parent="Levels/Acts/ActVI/Cards/doors"]
+custom_minimum_size = Vector2(0, 6)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Spells" type="Label" parent="Levels/Acts/ActVI/Cards/doors"]
+custom_minimum_size = Vector2(350, 0)
+size_flags_horizontal = 4
+layout_mode = 2
+theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
+theme_override_font_sizes/font_size = 16
+text = "Spells 161 — pl. LXXVI"
+metadata/font_size = 16
+
+[node name="DividerHall" type="Control" parent="Levels/Acts/ActVI/Cards"]
+custom_minimum_size = Vector2(12, 0)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Left" type="ColorRect" parent="Levels/Acts/ActVI/Cards/DividerHall"]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 4.0
+offset_bottom = 0.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="Right" type="ColorRect" parent="Levels/Acts/ActVI/Cards/DividerHall"]
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -4.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="hall" type="VBoxContainer" parent="Levels/Acts/ActVI/Cards"]
+custom_minimum_size = Vector2(380, 0)
+layout_mode = 2
+layout_direction = 2
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+theme_override_constants/separation = 0
+metadata/key = "hall"
+
+[node name="Space" type="Control" parent="Levels/Acts/ActVI/Cards/hall"]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Frame" type="PanelContainer" parent="Levels/Acts/ActVI/Cards/hall"]
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+theme_override_styles/panel = SubResource("frame_box")
+
+[node name="Picture" type="TextureRect" parent="Levels/Acts/ActVI/Cards/hall/Frame"]
+custom_minimum_size = Vector2(342, 208)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("25_lo0pm")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Restored" type="TextureRect" parent="Levels/Acts/ActVI/Cards/hall/Frame/Picture"]
+visible = false
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -34.0
+offset_top = -38.0
+offset_right = -6.0
+offset_bottom = -6.0
+mouse_filter = 2
+texture = ExtResource("5_4wg3f")
+
+[node name="Current" type="PanelContainer" parent="Levels/Acts/ActVI/Cards/hall/Frame/Picture"]
+visible = false
+layout_mode = 0
+offset_left = -7.0
+offset_top = -54.0
+offset_right = -7.0
+offset_bottom = -54.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("here_box")
+
+[node name="Label" type="Label" parent="Levels/Acts/ActVI/Cards/hall/Frame/Picture/Current"]
+custom_minimum_size = Vector2(0, 20)
+vertical_alignment = 1
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
+theme_override_font_sizes/font_size = 16
+text = "You are here"
+metadata/font_size = 16
+
+[node name="Gap" type="Control" parent="Levels/Acts/ActVI/Cards/hall"]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Title" type="Label" parent="Levels/Acts/ActVI/Cards/hall"]
+custom_minimum_size = Vector2(350, 0)
+size_flags_horizontal = 4
+theme_override_constants/line_spacing = 2
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+theme_override_font_sizes/font_size = 24
+text = "The Weighing of the Heart"
+metadata/font_size = 24
+
+[node name="Gap2" type="Control" parent="Levels/Acts/ActVI/Cards/hall"]
+custom_minimum_size = Vector2(0, 6)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Spells" type="Label" parent="Levels/Acts/ActVI/Cards/hall"]
+custom_minimum_size = Vector2(350, 0)
+size_flags_horizontal = 4
+layout_mode = 2
+theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
+theme_override_font_sizes/font_size = 16
+text = "Spells 125 — pl. L"
+metadata/font_size = 16
+
+[node name="Bottom" type="Control" parent="Levels/Acts/ActVI"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Inner" type="ColorRect" parent="Levels/Acts/ActVI/Bottom"]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 4.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="Outer" type="ColorRect" parent="Levels/Acts/ActVI/Bottom"]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = -4.0
+offset_right = 0.0
+offset_bottom = 0.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="CapLeft" type="Control" parent="Levels/Acts"]
+custom_minimum_size = Vector2(12, 0)
+layout_mode = 2
+layout_direction = 2
+mouse_filter = 2
+
+[node name="OuterTop" type="ColorRect" parent="Levels/Acts/CapLeft"]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 4.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="OuterBottom" type="ColorRect" parent="Levels/Acts/CapLeft"]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = -4.0
+offset_right = 0.0
+offset_bottom = 0.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="OuterSide" type="ColorRect" parent="Levels/Acts/CapLeft"]
+layout_mode = 1
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 4.0
+offset_bottom = 0.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="InnerTop" type="ColorRect" parent="Levels/Acts/CapLeft"]
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+offset_left = -4.0
+offset_top = 8.0
+offset_right = 0.0
+offset_bottom = 12.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="InnerBottom" type="ColorRect" parent="Levels/Acts/CapLeft"]
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -4.0
+offset_top = -12.0
+offset_right = 0.0
+offset_bottom = -8.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="InnerSide" type="ColorRect" parent="Levels/Acts/CapLeft"]
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -4.0
+offset_top = 8.0
+offset_right = 0.0
+offset_bottom = -8.0
+mouse_filter = 2
+color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+
+[node name="PadLeft" type="Control" parent="Levels/Acts"]
+custom_minimum_size = Vector2(28, 0)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Count" type="Label" parent="."]
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -628.0
+offset_top = -156.0
+offset_right = -28.0
+offset_bottom = -138.0
+grow_horizontal = 0
+grow_vertical = 0
+horizontal_alignment = 2
+theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
+theme_override_font_sizes/font_size = 16
+text = "0 of 18 scenes restored"
+metadata/font_size = 16
+
+[node name="Header" type="ColorRect" parent="."]
+layout_mode = 1
+anchor_right = 1.0
+offset_bottom = 46.0
+mouse_filter = 2
+color = Color(0.79607844, 0.6901961, 0.4862745, 1)
+metadata/_edit_lock_ = true
+
+[node name="Band" type="TextureRect" parent="Header"]
+texture_filter = 1
+layout_mode = 1
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = 16.0
+mouse_filter = 2
+texture = ExtResource("3_0daod")
+stretch_mode = 1
+
+[node name="Row" type="HBoxContainer" parent="Header"]
+layout_mode = 1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_right = -16.0
+theme_override_constants/separation = 22
+
+[node name="Heading" type="Label" parent="Header/Row"]
+size_flags_horizontal = 3
+size_flags_vertical = 4
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
 theme_override_font_sizes/font_size = 32
 text = "The Scroll"
 metadata/font_size = 32
 
-[node name="Spacer" type="Control" parent="Header" unique_id=1619351765]
+[node name="Settings" type="TextureButton" parent="Header/Row"]
+texture_filter = 1
 layout_mode = 2
-size_flags_horizontal = 3
+size_flags_vertical = 4
+tooltip_text = "Settings"
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("icon_settings")
 
-[node name="Count" type="Label" parent="Header" unique_id=1139189257]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
-theme_override_font_sizes/font_size = 16
-text = "0 of 21 restored — right to left"
-metadata/font_size = 16
-
-[node name="Back" type="TextureButton" parent="Header" unique_id=1217986272]
-modulate = Color(1.8, 1.4, 0.6, 1)
+[node name="Back" type="TextureButton" parent="Header/Row"]
 texture_filter = 1
 layout_mode = 2
 size_flags_vertical = 4
@@ -653,1435 +3766,46 @@ tooltip_text = "Back"
 mouse_default_cursor_shape = 2
 texture_normal = ExtResource("2_ai4fp")
 
-[node name="Levels" type="ScrollContainer" parent="." unique_id=1374267677]
-clip_contents = false
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 40.0
-offset_top = 70.0
-offset_right = -40.0
-offset_bottom = -100.0
-horizontal_scroll_mode = 0
-vertical_scroll_mode = 3
-
-[node name="Acts" type="VBoxContainer" parent="Levels" unique_id=1827067652]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 10
-
-[node name="PrologueHeading" type="HBoxContainer" parent="Levels/Acts" unique_id=820334762]
-layout_mode = 2
-theme_override_constants/separation = 14
-
-[node name="Title" type="Label" parent="Levels/Acts/PrologueHeading" unique_id=1340575423]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.5882353, 0.24313726, 0.15686275, 1)
-theme_override_font_sizes/font_size = 16
-text = "Prologue — Guarding the body"
-metadata/font_size = 16
-
-[node name="Band" type="Control" parent="Levels/Acts/PrologueHeading" unique_id=278828180]
-custom_minimum_size = Vector2(0, 16)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 4
-
-[node name="Pattern" type="TextureRect" parent="Levels/Acts/PrologueHeading/Band" unique_id=590045563]
-texture_filter = 1
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
-mouse_filter = 2
-texture = ExtResource("3_0daod")
-stretch_mode = 1
-
-[node name="Prologue" type="HFlowContainer" parent="Levels/Acts" unique_id=1714783451]
-layout_mode = 2
-layout_direction = 3
-theme_override_constants/h_separation = 14
-theme_override_constants/v_separation = 18
-
-[node name="prologue" type="VBoxContainer" parent="Levels/Acts/Prologue" unique_id=1447681356]
-layout_mode = 2
-layout_direction = 2
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 2
-theme_override_constants/separation = 2
-metadata/key = "prologue"
-
-[node name="Frame" type="PanelContainer" parent="Levels/Acts/Prologue/prologue" unique_id=978595133]
-layout_mode = 2
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_uw31b")
-
-[node name="Picture" type="TextureRect" parent="Levels/Acts/Prologue/prologue/Frame" unique_id=1973301846]
-custom_minimum_size = Vector2(220, 140)
-layout_mode = 2
-mouse_filter = 2
-texture = ExtResource("prologue_picture")
-expand_mode = 1
-stretch_mode = 6
-
-[node name="Restored" type="TextureRect" parent="Levels/Acts/Prologue/prologue/Frame/Picture" unique_id=1888025402]
-visible = false
-layout_mode = 0
-offset_left = 184.0
-offset_top = 6.0
-offset_right = 184.0
-offset_bottom = 6.0
-mouse_filter = 2
-texture = ExtResource("5_4wg3f")
-
-[node name="Current" type="PanelContainer" parent="Levels/Acts/Prologue/prologue/Frame/Picture" unique_id=418581494]
-layout_mode = 0
-offset_left = 10.0
-offset_top = -16.0
-offset_right = 10.0
-offset_bottom = -16.0
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_8o6vq")
-
-[node name="Label" type="Label" parent="Levels/Acts/Prologue/prologue/Frame/Picture/Current" unique_id=883794530]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
-theme_override_font_sizes/font_size = 16
-text = "You are here"
-metadata/font_size = 16
-
-[node name="Title" type="Label" parent="Levels/Acts/Prologue/prologue" unique_id=125941267]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
-theme_override_font_sizes/font_size = 16
-text = "Guarding the Body"
-metadata/font_size = 16
-
-[node name="Spells" type="Label" parent="Levels/Acts/Prologue/prologue" unique_id=1105004628]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
-theme_override_font_sizes/font_size = 16
-text = "Spells 151–154"
-metadata/font_size = 16
-
-[node name="ActIHeading" type="HBoxContainer" parent="Levels/Acts" unique_id=906010679]
-layout_mode = 2
-theme_override_constants/separation = 14
-
-[node name="Title" type="Label" parent="Levels/Acts/ActIHeading" unique_id=971822738]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.5882353, 0.24313726, 0.15686275, 1)
-theme_override_font_sizes/font_size = 16
-text = "Act I — Burial and going forth"
-metadata/font_size = 16
-
-[node name="Band" type="Control" parent="Levels/Acts/ActIHeading" unique_id=1359066430]
-custom_minimum_size = Vector2(0, 16)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 4
-
-[node name="Pattern" type="TextureRect" parent="Levels/Acts/ActIHeading/Band" unique_id=2109752741]
-texture_filter = 1
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
-mouse_filter = 2
-texture = ExtResource("3_0daod")
-stretch_mode = 1
-
-[node name="ActI" type="HFlowContainer" parent="Levels/Acts" unique_id=399518481]
-layout_mode = 2
-layout_direction = 3
-theme_override_constants/h_separation = 14
-theme_override_constants/v_separation = 18
-
-[node name="procession" type="VBoxContainer" parent="Levels/Acts/ActI" unique_id=1342702796]
-layout_mode = 2
-layout_direction = 2
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 2
-theme_override_constants/separation = 2
-metadata/key = "procession"
-
-[node name="Frame" type="PanelContainer" parent="Levels/Acts/ActI/procession" unique_id=1675191458]
-layout_mode = 2
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_uw31b")
-
-[node name="Picture" type="TextureRect" parent="Levels/Acts/ActI/procession/Frame" unique_id=213666003]
-custom_minimum_size = Vector2(220, 140)
-layout_mode = 2
-mouse_filter = 2
-texture = ExtResource("4_p1t5q")
-expand_mode = 1
-stretch_mode = 6
-
-[node name="Restored" type="TextureRect" parent="Levels/Acts/ActI/procession/Frame/Picture" unique_id=165490428]
-visible = false
-layout_mode = 0
-offset_left = 184.0
-offset_top = 6.0
-offset_right = 184.0
-offset_bottom = 6.0
-mouse_filter = 2
-texture = ExtResource("5_4wg3f")
-
-[node name="Current" type="PanelContainer" parent="Levels/Acts/ActI/procession/Frame/Picture" unique_id=922262290]
-layout_mode = 0
-offset_left = 10.0
-offset_top = -16.0
-offset_right = 10.0
-offset_bottom = -16.0
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_8o6vq")
-
-[node name="Label" type="Label" parent="Levels/Acts/ActI/procession/Frame/Picture/Current" unique_id=136721083]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
-theme_override_font_sizes/font_size = 16
-text = "You are here"
-metadata/font_size = 16
-
-[node name="Title" type="Label" parent="Levels/Acts/ActI/procession" unique_id=805781761]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
-theme_override_font_sizes/font_size = 16
-text = "The Funeral Procession"
-metadata/font_size = 16
-
-[node name="Spells" type="Label" parent="Levels/Acts/ActI/procession" unique_id=354104778]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
-theme_override_font_sizes/font_size = 16
-text = "Spells 1–15"
-metadata/font_size = 16
-
-[node name="cosmos" type="VBoxContainer" parent="Levels/Acts/ActI" unique_id=1480835204]
-layout_mode = 2
-layout_direction = 2
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 2
-theme_override_constants/separation = 2
-metadata/key = "cosmos"
-
-[node name="Frame" type="PanelContainer" parent="Levels/Acts/ActI/cosmos" unique_id=1643427837]
-layout_mode = 2
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_adbhe")
-
-[node name="Picture" type="TextureRect" parent="Levels/Acts/ActI/cosmos/Frame" unique_id=234936725]
-custom_minimum_size = Vector2(220, 140)
-layout_mode = 2
-mouse_filter = 2
-texture = ExtResource("6_yt8p8")
-expand_mode = 1
-stretch_mode = 6
-
-[node name="Restored" type="TextureRect" parent="Levels/Acts/ActI/cosmos/Frame/Picture" unique_id=1947869579]
-visible = false
-layout_mode = 0
-offset_left = 184.0
-offset_top = 6.0
-offset_right = 184.0
-offset_bottom = 6.0
-mouse_filter = 2
-texture = ExtResource("5_4wg3f")
-
-[node name="Current" type="PanelContainer" parent="Levels/Acts/ActI/cosmos/Frame/Picture" unique_id=1655181020]
-visible = false
-layout_mode = 0
-offset_left = 10.0
-offset_top = -16.0
-offset_right = 10.0
-offset_bottom = -16.0
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_xlf1g")
-
-[node name="Label" type="Label" parent="Levels/Acts/ActI/cosmos/Frame/Picture/Current" unique_id=1734051057]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
-theme_override_font_sizes/font_size = 16
-text = "You are here"
-metadata/font_size = 16
-
-[node name="Title" type="Label" parent="Levels/Acts/ActI/cosmos" unique_id=1887072189]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
-theme_override_font_sizes/font_size = 16
-text = "The Night Journey"
-metadata/font_size = 16
-
-[node name="Spells" type="Label" parent="Levels/Acts/ActI/cosmos" unique_id=1407910758]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
-theme_override_font_sizes/font_size = 16
-text = "Spells 17"
-metadata/font_size = 16
-
-[node name="councils" type="VBoxContainer" parent="Levels/Acts/ActI" unique_id=791874302]
-layout_mode = 2
-layout_direction = 2
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 2
-theme_override_constants/separation = 2
-metadata/key = "councils"
-
-[node name="Frame" type="PanelContainer" parent="Levels/Acts/ActI/councils" unique_id=281393792]
-layout_mode = 2
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_lcyyb")
-
-[node name="Picture" type="TextureRect" parent="Levels/Acts/ActI/councils/Frame" unique_id=2002935027]
-modulate = Color(1, 1, 1, 0.22)
-custom_minimum_size = Vector2(220, 140)
-layout_mode = 2
-mouse_filter = 2
-texture = ExtResource("7_2l4wu")
-expand_mode = 1
-stretch_mode = 6
-
-[node name="Restored" type="TextureRect" parent="Levels/Acts/ActI/councils/Frame/Picture" unique_id=1220227525]
-visible = false
-layout_mode = 0
-offset_left = 184.0
-offset_top = 6.0
-offset_right = 184.0
-offset_bottom = 6.0
-mouse_filter = 2
-texture = ExtResource("5_4wg3f")
-
-[node name="Current" type="PanelContainer" parent="Levels/Acts/ActI/councils/Frame/Picture" unique_id=1189718837]
-visible = false
-layout_mode = 0
-offset_left = 10.0
-offset_top = -16.0
-offset_right = 10.0
-offset_bottom = -16.0
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_cegp7")
-
-[node name="Label" type="Label" parent="Levels/Acts/ActI/councils/Frame/Picture/Current" unique_id=1049092481]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
-theme_override_font_sizes/font_size = 16
-text = "You are here"
-metadata/font_size = 16
-
-[node name="Title" type="Label" parent="Levels/Acts/ActI/councils" unique_id=1400593689]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.56078434, 0.44313726, 0.25882354, 1)
-theme_override_font_sizes/font_size = 16
-text = "The Councils"
-metadata/font_size = 16
-
-[node name="Spells" type="Label" parent="Levels/Acts/ActI/councils" unique_id=1765845394]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
-theme_override_font_sizes/font_size = 16
-text = "Spells 18"
-metadata/font_size = 16
-
-[node name="mouth" type="VBoxContainer" parent="Levels/Acts/ActI" unique_id=627054334]
-layout_mode = 2
-layout_direction = 2
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 2
-theme_override_constants/separation = 2
-metadata/key = "mouth"
-
-[node name="Frame" type="PanelContainer" parent="Levels/Acts/ActI/mouth" unique_id=1277876332]
-layout_mode = 2
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_rj12l")
-
-[node name="Picture" type="TextureRect" parent="Levels/Acts/ActI/mouth/Frame" unique_id=1859125436]
-modulate = Color(1, 1, 1, 0.22)
-custom_minimum_size = Vector2(220, 140)
-layout_mode = 2
-mouse_filter = 2
-texture = ExtResource("8_tn0x0")
-expand_mode = 1
-stretch_mode = 6
-
-[node name="Restored" type="TextureRect" parent="Levels/Acts/ActI/mouth/Frame/Picture" unique_id=146263225]
-visible = false
-layout_mode = 0
-offset_left = 184.0
-offset_top = 6.0
-offset_right = 184.0
-offset_bottom = 6.0
-mouse_filter = 2
-texture = ExtResource("5_4wg3f")
-
-[node name="Current" type="PanelContainer" parent="Levels/Acts/ActI/mouth/Frame/Picture" unique_id=1438314518]
-visible = false
-layout_mode = 0
-offset_left = 10.0
-offset_top = -16.0
-offset_right = 10.0
-offset_bottom = -16.0
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_uhlsy")
-
-[node name="Label" type="Label" parent="Levels/Acts/ActI/mouth/Frame/Picture/Current" unique_id=1113729473]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
-theme_override_font_sizes/font_size = 16
-text = "You are here"
-metadata/font_size = 16
-
-[node name="Title" type="Label" parent="Levels/Acts/ActI/mouth" unique_id=654862505]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.56078434, 0.44313726, 0.25882354, 1)
-theme_override_font_sizes/font_size = 16
-text = "Mouth and Heart"
-metadata/font_size = 16
-
-[node name="Spells" type="Label" parent="Levels/Acts/ActI/mouth" unique_id=1636963767]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
-theme_override_font_sizes/font_size = 16
-text = "Spells 21–30"
-metadata/font_size = 16
-
-[node name="ActIIHeading" type="HBoxContainer" parent="Levels/Acts" unique_id=284660088]
-layout_mode = 2
-theme_override_constants/separation = 14
-
-[node name="Title" type="Label" parent="Levels/Acts/ActIIHeading" unique_id=901385543]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.5882353, 0.24313726, 0.15686275, 1)
-theme_override_font_sizes/font_size = 16
-text = "Act II — Survival"
-metadata/font_size = 16
-
-[node name="Band" type="Control" parent="Levels/Acts/ActIIHeading" unique_id=1913347894]
-custom_minimum_size = Vector2(0, 16)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 4
-
-[node name="Pattern" type="TextureRect" parent="Levels/Acts/ActIIHeading/Band" unique_id=634616964]
-texture_filter = 1
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
-mouse_filter = 2
-texture = ExtResource("3_0daod")
-stretch_mode = 1
-
-[node name="ActII" type="HFlowContainer" parent="Levels/Acts" unique_id=329041973]
-layout_mode = 2
-layout_direction = 3
-theme_override_constants/h_separation = 14
-theme_override_constants/v_separation = 18
-
-[node name="dangers" type="VBoxContainer" parent="Levels/Acts/ActII" unique_id=1934733774]
-layout_mode = 2
-layout_direction = 2
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 2
-theme_override_constants/separation = 2
-metadata/key = "dangers"
-
-[node name="Frame" type="PanelContainer" parent="Levels/Acts/ActII/dangers" unique_id=280866903]
-layout_mode = 2
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_hxuea")
-
-[node name="Picture" type="TextureRect" parent="Levels/Acts/ActII/dangers/Frame" unique_id=171164529]
-custom_minimum_size = Vector2(220, 140)
-layout_mode = 2
-mouse_filter = 2
-texture = ExtResource("9_p4842")
-expand_mode = 1
-stretch_mode = 6
-
-[node name="Restored" type="TextureRect" parent="Levels/Acts/ActII/dangers/Frame/Picture" unique_id=1240202771]
-visible = false
-layout_mode = 0
-offset_left = 184.0
-offset_top = 6.0
-offset_right = 184.0
-offset_bottom = 6.0
-mouse_filter = 2
-texture = ExtResource("5_4wg3f")
-
-[node name="Current" type="PanelContainer" parent="Levels/Acts/ActII/dangers/Frame/Picture" unique_id=2118557470]
-visible = false
-layout_mode = 0
-offset_left = 10.0
-offset_top = -16.0
-offset_right = 10.0
-offset_bottom = -16.0
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_bqy3d")
-
-[node name="Label" type="Label" parent="Levels/Acts/ActII/dangers/Frame/Picture/Current" unique_id=1299174862]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
-theme_override_font_sizes/font_size = 16
-text = "You are here"
-metadata/font_size = 16
-
-[node name="Title" type="Label" parent="Levels/Acts/ActII/dangers" unique_id=656999827]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
-theme_override_font_sizes/font_size = 16
-text = "Dangers on the Road"
-metadata/font_size = 16
-
-[node name="Spells" type="Label" parent="Levels/Acts/ActII/dangers" unique_id=1700620594]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
-theme_override_font_sizes/font_size = 16
-text = "Spells 31–42"
-metadata/font_size = 16
-
-[node name="survival" type="VBoxContainer" parent="Levels/Acts/ActII" unique_id=854717571]
-layout_mode = 2
-layout_direction = 2
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 2
-theme_override_constants/separation = 2
-metadata/key = "survival"
-
-[node name="Frame" type="PanelContainer" parent="Levels/Acts/ActII/survival" unique_id=1747533486]
-layout_mode = 2
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_yppf6")
-
-[node name="Picture" type="TextureRect" parent="Levels/Acts/ActII/survival/Frame" unique_id=1215790341]
-custom_minimum_size = Vector2(220, 140)
-layout_mode = 2
-mouse_filter = 2
-texture = ExtResource("10_e3ks8")
-expand_mode = 1
-stretch_mode = 6
-
-[node name="Restored" type="TextureRect" parent="Levels/Acts/ActII/survival/Frame/Picture" unique_id=1545210174]
-visible = false
-layout_mode = 0
-offset_left = 184.0
-offset_top = 6.0
-offset_right = 184.0
-offset_bottom = 6.0
-mouse_filter = 2
-texture = ExtResource("5_4wg3f")
-
-[node name="Current" type="PanelContainer" parent="Levels/Acts/ActII/survival/Frame/Picture" unique_id=616619670]
-visible = false
-layout_mode = 0
-offset_left = 10.0
-offset_top = -16.0
-offset_right = 10.0
-offset_bottom = -16.0
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_utbis")
-
-[node name="Label" type="Label" parent="Levels/Acts/ActII/survival/Frame/Picture/Current" unique_id=1534468548]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
-theme_override_font_sizes/font_size = 16
-text = "You are here"
-metadata/font_size = 16
-
-[node name="Title" type="Label" parent="Levels/Acts/ActII/survival" unique_id=401576738]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
-theme_override_font_sizes/font_size = 16
-text = "Survival and Sustenance"
-metadata/font_size = 16
-
-[node name="Spells" type="Label" parent="Levels/Acts/ActII/survival" unique_id=1659719546]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
-theme_override_font_sizes/font_size = 16
-text = "Spells 43–63"
-metadata/font_size = 16
-
-[node name="ActIIIHeading" type="HBoxContainer" parent="Levels/Acts" unique_id=1489961101]
-layout_mode = 2
-theme_override_constants/separation = 14
-
-[node name="Title" type="Label" parent="Levels/Acts/ActIIIHeading" unique_id=1915584078]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.5882353, 0.24313726, 0.15686275, 1)
-theme_override_font_sizes/font_size = 16
-text = "Act III — Food, breath and transformations"
-metadata/font_size = 16
-
-[node name="Band" type="Control" parent="Levels/Acts/ActIIIHeading" unique_id=2047924734]
-custom_minimum_size = Vector2(0, 16)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 4
-
-[node name="Pattern" type="TextureRect" parent="Levels/Acts/ActIIIHeading/Band" unique_id=2116401925]
-texture_filter = 1
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
-mouse_filter = 2
-texture = ExtResource("3_0daod")
-stretch_mode = 1
-
-[node name="ActIII" type="HFlowContainer" parent="Levels/Acts" unique_id=255004310]
-layout_mode = 2
-layout_direction = 3
-theme_override_constants/h_separation = 14
-theme_override_constants/v_separation = 18
-
-[node name="forth" type="VBoxContainer" parent="Levels/Acts/ActIII" unique_id=645110088]
-layout_mode = 2
-layout_direction = 2
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 2
-theme_override_constants/separation = 2
-metadata/key = "forth"
-
-[node name="Frame" type="PanelContainer" parent="Levels/Acts/ActIII/forth" unique_id=603974499]
-layout_mode = 2
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_qcrfk")
-
-[node name="Picture" type="TextureRect" parent="Levels/Acts/ActIII/forth/Frame" unique_id=1491969344]
-modulate = Color(1, 1, 1, 0.22)
-custom_minimum_size = Vector2(220, 140)
-layout_mode = 2
-mouse_filter = 2
-texture = ExtResource("11_dt7y3")
-expand_mode = 1
-stretch_mode = 6
-
-[node name="Restored" type="TextureRect" parent="Levels/Acts/ActIII/forth/Frame/Picture" unique_id=300608724]
-visible = false
-layout_mode = 0
-offset_left = 184.0
-offset_top = 6.0
-offset_right = 184.0
-offset_bottom = 6.0
-mouse_filter = 2
-texture = ExtResource("5_4wg3f")
-
-[node name="Current" type="PanelContainer" parent="Levels/Acts/ActIII/forth/Frame/Picture" unique_id=1392054276]
-visible = false
-layout_mode = 0
-offset_left = 10.0
-offset_top = -16.0
-offset_right = 10.0
-offset_bottom = -16.0
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_4muor")
-
-[node name="Label" type="Label" parent="Levels/Acts/ActIII/forth/Frame/Picture/Current" unique_id=1480754942]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
-theme_override_font_sizes/font_size = 16
-text = "You are here"
-metadata/font_size = 16
-
-[node name="Title" type="Label" parent="Levels/Acts/ActIII/forth" unique_id=1776020963]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.56078434, 0.44313726, 0.25882354, 1)
-theme_override_font_sizes/font_size = 16
-text = "Coming Forth by Day"
-metadata/font_size = 16
-
-[node name="Spells" type="Label" parent="Levels/Acts/ActIII/forth" unique_id=727903726]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
-theme_override_font_sizes/font_size = 16
-text = "Spells 64–75"
-metadata/font_size = 16
-
-[node name="forms" type="VBoxContainer" parent="Levels/Acts/ActIII" unique_id=900080900]
-layout_mode = 2
-layout_direction = 2
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 2
-theme_override_constants/separation = 2
-metadata/key = "forms"
-
-[node name="Frame" type="PanelContainer" parent="Levels/Acts/ActIII/forms" unique_id=1917421785]
-layout_mode = 2
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_w0smp")
-
-[node name="Picture" type="TextureRect" parent="Levels/Acts/ActIII/forms/Frame" unique_id=722810789]
-modulate = Color(1, 1, 1, 0.22)
-custom_minimum_size = Vector2(220, 140)
-layout_mode = 2
-mouse_filter = 2
-texture = ExtResource("12_dpgsj")
-expand_mode = 1
-stretch_mode = 6
-
-[node name="Restored" type="TextureRect" parent="Levels/Acts/ActIII/forms/Frame/Picture" unique_id=1382478998]
-visible = false
-layout_mode = 0
-offset_left = 184.0
-offset_top = 6.0
-offset_right = 184.0
-offset_bottom = 6.0
-mouse_filter = 2
-texture = ExtResource("5_4wg3f")
-
-[node name="Current" type="PanelContainer" parent="Levels/Acts/ActIII/forms/Frame/Picture" unique_id=619473835]
-visible = false
-layout_mode = 0
-offset_left = 10.0
-offset_top = -16.0
-offset_right = 10.0
-offset_bottom = -16.0
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_vfivh")
-
-[node name="Label" type="Label" parent="Levels/Acts/ActIII/forms/Frame/Picture/Current" unique_id=1384156609]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
-theme_override_font_sizes/font_size = 16
-text = "You are here"
-metadata/font_size = 16
-
-[node name="Title" type="Label" parent="Levels/Acts/ActIII/forms" unique_id=1957934949]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.56078434, 0.44313726, 0.25882354, 1)
-theme_override_font_sizes/font_size = 16
-text = "Transformations"
-metadata/font_size = 16
-
-[node name="Spells" type="Label" parent="Levels/Acts/ActIII/forms" unique_id=14829160]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
-theme_override_font_sizes/font_size = 16
-text = "Spells 76–88"
-metadata/font_size = 16
-
-[node name="ba" type="VBoxContainer" parent="Levels/Acts/ActIII" unique_id=649749390]
-layout_mode = 2
-layout_direction = 2
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 2
-theme_override_constants/separation = 2
-metadata/key = "ba"
-
-[node name="Frame" type="PanelContainer" parent="Levels/Acts/ActIII/ba" unique_id=1684284366]
-layout_mode = 2
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_ydb1m")
-
-[node name="Picture" type="TextureRect" parent="Levels/Acts/ActIII/ba/Frame" unique_id=376350349]
-modulate = Color(1, 1, 1, 0.22)
-custom_minimum_size = Vector2(220, 140)
-layout_mode = 2
-mouse_filter = 2
-texture = ExtResource("13_y5jyt")
-expand_mode = 1
-stretch_mode = 6
-
-[node name="Restored" type="TextureRect" parent="Levels/Acts/ActIII/ba/Frame/Picture" unique_id=1895813323]
-visible = false
-layout_mode = 0
-offset_left = 184.0
-offset_top = 6.0
-offset_right = 184.0
-offset_bottom = 6.0
-mouse_filter = 2
-texture = ExtResource("5_4wg3f")
-
-[node name="Current" type="PanelContainer" parent="Levels/Acts/ActIII/ba/Frame/Picture" unique_id=542137338]
-visible = false
-layout_mode = 0
-offset_left = 10.0
-offset_top = -16.0
-offset_right = 10.0
-offset_bottom = -16.0
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_2qlsw")
-
-[node name="Label" type="Label" parent="Levels/Acts/ActIII/ba/Frame/Picture/Current" unique_id=924890320]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
-theme_override_font_sizes/font_size = 16
-text = "You are here"
-metadata/font_size = 16
-
-[node name="Title" type="Label" parent="Levels/Acts/ActIII/ba" unique_id=700835604]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.56078434, 0.44313726, 0.25882354, 1)
-theme_override_font_sizes/font_size = 16
-text = "Ba and Tomb"
-metadata/font_size = 16
-
-[node name="Spells" type="Label" parent="Levels/Acts/ActIII/ba" unique_id=1731730611]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
-theme_override_font_sizes/font_size = 16
-text = "Spells 89–92"
-metadata/font_size = 16
-
-[node name="boats" type="VBoxContainer" parent="Levels/Acts/ActIII" unique_id=1183770987]
-layout_mode = 2
-layout_direction = 2
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 2
-theme_override_constants/separation = 2
-metadata/key = "boats"
-
-[node name="Frame" type="PanelContainer" parent="Levels/Acts/ActIII/boats" unique_id=1073975761]
-layout_mode = 2
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_o0ejj")
-
-[node name="Picture" type="TextureRect" parent="Levels/Acts/ActIII/boats/Frame" unique_id=761161157]
-modulate = Color(1, 1, 1, 0.22)
-custom_minimum_size = Vector2(220, 140)
-layout_mode = 2
-mouse_filter = 2
-texture = ExtResource("14_f3wiw")
-expand_mode = 1
-stretch_mode = 6
-
-[node name="Restored" type="TextureRect" parent="Levels/Acts/ActIII/boats/Frame/Picture" unique_id=1604773610]
-visible = false
-layout_mode = 0
-offset_left = 184.0
-offset_top = 6.0
-offset_right = 184.0
-offset_bottom = 6.0
-mouse_filter = 2
-texture = ExtResource("5_4wg3f")
-
-[node name="Current" type="PanelContainer" parent="Levels/Acts/ActIII/boats/Frame/Picture" unique_id=1152769813]
-visible = false
-layout_mode = 0
-offset_left = 10.0
-offset_top = -16.0
-offset_right = 10.0
-offset_bottom = -16.0
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_pt5da")
-
-[node name="Label" type="Label" parent="Levels/Acts/ActIII/boats/Frame/Picture/Current" unique_id=170396399]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
-theme_override_font_sizes/font_size = 16
-text = "You are here"
-metadata/font_size = 16
-
-[node name="Title" type="Label" parent="Levels/Acts/ActIII/boats" unique_id=1703346180]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.56078434, 0.44313726, 0.25882354, 1)
-theme_override_font_sizes/font_size = 16
-text = "Thoth and the Boats"
-metadata/font_size = 16
-
-[node name="Spells" type="Label" parent="Levels/Acts/ActIII/boats" unique_id=95266749]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
-theme_override_font_sizes/font_size = 16
-text = "Spells 93–109"
-metadata/font_size = 16
-
-[node name="ActIVHeading" type="HBoxContainer" parent="Levels/Acts" unique_id=1915909315]
-layout_mode = 2
-theme_override_constants/separation = 14
-
-[node name="Title" type="Label" parent="Levels/Acts/ActIVHeading" unique_id=1258032722]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.5882353, 0.24313726, 0.15686275, 1)
-theme_override_font_sizes/font_size = 16
-text = "Act IV — The Field of Reeds"
-metadata/font_size = 16
-
-[node name="Band" type="Control" parent="Levels/Acts/ActIVHeading" unique_id=928983144]
-custom_minimum_size = Vector2(0, 16)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 4
-
-[node name="Pattern" type="TextureRect" parent="Levels/Acts/ActIVHeading/Band" unique_id=2130639229]
-texture_filter = 1
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
-mouse_filter = 2
-texture = ExtResource("3_0daod")
-stretch_mode = 1
-
-[node name="ActIV" type="HFlowContainer" parent="Levels/Acts" unique_id=1214582612]
-layout_mode = 2
-layout_direction = 3
-theme_override_constants/h_separation = 14
-theme_override_constants/v_separation = 18
-
-[node name="field" type="VBoxContainer" parent="Levels/Acts/ActIV" unique_id=662729085]
-layout_mode = 2
-layout_direction = 2
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 2
-theme_override_constants/separation = 2
-metadata/key = "field"
-
-[node name="Frame" type="PanelContainer" parent="Levels/Acts/ActIV/field" unique_id=1289518424]
-layout_mode = 2
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_dlci3")
-
-[node name="Picture" type="TextureRect" parent="Levels/Acts/ActIV/field/Frame" unique_id=1186553945]
-modulate = Color(1, 1, 1, 0.22)
-custom_minimum_size = Vector2(220, 140)
-layout_mode = 2
-mouse_filter = 2
-texture = ExtResource("15_nmfc1")
-expand_mode = 1
-stretch_mode = 6
-
-[node name="Restored" type="TextureRect" parent="Levels/Acts/ActIV/field/Frame/Picture" unique_id=1146978633]
-visible = false
-layout_mode = 0
-offset_left = 184.0
-offset_top = 6.0
-offset_right = 184.0
-offset_bottom = 6.0
-mouse_filter = 2
-texture = ExtResource("5_4wg3f")
-
-[node name="Current" type="PanelContainer" parent="Levels/Acts/ActIV/field/Frame/Picture" unique_id=1327253092]
-visible = false
-layout_mode = 0
-offset_left = 10.0
-offset_top = -16.0
-offset_right = 10.0
-offset_bottom = -16.0
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_2g65i")
-
-[node name="Label" type="Label" parent="Levels/Acts/ActIV/field/Frame/Picture/Current" unique_id=791746542]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
-theme_override_font_sizes/font_size = 16
-text = "You are here"
-metadata/font_size = 16
-
-[node name="Title" type="Label" parent="Levels/Acts/ActIV/field" unique_id=1542283031]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.56078434, 0.44313726, 0.25882354, 1)
-theme_override_font_sizes/font_size = 16
-text = "The Field of Offerings"
-metadata/font_size = 16
-
-[node name="Spells" type="Label" parent="Levels/Acts/ActIV/field" unique_id=112779322]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
-theme_override_font_sizes/font_size = 16
-text = "Spells 110"
-metadata/font_size = 16
-
-[node name="souls" type="VBoxContainer" parent="Levels/Acts/ActIV" unique_id=2078417548]
-layout_mode = 2
-layout_direction = 2
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 2
-theme_override_constants/separation = 2
-metadata/key = "souls"
-
-[node name="Frame" type="PanelContainer" parent="Levels/Acts/ActIV/souls" unique_id=1616896334]
-layout_mode = 2
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_u51n0")
-
-[node name="Picture" type="TextureRect" parent="Levels/Acts/ActIV/souls/Frame" unique_id=2012369150]
-modulate = Color(1, 1, 1, 0.22)
-custom_minimum_size = Vector2(220, 140)
-layout_mode = 2
-mouse_filter = 2
-texture = ExtResource("16_nimr0")
-expand_mode = 1
-stretch_mode = 6
-
-[node name="Restored" type="TextureRect" parent="Levels/Acts/ActIV/souls/Frame/Picture" unique_id=835632607]
-visible = false
-layout_mode = 0
-offset_left = 184.0
-offset_top = 6.0
-offset_right = 184.0
-offset_bottom = 6.0
-mouse_filter = 2
-texture = ExtResource("5_4wg3f")
-
-[node name="Current" type="PanelContainer" parent="Levels/Acts/ActIV/souls/Frame/Picture" unique_id=2146931318]
-visible = false
-layout_mode = 0
-offset_left = 10.0
-offset_top = -16.0
-offset_right = 10.0
-offset_bottom = -16.0
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_mhgs7")
-
-[node name="Label" type="Label" parent="Levels/Acts/ActIV/souls/Frame/Picture/Current" unique_id=2061090334]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
-theme_override_font_sizes/font_size = 16
-text = "You are here"
-metadata/font_size = 16
-
-[node name="Title" type="Label" parent="Levels/Acts/ActIV/souls" unique_id=1105507160]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.56078434, 0.44313726, 0.25882354, 1)
-theme_override_font_sizes/font_size = 16
-text = "The Souls of the Towns"
-metadata/font_size = 16
-
-[node name="Spells" type="Label" parent="Levels/Acts/ActIV/souls" unique_id=88480692]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
-theme_override_font_sizes/font_size = 16
-text = "Spells 112–124"
-metadata/font_size = 16
-
-[node name="ActVHeading" type="HBoxContainer" parent="Levels/Acts" unique_id=1208458186]
-layout_mode = 2
-theme_override_constants/separation = 14
-
-[node name="Title" type="Label" parent="Levels/Acts/ActVHeading" unique_id=383837340]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.5882353, 0.24313726, 0.15686275, 1)
-theme_override_font_sizes/font_size = 16
-text = "Act V — Gates and guardians"
-metadata/font_size = 16
-
-[node name="Band" type="Control" parent="Levels/Acts/ActVHeading" unique_id=661352740]
-custom_minimum_size = Vector2(0, 16)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 4
-
-[node name="Pattern" type="TextureRect" parent="Levels/Acts/ActVHeading/Band" unique_id=1799589044]
-texture_filter = 1
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
-mouse_filter = 2
-texture = ExtResource("3_0daod")
-stretch_mode = 1
-
-[node name="ActV" type="HFlowContainer" parent="Levels/Acts" unique_id=326657169]
-layout_mode = 2
-layout_direction = 3
-theme_override_constants/h_separation = 14
-theme_override_constants/v_separation = 18
-
-[node name="lake" type="VBoxContainer" parent="Levels/Acts/ActV" unique_id=1834705803]
-layout_mode = 2
-layout_direction = 2
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 2
-theme_override_constants/separation = 2
-metadata/key = "lake"
-
-[node name="Frame" type="PanelContainer" parent="Levels/Acts/ActV/lake" unique_id=1715885361]
-layout_mode = 2
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_66my3")
-
-[node name="Picture" type="TextureRect" parent="Levels/Acts/ActV/lake/Frame" unique_id=1817136433]
-modulate = Color(1, 1, 1, 0.22)
-custom_minimum_size = Vector2(220, 140)
-layout_mode = 2
-mouse_filter = 2
-texture = ExtResource("17_ompfu")
-expand_mode = 1
-stretch_mode = 6
-
-[node name="Restored" type="TextureRect" parent="Levels/Acts/ActV/lake/Frame/Picture" unique_id=91722408]
-visible = false
-layout_mode = 0
-offset_left = 184.0
-offset_top = 6.0
-offset_right = 184.0
-offset_bottom = 6.0
-mouse_filter = 2
-texture = ExtResource("5_4wg3f")
-
-[node name="Current" type="PanelContainer" parent="Levels/Acts/ActV/lake/Frame/Picture" unique_id=488396972]
-visible = false
-layout_mode = 0
-offset_left = 10.0
-offset_top = -16.0
-offset_right = 10.0
-offset_bottom = -16.0
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_sveu3")
-
-[node name="Label" type="Label" parent="Levels/Acts/ActV/lake/Frame/Picture/Current" unique_id=135763649]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
-theme_override_font_sizes/font_size = 16
-text = "You are here"
-metadata/font_size = 16
-
-[node name="Title" type="Label" parent="Levels/Acts/ActV/lake" unique_id=1890935916]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.56078434, 0.44313726, 0.25882354, 1)
-theme_override_font_sizes/font_size = 16
-text = "The Lake of Fire"
-metadata/font_size = 16
-
-[node name="Spells" type="Label" parent="Levels/Acts/ActV/lake" unique_id=1754523537]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
-theme_override_font_sizes/font_size = 16
-text = "Spells 126–143"
-metadata/font_size = 16
-
-[node name="gates" type="VBoxContainer" parent="Levels/Acts/ActV" unique_id=60693755]
-layout_mode = 2
-layout_direction = 2
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 2
-theme_override_constants/separation = 2
-metadata/key = "gates"
-
-[node name="Frame" type="PanelContainer" parent="Levels/Acts/ActV/gates" unique_id=1135290379]
-layout_mode = 2
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_uwtk7")
-
-[node name="Picture" type="TextureRect" parent="Levels/Acts/ActV/gates/Frame" unique_id=977449149]
-modulate = Color(1, 1, 1, 0.22)
-custom_minimum_size = Vector2(220, 140)
-layout_mode = 2
-mouse_filter = 2
-texture = ExtResource("18_pf3rn")
-expand_mode = 1
-stretch_mode = 6
-
-[node name="Restored" type="TextureRect" parent="Levels/Acts/ActV/gates/Frame/Picture" unique_id=1343584828]
-visible = false
-layout_mode = 0
-offset_left = 184.0
-offset_top = 6.0
-offset_right = 184.0
-offset_bottom = 6.0
-mouse_filter = 2
-texture = ExtResource("5_4wg3f")
-
-[node name="Current" type="PanelContainer" parent="Levels/Acts/ActV/gates/Frame/Picture" unique_id=1112867141]
-visible = false
-layout_mode = 0
-offset_left = 10.0
-offset_top = -16.0
-offset_right = 10.0
-offset_bottom = -16.0
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_pvy0f")
-
-[node name="Label" type="Label" parent="Levels/Acts/ActV/gates/Frame/Picture/Current" unique_id=1889893518]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
-theme_override_font_sizes/font_size = 16
-text = "You are here"
-metadata/font_size = 16
-
-[node name="Title" type="Label" parent="Levels/Acts/ActV/gates" unique_id=423966989]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.56078434, 0.44313726, 0.25882354, 1)
-theme_override_font_sizes/font_size = 16
-text = "The Gates"
-metadata/font_size = 16
-
-[node name="Spells" type="Label" parent="Levels/Acts/ActV/gates" unique_id=351440054]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
-theme_override_font_sizes/font_size = 16
-text = "Spells 144–146"
-metadata/font_size = 16
-
-[node name="mounds" type="VBoxContainer" parent="Levels/Acts/ActV" unique_id=617150918]
-layout_mode = 2
-layout_direction = 2
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 2
-theme_override_constants/separation = 2
-metadata/key = "mounds"
-
-[node name="Frame" type="PanelContainer" parent="Levels/Acts/ActV/mounds" unique_id=165833056]
-layout_mode = 2
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_x20ea")
-
-[node name="Picture" type="TextureRect" parent="Levels/Acts/ActV/mounds/Frame" unique_id=1653912872]
-modulate = Color(1, 1, 1, 0.22)
-custom_minimum_size = Vector2(220, 140)
-layout_mode = 2
-mouse_filter = 2
-texture = ExtResource("21_eq53r")
-expand_mode = 1
-stretch_mode = 6
-
-[node name="Restored" type="TextureRect" parent="Levels/Acts/ActV/mounds/Frame/Picture" unique_id=666935555]
-visible = false
-layout_mode = 0
-offset_left = 184.0
-offset_top = 6.0
-offset_right = 184.0
-offset_bottom = 6.0
-mouse_filter = 2
-texture = ExtResource("5_4wg3f")
-
-[node name="Current" type="PanelContainer" parent="Levels/Acts/ActV/mounds/Frame/Picture" unique_id=680095602]
-visible = false
-layout_mode = 0
-offset_left = 10.0
-offset_top = -16.0
-offset_right = 10.0
-offset_bottom = -16.0
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_r1eub")
-
-[node name="Label" type="Label" parent="Levels/Acts/ActV/mounds/Frame/Picture/Current" unique_id=533599243]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
-theme_override_font_sizes/font_size = 16
-text = "You are here"
-metadata/font_size = 16
-
-[node name="Title" type="Label" parent="Levels/Acts/ActV/mounds" unique_id=663702866]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.56078434, 0.44313726, 0.25882354, 1)
-theme_override_font_sizes/font_size = 16
-text = "The Fourteen Mounds"
-metadata/font_size = 16
-
-[node name="Spells" type="Label" parent="Levels/Acts/ActV/mounds" unique_id=2073209664]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
-theme_override_font_sizes/font_size = 16
-text = "Spells 149"
-metadata/font_size = 16
-
-[node name="ActVIHeading" type="HBoxContainer" parent="Levels/Acts" unique_id=1965883599]
-layout_mode = 2
-theme_override_constants/separation = 14
-
-[node name="Title" type="Label" parent="Levels/Acts/ActVIHeading" unique_id=1036341739]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.5882353, 0.24313726, 0.15686275, 1)
-theme_override_font_sizes/font_size = 16
-text = "Act VI — The finale"
-metadata/font_size = 16
-
-[node name="Band" type="Control" parent="Levels/Acts/ActVIHeading" unique_id=765934877]
-custom_minimum_size = Vector2(0, 16)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 4
-
-[node name="Pattern" type="TextureRect" parent="Levels/Acts/ActVIHeading/Band" unique_id=359379226]
-texture_filter = 1
-layout_mode = 0
-anchor_right = 1.0
-anchor_bottom = 1.0
-mouse_filter = 2
-texture = ExtResource("3_0daod")
-stretch_mode = 1
-
-[node name="ActVI" type="HFlowContainer" parent="Levels/Acts" unique_id=180357591]
-layout_mode = 2
-layout_direction = 3
-theme_override_constants/h_separation = 14
-theme_override_constants/v_separation = 18
-
-[node name="doors" type="VBoxContainer" parent="Levels/Acts/ActVI" unique_id=590352165]
-layout_mode = 2
-layout_direction = 2
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 2
-theme_override_constants/separation = 2
-metadata/key = "doors"
-
-[node name="Frame" type="PanelContainer" parent="Levels/Acts/ActVI/doors" unique_id=1659901524]
-layout_mode = 2
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_tn2lx")
-
-[node name="Picture" type="TextureRect" parent="Levels/Acts/ActVI/doors/Frame" unique_id=1786581188]
-modulate = Color(1, 1, 1, 0.22)
-custom_minimum_size = Vector2(220, 140)
-layout_mode = 2
-mouse_filter = 2
-texture = ExtResource("24_w0u2i")
-expand_mode = 1
-stretch_mode = 6
-
-[node name="Restored" type="TextureRect" parent="Levels/Acts/ActVI/doors/Frame/Picture" unique_id=1437349404]
-visible = false
-layout_mode = 0
-offset_left = 184.0
-offset_top = 6.0
-offset_right = 184.0
-offset_bottom = 6.0
-mouse_filter = 2
-texture = ExtResource("5_4wg3f")
-
-[node name="Current" type="PanelContainer" parent="Levels/Acts/ActVI/doors/Frame/Picture" unique_id=1334418846]
-visible = false
-layout_mode = 0
-offset_left = 10.0
-offset_top = -16.0
-offset_right = 10.0
-offset_bottom = -16.0
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_bbsab")
-
-[node name="Label" type="Label" parent="Levels/Acts/ActVI/doors/Frame/Picture/Current" unique_id=279420324]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
-theme_override_font_sizes/font_size = 16
-text = "You are here"
-metadata/font_size = 16
-
-[node name="Title" type="Label" parent="Levels/Acts/ActVI/doors" unique_id=96150837]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.56078434, 0.44313726, 0.25882354, 1)
-theme_override_font_sizes/font_size = 16
-text = "Thoth Opens the Sky"
-metadata/font_size = 16
-
-[node name="Spells" type="Label" parent="Levels/Acts/ActVI/doors" unique_id=1430717141]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
-theme_override_font_sizes/font_size = 16
-text = "Spells 161"
-metadata/font_size = 16
-
-[node name="hall" type="VBoxContainer" parent="Levels/Acts/ActVI" unique_id=674253429]
-layout_mode = 2
-layout_direction = 2
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 2
-theme_override_constants/separation = 2
-metadata/key = "hall"
-
-[node name="Frame" type="PanelContainer" parent="Levels/Acts/ActVI/hall" unique_id=1871329977]
-layout_mode = 2
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_yac5k")
-
-[node name="Picture" type="TextureRect" parent="Levels/Acts/ActVI/hall/Frame" unique_id=586119413]
-modulate = Color(1, 1, 1, 0.22)
-custom_minimum_size = Vector2(220, 140)
-layout_mode = 2
-mouse_filter = 2
-texture = ExtResource("25_lo0pm")
-expand_mode = 1
-stretch_mode = 6
-
-[node name="Restored" type="TextureRect" parent="Levels/Acts/ActVI/hall/Frame/Picture" unique_id=575548708]
-visible = false
-layout_mode = 0
-offset_left = 184.0
-offset_top = 6.0
-offset_right = 184.0
-offset_bottom = 6.0
-mouse_filter = 2
-texture = ExtResource("5_4wg3f")
-
-[node name="Current" type="PanelContainer" parent="Levels/Acts/ActVI/hall/Frame/Picture" unique_id=1782817872]
-visible = false
-layout_mode = 0
-offset_left = 10.0
-offset_top = -16.0
-offset_right = 10.0
-offset_bottom = -16.0
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_2yvm4")
-
-[node name="Label" type="Label" parent="Levels/Acts/ActVI/hall/Frame/Picture/Current" unique_id=1908417401]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
-theme_override_font_sizes/font_size = 16
-text = "You are here"
-metadata/font_size = 16
-
-[node name="Title" type="Label" parent="Levels/Acts/ActVI/hall" unique_id=497516359]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.56078434, 0.44313726, 0.25882354, 1)
-theme_override_font_sizes/font_size = 16
-text = "The Weighing of the Heart"
-metadata/font_size = 16
-
-[node name="Spells" type="Label" parent="Levels/Acts/ActVI/hall" unique_id=1927352352]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
-theme_override_font_sizes/font_size = 16
-text = "Spells 125"
-metadata/font_size = 16
-
-[node name="Footer" type="ColorRect" parent="." unique_id=1175567561]
-layout_mode = 0
+[node name="Footer" type="ColorRect" parent="."]
+layout_mode = 1
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -96.0
+offset_top = -120.0
 mouse_filter = 2
 color = Color(0.79607844, 0.6901961, 0.4862745, 1)
 metadata/_edit_lock_ = true
 
-[node name="Rule" type="ColorRect" parent="Footer" unique_id=1131015877]
-layout_mode = 0
+[node name="Band" type="TextureRect" parent="Footer"]
+texture_filter = 1
+layout_mode = 1
 anchor_right = 1.0
-offset_bottom = 4.0
+offset_bottom = 16.0
 mouse_filter = 2
-color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+texture = ExtResource("3_0daod")
+stretch_mode = 1
 
-[node name="Selection" type="HBoxContainer" parent="Footer" unique_id=679538616]
-layout_mode = 0
+[node name="Selection" type="HBoxContainer" parent="Footer"]
+layout_mode = 1
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 40.0
-offset_top = 4.0
-offset_right = -40.0
+offset_left = 28.0
+offset_top = 24.0
+offset_right = -24.0
 theme_override_constants/separation = 24
 
-[node name="Name" type="Label" parent="Footer/Selection" unique_id=644725930]
+[node name="About" type="Label" parent="Footer/Selection"]
+size_flags_horizontal = 3
+size_flags_vertical = 4
+autowrap_mode = 3
+theme_override_constants/line_spacing = 0
 layout_mode = 2
-theme_override_colors/font_color = Color(0.5882353, 0.24313726, 0.15686275, 1)
+theme_override_colors/font_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
 theme_override_font_sizes/font_size = 32
-text = "The Funeral Procession"
+text = "Guarding the Body"
 metadata/font_size = 32
 
-[node name="About" type="Label" parent="Footer/Selection" unique_id=1043668747]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
-theme_override_font_sizes/font_size = 16
-text = "Haul the sledge, restore the standards, rebuild the offering table, pour the water, open the mouth, and set up the stand before Ra."
-autowrap_mode = 2
-metadata/font_size = 16
-
-[node name="Play" type="Button" parent="Footer/Selection" unique_id=455900959]
+[node name="Play" type="Button" parent="Footer/Selection"]
 custom_minimum_size = Vector2(240, 52)
 layout_mode = 2
 size_flags_vertical = 4
@@ -2097,7 +3821,7 @@ theme_override_styles/disabled = SubResource("StyleBoxFlat_drs81")
 theme_override_styles/focus = SubResource("StyleBoxFlat_ptxi0")
 text = "Play"
 
-[node name="View" type="Button" parent="Footer/Selection" unique_id=455900960]
+[node name="View" type="Button" parent="Footer/Selection"]
 visible = false
 custom_minimum_size = Vector2(240, 52)
 layout_mode = 2
@@ -2113,3 +3837,20 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_ejt37")
 theme_override_styles/disabled = SubResource("StyleBoxFlat_drs81")
 theme_override_styles/focus = SubResource("StyleBoxFlat_ptxi0")
 text = "View"
+
+[node name="Tag" type="PanelContainer" parent="Footer"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = -10.0
+offset_right = 24.0
+offset_bottom = 26.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("tag_box")
+
+[node name="Name" type="Label" parent="Footer/Tag"]
+size_flags_vertical = 4
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
+theme_override_font_sizes/font_size = 24
+text = "Guarding the Body"
+metadata/font_size = 24

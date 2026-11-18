@@ -162,13 +162,9 @@ func _run() -> void:
 			if page == menu._settings or page == menu._controls:
 				expect(inside(page.get_child(0).get_child(0)), "%dx%d menu sheet fits viewport" % [dimensions.x, dimensions.y])
 			if page == menu._map:
-				var selected := false
-				for row in menu._cards.get_children():
-					for card in row.get_children():
-						if card.has_meta("key") and not selected:
-							card.grab_focus()
-							expect(menu._chosen == card.get_meta("key"), "keyboard focus selects and highlights its map card")
-							selected = true
+				var card: Control = menu._map.cards[0]
+				card.grab_focus()
+				expect(menu._chosen == card.get_meta("key"), "keyboard focus selects and highlights its map card")
 			if dimensions.x == 800 and page == menu._controls:
 				await shot("controls-800")
 		menu.free()

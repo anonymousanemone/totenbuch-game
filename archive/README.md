@@ -22,6 +22,12 @@ expect to fix them up when one comes back (and add it back to `godot/tests/run_t
 stay in `art/` (`cosmos17-21.mdp`, `fields110.mdp`, `judgement125.mdp`); `tools/` here is
 gitignored, as the main one is, and imports from the main `tools/`.
 
+## The earlier map (2026-11-18)
+`godot/scenes/scroll.tscn` and `godot/scripts/menu/scroll_screen.gd`: the map as a vertical list, each act a
+heading and a band over a flow of small cards, with the chosen scene in a footer. It was replaced by one
+register of the scroll (option A of `mockups/menus.html`). The archived script has no `.uid`; give it the map's
+script uid back (`uid://cemx7nosbyg3v`) if it returns, and fix the tests that read the map.
+
 ## The Night Journey (spell 17, pl. VII–XI)
 The drawing is `art/cosmos17-21.mdp`. Its `dissected` folder groups nearby scenes into
 chunks, with local themes inside each chunk and one layer per figure. Export directly with:

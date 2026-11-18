@@ -242,7 +242,7 @@ func _run() -> void:
 			if card.get_node("Frame/Picture/Current").visible:
 				markers.append(entry.key)
 			var done: bool = entry.key in finished
-			rules = rules and (card.get_node("Frame/Picture").modulate.a == 1.0) == done
+			rules = rules and (card.get_node("Frame/Picture").self_modulate.a == 1.0) == done
 			menu._choose(entry.key)
 			rules = rules and menu._chosen_go.disabled == not (done or entry.key == current)
 			rules = rules and menu._map.chosen_view.visible == done

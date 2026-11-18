@@ -13,7 +13,7 @@ var _title: Control
 var _map: Control
 var _settings: Control
 var _controls: Control
-var _cards: VBoxContainer         ## the map's acts and their cards
+var _cards: HBoxContainer         ## the map's register: its acts and their cards
 var _chosen: String:
 	get:
 		return _map.chosen
@@ -36,6 +36,7 @@ func _ready() -> void:
 	_cards = $Scroll/Levels/Acts
 	_chosen_go = $Scroll/Footer/Selection/Play
 	_map.back_requested.connect(func(): _show(_title))
+	_map.settings_requested.connect(func(): _show(_settings))
 	var buttons := $Title/Frame/Center/Content/Buttons
 	buttons.get_node("Play").pressed.connect(func(): Scroll.open(_play_key()))
 	buttons.get_node("TheScroll").pressed.connect(func(): _show(_map))

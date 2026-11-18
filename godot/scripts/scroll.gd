@@ -8,10 +8,10 @@ const SAVE := "user://scroll.cfg"
 const MENU := "res://scenes/menu.tscn"
 
 const ACTS := {
-	"Prologue": "Prologue — Guarding the body",
+	"Prologue": "Prologue",
 	"I": "Act I — Burial and going forth", "II": "Act II — Survival",
 	"III": "Act III — Food, breath and transformations", "IV": "Act IV — The Field of Reeds",
-	"V": "Act V — Gates and guardians", "VI": "Act VI — The finale",
+	"V": "Act V — Gates and guardians", "VI": "Act VI — The Weighing of the Heart",
 }
 ## In playing order: Lepsius's spell order, except the prologue (151–154, played first) and the
 ## finale: Thoth opens the sky, then the weighing of the heart. Each scene's picture is assets/menu/<key>.png.

@@ -581,9 +581,12 @@ text = "Quit"
 
 [node name="Scroll" type="ColorRect" parent="." unique_id=1992633067 instance=ExtResource("6_gygdu")]
 visible = false
-layout_mode = 0
-offset_right = 1280.0
-offset_bottom = 1686.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 mouse_filter = 2
 theme = SubResource("Theme_u2sik")
 color = Color(0.8862745, 0.8156863, 0.6509804, 1)

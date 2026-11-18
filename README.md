@@ -84,8 +84,12 @@ Runtime creation stays for temporary effects, spawned copies, loose physics bodi
   it when renaming.
 - No source layer number or layer name in a name: that is `source_layer_id` metadata.
 
-**Menus:** `godot/scenes/menu.tscn` is the title page; `godot/scenes/scroll.tscn` is the map (21 level
-cards by act, 1280 × 1686). Keep cards' `key` metadata in sync with `Scroll.SCENES`.
+**Menus:** `godot/scenes/menu.tscn` is the title page; `godot/scenes/scroll.tscn` is the map: every scene
+on one register of the scroll, reading right to left between double rules, each act captioned above its cards
+(`Scroll.ACTS`). It is saved as long as the whole register (7124 × 720), so the editor shows all of it; in play
+it fits the window and scrolls sideways. The chosen scene's name is the tag on the strip's band, with its
+description and Play / View. `python tools/build_scroll_map.py` rewrites it from `Scroll.SCENES` (dropping
+editor changes); keep cards' `key` metadata in sync. The earlier map, a vertical list of acts, is in `archive/`.
 
 **Procession** (`Pieces/Standards`, `Hauling`, `OfferingTable`, `Water`, `OpeningMouth`, `Ending`):
 each piece has a `piece_id` in Inspector > Metadata; keep it when renaming. The editor shows a mixed

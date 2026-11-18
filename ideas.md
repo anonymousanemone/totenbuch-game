@@ -17,6 +17,7 @@ Design rule throughout: **the end is the Weighing of the Heart (125d).** Every e
 
 | Level | Skill / creativity | Why (brief) |
 |---|---|---|
+| Prologue (151–154) | tbd | A tutorial of placing, giving and swapping; 154's task isn't chosen. |
 | Procession (1–16) | 25 / 75 | Only the haul and the pour are rhythm; the standards, table, goose, bulls, adze and stand are spotting and restoring. |
 | Cosmos (17) | tbd | Walk-and-read only; its games aren't chosen. |
 | Dangers (31–42) | 80 / 20 | Every vignette is a spear fight, but the captions decide the heka crocodiles (31), the Merti snakes (37) and breath vs life (38). |
@@ -25,14 +26,17 @@ Design rule throughout: **the end is the Weighing of the Heart (125d).** Every e
 | Field of Reeds (110) | tbd | Only feed-the-gods is decided. |
 | Gates (144–147) | 90 / 10 | Mostly a memorisation game: which name goes to which god. |
 
+**Prologue (151–154)**
+- **Isis and Nephthys at the ends of the bier.** First: 151, placed by their facing, named when clicked. Later: the kites at the bier in 17.
+
 **Procession (1–16)**
 - **Offering stand** (stand, sun disc, lotus bending over it). First: rebuilt before Ra, with the stela by the tomb as the clue. Later: 94/95's stand, the boats of 17, 110's and 147's stands, with no stela nearby.
 - **Anubis and Ra**, what they look like (only these few gods here). First: Anubis holding the mummy, Ra enthroned. Later: 45 (Anubis holds the mummy again), 17, 117 (Anubis leads), 125 (Anubis at the scale).
 
 **Cosmos (17)** (tentative, games not chosen)
-- **Gods by head and name sign:** Isis (throne) and Nephthys (basket on house) as kites at the bier, the Four Sons by their heads. Later: the 18 councils, 148's four figures, 125's Four Sons.
+- **Gods by head and name sign:** Isis (throne) and Nephthys (basket on house) as kites at the bier (recalling the prologue's bier, 151), the Four Sons by their heads. Later: the 18 councils, 148's four figures, 125's Four Sons.
 - **The sun's cycle:** the east and west falcons, the two horizon lions, the morning and evening boats. Later: 93 (the east sign tells you to refuse the boat), 100–102 sailing west, 109's sycamores of the east. (The east sign may be taught at 16 instead, if that level is made.)
-- **Canopic chest:** between the Four Sons, and carried in pl. X. Later: 151's burial chamber, 125's Four Sons.
+- **Canopic chest:** between the Four Sons, and carried in pl. X. Later: 125's Four Sons.
 - **Wedjat eye:** on its shrine. Later: 148's four oars, the two on the 125 cornice.
 
 **Dangers (31–42)**
@@ -75,6 +79,105 @@ Design rule throughout: **the end is the Weighing of the Heart (125d).** Every e
   - Once the problem is fixed, the note changes to describe the figure as drawn.
 - **Hint becomes graded.** Each press says a little more: where to look, then what is wrong, then what to do. It picks the problem nearest the player, or one they have already noticed, not the first in a fixed order. This replaces today's single full-solution `hint()` in each level.
 - **Progress shows in the scene.** Players need to know whether something is still wrong, without a counter. Examples: the procession not yet closed up, or the scribe saying the procession is in order.
+
+---
+
+## PROLOGUE: Guarding the body (151–154), the opening lesson (2026-11-17)
+
+Taken out of scroll order and played **first**, before the procession: a short tutorial built only from what 151–154 draw. The body is laid out, guarded and kept whole, then handed to the funeral procession (1–15), which carries it to the tomb. Each step rehearses one thing the procession asks for.
+
+### How it's built (atypical)
+- **Five small scenes, one vignette each, not a stretch of one strip.** Each is framed whole by a fixed camera and each teaches its own mechanics. Walking off the left edge fades out and the next scene fades in with the avatar at its right edge. There is no continuous scroll to wander; the order is fixed: **151ab → 151c → 151de → 152 → 154**. 153 (text only, empty vignette box) is left out.
+- **A finished scene flashes green.** When its last step is done, the whole scene flashes green once, then shows as drawn; that is the "done" signal before the way on.
+- **The avatar is the procession's avatar** (`avatar` in `godot/assets/procession/level.json`), the same man the player will be in 1–15. He stands on each scene's ground line at the drawn scale of that scene. [verify] his height against the 151–154 figures; he may need scaling per scene, since 151's registers are short.
+- **Taught by highlight and movement.** Outside tutorial moments the scene is shown plainly. What the player should act on is picked out two ways:
+  - **Highlight:** only the one thing the current step is about glows (`glow.gdshader`), and it pulses on its own, not just under the pointer. Everything else is still clickable to inspect but doesn't pulse.
+  - **Movement:** the thing itself moves to show what to do with it. A piece nudges toward where it goes; a figure turns or leans toward its place; a faint copy of the piece glides from where it lies to where it belongs and fades. The movement is the instruction; the line only names the input.
+- **The spotlight marks tutorial moments.** The first time an action is taught, a dark shader (new, `spotlight.gdshader`) dims the whole scene except a soft circle around the thing being taught (and the avatar, so he isn't lost). That tells the player "this is a lesson, look here". It sits behind the bottom text field, so the instruction line stays fully readable above the dark. Once the action is done, the dark lifts and the scene plays normally. When the action comes back later, there is no spotlight: highlight only.
+- **The highlight moves on only when a step is done.** The next thing starts to pulse as the last one stops, so the eye is led to where to act next.
+- **Solved = the plate as drawn.** When a scene's last step is done, every piece is in its drawn place and stops moving, and the scene flashes green. There is no counter.
+- **Pieces needed:** `spotlight.gdshader` (circle centres and radii, darkness, faded in and out), drawn on a layer between the scene and the HUD's bottom text field; a green flash over the finished scene (a tint tween); a pulsing mode for `glow.gdshader` (a time uniform); a ghost copy of a piece (the sprite at low alpha, tweened along a path); small nudge/lean tweens on the figures (position and a little rotation, no redrawing); a loader that fades between the scenes; the avatar texture reused from the procession.
+
+### What the player has to learn here
+
+**Controls**
+- **Walk:** click the papyrus, or ← →.
+- **Inspect:** click anything that glows. It shows a description, and the figure goes into the journal (`j`).
+- **Press-drag-release:** move a piece. Used later at the offering table.
+- **Take and give:** click a carriable thing to take it in hand, then click a figure or place to give or set it. Used later for the goose and the loaf.
+- **Swap:** drop a piece onto a filled place and the two change places. Used later for the standards.
+- **Step up and Esc:** clicking a minigame's figure enters minigame view; Esc leaves it. Used later for the haul, the table, the water and the mouth.
+- **Hint:** says a little more with each press.
+- **Enter / Space:** move on through the intro and outro.
+
+**Conventions**
+- **The way on is to the left:** the scroll reads right to left.
+- **Glow means clickable.** What does not glow is just the picture.
+- **Facing is a clue:** which way a figure looks or kneels tells you where it goes.
+- **Only right placements stay.** A wrong drop slides back; a right one stays and locks.
+- **A figure refuses the wrong thing:** an item they don't want falls to the floor in front of them.
+- **Read the instruction when a minigame starts:** entering one shows a line saying what to do. Timing and rhythm are not taught here; the haul's own instruction covers them.
+- **Not every vignette is a puzzle:** some are just walked past, or only have a caption to read.
+- **Progress shows in the picture,** never as a counter.
+
+### How each action is taught
+Every action follows the same five beats, so the pattern itself becomes familiar:
+1. **Spotlight and highlight:** the scene dims except around the thing to act on, and it pulses. (The spotlight is only for this first time.)
+2. **Line:** one instruction line names the input, in the input's own terms: the key (`←`), the mouse gesture (press, drag, let go), the click. One action per line, never two.
+3. **Wait, then move:** if nothing happens for a few seconds, the thing moves to show the action once: a ghost copy glides to its place, or the figure leans toward it, or a ghost pointer presses and drags it. It repeats, slower, while the player is idle. Hint says the same thing in more words.
+4. **Answer:** the right action gets an immediate visible change (the piece locks, the figure moves, the description opens). A wrong one gets the convention's answer (slides back, falls at her feet), never a text scolding.
+5. **Again, unprompted:** each action comes back once in a later scene with less help (highlight only, no line or movement), so the player shows they have it before the procession needs it.
+
+| Action | Taught at | Pulses | Moves to show it | Line names | Repeated at |
+|---|---|---|---|---|---|
+| Walk | 151ab, start | the jackal shrine, at the far side | the avatar takes a step left on his own, then stops | `←` / click the floor | every scene change |
+| Inspect + journal | 151ab | the two mummiform figures, in turn | the journal icon bobs as each is added | click | 151c (the mummy), 152 (the seated man), 154 |
+| Take and give | 151ab | the jackal, then the shrine top | the jackal hops toward the shrine and back | click to take, click to give | 152 (the cup) |
+| Read a caption | 151ab | text block (b) | its signs rise a little in turn | click the text | 151de (text block d) |
+| Press-drag-release | 151c | a goddess | a ghost of her glides to her end of the bier | press, drag, let go | 151de (the swap is a drag) |
+| Swap | 151de | both attendants | they turn their heads to each other's place | drop one on the other | not repeated here; the standards use it |
+| Refusal | 152 | the woman | the wrong thing drops and rolls back to the avatar | (none: the player sees it fall) | – |
+| Step up / Esc | 154 | the bier | the avatar steps toward it | click to step up, `Esc` to leave | the procession's every minigame |
+| Hint | first idle moment | the hint button | the button shakes | press Hint | throughout |
+
+### The lesson, in scroll order (right to left)
+
+#### 151: Burial chamber (pl. LXXIV, right) [seen]
+- **Depicts:** in this papyrus it is **stacked vertically, not a floor plan**:
+  - **(a)** Anubis as a jackal on a shrine, between two mummiform figures
+  - **(b, d)** text blocks
+  - **(c)** the mummy on a lion-headed bier, a goddess **kneeling at the head** and one **kneeling at the foot**
+  - **(e)** the jackal shrine again with two figures
+- **Scenes:** three: **151ab** (the top shrine with text block b), **151c** (the bier), **151de** (text block d with the bottom shrine), played top to bottom.
+- **Lesson:**
+  1. **151ab.** The avatar stands at the right edge; the shrine pulses at the far side. If he doesn't move, he takes a step left on his own and stops. Walk to it (walking, the way on).
+  2. The two mummiform figures pulse in turn: click each for its description; each goes into the journal (the journal icon bobs) (glow, inspect, journal).
+  3. The jackal has slipped off its shrine. It pulses and hops toward the shrine and back: click to take it in hand. The shrine top pulses: click to set it (take and give).
+  4. Text block (b) pulses, its signs rising in turn: click it to read its translation (read a caption). Green flash.
+  5. **151c.** The mummy pulses: click it (inspect, no line). The goddesses kneel apart from the bier. One pulses, and a ghost of her glides to her end of the bier and fades. Press, drag, let go there. A wrong drop slides back; a right one locks. The second goddess pulses but has no ghost: her facing (she kneels toward the body) tells her end (press-drag-release, facing, only right placements stay). Green flash.
+  6. **151de.** Text block (d) pulses, no line (read a caption, again). The two attendants stand on the wrong sides. Both pulse and turn their heads to each other's place. Drop one onto the other and they swap (swap). Green flash.
+- [verify] The jackal off its shrine and the attendants on the wrong sides are invented starting states; the plate shows them in place.
+
+#### 152: Building a house (pl. LXXV) [seen]
+- **Depicts:** a woman kneels and holds up a cup to a seated man. The text is for building a house on earth.
+- **Lesson:** the seated man pulses first: click him (inspect, again without a line). Then the cup at the woman's knees pulses, and she reaches toward it. Take it and give it to her; she lifts it to the seated man. Offer her anything else and it falls to the floor in front of her (a figure refuses the wrong thing). To be sure refusal is seen, the avatar enters this scene still holding something wrong. [verify] what: there is nothing carried over from 151 by design, so it may need a drawn object from 151 (a piece of the shrine?) or the refusal is left for the player to find.
+- [verify] The cup at her knees is invented; the plate shows it held up.
+
+#### 154: The body does not decay [seen]
+- **Depicts:** the mummy on a lion bier under a sun disc.
+- **Lesson:** the bier pulses and the avatar steps toward it. Click it to step up; the camera holds on the mummy. The minigame's instruction line says what to do; follow it. Before the task, a line names `Esc`: press it to leave, then step up again and finish the task (step up and Esc, read the instruction).
+- **Task:** tbd. It should be something the instruction alone makes clear.
+
+#### Ending
+- When the five scenes are done, the outro hands the guarded mummy to the funeral procession (1–15).
+- **Hint** is offered throughout; the first press in the lesson is the player's introduction to it.
+- **Recalled later:** the bier in 17, where Isis and Nephthys sit at its ends again.
+- **Into the procession:** the last fade opens on the procession with the same avatar, so the player already knows him. From here there is no spotlight, and nothing pulses or demonstrates on its own; glow is only under the pointer.
+
+#### Questions
+- The ghost pointer: use it at all, or only the pieces' own movement (ghost copy, lean, hop)?
+- 152's refusal: give the avatar a wrong thing to carry in, or let refusal go untaught until the goose?
+- Is the avatar scaled to each scene's figures, or kept at procession size with the scene scaled to him?
 
 ---
 
@@ -678,25 +781,7 @@ The two belong together: 150 is the key to 149.
 
 ---
 
-## ACT VI: Amulets & Strange Creatures (151–165) [seen]
-
-### 151–154: Guarding the body (pl. LXXIV–LXXV) [seen]
-
-#### 151: Burial chamber (pl. LXXIV, right)
-- **Depicts:** in this papyrus it is **stacked vertically, not a floor plan**:
-  - **(a)** Anubis as a jackal on a shrine, between two mummiform figures
-  - **(b, d)** text blocks
-  - **(c)** the mummy on a lion-headed bier, a goddess **kneeling at the head** and one **kneeling at the foot**
-  - **(e)** the jackal shrine again with two figures
-- **Puzzle:** **guard the body.**
-  - Place the two kneeling goddesses at the head and foot. The clue comes from spell 17, where the kites sit at the ends of the bier.
-  - Then set the jackal on the shrine in both the top and bottom panels, with the right attendant on each side. Gaze and facing tell you which attendant is which.
-  - It's simpler than the classic floor plan, but it can still use direction clues: the panels are top and bottom, the figures left and right.
-
-#### 152–154
-- **152:** a seated figure and a standing figure, apparently building or measuring. *(Checked: a woman kneels and holds up a cup to a seated man. The text is for building a house on earth.)*
-- **153:** text only in this papyrus (the vignette box is empty).
-- **154:** the mummy on a bier under a sun disc. A short "the body does not decay" scene; it can be the last ba/body check.
+## ACT VI: Amulets & Strange Creatures (155–165) [seen]
 
 ### 155–160: Amulets (pl. LXXV–LXXVI) [seen]
 Each is a single large, clean object, ideal **inventory icons**.
@@ -704,7 +789,7 @@ Each is a single large, clean object, ideal **inventory icons**.
 | Spell | Amulet | Suggested use |
 |---|---|---|
 | 155 | **Djed** pillar (stability) | Prop up a collapsing door/pylon |
-| 156 | **Tyet** knot of Isis | Isis-crest doors (146); calm the kneeling goddesses (151) |
+| 156 | **Tyet** knot of Isis | Isis-crest doors (146) |
 | 157 | **Vulture** with spread wings holding ankhs | Shield from above (attacking birds, falling objects) |
 | 158 | **Broad collar** (falcon-headed terminals) | Shows you are dressed/prepared; a 125 entry requirement |
 | 159 | **Papyrus column (wadj)** | Renewal; regrow withered crops in 110 |
@@ -717,7 +802,7 @@ Each is a single large, clean object, ideal **inventory icons**.
 
 **What each text says the amulet does, and where it could go** (Allen 1974 and Davis 1894, spells 155–160; checked 2026-11-06)
 - **155 djed:** Osiris is given back his backbone while lying on his side; the wearer isn't kept from the gates of the West, gets offerings from Osiris's altar and beats his enemies. *Reward:* 68 (turning from side to side and standing up) or the 137–140 prep level (the djed is drawn in 138). *Requirement:* the gates (144–146).
-- **156 tyet:** the blood, power and magic of Isis protect the wearer; no road is blocked to him, gates open, and he is given barley and wheat in the Field of Reeds. *Reward:* 151 (Isis at the bier). *Requirement:* the grain in 110 (check the order: 151 comes after 110 on the scroll), or a one-time "unblock a closed way".
+- **156 tyet:** the blood, power and magic of Isis protect the wearer; no road is blocked to him, gates open, and he is given barley and wheat in the Field of Reeds. *Reward:* tbd (151, Isis at the bier, is now the opening lesson, so it can't hand out the tyet). *Requirement:* the grain in 110, or a one-time "unblock a closed way".
 - **157 vulture:** Isis searches the marshes for places to hide Horus; her protection makes anyone attacking him tremble. *Reward:* something hidden or kept safe in the 110 marshes. *Helper:* the 149 mound fights (turn away one attack, or keep you safe for one try).
 - **158 broad collar:** his father and mother are of Heliopolis; he is one of those set free when Geb looks on them. *Reward:* 75 (reaching Heliopolis). *Requirement:* entering the Hall (125), as a sign of where he belongs. Echoes 68, where the bolts of Geb open.
 - **159 papyrus column:** the most obscure; spoken to a goddess at the door of the twin seats. Davis reads it as a small feldspar necklace passing through the gate of the double dwelling. *Tentative requirement:* the door of the Hall of Two Truths (125).
@@ -744,10 +829,6 @@ Each is a single large, clean object, ideal **inventory icons**.
 - **164:** a **winged goddess with several heads** (three-faced) in the centre, flanked by **two dwarf-like ithyphallic figures with plumed or animal heads** raising their arms.
 - **165:** a figure **with plumes on the shoulders**, and a **scarab-bodied, ithyphallic god with tall plumes** holding a flail.
 - **Use as sprites:**
-  - **Walking wedjat = the hint system.** When the player is stuck, a legged eye walks across the scene and stops at the next interaction. It's diegetic (*the eye sees all*) and needs no new art.
-  - **Legged snake with sun disc = lantern bearer.** It walks ahead in dark scenes, lighting the way; the player follows it.
-  - **164 three-faced goddess = a three-way choice.** Each face looks a different way and only one is "true"; choose by matching the face to the right companion figure.
-  - **165 scarab-god = transformation of the heart.** A callback to the heart scarab; it can appear when the heart scarab from 30 is equipped.
 
 ---
 
@@ -789,7 +870,7 @@ Each is a single large, clean object, ideal **inventory icons**.
 | Concept | Taught in | Tested in | Final use |
 |---|---|---|---|
 | God heads | 17 | 144, 145 | 125 judges |
-| Compass | 15–16 sun | 109, 137 | 148 oars, 151 |
+| Compass | 15–16 sun | 109, 137 | 148 oars |
 | Sail/breath, water, bread | 38, 54–62, 57/59 | 110 farming | 148 cows |
 | Forms | 77–88 | 144, 146, 149 | – |
 | Ba/body | 89, 92 | gates needing flight | 125 entry |

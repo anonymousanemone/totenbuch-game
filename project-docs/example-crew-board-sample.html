@@ -1,0 +1,528 @@
+<!-- EXAMPLE ONLY: unmodified copy of the course "Crew Board" sample (game: Signal Station), not Totenbuch's own board. Source: columbia-university-ai-games/game-dev-f26, docs/crew-board/sample.html. Copied 2026-11-17. -->
+<title>Crew Board</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: a production swim-lane board. Columns alternate phase (work) and gate (decision); people lanes sit above agent lanes. */
+:root {
+  --bg: #eef1ef; --surface: #ffffff; --ink: #17212a; --muted: #56636c; --line: #d2d9d5; --line-strong: #b5c0ba;
+  --accent: #1d5bbd; --accent-soft: #e3ecfa; --gate: #9a6206; --gate-bg: #f6eedf; --person-bg: #e5eaf2;
+  --warn: #b0341c; --warn-soft: #fbe7e2; --ok: #2b7647; --dim: .32;
+  --f-display: "Archivo Narrow", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  --f-body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --lane-w: 176px; --phase-w: 232px; --gate-w: 196px;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #11161a; --surface: #192025; --ink: #e3e9ec; --muted: #9ba7ae; --line: #2a343a; --line-strong: #3d4a51;
+  --accent: #79a6ee; --accent-soft: #1d2a40; --gate: #e3aa48; --gate-bg: #272116; --person-bg: #1b2430;
+  --warn: #f08268; --warn-soft: #3a1f19; --ok: #6cc28e; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #11161a; --surface: #192025; --ink: #e3e9ec; --muted: #9ba7ae; --line: #2a343a; --line-strong: #3d4a51;
+  --accent: #79a6ee; --accent-soft: #1d2a40; --gate: #e3aa48; --gate-bg: #272116; --person-bg: #1b2430;
+  --warn: #f08268; --warn-soft: #3a1f19; --ok: #6cc28e; color-scheme: dark }
+* { box-sizing: border-box }
+body { background: var(--bg); color: var(--ink); font: 14px/1.45 var(--f-body); margin: 0 }
+.wrap { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 20px 28px; display: grid; gap: 16px }
+button, input, select, textarea { font: inherit; color: inherit }
+button { cursor: pointer }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px }
+header.top { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: end; justify-content: space-between }
+.titleblock { display: grid; gap: 4px; min-width: 0 }
+.eyebrow { font: 500 11px/1 var(--f-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted) }
+h1 { font: 700 30px/1.05 var(--f-display); margin: 0; letter-spacing: -.01em; text-wrap: balance }
+.game { display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap }
+.game label { font: 500 12px var(--f-mono); color: var(--muted) }
+.game input { border: 0; border-bottom: 1px dashed var(--line-strong); background: transparent; font: 600 16px var(--f-body); padding: 2px 0; min-width: 0; width: min(340px, 70vw) }
+.lede { margin: 0; color: var(--muted); max-width: 70ch }
+.tools { display: flex; flex-wrap: wrap; gap: 8px }
+.btn { border: 1px solid var(--line-strong); background: var(--surface); border-radius: 6px; padding: 6px 12px; font-weight: 500 }
+.btn:hover { border-color: var(--accent) }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--surface) }
+.btn.danger { color: var(--warn) }
+.btn.small { padding: 3px 8px; font-size: 12px }
+
+.roster { display: flex; flex-wrap: wrap; gap: 8px; align-items: center }
+.chip { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--line-strong); background: var(--surface); border-radius: 999px; padding: 4px 10px 4px 6px; font-size: 13px }
+.chip[aria-pressed="true"] { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent) }
+.dot { width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--muted); flex: none }
+.dot.tailored { background: var(--accent); border-color: var(--accent) }
+.dot.person { border-radius: 2px; background: var(--muted); border-color: var(--muted) }
+.warncount { font: 600 11px var(--f-mono); color: var(--warn); background: var(--warn-soft); border-radius: 999px; padding: 0 6px }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; color: var(--muted); font-size: 12px; align-items: center }
+.legend span { display: inline-flex; gap: 6px; align-items: center }
+
+.board-scroll { overflow: auto; max-height: calc(100vh - 120px); border: 1px solid var(--line); border-radius: 8px; background: var(--surface) }
+.board { display: grid; width: max-content; grid-template-columns: var(--lane-w) var(--cols) }
+.hd { position: sticky; top: 0; z-index: 3; background: var(--surface); border-bottom: 1px solid var(--line-strong); border-right: 1px solid var(--line); padding: 10px 12px; text-align: left; border-top: 0; border-left: 0; display: grid; gap: 3px; align-content: start }
+.hd:hover .hd-title { color: var(--accent) }
+.hd.gate { background: var(--gate-bg) }
+.hd-title { font: 600 15px/1.15 var(--f-display) }
+.hd-when { font: 400 11px var(--f-mono); color: var(--muted) }
+.gtag { font: 600 11px var(--f-mono); color: var(--gate); letter-spacing: .04em }
+.ptag { font: 500 11px var(--f-mono); color: var(--muted); letter-spacing: .04em; text-transform: uppercase }
+.corner { position: sticky; left: 0; top: 0; z-index: 5; background: var(--surface); border-bottom: 1px solid var(--line-strong); border-right: 1px solid var(--line-strong); padding: 10px 12px; font: 500 11px var(--f-mono); color: var(--muted); text-transform: uppercase; letter-spacing: .06em; display: flex; align-items: end }
+.lane { position: sticky; left: 0; z-index: 2; background: var(--surface); border-right: 1px solid var(--line-strong); border-bottom: 1px solid var(--line); padding: 10px 12px; text-align: left; border-top: 0; border-left: 0; display: grid; gap: 4px; align-content: start }
+.lane.person { background: var(--person-bg) }
+.lane-name { display: flex; gap: 6px; align-items: center; font: 600 15px/1.15 var(--f-display) }
+.lane-sub { font-size: 12px; color: var(--muted) }
+.lane-meta { display: flex; gap: 6px; align-items: center; font: 500 11px var(--f-mono); color: var(--muted) }
+.lane:hover .lane-name { color: var(--accent) }
+.worked { font: 600 10px var(--f-mono); color: var(--ok); text-transform: uppercase; letter-spacing: .06em }
+.cell { border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 9px 11px; text-align: left; background: var(--surface); border-top: 0; border-left: 0; display: grid; gap: 6px; align-content: start; font-size: 13px; transition: opacity .15s }
+.cell.gate { background: var(--gate-bg) }
+.cell.person { background: color-mix(in srgb, var(--person-bg) 70%, var(--surface)) }
+.cell.gate.person { background: color-mix(in srgb, var(--person-bg) 55%, var(--gate-bg)) }
+.cell:hover { box-shadow: inset 0 0 0 2px var(--accent) }
+.does { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden }
+.flows { display: flex; flex-wrap: wrap; gap: 4px }
+.flow { font: 500 11px var(--f-mono); border-radius: 4px; padding: 1px 5px; background: var(--bg); color: var(--muted); white-space: nowrap }
+.flow.out { color: var(--accent); background: var(--accent-soft) }
+.flag { font: 600 11px var(--f-mono); color: var(--warn); background: var(--warn-soft); border-radius: 4px; padding: 1px 5px; justify-self: start }
+.rec { font-size: 12px; color: var(--muted); border-top: 1px dotted var(--line-strong); padding-top: 5px }
+.rec b { font: 600 10px var(--f-mono); text-transform: uppercase; letter-spacing: .05em; color: var(--ink) }
+.person .rec b { color: var(--gate) }
+.dimmed .cell:not(.linked):not(.sel-lane), .dimmed .lane:not(.sel-lane) { opacity: var(--dim) }
+.cell.linked { box-shadow: inset 0 0 0 2px var(--accent) }
+
+.scrim { position: fixed; inset: 0; background: rgb(10 14 18 / .35); z-index: 20 }
+.drawer { position: fixed; top: 0; right: 0; bottom: 0; width: min(460px, 100vw); background: var(--surface); z-index: 21; border-left: 1px solid var(--line-strong); display: grid; grid-template-rows: auto 1fr auto; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); padding-right: env(safe-area-inset-right, 0px) }
+@media (max-width: 640px) { .drawer { top: auto; left: 0; width: 100%; max-height: 86vh; border-left: 0; border-top: 1px solid var(--line-strong); border-radius: 12px 12px 0 0; padding-left: env(safe-area-inset-left, 0px) } }
+.dr-head { padding: 16px 18px 12px; border-bottom: 1px solid var(--line); display: flex; gap: 12px; justify-content: space-between; align-items: start }
+.dr-head h2 { font: 700 21px/1.15 var(--f-display); margin: 4px 0 0; text-wrap: balance }
+.dr-body { overflow: auto; padding: 14px 18px 18px; display: grid; gap: 16px; align-content: start; min-width: 0 }
+.dr-foot { border-top: 1px solid var(--line); padding: 10px 18px; display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end }
+.close { border: 0; background: transparent; font-size: 22px; line-height: 1; padding: 4px 8px; color: var(--muted) }
+.sec { display: grid; gap: 6px; min-width: 0 }
+.sec h3 { font: 600 11px var(--f-mono); text-transform: uppercase; letter-spacing: .07em; color: var(--muted); margin: 0 }
+.sec p, .sec ul { margin: 0 }
+.sec ul { padding-left: 18px; display: grid; gap: 3px }
+.question { font: 600 17px/1.3 var(--f-display); border-left: 3px solid var(--gate); padding-left: 10px }
+.readlink { color: var(--accent); font-weight: 500 }
+textarea, .row input, .slot input { width: 100%; border: 1px solid var(--line-strong); border-radius: 6px; padding: 6px 8px; background: var(--bg) }
+textarea { min-height: 58px; resize: vertical }
+.row { display: grid; grid-template-columns: 132px 1fr auto; gap: 6px; align-items: center }
+.row select { border: 1px solid var(--line-strong); border-radius: 6px; padding: 6px; background: var(--bg); min-width: 0 }
+.row .x { border: 0; background: transparent; color: var(--muted); font-size: 18px; padding: 0 6px }
+.slot { display: grid; gap: 4px }
+.slot label { font-size: 12px; color: var(--muted) }
+.problems { display: grid; gap: 4px; margin: 0; padding: 8px 10px 8px 26px; background: var(--warn-soft); border-radius: 6px; color: var(--warn); font-size: 13px }
+.note { font-size: 12px; color: var(--muted) }
+.ro { background: var(--bg); border-radius: 6px; padding: 8px 10px }
+pre.export { margin: 0; white-space: pre; overflow: auto; max-height: 52vh; font: 12px/1.5 var(--f-mono); background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 10px }
+.status-pill { font: 600 11px var(--f-mono); border-radius: 999px; padding: 2px 8px; border: 1px solid var(--muted); color: var(--muted); text-transform: uppercase; letter-spacing: .05em }
+.status-pill.tailored { border-color: var(--accent); color: var(--accent); background: var(--accent-soft) }
+.abbr { text-decoration: underline dotted; text-decoration-thickness: 1px; text-underline-offset: 3px; cursor: help; border-radius: 3px }
+.abbr:hover, .abbr[aria-expanded="true"] { background: var(--accent-soft); color: var(--accent) }
+.pop { position: fixed; z-index: 40; width: min(320px, calc(100vw - 32px)); background: var(--surface); color: var(--ink); border: 1px solid var(--line-strong); border-radius: 8px; box-shadow: 0 8px 28px rgb(0 0 0 / .18); padding: 12px 14px; display: grid; gap: 4px; font-size: 13px; text-align: left }
+.pop-term { font: 700 18px/1.1 var(--f-display) }
+.pop-exp { font: 500 12px var(--f-mono); color: var(--muted) }
+.pop-def { margin: 4px 0 0 }
+.pop-src { font-size: 11px; color: var(--muted); margin-top: 4px }
+body:not(.sample) .sample-only { display: none !important }
+body.sample .sample-only { display: block }
+body.sample .sample-only.inline { display: inline-flex }
+body.sample .edit-only, body.sample .tools, body.sample .roster, body.sample .lane-meta, body.sample .flag { display: none !important }
+body.sample .board-scroll { max-height: none }
+body.sample .does { display: block; -webkit-line-clamp: unset; overflow: visible }
+.howto { border: 1px solid var(--line-strong); background: var(--surface); border-radius: 8px; padding: 12px 16px; max-width: 80ch }
+.howto ol { margin: 6px 0 0; padding-left: 20px; display: grid; gap: 4px }
+.hd-q { font-size: 12px; line-height: 1.35; color: var(--ink); font-weight: 500 }
+.xfer { display: grid; gap: 3px; font-size: 12px; line-height: 1.35 }
+.xfer > span { display: block }
+.xfer .who { display: block; font: 600 10px var(--f-mono); text-transform: uppercase; letter-spacing: .05em; color: var(--muted) }
+.xfer .out .who { color: var(--accent) }
+.lane.keyq { background: var(--accent-soft) }
+.cell.keyq { background: color-mix(in srgb, var(--accent-soft) 55%, var(--surface)) }
+.cell.keyq.gate { background: color-mix(in srgb, var(--accent-soft) 35%, var(--gate-bg)) }
+.kq-decision { font: 600 13px/1.35 var(--f-body); border-left: 3px solid var(--gate); padding-left: 8px }
+.kq-list { display: grid; gap: 5px; font-size: 12px; line-height: 1.35 }
+.kq-list > span { display: block }
+.kq-tag { display: block; font: 600 10px var(--f-mono); text-transform: uppercase; letter-spacing: .05em; color: var(--accent) }
+.kq-also .kq-tag { color: var(--gate) }
+.kq-list ul { margin: 0; padding-left: 16px; display: grid; gap: 3px }
+.toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); background: var(--ink); color: var(--surface); padding: 8px 14px; border-radius: 6px; z-index: 30; font-size: 13px }
+@media (prefers-reduced-motion: reduce) { .cell { transition: none } }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="titleblock">
+      <span class="eyebrow" data-rich>COMS E6998 · Game Development Framework</span>
+      <h1>Crew Board</h1>
+      <div class="game"><label for="game-name">Game</label><input id="game-name" aria-label="Game name"></div>
+    </div>
+    <div class="tools">
+      <label class="btn" for="import-files" title="Load role .md files or a crew.json">Load crew files</label>
+      <input id="import-files" type="file" accept=".md,.json" multiple hidden>
+      <button class="btn" id="btn-json" type="button">Copy crew.json</button>
+      <button class="btn danger" id="btn-reset" type="button">Reset all</button>
+    </div>
+  </header>
+  <p class="lede edit-only" data-rich>Each column is a GDF phase or gate; each row is a member of your team. Click a column header for what that stage asks of you, a lane name for the role's primer and the facts it needs about your game, or a cell to see and edit what the role does, expects, delivers and recommends there. The example game is <i>Signal Station</i> from the GDF reader.</p>
+  <div class="roster" id="roster" aria-label="Team roles"></div>
+  <div class="howto sample-only">
+    <b>How to read this board.</b> It is a sample for the GDF reader's example game, <i>Signal Station</i>.
+    <ol>
+      <li>Columns run left to right through the project: each phase of work, then the gate that decides whether it continues. Gate columns are tinted.</li>
+      <li>The first row holds the key questions. At every gate you answer the same four (Opportunity, Execution, Risks and mitigations, Alignment), worded for that gate, plus the gate's own. Phase columns list what that work must answer before the gate.</li>
+      <li>The next two rows are people. You decide; the instructor approves gates. The eight rows below are your agent team. Agents recommend.</li>
+      <li>Each cell says what that member does at that point, what they receive (<span class="flow">←</span> from whom), what they hand on (<span class="flow out">→</span> to whom), and what they recommend or decide.</li>
+    </ol>
+    <p class="note" style="margin:8px 0 0">Click a column header or a role name for more. Underlined abbreviations show their meaning on click.</p>
+  </div>
+  <div class="legend">
+    <span><i class="dot person"></i>Person; makes decisions</span><span class="sample-only inline"><i class="dot"></i>Agent; recommends</span>
+    <span class="edit-only"><i class="dot"></i>Agent on the shipped default</span>
+    <span class="edit-only"><i class="dot tailored"></i>Agent tailored to your game</span>
+    <span><span class="flow">← from</span><span class="flow out">→ to</span>handoffs</span>
+    <span class="edit-only"><span class="flag">!</span>handoff with no match on the other side</span>
+  </div>
+  <div class="board-scroll"><div class="board" id="board"></div></div>
+  <p class="note edit-only">Edits here are saved only in this browser. To keep them, open a lane, choose <b>Show role file</b>, and copy it into <code>finals/&lt;login&gt;/crew/roles/</code>. A role marked <i>revised</i> in your repository's coverage map changed after a handoff showed a weakness; that needs Git history, so this page shows default and tailored only.</p>
+</div>
+<div id="layer"></div>
+
+<script type="application/json" id="crew-data">{"game":"Signal Station (example)","columns":[{"id":"ideation","kind":"phase","short":"Ideation","title":"Ideation and concept development","when":"Through Sun Nov 15","summary":"Find the experience you want to offer, explore several concepts, and write the X.","work":["Start from a player motivation and treat it as a hypothesis tied to behavior you can observe.","Explore two or three concepts before committing; genre sets expectations and production demands.","Study specific moments in reference games; record attribution and reuse terms.","Write the X: one sentence that states the game."],"anchor":"before-g1-ideation-and-concept-development","investigate":["Which player motivation are you offering, stated as behavior you could observe?","Which two or three concepts did you compare, and why does one win?","What do specific moments in reference games teach you, and on what reuse terms?"]},{"id":"G1","kind":"gate","short":"G1 Concept","title":"G1 Concept","when":"Mon Nov 16 (recording Sun Nov 15)","question":"Is this idea sufficiently clear and achievable to justify prototype work?","work":["Define the player, experience, core loop, references and boundaries.","Name the largest design and technical uncertainties.","Decide what the in-game agent contributes and what a scripted baseline does.","Estimate time, model latency and cost."],"evidence":["Pitch and recording","X, core loop, references and attribution, systems diagram","Six-dimension Risk Profile with mitigations","Initial project plan (any format), Initial GDD and Configuration Document","AI design hypothesis, scripted baseline, playtest question, latency and cost budgets"],"anchor":"gate-1-concept","critical":{"opportunity":"What experience are you offering, to which player, and why is it worth pursuing?","execution":"What core loop, agent role and scripted baseline will the prototype test, and how?","risks":"What are the largest design and technical uncertainties, how will you detect them, and what will you do?","alignment":"Do the pitch, Initial GDD, Configuration Document and plan describe the same game?"},"also":["What would the player lose if the agent were replaced by the scripted baseline?","What are the latency and cost budgets, and what are they based on?","What is in scope, what is excluded, and what would you reduce first?"]},{"id":"prototype","kind":"phase","short":"Prototype","title":"Prototyping and player observation","when":"Nov 16 to Nov 28","summary":"Build the core interaction and the bounded agent, then watch an external player use it.","work":["Implement the core interaction and bounded agent behavior.","Run deterministic checks and budgeted live evaluation.","Observe an external player using the loop.","Keep what happened apart from your explanation of why."],"anchor":"gate-2-prototype","investigate":["Does an external player use the core loop the way you intended?","Does the agent help the player without revealing what it should not know?","What happened, kept separate from why you think it happened?"]},{"id":"G2","kind":"gate","short":"G2 Prototype","title":"G2 Prototype","when":"Mon Nov 30, with G3 (recording Sat Nov 28)","question":"What evidence supports the core experience, including the agent's contribution?","work":["Show the first playable with its agent.","Show what an external player did with the core loop.","Separate findings that need design changes from findings that need code changes."],"evidence":["First playable and recording","Initial Playtest Log","Update GDD and Configuration Document","Updated plan and Risk Register","Implementation and evaluation evidence"],"anchor":"gate-2-prototype","critical":{"opportunity":"Did observed players get the experience you intended?","execution":"What does the first playable demonstrate, including the agent's contribution?","risks":"Which assumptions failed, which failures can you reproduce, and what did you change?","alignment":"Does the agent's configured knowledge match the GDD's information boundaries?"},"also":["Which findings need a design change, and which need a code change?","What does the evidence not yet support?"]},{"id":"planning","kind":"phase","short":"Planning","title":"Production planning and feasibility checks","when":"Nov 16 to Nov 28, alongside the prototype","summary":"Turn the demonstrated experience into a plan you can finish, with Alpha, Beta and Gold checks.","work":["Identify dependencies, asset and content work, role coverage, tests and release preparation.","Define Alpha, Beta and Gold acceptance checks.","Decide what stays, what is excluded and what can shrink.","Give every fallback a trigger and a concrete action."],"anchor":"gate-3-production","investigate":["What work remains, at what quality, and what depends on what?","Which roles in your crew cover that work, and where are the gaps?","What gets cut first, and what triggers each fallback?"]},{"id":"G3","kind":"gate","short":"G3 Production","title":"G3 Production","when":"Mon Nov 30, combined with G2","question":"Can you complete the agreed game with the time and resources remaining?","work":["Propose the scope lock and the exclusions list.","Show capacity, dependencies and contingencies."],"evidence":["Scope-lock plan and exclusions","Final Project Plan","Updated Risk Register","Update GDD and Configuration Document","Links to prototype evidence"],"anchor":"gate-3-production","critical":{"opportunity":"Is the demonstrated experience still worth the time that remains?","execution":"Can you finish the agreed scope with your remaining time and capacity, including release testing?","risks":"What is excluded, what shrinks first, and what triggers each fallback?","alignment":"Do the scope-lock plan, GDD and crew coverage describe the same game?"},"also":["What are the Alpha, Beta and Gold acceptance checks?","Where is the buffer for a release playtest and fixes?"]},{"id":"production","kind":"phase","short":"Production","title":"Production, integration, testing and release preparation","when":"Dec 1 to Dec 5","summary":"Reach Alpha, lock content at Beta, run a release playtest, and verify fixes.","work":["Alpha: all agreed features integrated well enough to exercise.","Beta: release content complete and locked; work turns to fixes and polish.","Observe an external release playtest after Alpha and before the Gold recording.","Classify problems by consequence; name build, steps, owner and verification."],"anchor":"gate-4-final--pre-launch-review","investigate":["Are all agreed features integrated well enough to exercise (Alpha)?","Is release content complete and locked (Beta)?","Did an external release playtest change anything, and do the fixes hold?"]},{"id":"G4","kind":"gate","short":"G4 Final","title":"G4 Final / Pre-Launch Review","when":"Mon Dec 7 (recording Sat Dec 5)","question":"Is this identified build ready for release or showcase?","work":["Identify the exact Gold candidate and its configuration.","Show triaged fixes verified and accepted defects listed.","Show full development-role coverage."],"evidence":["Gold candidate and recording","Final GDD and Configuration Document","Evaluation harness and results","Update Playtest Log and Risk Register","Release instructions another person can follow"],"anchor":"gate-4-final--pre-launch-review","critical":{"opportunity":"Does this build deliver the X to its intended players?","execution":"Which exact build is ready, and what release checks and verified fixes show it?","risks":"Which defects do you accept and why, and what is the deterministic fallback?","alignment":"Do the Final GDD, Configuration Document and build agree, with every role covered?"},"also":["Can another person run the release from its instructions alone?","Which model and configuration were tested, including failed runs?"]},{"id":"release","kind":"phase","short":"Release","title":"Release, showcase, feedback and reflection","when":"Dec 7 to Dec 13","summary":"Release the Gold build, collect feedback, play three classmates' builds, and draft the AAR.","work":["Release or showcase the approved game.","Collect feedback and complete the Playtest Log.","Play the three assigned classmates' builds.","Review decisions, failures, changes and agent handoffs."],"anchor":"gate-5-retrospective--closure","investigate":["Can players reach and run the released game?","What did players and classmates report?","How does the result compare with what you set out to make?"]},{"id":"G5","kind":"gate","short":"G5 Closure","title":"G5 Retrospective / Closure","when":"Mon Dec 14","question":"What does the finished project teach, and can someone understand and use its archive?","work":["Compare the result with the original intentions.","Account for the full agent team and the decisions you kept."],"evidence":["Final game and AAR","Final Playtest Log","Project archive","Showcase evidence"],"anchor":"gate-5-retrospective--closure","critical":{"opportunity":"What did players experience compared with what you intended?","execution":"What did the process deliver, what slipped, and why?","risks":"Which risks happened, and did your responses work?","alignment":"Can someone find the approved build and the evidence behind the AAR's conclusions?"},"also":["Which decisions did you keep as Executive Producer and Creative Director?","What would you test first in a next version?"]}],"roles":{"student":{"title":"You","subtitle":"Executive Producer and Creative Director","kind":"person","editable":true,"primer":"You set the vision, priorities, scope and quality bar. You resolve conflicting recommendations and accept the work. Agents recommend; you decide, and you stay accountable for every GDF deliverable.","docs":[],"slots":{},"lanes":{"ideation":{"does":"Choose the experience and player motivation; pick one concept from several.","expects":[["design","two or three concept options, each with an X"],["producer","rough time and cost estimate per concept"]],"delivers":[["design","intended experience and player"],["producer","limits on your own weekly time"],["bi","intended experience and player"]],"recommends":"Which concept goes to G1."},"G1":{"does":"Record and present the pitch.","expects":[["producer","Initial Project Plan and Risk Register"],["design","Initial GDD"],["tech","Initial Configuration Document"]],"delivers":[["instructor","G1 recording, X, Risk Profile, Initial GDD and Configuration Document"]],"recommends":"The concept and commitments put before the instructor."},"prototype":{"does":"Watch the playtest; decide what each finding means for the concept.","expects":[["design","playtest questions"],["bi","observations kept apart from interpretations"],["qa","reproducible failures"]],"delivers":[["design","direction after each finding"],["tech","accepted or rejected builds"]],"recommends":"Whether a finding changes the concept or only the build."},"G2":{"does":"Present the first playable and what players did with it.","expects":[["tech","first playable and traces"],["bi","Initial Playtest Log"],["producer","updated plan and Risk Register"]],"delivers":[["instructor","first-playable recording and evidence"]],"recommends":"What you claim the prototype shows."},"planning":{"does":"Reconcile competing estimates; set scope and exclusions.","expects":[["producer","scope-lock plan draft"],["design","remaining design work"],["tech","integration and deployment check"]],"delivers":[["producer","approved priorities, exclusions and fallback triggers"],["design","scope decision"]],"recommends":"What stays in, what is cut, and each fallback trigger."},"G3":{"does":"Propose the scope lock.","expects":[["producer","Final Project Plan"]],"delivers":[["instructor","scope-lock plan, exclusions, updated Risk Register"]],"recommends":"The scope you propose for approval."},"production":{"does":"Review builds against the plan; triage with QA.","expects":[["qa","triaged bug list with severities"],["producer","weekly PPP and readiness summary"]],"delivers":[["tech","priority order for fixes"],["narrative","content lock at Beta"],["instructor","change request, if scope must move"]],"recommends":"Which defects block release and which you accept."},"G4":{"does":"Accept the release candidate and disclose open issues.","expects":[["producer","readiness evidence"],["qa","release check results"],["release","release instructions"]],"delivers":[["instructor","Gold candidate, recording, Final GDD and Configuration Document"]],"recommends":"Accept the release; list the accepted defects."},"release":{"does":"Showcase the game, play three classmates' builds, and draft the AAR.","expects":[["producer","project timeline and decision log"],["bi","outcome summary with limits"]],"delivers":[["instructor","AAR draft for Braintrust"]],"recommends":"What the project taught, in your own account."},"G5":{"does":"Account for the whole team and the decisions you kept.","expects":[["release","archive check"]],"delivers":[["instructor","final game, AAR, Final Playtest Log, archive"]],"recommends":"Whether the archive is complete enough to close."}}},"instructor":{"title":"Instructor","subtitle":"Gate Approver","kind":"person","editable":false,"primer":"The instructor approves each gate or places it on Hold with corrective work. Braintrust feedback from classmates informs the decision; it does not make it.","docs":[],"slots":{},"lanes":{"ideation":{"does":"Ran the first pitch round on Nov 9.","expects":[],"delivers":[["student","pitch-round notes"]],"recommends":"No selection; feedback only."},"G1":{"does":"Review the pitch and evidence.","expects":[["student","G1 recording and documents"]],"delivers":[["student","decision and conditions as a CourseWorks comment"]],"recommends":"Approve or Hold the prototype investigation."},"prototype":{"does":"Office hours; Session 10 working session on Nov 23.","expects":[],"delivers":[["student","checkpoint feedback on the deployed model call"]],"recommends":"No decision; coaching."},"G2":{"does":"Review the first playable and playtest evidence.","expects":[["student","first-playable recording"]],"delivers":[["student","decision in the Asana gate task"]],"recommends":"Approve or Hold further refinement."},"planning":{"does":"Answer scope questions.","expects":[],"delivers":[],"recommends":"No decision before G3."},"G3":{"does":"Review the scope-lock plan.","expects":[["student","scope-lock plan"]],"delivers":[["student","decision in the Asana gate task"]],"recommends":"Approve or Hold production against the scope."},"production":{"does":"Review any material scope change.","expects":[["student","change request with cause and impact"]],"delivers":[["student","approval or refusal"]],"recommends":"Scope changes after G3."},"G4":{"does":"Review the Gold candidate.","expects":[["student","Gold candidate and evidence"]],"delivers":[["student","Gold decision in the Asana gate task"]],"recommends":"Approve Gold for the identified build."},"release":{"does":"Read AAR drafts; approve any corrective release.","expects":[["student","AAR draft"]],"delivers":[["student","feedback on the draft"]],"recommends":"Corrective releases after Gold."},"G5":{"does":"Review closure.","expects":[["student","AAR and archive"]],"delivers":[["student","closure review"]],"recommends":"Close the project."}}},"producer":{"title":"Producer","subtitle":"Scope, schedule, risk","kind":"agent","editable":true,"primer":"On a studio team the producer keeps the project finishable. They don't decide what the game is. They show what it costs, what depends on what, and what slips when something goes wrong.","docs":["Work-cycle plan and PPP (GDF 5.5)","Risk Register (GDF 5.4)","Scope-lock plan (G3)"],"slots":{"review_hours":{"label":"Hours a week you can review agent work","value":"6 hours"},"cycle":{"label":"Work-cycle length","value":"3 to 4 days"},"tracker":{"label":"Where the plan lives","value":"A plan document until G1, then Asana"}},"lanes":{"ideation":{"does":"Estimate time and cost for each concept.","expects":[["design","concept options"],["student","limits on your own weekly time"]],"delivers":[["student","rough time and cost estimate per concept"]],"recommends":"The concept that fits the calendar."},"G1":{"does":"Assemble the Initial plan and Risk Register from every role's input.","expects":[["design","core loop and playtest question"],["tech","feasibility and agent boundary"],["qa","failure cases"],["art","minimum asset list"],["narrative","minimum text and sound list"],["bi","measurement plan"],["release","access plan"]],"delivers":[["student","Initial Project Plan and Risk Register"]],"recommends":"Commitments the plan can carry."},"prototype":{"does":"Track the work cycle and write the weekly PPP.","expects":[["tech","build status"],["qa","open blockers"]],"delivers":[["student","weekly PPP"]],"recommends":"What to drop from this cycle if a blocker appears."},"G2":{"does":"Update the plan and risks with what the prototype showed.","expects":[["bi","Initial Playtest Log summary"]],"delivers":[["student","updated plan and Risk Register"]],"recommends":"Risks to raise or retire."},"planning":{"does":"Draft the scope-lock plan: capacity, dependencies, fallback triggers.","expects":[["design","remaining design estimate"],["tech","integration estimate"],["art","asset estimate"],["narrative","content estimate"],["qa","test plan"],["bi","evaluation plan"],["release","packaging time"]],"delivers":[["student","scope-lock plan draft"]],"recommends":"Exclusions, and a trigger for each fallback."},"G3":{"does":"Finalize the Project Plan.","expects":[["student","approved priorities, exclusions and fallback triggers"]],"delivers":[["student","Final Project Plan"]],"recommends":"Whether the plan leaves buffer for release testing."},"production":{"does":"Run short cycles to Alpha and Beta; update PPP and risks.","expects":[["qa","bug counts by severity"],["tech","Alpha and Beta status"]],"delivers":[["student","weekly PPP and readiness summary"]],"recommends":"Whether each milestone is reached."},"G4":{"does":"Assemble the readiness evidence.","expects":[["qa","release check results"],["bi","evaluation summary"],["release","release instructions"]],"delivers":[["student","readiness evidence"]],"recommends":"Ready or not ready, with reasons."},"release":{"does":"Organize the project history for the AAR.","expects":[["qa","verified-fix record"]],"delivers":[["student","project timeline and decision log"]],"recommends":"Which decisions the AAR should examine."},"G5":{"does":"Hand over plan and task history for the archive.","expects":[],"delivers":[["release","plan and task history"]],"recommends":"What a future team should read first."}}},"design":{"title":"Design Lead","subtitle":"Rules, loop, experience","kind":"agent","editable":true,"primer":"The design lead specifies how the game plays: actions, rules, progression, balance, and the experience those are meant to produce. They write it down so engineering, art and QA build and check the same thing.","docs":["Game Design Document (GDF 5.2)","Creative Pitch (GDF 5.1)","Playtest questions (GDF 5.9)"],"slots":{"x":{"label":"The X, in one sentence","value":"Signal Station is a short deduction game in which you restore a damaged relay by comparing station records."},"loop":{"label":"Core loop","value":"Inspect a record, compare facts, test a relay setting, interpret the response."},"motivation":{"label":"Player motivation (Motivation Atlas)","value":"Discovering an explanation"}},"lanes":{"ideation":{"does":"Draft two or three concepts, each with an X and a core loop.","expects":[["student","intended experience and player"],["bi","observable behaviors"]],"delivers":[["student","two or three concept options, each with an X"],["producer","concept options"],["tech","concept options"],["art","concept options"],["narrative","concept options"],["qa","concept options"]],"recommends":"The concept whose pleasure is easiest to test."},"G1":{"does":"Write the core loop, references, systems sketch and playtest question.","expects":[],"delivers":[["student","Initial GDD"],["producer","core loop and playtest question"],["tech","systems sketch and agent role"],["art","core loop"],["narrative","core loop"],["qa","core loop"],["bi","playtest question"]],"recommends":"The first experiment to run."},"prototype":{"does":"Specify what the prototype must reveal and write the playtest questions.","expects":[["bi","observations from the session"]],"delivers":[["student","playtest questions"],["tech","design spec for the core interaction"],["art","design spec"],["narrative","design spec"],["qa","intended behavior to check"],["bi","playtest questions"]],"recommends":"Design changes, each tied to an observation."},"G2":{"does":"Update the GDD with what changed and why.","expects":[["student","direction after each finding"]],"delivers":[["student","Update GDD"]],"recommends":"Which claims the evidence supports."},"planning":{"does":"Estimate the remaining design work at the agreed quality.","expects":[],"delivers":[["student","remaining design work"],["producer","remaining design estimate"]],"recommends":"Design features to exclude."},"G3":{"does":"Freeze the design scope in the GDD.","expects":[["student","scope decision"]],"delivers":[["tech","locked feature list"]],"recommends":"No new features after this without a change request."},"production":{"does":"Tune balance and pacing from playtests; check the intended experience.","expects":[["bi","release playtest findings"]],"delivers":[["tech","tuning changes"]],"recommends":"Changes that serve the intended experience."},"G4":{"does":"Finalize the GDD to match the release build.","expects":[["tech","release build"]],"delivers":[["student","Final GDD"]],"recommends":"Whether the build delivers the X."},"release":{"does":"Compare the result with the original intent.","expects":[["bi","outcome summary"]],"delivers":[["student","design retrospective notes"]],"recommends":"The next experiment for this game."},"G5":{"does":"Explain which design decisions held up.","expects":[],"delivers":[["student","design section of the AAR"]],"recommends":"What you would test first next time."}}},"tech":{"title":"Tech Lead","subtitle":"Systems, agent interface, builds","kind":"agent","editable":true,"primer":"The tech lead makes the game run reliably: systems, the in-game agent's interface, builds, tests and deployment. They decide how to build it, and they tell the producer early when something costs more than planned.","docs":["Configuration Document (GDF 5.2)","Build and test evidence","Technical decision records"],"slots":{"stack":{"label":"Language and engine","value":"Python with Pyxel (starter example)"},"deploy":{"label":"Where model calls run","value":"Cloudflare Worker"},"tests":{"label":"Test command","value":"python -m unittest discover -s tests -v"}},"lanes":{"ideation":{"does":"Flag the technical risk in each concept.","expects":[["design","concept options"]],"delivers":[["producer","technical risk per concept"]],"recommends":"Concepts to avoid on this calendar."},"G1":{"does":"Propose the implementation, agent boundary, and latency and cost budgets.","expects":[["design","systems sketch and agent role"]],"delivers":[["student","Initial Configuration Document"],["producer","feasibility and agent boundary"]],"recommends":"The smallest stack that can test the loop."},"prototype":{"does":"Build the core interaction and the bounded agent; run deterministic checks.","expects":[["student","accepted or rejected builds"],["design","design spec for the core interaction"],["art","readable placeholder assets"],["narrative","text, voice guide and sound cues"],["qa","reproducible failures"]],"delivers":[["producer","build status"],["qa","playable build"],["release","build to share with a playtester"]],"recommends":"What the traces show about agent behavior."},"G2":{"does":"Supply the first playable, traces and evaluation results.","expects":[],"delivers":[["student","first playable and traces"]],"recommends":"Which agent failures need a code change."},"planning":{"does":"Check the integration and deployment path; estimate remaining work.","expects":[],"delivers":[["student","integration and deployment check"],["producer","integration estimate"]],"recommends":"Technical scope to cut first."},"G3":{"does":"Update the Configuration Document for the locked scope.","expects":[["design","locked feature list"],["art","style guide and asset list"],["narrative","content list"]],"delivers":[["student","Update Configuration Document"]],"recommends":"The release build and configuration plan."},"production":{"does":"Reach Alpha, then Beta; fix triaged bugs.","expects":[["student","priority order for fixes"],["design","tuning changes"],["art","final assets"],["narrative","final text and audio"],["qa","triaged bugs"]],"delivers":[["producer","Alpha and Beta status"],["qa","fixes to verify"],["bi","Alpha build"]],"recommends":"Fixes that are safe before Gold."},"G4":{"does":"Identify the exact build and configuration, and tag it.","expects":[],"delivers":[["student","Final Configuration Document"],["design","release build"],["art","release build"],["narrative","release build"],["release","tagged Gold candidate"]],"recommends":"The tag to approve."},"release":{"does":"Keep Gold reproducible; prepare any corrective patch.","expects":[],"delivers":[["release","build notes"]],"recommends":"Patches that need instructor approval."},"G5":{"does":"Record the technical lessons.","expects":[],"delivers":[["student","engineering section of the AAR"]],"recommends":"Technical debt a future team inherits."}}},"art":{"title":"Art Lead","subtitle":"Visual direction, readability","kind":"agent","editable":true,"primer":"The art lead sets the visual direction and makes it readable: what the player looks at first, what looks interactive, and how assets are made and named. In a small game this can be a palette, a font and a few rules.","docs":["Art Direction Peer Review (GDF 5.3)","Style guide","Asset list"],"slots":{"constraints":{"label":"Visual constraints","value":"Pyxel 16-color palette, 256 by 256 screen"},"references":{"label":"Reference images","value":"Two reference screenshots, with attribution"},"readability":{"label":"Readability rule","value":"Interactive objects differ from decoration in both shape and color."}},"lanes":{"ideation":{"does":"Collect visual references for the concepts.","expects":[["design","concept options"]],"delivers":[["student","mood references with attribution"]],"recommends":"A visual style the schedule can carry."},"G1":{"does":"Name the minimum presentation that communicates the experience.","expects":[["design","core loop"]],"delivers":[["producer","minimum asset list"]],"recommends":"What stays placeholder."},"prototype":{"does":"Make the core interaction readable enough for a fair test.","expects":[["design","design spec"],["bi","where players looked and what they missed"]],"delivers":[["tech","readable placeholder assets"]],"recommends":"Readability fixes found in playtest."},"G2":{"does":"Review readability in the first playable.","expects":[],"delivers":[["student","readability notes"]],"recommends":"Visual problems that skewed the test."},"planning":{"does":"Estimate asset work at the agreed quality.","expects":[],"delivers":[["producer","asset estimate"]],"recommends":"Assets to reduce or cut."},"G3":{"does":"Lock the style guide and asset list.","expects":[],"delivers":[["tech","style guide and asset list"]],"recommends":"Visual scope for production."},"production":{"does":"Produce and integrate final assets.","expects":[],"delivers":[["tech","final assets"]],"recommends":"Visual defects to fix or accept."},"G4":{"does":"Check integrated readability and consistency.","expects":[["tech","release build"]],"delivers":[["qa","visual defects with screenshots"]],"recommends":"Whether the visuals block release."},"release":{"does":"Prepare screenshots and showcase images.","expects":[],"delivers":[["release","screenshots and key art"]],"recommends":"Images that show the core loop."},"G5":{"does":"Note what the visual choices did for players.","expects":[],"delivers":[["student","art notes for the AAR"]],"recommends":"Readability lessons."}}},"narrative":{"title":"Narrative and Audio","subtitle":"Words, voice, sound","kind":"agent","editable":true,"primer":"Narrative and audio roles write the words, characters and sounds, and fit them to what the systems allow. With an in-game agent, they also write the agent's voice and the limits of what it may say.","docs":["Text and dialogue inventory","Sound list","Agent voice guide"],"slots":{"scope":{"label":"Narrative scope","value":"One archivist voice; under 40 lines of scripted text"},"sound":{"label":"Sound vocabulary","value":"Three cues: success, failure, new clue"},"voice":{"label":"Agent voice and limits","value":"Terse and factual; never mentions a clue the player has not found"}},"lanes":{"ideation":{"does":"Sketch setting and tone for each concept.","expects":[["design","concept options"]],"delivers":[["student","tone sketches"]],"recommends":"How much text and sound each concept needs."},"G1":{"does":"Name the minimum writing and sound for the experience.","expects":[["design","core loop"]],"delivers":[["producer","minimum text and sound list"]],"recommends":"What the agent may and may not say."},"prototype":{"does":"Write placeholder text, the agent's voice guide and key sound cues.","expects":[["design","design spec"]],"delivers":[["tech","text, voice guide and sound cues"]],"recommends":"Feedback cues players need to read the loop."},"G2":{"does":"Check that feedback text and sound were noticed.","expects":[["bi","observations"]],"delivers":[["student","feedback notes"]],"recommends":"Text or sound to change."},"planning":{"does":"Estimate the remaining writing and audio work.","expects":[],"delivers":[["producer","content estimate"]],"recommends":"Content to cut."},"G3":{"does":"Lock the content list.","expects":[],"delivers":[["tech","content list"]],"recommends":"Content scope for production."},"production":{"does":"Finish and integrate content; lock it at Beta.","expects":[["student","content lock at Beta"]],"delivers":[["tech","final text and audio"]],"recommends":"Late content to refuse."},"G4":{"does":"Check integrated text, voice and sound for consistency.","expects":[["tech","release build"]],"delivers":[["qa","content defects"]],"recommends":"Whether content blocks release."},"release":{"does":"Write the showcase description.","expects":[],"delivers":[["release","game description"]],"recommends":"One line that tells a player what to do."},"G5":{"does":"Note what the agent's voice did for players.","expects":[],"delivers":[["student","narrative notes for the AAR"]],"recommends":"Voice and content lessons."}}},"qa":{"title":"QA","subtitle":"Reproduce, verify, check release","kind":"agent","editable":true,"worked":true,"primer":"QA checks what the game does against what it should do, reproduces failures so someone else can see them, and verifies fixes. QA reports; it never decides what ships. This role is the worked example: every lane is written for a real project, and it calls rules-reviewer for rule changes.","docs":["Bug report: build, steps, expected, actual, severity","Release checklist","Playtest and Evaluation Record (GDF 5.9)"],"slots":{"blocking":{"label":"What counts as a blocking bug","value":"A broken ending, leaked hidden state, lost progress, or a crash"},"severity":{"label":"Severity scale","value":"Blocker, major, minor, cosmetic"},"rules":{"label":"Rule-change check","value":"Run rules-reviewer on any change to a rule or the player interface"}},"lanes":{"ideation":{"does":"List what could break in each concept.","expects":[["design","concept options"]],"delivers":[["producer","early failure cases"]],"recommends":"Concepts that are hard to test."},"G1":{"does":"Propose failure cases and how each would be detected.","expects":[["design","core loop"]],"delivers":[["producer","failure cases"]],"recommends":"Tests to write before the first playable."},"prototype":{"does":"Check behavior, reproduce failures, and probe the agent's knowledge boundary.","expects":[["tech","playable build"],["design","intended behavior to check"]],"delivers":[["student","reproducible failures"],["tech","reproducible failures"],["producer","open blockers"]],"recommends":"A severity for each failure."},"G2":{"does":"Summarize defects found and fixed.","expects":[],"delivers":[["student","defect summary"]],"recommends":"Failures to fix before production."},"planning":{"does":"Write the test plan and the Alpha, Beta and Gold checks.","expects":[],"delivers":[["producer","test plan"]],"recommends":"Time reserved for release testing."},"G3":{"does":"Attach the verification plan to the scope lock.","expects":[["release","release checklist"]],"delivers":[["student","verification plan"]],"recommends":"The release criteria."},"production":{"does":"Triage bugs by severity and verify each fix.","expects":[["tech","fixes to verify"]],"delivers":[["student","triaged bug list with severities"],["tech","triaged bugs"],["producer","bug counts by severity"]],"recommends":"Blockers versus accepted defects."},"G4":{"does":"Run the release checks on the tagged candidate.","expects":[["release","tagged candidate and checklist"],["art","visual defects with screenshots"],["narrative","content defects"]],"delivers":[["student","release check results"],["producer","release check results"]],"recommends":"Release or hold, with the evidence."},"release":{"does":"Record verified fixes and accepted defects.","expects":[],"delivers":[["producer","verified-fix record"]],"recommends":"Defects to disclose."},"G5":{"does":"Separate observed results from claims in the AAR.","expects":[],"delivers":[["student","QA notes for the AAR"]],"recommends":"Tests a future team should keep."}}},"bi":{"title":"Business Intelligence","subtitle":"Observations, measures, limits","kind":"agent","editable":true,"primer":"BI turns player and performance data into evidence someone can act on, and says how much that evidence can support. With a handful of playtesters, the job is mostly careful recording and counting.","docs":["Playtest and Evaluation Record (GDF 5.9)","Measurement plan","Evaluation summary: latency, cost, failures"],"slots":{"behavior":{"label":"Behavior that shows the motivation","value":"The player compares two records before testing a setting."},"measures":{"label":"Measures","value":"Time to first correct hypothesis; hints requested; model latency and cost per session"},"players":{"label":"Where playtesters come from","value":"Two classmates outside my Braintrust group"}},"lanes":{"ideation":{"does":"Turn the motivation into behavior you could observe.","expects":[["student","intended experience and player"]],"delivers":[["design","observable behaviors"]],"recommends":"A concept whose pleasure can be observed."},"G1":{"does":"Define observations, measures, and the latency and cost check.","expects":[["design","playtest question"]],"delivers":[["producer","measurement plan"]],"recommends":"What to measure in the first playtest."},"prototype":{"does":"Record the playtest; keep what happened apart from why.","expects":[["design","playtest questions"]],"delivers":[["student","observations kept apart from interpretations"],["design","observations from the session"],["art","where players looked and what they missed"],["narrative","observations"]],"recommends":"Claims the sample is too small to support."},"G2":{"does":"Write the Initial Playtest Log.","expects":[],"delivers":[["student","Initial Playtest Log"],["producer","Initial Playtest Log summary"]],"recommends":"What the evidence can and cannot claim."},"planning":{"does":"Plan the release playtest and the live evaluation runs.","expects":[],"delivers":[["producer","evaluation plan"]],"recommends":"Which measures to keep."},"G3":{"does":"Set the live evaluation budget.","expects":[],"delivers":[["student","evaluation budget"]],"recommends":"How many live runs to spend."},"production":{"does":"Run the release playtest and the budgeted live evaluation.","expects":[["tech","Alpha build"]],"delivers":[["design","release playtest findings"]],"recommends":"Findings, each linked to a change."},"G4":{"does":"Summarize outcomes, failures, latency and cost, with limits.","expects":[],"delivers":[["producer","evaluation summary"]],"recommends":"Results to report, including failed runs."},"release":{"does":"Collect showcase feedback and finish the Playtest Log.","expects":[],"delivers":[["student","outcome summary with limits"],["design","outcome summary"]],"recommends":"What the data supports in the AAR."},"G5":{"does":"Hand in the Final Playtest Log.","expects":[],"delivers":[["student","Final Playtest Log"]],"recommends":"Evidence a future team can reuse."}}},"release":{"title":"Publishing and Release","subtitle":"Access, instructions, archive","kind":"agent","editable":true,"primer":"Publishing and release makes sure a player can get the game, run it and understand what it is, and that the shipped build can be found and rebuilt later.","docs":["Release instructions","Release notes","Project archive checklist"],"slots":{"platform":{"label":"Where players get the game","value":"Cloudflare Pages, linked from the README"},"instructions":{"label":"What a player has to do","value":"Open the link; nothing to install"},"archive":{"label":"Archive location","value":"finals/<login>/ with the Gold tag"}},"lanes":{"ideation":{"does":"Note how players would reach each concept.","expects":[],"delivers":[["producer","access notes"]],"recommends":"Platforms to avoid."},"G1":{"does":"Propose how players will access the game.","expects":[],"delivers":[["producer","access plan"]],"recommends":"The simplest path to a playtester."},"prototype":{"does":"Get the build to a playtester and confirm it runs.","expects":[["tech","build to share with a playtester"]],"delivers":[["student","playtest link and run check"]],"recommends":"Setup steps that would stop a playtester."},"G2":{"does":"Confirm the playtest build runs from its instructions.","expects":[],"delivers":[["student","run check for the first playable"]],"recommends":"Instructions to fix."},"planning":{"does":"Reserve time for packaging and instructions.","expects":[],"delivers":[["producer","packaging time"]],"recommends":"When to start release preparation."},"G3":{"does":"Set the release checklist.","expects":[],"delivers":[["qa","release checklist"]],"recommends":"What release means for this game."},"production":{"does":"Draft release instructions and test them on a fresh machine.","expects":[],"delivers":[["student","draft release instructions"]],"recommends":"Steps a player could miss."},"G4":{"does":"Verify packaging and player instructions on the tagged build.","expects":[["tech","tagged Gold candidate"]],"delivers":[["student","release instructions"],["producer","release instructions"],["qa","tagged candidate and checklist"]],"recommends":"Instructions another person can follow."},"release":{"does":"Publish the Gold build and check the archive.","expects":[["tech","build notes"],["art","screenshots and key art"],["narrative","game description"]],"delivers":[["student","published link"]],"recommends":"Gaps in the archive."},"G5":{"does":"Confirm someone else can find and run the archived build.","expects":[["producer","plan and task history"]],"delivers":[["student","archive check"]],"recommends":"Archive ready or not."}}}},"mode":"sample"}</script>
+<script>
+(function () {
+  "use strict";
+  var DATA = JSON.parse(document.getElementById("crew-data").textContent);
+  var COLS = DATA.columns, CIDS = COLS.map(function (c) { return c.id; });
+  var IDS = Object.keys(DATA.roles);
+  var READER = "https://github.com/columbia-university-ai-games/game-dev-f26/blob/main/docs/gdf.md#";
+  var KEY = "crew-board.v1";
+  var clone = function (o) { return JSON.parse(JSON.stringify(o)); };
+  var SAMPLE = DATA.mode === "sample";
+  if (SAMPLE) document.body.classList.add("sample");
+  var DEF = clone(DATA);
+  var S = clone(DATA);
+  var sel = null;
+
+  if (!SAMPLE) { try { var saved = JSON.parse(localStorage.getItem(KEY) || "null"); if (saved) applySaved(saved); } catch (e) {} }
+  function applySaved(sv) {
+    if (sv.game) S.game = sv.game;
+    Object.keys(sv.roles || {}).forEach(function (id) {
+      var r = S.roles[id]; if (!r || !r.editable) return;
+      var x = sv.roles[id];
+      if (x.lanes) CIDS.forEach(function (c) { if (x.lanes[c]) r.lanes[c] = x.lanes[c]; });
+      if (x.slots) Object.keys(x.slots).forEach(function (k) { r.slots[k] = x.slots[k]; });
+    });
+  }
+  function persist() {
+    var out = { game: S.game, roles: {} };
+    IDS.forEach(function (id) { var r = S.roles[id]; if (r.editable) out.roles[id] = { lanes: r.lanes, slots: r.slots }; });
+    try { localStorage.setItem(KEY, JSON.stringify(out)); } catch (e) {}
+  }
+
+  function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+  var GLOSS = {
+    "GDD": ["Game Design Document", "The description of the game's intended and implemented experience, rules, content and behavior. Initial at G1, Update at G2/G3, Final at G4.", "GDF reader glossary"],
+    "AAR": ["After-Action Review", "The six-part account of results and lessons reviewed at G5: what was intended, what happened, why, and what you would change.", "GDF reader glossary; template in Section 5.7"],
+    "PPP": ["Progress / Plans / Problems", "The weekly coordination record: what got done, what comes next, and what is in the way. Posted in Asana from G2 on.", "GDF reader glossary; template in Section 5.5"],
+    "QA": ["Quality Assurance", "The role that checks behavior, reproduces failures, verifies fixes and preserves evidence. QA reports; the student decides what ships.", "GDF reader, Section 3.3"],
+    "BI": ["Business Intelligence", "The role that organizes and interprets player and performance evidence, and states what a small sample cannot support.", "GDF reader, Section 3.3"],
+    "X": ["The X", "The one-sentence statement of the game, used to align every later decision. It can improve as you learn.", "GDF reader glossary"]
+  };
+  COLS.forEach(function (c) { if (c.kind === "gate") GLOSS[c.id] = [c.title + " · " + c.when, c.question, "GDF reader, Part IV"]; });
+  var ABBR_RE = /\b(GDD|AAR|PPP|QA|BI|G[1-5])\b|(\b(?:the|an|The|An) )X\b/g;
+  function rich(s) {
+    return esc(s).replace(ABBR_RE, function (m, a, pre) {
+      var k = a || "X";
+      return (pre || "") + '<span class="abbr" role="button" tabindex="0" aria-expanded="false" data-abbr="' + k + '">' + k + "</span>";
+    });
+  }
+  var popEl = null, popFor = null;
+  function hidePop() { if (popEl) { popEl.remove(); popEl = null; } if (popFor) { popFor.setAttribute("aria-expanded", "false"); popFor = null; } }
+  function showPop(a) {
+    var same = popFor === a; hidePop(); if (same) return;
+    var g = GLOSS[a.dataset.abbr]; if (!g) return;
+    popEl = document.createElement("div"); popEl.className = "pop"; popEl.setAttribute("role", "dialog"); popEl.setAttribute("aria-label", a.dataset.abbr);
+    popEl.innerHTML = '<span class="pop-term">' + esc(a.dataset.abbr) + '</span><span class="pop-exp">' + esc(g[0]) + '</span><p class="pop-def">' + esc(g[1]) + "</p>" + (g[2] ? '<span class="pop-src">' + esc(g[2]) + "</span>" : "");
+    document.body.appendChild(popEl); popFor = a; a.setAttribute("aria-expanded", "true");
+    var r = a.getBoundingClientRect(), w = popEl.offsetWidth, h = popEl.offsetHeight;
+    var left = Math.min(Math.max(16, r.left), window.innerWidth - w - 16);
+    var top = r.bottom + 6 + h > window.innerHeight - 8 ? Math.max(8, r.top - h - 6) : r.bottom + 6;
+    popEl.style.left = left + "px"; popEl.style.top = top + "px";
+  }
+  document.querySelectorAll("[data-rich]").forEach(function (el) { el.innerHTML = rich(el.textContent).replace("Signal Station", "<i>Signal Station</i>"); });
+  window.addEventListener("scroll", hidePop, true); window.addEventListener("resize", hidePop);
+
+  function name(id) { return S.roles[id] ? S.roles[id].title : id; }
+  function L(id, c) { return S.roles[id].lanes[c]; }
+  function sends(src, dst, i) { return [i, i - 1].some(function (j) { return j >= 0 && L(src, CIDS[j]).delivers.some(function (d) { return d[0] === dst; }); }); }
+  function takes(dst, src, i) { return [i, i + 1].some(function (j) { return j < CIDS.length && L(dst, CIDS[j]).expects.some(function (e) { return e[0] === src; }); }); }
+  function problems(id, c) {
+    var i = CIDS.indexOf(c), lane = L(id, c), out = [];
+    lane.expects.forEach(function (e) { if (S.roles[e[0]] && !sends(e[0], id, i)) out.push("Expects “" + e[1] + "” from " + name(e[0]) + ", but " + name(e[0]) + " sends nothing to " + name(id) + " here or in the column before."); });
+    lane.delivers.forEach(function (d) { var t = S.roles[d[0]]; if (t && t.kind === "agent" && !takes(d[0], id, i)) out.push("Delivers “" + d[1] + "” to " + name(d[0]) + ", but " + name(d[0]) + " doesn't list it here or in the next column."); });
+    return out;
+  }
+  function roleProblems(id) { return CIDS.reduce(function (n, c) { return n + problems(id, c).length; }, 0); }
+  function status(id) {
+    var r = S.roles[id], d = DEF.roles[id];
+    if (r.kind !== "agent") return "person";
+    return JSON.stringify([r.lanes, r.slots]) === JSON.stringify([d.lanes, d.slots]) ? "default" : "tailored";
+  }
+
+  function xfer(lane) {
+    var rows = lane.expects.map(function (e) { return '<span><span class="who">\u2190 from ' + esc(name(e[0])) + "</span> " + rich(e[1]) + "</span>"; })
+      .concat(lane.delivers.map(function (d) { return '<span class="out"><span class="who">\u2192 to ' + esc(name(d[0])) + "</span> " + rich(d[1]) + "</span>"; }));
+    return rows.length ? '<span class="xfer">' + rows.join("") + "</span>" : "";
+  }
+  var CRIT = [["opportunity", "Opportunity"], ["execution", "Execution"], ["risks", "Risks and mitigations"], ["alignment", "Alignment"]];
+  function keyq(c) {
+    if (c.kind !== "gate") return '<span class="kq-list"><span><span class="kq-tag">Answer before the gate</span><ul>' + (c.investigate || []).map(function (q) { return "<li>" + rich(q) + "</li>"; }).join("") + "</ul></span></span>";
+    return '<span class="kq-decision">' + rich(c.question) + '</span><span class="kq-list">' +
+      CRIT.map(function (k) { return "<span><span class=\"kq-tag\">" + k[1] + "</span>" + rich(c.critical[k[0]]) + "</span>"; }).join("") +
+      '<span class="kq-also"><span class="kq-tag">Also ask at ' + esc(c.id) + "</span><ul>" + c.also.map(function (q) { return "<li>" + rich(q) + "</li>"; }).join("") + "</ul></span></span>";
+  }
+  function render() {
+    document.getElementById("game-name").value = S.game;
+    var roster = document.getElementById("roster");
+    roster.innerHTML = IDS.map(function (id) {
+      var st = status(id), n = roleProblems(id);
+      return '<button class="chip" type="button" data-sel="' + id + '" aria-pressed="' + (sel === id) + '" title="Highlight ' + esc(name(id)) + ' and its handoffs">' +
+        '<i class="dot ' + (st === "person" ? "person" : st) + '"></i>' + esc(name(id)) + (n ? '<span class="warncount">' + n + "</span>" : "") + "</button>";
+    }).join("");
+    var board = document.getElementById("board");
+    board.style.setProperty("--cols", COLS.map(function (c) { return c.kind === "gate" ? "var(--gate-w)" : "var(--phase-w)"; }).join(" "));
+    var h = ['<div class="corner">Team</div>'];
+    COLS.forEach(function (c) {
+      h.push('<button type="button" class="hd ' + c.kind + '" data-col="' + c.id + '">' +
+        (c.kind === "gate" ? '<span class="gtag">GATE ' + esc(c.id) + "</span>" : '<span class="ptag">Phase</span>') +
+        '<span class="hd-title">' + esc(c.kind === "gate" ? c.title.replace(/^G\d\s/, "") : c.title) + '</span><span class="hd-when">' + esc(c.when) + "</span>" + "</button>");
+    });
+    h.push('<div class="lane keyq"><span class="lane-name">Key questions</span><span class="lane-sub">The Four Critical Questions, asked at every gate (GDF 3.2), plus each gate\'s own. Phases list what their work must answer.</span></div>');
+    COLS.forEach(function (c) { h.push('<button type="button" class="cell keyq ' + c.kind + '" data-col="' + c.id + '">' + keyq(c) + "</button>"); });
+    IDS.forEach(function (id) {
+      var r = S.roles[id], st = status(id), person = r.kind === "person";
+      var linkedTo = sel && sel !== id;
+      h.push('<button type="button" class="lane' + (person ? " person" : "") + (sel === id ? " sel-lane" : "") + '" data-role="' + id + '">' +
+        '<span class="lane-name"><i class="dot ' + (person ? "person" : st) + '"></i>' + rich(r.title) + "</span>" +
+        '<span class="lane-sub">' + esc(r.subtitle) + "</span>" +
+        (person ? "" : '<span class="lane-meta">' + st + (r.worked ? ' · <span class="worked">worked example</span>' : "") + "</span>") + "</button>");
+      COLS.forEach(function (c) {
+        var lane = r.lanes[c.id], pr = problems(id, c.id);
+        var linked = linkedTo && (lane.expects.some(function (e) { return e[0] === sel; }) || lane.delivers.some(function (d) { return d[0] === sel; }));
+        var flows = lane.expects.map(function (e) { return '<span class="flow" title="' + esc(e[1]) + '">← ' + esc(name(e[0])) + "</span>"; })
+          .concat(lane.delivers.map(function (d) { return '<span class="flow out" title="' + esc(d[1]) + '">→ ' + esc(name(d[0])) + "</span>"; })).join("");
+        h.push('<button type="button" class="cell ' + c.kind + (person ? " person" : "") + (sel === id ? " sel-lane" : "") + (linked ? " linked" : "") + '" data-cell="' + id + "|" + c.id + '">' +
+          '<span class="does">' + rich(lane.does) + "</span>" + (SAMPLE ? xfer(lane) : (flows ? '<span class="flows">' + flows + "</span>" : "")) +
+          (pr.length ? '<span class="flag">! ' + pr.length + " unmatched</span>" : "") +
+          (lane.recommends ? '<span class="rec"><b>' + (person ? "Decides" : "Recommends") + "</b> " + rich(lane.recommends) + "</span>" : "") + "</button>");
+      });
+    });
+    board.innerHTML = h.join("");
+    board.classList.toggle("dimmed", !!sel);
+  }
+
+  var layer = document.getElementById("layer"), lastFocus = null;
+  function openDrawer(eyebrow, title, body, foot) {
+    lastFocus = document.activeElement;
+    layer.innerHTML = '<div class="scrim" data-close></div><section class="drawer" role="dialog" aria-modal="true" aria-label="' + esc(title) + '">' +
+      '<div class="dr-head"><div><span class="eyebrow">' + esc(eyebrow) + "</span><h2>" + rich(title) + '</h2></div><button class="close" type="button" data-close aria-label="Close">×</button></div>' +
+      '<div class="dr-body">' + body + "</div>" + (foot ? '<div class="dr-foot">' + foot + "</div>" : "") + "</section>";
+    var f = layer.querySelector(".drawer input, .drawer textarea, .drawer select, .close"); if (f) f.focus();
+  }
+  function closeDrawer() { hidePop(); layer.innerHTML = ""; if (lastFocus && document.body.contains(lastFocus)) lastFocus.focus(); }
+  function toast(msg) { var t = document.createElement("div"); t.className = "toast"; t.textContent = msg; document.body.appendChild(t); setTimeout(function () { t.remove(); }, 2200); }
+
+  function openCol(cid) {
+    var c = COLS[CIDS.indexOf(cid)];
+    var b = (c.question ? '<div class="sec"><h3>Decision question</h3><p class="question">' + rich(c.question) + "</p></div>" : "") +
+      (c.critical ? '<div class="sec"><h3>The Four Critical Questions at ' + esc(c.id) + "</h3><ul>" + CRIT.map(function (k) { return "<li><b>" + k[1] + ":</b> " + rich(c.critical[k[0]]) + "</li>"; }).join("") + "</ul></div>" +
+        '<div class="sec"><h3>Also ask at ' + esc(c.id) + "</h3><ul>" + c.also.map(function (q) { return "<li>" + rich(q) + "</li>"; }).join("") + "</ul></div>" : "") +
+      (c.investigate ? '<div class="sec"><h3>Questions this work must answer</h3><ul>' + c.investigate.map(function (q) { return "<li>" + rich(q) + "</li>"; }).join("") + "</ul></div>" : "") +
+      (c.summary ? '<div class="sec"><h3>The work</h3><p>' + rich(c.summary) + "</p></div>" : "") +
+      '<div class="sec"><h3>' + (c.kind === "gate" ? "Work before the review" : "What to do") + "</h3><ul>" + c.work.map(function (w) { return "<li>" + rich(w) + "</li>"; }).join("") + "</ul></div>" +
+      (c.evidence ? '<div class="sec"><h3>Evidence for the review</h3><ul>' + c.evidence.map(function (w) { return "<li>" + rich(w) + "</li>"; }).join("") + "</ul></div>" : "") +
+      '<div class="sec"><h3>Who does what here</h3><ul>' + IDS.map(function (id) { return "<li><b>" + rich(name(id)) + ":</b> " + rich(L(id, cid).does) + "</li>"; }).join("") + "</ul></div>" +
+      '<div class="sec"><a class="readlink" href="' + READER + c.anchor + '" target="_blank" rel="noopener">Read this section of the GDF reader ↗</a><p class="note">Dates follow the published syllabus.</p></div>';
+    openDrawer((c.kind === "gate" ? "Gate" : "Phase") + " · " + c.when, c.title, b);
+  }
+
+  function roleOptions(selected, self) {
+    return IDS.filter(function (id) { return id !== self; }).map(function (id) { return '<option value="' + id + '"' + (id === selected ? " selected" : "") + ">" + esc(name(id)) + "</option>"; }).join("");
+  }
+  function rowsHtml(kind, list, self, ro) {
+    if (ro) return list.length ? "<ul>" + list.map(function (x) { return "<li><b>" + rich(name(x[0])) + ":</b> " + rich(x[1]) + "</li>"; }).join("") + "</ul>" : '<p class="note">None.</p>';
+    return '<div class="rows" data-kind="' + kind + '">' + list.map(function (x, n) { return rowHtml(kind, x, self, n); }).join("") + "</div>" +
+      '<button type="button" class="btn small" data-add="' + kind + '">Add</button>';
+  }
+  var rowSeq = 0;
+  function rowHtml(kind, x, self) {
+    var k = "r" + (rowSeq++);
+    return '<div class="row"><select id="' + k + 's" aria-label="' + (kind === "expects" ? "From" : "To") + '">' + roleOptions(x[0], self) + '</select><input id="' + k + 'i" value="' + esc(x[1]) + '" aria-label="Deliverable"><button type="button" class="x" data-del aria-label="Remove">×</button></div>';
+  }
+  function openCell(id, cid) {
+    var r = S.roles[id], c = COLS[CIDS.indexOf(cid)], lane = r.lanes[cid], ro = SAMPLE || !r.editable, pr = SAMPLE ? [] : problems(id, cid);
+    var recLabel = r.kind === "person" ? "Decides" : "Recommends (to the student)";
+    var b = (c.question ? '<div class="sec"><h3>Gate question</h3><p class="question">' + rich(c.question) + "</p></div>" : "") +
+      (pr.length ? '<ul class="problems">' + pr.map(function (p) { return "<li>" + rich(p) + "</li>"; }).join("") + "</ul>" : "") +
+      '<div class="sec"><h3>Does</h3>' + (ro ? '<p class="ro">' + rich(lane.does) + "</p>" : '<textarea id="f-does">' + esc(lane.does) + "</textarea>") + "</div>" +
+      '<div class="sec"><h3>Expects from others</h3>' + rowsHtml("expects", lane.expects, id, ro) + "</div>" +
+      '<div class="sec"><h3>Delivers to others</h3>' + rowsHtml("delivers", lane.delivers, id, ro) + "</div>" +
+      '<div class="sec"><h3>' + recLabel + "</h3>" + (ro ? '<p class="ro">' + rich(lane.recommends) + "</p>" : '<textarea id="f-rec">' + esc(lane.recommends) + "</textarea>") + "</div>" +
+      (r.kind === "agent" ? '<p class="note">Agents recommend. You decide as Executive Producer and Creative Director, and the instructor approves gates.</p>' : "") +
+      (ro && !SAMPLE ? '<p class="note">The instructor lane is fixed by the syllabus and cannot be edited.</p>' : "");
+    var foot = ro ? "" : '<button type="button" class="btn" data-revert-cell="' + id + "|" + cid + '">Revert to default</button><button type="button" class="btn primary" data-save-cell="' + id + "|" + cid + '">Save</button>';
+    openDrawer(c.title + " · " + c.when, r.title + " at " + c.short, b, foot);
+  }
+  function readRows(kind) {
+    var out = [];
+    layer.querySelectorAll('.rows[data-kind="' + kind + '"] .row').forEach(function (row) {
+      var v = row.querySelector("input").value.trim(); if (v) out.push([row.querySelector("select").value, v]);
+    });
+    return out;
+  }
+  function saveCell(id, cid) {
+    var lane = S.roles[id].lanes[cid];
+    lane.does = document.getElementById("f-does").value.trim();
+    lane.recommends = document.getElementById("f-rec").value.trim();
+    lane.expects = readRows("expects"); lane.delivers = readRows("delivers");
+    persist(); render(); openCell(id, cid); toast("Saved in this browser");
+  }
+
+  function openRole(id) {
+    var r = S.roles[id], st = status(id), n = roleProblems(id);
+    var slots = Object.keys(r.slots);
+    var b = '<div class="sec"><h3>What this role does on a team</h3><p>' + rich(r.primer) + "</p></div>" +
+      (r.docs.length ? '<div class="sec"><h3>Documents this role is known for</h3><ul>' + r.docs.map(function (d) { return "<li>" + rich(d) + "</li>"; }).join("") + "</ul></div>" : "") +
+      (slots.length ? '<div class="sec"><h3>Facts about your game</h3><p class="note">' + (SAMPLE ? "Signal Station's answers. Each student fills these in for their own game." : "Replace the Signal Station defaults. This is where the push ends and you start pedaling.") + "</p>" +
+        slots.map(function (k) { return SAMPLE ? '<div class="slot"><span class="note">' + rich(r.slots[k].label) + '</span><p class="ro" style="margin:0">' + rich(r.slots[k].value) + "</p></div>" : '<div class="slot"><label for="s-' + k + '">' + rich(r.slots[k].label) + '</label><input id="s-' + k + '" value="' + esc(r.slots[k].value) + '"></div>'; }).join("") + "</div>" : "") +
+      (r.kind === "agent" && !SAMPLE ? '<div class="sec"><h3>Status</h3><p><span class="status-pill ' + st + '">' + st + "</span> " + (n ? '<span class="warncount">' + n + " unmatched handoffs</span>" : '<span class="note">All handoffs match.</span>') + "</p></div>" : "");
+    var foot = SAMPLE ? "" : r.kind === "agent" ? '<button type="button" class="btn danger" data-reset-role="' + id + '">Reset role</button><button type="button" class="btn" data-md="' + id + '">Show role file</button>' + (slots.length ? '<button type="button" class="btn primary" data-save-role="' + id + '">Save</button>' : "") :
+      (r.editable ? '<button type="button" class="btn" data-sel-close="' + id + '">Highlight my handoffs</button>' : "");
+    openDrawer(r.kind === "person" ? "Person" : "Agent role", r.title, b, foot);
+  }
+
+  function q(s) { return JSON.stringify(String(s)); }
+  function roleMd(id) {
+    var r = S.roles[id], o = ["---", "id: " + id, "title: " + q(r.title), "gdf_role: " + q(r.title), "game: " + q(S.game), "slots:"];
+    Object.keys(r.slots).forEach(function (k) { o.push("  " + k + ":", "    label: " + q(r.slots[k].label), "    value: " + q(r.slots[k].value)); });
+    o.push("lanes:");
+    CIDS.forEach(function (c) {
+      var l = r.lanes[c]; o.push("  " + c + ":", "    does: " + q(l.does));
+      [["expects", "from"], ["delivers", "to"]].forEach(function (p) {
+        if (!l[p[0]].length) { o.push("    " + p[0] + ": []"); return; }
+        o.push("    " + p[0] + ":"); l[p[0]].forEach(function (x) { o.push("      - " + p[1] + ": " + x[0], "        what: " + q(x[1])); });
+      });
+      o.push("    recommends: " + q(l.recommends));
+    });
+    o.push("---", "", "# " + r.title, "", "## What this role does on a team", "", r.primer, "", "## Documents this role is known for", "");
+    r.docs.forEach(function (d) { o.push("- " + d); });
+    o.push("", "## Instructions", "",
+      "You are the " + r.title + " on the team making " + S.game + ". The student is the Executive Producer and Creative Director. You recommend; the student decides, and the instructor approves gates. You never approve a gate, merge a pull request, or change a deadline.", "",
+      "Before you start, read the newest notes addressed to you in crew/handoffs/. Do the work the current phase in `lanes` gives you, and use `slots` as facts about this game. If a slot looks wrong or missing, say so in your note instead of guessing.", "",
+      "When you finish, write one note per recipient in crew/handoffs/ using crew/handoff-template.md: what to use, what to produce, how acceptance will be judged, and links to your evidence.");
+    if (r.worked) o.push("", "When a change touches a game rule, a legal action, an observation or the player interface, run the rules-reviewer agent on it and attach its findings to your note.");
+    return o.join("\n") + "\n";
+  }
+
+  function parseYaml(text) {
+    var lines = text.split("\n").filter(function (l) { return l.trim() && l.trim().charAt(0) !== "#"; })
+      .map(function (l) { return { ind: l.match(/^ */)[0].length, t: l.trim() }; });
+    var i = 0;
+    function scalar(s) { s = s.trim(); if (s === "[]") return []; if (s === "{}") return {}; if (s.charAt(0) === '"') return JSON.parse(s); if (s.charAt(0) === "'") return s.slice(1, -1).replace(/''/g, "'"); return s; }
+    function isItem(k) { return lines[k].t === "-" || lines[k].t.indexOf("- ") === 0; }
+    function block(ind) { return i < lines.length && isItem(i) ? list(lines[i].ind) : map(ind); }
+    function map(ind) {
+      var o = {};
+      while (i < lines.length && lines[i].ind === ind && !isItem(i)) {
+        var t = lines[i].t, k = t.indexOf(":"), key = t.slice(0, k).trim(), rest = t.slice(k + 1).trim(); i++;
+        if (rest) o[key] = scalar(rest);
+        else if (i < lines.length && lines[i].ind > ind) o[key] = block(lines[i].ind);
+        else if (i < lines.length && lines[i].ind === ind && isItem(i)) o[key] = list(ind);
+        else o[key] = null;
+      }
+      return o;
+    }
+    function list(ind) {
+      var a = [];
+      while (i < lines.length && lines[i].ind === ind && isItem(i)) {
+        var t = lines[i].t.slice(2);
+        if (/^[\w-]+:(\s|$)/.test(t)) { lines[i] = { ind: ind + 2, t: t }; a.push(map(ind + 2)); } else { i++; a.push(scalar(t)); }
+      }
+      return a;
+    }
+    return lines.length ? block(lines[0].ind) : {};
+  }
+  function importMd(text) {
+    var m = text.match(/^---\s*\n([\s\S]*?)\n---/);
+    if (!m) throw new Error("no frontmatter between --- lines");
+    var y = parseYaml(m[1]), r = S.roles[y.id];
+    if (!r || r.kind !== "agent") throw new Error("unknown role id “" + y.id + "”");
+    if (y.game) S.game = y.game;
+    if (y.slots) Object.keys(y.slots).forEach(function (k) { var s = y.slots[k] || {}; r.slots[k] = { label: s.label || k, value: s.value || "" }; });
+    CIDS.forEach(function (c) {
+      var l = y.lanes && y.lanes[c]; if (!l) return;
+      r.lanes[c] = { does: l.does || "", recommends: l.recommends || "",
+        expects: (l.expects || []).map(function (x) { return [x.from, x.what]; }),
+        delivers: (l.delivers || []).map(function (x) { return [x.to, x.what]; }) };
+    });
+    return r.title;
+  }
+  function importJson(text) {
+    var j = JSON.parse(text); applySaved(j.roles && j.columns ? { game: j.game, roles: j.roles } : j); return "crew.json";
+  }
+  document.getElementById("import-files").addEventListener("change", function (ev) {
+    var files = Array.prototype.slice.call(ev.target.files), done = [], bad = [];
+    Promise.all(files.map(function (f) { return f.text().then(function (t) {
+      try { done.push(/\.json$/i.test(f.name) ? importJson(t) : importMd(t)); } catch (e) { bad.push(f.name + ": " + e.message); }
+    }); })).then(function () {
+      persist(); render(); ev.target.value = "";
+      if (bad.length) openDrawer("Load crew files", "Some files did not load", '<ul class="problems">' + bad.map(function (b) { return "<li>" + esc(b) + "</li>"; }).join("") + "</ul>" + (done.length ? '<p>Loaded: ' + esc(done.join(", ")) + "</p>" : ""));
+      else toast("Loaded " + done.join(", "));
+    });
+  });
+
+  function showExport(title, text) {
+    openDrawer("Copy into your repository", title, '<pre class="export" id="export-text" tabindex="0">' + esc(text) + "</pre>", '<button type="button" class="btn primary" data-copy>Copy</button>');
+  }
+  function copyText() {
+    var el = document.getElementById("export-text"), txt = el.textContent;
+    var fallback = function () { var r = document.createRange(); r.selectNodeContents(el); var s = getSelection(); s.removeAllRanges(); s.addRange(r); toast("Selected; press Ctrl+C or Cmd+C"); };
+    try { navigator.clipboard.writeText(txt).then(function () { toast("Copied"); }, fallback); } catch (e) { fallback(); }
+  }
+  var armed = {};
+  function confirmClick(btn, key, label, fn) {
+    if (armed[key]) { clearTimeout(armed[key]); armed[key] = 0; fn(); return; }
+    var orig = btn.textContent; btn.textContent = label;
+    armed[key] = setTimeout(function () { armed[key] = 0; if (document.body.contains(btn)) btn.textContent = orig; }, 3000);
+  }
+
+  document.addEventListener("click", function (ev) {
+    var ab = ev.target.closest(".abbr");
+    if (ab) { ev.preventDefault(); ev.stopPropagation(); return showPop(ab); }
+    if (popEl && !ev.target.closest(".pop")) hidePop();
+    var t = ev.target.closest("button, [data-close]"); if (!t) return;
+    var ds = t.dataset;
+    if ("close" in ds) return closeDrawer();
+    if (ds.sel) { sel = sel === ds.sel ? null : ds.sel; return render(); }
+    if (ds.col) return openCol(ds.col);
+    if (ds.role) return openRole(ds.role);
+    if (ds.cell) { var p = ds.cell.split("|"); return openCell(p[0], p[1]); }
+    if (ds.add) { var rows = layer.querySelector('.rows[data-kind="' + ds.add + '"]'); var self = layer.querySelector("[data-save-cell]").dataset.saveCell.split("|")[0]; rows.insertAdjacentHTML("beforeend", rowHtml(ds.add, [self === "producer" ? "student" : "producer", ""], self)); rows.lastElementChild.querySelector("input").focus(); return; }
+    if ("del" in ds) return t.closest(".row").remove();
+    if (ds.saveCell) { var a = ds.saveCell.split("|"); return saveCell(a[0], a[1]); }
+    if (ds.revertCell) { var b = ds.revertCell.split("|"); S.roles[b[0]].lanes[b[1]] = clone(DEF.roles[b[0]].lanes[b[1]]); persist(); render(); openCell(b[0], b[1]); return toast("Reverted to the shipped default"); }
+    if (ds.saveRole) { var r = S.roles[ds.saveRole]; Object.keys(r.slots).forEach(function (k) { r.slots[k].value = document.getElementById("s-" + k).value.trim(); }); persist(); render(); openRole(ds.saveRole); return toast("Saved in this browser"); }
+    if (ds.resetRole) { var id = ds.resetRole; return confirmClick(t, "role-" + id, "Click again to reset", function () { S.roles[id].lanes = clone(DEF.roles[id].lanes); S.roles[id].slots = clone(DEF.roles[id].slots); persist(); render(); openRole(id); toast("Role reset"); }); }
+    if (ds.md) return showExport("crew/roles/" + ds.md + ".md", roleMd(ds.md));
+    if (ds.selClose) { sel = ds.selClose; closeDrawer(); return render(); }
+    if ("copy" in ds) return copyText();
+    if (t.id === "btn-json") { var out = { game: S.game, roles: {} }; IDS.forEach(function (i) { if (S.roles[i].kind === "agent") out.roles[i] = { lanes: S.roles[i].lanes, slots: S.roles[i].slots }; }); return showExport("crew.json", JSON.stringify(out, null, 2)); }
+    if (t.id === "btn-reset") return confirmClick(t, "all", "Click again to reset everything", function () { S = clone(DEF); sel = null; try { localStorage.removeItem(KEY); } catch (e) {} render(); toast("Everything reset to the shipped defaults"); });
+  });
+  document.addEventListener("keydown", function (ev) {
+    var ab = ev.target.closest && ev.target.closest(".abbr");
+    if (ab && (ev.key === "Enter" || ev.key === " ")) { ev.preventDefault(); ev.stopPropagation(); return showPop(ab); }
+    if (ev.key === "Escape") { if (popEl) { var f = popFor; hidePop(); if (f) f.focus(); return; } if (layer.innerHTML) closeDrawer(); }
+  }, true);
+  document.getElementById("game-name").addEventListener("change", function (ev) { S.game = ev.target.value.trim() || DEF.game; persist(); render(); });
+  render();
+})();
+</script>

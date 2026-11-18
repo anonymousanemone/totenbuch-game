@@ -80,7 +80,7 @@ An avatar walks the whole scroll, completely restored and as the papyrus origina
 
 ### References — unsourced details in the registries
 
-Each `reference` field now names its sources (`skills/cite-references/SKILL.md`). The claims below aren't in Davis 1894 or in any other source read so far. Each item's `reference` field says so. Find a source for each, or soften or cut the wording.
+Each `reference` field now names its sources (`.claude/skills/cite-references/SKILL.md`). The claims below aren't in Davis 1894 or in any other source read so far. Each item's `reference` field says so. Find a source for each, or soften or cut the wording.
 
 - [ ] **TBD — Procession, `priest_with_arm_censer`, censer or wer-hekaw:** Tawfik 2022 links him to the Opening of the Mouth, but reads what he holds as the wer-hekaw (a ram-headed tool), not a censer. Check the plate, then keep or change "holds incense". The test in `procession_interaction_regressions.gd` checks the wording "purifying the sacred implements".
 - [ ] **Dangers, `e36`:** the name "Apshai" for the beetles. Davis doesn't have it, and Weber 2022 says only "bugs".

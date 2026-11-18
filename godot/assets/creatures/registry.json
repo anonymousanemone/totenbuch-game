@@ -1,0 +1,79 @@
+{
+ "references": {
+  "Davis 1894": "Davis, C. H. S. The Egyptian Book of the Dead: The Most Ancient and the Most Important of the Extant Religious Texts of Ancient Egypt. New York and London: G. P. Putnam's Sons, 1894. (English version of Pierret's French translation of P. Turin 1791.) https://sites.dlib.nyu.edu/viewer/books/ifa_egypt000060"
+ },
+ "entries": {
+  "figure_162_cow": {
+   "name": "The sacred cow",
+   "descriptions": {
+    "default": "A cow wearing Hathor's crown, the sun disc between two plumes. Her spell puts warmth under the head of the dead, as she once did under the head of Ra, so the body stays warm as it was on earth."
+   },
+   "journal": true,
+   "reference": "Davis 1894; Davis calls her only \"the sacred cow\": the name Ihet is not in his text"
+  },
+  "figure_163_eye_first": {
+   "name": "The winged eye",
+   "descriptions": {
+    "default": "An eye of Horus with wings and human legs. In its pupil stands a god with a bird-soul's face and the double plume, lifting his arm. Its spell keeps the body from decaying in the netherworld."
+   },
+   "journal": true,
+   "reference": "Davis 1894; which pupil holds which god is my reading"
+  },
+  "figure_163_snake": {
+   "name": "The snake with legs",
+   "descriptions": {
+    "default": "A snake walking on human legs, carrying the sun disc and horns. Its spell saves the dead from the one with a terrible face, whose mouth breathes fire to taste the souls."
+   },
+   "journal": true,
+   "reference": "Davis 1894"
+  },
+  "figure_163_eye_second": {
+   "name": "The winged eye",
+   "descriptions": {
+    "default": "The second winged eye on legs. In its pupil stands a god with the face of Neith and the double plume, lifting his arm. With its spell the dead may go out and wander as they wish."
+   },
+   "journal": true,
+   "reference": "Davis 1894; which pupil holds which god is my reading"
+  },
+  "figure_164_mut": {
+   "name": "Mut",
+   "descriptions": {
+    "default": "Mut with three heads, a lioness, a woman in the double crown and a falcon, and wide wings. She is the mother of the dead in their coffins: she saves their bones, and the worms shall not eat them."
+   },
+   "journal": true,
+   "reference": "Davis 1894; the text also hails her as Sekhet-Bast-Ra"
+  },
+  "figure_164_dwarf_front": {
+   "name": "The dwarf",
+   "descriptions": {
+    "default": "A dwarf with two heads, a falcon's and a man's, the double plume on top, one arm raised. One stands before Mut and one behind her."
+   },
+   "journal": true,
+   "reference": "Davis 1894; the vignette heading has a child's head where the rubric has a man's"
+  },
+  "figure_164_dwarf_back": {
+   "name": "The dwarf",
+   "descriptions": {
+    "default": "The second dwarf, the one behind Mut, with a falcon's head and a man's, the double plume and a raised arm."
+   },
+   "journal": true,
+   "reference": "Davis 1894"
+  },
+  "figure_165_ram_bearer": {
+   "name": "The man with two rams",
+   "descriptions": {
+    "default": "A man with his arms at his sides and a ram's head on each shoulder. His image was drawn on the breast of the dead."
+   },
+   "journal": true,
+   "reference": "Davis 1894"
+  },
+  "figure_165_amun": {
+   "name": "Amun, the Hidden",
+   "descriptions": {
+    "default": "A god with a scarab's body and the double plume, one arm raised. He is called by his secret names so that the body flourishes and the dead may rest whole in the netherworld. His image was placed on the heart."
+   },
+   "journal": true,
+   "reference": "Davis 1894; the vignette heading names him Khem (Min), while the spell calls on Amun"
+  }
+ }
+}

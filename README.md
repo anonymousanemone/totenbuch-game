@@ -19,7 +19,7 @@ The puzzles of the Weighing of the Heart are in `archive/` (see its README).
 ## Levels
 
 What each level plays, rule by rule, is in
-[`skills/suggest-games/levels.md`](skills/suggest-games/levels.md).
+[`.claude/skills/suggest-games/levels.md`](.claude/skills/suggest-games/levels.md).
 
 | Level | Spells | Scene | Scripts |
 |---|---|---|---|

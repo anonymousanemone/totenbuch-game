@@ -1,7 +1,7 @@
 ## The map: every scene on one register of the scroll, reading right to left between its double rules,
 ## the acts captioned above their cards. The chosen scene's name is the tag on the strip's band, with
 ## what it is and Play / View beside it. The register scrolls sideways (wheel, arrows, or a card taking focus).
-## The saved scene is written by tools/build_scroll_map.py; the earlier map is in archive/.
+## The saved scene is written by .claude/skills/build-levels/build_scroll_map.py; the earlier map is in archive/.
 extends ColorRect
 
 signal back_requested

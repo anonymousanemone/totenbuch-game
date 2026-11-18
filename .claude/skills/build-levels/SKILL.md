@@ -13,7 +13,10 @@ exporting a level must not modify it. Respect existing layer names and authored 
 
 ## Export assets and metadata
 
-Use the existing MDP reader in `tools/mdp300/mdp.py` and the level exporters as references.
+Use the existing MDP reader in `tools/mdp300/mdp.py` and the level exporters as references: the scene
+builders in this skill's folder (`build_scene.py`, `build_field.py`, `build_prologue.py`, `build_walk.py`,
+`export_scene_layers.py`) and the per-level extractors (`extract_*.py`, also here), which write the figures
+already cut by hand in the `.mdp` as sprites and `level.json` data.
 Export named artwork into `godot/assets/<level>/figures/` and keep animation sheets, if
 needed, in `animation/`. Record stable IDs, source bounds, dimensions, scale, ground,
 and camera view height in `level.json`. Keep descriptions in the level's data catalog,
@@ -93,7 +96,7 @@ After adding figures to a scene, draw their boxes (it only adds boxes that are m
 marks captions `hit_by_box`, and leaves existing and hand-edited boxes alone):
 
 ```bash
-/Applications/Godot.app/Contents/MacOS/Godot --headless --path godot -s ../tools/hitboxes.gd -- <level>
+/Applications/Godot.app/Contents/MacOS/Godot --headless --path godot -s ../.claude/skills/build-levels/hitboxes.gd -- <level>
 ```
 
 In tests, click a point on a figure's drawing, not the middle of its bounds, which may
@@ -102,6 +105,8 @@ be empty paper.
 ## Integrate with the scroll
 
 Use the level's existing key in `godot/scripts/scroll.gd`, or add an entry when needed.
+The map scene `godot/scenes/scroll.tscn` is written by `build_scroll_map.py` (in this folder) from
+`Scroll.SCENES`; it overwrites editor changes, so run it only when asked and keep the cards' `key` metadata in sync.
 The menu recognizes a built level when `scenes/<key>.tscn` exists. Provide a map picture
 at `godot/assets/menu/<key>.png`, with the top of the double rule flush with the image's
 top edge and no faded lower text. Keep level titles and spell ranges consistent.

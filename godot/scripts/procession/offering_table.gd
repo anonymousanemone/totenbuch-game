@@ -2,7 +2,7 @@
 ##
 ## The loose pieces lie on the floor between the two pairs of bouquets as physics bodies, at any
 ## angle. A piece snaps back into its place, upright, only when everything it rests on is already
-## there (`rests_on`, worked out by tools/cut_procession300.py); set down too early it topples
+## there (`rests_on`, worked out by .claude/skills/build-levels/extract_procession300.py); set down too early it topples
 ## and falls back to the floor. The palm frond starts lying on the upper shelf (the register line
 ## above the picture) and goes on last. Everything else starts on the floor: at first the pieces
 ## fall through the shelf. After that it holds whatever is let go above it; only a piece in hand crosses it.

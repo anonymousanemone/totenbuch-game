@@ -4,7 +4,7 @@
 ## through the vignettes. Each vignette with a creature is an encounter: walking into it
 ## offers its introduction; clicking a creature takes its spear-bearer’s place and starts
 ## the fight. Space thrusts. The spell-38 gate waits until the preceding dangers are overcome. Solving an encounter puts the vignette back as it is drawn on the plate.
-## Positions come from assets/dangers/level.json, written by tools/cut_dangers300.py from the
+## Positions come from assets/dangers/level.json, written by .claude/skills/build-levels/extract_dangers300.py from the
 ## hand-made 300-dpi strip bod31-42.mdp. Distances below are in 200-dpi plate pixels and are
 ## multiplied by `unit` (level.json `scale`).
 ## Combat behavior lives in the per-minigame scripts; this scene owns shared state,
@@ -33,7 +33,7 @@ var sheaf = SHEAF.new(self)
 const SCROLL_CAMERA := preload("res://scripts/scroll_camera.gd")
 const VIEW_TOP := 36.0   ## the row under the top register's upper rule: the title bar's band takes its place
 const DATA_PATH := "res://assets/dangers/level.json"
-const SHEET_PATH := "res://assets/dangers/animation/spearers.json"   ## the spear-bearers' thrust (tools/spearers.py thrust)
+const SHEET_PATH := "res://assets/dangers/animation/spearers.json"   ## the spear-bearers' thrust (.claude/skills/make-artwork/spearers.py thrust)
 const FIGURE_MASK := preload("res://scripts/figure_mask.gd")
 const SHEET_TEX := "res://assets/dangers/animation/spearers.png"
 const ASSET := "res://assets/dangers/figures/%s.png"
@@ -1457,7 +1457,7 @@ func _tick_breath(dt: float) -> void:
 		_life_clue_hold = 6.0
 
 
-## The heka signs in the caption of encounter `id` (cut by tools/cut_dangers300.py, one set per vignette).
+## The heka signs in the caption of encounter `id` (cut by .claude/skills/build-levels/extract_dangers300.py, one set per vignette).
 func _heka_words(id: String) -> Array:
 	var h = level.get("heka", {})
 	return h.get(id, []) if h is Dictionary else h

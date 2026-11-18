@@ -10,7 +10,7 @@
 ## come first. With both set right the plumed ox lowers his head to the calf.
 ##
 ## The plumed ox and the plumes are the sprites plumed_ox and plumes, cut by
-## tools/cut_procession300.py --bulls from the `bulls` folder of art/procession1-15.mdp; where the
+## .claude/skills/build-levels/extract_procession300.py --bulls from the `bulls` folder of art/procession1-15.mdp; where the
 ## plumes sit on his head and on the sacrifice is `bulls` in level.json (the scene's `plumes_place`
 ## marks the first). The calf is the sprite calf. Positions are strip pixels.
 class_name ThreeBulls

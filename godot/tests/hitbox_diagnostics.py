@@ -15,7 +15,7 @@ def _git(project, *arguments):
 
 def _legacy_export_boxes(project):
     """Read the cutter's constants without importing or running the art exporter."""
-    path = project.parent / "tools/cut_procession300.py"
+    path = project.parent / ".claude/skills/build-levels/extract_procession300.py"
     if not path.exists():
         return {}
     assignments = {
@@ -67,6 +67,6 @@ def diagnose_hitbox_mismatches(project, output):
         print("  Only JSON changed: inspect re-export output or manual JSON edits first.")
     else:
         print("  These files alone cannot establish who changed the boxes or which edit caused it.")
-    print("  Inspect git diff/history for these files and tools/cut_procession300.py. "
+    print("  Inspect git diff/history for these files and .claude/skills/build-levels/extract_procession300.py. "
           "Its patch_water(), patch(), and main() paths can replace hotspot JSON with "
           "legacy measurements. Do not run an exporter or recalculate boxes to repair this test.")

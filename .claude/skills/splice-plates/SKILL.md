@@ -1,12 +1,16 @@
 ---
 name: splice-plates
-description: How to make a new level .mdp in art/ from the Lepsius plates, by rotating and splicing the 300-dpi plates into the fixed strip frame (guides, caption band, vignette band) without rescaling, keeping every cut-away piece in a hidden discarded folder. Use before creating or re-splicing any art/<level>.mdp.
+description: How to make a new level .mdp in art/ from the Lepsius plates, by rotating and splicing the 300-dpi plates into the fixed strip frame (guides, caption band, vignette band) without rescaling, keeping every cut-away piece in a hidden discarded folder, and then cutting the strip into figure, caption and bottom-text layers grouped by spell, moving pixels and never deleting them. Use before creating, re-splicing or cutting any art/<level>.mdp.
 ---
 
 # Splicing plates into a new .mdp
 
-The goal is a strip the user can then cut into figures by hand. You only **rotate and splice** the plates.
+The goal is a strip cut into figures. There are two separate passes. First you only **rotate and
+splice** the plates (steps 1–9). Then the strip is **cut** into layers (Cutting figures, below). The
+user may fix the spliced strip by hand between the two, so a splice never runs straight on into a cut.
+**Never start cutting without the user's command or approval.**
 Don't rescale, stretch, warp, redraw, clean or erase anything. A plate is placed 1:1 at 300 dpi.
+There are no exceptions to these rules unless the user explicitly approves one.
 
 **Be cautious.** The source plates are read only, and other levels' `.mdp` files are never touched.
 Ask the user (AskUserQuestion) before deciding anything this skill doesn't settle. Ask especially about:
@@ -73,12 +77,12 @@ format only.
   - The labels under the columns give each column's spell (e.g. "4 3 2 1 / 94").
   - A spell can continue across plates, and a plate can hold the end of one level and the start of the
     next.
-- **The tool:** `tools/mdp300/splice_plates.py` does steps 2–8 below from a piece spec.
-  `tools/mdp300/splice_specs.json` holds the specs for boats89-109, souls112-124, lake126-143 and
+- **The tool:** `.claude/skills/splice-plates/splice_plates.py` does steps 2–8 below from a piece spec.
+  `.claude/skills/splice-plates/splice_specs.json` holds the specs for boats89-109, souls112-124, lake126-143 and
   mounds149; use them as examples.
 - **Readers and writers:** `tools/mdp300/mdp.py` (`read_mdp`, `decode_layer`) and
   `tools/mdp300/write_mdp.py` (`parse_raw`, `encode_layer`, `pac`, `rename_chunk`).
-- **Deskew and rule detection:** `tools/strips/build_strips.py` (`skew_angle`) and `tools/strips/detect.py`
+- **Deskew and rule detection:** `.claude/skills/splice-plates/strips/build_strips.py` (`skew_angle`) and `.claude/skills/splice-plates/strips/detect.py`
   (`runs_mask`).
 - **Template:** any existing strip `.mdp`. The tool takes only the file header and layer-entry format
   from it and writes every layer anew. When the user hands you a template copy with layers in it, list
@@ -138,7 +142,7 @@ format only.
    - **Tall boxes with no caption** (the mounds plates): separators start at the plate's caption line, so
      their guides start at row 182.
 8. **Build and check.**
-   - Run `python tools/mdp300/splice_plates.py <spec.json> <level> <template.mdp> <scratch/out.mdp>
+   - Run `python .claude/skills/splice-plates/splice_plates.py <spec.json> <level> <template.mdp> <scratch/out.mdp>
      <scratch/preview_dir>` with the output in the scratchpad.
    - The tool reads the file back and asserts that every piece plus its discarded layer reproduces the
      rotated plate pixel for pixel.
@@ -153,6 +157,39 @@ format only.
    - anything archived or left in a template;
    - that the file's thumbnail is stale until it is saved in MediBang.
 
+## Cutting figures
+
+The spliced strip is then cut into layers, so that each figure, object and caption can be clicked
+and moved in the game. The user often cuts by hand in MediBang; these rules hold whoever cuts.
+
+- **Only on the user's command.** Cutting is its own task, never the end of a splice. The user may
+  have fixed the spliced strip by hand since it was made, so cut from the file as it is in `art/` now,
+  and use that as the reference for the flatten check, not the splice tool's output.
+
+- **Move, never delete.** Cutting moves pixels from the plate layer to a new layer at the same place.
+  Nothing is erased, cleaned or painted. Every pixel of the strip ends up in exactly one layer, so
+  two layers never hold the same pixel.
+- **Group by spell.** One folder per spell, named `Spell <n>` as in `survival43-63.mdp` and
+  `gates146-147.mdp`. A vignette shared by two spells gets one folder named for both (e.g. `21-22`).
+- **Cut out everything** in the vignette band and the caption band: figures, objects, props, and
+  hieroglyph groups drawn in the vignette. What stays in the plate layer is only the frame rules and
+  the bare paper.
+- **Top text captions** go in their spell's folder, one layer per caption (e.g. `toptext`, or
+  `toptext_spell144` where one folder holds two).
+- **Bottom text** goes in its own folder, `bottom text`, with **one layer per plate** (e.g. `p60`,
+  `p61`). It is cut from the plate pieces, at 1:1.
+- **Name layers by what they draw** (`god left`, `adorer`, `spear`), as the built levels do. Ask the
+  user about any name that a level's code or puzzle will rely on.
+- **The flattened file must match.** With the `discarded` folder hidden, the cut file, flattened, is
+  pixel for pixel the spliced file it was cut from. Check by compositing every visible layer, before and
+  after, with `read_mdp` and `decode_layer` (`tools/mdp300/mdp.py`), and comparing the arrays exactly.
+  Report any pixel that differs. Don't fix a difference by hand.
+- **Existing files.** Levels cut before this rule keep their own grouping (the procession by scene,
+  `gates144-145` by plate). Don't regroup them unless the user asks.
+
+There is no cutting tool yet. Ask before writing one. A tool's output goes to the scratchpad first, as
+in step 8, and is copied into `art/` only once the flatten check passes and the user says so.
+
 Store previews and scratch scripts outside the repository (the scratchpad), never in `mockups/` or
-`art/`. To change an existing file's canvas, `tools/mdp300/resize_canvas.py <in> <out> 30 1500` moves
+`art/`. To change an existing file's canvas, `.claude/skills/splice-plates/resize_canvas.py <in> <out> 30 1500` moves
 every layer, so only on a yes.

@@ -43,7 +43,7 @@ Options: delete exactly these, or don't. Wait for a clear yes. A yes does not ca
 
 ## 3. Finished tasks go to History
 
-A finished task does not stay as its own row. The status flow is Backlog → To do → In progress → Done → History.
+A finished task does not stay as its own row. The status flow is (TBD →) Backlog → To do → In progress → Done → History.
 
 ### Pick up In progress tasks
 
@@ -54,7 +54,7 @@ A row in **In progress** is work the user wants done now. Whenever an agent work
 - **Blocked:** if the last line is a blocker that only the user can clear, leave it and mention it to the user.
 - **Picking up:** add a log line (`<date time> · <your role> · picked up`) before starting, and set Role to your own role if it is blank (Section 4). Read the whole page, its relations and the matching TODO.md line first.
 - **Completing:** do the work in the repo following the project's other skills, then add a log line saying what was done, move the row to Done and sweep it into History (below). Do not commit or push without asking (Section 8).
-- **When to stop and ask:** the task is unclear, too big to finish in one go, needs a decision from the user, or turns out to be TBD or too general (it goes back into the Plan, Section 6). Write a blocker log line and leave the row in In progress.
+- **When to stop and ask:** the task is unclear, too big to finish in one go, needs a decision from the user, or turns out to be undecided (ask the user directly; don't set TBD yourself, Section 6). Write a blocker log line and leave the row in In progress.
 - Pick up only what the current session can reasonably finish. If there are several, list them to the user first and say which you are taking.
 
 - The user drags finished tasks to **Done**. Whenever an agent works in the database, it first checks for rows at Done and sweeps each one into its History item (below). A task an agent finishes itself goes the same way. Done is a staging column and is empty after a sweep.
@@ -117,19 +117,18 @@ Agent log
 - **Smallest edit.** Prefer `update_content` and `insert_content` to `replace_content`. Preserve wording, order and native links you were not asked to change. Text a person wrote is never overwritten: append, or ask.
 - **Write backticks, match `<code>`.** Write inline code with backticks. Notion returns it as `<code>…</code>` (and bold as `<b>`), so an `update_content` `old_str` must copy the fetched form, not what you sent.
 - **Check for change.** If a page's `page_last_edited_at` is later than when you read it, fetch again before editing.
-- **Docs, Plans, tasks.** One Doc (what is built, Status Documentation) and one Plan (large or unbuilt work, Status Plan) per scope, plus the Game-wide topic Docs the user created. Do not add another without being asked. See "Task or Plan" below for what becomes a row.
+- **Docs, Plans, tasks.** One Doc (what is built, Status Documentation) and one Plan (large or unbuilt work, Status Plan) per scope, plus the Game-wide topic Docs the user created. Do not add another without being asked. See "Task, TBD or Plan" below for what becomes a row.
 
-## 6. Task or Plan
+## 6. Task, TBD or Plan
 
 A row is a task only if it is truly a task: one concrete piece of work that someone can pick up and finish, with a clear point where it is done (fix this bug, check this caption against Davis, shorten these nine descriptions).
 
-Everything else stays in the scope's **Plan** item as text, not as a row:
+- **TBD (a row, Status TBD):** only the user makes these. Create a TBD row or set Status TBD only when the user explicitly says "TBD" for that item. Never sort undecided points into TBD on your own. When an undecided point becomes relevant to the work (a task depends on it, or you would have to guess), ask the user directly with `AskUserQuestion` instead. A TBD row is phrased as the decision ("Decide …", "Choose …"); once the user decides, it moves to Backlog or To do as a task.
+- **Plan (text in the scope's Plan item):** large game drafting, what ideas.md used to hold: proposed games and levels, merges, register-by-register designs, and an unbuilt minigame until it is broken into concrete steps. Its small open points inside a draft (tuning numbers, "its game is TBD") stay with the draft.
 
-- **TBD or undecided:** anything marked TBD, "idea", "undecided", "not decided yet", or phrased as an open question with no action yet.
-- **Too general:** broad goals or reviews with no clear end ("support players who are unsure", "keep the levels consistent").
-- **Unbuilt features and games:** a minigame or feature that does not exist yet, until it is broken into concrete steps.
+Do not move anything into a Plan without being asked. A cross-scope TBD row gets Scope Game-wide.
 
-When moving such a row into the Plan, put its full text (name, description, body) under the fitting heading of the Plan, or a new heading, and verify it is there before removing the row. If the Plan already holds the same content, add only what is missing. A cross-scope idea goes to the Game-wide plan.
+When the user asks for a Plan point to become a TBD row, put its full text in the new row's body, then replace the Plan passage with a one-line mention of the row ("<topic>: TBD, <mention>") so the Plan still reads whole.
 
 **Always ask when it is ambiguous.** If a row could be read either way (a design decision that might be ready to act on, an idea phrased as a question, a review with a partly clear scope), do not decide alone: list the unclear rows in one `AskUserQuestion` (title, scope, a few words why) and act only on the answer. When the user drags a row to To do, treat it as a task unless they say otherwise.
 
@@ -165,10 +164,19 @@ Work moves through these stages, one way:
 5. **Done → History.** The user drags a finished task to Done; the next agent run sweeps it into `<Scope>: History` (Section 3). In the Plan, mark the line as done with a link to the History page, or remove the line if the Plan has nothing left to say about it.
 6. **Doc.** Once a feature is built and swept, its behaviour belongs in the scope's Doc (Status Documentation), not the Plan. Update the Doc only when asked or when you built it.
 
-Rows never go backwards into a Plan except by Section 6 (a row that turns out to be TBD or too general goes back into the Plan text, after asking).
+Rows never go backwards into a Plan. If a task turns out to be undecided, ask the user; it goes to TBD only if they say so.
 
 ## 8. Other rules
-- **Categories** are only: Design decision, Bug fix, Game feature mod, Text & research, UI / UX. Do not recreate removed ones (New game feature, Testing & verification, Refactor / tech).
+- **Categories** (one per task) are only:
+  - **References:** find, read or record the source for a claim, identification or translation. Not when text already cites a source and only needs checking.
+  - **Source check:** compare existing text (caption, description, order, name) against a named source or the plate, and correct it.
+  - **Writing:** write or rewrite player-facing text: intros, instruction lines, hints, descriptions, shortening.
+  - **Gameplay:** what happens inside a scene: mechanics, puzzles, in-scene feedback, level flow.
+  - **Interface:** anything outside the scroll: bottom bar, journal, hint button, map, cursor, message box, start prompt.
+  - **Art:** splicing, cutting layers, exporting and registry entries for figures, and how the art reads in play.
+  - **Bug:** something built that behaves differently from what was intended.
+
+  Retired, never use or recreate: Design decision, Bug fix, Game feature mod, Text & research, UI / UX, New game feature, Testing & verification, Refactor / tech. An open decision is not a category: ask the user about it.
 - **Schema and views.** Changing properties, options, views or filters needs the user's request. Keep completed items hidden in every view except status views, and Plan and Documentation out of the Tasks view.
 - **Queries.** SQL and rows mode share a workspace usage limit. Prefer a saved view in `view` mode (100 per page, follow `next_cursor`). If the limit is reached, tell the user once and do not retry in a loop.
 - **Limits.** At most 100 pages per create call and 20 per delete call. Check warnings in every result and report them.

@@ -13,7 +13,7 @@ from C. H. S. Davis, *The Egyptian Book of the Dead* (1894), which translates th
 
 Playable from the map: the Procession, Night Journey, Dangers, Survival and Sustenance, the Field of
 Offerings (to walk and read, without puzzles for now), Gates, the Fourteen Mounds, Mouth and Heart,
-and the Weighing of the Heart (the last three also to walk and read, cut by `tools/build_walk.py`).
+and the Weighing of the Heart (the last three also to walk and read, cut by `.claude/skills/build-levels/build_walk.py`).
 The puzzles of the Weighing of the Heart are in `archive/` (see its README).
 
 ## Levels
@@ -49,8 +49,8 @@ Scene-specific scripts and shaders sit in `godot/scripts/<level>/`; shared ones 
 | `godot/scripts/scroll_camera.gd`, `figure_mask.gd` | Shared camera arithmetic; figure ink/interior masks |
 | `godot/scripts/moveable_object.gd` | Drag/drop pieces (see `AGENTS.md`) |
 | `godot/assets/<level>/` | Stitched plate strips, one PNG per piece, `level.json` with positions, `puzzles.json` |
-| `godot/assets/menu/` | Map pictures and title frontispiece (`tools/menu_images.py`) |
-| `art/`, `tools/` | Source `.mdp` files; cutters and scene builders (`tools/strips/NOTES.md` for strips) |
+| `godot/assets/menu/` | Map pictures and title frontispiece (`.claude/skills/make-artwork/menu_images.py`) |
+| `art/`, `tools/` | Source `.mdp` files; cutters and scene builders (`.claude/skills/splice-plates/strips/NOTES.md` for strips) |
 
 ## Scene workflow
 
@@ -88,7 +88,7 @@ Runtime creation stays for temporary effects, spawned copies, loose physics bodi
 on one register of the scroll, reading right to left between double rules, each act captioned above its cards
 (`Scroll.ACTS`). It is saved as long as the whole register (7124 × 720), so the editor shows all of it; in play
 it fits the window and scrolls sideways. The chosen scene's name is the tag on the strip's band, with its
-description and Play / View. `python tools/build_scroll_map.py` rewrites it from `Scroll.SCENES` (dropping
+description and Play / View. `python .claude/skills/build-levels/build_scroll_map.py` rewrites it from `Scroll.SCENES` (dropping
 editor changes); keep cards' `key` metadata in sync. The earlier map, a vertical list of acts, is in `archive/`.
 
 **Procession** (`Pieces/Standards`, `Hauling`, `OfferingTable`, `Water`, `OpeningMouth`, `Ending`):
@@ -104,12 +104,12 @@ original drawing bounds.
 
 **Survival:** `godot/scenes/survival.tscn` holds spell groups, the avatar, camera and five foreground
 text sections (papyrus-backed, repeating everything drawn within them). `godot/assets/survival/level.json`
-records source IDs and bounds. Rerunning `python tools/build_scene.py survival` replaces the generated scene
+records source IDs and bounds. Rerunning `python .claude/skills/build-levels/build_scene.py survival` replaces the generated scene
 (dropping added pieces, pivots and splice lines), so preserve editor changes first.
-`tools/cut_survival_pieces.py` cuts the rite pieces (partial: name the keys).
+`.claude/skills/build-levels/extract_survival_pieces.py` cuts the rite pieces (partial: name the keys).
 
 **Gates:** `art/gates146.mdp` and `art/gates144-145.mdp` overlap by 280 px so their shared double rule
-is one; positions in the scene are authoritative. `python tools/build_scene.py gates` refreshes artwork
+is one; positions in the scene are authoritative. `python .claude/skills/build-levels/build_scene.py gates` refreshes artwork
 and metadata and only adds missing sprites to a saved scene. Pylons sway via `plumes.gdshader`
 (`plumes` in `level.json`).
 
@@ -120,19 +120,19 @@ moving a whole group, changing pivots or scaling needs matching updates there.
 
 Cutters are partial: name what changed and only that is cut into the level already there.
 
-- **Procession:** `python tools/export_scene_layers.py procession` writes the strip and a sprite for every
+- **Procession:** `python .claude/skills/build-levels/export_scene_layers.py procession` writes the strip and a sprite for every
   layer of `art/procession1-15.mdp`, by layer id. What it does not work out is cut by
-  `tools/cut_procession300.py` (`--water`, `--table`, `--features`, `--bulls`): the water's path and line,
+  `.claude/skills/build-levels/extract_procession300.py` (`--water`, `--table`, `--features`, `--bulls`): the water's path and line,
   what each offering rests on, the plumes' places, as `level.json` data beside the sprites. World units are
   strip pixels; `level.json` has `"scale": 1.5` for 200-dpi distances. Hand-drawn sheets
-  (`tools/sheets.py procession`) are never regenerated. Needs the `general` conda environment.
-- **Dangers:** `tools/cut_dangers300.py art/dangers31-42.mdp godot/assets/dangers <pieces>` (e.g.
+  (`.claude/skills/make-artwork/sheets.py procession`) are never regenerated. Needs the `general` conda environment.
+- **Dangers:** `.claude/skills/build-levels/extract_dangers300.py art/dangers31-42.mdp godot/assets/dangers <pieces>` (e.g.
   `ankh38 sail38 tail40 sheaf41`); `--all` only when asked. If a vignette's figures move in the `.mdp`,
   move its spear-bearer rect in `level.json`, its `tip` in `spearers.json` and its nodes in
   `dangers.tscn`. Caption signs in the `heka` folder are cut as their own sprites.
-- **Survival:** `python tools/build_scene.py survival` from `art/survival43-63.mdp`.
-- **Gates:** `python tools/build_scene.py gates`.
-- **Prologue (Guarding the Body, 151–154):** `python tools/build_prologue.py [151ab 151c 151de 152 154]`.
+- **Survival:** `python .claude/skills/build-levels/build_scene.py survival` from `art/survival43-63.mdp`.
+- **Gates:** `python .claude/skills/build-levels/build_scene.py gates`.
+- **Prologue (Guarding the Body, 151–154):** `python .claude/skills/build-levels/build_prologue.py [151ab 151c 151de 152 154]`.
   Each top folder of `art/guardingbody151-154.mdp` is one stage of `scenes/prologue.tscn` (script
   `scripts/prologue/prologue.gd`, on `walk.gd`): the layer named like the folder is the drawing, the others are
   that stage's own scroll lines. Stages lie edge to edge on one ground line; only the one being played is shown,

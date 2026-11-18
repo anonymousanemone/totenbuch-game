@@ -10,6 +10,8 @@ There are two kinds of art in the game. Each has its own rule:
 1. **Scroll art**: anything on the scroll. These are figures, objects and scenes cut from the Lepsius plates, and their animations and poses. **Keep the original drawing.**
 2. **UI art**: the chrome around the scroll. This covers top-bar and strip icons, buttons, signs, arrows, frames and lettering. **Make it look like Old Fax.**
 
+There are no exceptions to these rules unless the user explicitly approves one (approved ones are listed in `project-docs/style-guide.md`). A new screen or layout starts as an HTML draft (`draft-ui` skill).
+
 Decide which kind you are making before you start. A hieroglyph used as a button (the hint's 𓁿) is UI art, even though it comes from the script.
 
 ## Make it to scale
@@ -20,7 +22,7 @@ Make every asset at the size it will be shown next to the artwork it belongs wit
 
 Most of this already works. Keep doing it the same way.
 
-- **Move the drawing, never redraw it.** Bend, warp, split and carry the drawn ink. Don't paint new lines in a different hand. Look at how existing tools do it: `tools/spearers.py lean` (a rigid moving-least-squares warp of the drawn ink), `tools/snakes.py` (the body bent along the drawing's own centre line, the head carried whole) and `tools/spearers.py thrust` (a prop split off the figure and the gaps bridged).
+- **Move the drawing, never redraw it.** Bend, warp, split and carry the drawn ink. Don't paint new lines in a different hand. Look at how existing tools do it: `.claude/skills/make-artwork/spearers.py lean` (a rigid moving-least-squares warp of the drawn ink), `.claude/skills/make-artwork/snakes.py` (the body bent along the drawing's own centre line, the head carried whole) `.claude/skills/make-artwork/spearers.py thrust` (a prop split off the figure and the gaps bridged), `.claude/skills/make-artwork/sheets.py` (an arm turned about the elbow the two layers share, a body bent at the waist) and `.claude/skills/make-artwork/thoth_doors.py` (door leaves that slide or swing, carrying their ink). These only make sheets: they are never part of a build, and an approved sheet is not made again unless the user asks (AGENTS.md).
 - When new ink can't be avoided (bridging a gap left by a split, a part hidden in the drawing), copy the nearby line. Use the same thickness, the same ink colour and the same edge softness, so the seam can't be found.
 - The last frame of an animation, or the resting pose, must be the drawing itself, pixel for pixel, in the same place. The sprite should line up with the plate.
 - Joints bend the way they are drawn. Planted feet and hems stay planted. Props keep their own line. Write these rules in the tool's docstring, as the existing tools do.
@@ -46,7 +48,7 @@ To see the actual shapes, render some text with PIL (`ImageFont.truetype(..., 16
 
 - **Line weight matches the text next to the icon.** Next to 32 px text (the top bar and the strip), the main strokes are 4 px. Next to 16 px text, they are 2 px. Don't let the weight wander. One stroke weight carries the silhouette, and a half-weight line (2 px at 32 px) is allowed only for small detail inside it.
 - **Size matches the existing icons.** The reference set is `mockups/topbar-icons.png`, the top bar's Journal, Hint, Restart and Levels at scale 1. They are about 28 px tall (22 to 28 px), drawn on 2 px cells with 4 px main strokes. A wide sign can be wider (Hint is 41 px), but not taller. The top bar's Journal and Hint are drawn apart from the strip's, so the two sets don't have to look alike.
-- **Hard pixels only.** Use axis-aligned blocks with no anti-aliasing, no soft alpha, no gradients and no curves. Draw curves and slants as stair-steps. For a slant to read the same weight as a straight line, make its steps a little thicker, because a 1-dot stair looks thinner than a 1-dot straight line. That is why `SIGNS` in `tools/menu_images.py` draw straight lines one dot wide and slants two dots wide.
+- **Hard pixels only.** Use axis-aligned blocks with no anti-aliasing, no soft alpha, no gradients and no curves. Draw curves and slants as stair-steps. For a slant to read the same weight as a straight line, make its steps a little thicker, because a 1-dot stair looks thinner than a 1-dot straight line. That is why `SIGNS` in `.claude/skills/make-artwork/menu_images.py` draw straight lines one dot wide and slants two dots wide.
 - **Scale by whole numbers with nearest-neighbour**, and use `image-rendering: pixelated` in mockups. Never shrink a pixel icon by a fraction. Halving a 2 px-dot icon into a 1 px one makes thin strokes that don't match anything. If an icon is needed at another size, draw it again on that size's grid.
 - **Two colours.** Ink is `(46, 29, 16)` `#2e1d10` on papyrus `(226, 208, 166)` `#e2d0a6`. Draw the icon in ink on a transparent background, and let the UI tint it (mockups use it as a CSS mask on `currentColor`). Accent colours come from the theme, not from the PNG.
 - **Silhouette first.** The icon should be recognisable from its outer shape at 1x. Prefer the Egyptian sign for the idea when there is a fitting one, such as 𓁿 for the hint, simplified to the grid. A plain object works too, as the journal's scroll does. Draw a sign from its New Gardiner form (Gardiner's sign-list drawing), not from Noto Sans Egyptian Hieroglyphs or another default font. Drop detail that only works when zoomed in.
@@ -54,8 +56,8 @@ To see the actual shapes, render some text with PIL (`ImageFont.truetype(..., 16
 
 ### Where it lives
 
-- Icons are drawn as `#`/`.` rows in `tools/menu_images.py`. `ICONS` are written at scale 4 (1 dot = 4 px) and `SIGNS` at scale 2. The script writes them to `godot/assets/ui/icon_<name>.png`. Add new icons there as rows, not as hand-edited PNGs, so they stay on the grid and can be redrawn.
-- Glyphs added to the font itself (arrows, the middle dot) are in `tools/oldfax_glyphs.py`, on the font's own grid.
+- Icons are drawn as `#`/`.` rows in `.claude/skills/make-artwork/menu_images.py`. `ICONS` are written at scale 4 (1 dot = 4 px) and `SIGNS` at scale 2. The script writes them to `godot/assets/ui/icon_<name>.png`. Add new icons there as rows, not as hand-edited PNGs, so they stay on the grid and can be redrawn.
+- Glyphs added to the font itself (arrows, the middle dot) are in `.claude/skills/make-artwork/oldfax_glyphs.py`, on the font's own grid.
 - Mockups embed icons as base64 PNGs, for example `A.nav` in `mockups/strip-layouts.html`. Follow AGENTS.md: only touch `mockups/` when the user asks.
 
 ### Checking it

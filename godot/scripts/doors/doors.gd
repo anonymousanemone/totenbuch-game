@@ -1,6 +1,6 @@
 ## The doors of the sky (spell 161): a walk level whose door swings open as you come to it, and leads into the hall.
 ## The two leaves swing in onto dark ink while the four Thoths lean back holding their bars (the sheets are made by
-## tools/thoth_doors.py swing). While the door is shut the plate is the saved strip and figures. `Pieces` (the dark
+## .claude/skills/make-artwork/thoth_doors.py swing). While the door is shut the plate is the saved strip and figures. `Pieces` (the dark
 ## backing, the leaves and the Thoths, drawn opaque by figure.gdshader) is shown from the moment the door starts to
 ## open, and the flat drawings it stands in for are hidden then, though a click still reads them.
 ## Once it is open, light swells from a slit down the middle of the opening (the light that closes the procession),

@@ -13,9 +13,9 @@
 ## of the furthest it reached. Once the whole line is drawn the jar settles where it is drawn.
 ##
 ## The priest is his body and his forearm with the jar (water_priest_body, water_priest_arm, from
-## tools/sheets.py procession --parts): the arm is a child of the body, placed at the elbow (drawn on
+## .claude/skills/make-artwork/sheets.py procession --parts): the arm is a child of the body, placed at the elbow (drawn on
 ## both), and turns about it by the tilt. The stream is the sprite water_stream, with its path
-## beside it (water_path), cut by tools/cut_procession300.py; positions (`water` in level.json)
+## beside it (water_path), cut by .claude/skills/build-levels/extract_procession300.py; positions (`water` in level.json)
 ## are strip pixels.
 class_name PourWater
 extends Node2D

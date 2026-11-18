@@ -1,0 +1,175 @@
+{
+ "16": {
+  "skip": "done by hand: art/dangers31-42.mdp"
+ },
+ "17": {
+  "skip": "done by hand: art/dangers31-42.mdp"
+ },
+ "18": {
+  "skip": "done by hand: art/dangers31-42.mdp"
+ },
+ "19": {
+  "add": [
+   [
+    1530,
+    1880
+   ]
+  ],
+  "drop": [
+   0
+  ],
+  "skip": "done by hand: art/dangers31-42.mdp"
+ },
+ "20": {
+  "skip": "whole plates: .claude/skills/splice-plates/strips/pages.py"
+ },
+ "21": {
+  "skip": "whole plates: .claude/skills/splice-plates/strips/pages.py"
+ },
+ "22": {
+  "seps": [
+   686
+  ],
+  "skip": "whole plates: .claude/skills/splice-plates/strips/pages.py"
+ },
+ "23": {
+  "skip": "whole plates: .claude/skills/splice-plates/strips/pages.py"
+ },
+ "27": {
+  "add": [
+   [
+    1062,
+    1480
+   ]
+  ]
+ },
+ "31": {
+  "add": [
+   [
+    755,
+    1075
+   ]
+  ]
+ },
+ "36": {
+  "dropall": true
+ },
+ "37": {
+  "add": [
+   [
+    350,
+    787
+   ]
+  ]
+ },
+ "41": {
+  "skip": "full-page vignette (spell 110), not a strip"
+ },
+ "50": {
+  "skip": "full-page vignette (spell 125), not a strip"
+ },
+ "59": {
+  "dropall": true
+ },
+ "61": {
+  "skip": "whole plates: .claude/skills/splice-plates/strips/pages.py"
+ },
+ "62": {
+  "skip": "whole plates: .claude/skills/splice-plates/strips/pages.py"
+ },
+ "63": {
+  "skip": "whole plates: .claude/skills/splice-plates/strips/pages.py"
+ },
+ "64": {
+  "skip": "whole plates: .claude/skills/splice-plates/strips/pages.py"
+ },
+ "65": {
+  "skip": "whole plates: .claude/skills/splice-plates/strips/pages.py"
+ },
+ "66": {
+  "skip": "whole plates: .claude/skills/splice-plates/strips/pages.py"
+ },
+ "70": {
+  "skip": "full-page vignette (spell 148), not a strip"
+ },
+ "71": {
+  "skip": "whole plates: .claude/skills/splice-plates/strips/pages.py"
+ },
+ "72": {
+  "add": [
+   [
+    75,
+    545,
+    241,
+    479
+   ],
+   [
+    545,
+    945,
+    241,
+    479
+   ],
+   [
+    945,
+    1332,
+    241,
+    479
+   ]
+  ],
+  "skip": "whole plates: .claude/skills/splice-plates/strips/pages.py"
+ },
+ "73": {
+  "drop": [
+   0,
+   1,
+   2,
+   3
+  ],
+  "skip": "whole plates: .claude/skills/splice-plates/strips/pages.py"
+ },
+ "75": {
+  "add": [
+   [
+    412,
+    750
+   ],
+   [
+    1388,
+    1870
+   ]
+  ]
+ },
+ "76": {
+  "add": [
+   [
+    975,
+    1225
+   ],
+   [
+    1451,
+    1580
+   ],
+   [
+    1592,
+    1843
+   ]
+  ]
+ },
+ "14": {
+  "drop": [
+   3
+  ]
+ },
+ "47": {
+  "skip": "text only"
+ },
+ "48": {
+  "skip": "text only"
+ },
+ "49": {
+  "skip": "text only"
+ },
+ "69": {
+  "skip": "text only"
+ }
+}

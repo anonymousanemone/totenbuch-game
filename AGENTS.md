@@ -1,14 +1,17 @@
 # Project instructions
 
-- Project skills live in `.claude/skills/<name>/SKILL.md`: `build-levels` (building a level from an `.mdp`), `suggest-games` (proposing puzzles and minigames), `cite-references` (citing sources in registries and the Scene Atlas), `splice-plates` (rotating and splicing plates into a new `.mdp`), `make-artwork` (scroll art that keeps the original drawing, UI art that matches the Old Fax font) and `write-notion` (rules for writing to the Totenbuch Tasks database in Notion). Read the matching one before starting that kind of work.
-- Only create or save files in `mockups/` when the user explicitly requests it. Put temporary screenshots, previews, and verification artifacts in a temporary directory outside the repository instead.
+- Project skills live in `.claude/skills/<name>/SKILL.md`: `build-levels` (building a level from an `.mdp`), `suggest-games` (proposing puzzles and minigames), `cite-references` (citing sources in registries and the Scene Atlas), `splice-plates` (rotating and splicing plates into a new `.mdp`), `make-artwork` (scroll art that keeps the original drawing, UI art that matches the Old Fax font), `draft-ui` (HTML drafts with several tunable versions before any UI is built) and `write-notion` (rules for writing to the Totenbuch Tasks database in Notion). Read the matching one before starting that kind of work.
+- Art follows `project-docs/style-guide.md` and the art skills, with no exceptions unless the user explicitly approves one. The user may approve an exception at any time; record it in the style guide's Approved exceptions table.
+- Only create or save files in `mockups/` when the user explicitly requests it, or for a new UI draft made with the `draft-ui` skill. Put temporary screenshots, previews, and verification artifacts in a temporary directory outside the repository instead.
 - Leave existing files in `mockups/` untouched unless the user requests changes or cleanup.
 
 ## Rebuilding assets
 
 - Never rebuild, re-cut or regenerate assets under `godot/assets/` (or the scenes they feed) unless the user explicitly asks. Fixing, merging or refactoring a tool does not mean running it on the real repository.
-- The tools are used in a targeted way: something specific changed in the art, so rebuild only that item (for example `cut_dangers300.py ... ankh38`, `build_scene.py gates`, one `cut_procession300.py --water`), never the whole level or every level. Name what will be rebuilt and wait for the request.
+- The tools are used in a targeted way: something specific changed in the art, so rebuild only that item (for example `extract_dangers300.py ... ankh38`, `build_scene.py gates`, one `extract_procession300.py --water`), never the whole level or every level. Name what will be rebuilt and wait for the request.
+- Built artwork is stable: once a level's art is fully built it is rarely, if ever, rebuilt, and when it is, the user says so explicitly. Dangers, Procession, Survival and Gates are stable. Build and export tools never regenerate a derived image as a side effect (a body/arm split, a sheet, a figure merged from its pieces): what another tool made, or a hand made, is left as it is.
 - To check a tool, run it on a copy in a temporary directory outside the repository and compare. Never write into `art/`.
+- Animation sheets are generated once (e.g. by `spearers.py`, `snakes.py`, `sheets.py`, `thoth_doors.py` in the `make-artwork` skill), then hand-edited and approved. Once approved, an animation is never regenerated unless the user explicitly asks. Animation generators are never wired into a build or export tool; they run only on their own, by request.
 
 ## Tests
 

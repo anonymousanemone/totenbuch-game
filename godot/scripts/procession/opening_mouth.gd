@@ -12,6 +12,7 @@ extends Node2D
 const PUZZLES := preload("res://scripts/puzzles.gd")
 
 signal said(who: String, text: String)
+signal instructed(who: String, text: String)
 signal changed
 
 enum Phase { START, ADZE, SPOKEN, WORDS, DONE }
@@ -267,7 +268,7 @@ func touch() -> void:
 	adze_object.interaction_mode = MoveableObject.InteractionMode.TOOL_USE
 	active = true
 	_clear_face()
-	said.emit("Anubis", PUZZLES.text("procession.opening_mouth", "instructions"))
+	instructed.emit("Anubis", PUZZLES.text("procession.opening_mouth", "instructions"))
 	changed.emit()
 
 

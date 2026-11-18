@@ -21,6 +21,7 @@ extends Node2D
 const PUZZLES := preload("res://scripts/puzzles.gd")
 
 signal said(who: String, text: String)
+signal instructed(who: String, text: String)
 signal finished
 
 enum Phase { IDLE, OPENING, READY, PLAYING, CLOSING }
@@ -160,7 +161,7 @@ func start() -> void:
 	_tween = create_tween()
 	_tween.tween_method(_open, 0.0, 1.0, OPEN).set_trans(Tween.TRANS_SINE)
 	_tween.tween_callback(_begin)
-	_say("Ox-driver", PUZZLES.text("procession.haul", "instructions"))
+	instructed.emit("Ox-driver", PUZZLES.text("procession.haul", "instructions"))
 
 
 ## Let go of the rope: the train stands where it stalled, and you can take it up again.

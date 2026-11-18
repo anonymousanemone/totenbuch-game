@@ -23,6 +23,7 @@ extends Node2D
 const PUZZLES := preload("res://scripts/puzzles.gd")
 
 signal said(who: String, text: String)
+signal instructed(who: String, text: String)
 signal finished
 
 enum Flow { NONE, DRIP, POUR, GUSH }
@@ -134,7 +135,7 @@ func enter() -> void:
 	rng.randomize()
 	_spin = 0.0
 	_droop_left = 0.0
-	said.emit("Priest with jar", PUZZLES.text("procession.water", "instructions"))
+	instructed.emit("Priest with jar", PUZZLES.text("procession.water", "instructions"))
 
 
 ## Step away: what is drawn of the line dries back a little, no further.

@@ -1,7 +1,7 @@
 ## Screen-space interface: a title bar and the scribe's strip under the scene, both deep papyrus
-## and each set off from the scene by the scroll's own frame band. The strip holds the last line said (its speaker as a tag on the
-## band), what you carry, and the Journal and Hint buttons; the Journal opens as a page over the
-## scene. Built in code so the level scenes stay small. Each level passes its own titles and texts
+## and each set off from the scene by the scroll's own frame band. The strip shows the current
+## message, its speaker tag, carried items, and the Journal and Hint buttons. The Journal opens
+## over the scene. Built in code so the level scenes stay small. Each level passes its own titles and texts
 ## to setup(). Its look (palette, font, band, icons) is in ui.gd.
 extends CanvasLayer
 
@@ -11,6 +11,9 @@ signal menu_pressed
 
 const PUZZLES := preload("res://scripts/puzzles.gd")
 const TOP_BAR := 46.0         ## the title bar, without its band
+const MESSAGE_SECONDS := 5.0
+const AFTER_DRAG_SECONDS := 3.0
+const MESSAGE_FADE := 0.25
 const STRIP := 130.0          ## the scribe's strip, its band included
 const BOXED := false          ## the band also down the screen's sides and along its bottom, round the strip
 const EDGE := 12.0            ## that band, which has ink only on the strip's side
@@ -41,6 +44,10 @@ var _journal_scroll: ScrollContainer
 var _overlay_layouts: Array = []
 var _revision := 0
 var _title_label: Label
+var _expiry: Tween
+var _description_item: MoveableObject
+var _instructions := {}
+var _showing_instructions := false
 var _flash: Tween              ## a success line turning green and back
 
 
@@ -103,6 +110,9 @@ func dismiss_intro() -> void:
 
 
 func reset_view() -> void:
+	_revision += 1
+	_instructions.clear()
+	_show_line("", "", "default")
 	_journal_entries.clear()
 	for c in _journal_grid.get_children():
 		c.queue_free()
@@ -113,7 +123,85 @@ func reset_view() -> void:
 	_sync_pause()
 
 
-func say(who: String, text: String, category := "default") -> void:
+func say(who: String, text: String, category := "default", seconds := MESSAGE_SECONDS,
+		item: MoveableObject = null) -> void:
+	_revision += 1
+	_show_line(who, text, category)
+	if who == "Hint" or category == "hint" or seconds < 0.0:
+		return
+	if is_instance_valid(item) and item.transport_mode == MoveableObject.TransportMode.DRAG_DROP:
+		_description_item = item
+		item.state_changed.connect(_description_state_changed)
+		if item.state == MoveableObject.State.HELD:
+			return
+	_start_expiry(seconds)
+
+
+func say_instructions(who: String, text: String, category := "default", active := Callable()) -> void:
+	if active.is_valid():
+		set_instructions(who, text, category, active)
+	say(who, text, category, -1.0)
+	_showing_instructions = active.is_valid()
+
+
+func set_instructions(who: String, text: String, category: String, active: Callable) -> void:
+	_instructions = {"who": who, "text": text, "category": category, "active": active}
+
+
+func _description_state_changed(previous: MoveableObject.State, current: MoveableObject.State) -> void:
+	if current == MoveableObject.State.HELD:
+		_cancel_expiry()
+	elif previous == MoveableObject.State.HELD:
+		_start_expiry(AFTER_DRAG_SECONDS)
+
+
+func _cancel_expiry() -> void:
+	if _expiry:
+		_expiry.kill()
+		_expiry = null
+	_tag.modulate.a = 1.0
+	_say.modulate.a = 1.0
+
+
+func _start_expiry(seconds: float) -> void:
+	_cancel_expiry()
+	_expiry = create_tween().set_pause_mode(Tween.TWEEN_PAUSE_STOP)
+	_expiry.tween_interval(seconds)
+	_expiry.tween_property(_tag, "modulate:a", 0.0, MESSAGE_FADE)
+	_expiry.parallel().tween_property(_say, "modulate:a", 0.0, MESSAGE_FADE)
+	_expiry.tween_callback(_finish_expiry)
+
+
+func _finish_expiry() -> void:
+	_expiry = null
+	if not _instructions.is_empty() and _instructions.active.is_valid() and _instructions.active.call():
+		_show_line(_instructions.who, _instructions.text, _instructions.category)
+		_showing_instructions = true
+	else:
+		_instructions.clear()
+		_show_line("", "", "default")
+
+
+func _process(_delta: float) -> void:
+	if not _instructions.is_empty() and (not _instructions.active.is_valid() or not _instructions.active.call()):
+		end_instructions()
+
+
+func end_instructions() -> void:
+	if _instructions.is_empty():
+		return
+	var showing := _showing_instructions
+	_instructions.clear()
+	if showing:
+		_start_expiry(0.0)
+
+
+func _show_line(who: String, text: String, category: String) -> void:
+	_showing_instructions = false
+	_cancel_expiry()
+	if is_instance_valid(_description_item):
+		_description_item.state_changed.disconnect(_description_state_changed)
+	_description_item = null
 	# Hint-button messages take precedence over the surrounding gameplay context.
 	if who == "Hint":
 		category = "hint"
@@ -126,7 +214,6 @@ func say(who: String, text: String, category := "default") -> void:
 	_text = UI.plain(text)
 	_tag_label.text = who
 	_tag.visible = who != ""
-	_revision += 1
 	_say.text = _keys(_text)   # always at the dialogue size (two font pixels to a screen pixel), never paged
 
 

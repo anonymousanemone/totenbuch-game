@@ -227,10 +227,14 @@ func _ready() -> void:
 	haul = $Pieces/Hauling
 	haul.setup(_pieces.ox, $Papyrus.material, self, $Strip.get_index() + 1, _authored)
 	haul.said.connect(say_game)
+	haul.instructed.connect(func(who: String, text: String):
+		_instruct_game(who, text, func(): return haul.active and haul.phase != haul.Phase.CLOSING and not haul.done))
 	haul.finished.connect(_check)
 	ending = $Pieces/Ending
 	ending.setup(level, _authored, avatar)
 	ending.said.connect(say_game)
+	ending.instructed.connect(func(who: String, text: String):
+		_instruct_game(who, text, func(): return ending.imprint_shown and not ending.complete()))
 	ending.changed.connect(func():
 		_check()
 		_render())
@@ -238,16 +242,22 @@ func _ready() -> void:
 	water = $Pieces/Water
 	water.setup(level, "res://assets/procession/figures/%s.png", _authored)
 	water.said.connect(say_game)
+	water.instructed.connect(func(who: String, text: String):
+		_instruct_game(who, text, func(): return water.active and not solved.t5))
 	water.finished.connect(_check)
 	bulls = $Pieces/Bulls
 	bulls.setup(level, _authored)
 	bulls.said.connect(say_game)
+	bulls.instructed.connect(func(who: String, text: String):
+		_instruct_game(who, text, func(): return bulls.active and not solved.t8))
 	bulls.finished.connect(_check)
 	mouth = $Pieces/OpeningMouth
 	mouth.setup(level, _authored, avatar)
 	for item in ending.objects.values() + offerings.objects.values() + standard_objects.values() + [mouth.adze_object, mouth.words_object, bulls.plumes_object]:
-		item.description_requested.connect(_describe_object)
+		item.description_requested.connect(_describe_object.bind(item))
 	mouth.said.connect(say_game)
+	mouth.instructed.connect(func(who: String, text: String):
+		_instruct_game(who, text, func(): return mouth.active and not solved.t6))
 	mouth.changed.connect(func():
 		avatar.keys = not mouth.active
 		if mouth.active:
@@ -317,7 +327,9 @@ func reset() -> void:
 	avatar.position = Vector2(start_x, ground)
 	avatar.facing = -1
 	hud.reset_view()
-	say("Scribe", PUZZLES.message("view.start" if Scroll.viewing else "procession.start"))
+	var introduction := PUZZLES.message("view.start" if Scroll.viewing else "procession.start")
+	_last_said = introduction
+	hud.say_instructions("Scribe", introduction)
 	if Scroll.viewing:
 		_restore_all()
 	_render()
@@ -410,11 +422,11 @@ func _unhandled_input(event: InputEvent) -> void:
 		_click_world(get_global_mouse_position())
 
 
-func _describe_object(object_id: String, description_key: String) -> void:
+func _describe_object(object_id: String, description_key: String, item: MoveableObject) -> void:
 	if _descriptions.entries.has(description_key):
-		_descriptions.show(description_key, hud, _description_variant(description_key))
+		_descriptions.show(description_key, hud, _description_variant(description_key), false, item)
 	elif object_id == "plumes":
-		_descriptions.show("plumed_ox", hud, _description_variant("plumed_ox"))
+		_descriptions.show("plumed_ox", hud, _description_variant("plumed_ox"), false, item)
 	else:
 		# Missing individual descriptions are left for the content author.
 		var label: String = EndingStand.NAMES.get(object_id, NAMES.get(object_id, object_id.replace("_", " ")))
@@ -422,7 +434,7 @@ func _describe_object(object_id: String, description_key: String) -> void:
 			label = "the adze" if object_id == "mouth_adze" else "the words"
 		if offerings.objects.has(object_id):
 			label = offerings.name_of(object_id)
-		say_game(label.capitalize(), label.capitalize())
+		say_game(label.capitalize(), label.capitalize(), item)
 
 
 func _begin_carried(item: MoveableObject, p: Vector2) -> void:
@@ -558,7 +570,7 @@ func _view_click(h: Dictionary, p: Vector2) -> void:
 			var jar: Dictionary = hotspots.filter(func(s): return s.id == "priest_with_jar")[0]
 			walk_then(avatar.reach(jar.rect), _view_record.bind(jar))
 		"ending":
-			walk_then(avatar.reach(ending.place_rect() if h.id == "place" else ending.rect_of(h.id)), _describe_object.bind("stand", "stand"))
+			walk_then(avatar.reach(ending.place_rect() if h.id == "place" else ending.rect_of(h.id)), _describe_object.bind("stand", "stand", ending.objects["stand"]))
 		_:
 			walk_then(p.x)
 
@@ -838,14 +850,14 @@ func _bulls_press(p: Vector2) -> void:
 	if bulls.plumes_object.locked_in_place and bulls.plumes_object.contains_point(p):
 		bulls.plumes_object.request_description()
 		return
+	var b := bulls.pick(p)
 	var subject := _bull_subject_at(p)
 	if subject != "":
 		var h: Dictionary = hotspots.filter(func(spot): return spot.id == subject)[0]
 		h.rect = _hot_rect(subject)
 		var content := _descriptions.line(subject, _description_variant(subject))
-		say_game(content.speaker, content.text)
+		say_game(content.speaker, content.text, bulls.plumes_object if b == "plumes" else null)
 		_add_journal(h)
-	var b := bulls.pick(p)
 	if b != "":
 		bulls.press(b, p)
 		_set_hover({})
@@ -900,7 +912,7 @@ func _table_now() -> void:
 	avatar.facing = -1
 	_set_hover({"type": "hot", "spot": _reader, "rect": _reader.rect})
 	if not solved.t3:
-		say_game("Lector priest", PUZZLES.text("procession.offerings", "instructions"))
+		_instruct_game("Lector priest", PUZZLES.text("procession.offerings", "instructions"), func(): return in_table and not solved.t3)
 
 
 ## Step away from the table (Esc, or walking off): what you hold goes back; nothing is lost.
@@ -1080,7 +1092,7 @@ func enter_standards() -> void:
 		avatar.facing = 1 if stand == left else -1
 		_standards_view = Vector2(left - 60.0 * unit, right + 60.0 * unit)
 		in_standards = true
-		say_game("Standard-bearers", PUZZLES.text("procession.standards", "instructions")))
+		_instruct_game("Standard-bearers", PUZZLES.text("procession.standards", "instructions"), func(): return in_standards and not solved.t2))
 
 
 func leave_standards() -> void:
@@ -1257,7 +1269,7 @@ func act_ending(id: String) -> void:
 		if ending.held != "":
 			ending.set_down()
 		else:
-			_describe_object("stand", "stand")
+			_describe_object("stand", "stand", ending.objects["stand"])
 	elif not ending.imprint_shown:   # not before the stela shows what they are for
 		say_game(EndingStand.TAGS[id], PUZZLES.text("procession.offering_stand", "feedback", "not_ready_to_collect"))
 	elif _hands_full():
@@ -1605,9 +1617,14 @@ func _cap(s: String) -> String:
 	return s.left(1).to_upper() + s.substr(1)
 
 
-func say_game(who: String, text: String) -> void:
+func _instruct_game(who: String, text: String, active: Callable) -> void:
 	_last_said = text
-	hud.say(who, text, "minigame")
+	hud.say_instructions(who, text, "minigame", active)
+
+
+func say_game(who: String, text: String, item: MoveableObject = null) -> void:
+	_last_said = text
+	hud.say(who, text, "minigame", hud.MESSAGE_SECONDS, item)
 
 
 func say(who: String, text: String) -> void:

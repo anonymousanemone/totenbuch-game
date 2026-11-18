@@ -19,6 +19,7 @@ extends Node2D
 const PUZZLES := preload("res://scripts/puzzles.gd")
 
 signal said(who: String, text: String)
+signal instructed(who: String, text: String)
 signal finished
 
 const SNAP := 60.0            ## strip px from their place on his head that the plumes still go on
@@ -122,7 +123,7 @@ func enter() -> void:
 	if done:
 		return
 	active = true
-	said.emit("Scribe", PUZZLES.text("procession.bulls", "instructions"))
+	instructed.emit("Scribe", PUZZLES.text("procession.bulls", "instructions"))
 
 
 func leave() -> void:

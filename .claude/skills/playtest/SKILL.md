@@ -19,7 +19,7 @@ Its brief says: you are playing an unknown game for the first time, think aloud,
 
 ## The driver
 
-The launch flags (`--screenshot=`, `--record=`, `--autotest`) can't take one action, return a frame and wait for the next. If no step driver exists yet, build one under `godot/tests/`: it keeps the game running, takes one action at a time, and returns a frame plus the band text with timings. Time passes only when an action or a wait says so, so pacing can be measured. Document it in README.md. Reuse it for every later playtest.
+The launch flags (`--screenshot=`, `--record=`, `--autotest`) can't take one action, return a frame and wait for the next. The step driver (`godot/tests/step_driver.gd`, client `godot/tests/step.py`; README.md, "Playtest step driver") can: it keeps the game running, takes one action at a time, and returns a frame plus the band text with timings. Time passes only when an action or a wait says so, so pacing can be measured. Its replies never name the level, a node or an id, so they can go to the tester as they are. Reuse it for every playtest; the tester is given the commands and nothing about what it will find.
 
 ## Players
 

@@ -79,7 +79,7 @@ func reset() -> void:
 	avatar.max_x = max_x()
 	journal.clear()
 	hud.reset_view()
-	hud.say("Scribe", PUZZLES.message("field.start"))
+	hud.say_instructions("Scribe", PUZZLES.message("field.start"))
 	_update_camera(1.0)
 
 

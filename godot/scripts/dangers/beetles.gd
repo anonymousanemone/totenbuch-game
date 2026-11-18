@@ -235,7 +235,7 @@ func _roach_swarm(r: Dictionary) -> void:
 
 
 func _roach_click(_p: Vector2) -> void:
-	game._feedback_once("controls", game._feedback_text("controls"))
+	game._feedback_once("controls", game._feedback_text("controls"), true)
 
 
 ## Dev (`--croc-bot`): turns toward a beetle that has rested REACT s within reach, and thrusts.

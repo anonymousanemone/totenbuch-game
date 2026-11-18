@@ -413,7 +413,7 @@ func _lunge_window() -> Array:
 
 
 func _lunge_click(_p: Vector2) -> void:
-	game._feedback_once("controls", game._feedback_text("controls"))
+	game._feedback_once("controls", game._feedback_text("controls"), true)
 
 
 ## Dev (`--croc-bot`): thrusts LUNGE_BOT_AIM s after the snap begins, give or take BOT_JITTER s.

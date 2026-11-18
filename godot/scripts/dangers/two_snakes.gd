@@ -257,7 +257,7 @@ func _twin_bites(s: Dictionary) -> void:
 
 
 func _twin_click(_p: Vector2) -> void:
-	game._feedback_once("controls", game._feedback_text("controls"))
+	game._feedback_once("controls", game._feedback_text("controls"), true)
 
 
 ## Dev (`--croc-bot`): turns to the snake whose sign flashes and thrusts TWIN_BOT_AIM s after the

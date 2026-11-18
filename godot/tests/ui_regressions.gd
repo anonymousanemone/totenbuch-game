@@ -42,6 +42,75 @@ func shot(name: String) -> void:
 	root.get_texture().get_image().save_png(image_dir.path_join(name + ".png"))
 
 
+func _message_lifetime(level) -> void:
+	var hud = level.hud
+	var band: float = hud.bottom_height()
+	hud.say("Scribe", "Timed line")
+	hud._expiry.custom_step(4.9)
+	expect(hud._text == "Timed line" and hud._say.modulate.a == 1.0, "ordinary text has five seconds of reading time")
+	hud._expiry.custom_step(0.2)
+	expect(hud._say.modulate.a < 1.0 and is_equal_approx(hud._tag.modulate.a, hud._say.modulate.a)
+		and hud.bottom_height() == band, "tag and text fade together without resizing the band")
+	hud.say("Scribe", "Replacement", "default", -1.0)
+	expect(hud._expiry == null and hud._text == "Replacement" and hud._say.modulate.a == 1.0
+		and hud._tag.modulate.a == 1.0, "a persistent replacement cancels the fade and restores opacity")
+
+	hud.say("Scribe", "Paused line", "default", 0.02)
+	hud.toggle_journal(true)
+	await create_timer(0.32).timeout
+	expect(hud._text == "Paused line" and hud._say.modulate.a == 1.0, "reading the Journal pauses message expiry")
+	hud.toggle_journal(false)
+	await create_timer(0.32).timeout
+	expect(hud._text == "" and not hud._tag.visible, "a duration override expires after play resumes")
+
+	hud.say("Scribe", "Expiring line", "default", 0.01)
+	hud.say_later("Scribe", "Scheduled after clear", 0.04)
+	hud._expiry.custom_step(0.3)
+	await create_timer(0.06).timeout
+	expect(hud._text == "Scheduled after clear", "clearing a line preserves a scheduled follow-up")
+
+	level._table_now()
+	var instructions: String = hud._text
+	hud.say("Scribe", "Temporary feedback")
+	hud.flash_success()
+	hud.say_later("Scribe", "Scheduled after restoration", 0.04)
+	hud._expiry.custom_step(7.0)
+	expect(hud._text == instructions and hud._say.modulate.a == 1.0, "temporary feedback restores active table instructions")
+	await create_timer(0.06).timeout
+	expect(hud._text == "Scheduled after restoration", "restoring instructions preserves a scheduled follow-up")
+	hud.say("Hint", "Hint remains visible")
+	expect(hud._expiry == null, "Hint replaces feedback without expiring")
+	level.leave_table()
+
+	var item: MoveableObject = level.ending.objects["stand"]
+	level.ending.take("stand")
+	item.request_description()
+	var description: String = hud._text
+	expect(hud._expiry != null, "inspecting a carried object uses the ordinary timer")
+	level.ending.hold("stand")
+	item.request_description()
+	expect(hud._expiry == null and hud._text == description, "starting a drag protects the object's description")
+	level.ending.unhold()
+	hud._expiry.custom_step(2.9)
+	expect(hud._text == description and hud._say.modulate.a == 1.0, "ending a drag quietly leaves three seconds to read")
+	hud._expiry.custom_step(0.4)
+	expect(hud._text == "", "the description fades after the post-drag reading time")
+	level.ending.hold("stand")
+	item.request_description()
+	hud.say("Scribe", "Gameplay feedback")
+	level.ending.unhold()
+	hud._expiry.custom_step(3.4)
+	expect(hud._text == "Gameplay feedback" and hud._say.modulate.a == 1.0, "releasing an item does not shorten replacement feedback")
+	level.ending.reset()
+
+	hud.say("Scribe", "Expires before outro", "default", 0.01)
+	hud.show_outro_later("Scheduled outro", 0.04)
+	hud._expiry.custom_step(0.3)
+	await create_timer(0.06).timeout
+	expect(hud._outro.visible, "automatically clearing text preserves a scheduled outro")
+	hud.reset_view()
+
+
 func _run() -> void:
 	for argument in OS.get_cmdline_user_args():
 		if argument.begins_with("--ui-images="):
@@ -111,8 +180,12 @@ func _run() -> void:
 				await frames()
 				expect(level.fight.t == before_time, "Journal freezes active danger timing")
 				hud.toggle_journal(false)
+				hud.say("Scribe", "Fight feedback")
 				level.leave_fight()
+				hud._expiry.custom_step(7.0)
+				expect(hud._text == "", "fight instructions cannot return while its vignette closes")
 			if dimensions.x == 1280 and name == "procession":
+				await _message_lifetime(level)
 				for c in level.CAPTIONS:   # each caption in the top register is a spell's title
 					var at: Vector2 = level._descriptions.box(c.id).get_center()
 					var cap: Dictionary = level._pick(at)

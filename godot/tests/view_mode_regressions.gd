@@ -29,7 +29,13 @@ func _run() -> void:
 	expect(procession.slot.keys().all(func(p): return procession.slot[p] == procession.SLOTS[p].home), "procession: standards stand on their own poles")
 	procession.hud.dismiss_intro()
 	var stand: Rect2 = procession.ending.place_rect()
+	var description := "Stand description for the view test."
+	procession._descriptions.entries["stand"] = {"name": "Stand", "descriptions": {"default": description}}
+	procession.avatar.position.x = clampf(stand.get_center().x, procession.min_x(), procession.max_x())
 	procession._click_world(stand.get_center())
+	for i in 6:
+		await process_frame
+	expect(procession.hud._text == description, "procession: viewing the stand shows its description")
 	expect(not procession.in_table and not procession.in_standards and not procession.haul.active and not procession.water.active \
 		and not procession.bulls.active and procession.ending.worn.is_empty() and procession.ending.held == "", "procession: clicks start no puzzle")
 	procession._check()

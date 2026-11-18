@@ -71,7 +71,7 @@ func reset() -> void:
 	avatar.max_x = max_x()
 	journal.clear()
 	hud.reset_view()
-	hud.say("Scribe", _hints.message("view.start" if Scroll.viewing else "walk.start"))
+	hud.say_instructions("Scribe", _hints.message("view.start" if Scroll.viewing else "walk.start"))
 	_update_camera(1.0)
 
 

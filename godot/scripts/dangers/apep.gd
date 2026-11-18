@@ -521,7 +521,7 @@ func _apep_dies() -> void:
 
 
 func _apep_click(_p: Vector2) -> void:
-	game._feedback_once("controls", game._feedback_text("controls"))
+	game._feedback_once("controls", game._feedback_text("controls"), true)
 
 
 ## When wave `w` reaches the point (s from now).

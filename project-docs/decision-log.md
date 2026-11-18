@@ -94,4 +94,10 @@ Who decided what, session by session: the author's decisions, what was made from
 ## 2026-11-18 · hint level selector draft
 - **Decided:** make a `/draft-ui` mockup comparing the plan's two layouts, bottom band and modal (`.turbo/plans/hint-level-selector.md`).
 - **Made:** `mockups/hint-level-selector.html` (A today, B bottom band, C modal; five real-text cases; 1280 × 720 and 640 × 480).
-- **Agent did:** captured Procession and Dangers screenshots from a patched copy of `godot/` outside the repo; added switches for band and modal text size, choice label size and what the modal covers; Hint icon closes an open selector; band text defaults to 24 px.
+- **Decided:** buttons read Hint 1/2/3, locked ones dashed with no word and no "Choose a hint" line; picking one replaces the buttons with its text; Hint button returns to the buttons; settings bar not sticky; band has no Close or open/close (bottom text, a newer line replaces it); the modal's close button reads just "[esc]"; every option, Find included, is named Hint 1 to n.
+- **Agent did:** captured Procession and Dangers screenshots from a patched copy of `godot/` outside the repo; added switches for band and modal text size, choice label size and what the modal covers; band text defaults to 24 px; Hint on the modal's buttons closes it.
+
+## 2026-11-18 · playtest step driver
+- **Decided:** make the step driver for the `playtest` skill.
+- **Made:** `godot/tests/step_driver.gd`, `godot/tests/step.py`; README "Playtest step driver"; `playtest` skill and `configuration.md` QA row now point to it.
+- **Agent did:** clicks settle 0.3 s, drags 0.6 s; coordinates are frame pixels; game time stands still between commands; real `scroll.cfg` restored after every command; replies never name the level or ids; line reading time 4 words/s + 1 s.

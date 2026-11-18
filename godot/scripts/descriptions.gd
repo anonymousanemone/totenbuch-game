@@ -35,9 +35,10 @@ func line(id: String, variant := "default", spoken := false) -> Dictionary:
 		"text": entry.speech if spoken and entry.has("speech") else text(id, variant)}
 
 
-func show(id: String, hud: CanvasLayer, variant := "default", spoken := false) -> void:
+func show(id: String, hud: CanvasLayer, variant := "default", spoken := false,
+		item: MoveableObject = null) -> void:
 	var content := line(id, variant, spoken)
-	hud.say(content.speaker, content.text)
+	hud.say(content.speaker, content.text, "default", hud.MESSAGE_SECONDS, item)
 
 
 func remember(id: String, hud: CanvasLayer, journal: Array[String], image: Texture2D,

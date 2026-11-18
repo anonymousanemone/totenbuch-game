@@ -20,6 +20,7 @@ extends Node2D
 const PUZZLES := preload("res://scripts/puzzles.gd")
 
 signal said(who: String, text: String)
+signal instructed(who: String, text: String)
 signal changed
 signal ended
 
@@ -232,7 +233,7 @@ func set_down() -> String:
 		return "done"
 	var choice: Array = [held] if held != "" else worn.duplicate()
 	if choice.is_empty():
-		said.emit("Scribe", (PUZZLES.text("procession.offering_stand", "feedback", "instructions_stela") if imprint_shown else PUZZLES.text("procession.offering_stand", "instructions")))
+		instructed.emit("Scribe", (PUZZLES.text("procession.offering_stand", "feedback", "instructions_stela") if imprint_shown else PUZZLES.text("procession.offering_stand", "instructions")))
 		return "empty"
 	for nm in choice:
 		var under: String = RESTS_ON[nm]

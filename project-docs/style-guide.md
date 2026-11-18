@@ -20,7 +20,7 @@ The UI is the scroll's own furniture: papyrus bars, its frame band and a pixel f
 
 **Layout**
 - A **title bar** at the top and the **scribe's strip** at the bottom. Both are deep papyrus, and each is set off from the scene by the scroll's **frame band** (16 px).
-- The strip holds the last line said, with its speaker as a **tag on the band**, what you carry, and **Journal** and **Hint**. Hint always sits with Journal, never with Restart and Levels.
+- The strip shows the current message, with its speaker as a **tag on the band**, what you carry, and **Journal** and **Hint**. Hint always sits with Journal, never with Restart and Levels.
 - The **Journal** opens as a page over the scene, between the bar and the strip.
 - **Minigame view** fills the screen under the title bar, framed by the band, and its camera stays fixed (AGENTS.md).
 

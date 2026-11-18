@@ -139,6 +139,8 @@ func _test_clue() -> void:
 	expect(scene._life_clue_given and scene.hud._text == clue, "one encounter's active-play limit gives the exact clue")
 	scene.say("Scribe", "Routine combat feedback")
 	expect(scene.hud._text == clue, "routine combat feedback cannot immediately overwrite the clue")
+	scene.fight_instructions("Combat controls")
+	expect(scene.hud._text == clue, "combat controls cannot replace a protected clue")
 	scene._life_clue_hold = 0.0
 	scene.say("Scribe", "Later feedback")
 	scene._tick_life(10.0)

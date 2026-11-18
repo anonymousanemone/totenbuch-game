@@ -594,7 +594,7 @@ func _croc_front(c: Dictionary, pos: Vector2, dir: int = 0) -> Rect2:
 
 
 func _crocs_click(_p: Vector2) -> void:
-	game._feedback_once("controls", game._feedback_text("controls_both" if game.fight.both else "controls"))
+	game._feedback_once("controls", game._feedback_text("controls_both" if game.fight.both else "controls"), true)
 
 
 func autotest(e: Dictionary, expect: Callable) -> void:

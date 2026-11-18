@@ -181,3 +181,31 @@ Other flags: `--view` (with `--level=`, the restored scroll to walk and read); `
 `--haul`, `--haul-bot`; `--record=dir --seconds=N`; `--journal`; menu `--screen=map|settings|controls`
 with `--screenshot=path.png`. UI regressions: `--script res://tests/ui_regressions.gd`, plus
 `-- --ui-images=/tmp/totenbuch-ui` to capture screens.
+
+### Playtest step driver
+
+`godot/tests/step_driver.gd` keeps the game running in a window and takes one action at a time, for the
+cold-tester playtests of the `playtest` skill. `godot/tests/step.py` is its client; each call is one
+action and prints one JSON line.
+
+```bash
+python3 godot/tests/step.py start --level=procession   # opens the game; also --view --fresh --size=800x600 --port=N --out=DIR
+python3 godot/tests/step.py look                       # the screen now, no time passes
+python3 godot/tests/step.py click 640 300              # also: move X Y, drag X1 Y1 X2 Y2 [SECONDS], key NAME [SECONDS], wait SECONDS
+python3 godot/tests/step.py stop
+```
+
+- **Time** moves only during an action or a `wait`, 60 frames to the second, and stands still between calls.
+  `t` is the game clock; `took` is how long the action ran. A click lets its effect play for 0.3 s; add `settle=SECONDS` to change it.
+- **Coordinates** are pixels of the returned frame (1280 × 720 unless `--size=`).
+- **Each reply** gives the frame's file, `screen_changed` (any pixel differs from the last reply, so ambient motion
+  counts), `overlay` (`intro`, `journal`, `outro` or `none`), the band's line now and `band_events` since the last
+  reply (`appeared`, `fading`, `cleared`, each with its time; a cleared line adds `shown_for`, `words`, `reading_time`
+  and `cut_short`, measured at 4 words a second plus one), and `controls` (the visible buttons by label and centre).
+  It never names the level, a node or an id.
+- **Files** go to `$TMPDIR/totenbuch-step-<port>/` (`--out=` to change it): one PNG per reply and `log.jsonl`
+  with every command and reply, so a run's log is saved and linked, not pasted. Never point `--out` into the repository.
+- **The real save** (`scroll.cfg`) is put back after every command, so a playtest never changes progress;
+  `--fresh` starts with nothing restored. Without `--level=` it starts at the title page.
+- The window is not redrawn while the driver waits, so it may look frozen between actions.
+- One driver per port; start another with `--port=` and give each `step.py` call the same `--port=N` before the command.

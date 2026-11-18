@@ -527,7 +527,7 @@ func _swarm_approach(a: Sprite2D, dir: int, tilt: float, share: float, ink: Call
 
 
 func _creep_click(_p: Vector2) -> void:
-	game._feedback_once("controls", game._feedback_text("controls"))
+	game._feedback_once("controls", game._feedback_text("controls"), true)
 
 
 ## Dev (`--croc-bot`): a stand-in player who sees a tail shake only REACT s after it starts, then

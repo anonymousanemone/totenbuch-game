@@ -30,6 +30,7 @@ var donkey = DONKEY.new(self)
 var sheaf = SHEAF.new(self)
 
 
+const HUD := preload("res://scripts/hud.gd")
 const SCROLL_CAMERA := preload("res://scripts/scroll_camera.gd")
 const VIEW_TOP := 36.0   ## the row under the top register's upper rule: the title bar's band takes its place
 const DATA_PATH := "res://assets/dangers/level.json"
@@ -38,6 +39,7 @@ const FIGURE_MASK := preload("res://scripts/figure_mask.gd")
 const SHEET_TEX := "res://assets/dangers/animation/spearers.png"
 const ASSET := "res://assets/dangers/figures/%s.png"
 const AFTER_CHOICE := ["e39", "e40", "e41"]
+const LIFE_CLUE_READ_SECONDS := 6.0
 const LIFE_GAME_CLUE := 60.0       ## active seconds in one encounter, across visits
 const LIFE_TOTAL_CLUE := 120.0     ## active seconds across all three encounters
 const LIFE_FLASH := 0.8
@@ -153,7 +155,7 @@ func _ready() -> void:
 		add_child(item)
 		item.setup(id, _picture(actors[id]))
 		item.carriable = true
-		item.description_requested.connect(_describe_item)
+		item.description_requested.connect(_describe_item.bind(item))
 		objects[id] = item
 	var avatar_size: Vector2 = avatar.get_meta("size")
 	rects.avatar = Rect2(avatar.position - Vector2(avatar_size.x / 2.0, avatar_size.y), avatar_size)
@@ -276,7 +278,7 @@ func reset() -> void:
 	avatar.position = Vector2(rects.avatar.get_center().x, ground)
 	avatar.facing = -1
 	hud.reset_view()
-	hud.say("Scribe", _hints.message("view.start" if Scroll.viewing else "dangers.start"))
+	hud.say_instructions("Scribe", _hints.message("view.start" if Scroll.viewing else "dangers.start"))
 	if Scroll.viewing:      # every danger overcome and both signs in the giver's hand, as drawn
 		for e in ENCOUNTERS:
 			solved[e.id] = true
@@ -376,13 +378,13 @@ func _blocked() -> void:
 	say("Scribe", _hints.message("dangers.blocked"))
 
 
-func _describe_item(object_id: String, description_key: String) -> void:
+func _describe_item(object_id: String, description_key: String, item: MoveableObject) -> void:
 	if _descriptions.entries.has(description_key):
-		_descriptions.show(description_key, hud)
+		_descriptions.show(description_key, hud, "default", false, item)
 	else:
 		# Individual item descriptions are not currently in the registry.
 		var label: String = {"ankh38": "Ankh", "sail38": "Breath"}[object_id]
-		say(label, label)
+		say(label, label, item)
 
 
 func _carried_item_input(event: InputEvent) -> bool:
@@ -869,12 +871,12 @@ func hint() -> void:
 
 
 ## In a fight, what the scribe would say is said under the danger's name (`tag`).
-func say(who: String, text: String) -> void:
+func say(who: String, text: String, item: MoveableObject = null, seconds := HUD.MESSAGE_SECONDS) -> void:
 	if _life_clue_hold > 0.0 and who == "Scribe":
 		return
 	if who == "Scribe" and not fight.is_empty():
 		who = fight.e.get("tag", who)
-	hud.say(who, text, "minigame")
+	hud.say(who, text, "minigame", seconds, item)
 
 
 # ---------------------------------------------------------------- fights
@@ -928,12 +930,20 @@ func start_fight(e: Dictionary) -> void:
 		_life_scores.get_or_add(e.id, 0)
 	_stats.get_or_add(e.id, {"attempts": 0, "time": 0.0}).attempts += 1     # each start is an attempt, Esc and back too
 	_journal_fight(e.id)
-	say("Scribe", _hints.text("dangers." + e.id, "instructions"))
+	fight_instructions(_hints.text("dangers." + e.id, "instructions"))
+
+
+func fight_instructions(text: String) -> void:
+	if _life_clue_hold > 0.0:
+		return
+	hud.say_instructions(str(fight.e.get("tag", "Scribe")), text, "minigame", func():
+		return not fight.is_empty() and not fight.get("closing", false) and not fight.get("lost", false))
 
 
 func end_fight() -> void:
 	if endless():
 		return
+	hud.end_instructions()
 	if fight.kind in ARENA_FIGHTS:
 		if not _instant and not fight.get("closing", false):
 			_crocs_close()
@@ -958,6 +968,7 @@ func end_fight() -> void:
 func leave_fight() -> void:
 	if fight.is_empty() or fight.get("closing", false):
 		return
+	hud.end_instructions()
 	_kill_fight_tweens()
 	_life_clue_hold = 0.0
 	var e: Dictionary = fight.e
@@ -1058,12 +1069,15 @@ func _left_fight_line(e: Dictionary) -> String:
 func _feedback_text(key: String) -> String:
 	return _hints.text("dangers." + fight.e.id, "feedback", key)
 
-func _feedback_once(key: String, text: String) -> void:
+func _feedback_once(key: String, text: String, instructions := false) -> void:
 	var told: Dictionary = fight.get("feedback", {})
 	if not told.has(key):
 		told[key] = true
 		fight.feedback = told
-		say("Scribe", text)
+		if instructions:
+			fight_instructions(text)
+		else:
+			say("Scribe", text)
 
 
 func _update_fight(dt: float) -> void:
@@ -1439,8 +1453,8 @@ func _tick_life(dt: float) -> void:
 	_life_total += dt
 	if not _life_clue_given and (_life_times[id] >= LIFE_GAME_CLUE or _life_total >= LIFE_TOTAL_CLUE):
 		_life_clue_given = true
-		say("Scribe", _hints.message("dangers.life_clue"))
-		_life_clue_hold = 6.0
+		say("Scribe", _hints.message("dangers.life_clue"), null, LIFE_CLUE_READ_SECONDS)
+		_life_clue_hold = LIFE_CLUE_READ_SECONDS
 
 
 ## Without either sign the later fights are at their hardest: after as long as the ankh's clue
@@ -1453,8 +1467,8 @@ func _tick_breath(dt: float) -> void:
 	_breath_total += dt
 	if not _breath_clue_given and (_breath_times[id] >= LIFE_GAME_CLUE or _breath_total >= LIFE_TOTAL_CLUE):
 		_breath_clue_given = true
-		say("Scribe", _hints.message("dangers.breath_clue"))
-		_life_clue_hold = 6.0
+		say("Scribe", _hints.message("dangers.breath_clue"), null, LIFE_CLUE_READ_SECONDS)
+		_life_clue_hold = LIFE_CLUE_READ_SECONDS
 
 
 ## The heka signs in the caption of encounter `id` (cut by .claude/skills/build-levels/extract_dangers300.py, one set per vignette).
@@ -1537,6 +1551,7 @@ func _croc_thrust() -> void:
 
 ## Close the vignette again, then finish the fight (or whatever `then` does).
 func _crocs_close(then := Callable()) -> void:
+	hud.end_instructions()
 	fight.closing = true
 	for c in fight.get("crocs", []):
 		if c.s != "thief":

@@ -486,7 +486,7 @@ func _crossings(x: float) -> void:
 	if _was_x >= SPLICE_50_51 and x < SPLICE_50_51 and gate_used:
 		if not upside:
 			upside = true
-			hud.say("Scribe", _hints.message("survival.upside"))
+			hud.say_instructions("Scribe", _hints.message("survival.upside"), "default", func(): return upside and mode == Mode.WALK)
 	# headlong into 52
 	if upside and _was_x >= LINE_51_52 and x < LINE_51_52:
 		_eat_filth()
@@ -617,12 +617,14 @@ func _unhandled_input(event: InputEvent) -> void:
 			return
 		Mode.SCENE:
 			return
-	# a sail he carries: pressed and dragged onto an empty raised hand; only clicked, it is read
+	# A carried sail can be dragged onto an empty raised hand. A click gives it the ordinary reading time.
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 		var at := get_global_mouse_position()
-		if event.pressed and breaths.carried_at(at):
+		var sail: MoveableObject = breaths.carried_at(at)
+		if event.pressed and sail:
 			_press_at = at
-			breaths.start_drag(breaths.carried_at(at), at)
+			breaths.start_drag(sail, at)
+			_descriptions.show("breath_sign", hud, "default", false, sail)
 			return
 		if not event.pressed and breaths.dragging():
 			breaths.drop()
@@ -812,7 +814,7 @@ func _rock_mummy(run: int) -> void:
 		mode = Mode.MUMMY
 		$Figures/Spell45/Mummy.z_index = widen.layer.z_index + 1   # it may fall into the room opened out
 		widen.open(45)
-		hud.say("Scribe", _hints.message("survival.steady45"), "minigame"))
+		hud.say_instructions("Scribe", _hints.message("survival.steady45"), "minigame", func(): return mode == Mode.MUMMY))
 
 
 func _rock45(delta: float) -> void:
@@ -1033,7 +1035,7 @@ func _start57() -> void:
 		avatar.visible = false
 		_set_stream(pieces.spell57_stream, 1.0)
 		_bending = true)
-	hud.say("Scribe", _hints.message("survival.bend"), "minigame")
+	hud.say_instructions("Scribe", _hints.message("survival.bend"), "minigame", func(): return mode == Mode.WATER57)
 
 
 func _water57(delta: float) -> void:

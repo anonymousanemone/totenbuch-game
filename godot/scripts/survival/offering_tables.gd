@@ -188,7 +188,15 @@ func start(sp: int) -> void:
 	t.tween_callback(func():
 		game.avatar.visible = false
 		_begin(sp))
-	game.hud.say("Scribe", game._hints.message("survival.cover52" if sp == 52 else "survival.catch53"), "minigame")
+	game.hud.say_instructions("Scribe", _instructions(sp), "minigame", _in_play.bind(sp))
+
+
+func _instructions(sp: int) -> String:
+	return game._hints.message("survival.cover52" if sp == 52 else "survival.catch53")
+
+
+func _in_play(sp: int) -> bool:
+	return not g.is_empty() and g.sp == sp and game.mode == game.Mode.TABLE
 
 
 ## A fresh game at the seat: all flesh signs, nothing falling, 53's table bare.
@@ -388,6 +396,7 @@ func _place_flesh() -> void:
 ## The last flesh sign: the game is lost, and a was-sceptre with it; it starts again. With none left
 ## he dies at his seat.
 func _lose() -> void:
+	game.hud.end_instructions()
 	g.playing = false
 	var sp: int = g.sp
 	for f in _falling():
@@ -399,7 +408,8 @@ func _lose() -> void:
 		var run: int = game._run
 		game.get_tree().create_timer(1.6).timeout.connect(func():
 			if run == game._run and not g.is_empty() and g.sp == sp:
-				_begin(sp))
+				_begin(sp)
+				game.hud.set_instructions("Scribe", _instructions(sp), "minigame", _in_play.bind(sp)))
 	else:
 		_die(sp)
 
@@ -434,6 +444,7 @@ func _die(sp: int) -> void:
 ## Done: nothing more falls; his hand goes back to where it is drawn and he stands up beside his
 ## chair. The seated man stays, as drawn.
 func _win() -> void:
+	game.hud.end_instructions()
 	var sp: int = g.sp
 	var r: Dictionary = rigs[sp]
 	g.playing = false
@@ -455,6 +466,7 @@ func _win() -> void:
 func leave() -> void:
 	if g.is_empty():
 		return
+	game.hud.end_instructions()
 	var sp: int = g.sp
 	var r: Dictionary = rigs[sp]
 	g.playing = false

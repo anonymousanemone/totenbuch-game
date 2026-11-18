@@ -381,7 +381,7 @@ func _donkey_place() -> void:
 func _donkey_click(_p: Vector2) -> void:
 	if game._time - game.fight.nag > 4.0:
 		game.fight.nag = game._time
-		game.say("Scribe", game._feedback_text("controls"))
+		game.fight_instructions(game._feedback_text("controls"))
 
 
 ## Dev (`--croc-bot`, and the autotest's trials): steps toward the snake, and thrusts

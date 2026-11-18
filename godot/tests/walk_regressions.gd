@@ -1,4 +1,4 @@
-## Walk-only levels (the Fourteen Mounds, Mouth and Heart): saved scene, navigation, picking, journal and framing.
+## Walk-only levels (the Fourteen Mounds, Mouth and Heart, the Hall, the Doors of the Sky): saved scene, navigation, picking, journal and framing.
 extends SceneTree
 var failures: Array[String] = []
 func _initialize() -> void:
@@ -13,7 +13,7 @@ func frames(count := 4) -> void:
 func _run() -> void:
 	root.content_scale_mode = Window.CONTENT_SCALE_MODE_DISABLED
 	root.content_scale_size = Vector2i.ZERO
-	for key in ["mounds", "mouth", "hall"]:
+	for key in ["mounds", "mouth", "hall", "doors"]:
 		for dimensions in [Vector2i(1280, 720), Vector2i(800, 600)]:
 			root.size = dimensions
 			var scene = load("res://scenes/%s.tscn" % key).instantiate()

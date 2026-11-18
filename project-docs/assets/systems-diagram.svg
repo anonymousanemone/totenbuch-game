@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 740" width="1200" height="740" font-family="Helvetica, Arial, sans-serif" font-size="13" fill="#222">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#333"/>
+    </marker>
+    <marker id="r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#b03a2e"/>
+    </marker>
+  </defs>
+  <rect width="1200" height="740" fill="#ffffff"/>
+
+  <!-- Player -->
+  <rect x="20" y="60" width="200" height="600" rx="8" fill="#f2f2f2" stroke="#555"/>
+  <text x="120" y="88" text-anchor="middle" font-weight="bold" font-size="16">Player</text>
+  <text x="36" y="118" font-weight="bold">Input</text>
+  <text x="36" y="138">walks, clicks figures</text>
+  <text x="36" y="156">drags pieces, beat keys</text>
+  <text x="36" y="174">clicks Min</text>
+  <text x="36" y="192">presses Hint</text>
+  <text x="36" y="250" font-weight="bold">Feedback</text>
+  <text x="36" y="270">scene changes, glow,</text>
+  <text x="36" y="288">green flash, journal note</text>
+  <text x="36" y="306">hint text</text>
+  <text x="36" y="324">Min's line</text>
+
+  <!-- World state -->
+  <rect x="270" y="60" width="380" height="600" rx="8" fill="#f4ecd8" stroke="#8a6d3b"/>
+  <text x="460" y="88" text-anchor="middle" font-weight="bold" font-size="16">World state (the game)</text>
+
+  <rect x="290" y="105" width="340" height="110" rx="6" fill="#fff" stroke="#8a6d3b"/>
+  <text x="305" y="128" font-weight="bold">Level scene and scripts</text>
+  <text x="305" y="148">puzzle rules, every solution</text>
+  <text x="305" y="166">valid placements stay, others return</text>
+  <text x="305" y="184">emits events: started, clicked,</text>
+  <text x="305" y="200">  Min clicked, failed, solved, hint</text>
+
+  <rect x="290" y="230" width="340" height="100" rx="6" fill="#fff" stroke="#8a6d3b"/>
+  <text x="305" y="253" font-weight="bold">Data (JSON)</text>
+  <text x="305" y="273">registry.json: descriptions, finished states,</text>
+  <text x="305" y="291">  the 42 confessions (spell 125)</text>
+  <text x="305" y="309">puzzles.json: item state; messages.json</text>
+
+  <rect x="290" y="350" width="340" height="70" rx="6" fill="#fff" stroke="#8a6d3b"/>
+  <text x="305" y="373" font-weight="bold">Save and journal</text>
+  <text x="305" y="393">solved puzzles, journal entries</text>
+
+  <rect x="290" y="440" width="340" height="95" rx="6" fill="#fff" stroke="#8a6d3b"/>
+  <text x="305" y="463" font-weight="bold">Hint button → scripted hint()</text>
+  <text x="305" y="483">scripted baseline</text>
+  <text x="305" y="501">works with the module absent, slow or off</text>
+
+  <text x="460" y="590" text-anchor="middle" font-style="italic">Holds everything, including every solution.</text>
+  <text x="460" y="608" text-anchor="middle" font-style="italic">No base-game script refers to the module.</text>
+
+  <!-- Knowledge boundary -->
+  <line x1="690" y1="45" x2="690" y2="670" stroke="#b03a2e" stroke-width="3" stroke-dasharray="10 6"/>
+  <text x="690" y="22" text-anchor="middle" font-weight="bold" fill="#b03a2e">Knowledge boundary</text>
+  <text x="690" y="42" text-anchor="middle" font-size="11" fill="#b03a2e">only events and a filtered read cross into the module</text>
+
+  <!-- Guide module -->
+  <rect x="730" y="60" width="450" height="600" rx="8" fill="#e3ecf7" stroke="#2f5d9a" stroke-dasharray="6 4"/>
+  <text x="955" y="84" text-anchor="middle" font-weight="bold" font-size="16">Guide module: Min (godot/guides/)</text>
+  <text x="955" y="100" text-anchor="middle" font-size="11">removable; loaded only if present; excluded from release</text>
+
+  <rect x="750" y="112" width="410" height="108" rx="6" fill="#fff" stroke="#2f5d9a"/>
+  <text x="765" y="134" font-weight="bold">1. What Min knows (snapshot)</text>
+  <text x="765" y="154">finished state of each unfinished item</text>
+  <text x="765" y="172">fixed: yes or no per item (no partial progress)</text>
+  <text x="765" y="190">the 42 confessions; citation rate from share fixed</text>
+  <text x="765" y="208">one unfinished item picked at random</text>
+
+  <rect x="750" y="240" width="410" height="90" rx="6" fill="#fff" stroke="#2f5d9a"/>
+  <text x="765" y="262" font-weight="bold">2. Cloud Run proxy → Gemini 3.5 Flash-Lite</text>
+  <text x="765" y="282">proxy holds keys, enforces 40-call cap</text>
+  <text x="765" y="300">timeout 3 s, no retry after timeout</text>
+  <text x="765" y="318">returns { fact_id, line }</text>
+
+  <rect x="750" y="350" width="410" height="110" rx="6" fill="#fff" stroke="#2f5d9a"/>
+  <text x="765" y="372" font-weight="bold">3. Validation</text>
+  <text x="765" y="392">one line, ≤ 180 characters</text>
+  <text x="765" y="410">closed list of names; no stray numbers</text>
+  <text x="765" y="428">never names the target piece or destination</text>
+  <text x="765" y="446">fact_id exists and is Min's; fail → one re-ask</text>
+
+  <rect x="750" y="480" width="200" height="80" rx="6" fill="#fff" stroke="#2f5d9a"/>
+  <text x="765" y="502" font-weight="bold">4a. Line shown</text>
+  <text x="765" y="522">game inserts the</text>
+  <text x="765" y="540">cited confession text</text>
+
+  <rect x="960" y="480" width="200" height="80" rx="6" fill="#fff" stroke="#2f5d9a"/>
+  <text x="975" y="502" font-weight="bold">4b. Scripted line</text>
+  <text x="975" y="522">timeout, failed re-ask,</text>
+  <text x="975" y="540">cap reached, proxy down</text>
+
+  <text x="955" y="592" text-anchor="middle" font-style="italic">Agent action: speak only. Never moves pieces,</text>
+  <text x="955" y="610" text-anchor="middle" font-style="italic">solves, writes the save or opens levels.</text>
+  <text x="955" y="636" text-anchor="middle" font-size="11">Every call logged: session JSONL in user://</text>
+
+  <!-- Player ↔ world -->
+  <line x1="220" y1="140" x2="288" y2="140" stroke="#333" stroke-width="1.5" marker-end="url(#a)"/>
+  <text x="254" y="133" text-anchor="middle" font-size="11">input</text>
+  <line x1="290" y1="190" x2="222" y2="190" stroke="#333" stroke-width="1.5" marker-end="url(#a)"/>
+  <text x="254" y="206" text-anchor="middle" font-size="11">reacts</text>
+  <line x1="220" y1="470" x2="288" y2="470" stroke="#333" stroke-width="1.5" marker-end="url(#a)"/>
+  <text x="254" y="463" text-anchor="middle" font-size="11">Hint</text>
+  <line x1="290" y1="510" x2="222" y2="510" stroke="#333" stroke-width="1.5" marker-end="url(#a)"/>
+  <text x="254" y="526" text-anchor="middle" font-size="11">hint text</text>
+
+  <!-- Crossings into module -->
+  <line x1="630" y1="150" x2="748" y2="150" stroke="#b03a2e" stroke-width="2" marker-end="url(#r)"/>
+  <text x="660" y="143" text-anchor="middle" font-size="11" fill="#b03a2e">events</text>
+  <polyline points="630,270 710,270 710,210 748,210" fill="none" stroke="#b03a2e" stroke-width="2" marker-end="url(#r)"/>
+  <text x="660" y="290" text-anchor="middle" font-size="11" fill="#b03a2e">filtered</text>
+  <text x="660" y="303" text-anchor="middle" font-size="11" fill="#b03a2e">read</text>
+
+  <!-- Module pipeline -->
+  <line x1="955" y1="220" x2="955" y2="238" stroke="#333" stroke-width="1.5" marker-end="url(#a)"/>
+  <line x1="955" y1="330" x2="955" y2="348" stroke="#333" stroke-width="1.5" marker-end="url(#a)"/>
+  <line x1="850" y1="460" x2="850" y2="478" stroke="#333" stroke-width="1.5" marker-end="url(#a)"/>
+  <text x="858" y="473" font-size="10">pass</text>
+  <line x1="1060" y1="460" x2="1060" y2="478" stroke="#333" stroke-width="1.5" marker-end="url(#a)"/>
+  <text x="1068" y="473" font-size="10">fail</text>
+
+  <!-- Back to player -->
+  <polyline points="750,520 740,520 740,700 120,700 120,662" fill="none" stroke="#2f5d9a" stroke-width="2" marker-end="url(#a)"/>
+  <polyline points="1160,520 1170,520 1170,700 740,700" fill="none" stroke="#2f5d9a" stroke-width="2"/>
+  <text x="470" y="722" text-anchor="middle" font-size="12" fill="#2f5d9a">Min's line, in the bottom strip (display only: it changes no game state)</text>
+</svg>

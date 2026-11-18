@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://c23x0nxvc3s3o" path="res://assets/ui/icon_back.png" id="2_ai4fp"]
 [ext_resource type="Texture2D" uid="uid://3lxhm2tba5km" path="res://assets/ui/band_top.png" id="3_0daod"]
 [ext_resource type="Texture2D" uid="uid://dy7wf5lfe5p0e" path="res://assets/menu/procession.png" id="4_p1t5q"]
+[ext_resource type="Texture2D" path="res://assets/menu/prologue.png" id="prologue_picture"]
 [ext_resource type="Texture2D" uid="uid://0pvydmjatq8v" path="res://assets/ui/icon_ankh.png" id="5_4wg3f"]
 [ext_resource type="Texture2D" uid="uid://dorifsxnva3pa" path="res://assets/menu/cosmos.png" id="6_yt8p8"]
 [ext_resource type="Texture2D" uid="uid://cdqx253nbficb" path="res://assets/menu/councils.png" id="7_2l4wu"]
@@ -20,8 +21,6 @@
 [ext_resource type="Texture2D" uid="uid://cqmoovsgcqc0y" path="res://assets/menu/lake.png" id="17_ompfu"]
 [ext_resource type="Texture2D" uid="uid://d4cuopl21dpyh" path="res://assets/menu/gates.png" id="18_pf3rn"]
 [ext_resource type="Texture2D" uid="uid://dqxbm1470a8dm" path="res://assets/menu/mounds.png" id="21_eq53r"]
-[ext_resource type="Texture2D" uid="uid://gslkwamtma4j" path="res://assets/menu/chamber.png" id="22_pxhfl"]
-[ext_resource type="Texture2D" uid="uid://bfagab52u4yxh" path="res://assets/menu/creatures.png" id="23_4f1q7"]
 [ext_resource type="Texture2D" uid="uid://brb5gktoenxyy" path="res://assets/menu/doors.png" id="24_w0u2i"]
 [ext_resource type="Texture2D" uid="uid://dsci8fyy2dv3" path="res://assets/menu/hall.png" id="25_lo0pm"]
 
@@ -670,6 +669,100 @@ vertical_scroll_mode = 3
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 10
+
+[node name="PrologueHeading" type="HBoxContainer" parent="Levels/Acts" unique_id=820334762]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Title" type="Label" parent="Levels/Acts/PrologueHeading" unique_id=1340575423]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5882353, 0.24313726, 0.15686275, 1)
+theme_override_font_sizes/font_size = 16
+text = "Prologue — Guarding the body"
+metadata/font_size = 16
+
+[node name="Band" type="Control" parent="Levels/Acts/PrologueHeading" unique_id=278828180]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+
+[node name="Pattern" type="TextureRect" parent="Levels/Acts/PrologueHeading/Band" unique_id=590045563]
+texture_filter = 1
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+texture = ExtResource("3_0daod")
+stretch_mode = 1
+
+[node name="Prologue" type="HFlowContainer" parent="Levels/Acts" unique_id=1714783451]
+layout_mode = 2
+layout_direction = 3
+theme_override_constants/h_separation = 14
+theme_override_constants/v_separation = 18
+
+[node name="prologue" type="VBoxContainer" parent="Levels/Acts/Prologue" unique_id=1447681356]
+layout_mode = 2
+layout_direction = 2
+focus_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 2
+theme_override_constants/separation = 2
+metadata/key = "prologue"
+
+[node name="Frame" type="PanelContainer" parent="Levels/Acts/Prologue/prologue" unique_id=978595133]
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_uw31b")
+
+[node name="Picture" type="TextureRect" parent="Levels/Acts/Prologue/prologue/Frame" unique_id=1973301846]
+custom_minimum_size = Vector2(220, 140)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("prologue_picture")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Restored" type="TextureRect" parent="Levels/Acts/Prologue/prologue/Frame/Picture" unique_id=1888025402]
+visible = false
+layout_mode = 0
+offset_left = 184.0
+offset_top = 6.0
+offset_right = 184.0
+offset_bottom = 6.0
+mouse_filter = 2
+texture = ExtResource("5_4wg3f")
+
+[node name="Current" type="PanelContainer" parent="Levels/Acts/Prologue/prologue/Frame/Picture" unique_id=418581494]
+layout_mode = 0
+offset_left = 10.0
+offset_top = -16.0
+offset_right = 10.0
+offset_bottom = -16.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_8o6vq")
+
+[node name="Label" type="Label" parent="Levels/Acts/Prologue/prologue/Frame/Picture/Current" unique_id=883794530]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
+theme_override_font_sizes/font_size = 16
+text = "You are here"
+metadata/font_size = 16
+
+[node name="Title" type="Label" parent="Levels/Acts/Prologue/prologue" unique_id=125941267]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.18039216, 0.11372549, 0.0627451, 1)
+theme_override_font_sizes/font_size = 16
+text = "Guarding the Body"
+metadata/font_size = 16
+
+[node name="Spells" type="Label" parent="Levels/Acts/Prologue/prologue" unique_id=1105004628]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
+theme_override_font_sizes/font_size = 16
+text = "Spells 151–154"
+metadata/font_size = 16
 
 [node name="ActIHeading" type="HBoxContainer" parent="Levels/Acts" unique_id=906010679]
 layout_mode = 2
@@ -1794,7 +1887,7 @@ theme_override_constants/separation = 14
 layout_mode = 2
 theme_override_colors/font_color = Color(0.5882353, 0.24313726, 0.15686275, 1)
 theme_override_font_sizes/font_size = 16
-text = "Act VI — Amulets, strange creatures and the finale"
+text = "Act VI — The finale"
 metadata/font_size = 16
 
 [node name="Band" type="Control" parent="Levels/Acts/ActVIHeading" unique_id=765934877]
@@ -1817,134 +1910,6 @@ layout_mode = 2
 layout_direction = 3
 theme_override_constants/h_separation = 14
 theme_override_constants/v_separation = 18
-
-[node name="chamber" type="VBoxContainer" parent="Levels/Acts/ActVI" unique_id=831491698]
-layout_mode = 2
-layout_direction = 2
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 2
-theme_override_constants/separation = 2
-metadata/key = "chamber"
-
-[node name="Frame" type="PanelContainer" parent="Levels/Acts/ActVI/chamber" unique_id=318314942]
-layout_mode = 2
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_koduq")
-
-[node name="Picture" type="TextureRect" parent="Levels/Acts/ActVI/chamber/Frame" unique_id=570961793]
-modulate = Color(1, 1, 1, 0.22)
-custom_minimum_size = Vector2(220, 140)
-layout_mode = 2
-mouse_filter = 2
-texture = ExtResource("22_pxhfl")
-expand_mode = 1
-stretch_mode = 6
-
-[node name="Restored" type="TextureRect" parent="Levels/Acts/ActVI/chamber/Frame/Picture" unique_id=2082577364]
-visible = false
-layout_mode = 0
-offset_left = 184.0
-offset_top = 6.0
-offset_right = 184.0
-offset_bottom = 6.0
-mouse_filter = 2
-texture = ExtResource("5_4wg3f")
-
-[node name="Current" type="PanelContainer" parent="Levels/Acts/ActVI/chamber/Frame/Picture" unique_id=2072313985]
-visible = false
-layout_mode = 0
-offset_left = 10.0
-offset_top = -16.0
-offset_right = 10.0
-offset_bottom = -16.0
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_hweyd")
-
-[node name="Label" type="Label" parent="Levels/Acts/ActVI/chamber/Frame/Picture/Current" unique_id=1842432921]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
-theme_override_font_sizes/font_size = 16
-text = "You are here"
-metadata/font_size = 16
-
-[node name="Title" type="Label" parent="Levels/Acts/ActVI/chamber" unique_id=1880464959]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.56078434, 0.44313726, 0.25882354, 1)
-theme_override_font_sizes/font_size = 16
-text = "Guarding the Body"
-metadata/font_size = 16
-
-[node name="Spells" type="Label" parent="Levels/Acts/ActVI/chamber" unique_id=2037294925]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
-theme_override_font_sizes/font_size = 16
-text = "Spells 151–154"
-metadata/font_size = 16
-
-[node name="creatures" type="VBoxContainer" parent="Levels/Acts/ActVI" unique_id=2027702128]
-layout_mode = 2
-layout_direction = 2
-focus_mode = 2
-mouse_filter = 0
-mouse_default_cursor_shape = 2
-theme_override_constants/separation = 2
-metadata/key = "creatures"
-
-[node name="Frame" type="PanelContainer" parent="Levels/Acts/ActVI/creatures" unique_id=622785704]
-layout_mode = 2
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_yagbt")
-
-[node name="Picture" type="TextureRect" parent="Levels/Acts/ActVI/creatures/Frame" unique_id=2072687028]
-modulate = Color(1, 1, 1, 0.22)
-custom_minimum_size = Vector2(220, 140)
-layout_mode = 2
-mouse_filter = 2
-texture = ExtResource("23_4f1q7")
-expand_mode = 1
-stretch_mode = 6
-
-[node name="Restored" type="TextureRect" parent="Levels/Acts/ActVI/creatures/Frame/Picture" unique_id=568232603]
-visible = false
-layout_mode = 0
-offset_left = 184.0
-offset_top = 6.0
-offset_right = 184.0
-offset_bottom = 6.0
-mouse_filter = 2
-texture = ExtResource("5_4wg3f")
-
-[node name="Current" type="PanelContainer" parent="Levels/Acts/ActVI/creatures/Frame/Picture" unique_id=1595662503]
-visible = false
-layout_mode = 0
-offset_left = 10.0
-offset_top = -16.0
-offset_right = 10.0
-offset_bottom = -16.0
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_ax5sy")
-
-[node name="Label" type="Label" parent="Levels/Acts/ActVI/creatures/Frame/Picture/Current" unique_id=618677820]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.94509804, 0.90588236, 0.8039216, 1)
-theme_override_font_sizes/font_size = 16
-text = "You are here"
-metadata/font_size = 16
-
-[node name="Title" type="Label" parent="Levels/Acts/ActVI/creatures" unique_id=1826716491]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.56078434, 0.44313726, 0.25882354, 1)
-theme_override_font_sizes/font_size = 16
-text = "Strange Creatures"
-metadata/font_size = 16
-
-[node name="Spells" type="Label" parent="Levels/Acts/ActVI/creatures" unique_id=408897916]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.38431373, 0.21960784, 0.05490196, 1)
-theme_override_font_sizes/font_size = 16
-text = "Spells 162–165"
-metadata/font_size = 16
 
 [node name="doors" type="VBoxContainer" parent="Levels/Acts/ActVI" unique_id=590352165]
 layout_mode = 2

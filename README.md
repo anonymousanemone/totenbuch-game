@@ -84,7 +84,7 @@ Runtime creation stays for temporary effects, spawned copies, loose physics bodi
   it when renaming.
 - No source layer number or layer name in a name: that is `source_layer_id` metadata.
 
-**Menus:** `godot/scenes/menus.tscn` is the title page; `godot/scenes/scroll.tscn` is the map (21 level
+**Menus:** `godot/scenes/menu.tscn` is the title page; `godot/scenes/scroll.tscn` is the map (21 level
 cards by act, 1280 × 1686). Keep cards' `key` metadata in sync with `Scroll.SCENES`.
 
 **Procession** (`Pieces/Standards`, `Hauling`, `OfferingTable`, `Water`, `OpeningMouth`, `Ending`):
@@ -128,6 +128,12 @@ Cutters are partial: name what changed and only that is cut into the level alrea
   `dangers.tscn`. Caption signs in the `heka` folder are cut as their own sprites.
 - **Survival:** `python tools/build_scene.py survival` from `art/survival43-63.mdp`.
 - **Gates:** `python tools/build_scene.py gates`.
+- **Prologue (Guarding the Body, 151–154):** `python tools/build_prologue.py [151ab 151c 151de 152 154]`.
+  Each top folder of `art/guardingbody151-154.mdp` is one stage of `scenes/prologue.tscn` (script
+  `scripts/prologue/prologue.gd`, on `walk.gd`): the layer named like the folder is the drawing, the others are
+  that stage's own scroll lines. Stages lie edge to edge on one ground line; only the one being played is shown,
+  and its frame's double lines are walls. A stage done fades to the next; after 154 the prologue is restored
+  and the procession opens. It is played first, and is the first card on the map (its own Prologue heading). `-- --stage=152` starts at a stage.
 
 ## Puzzle text and UI
 

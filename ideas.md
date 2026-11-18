@@ -87,9 +87,13 @@ Design rule throughout: **the end is the Weighing of the Heart (125d).** Every e
 Taken out of scroll order and played **first**, before the procession: a short tutorial built only from what 151–154 draw. The body is laid out, guarded and kept whole, then handed to the funeral procession (1–15), which carries it to the tomb. Each step rehearses one thing the procession asks for.
 
 ### How it's built (atypical)
-- **Five small scenes, one vignette each, not a stretch of one strip.** Each is framed whole by a fixed camera and each teaches its own mechanics. Walking off the left edge fades out and the next scene fades in with the avatar at its right edge. There is no continuous scroll to wander; the order is fixed: **151ab → 151c → 151de → 152 → 154**. 153 (text only, empty vignette box) is left out.
-- **A finished scene flashes green.** When its last step is done, the whole scene flashes green once, then shows as drawn; that is the "done" signal before the way on.
-- **The avatar is the procession's avatar** (`avatar` in `godot/assets/procession/level.json`), the same man the player will be in 1–15. He stands on each scene's ground line at the drawn scale of that scene. [verify] his height against the 151–154 figures; he may need scaling per scene, since 151's registers are short.
+- **One scene, five stages, one vignette each.** Built (2026-11-17): `scenes/prologue.tscn` on `walk.gd` (`scripts/prologue/prologue.gd`), exported by `tools/build_prologue.py` from `art/guardingbody151-154.mdp`, one stage per top folder (the drawing layer plus that stage's own scroll lines). The order is fixed: **151ab → 151c → 151de → 152 → 154**. 153 (text only, empty vignette box) is left out. It is played first, and is the first card on the scroll map, under its own Prologue heading (Strange Creatures, 162–165, is off the map).
+  - In the editor the stages lie edge to edge, as on the plate, all lowered or raised onto one ground line. In play only the stage being played is shown.
+  - **Walls:** both vertical double lines of each frame are uncrossable walls, and they are drawn over the avatar (on papyrus), so a foot that reaches past a wall is hidden behind the frame.
+  - **On to the next stage:** a finished stage fades out and the next fades in, with the avatar inside its right wall. No stage has tasks yet, so for now a stage is done when he reaches its left wall. After 154 the prologue is restored and the procession opens.
+- **A finished scene flashes green.** When its last step is done, the whole scene flashes green once, then shows as drawn; that is the "done" signal before the way on. (Not built yet.)
+- **The avatar is the procession's avatar** (`avatar` in `godot/assets/procession/level.json`), the same man the player will be in 1–15, at the same size: the art stays 1:1.
+- **Framing is the procession's:** the same 665 rows (rows 36–701 of a frame grounded at row 526), so the camera zoom and avatar size match the procession exactly. 151ab, 152 and 154 are framed just as there. 151c and 151de stand on a lower ground (rows 907 and 810), so their bottom rule sits just above the bottom bar and the top of their text is cut off (151c rows 45–292, 151de rows 49–195). In 151c the avatar walks in front of the text.
 - **Taught by highlight and movement.** Outside tutorial moments the scene is shown plainly. What the player should act on is picked out two ways:
   - **Highlight:** only the one thing the current step is about glows (`glow.gdshader`), and it pulses on its own, not just under the pointer. Everything else is still clickable to inspect but doesn't pulse.
   - **Movement:** the thing itself moves to show what to do with it. A piece nudges toward where it goes; a figure turns or leans toward its place; a faint copy of the piece glides from where it lies to where it belongs and fades. The movement is the instruction; the line only names the input.
@@ -177,7 +181,6 @@ Every action follows the same five beats, so the pattern itself becomes familiar
 #### Questions
 - The ghost pointer: use it at all, or only the pieces' own movement (ghost copy, lean, hop)?
 - 152's refusal: give the avatar a wrong thing to carry in, or let refusal go untaught until the goose?
-- Is the avatar scaled to each scene's figures, or kept at procession size with the scene scaled to him?
 
 ---
 

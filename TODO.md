@@ -23,6 +23,21 @@ An avatar walks the whole scroll, completely restored and as the papyrus origina
 
 - [ ] **Restored state for new levels:** each needs its own `restore()` on its puzzle pieces, with its fights, gates and clues switched off while `Scroll.viewing`.
 
+### Prologue — Guarding the Body, spells 151–154 (built as a walk; its lessons are not built yet)
+
+One scene, `scenes/prologue.tscn` (`scripts/prologue/prologue.gd` on `walk.gd`), exported by `tools/build_prologue.py` from `art/guardingbody151-154.mdp`: five stages (151ab, 151c, 151de, 152, 154), one shown at a time, each frame's double lines walls drawn over the avatar, framed exactly like the procession. Played first; the first card on the map, under its own Prologue heading. Design: `ideas.md`, PROLOGUE.
+
+- [ ] **Cut each stage's figures as their own layers** in `art/guardingbody151-154.mdp` (each folder now has one drawing layer, so nothing can be clicked): 151ab the jackal, its shrine and the two mummiform figures; 151c the mummy, the bier and the two goddesses; 151de the jackal, shrine and the two attendants; 152 the woman, her cup and the seated man; 154 the mummy, the bier and the sun disc; and text blocks (b) and (d) as captions. Then export them and add their registry entries.
+- [ ] **Each stage's lesson** (the steps in `ideas.md`), replacing the stand-in: for now a stage is done when the avatar reaches its left wall (`stage_done()` in `prologue.gd`).
+- [ ] **Green flash when a stage is done,** before the fade to the next.
+- [ ] **Teaching cues:** the pulsing highlight, the movement that shows each action, and the spotlight shader (behind the bottom text field) for each action's first time.
+- [ ] **Prologue text:** the intro is a placeholder and the scribe's line is the walk default ("Walk left along the scroll…"); write the prologue's own instruction lines and hints.
+- [ ] **TBD — 154's task:** something the instruction alone makes clear.
+- [ ] **TBD — open questions in `ideas.md`:** use a ghost pointer or only the pieces' own movement; what the avatar carries into 152 so the refusal is seen.
+- [ ] **151c and 151de framing:** with the procession's framing, the top of their text is cut off (151c rows 45–292, 151de rows 49–195). Accepted for now; check it reads well in play.
+- [ ] **Strange Creatures (162–165) is off the map:** decide where it goes, or whether it stays out. Its unused map pictures (`assets/menu/chamber.png`, `creatures.png`) are still in the repo.
+- [x] **Map count:** the map's "N of M restored" counts the prologue, which has no card. Decide whether it should. — *Resolved: the prologue now has its card on the map (picture `assets/menu/prologue.png`, from 151ab).*
+
 ### Procession
 
 #### General

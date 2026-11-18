@@ -1,0 +1,342 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/walk/walk.gd" id="level"]
+[ext_resource type="Script" path="res://scripts/avatar.gd" id="avatar"]
+[ext_resource type="Script" path="res://scripts/hud.gd" id="hud"]
+[ext_resource type="Shader" path="res://scripts/papyrus.gdshader" id="papyrus"]
+[ext_resource type="Texture2D" path="res://assets/doors/figures/strip.png" id="strip"]
+[ext_resource type="Texture2D" path="res://assets/doors/figures/spell161_thoth_1.png" id="spell161_thoth_1"]
+[ext_resource type="Texture2D" path="res://assets/doors/figures/spell161_thoth_1_caption.png" id="spell161_thoth_1_caption"]
+[ext_resource type="Texture2D" path="res://assets/doors/figures/spell161_door_1_caption.png" id="spell161_door_1_caption"]
+[ext_resource type="Texture2D" path="res://assets/doors/figures/spell161_door_2_caption.png" id="spell161_door_2_caption"]
+[ext_resource type="Texture2D" path="res://assets/doors/figures/spell161_thoth_2_caption.png" id="spell161_thoth_2_caption"]
+[ext_resource type="Texture2D" path="res://assets/doors/figures/spell161_thoth_2.png" id="spell161_thoth_2"]
+[ext_resource type="Texture2D" path="res://assets/doors/figures/spell161_thoth_3.png" id="spell161_thoth_3"]
+[ext_resource type="Texture2D" path="res://assets/doors/figures/spell161_thoth_3_caption.png" id="spell161_thoth_3_caption"]
+[ext_resource type="Texture2D" path="res://assets/doors/figures/spell161_door_3_caption.png" id="spell161_door_3_caption"]
+[ext_resource type="Texture2D" path="res://assets/doors/figures/spell161_door_4_caption.png" id="spell161_door_4_caption"]
+[ext_resource type="Texture2D" path="res://assets/doors/figures/spell161_thoth_4_caption.png" id="spell161_thoth_4_caption"]
+[ext_resource type="Texture2D" path="res://assets/doors/figures/spell161_thoth_4.png" id="spell161_thoth_4"]
+[ext_resource type="Texture2D" path="res://assets/hall/figures/spell125_adoring_deceased.png" id="avatar_picture"]
+
+[sub_resource type="ShaderMaterial" id="paper"]
+shader = ExtResource("papyrus")
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell161_thoth_1"]
+size = Vector2(268.0, 436.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell161_thoth_1_caption"]
+size = Vector2(184.0, 260.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell161_door_1_caption"]
+size = Vector2(88.0, 876.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell161_door_2_caption"]
+size = Vector2(108.0, 824.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell161_thoth_2_caption"]
+size = Vector2(176.0, 196.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell161_thoth_2"]
+size = Vector2(244.0, 484.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell161_thoth_3"]
+size = Vector2(256.0, 480.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell161_thoth_3_caption"]
+size = Vector2(152.0, 292.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell161_door_3_caption"]
+size = Vector2(100.0, 696.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell161_door_4_caption"]
+size = Vector2(96.0, 796.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell161_thoth_4_caption"]
+size = Vector2(156.0, 188.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell161_thoth_4"]
+size = Vector2(256.0, 476.0)
+
+[node name="Doors" type="Node2D"]
+script = ExtResource("level")
+level_key = "doors"
+title = "Thoth Opens the Sky"
+intro_title = "Spell 161: Thoth Opens the Doors of the Sky"
+intro_body = "Explore the doors as they are drawn: four Thoths, in two rows, each at a door of the sky.\n\nWalk [b]right to left[/b] with [←] [→] or click the papyrus. Click a figure or its text to walk up to it and read about it. Open the Journal with [j]."
+
+[node name="Papyrus" type="ColorRect" parent="."]
+material = SubResource("paper")
+offset_left = -3834.0
+offset_top = -1000.0
+offset_right = 5164.0
+offset_bottom = 2917.0
+mouse_filter = 2
+metadata/_edit_lock_ = true
+
+[node name="Strip" type="Sprite2D" parent="."]
+texture = ExtResource("strip")
+centered = false
+metadata/_edit_lock_ = true
+
+[node name="Figures" type="Node2D" parent="."]
+
+[node name="Spell161" type="Node2D" parent="Figures"]
+
+[node name="Upper" type="Node2D" parent="Figures/Spell161"]
+
+[node name="spell161_thoth_1" type="Sprite2D" parent="Figures/Spell161/Upper"]
+position = Vector2(902, 544)
+texture = ExtResource("spell161_thoth_1")
+centered = false
+metadata/registry_id = "spell161_thoth_1"
+metadata/source_layer_id = 6
+
+[node name="spell161_thoth_1_caption" type="Sprite2D" parent="Figures/Spell161/Upper"]
+position = Vector2(943, 107)
+texture = ExtResource("spell161_thoth_1_caption")
+centered = false
+metadata/registry_id = "spell161_thoth_1_caption"
+metadata/source_layer_id = 6
+
+[node name="spell161_door_1_caption" type="Sprite2D" parent="Figures/Spell161/Upper"]
+position = Vector2(830, 97)
+texture = ExtResource("spell161_door_1_caption")
+centered = false
+metadata/registry_id = "spell161_door_1_caption"
+metadata/source_layer_id = 6
+
+[node name="spell161_door_2_caption" type="Sprite2D" parent="Figures/Spell161/Upper"]
+position = Vector2(468, 102)
+texture = ExtResource("spell161_door_2_caption")
+centered = false
+metadata/registry_id = "spell161_door_2_caption"
+metadata/source_layer_id = 6
+
+[node name="spell161_thoth_2_caption" type="Sprite2D" parent="Figures/Spell161/Upper"]
+position = Vector2(264, 100)
+texture = ExtResource("spell161_thoth_2_caption")
+centered = false
+metadata/registry_id = "spell161_thoth_2_caption"
+metadata/source_layer_id = 6
+
+[node name="spell161_thoth_2" type="Sprite2D" parent="Figures/Spell161/Upper"]
+position = Vector2(233, 498)
+texture = ExtResource("spell161_thoth_2")
+centered = false
+metadata/registry_id = "spell161_thoth_2"
+metadata/source_layer_id = 6
+
+[node name="Lower" type="Node2D" parent="Figures/Spell161"]
+
+[node name="spell161_thoth_3" type="Sprite2D" parent="Figures/Spell161/Lower"]
+position = Vector2(899, 1402)
+texture = ExtResource("spell161_thoth_3")
+centered = false
+metadata/registry_id = "spell161_thoth_3"
+metadata/source_layer_id = 6
+
+[node name="spell161_thoth_3_caption" type="Sprite2D" parent="Figures/Spell161/Lower"]
+position = Vector2(932, 1037)
+texture = ExtResource("spell161_thoth_3_caption")
+centered = false
+metadata/registry_id = "spell161_thoth_3_caption"
+metadata/source_layer_id = 6
+
+[node name="spell161_door_3_caption" type="Sprite2D" parent="Figures/Spell161/Lower"]
+position = Vector2(806, 1096)
+texture = ExtResource("spell161_door_3_caption")
+centered = false
+metadata/registry_id = "spell161_door_3_caption"
+metadata/source_layer_id = 6
+
+[node name="spell161_door_4_caption" type="Sprite2D" parent="Figures/Spell161/Lower"]
+position = Vector2(476, 1077)
+texture = ExtResource("spell161_door_4_caption")
+centered = false
+metadata/registry_id = "spell161_door_4_caption"
+metadata/source_layer_id = 6
+
+[node name="spell161_thoth_4_caption" type="Sprite2D" parent="Figures/Spell161/Lower"]
+position = Vector2(271, 1074)
+texture = ExtResource("spell161_thoth_4_caption")
+centered = false
+metadata/registry_id = "spell161_thoth_4_caption"
+metadata/source_layer_id = 6
+
+[node name="spell161_thoth_4" type="Sprite2D" parent="Figures/Spell161/Lower"]
+position = Vector2(220, 1403)
+texture = ExtResource("spell161_thoth_4")
+centered = false
+metadata/registry_id = "spell161_thoth_4"
+metadata/source_layer_id = 6
+
+[node name="Avatar" type="Node2D" parent="."]
+position = Vector2(1102, 1868)
+scale = Vector2(0.4, 0.4)
+script = ExtResource("avatar")
+drawn_facing = -1
+
+[node name="Sprite" type="Sprite2D" parent="Avatar"]
+texture = ExtResource("avatar_picture")
+offset = Vector2(0, -580)
+
+[node name="Camera" type="Camera2D" parent="."]
+position = Vector2(1102, 1760)
+
+[node name="HUD" type="CanvasLayer" parent="."]
+script = ExtResource("hud")
+
+[node name="Hitboxes" type="Node2D" parent="."]
+
+[node name="spell161_thoth_1" type="Area2D" parent="Hitboxes"]
+position = Vector2(1032.0, 758.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell161_thoth_1"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell161_thoth_1"]
+shape = SubResource("hitbox_spell161_thoth_1")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell161_thoth_1_caption" type="Area2D" parent="Hitboxes"]
+position = Vector2(1031.0, 233.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell161_thoth_1_caption"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell161_thoth_1_caption"]
+shape = SubResource("hitbox_spell161_thoth_1_caption")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell161_door_1_caption" type="Area2D" parent="Hitboxes"]
+position = Vector2(870.0, 531.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell161_door_1_caption"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell161_door_1_caption"]
+shape = SubResource("hitbox_spell161_door_1_caption")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell161_door_2_caption" type="Area2D" parent="Hitboxes"]
+position = Vector2(518.0, 510.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell161_door_2_caption"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell161_door_2_caption"]
+shape = SubResource("hitbox_spell161_door_2_caption")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell161_thoth_2_caption" type="Area2D" parent="Hitboxes"]
+position = Vector2(348.0, 194.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell161_thoth_2_caption"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell161_thoth_2_caption"]
+shape = SubResource("hitbox_spell161_thoth_2_caption")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell161_thoth_2" type="Area2D" parent="Hitboxes"]
+position = Vector2(351.0, 736.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell161_thoth_2"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell161_thoth_2"]
+shape = SubResource("hitbox_spell161_thoth_2")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell161_thoth_3" type="Area2D" parent="Hitboxes"]
+position = Vector2(1023.0, 1638.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell161_thoth_3"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell161_thoth_3"]
+shape = SubResource("hitbox_spell161_thoth_3")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell161_thoth_3_caption" type="Area2D" parent="Hitboxes"]
+position = Vector2(1004.0, 1179.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell161_thoth_3_caption"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell161_thoth_3_caption"]
+shape = SubResource("hitbox_spell161_thoth_3_caption")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell161_door_3_caption" type="Area2D" parent="Hitboxes"]
+position = Vector2(852.0, 1440.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell161_door_3_caption"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell161_door_3_caption"]
+shape = SubResource("hitbox_spell161_door_3_caption")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell161_door_4_caption" type="Area2D" parent="Hitboxes"]
+position = Vector2(520.0, 1471.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell161_door_4_caption"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell161_door_4_caption"]
+shape = SubResource("hitbox_spell161_door_4_caption")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell161_thoth_4_caption" type="Area2D" parent="Hitboxes"]
+position = Vector2(345.0, 1164.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell161_thoth_4_caption"
+metadata/hit_by_box = true
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell161_thoth_4_caption"]
+shape = SubResource("hitbox_spell161_thoth_4_caption")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell161_thoth_4" type="Area2D" parent="Hitboxes"]
+position = Vector2(344.0, 1637.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell161_thoth_4"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell161_thoth_4"]
+shape = SubResource("hitbox_spell161_thoth_4")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)

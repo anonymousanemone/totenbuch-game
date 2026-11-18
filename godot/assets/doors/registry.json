@@ -1,0 +1,101 @@
+{
+ "references": {},
+ "entries": {
+  "spell161_thoth_1": {
+   "name": "Thoth",
+   "descriptions": {
+    "default": "Thoth, with the head of an ibis, faces left with both arms stretched out to the door before him."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell161_thoth_1_caption": {
+   "name": "Text above Thoth",
+   "descriptions": {
+    "default": "Short columns of hieroglyphs stand above the head of Thoth."
+   },
+   "journal": false,
+   "reference": "as drawn"
+  },
+  "spell161_door_1_caption": {
+   "name": "Text by the door",
+   "descriptions": {
+    "default": "A long column of hieroglyphs runs down beside the door."
+   },
+   "journal": false,
+   "reference": "as drawn"
+  },
+  "spell161_door_2_caption": {
+   "name": "Text by the door",
+   "descriptions": {
+    "default": "A long column of hieroglyphs runs down beside the door."
+   },
+   "journal": false,
+   "reference": "as drawn"
+  },
+  "spell161_thoth_2_caption": {
+   "name": "Text above Thoth",
+   "descriptions": {
+    "default": "Short columns of hieroglyphs stand above the head of Thoth."
+   },
+   "journal": false,
+   "reference": "as drawn"
+  },
+  "spell161_thoth_2": {
+   "name": "Thoth",
+   "descriptions": {
+    "default": "Thoth, with the head of an ibis, faces right with both arms stretched out to the door before him."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell161_thoth_3": {
+   "name": "Thoth",
+   "descriptions": {
+    "default": "Thoth, with the head of an ibis, faces left with both arms stretched out to the door before him."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell161_thoth_3_caption": {
+   "name": "Text above Thoth",
+   "descriptions": {
+    "default": "Short columns of hieroglyphs stand above the head of Thoth."
+   },
+   "journal": false,
+   "reference": "as drawn"
+  },
+  "spell161_door_3_caption": {
+   "name": "Text by the door",
+   "descriptions": {
+    "default": "A long column of hieroglyphs runs down beside the door."
+   },
+   "journal": false,
+   "reference": "as drawn"
+  },
+  "spell161_door_4_caption": {
+   "name": "Text by the door",
+   "descriptions": {
+    "default": "A long column of hieroglyphs runs down beside the door."
+   },
+   "journal": false,
+   "reference": "as drawn"
+  },
+  "spell161_thoth_4_caption": {
+   "name": "Text above Thoth",
+   "descriptions": {
+    "default": "Short columns of hieroglyphs stand above the head of Thoth."
+   },
+   "journal": false,
+   "reference": "as drawn"
+  },
+  "spell161_thoth_4": {
+   "name": "Thoth",
+   "descriptions": {
+    "default": "Thoth, with the head of an ibis, faces right with both arms stretched out to the door before him."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  }
+ }
+}

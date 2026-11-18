@@ -537,13 +537,13 @@
    "id": "senet_booth"
   },
   "deceased_with_staff": {
-   "x": 11765,
-   "y": 239,
-   "w": 164,
-   "h": 295,
+   "x": 11772,
+   "y": 237,
+   "w": 139,
+   "h": 292,
    "plate": "VII",
-   "layer": "Standing deity",
-   "group": "Lions and solar procession",
+   "layer": "standing man",
+   "group": "",
    "id": "deceased_with_staff"
   }
  }

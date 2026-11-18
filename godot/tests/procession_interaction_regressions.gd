@@ -233,7 +233,7 @@ func _run() -> void:
 		scroll.restored.assign(finished)
 		menu._refresh_map()
 		expect(scroll.current() == current, "map progress selects the first unfinished playable chapter: " + str(finished))
-		expect(menu._play_key() == (current if current != "" else "procession"),
+		expect(menu._play_key() == (current if current != "" else scroll.SCENES[0].key),
 			"Play agrees with saved progress, with replay available after completion")
 		var markers: Array[String] = []
 		var rules := true

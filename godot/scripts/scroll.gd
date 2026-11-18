@@ -8,13 +8,16 @@ const SAVE := "user://scroll.cfg"
 const MENU := "res://scenes/menu.tscn"
 
 const ACTS := {
+	"Prologue": "Prologue — Guarding the body",
 	"I": "Act I — Burial and going forth", "II": "Act II — Survival",
 	"III": "Act III — Food, breath and transformations", "IV": "Act IV — The Field of Reeds",
-	"V": "Act V — Gates and guardians", "VI": "Act VI — Amulets, strange creatures and the finale",
+	"V": "Act V — Gates and guardians", "VI": "Act VI — The finale",
 }
-## In playing order: Lepsius's spell order, except the finale: Thoth opens the sky, then the weighing of the heart.
-## Each scene's picture is assets/menu/<key>.png.
+## In playing order: Lepsius's spell order, except the prologue (151–154, played first) and the
+## finale: Thoth opens the sky, then the weighing of the heart. Each scene's picture is assets/menu/<key>.png.
 const SCENES := [
+	{"key": "prologue", "act": "Prologue", "title": "Guarding the Body", "spells": "151–154", "plates": "LXXIV–LXXV",
+		"about": "The body is laid out and guarded, one vignette at a time, before the funeral procession."},
 	{"key": "procession", "act": "I", "title": "The Funeral Procession", "spells": "1–15", "plates": "I–VI",
 		"about": "Haul the sledge, restore the standards, rebuild the offering table, pour the water, open the mouth, and set up the stand before Ra."},
 	{"key": "cosmos", "act": "I", "title": "The Night Journey", "spells": "17", "plates": "VII–XI",
@@ -45,10 +48,6 @@ const SCENES := [
 		"about": "The seven arits, the twenty-one portals, the house of Osiris."},
 	{"key": "mounds", "act": "V", "title": "The Fourteen Mounds", "spells": "149", "plates": "LXXI–LXXIII",
 		"about": "The fourteen mounds and their guardians."},
-	{"key": "chamber", "act": "VI", "title": "Guarding the Body", "spells": "151–154", "plates": "LXXIV–LXXV",
-		"about": "The burial chamber and its guardians."},
-	{"key": "creatures", "act": "VI", "title": "Strange Creatures", "spells": "162–165", "plates": "LXXVII–LXXIX",
-		"about": "The Ihet cow and the strange creatures of the last spells."},
 	{"key": "doors", "act": "VI", "title": "Thoth Opens the Sky", "spells": "161", "plates": "LXXVI",
 		"about": "Thoth opens the doors of the sky."},
 	{"key": "hall", "act": "VI", "title": "The Weighing of the Heart", "spells": "125", "plates": "L",

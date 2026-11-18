@@ -69,7 +69,7 @@ func _run() -> void:
 			expect(menu._chosen == entry.key and menu._chosen_go.disabled == not progress.is_built(entry.key), tag + "keyboard selection: " + entry.key)
 		menu._choose("survival")
 		expect(menu._chosen_go.text in ["Play", "Play again"] and not menu._chosen_go.disabled, tag + "Survival is playable")
-		progress.restored.assign(["procession"])
+		progress.restored.assign(["prologue", "procession"])
 		menu._refresh_map()
 		expect(map.get_node("Levels/Acts/ActI/procession/Frame/Picture/Restored").visible and map.get_node("Levels/Acts/ActI/cosmos/Frame/Picture/Current").visible,
 			tag + "progress updates saved indicators")

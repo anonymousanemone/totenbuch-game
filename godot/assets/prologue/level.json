@@ -1,0 +1,97 @@
+{
+ "source": "art/guardingbody151-154.mdp",
+ "sha256": "f938c4c4d5242fadcb70e755dea0b1e8693a447b99a230d580010a59aa8b85db",
+ "width": 3779,
+ "height": 1881,
+ "ground": 907,
+ "view_top": 292,
+ "view_height": 1082,
+ "scale": 1.5,
+ "avatar": "procession/avatar",
+ "order": [
+  "151ab",
+  "151c",
+  "151de",
+  "152",
+  "154"
+ ],
+ "stages": {
+  "151ab": {
+   "source_rect": {
+    "x": 4274,
+    "y": 0,
+    "w": 774,
+    "h": 1062
+   },
+   "width": 774,
+   "height": 1062,
+   "ground": 526,
+   "wall_left": 50,
+   "wall_right": 724,
+   "view_top": 36,
+   "view_height": 701
+  },
+  "151c": {
+   "source_rect": {
+    "x": 3533,
+    "y": 0,
+    "w": 771,
+    "h": 957
+   },
+   "width": 771,
+   "height": 957,
+   "ground": 907,
+   "wall_left": 50,
+   "wall_right": 721,
+   "view_top": 292,
+   "view_height": 957
+  },
+  "151de": {
+   "source_rect": {
+    "x": 2799,
+    "y": 0,
+    "w": 764,
+    "h": 860
+   },
+   "width": 764,
+   "height": 860,
+   "ground": 810,
+   "wall_left": 50,
+   "wall_right": 714,
+   "view_top": 195,
+   "view_height": 860
+  },
+  "152": {
+   "source_rect": {
+    "x": 2179,
+    "y": 0,
+    "w": 650,
+    "h": 1500
+   },
+   "width": 650,
+   "height": 1500,
+   "ground": 526,
+   "wall_left": 50,
+   "wall_right": 600,
+   "view_top": 36,
+   "view_height": 701
+  },
+  "154": {
+   "source_rect": {
+    "x": 1389,
+    "y": 0,
+    "w": 820,
+    "h": 1250
+   },
+   "width": 820,
+   "height": 1250,
+   "ground": 526,
+   "wall_left": 51,
+   "wall_right": 770,
+   "view_top": 36,
+   "view_height": 701
+  }
+ },
+ "figures": {},
+ "columns": {}
+}

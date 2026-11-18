@@ -1,5 +1,5 @@
 ## The menus: the title page, the map of the scroll, and the settings (with the controls).
-## Title and map layouts are saved in menus.tscn and scroll.tscn; Scroll supplies game state.
+## Title and map layouts are saved in menu.tscn and scroll.tscn; Scroll supplies game state.
 ## `-- --level=procession` (any scene's key) skips straight to that scene; `-- --screen=map` (or
 ## settings, controls) opens that page and `-- --screenshot=path.png` saves a frame and quits.
 extends Control

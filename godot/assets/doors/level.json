@@ -1,0 +1,126 @@
+{
+ "source": "art/thoth161.mdp",
+ "sha256": "c87f0c5906d063227d85d4e2753497892bedc0c6697ecb7afd67b80dbddd37df",
+ "width": 1330,
+ "height": 1917,
+ "ground": 1868,
+ "view_top": 20,
+ "view_height": 1897,
+ "scale": 3.8,
+ "start": {
+  "x": 1102,
+  "y": 1868
+ },
+ "avatar": "res://assets/hall/figures/spell125_adoring_deceased.png",
+ "figures": {
+  "spell161_thoth_1": {
+   "x": 902,
+   "y": 544,
+   "w": 258,
+   "h": 427,
+   "group": "Spell161/Upper",
+   "source_layer": 6,
+   "source_name": "edited"
+  },
+  "spell161_thoth_1_caption": {
+   "x": 943,
+   "y": 107,
+   "w": 176,
+   "h": 250,
+   "group": "Spell161/Upper",
+   "source_layer": 6,
+   "source_name": "edited"
+  },
+  "spell161_door_1_caption": {
+   "x": 830,
+   "y": 97,
+   "w": 79,
+   "h": 866,
+   "group": "Spell161/Upper",
+   "source_layer": 6,
+   "source_name": "edited"
+  },
+  "spell161_door_2_caption": {
+   "x": 468,
+   "y": 102,
+   "w": 97,
+   "h": 815,
+   "group": "Spell161/Upper",
+   "source_layer": 6,
+   "source_name": "edited"
+  },
+  "spell161_thoth_2_caption": {
+   "x": 264,
+   "y": 100,
+   "w": 167,
+   "h": 186,
+   "group": "Spell161/Upper",
+   "source_layer": 6,
+   "source_name": "edited"
+  },
+  "spell161_thoth_2": {
+   "x": 233,
+   "y": 498,
+   "w": 234,
+   "h": 473,
+   "group": "Spell161/Upper",
+   "source_layer": 6,
+   "source_name": "edited"
+  },
+  "spell161_thoth_3": {
+   "x": 899,
+   "y": 1402,
+   "w": 247,
+   "h": 472,
+   "group": "Spell161/Lower",
+   "source_layer": 6,
+   "source_name": "edited"
+  },
+  "spell161_thoth_3_caption": {
+   "x": 932,
+   "y": 1037,
+   "w": 144,
+   "h": 282,
+   "group": "Spell161/Lower",
+   "source_layer": 6,
+   "source_name": "edited"
+  },
+  "spell161_door_3_caption": {
+   "x": 806,
+   "y": 1096,
+   "w": 89,
+   "h": 685,
+   "group": "Spell161/Lower",
+   "source_layer": 6,
+   "source_name": "edited"
+  },
+  "spell161_door_4_caption": {
+   "x": 476,
+   "y": 1077,
+   "w": 88,
+   "h": 786,
+   "group": "Spell161/Lower",
+   "source_layer": 6,
+   "source_name": "edited"
+  },
+  "spell161_thoth_4_caption": {
+   "x": 271,
+   "y": 1074,
+   "w": 147,
+   "h": 178,
+   "group": "Spell161/Lower",
+   "source_layer": 6,
+   "source_name": "edited"
+  },
+  "spell161_thoth_4": {
+   "x": 220,
+   "y": 1403,
+   "w": 246,
+   "h": 468,
+   "group": "Spell161/Lower",
+   "source_layer": 6,
+   "source_name": "edited"
+  }
+ },
+ "columns": {}
+}

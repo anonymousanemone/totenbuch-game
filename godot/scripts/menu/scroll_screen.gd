@@ -40,7 +40,7 @@ func _ready() -> void:
 
 func _back() -> void:
 	if back_requested.get_connections().is_empty():
-		get_tree().change_scene_to_file("res://scenes/menus.tscn")
+		get_tree().change_scene_to_file("res://scenes/menu.tscn")
 	else:
 		back_requested.emit()
 

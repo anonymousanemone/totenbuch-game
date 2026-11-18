@@ -136,13 +136,19 @@ func _update_camera(delta: float) -> void:
 	var viewport := get_viewport_rect().size
 	var top: float = hud.top_height()
 	var bottom: float = hud.bottom_height()
-	var view_top: float = level.view_top
-	var zoom := SCROLL_CAMERA.fit_zoom(viewport, top, bottom, level.view_height,
-		_unit, 0.4 / _unit, 2.4 / _unit, view_top)
+	var span := view()
+	var zoom := SCROLL_CAMERA.fit_zoom(viewport, top, bottom, span.bottom,
+		_unit, 0.4 / _unit, 2.4 / _unit, span.top)
 	camera.zoom = Vector2(zoom, zoom)
-	var target: float = level.width / 2.0     # the whole scroll fits the view (the hall): keep it centred
-	if viewport.x / zoom < level.width:
-		target = SCROLL_CAMERA.clamp_horizontal(avatar.position.x - viewport.x / zoom * 0.05,
-			viewport.x / zoom, level.width)
+	var width: float = span.right - span.left
+	var target: float = span.left + width / 2.0     # the whole scroll fits the view (the hall): keep it centred
+	if viewport.x / zoom < width:
+		target = span.left + SCROLL_CAMERA.clamp_horizontal(avatar.position.x - span.left - viewport.x / zoom * 0.05,
+			viewport.x / zoom, width)
 	camera.position.x = lerpf(camera.position.x, target, SCROLL_CAMERA.smoothing(delta))
-	camera.position.y = SCROLL_CAMERA.vertical_center(level.view_height, top, bottom, zoom, view_top)
+	camera.position.y = SCROLL_CAMERA.vertical_center(span.bottom, top, bottom, zoom, span.top)
+
+
+## What the camera frames: columns `left` to `right` and rows `top` to `bottom` (by default the whole scroll).
+func view() -> Dictionary:
+	return {"left": 0.0, "right": float(level.width), "top": float(level.view_top), "bottom": float(level.view_height)}

@@ -97,5 +97,5 @@ Question: do players look before acting? Method: observe one external player per
 3. **Relatedness.** Does the game need anything that delivers it?
 4. **Delivery:** packaged desktop build or web export for playtesters and release?
 5. **Reuse terms** for the Lepsius scan and Davis text (public domain status to confirm and cite).
-6. **Audio:** none, minimal, or a small sound set?
+6. **Audio:** planned: background music the player can turn off, and sound effects. How to make and add sound will be written as a skill once the first sounds are in the game. **[Proposed]**
 7. **Weighing of the Heart:** how earlier evidence is counted. Its puzzles are in `archive/`.

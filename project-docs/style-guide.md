@@ -2,7 +2,7 @@
 
 **Status: Initial (G1).** Version 0.1, 2026-11-18. Owner: Sophia (Art Lead). Locked at G3 with the asset list (`asset-list.md`).
 
-The game is a walk along Lepsius's *Todtenbuch* (1842). The scroll is the picture, and everything else stays out of its way. How to make each kind of art is in the skills: `splice-plates` (strips and cutting), `make-artwork` (scroll art and icons), `draft-ui` (screens and layouts).
+The game is a walk along Lepsius's *Todtenbuch* (1842). The scroll is the picture, and everything else stays out of its way. How to make each kind of art is in the skills: `splice-plates` (strips and cutting), `make-artwork` (scroll art and icons), `draft-ui` (screens and layouts), `write-game-text` (writing).
 
 **Exceptions.** No rule here has an exception unless the author explicitly approves it. Approved exceptions are listed at the end.
 

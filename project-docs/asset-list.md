@@ -46,4 +46,4 @@ In map order (`SCENES` in `godot/scripts/scroll.gd`).
 | Top-bar and strip icons, frame bands | `godot/assets/ui/` (12 PNG) | `.claude/skills/make-artwork/menu_images.py` (`ICONS`, `SIGNS`) | Built |
 | Old Fax font, with added arrows and middle dot | `godot/assets/fonts/OldFax.ttf` | `.claude/skills/make-artwork/oldfax_glyphs.py` | Built |
 | Shaders: glow, papyrus, figure | `godot/scripts/*.gdshader` | By hand | Built |
-| Audio | — | — | None yet (GDD §10) |
+| Audio | — | — | None yet (GDD §10, Q6: music and sound effects planned) |

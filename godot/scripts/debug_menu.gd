@@ -25,5 +25,9 @@ func setup(entries: Array) -> void:
 	add_child(_panel)
 
 
-func toggle() -> void:
+func handle_shortcut(event: InputEvent) -> bool:
+	if not (event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_T):
+		return false
 	_panel.visible = not _panel.visible
+	get_viewport().set_input_as_handled()
+	return true

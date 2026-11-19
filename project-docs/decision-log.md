@@ -4,6 +4,28 @@ Who decided what, session by session: the author's decisions, what was made from
 
 *Entries from 2026-10-15 to 2026-11-18 were backfilled on 2026-11-18 from transcripts (Oct entries per day). Only files a transcript shows are listed, so commits with no transcript (e.g. prologue, thoth level) are not here.*
 
+## 2026-10-13 · Script cleanup and source artwork
+- **Decided:** Refactor without changing gameplay. Recut Cosmos, Field and Judgment into one sprites folder each and preserve the full-size artwork with separate cleaned backgrounds.
+- **Decided:** Add 6-pixel outer guidelines with 8-pixel gaps over the existing Field and Judgment borders.
+- **Made:** Commit `0441ab6` and `art/cosmo17-21.mdp`, `art/bod110.mdp` and `art/bod125.mdp`.
+- **Agent did:** Extracted shared camera and mask helpers and separated encounter definitions and snake state.
+- **Corrected:** The agent cut pixels from original layers. The manually rotated originals had to be restored pixel-for-pixel alongside the separate cutouts.
+
+## 2026-10-14 · Minigame entrances and HUD audit
+- **Decided:** The bier directs players to the ox driver, who introduces hauling. The avatar takes the original hauler’s pose during play.
+- **Decided:** Highlight all eight standards together and frame sorting from the nearer end. Arrow keys leave hauling or sorting. Dangers waits for Space.
+- **Decided:** Apply gravity to offerings on both registers and use smaller, closer flesh signs. Approved trimming repeated feedback while retaining controls and failure cues.
+- **Made:** `godot/TODO.md`, `godot/scripts/` and `godot/tests/ui_regressions.gd`.
+- **Agent did:** Used paged dialogue and responsive menus and Journal, with gameplay paused during overlays.
+
+## 2026-10-15 · Editable Procession and Dangers scenes
+- **Decided:** Save major visuals in scene nodes and maintain metadata. Show Dangers in papyrus order in the editor, with runtime hiding and readable spell groups.
+- **Decided:** Show Procession’s starting layout and restored water in the editor. Keep the loaf in the bearer’s arms and put the goose on the floor.
+- **Decided:** Remove extra parents around single Dangers sprites. Keep the supplied avatar PNG and regenerate Procession artwork with the bier as one piece.
+- **Made:** `godot/scenes/dangers.tscn`, `godot/scenes/procession.tscn`, `godot/assets/procession/` and `godot/README.md`.
+- **Agent did:** Kept parent nodes for multipart creatures and fixed the donkey encounter’s invalid foe lookup.
+- **Corrected:** The agent treated the shared papyrus shader as proof the Dangers avatar rendered correctly. Creature draw order was covering it during play.
+
 ## 2026-10-15 · Procession sprite sheets, dangers fight frames, ideas trim
 - **Decided:** water-jar man gets extra swivel frames, driver the default count; sheets are hand-edited and never remade; cutter works partially, cutting only what is necessary.
 - **Decided:** fight panels share one render (double lines at screen edge, fixed text size, tag names the danger, not "scribe"); beetles 5; keep `FRAME_FROM_TOP`.
@@ -11,9 +33,35 @@ Who decided what, session by session: the author's decisions, what was made from
 - **Decided:** three items attach to the avatar then go on the stand; clicking the ox driver walks to the hauler then fades into his pose; build the cow game and the plumes level from the updated .mdp; don't do "my call" items.
 - **Made:** `tools/arm_sheets.py`, `tools/cut_procession300.py`, `godot/scripts/bulls.gd`, `godot/TODO.md`; memory notes `sprite-sheets-hand-edited.md`, `partial-cuts.md`.
 
+## 2026-10-15 · Shared glow palette
+- **Decided:** Keep named Procession and Dangers colors in the shader with a default. Use the same lighter yellow for Procession and the default.
+- **Made:** `godot/scripts/glow.gdshader` and per-level palette selection.
+
+## 2026-10-16 · Dissected layers and Opening of the Mouth
+- **Decided:** Move sprites only within each `dissected` folder. Group by proximity, then theme, and omit plate numbers. Update the Cosmos cutter to match.
+- **Decided:** Build Opening of the Mouth with existing logic and keep finished tasks below open tasks.
+- **Made:** `art/cosmos17-21.mdp`, `art/fields110.mdp`, `art/judgement125.mdp`, `archive/tools/cut_cosmos300.py`, `godot/scripts/opening_mouth.gd` and `godot/TODO.md`.
+- **Agent did:** Allowed the eye, mouth and beard to be carved in any order. Three misses reset the face.
+
+## 2026-10-17 · Hint and description systems
+- **Decided:** Refresh Procession and Dangers exports from existing MDPs and make Cosmos navigable. Reserve hints for the button and give it an unfinished-puzzle prompt.
+- **Decided:** Use registry descriptions with state variants. Order puzzle text as instructions, success, feedback, hints, with instructions and success as plain strings.
+- **Decided:** Show instructions on every minigame entry. Use red tags by default, green for minigames and yellow for hints.
+- **Decided:** Preserve authored hitboxes and report JSON mismatches. Play and map progress follow the first unfinished level while implemented levels stay unlocked.
+- **Decided:** Group level-specific scripts. Remove fading lower scroll text. Put Survival and Sustenance in Act II and Thoth immediately before Weighing of the Heart.
+- **Made:** `godot/assets/`, `godot/scenes/`, `godot/scripts/descriptions.gd`, `godot/scripts/puzzles.gd`, `godot/scripts/scroll.gd` and `godot/TODO.md`.
+
 ## 2026-10-17 · Cosmos figure export, procession todo
 - **Decided:** export cosmos `figures` from `art/cosmos.mdp` to PNGs with a `level.json` entry per layer, identified by looking ("layer names are usually wrong"); do the Procession TODO items.
 - **Made:** `tools/cut_cosmos_figures.py`.
+
+## 2026-10-19 · Dangers encounter split and carried items
+- **Decided:** Use per-level puzzle JSON. Split Dangers by encounter, keep crocodiles together, remove beetle dots and slightly slow the twin snakes.
+- **Decided:** Carry the adze and the chosen ankh or breath using authored poses. Keep the words’ behavior. Breath is easy and ankh is hard.
+- **Decided:** Rename only generic layer PNGs, then group PNGs in figures and sheets in animation. Enlarge the coiled snake’s target under its outline.
+- **Made:** `godot/scripts/dangers/`, Procession adze integration, per-level `puzzles.json` files and `godot/assets/` figure and animation folders.
+- **Agent did:** Lengthened twin-snake timing by 5% and shifted the coiled snake’s target up three image pixels.
+- **Corrected:** The agent initially missed the separate upper-right beetle counter. The removal had to cover the on-screen overlay too.
 
 ## 2026-10-20 · Spell 41 sheaf strike, spell 35 snakes, dangers text tone
 - **Decided:** cosmos figures researched and cited first; Nut label and descriptions approved, .mdp untouched.
@@ -22,6 +70,38 @@ Who decided what, session by session: the author's decisions, what was made from
 - **Decided:** dangers instructions get a snarky/slightly funny tone, edited line by line.
 - **Made:** `godot/scripts/dangers/` (`sheaf.gd`, `creeping_snake.gd`, `crocodiles.gd`, `danger_encounters.gd`, `snake_tail.gdshader`), `tools/spearer_lean.py`, `godot/assets/dangers/puzzles.json`.
 - **Corrected:** agent assumed crocodiles are hit only at the snout in instructions and code comments; they are not snout-only.
+
+## 2026-10-21 · Shared moveable objects
+- **Decided:** Use shared drag and recovery rules. Only carriable objects attach on click, descriptions persist during dragging, and correctly placed objects lock.
+- **Decided:** Keep object scale, with the carving adze at 50%. Keep the words’ approved click-follow, and require a drop onto the mummy to enter carving.
+- **Decided:** Rejected offerings land before the bearer, the lector blocks loose offerings, and pickup text appears only when a scene object attaches to the avatar.
+- **Made:** `godot/scripts/moveable_object.gd`, Procession and Dangers integrations, `AGENTS.md` and `godot/TODO.md`.
+
+## 2026-10-22 · Offering table and bearer interactions
+- **Decided:** Bread has its own click target, only the goose locks to the bearer, and only clicking the completed table reports completion.
+- **Decided:** Restore the original offering placements except for the large frond and goose/bread swap. Give the second table its own description.
+- **Decided:** Update the priests’ descriptions and retire the offering priest’s help prompt after completion.
+- **Made:** `godot/assets/procession/`, `godot/scripts/procession/` and `godot/TODO.md`.
+- **Agent did:** Reduced the offering snap radius from 45 to 35 pixels.
+
+## 2026-10-22 · Sheaf timing and Procession visual feedback
+- **Decided:** Let the ankh and breath swap in hand and pass behind the text column. Give every sheaf band the same strike window.
+- **Decided:** Share damage shake. Use a slow, light-green success glow and heka-red visual cues above the two priests.
+- **Decided:** Spawn loose offerings on the table. Center the bulls and stand at the nearer end. Let either head or rump gestures flip the calf.
+- **Made:** `godot/scripts/dangers/` and `godot/scripts/procession/`.
+- **Agent did:** Set the sheaf window to 1.2 seconds and the final glow to a 20-pixel radius over four seconds.
+
+## 2026-10-22 · Survival, scroll map and editable menus
+- **Decided:** Align the built map icons to the top double line, remove the Night Journey fade, and omit plate numbers, Three-Tier Sun and Amulets.
+- **Decided:** Rename generic Survival plate layers by spell. Document level building, then build Survival and Sustenance for navigation with the avatar passing behind tall text.
+- **Decided:** Save the title menu and full scroll map as editable scenes, with the header and footer visible and locked.
+- **Made:** `art/survival43-63.mdp`, `SKILL.md`, `godot/assets/menu/`, `godot/scenes/survival.tscn`, `godot/scenes/menus.tscn` and `godot/scenes/scroll.tscn`.
+
+## 2026-10-22 · First Gates build and creeping snakes
+- **Decided:** Build Gates from spell 146 first. Speed the speared snake’s death and keep the sparse swarm upright, apart from the player and within playable bounds.
+- **Decided:** Win at 10 speared snakes, cap active snakes at four excluding dodged ones, keep others moving during strikes and color the selected sheaf band dark red.
+- **Made:** `godot/scenes/gates.tscn`, `godot/assets/gates/` and `godot/scripts/dangers/`.
+- **Agent did:** Varied the swarm’s stop distance and allowed tilt up to 65 degrees.
 
 ## 2026-10-22 · Gates cuts and registry, descriptions check
 - **Decided:** survival/sustenance and cosmos descriptions checked against research, captions from Davis, no "Spell N:" prefix, unsure ones flagged; gates 144–146 registry: each adoring figure, standing god, gate alone, god-in-gate as one entity.
@@ -101,3 +181,21 @@ Who decided what, session by session: the author's decisions, what was made from
 - **Decided:** make the step driver for the `playtest` skill.
 - **Made:** `godot/tests/step_driver.gd`, `godot/tests/step.py`; README "Playtest step driver"; `playtest` skill and `configuration.md` QA row now point to it.
 - **Agent did:** clicks settle 0.3 s, drags 0.6 s; coordinates are frame pixels; game time stands still between commands; real `scroll.cfg` restored after every command; replies never name the level or ids; line reading time 4 words/s + 1 s.
+
+## 2026-11-18 · bottom-band message timer
+- **Decided:** ordinary messages fade after five seconds of active play, with per-message overrides and an option to stay until replaced.
+- **Decided:** descriptions stay during active dragging unless feedback replaces them. A quiet release gives three seconds to read.
+- **Decided:** active instructions stay visible, and temporary minigame feedback fades back to the current instructions. Hint changes are separate.
+- **Made:** `godot/scripts/hud.gd`, level integrations, and regression coverage in commit `03af5b6`.
+- **Agent did:** paused the countdown while the Journal is open and kept the speaker tag and text on the same fade.
+
+## 2026-11-18 · level build playtest and Notion workflow
+- **Decided:** build the level before its debug controls, always report the shortcuts, and update the level's Notion Documentation and Plan pages.
+- **Made:** `.claude/skills/build-levels/SKILL.md` now carries the playtest and Notion workflow independently of the Turbo plan.
+- **Decided:** preserve the existing Procession and Dangers shortcut behavior while sharing the key handling.
+- **Made:** `godot/scripts/debug_menu.gd` now handles the shortcut for `procession.gd` and `dangers.gd`.
+
+## 2026-11-18 · Codex decision-log backfill
+- **Decided:** Backfill missing Codex sessions. Keep the standalone school crocodile excerpt and global Turbo setup outside the game’s log.
+- **Made:** Twelve historical entries in `project-docs/decision-log.md` covering 2026-10-13 through 2026-10-22.
+- **Agent did:** Used local session start dates and separate entries for each Codex session. Omitted read-only sessions and unimplemented plans.

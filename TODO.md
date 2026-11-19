@@ -16,6 +16,7 @@
 
 - [ ] **Change the journal format for all entries:** show an icon, title, and two-line text summary for each entry. Clicking an entry shows a longer description.
 - [ ] **Define a creativity-versus-skill scale for each level (inspiration: IQKnight):** define creativity as discovering, interpreting, and experimenting with ideas or solutions; define skill as executing understood actions through timing, precision, coordination, and practice. Give each level its own creativity-to-skill ratio and a custom description that sets player expectations. Likely store the ratio and description in each level's `puzzles.json`; exact ratios, wording, and storage remain to be decided.
+- [x] **Bottom-band messages fade after a timer:** descriptions and feedback fade after six seconds of active play (a line can set its own time or persist until replaced); a dragged object's description holds through the drag, then three seconds; instructions never time out, and temporary minigame feedback fades back to the current instructions. — *Done (2026-11-18, `03af5b6`); plan: `.turbo/plans/time-bottom-band-messages.md`.*
 
 #### Navigate-only mode (plan)
 
@@ -109,7 +110,7 @@ Each `reference` field now names its sources (`.claude/skills/cite-references/SK
 
 Cut from `art/fields110.mdp` by `.claude/skills/build-levels/build_field.py` (figures, captions, side plates, columns, the map picture and `level.json`; the scene is written once and then left to the Godot editor). The old puzzle design is in `archive/README.md`, its script in `archive/godot/scripts/field.gd`.
 
-- [ ] **Hidden folder "Solar crossing" is exported** (the boat with its rower, the cup bearer before it and the three round signs, all in the top register). It is hidden in the MDP, so say whether it is finished; if not, take it out of `SHOWN_HIDDEN` in the tool.
+- [x] **Hidden folder "Solar crossing" is exported** (the boat with its rower, the cup bearer before it and the three round signs, all in the top register). It is hidden in the MDP, so say whether it is finished; if not, take it out of `SHOWN_HIDDEN` in the tool. — *Resolved: it is finished; it stays in `SHOWN_HIDDEN`.*
 - [ ] **The avatar's lanes:** the camera shows one lane at a time (top, middle, bottom register, and the page's floor under them, `base`), crossed with the up/down arrows or by clicking the water. The four stacked panels of pl. XLII have four floors against these three registers, so the avatar stands mid-panel in the upper ones, and over the two large adorants. Decide whether the panels need lanes of their own, and whether the adorants should hide the avatar as the text columns do.
 - [ ] **Describe the side plates and name their gods:** the figure entries for the four stacked panels, the large adorants and the registers' figures only say what is drawn (`"reference": "as drawn"`). Find sources for who the gods are before saying so.
 - [ ] **Check where each caption sits** (`godot/assets/field/registry.json`; the rectangles are `CAPTIONS` in `.claude/skills/build-levels/build_field.py`): the translations come from Backes' list for P. Turin 1791 and Allen's description of P. Ryerson. Matching each label to its spot on pl. XLI is my own reading, taking Backes' list right to left in each register. Check especially:

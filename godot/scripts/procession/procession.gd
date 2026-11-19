@@ -353,9 +353,7 @@ func _restore_all() -> void:
 # ---------------------------------------------------------------- input
 
 func _unhandled_input(event: InputEvent) -> void:
-	if _debug_menu and event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_T:
-		_debug_menu.toggle()
-		get_viewport().set_input_as_handled()
+	if _debug_menu and _debug_menu.handle_shortcut(event):
 		return
 	if hud.is_blocking() or finished:
 		return

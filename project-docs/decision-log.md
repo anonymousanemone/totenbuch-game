@@ -199,3 +199,16 @@ Who decided what, session by session: the author's decisions, what was made from
 - **Decided:** Backfill missing Codex sessions. Keep the standalone school crocodile excerpt and global Turbo setup outside the game’s log.
 - **Made:** Twelve historical entries in `project-docs/decision-log.md` covering 2026-10-13 through 2026-10-22.
 - **Agent did:** Used local session start dates and separate entries for each Codex session. Omitted read-only sessions and unimplemented plans.
+
+## 2026-11-18 · Min for G2 and G3
+- **Decided:** One agent, Min, for Procession across G2 and G3. Click Min for a short line. Keep Hint available for now, with its future availability TBD.
+
+## 2026-11-19 · GDD refresh
+- **Decided:** check the GDD for how much is unfilled and update what is stale.
+- **Made:** `project-docs/gdd.md` v0.2: level table (18 cards, 11 built), G2 scope is Procession with Min, built hint ladder, audio, delivery and source-scan path corrected.
+- **Agent did:** recorded the 2026-11-18 decisions (Min only, web release) as settled in Sections 7 and 16; left Hint's availability undecided as the author did.
+
+## 2026-11-19 · TODO.md archived after Notion sync check
+- **Decided:** lotus position is fixed; the trashed prologue ghost-pointer TBD is dropped; Strange Creatures is settled; prologue lessons, cues and Procession instruction review stay plan-only.
+- **Made:** `archive/TODO.md` (header: do not update, all items migrated to Notion); dropped the trashed row's mention from the Prologue 151-154 plan.
+- **Agent did:** treated the Moveable objects doc as covering the four numbered migration steps; did not compare the long design prose.

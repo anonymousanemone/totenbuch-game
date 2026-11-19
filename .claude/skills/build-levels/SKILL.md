@@ -1,9 +1,13 @@
 ---
 name: build-levels
-description: How to build a new level of the game from a hand-edited .mdp in art/, from exporting assets and metadata to authoring the saved scene, connecting shared behaviour and verifying it.
+description: How to build a level from a hand-edited .mdp in art/, add and verify its debug playtest controls, update the level's Notion pages, and report the shortcuts to the author.
 ---
 
 # Building new levels
+
+Build and integrate the playable level first. Then add its debug playtest controls,
+verify both, update the level's Notion pages, and always tell the author which
+playtest shortcuts are available.
 
 ## Source artwork
 
@@ -111,6 +115,34 @@ The menu recognizes a built level when `scenes/<key>.tscn` exists. Provide a map
 at `godot/assets/menu/<key>.png`, with the top of the double rule flush with the image's
 top edge and no faded lower text. Keep level titles and spell ranges consistent.
 
+## Add debug playtest controls
+
+The target for new level work is a hidden `T` shortcut that opens or closes the
+playtest menu from anywhere in a debug build, including paused in-level overlays.
+Keep the shortcut out of player-facing UI and cold playtest instructions.
+Gate menu creation and input
+with `OS.is_debug_build()`. Handle one press at a time and ignore key repeats.
+
+- Reuse `godot/scripts/debug_menu.gd`. Procession and Dangers currently instantiate
+  their own menu and pass unhandled events to `DebugMenu.handle_shortcut()` first.
+  That method owns the key check, toggle, and input consumption. When adding
+  global access, give the shared menu one debug-only input owner that runs while
+  the tree is paused. Resolve actions from the active scene and discard its
+  callbacks when it changes.
+- Supply level-specific actions as label and `Callable` pairs. Read
+  `debug_complete()` in `godot/scripts/procession/procession.gd` and
+  `godot/scripts/dangers/dangers.gd` for examples. Offer individual completion
+  actions for the level's playable puzzles, encounters, or vignettes. Reuse the
+  controller's existing completion and cleanup so visuals, hints, gates, and
+  downstream state agree. Respect mutually exclusive outcomes and make repeated
+  activation safe. Keep setup shortcuts clearly distinguishable from completions.
+- Offer one shared **Complete level** action for the current playable level.
+  Use `Scroll.finish(key)` in `godot/scripts/scroll.gd` to save it as restored
+  and advance to the next built level, or return to the menu after the last.
+  Offer no completion actions on the title screen, map, or in view-only mode.
+  While an overlay or transition prevents an action from running safely, keep
+  that action unavailable. Opening or closing the menu preserves the pause state.
+
 ## Verify
 
 Import the project in Godot and check for script and resource errors. Inspect the
@@ -120,3 +152,30 @@ journal behavior, HUD framing, and the avatar passing behind each foreground tex
 column. Use checks appropriate to the change and confirm the source MDP is unchanged.
 Store temporary screenshots and verification artifacts outside the repository;
 do not write to `mockups/` unless explicitly requested.
+
+In a debug build, press `T` during gameplay and with a paused in-level overlay.
+Exercise each completion action and verify the level's ordinary progress indicators,
+cleanup, and next available actions. Check that scene changes clear old entries.
+Use an isolated save to check that whole-level completion survives relaunch and
+advances once. In a release export, verify that `T` exposes no playtest menu.
+The keyboard command in `godot/tests/step_driver.gd` can help exercise the shortcut.
+The driver restores save bytes after each command, so verify persistence separately.
+
+## Update Notion and report the shortcuts
+
+Read and follow `../write-notion/SKILL.md` before any Notion write. Update both
+existing pages for the level's scope in the Totenbuch Tasks database:
+
+- Update the **Documentation** page with the verified level behavior and its
+  debug shortcuts, including what each menu action does.
+- Update the **Plan** page to show which planned work was built and what is still
+  unbuilt. Preserve the existing design text and link to the Documentation or
+  History item as appropriate.
+
+Fetch both pages before editing, use the smallest edits, and verify them afterward.
+If a page or scope is missing, follow the approval rules in `write-notion` and
+report any update still pending.
+
+Always list the verified shortcuts in the handoff to the author. Give the exact key,
+where it works, the available action labels and their effects, and whether an action
+saves progress or advances the level. Link the two Notion pages after updating them.

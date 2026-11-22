@@ -1,10 +1,11 @@
-## A walk-only level: one lane to explore as drawn, with no puzzles or barriers (the Night Journey, the Fourteen Mounds,
+## Shared walking and inspection for scrolls with one lane to explore (the Night Journey, the Fourteen Mounds,
 ## Mouth and Heart, the Weighing of the Heart). Saved scene nodes own placement; level.json supplies stable IDs and the
 ## camera's rows. The scene sets `level_key` (its assets/<level_key>/ folder), the title, the introduction and the
 ## journal's hint shown by the HUD, and `hint_key` (the prefix of its start and Hint messages: "walk" unless the level has its own).
 extends Node2D
 
 const SCROLL_CAMERA := preload("res://scripts/scroll_camera.gd")
+const VIEW_TOP := SCROLL_CAMERA.VIEW_TOP
 
 @export var level_key := ""
 @export var hint_key := "walk"
@@ -12,6 +13,10 @@ const SCROLL_CAMERA := preload("res://scripts/scroll_camera.gd")
 @export var journal_hint := "Click anything drawn in the scroll to record it here."
 @export var intro_title := ""
 @export_multiline var intro_body := ""
+@export var chapter_titles := false
+@export var only_present_entries := false
+@export var foreground_blocks := false
+@export var dev_args := false
 
 var _descriptions
 var level: Dictionary
@@ -42,6 +47,18 @@ func _ready() -> void:
 		var id: String = node.get_meta("registry_id")
 		assert(not figures.has(id), "Duplicate figure ID: " + id)
 		figures[id] = node
+	if only_present_entries:
+		for id in _descriptions.entries.keys():
+			if not figures.has(id):
+				_descriptions.entries.erase(id)
+	if chapter_titles:
+		var chapter: Dictionary = Scroll.scene(level_key)
+		title = chapter.title
+		intro_title = "%s %s: %s" % ["Spell" if str(chapter.spells).is_valid_int() else "Spells", chapter.spells, title]
+		intro_body = level.get("intro_body", "")
+		if intro_body == "":
+			intro_body = _hints.message("survival.intro")
+		journal_hint = "Click figures in the scroll to record them here."
 	hud.setup(self, {
 		"title": title,
 		"journal_hint": journal_hint,
@@ -53,6 +70,8 @@ func _ready() -> void:
 	hud.hint_pressed.connect(hint)
 	hud.restart_pressed.connect(reset)
 	reset()
+	if dev_args:
+		_development_args()
 
 
 func min_x() -> float:
@@ -103,6 +122,11 @@ func walk_then(x: float, then := Callable()) -> void:
 
 ## Check the visible ink with a small tolerance, including overlaps and transparent cutouts.
 func _pick(point: Vector2) -> String:
+	if foreground_blocks:
+		for column in $Foreground.get_children():
+			var paper: ColorRect = column.get_node("Papyrus")
+			if (paper.get_global_transform() * paper.get_rect()).has_point(point):
+				return ""
 	var ids: Array = figures.keys()
 	ids.reverse()
 	for id in ids:
@@ -124,7 +148,8 @@ func _set_hover(id: String) -> void:
 
 
 func record(id: String) -> void:
-	_descriptions.inspect(id, hud, journal, figures[id].texture, figures.size())
+	var total: int = _descriptions.journal_total() if only_present_entries else figures.size()
+	_descriptions.inspect(id, hud, journal, figures[id].texture, total)
 
 
 func _process(delta: float) -> void:
@@ -141,3 +166,20 @@ func _update_camera(delta: float) -> void:
 func view() -> Dictionary:
 	return {"left": 0.0, "right": float(level.width), "top": float(level.get("view_top", SCROLL_CAMERA.VIEW_TOP)),
 		"bottom": float(level.view_height)}
+
+
+## Development previews use the same saved scene and camera as normal play.
+func _development_args() -> void:
+	var screenshot := ""
+	for argument in OS.get_cmdline_user_args():
+		if argument.begins_with("--at="):
+			avatar.position.x = clampf(float(argument.trim_prefix("--at=")), min_x(), max_x())
+		elif argument.begins_with("--screenshot="):
+			screenshot = argument.trim_prefix("--screenshot=")
+	if screenshot != "":
+		hud.dismiss_intro()
+		_update_camera(1.0)
+		await get_tree().create_timer(0.5).timeout
+		await RenderingServer.frame_post_draw
+		get_viewport().get_texture().get_image().save_png(screenshot)
+		get_tree().quit()

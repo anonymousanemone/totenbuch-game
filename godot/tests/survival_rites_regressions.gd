@@ -1,4 +1,4 @@
-## Survival's rites (survival_play.gd): sceptres, splicing, the gate and the mummy, the dwelling,
+## Survival's rites (survival.gd): sceptres, splicing, the gate and the mummy, the dwelling,
 ## upside down, the offering tables of 52 and 53, and the water of 57 and 59.
 extends SceneTree
 var failures: Array[String] = []
@@ -39,7 +39,7 @@ func _run() -> void:
 	for key in ["spell43_sceptre1", "spell44_door", "spell45_mummy_body", "spell59_mw1"]:
 		expect(scene.pieces[key].visible, key + " is drawn in place")
 	expect(not scene.pieces.spell47_ba.visible, "the ba is missing until the dwelling is claimed")
-	expect(not scene.pieces.spell57_man.visible, "no one stands under the 57 water")
+	expect(scene.pieces.spell57_man.visible, "the 57 man is drawn while walking")
 	expect(scene.pieces.spell57_stream.region_rect.size.y < scene.pieces.spell57_stream.texture.get_height() * 0.5, "the 57 water only dribbles")
 	expect(not scene.pieces.spell57_tray.visible, "the 57 tray is in the tree")
 	expect(not scene.pieces.spell59_seated_man.visible and not scene.pieces.spell59_stream.visible, "the 59 chair is empty and no water flows")
@@ -104,9 +104,12 @@ func _run() -> void:
 	expect(is_equal_approx(scene.avatar.max_x, scene.LINE_45_46 - scene.HALF), "there is no way back past 45|46")
 	scene.avatar.set_process(false)
 
-	# 47: a note each time he passes the dwelling unclaimed
-	walk(scene, (scene.DWELLING.x + scene.DWELLING.y) / 2.0)
-	expect(scene.hud._text == scene._hints.message("survival.dwelling"), "passing 47 unclaimed, the scribe asks him to claim his seat")
+	# 47: the dwelling has a description and a prompt on click.
+	var prior: String = scene.hud._text
+	walk(scene, scene.figures.spell47_bird_shrine.global_position.x)
+	expect(scene.hud._text == prior, "walking to the dwelling keeps the line")
+	scene.record("spell47_bird_shrine")
+	expect(scene.hud._text.contains(scene._hints.message("survival.dwelling")), "the dwelling figure asks him to claim his seat")
 
 	# 49|50, 50|51: spliced into the 50 man, then the 51 man upside down
 	walk(scene, scene.SPLICE_49_50 - 200.0)
@@ -132,13 +135,34 @@ func _run() -> void:
 	walk(scene, scene.LINE_51_52 - 100.0)
 	expect(scene._carried.size() == 1 and not scene.upside, "headlong into 52 costs a sceptre")
 
-	# 57: held up under the water, the tray comes out of the tree
+	# 57: the stream is the target and the man stays drawn.
+	prior = scene.hud._text
 	walk(scene, scene._waist().x + 40.0)
-	scene._use("#water57", Vector2.ZERO)
-	scene.avatar._process(100.0)
-	scene.avatar._process(0.1)
+	expect(scene.hud._text == prior, "walking into 57 keeps the line")
+	scene.record("spell57_tree")
+	expect(scene.mode == scene.Mode.WALK and scene.hud._text.contains(scene._hints.message("survival.water57")), "the sycamore goddess only explains the stream")
+	var stream := target_ink(scene, scene.pieces.spell57_stream, "#water57")
+	expect(stream.is_finite() and scene._click_rite(stream), "the stream's ink can be clicked")
+	arrive(scene)
+	expect(scene.avatar.position.x == scene._waist().x - scene.STAND_57 and scene.avatar.visible, "the avatar stands beside the man inside the vignette")
+	var space := key_press(KEY_SPACE)
+	Input.parse_input_event(space)
+	Input.flush_buffered_events()
+	scene._water57(0.04)
+	space.pressed = false
+	Input.parse_input_event(space)
+	Input.flush_buffered_events()
+	expect(scene._bend > 0.0, "holding Space immediately lifts the man in 57")
+	var best: float = scene._tray_best
+	scene._unhandled_input(key_press(KEY_LEFT))
+	expect(scene.mode == scene.Mode.WALK and scene.pieces.spell57_man.visible and scene._tray_best == best, "leaving 57 keeps the man and the best progress")
+	stream = target_ink(scene, scene.pieces.spell57_stream, "#water57")
+	if stream.is_finite():
+		scene._click_rite(stream)
+		arrive(scene)
+	expect(scene._bend_tween == null and scene._bending, "returning quickly cancels the bend reset")
 	await seconds(1.5)
-	expect(scene.mode == scene.Mode.WATER57 and scene.pieces.spell57_man.visible, "he fades into the 57 man")
+	expect(scene.mode == scene.Mode.WATER57 and scene.pieces.spell57_man.visible and scene.avatar.visible, "he stands beside the 57 man")
 	expect(scene.widen.amount == 1.0 and scene.widen.cell == scene.widen.CELLS[57], "57: the vignette opens out")
 	expect(scene._bending and scene.pieces.spell57_stream.region_rect.size.y == scene.pieces.spell57_stream.texture.get_height(), "the water flows in full")
 	scene._water57(0.5)
@@ -183,6 +207,22 @@ func _run() -> void:
 	scene.reset()
 	await frames()
 	var t = scene.tables
+	for sp in [52, 53]:
+		var altar_id := "spell52_altar" if sp == 52 else "spell53_offering_table"
+		var altar := target_ink(scene, scene.pieces[altar_id], "#" + altar_id)
+		var journal_size: int = scene.journal.size()
+		expect(altar.is_finite() and scene._click_rite(altar) and scene.mode == scene.Mode.WALK and scene.journal.size() == journal_size
+			and scene.hud._text == UI.plain(scene._hints.message("survival.altar%d" % sp)), "%d: the altar explains the chair without entering or recording" % sp)
+		var chair := target_ink(scene, scene.pieces["spell%d_chair" % sp], "#seat%d" % sp)
+		scene.gate_used = true
+		scene.avatar.min_x = scene.min_x()
+		expect(chair.is_finite() and scene._click_rite(chair), "%d: the chair can be clicked" % sp)
+		arrive(scene)
+		expect(scene.mode == scene.Mode.TABLE and not t.g.get("playing", true), "%d: the chair begins seating" % sp)
+		scene._unhandled_input(key_press(KEY_ESCAPE))
+		await seconds(1.1)
+		expect(scene.mode == scene.Mode.WALK and t.g.is_empty() and scene.avatar.visible and scene.avatar.modulate.a == 1.0,
+			"%d: Esc during seating safely restores the walking avatar" % sp)
 	for sp in [52, 53]:
 		var r: Dictionary = t.rigs[sp]
 		t.pose(r, r.T0.x)
@@ -306,7 +346,8 @@ func _run() -> void:
 	var spot: Vector2 = ink_of.call(scene.pieces.breath_loc1)
 	expect(scene._pick(spot) == "#breath_loc1", "a hidden sail's spot can be clicked")
 	scene._use("#breath_loc1", spot)
-	scene._use("#breath_loc2", Vector2.ZERO)
+	var second_spot: Vector2 = ink_of.call(scene.pieces.breath_loc2)
+	expect(scene._pick(second_spot) == "#breath_loc2" and scene._click_rite(second_spot), "the sail remains clickable inside the foreground column")
 	await frames()
 	expect(b.carried.size() == 2 and scene._pick(spot) != "#breath_loc1", "clicked, the spot gives him a sail, once")
 	expect(b.carried[1].sprite.global_position.y < b.carried[0].sprite.global_position.y, "his sails are held up, stacked")
@@ -336,6 +377,19 @@ func _run() -> void:
 	scene._enter_gate()
 	scene.avatar.set_process(true)
 	await until_mode(scene, scene.Mode.MUMMY)
+	var spent: MoveableObject = scene._spent45
+	scene._unhandled_input(key_press(KEY_ESCAPE))
+	await until_mode(scene, scene.Mode.WALK)
+	expect(not scene.gate_used and scene._carried.size() == 3 and spent.sprite.visible and spent.sprite.material == null
+		and spent.sprite.modulate == Color.WHITE, "45: Esc refunds the visible sceptre at the black door")
+	expect(scene.hud._text == scene._hints.message("survival.left45"), "45: Esc shows the leave line")
+	await seconds(1.8)
+	expect(spent.sprite.visible, "45: the refunded sceptre stays visible after the crumble would finish")
+	var door := (scene.get_node("Figures/Spell44/DoorDark") as ColorRect).get_global_rect().get_center()
+	scene._click_rite(door)
+	arrive(scene)
+	expect(scene._carried.size() == 2, "45: the black door spends a sceptre again")
+	await until_mode(scene, scene.Mode.MUMMY)
 	scene._swing = scene.MUMMY_FALL
 	await frames(2)
 	expect(scene.mode == scene.Mode.SCENE, "45: past the fall angle it falls")
@@ -355,6 +409,17 @@ func _run() -> void:
 	expect(scene.pieces.spell45_mummy_body.material == null and scene.pieces.spell45_mummy_head.position == scene._head_at, "45: starting over, the mummy is whole")
 	scene.avatar.set_process(false)
 
+	scene.reset()
+	scene._take_sceptres()
+	scene._enter_gate()
+	await until_mode(scene, scene.Mode.MUMMY)
+	expect(scene.mode == scene.Mode.MUMMY, "45: the mummy is ready to leave before restarting")
+	scene._unhandled_input(key_press(KEY_ESCAPE))
+	expect(scene.mode == scene.Mode.SCENE, "45: Esc starts the exit fade")
+	scene.reset()
+	await seconds(scene.DARK * 2.0)
+	expect(scene.mode == scene.Mode.WALK and scene._dark.modulate.a == 0.0, "45: Restart cancels the exit blackout")
+
 	# no sceptres left at the door: his head falls and the level begins again
 	scene.reset()
 	await frames()
@@ -365,6 +430,20 @@ func _run() -> void:
 	await seconds(3.2)
 	expect(not scene.gate_used and scene._look == "43" and scene.avatar.position == scene._start and scene._sceptres.all(func(o): return o.state == MoveableObject.State.WORLD), "after his head falls the level begins again")
 	expect(scene.journal.has("spell43_osiris"), "the Journal is kept")
+	scene.gate_used = true
+	scene.avatar.min_x = scene.min_x()
+	var stream_on_return := target_ink(scene, scene.pieces.spell57_stream, "#water57")
+	if stream_on_return.is_finite():
+		scene._click_rite(stream_on_return)
+		arrive(scene)
+	expect(scene.mode == scene.Mode.WATER57, "57 is active before testing Restart during bend reset")
+	scene._water57(0.1)
+	scene._unhandled_input(key_press(KEY_ESCAPE))
+	expect(scene._bend_tween != null, "leaving 57 starts its bend reset")
+	scene.reset()
+	await seconds(0.4)
+	var man: Sprite2D = scene.pieces.spell57_man
+	expect(man.visible and man.material.get_shader_parameter("bend") == 0.0, "Restart clears the 57 bend and keeps the man drawn")
 	Engine.time_scale = 1.0
 	scene.free()
 	await frames()
@@ -379,3 +458,25 @@ func _click(at: Vector2) -> InputEventMouseButton:
 	e.global_position = at
 	e.position = at
 	return e
+
+
+func key_press(code: Key) -> InputEventKey:
+	var event := InputEventKey.new()
+	event.keycode = code
+	event.pressed = true
+	return event
+
+
+func arrive(scene) -> void:
+	scene.avatar._process(100.0)
+	scene.avatar._process(0.1)
+
+
+func target_ink(scene, sprite: Sprite2D, id: String) -> Vector2:
+	var rect := sprite.get_rect()
+	for y in range(0, int(rect.size.y), 2):
+		for x in range(0, int(rect.size.x), 2):
+			var point := sprite.to_global(rect.position + Vector2(x, y))
+			if scene._pick(point) == id:
+				return point
+	return Vector2.INF

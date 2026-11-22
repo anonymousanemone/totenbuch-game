@@ -288,7 +288,7 @@ func _test_dangers_scene_actors() -> void:
 		"runtime reuses authored actors and derives homes and bounds from scene placement")
 	var hidden := true
 	for id in scene.actors:
-		if id.begins_with("spear") or id.begins_with("sheaf41_"):
+		if (id.begins_with("spear") and not id.ends_with("_pole")) or id.begins_with("sheaf41_"):
 			hidden = hidden and not scene.actors[id].visible
 	_expect(hidden and scene.actors.ankh38.visible and scene.actors.sail38.visible, "startup hides fight-only actors while retaining the ankh and the sail")
 	moved.position += Vector2(20, 10)
@@ -376,10 +376,19 @@ func _test_donkey_hover() -> void:
 	_expect(scene.column.visible and scene.column.z_index > scene.avatar.z_index
 		and between.position.x >= scene.span(sheaf).y and between.end.x <= scene.span(encounter).x + 1.0,
 		"walking from spell 40 to 41, he passes behind the column of signs between them")
-	_expect(scene._hover_at(scene.actor_rect(encounter.donkey).get_center()) == [encounter.foe, encounter.donkey, encounter.tail],
-		"on the scroll the donkey glows (and takes the click) with the snake on its back")
-	_expect(scene._hover_at(scene.actor_rect(sheaf.bundle).get_center()) == [sheaf.foe, sheaf.bundle],
-		"on the scroll the sheaf glows (and takes the click) with its snake")
+	for actor_id in [encounter.donkey, sheaf.bundle]:
+		var sprite: Sprite2D = scene._picture(scene.actors[actor_id])
+		var art := sprite.texture.get_image()
+		var glows := false
+		for y in range(0, art.get_height(), 4):
+			for x in range(0, art.get_width(), 4):
+				var point := sprite.to_global(sprite.get_rect().position + Vector2(x, y))
+				if art.get_pixel(x, y).a > 0.8 and scene._hover_at(point) == [actor_id]:
+					glows = true
+					break
+			if glows:
+				break
+		_expect(glows, "walking hover identifies the inspected drawing: " + actor_id)
 	scene.start_fight(encounter)
 	_expect(not scene._instant and not scene.fight.has("foe"),
 		"donkey hover regression uses the normal encounter state")

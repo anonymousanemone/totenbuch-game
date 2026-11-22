@@ -244,6 +244,7 @@ func _run() -> void:
 		await frames()
 	await _test_feedback()
 	await _test_procession_scenes()
+	await _test_procession_camera_hold()
 	print("UI REGRESSIONS ", "OK" if failures.is_empty() else "FAILED")
 	quit(0 if failures.is_empty() else 1)
 
@@ -272,13 +273,10 @@ func _test_feedback() -> void:
 		var owner: Dictionary = level.ENCOUNTERS.filter(func(e): return e.id == id)[0]
 		expect(words.all(func(w): return w in level._caption_signs(owner)), id + " the whole caption glows with its heka word")
 	var e31: Dictionary = level.ENCOUNTERS[0]
-	for visit in 2:   # walking into a danger's vignette says its line every time, not only the first
-		level.hud.say("Scribe", "")
-		level.avatar.position.x = level.span(e31).y + 50.0 * level.unit
-		level._check_position()
-		level.avatar.position.x = level.span(e31).y - 100.0 * level.unit
-		level._check_position()
-		expect(level.hud._text.begins_with(level._descriptions.line("e31", "default", true).text), "walking into spell 31 says its line (visit %d)" % (visit + 1))
+	level.hud.say("Scribe", "Test message")
+	level.avatar.position.x = level.span(e31).y - 100.0 * level.unit
+	level._check_position()
+	expect(level.hud._text == "Test message", "walking into spell 31 keeps the current line")
 	level.take(level.ENCOUNTERS.filter(func(e): return e.id == "e38")[0])
 	var volume := AudioServer.get_bus_volume_db(0)
 	AudioServer.set_bus_volume_db(0, -80.0)
@@ -374,9 +372,10 @@ func _test_procession_scenes() -> void:
 		if side < 0:
 			await frames()
 			await shot("standards-frame")
-		Input.action_press("ui_left")
-		level._process(0.0)
-		Input.action_release("ui_left")
+		level._unhandled_input(key_press(KEY_UP))
+		level._unhandled_input(key_press(KEY_DOWN))
+		expect(level.in_standards, "vertical arrows keep the standards open")
+		level._unhandled_input(key_press(KEY_LEFT if side < 0 else KEY_RIGHT))
 		expect(not level.in_standards and level.held == "", "arrow exit returns carried standard safely")
 	level._table_now()
 	level.reset()
@@ -384,7 +383,25 @@ func _test_procession_scenes() -> void:
 	expect(level.hud._text == level.PUZZLES.text("procession.offerings", "instructions"), "table entry after restart shows instructions")
 	level.leave_table()
 	var driver: Dictionary = level.hotspots.filter(func(h): return h.label == "Ox-driver")[0]
-	level.take_rope(driver)
+	var driver_ink := procession_ink(level, driver)
+	expect(driver_ink.is_finite(), "the ox-driver has clickable ink")
+	if driver_ink.is_finite():
+		level._click_world(driver_ink)
+	level.avatar._process(100.0)
+	level.avatar._process(0.1)
+	expect(not level.haul.active and level.journal.has("ox_driver") and level.hud._text.contains(
+		level._hints.message("procession.click_rope")), "the ox-driver explains the haul without starting it")
+	var hauler: Dictionary = level.hotspots.filter(func(h): return h.id == "hauler")[0]
+	var rope_ink := procession_ink(level, hauler)
+	expect(rope_ink.is_finite(), "the rope has clickable ink")
+	if rope_ink.is_finite():
+		level._click_world(rope_ink)
+		level.avatar._process(100.0)
+		level.avatar._process(0.1)
+	expect(level.haul.active, "clicking the rope starts the haul")
+	if not level.haul.active:
+		level.free()
+		return
 	level.haul._tween.custom_step(1.0)
 	expect(level.haul.phase == HaulSledge.Phase.READY, "hauling waits after the introduction")
 	var space := InputEventKey.new()
@@ -393,11 +410,76 @@ func _test_procession_scenes() -> void:
 	level._unhandled_input(space)
 	expect(level.haul.phase == HaulSledge.Phase.PLAYING, "Space begins the hauling count-in")
 	level.haul.instant = true
-	var arrow := InputEventKey.new()
-	arrow.keycode = KEY_RIGHT
-	arrow.pressed = true
-	level._unhandled_input(arrow)
+	level._unhandled_input(key_press(KEY_RIGHT))
+	expect(level.haul.active, "arrows keep the haul active")
+	level._unhandled_input(key_press(KEY_ESCAPE))
 	level._process(0.0)
-	expect(not level.haul.active and level.avatar.visible, "hauling arrow exit restores the walking avatar")
+	expect(not level.haul.active and level.avatar.visible and level.avatar.is_processing(), "Esc restores the walking avatar")
+
 	level.free()
 	await frames()
+
+
+func procession_ink(level, spot: Dictionary) -> Vector2:
+	for sprite: Sprite2D in level._hot_sprites(spot.id):
+		var rect := sprite.get_rect()
+		var art := sprite.texture.get_image()
+		for y in range(0, art.get_height(), 2):
+			for x in range(0, art.get_width(), 2):
+				if art.get_pixel(x, y).a < 0.8:
+					continue
+				var point := sprite.to_global(rect.position + Vector2(x, y))
+				var target: Dictionary = level._pick(point)
+				if target.get("spot", {}).get("id") == spot.id:
+					return point
+	return Vector2.INF
+
+
+func _test_procession_camera_hold() -> void:
+	var viewport := SubViewport.new()
+	viewport.size = Vector2i(1280, 720)
+	root.add_child(viewport)
+	var level = load("res://scenes/procession.tscn").instantiate()
+	viewport.add_child(level)
+	level.hud.dismiss_intro()
+	level.set_process(false)
+	for focus in ["table", "water"]:
+		viewport.size = Vector2i(1280, 720)
+		level.reset()
+		level.set_process(false)
+		var origin: Vector2 = level.camera.position
+		level.avatar.position.x = level.level.table.stand if focus == "table" else level.water.stand_x()
+		level._update_camera(1.0)
+		expect(level.camera.position != origin, "walking to " + focus + " moves the camera")
+		if focus == "table":
+			level._table_now()
+			for step in 10:
+				level._update_camera(0.1)
+		else:
+			level._water_now()
+			level._update_camera(1.0)
+		var size: Vector2 = viewport.size
+		var v: Vector2 = Vector2(level.level.table.view[0], level.level.table.view[1]) if focus == "table" else level.water.view()
+		var fit: float = (size.y - level.hud.top_height() - level.hud.bottom_height() - 10.0) / (level.SCROLL_CAMERA.view_height(level.level) - level.VIEW_TOP)
+		var z := clampf(minf(fit, size.x / (v.y - v.x + 2.0 * level.SCENE_MARGIN)), 0.2 / level.unit, 2.4 / level.unit)
+		var x: float = level.SCROLL_CAMERA.clamp_horizontal((v.x + v.y) / 2.0, size.x / z, level.level.width)
+		var y: float = level.VIEW_TOP + (size.y / 2.0 - level.hud.top_height()) / z if level.FRAME_FROM_TOP else level.SCROLL_CAMERA.vertical_center(
+			level.SCROLL_CAMERA.view_height(level.level), level.hud.top_height(), level.hud.bottom_height(), z, level.VIEW_TOP)
+		expect(level._focus == focus and level.camera.zoom.is_equal_approx(Vector2(z, z))
+			and level.camera.position.is_equal_approx(Vector2(x, y)), focus + " starts with the expected framing")
+		var framing := Transform2D(0.0, level.camera.zoom, 0.0, level.camera.position)
+		viewport.size = Vector2i(800, 600)
+		level._update_camera(0.1)
+		expect(level.camera.zoom == framing.get_scale() and level.camera.position == framing.origin, focus + " keeps its framing after resize")
+		level._unhandled_input(key_press(KEY_LEFT))
+		level._update_camera(1.0)
+		expect(level._focus == "" and level.camera.position != framing.origin, focus + " releases framing on exit")
+	viewport.free()
+	await frames()
+
+
+func key_press(code: Key) -> InputEventKey:
+	var event := InputEventKey.new()
+	event.keycode = code
+	event.pressed = true
+	return event

@@ -43,6 +43,7 @@ The player walks the scroll (right to left) and clicks a figure or caption; the 
 | `j` | Journal |
 | Hint | Repeatable; each press gives the next authored hint for the puzzle's current step (up to notice, interpret, act), or says where to go **[Built]**. A selector to choose the level (Hint 1, 2, 3) is drafted in `mockups/hint-level-selector.html`, not built **[Proposed]** |
 | Esc | Leave a scene or minigame |
+| ← / → in a drag-and-drop minigame | Leave the minigame |
 | Enter / Space | Advance intro or outro |
 
 Dialogue: 32 px, never paged, three lines at most (~180 characters), in the bottom strip. Ordinary messages fade after five seconds of active play; a dragged piece's description holds through the drag, then three seconds; instructions stay until the task changes. Minigame view fixes the camera until the minigame ends (`AGENTS.md`).

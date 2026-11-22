@@ -11,7 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://dpx6bj6jlhg2p" path="res://assets/survival/figures/column_3.png" id="column_3"]
 [ext_resource type="Texture2D" uid="uid://dxtgfjby4rx16" path="res://assets/survival/figures/column_4.png" id="column_4"]
 [ext_resource type="Script" uid="uid://c8ayee7wdepte" path="res://scripts/hud.gd" id="hud"]
-[ext_resource type="Script" uid="uid://br6vs72mtvko7" path="res://scripts/survival/survival_play.gd" id="level"]
+[ext_resource type="Script" uid="uid://br6vs72mtvko7" path="res://scripts/survival/survival.gd" id="level"]
 [ext_resource type="Shader" uid="uid://cuel7upwgpsc3" path="res://scripts/papyrus.gdshader" id="papyrus"]
 [ext_resource type="Texture2D" uid="uid://bch4pgxqybsob" path="res://assets/survival/figures/spell43_caption_1027.png" id="spell43_caption_1027"]
 [ext_resource type="Texture2D" uid="uid://c3ou0od1ae3na" path="res://assets/survival/figures/spell43_osiris.png" id="spell43_osiris"]
@@ -269,6 +269,12 @@ size = Vector2(492, 488)
 
 [node name="Survival" type="Node2D" unique_id=1746825655]
 script = ExtResource("level")
+level_key = "survival"
+hint_key = "survival"
+chapter_titles = true
+only_present_entries = true
+foreground_blocks = true
+dev_args = true
 
 [node name="Papyrus" type="ColorRect" parent="." unique_id=1422364684]
 material = SubResource("paper")

@@ -251,3 +251,12 @@ Who decided what, session by session: the author's decisions, what was made from
 - **Decided:** new citations always get a search for a source; citations the author marks done or deletes on purpose are no longer to-do; the Dangers registry is done and frozen; commit to main and delete `minigame-entry-exit`.
 - **Made:** `.claude/skills/cite-references/SKILL.md`; `godot/assets/dangers/registry.json` committed as frozen.
 - **Agent did:** put the rule only in `cite-references` (`build-levels` has no citation steps); counted a missing `reference` field as a deliberate deletion.
+
+## 2026-11-22 · Notion History sweeps
+- **Decided:** Sweep Done tasks into History only on explicit request and confirm the exact batch first.
+- **Made:** `.claude/skills/write-notion/SKILL.md`.
+
+## 2026-11-22 · shared playtest menu and Procession bread
+- **Decided:** Give all levels one hidden T menu and a level integration guide. Add mechanics QA coverage.
+- **Made:** `godot/scripts/debug_menu.gd`, Scroll and level integrations, `.claude/skills/build-levels/SKILL.md`, and mechanics QA guidance in `README.md`.
+- **Agent did:** Fixed the stale bearer sprite reference in `offering_table.gd` and added regressions for the bread and debug menu.

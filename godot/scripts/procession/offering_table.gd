@@ -210,7 +210,7 @@ func sprite_of(id: String) -> Sprite2D:
 
 ## What the goose-bearer has in his arms (or the clothes they leave bare), for the hover glow.
 func bearer_sprites() -> Array:
-	return [_bearer_sprite, _clothes].filter(func(s): return s.visible)
+	return [_bearer_sprite] if _bearer_sprite else [_clothes]
 
 
 ## His clothes show only with nothing in his arms.
@@ -579,7 +579,9 @@ func _park(id: String, at: Vector2) -> void:
 
 func _show_bearer() -> void:
 	_clothes.visible = bearer == ""
-	_bearer_sprite.visible = false
+	if _bearer_sprite:
+		_bearer_sprite.hide()
+	_bearer_sprite = null
 	if bearer != "":
 		_bearer_sprite = objects[bearer].sprite
 		_bearer_sprite.centered = true

@@ -135,31 +135,32 @@ top edge and no faded lower text. Keep level titles and spell ranges consistent.
 
 ## Add debug playtest controls
 
-The target for new level work is a hidden `T` shortcut that opens or closes the
-playtest menu from anywhere in a debug build, including paused in-level overlays.
-Keep the shortcut out of player-facing UI and cold playtest instructions.
-Gate menu creation and input
-with `OS.is_debug_build()`. Handle one press at a time and ignore key repeats.
+Press `T` to toggle the shared debug playtest menu during gameplay or over a paused
+overlay. `Scroll` creates one menu in debug builds. Keep the shortcut out of
+player-facing UI and cold playtest instructions.
 
-- Reuse `godot/scripts/debug_menu.gd`. Procession and Dangers currently instantiate
-  their own menu and pass unhandled events to `DebugMenu.handle_shortcut()` first.
-  That method owns the key check, toggle, and input consumption. When adding
-  global access, give the shared menu one debug-only input owner that runs while
-  the tree is paused. Resolve actions from the active scene and discard its
-  callbacks when it changes.
-- Supply level-specific actions as label and `Callable` pairs. Read
-  `debug_complete()` in `godot/scripts/procession/procession.gd` and
-  `godot/scripts/dangers/dangers.gd` for examples. Offer individual completion
-  actions for the level's playable puzzles, encounters, or vignettes. Reuse the
-  controller's existing completion and cleanup so visuals, hints, gates, and
-  downstream state agree. Respect mutually exclusive outcomes and make repeated
-  activation safe. Keep setup shortcuts clearly distinguishable from completions.
-- Offer one shared **Complete level** action for the current playable level.
-  Use `Scroll.finish(key)` in `godot/scripts/scroll.gd` to save it as restored
-  and advance to the next built level, or return to the menu after the last.
-  Offer no completion actions on the title screen, map, or in view-only mode.
-  While an overlay or transition prevents an action from running safely, keep
-  that action unavailable. Opening or closing the menu preserves the pause state.
+Register puzzle actions on the root script of the level scene:
+
+```gdscript
+func playtest_actions() -> Array:
+	return [
+		["Setup: offering table with frond left", debug_table_frond],
+		["Complete hauling", debug_complete.bind("t1")],
+	]
+```
+
+- Return label and `Callable` pairs. Procession and Dangers are working examples.
+  Prefix new setup labels with **Setup:**. Use **Complete** for actions that finish
+  a puzzle or vignette.
+- Use the controller's normal cleanup and completion paths so art, hints, rewards
+  and gates agree. Respect mutually exclusive outcomes and make repeat actions safe.
+- If an ending can schedule a scene change, expose its existing terminal state
+  through `playtest_is_finishing() -> bool`. Return true as soon as the ending
+  starts, including before a delayed wipe.
+- The shared **Complete level** action uses `Scroll.finish(key)` to save the
+  current level as restored and advance to the next built level or the menu.
+  Levels without hooks still get this action. Title, map and View mode show
+  an empty menu. Paused overlays and terminal sequences disable actions.
 
 ## Verify
 

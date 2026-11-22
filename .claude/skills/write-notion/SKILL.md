@@ -1,6 +1,6 @@
 ---
 name: write-notion
-description: Rules for writing to the Totenbuch Tasks database in Notion: stay inside it, never delete without approval, sweep short Done tasks into History, flag substantial Done pages for review, set Roles, and write safely. Use before any Notion create, update, move or delete.
+description: Rules for writing to the Totenbuch Tasks database in Notion: stay inside it, never delete without approval, sweep Done tasks into History only on explicit request and after confirming the exact list, set Roles, and write safely. Use before any Notion create, update, move or delete.
 ---
 
 # Writing to Notion
@@ -43,23 +43,24 @@ Options: delete exactly these, or don't. Wait for a clear yes. A yes does not ca
 
 ## 3. Finished tasks stay at Done or go to History
 
-A finished task reaches Done. Short tasks then go to History. Substantial tasks can keep their original page at Done.
+A finished task stays at Done unless the user explicitly requests a History sweep and confirms the exact tasks to move.
 
 ### Pick up In progress tasks
 
-A row in **In progress** is work the user wants done now. Whenever an agent works in the database, after the Done sweep it checks the In progress rows and picks up each one that nobody is working on, then completes it.
+A row in **In progress** is work the user wants done now. Whenever an agent works in the database, it checks the In progress rows and picks up each one that nobody is working on, then completes it.
 
 - **Unclaimed** (pick it up): the page has no Agent log, or the last log line is not a take, handover or blocker by an agent still on it. A row the user dragged to In progress with no log line is theirs to hand out, so it is unclaimed.
 - **Claimed** (leave it alone): the last log line shows another agent took it, was handed it, or is working on it ("accepted", "handed over: … → <Role>", "working on …"). Also leave it if its Role names a different agent than you and that agent has a log line on it. Do not take over another agent's task; if one looks abandoned, ask the user.
 - **Blocked:** if the last line is a blocker that only the user can clear, leave it and mention it to the user.
 - **Picking up:** add a log line (`<date time> · <your role> · picked up`) before starting, and set Role to your own role if it is blank (Section 4). Read the whole page, its relations and the matching TODO.md line first.
-- **Completing:** do the work in the repo following the project's other skills, then add a log line saying what was done, move the row to Done and review it for History (below). Do not commit or push without asking (Section 8).
+- **Completing:** do the work in the repo following the project's other skills, then add a log line saying what was done and move the row to Done. Do not commit or push without asking (Section 8).
 - **When to stop and ask:** the task is unclear, too big to finish in one go, needs a decision from the user, or turns out to be undecided (ask the user directly; don't set TBD yourself, Section 6). Write a blocker log line and leave the row in In progress.
 - Pick up only what the current session can reasonably finish. If there are several, list them to the user first and say which you are taking.
 
-- The user drags finished tasks to **Done**. Whenever an agent works in the database, it first checks Done rows. Apply the same review to tasks an agent finishes itself.
-- Sweep a short task with little or no body if its full record fits in a short History entry.
-- Flag any task with a full plan, a substantial body, or more material than fits in a short History entry. If uncertain, flag it. Ask the user in one batch, with each page's title, link and reason, whether to keep the original page at Done or sweep it into History. Keep the original page at Done until they answer. Sweep a flagged task only with their explicit approval and after the verification below.
+### Sweep into History on request
+
+- Review Done rows for History only when the user explicitly requests a sweep. Limit the review to the requested tasks or scope.
+- Before writing anything to History, present the exact batch for confirmation. Give the count, each task's title and link, and its destination History item. Flag tasks with a full plan, a substantial body, or more material than fits in a short History entry, and explain what would be carried over. Wait for a clear yes and move only the confirmed rows.
 - If the user chooses to keep a page, append a brief note recording their decision in the task body and leave its status at Done. On later sweeps, skip pages with a recorded decision to keep them.
 - Each scope has one **History** item: a page named `<Scope>: History`, Scope set, Status `History` (they were first called `<Scope>: Completed`). If a scope has none, create it.
 
@@ -75,7 +76,7 @@ To sweep a task:
 ```
 
 4. Fetch the History item and check every piece of text and metadata is there.
-5. Only then remove the standalone row. This is the one removal that needs no approval, because nothing is lost: everything now sits in the History item.
+5. Only then remove the standalone row from the confirmed batch. The user's confirmation of the sweep covers this removal.
 6. If something cannot be carried across (a comment, an attachment, a relation to a task that stays open), stop and ask. Do not remove the row.
 
 Batch the move: write all entries for a scope in one edit, verify, then remove the rows in batches of 20. Say afterwards how many rows moved, to which History items, and what the links are.
@@ -164,7 +165,7 @@ Work moves through these stages, one way:
    - If you are unsure whether it is ready to be a task, ask (Section 6).
    - Propose splits to the user in one batch; create them after a yes, unless the user asked for that split directly.
 4. **Working the task.** Backlog → To do → In progress, with agent log lines (Section 4).
-5. **Done → retained page or History.** Review finished tasks under Section 3. In the Plan, mark the line as done with a link to the retained task page or its History page, or remove the line if the Plan has nothing left to say about it.
+5. **Done → retained page or History.** Keep finished tasks at Done and follow Section 3 if the user requests a History sweep. In the Plan, mark the line as done with a link to the retained task page or its History page, or remove the line if the Plan has nothing left to say about it.
 6. **Doc.** Once a feature is built, its behaviour belongs in the scope's Doc (Status Documentation), not the Plan. Update the Doc only when asked or when you built it.
 
 Rows never go backwards into a Plan. If a task turns out to be undecided, ask the user; it goes to TBD only if they say so.

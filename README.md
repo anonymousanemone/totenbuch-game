@@ -184,6 +184,18 @@ with `--screenshot=path.png`. UI regressions: `--script res://tests/ui_regressio
 
 ### Playtest step driver
 
+In a debug build, press **T** to open or close the shared playtest menu. On a
+playable level, **Complete level** records it as restored in the local save and
+advances. Procession and Dangers also supply puzzle shortcuts. See the
+[level integration guide](.claude/skills/build-levels/SKILL.md#add-debug-playtest-controls)
+to add shortcuts to another level.
+
+For mechanics QA, use a setup shortcut to reach the state, then do the remaining
+actions through the normal gameplay controls. Check what the player sees, the
+resulting game state, and what happens on a repeat click or after leaving and
+returning. Keep reproducible bugs in the level regression suite. Use the cold
+playtest workflow for what a first-time player can infer from the screen.
+
 `godot/tests/step_driver.gd` keeps the game running in a window and takes one action at a time, for the
 cold-tester playtests of the `playtest` skill. `godot/tests/step.py` is its client; each call is one
 action and prints one JSON line.

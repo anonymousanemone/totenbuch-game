@@ -33,22 +33,7 @@ The UI is the scroll's own furniture: papyrus bars, its frame band and a pixel f
 - Old Fax only (`godot/assets/fonts/OldFax.ttf`): 16 px for body text and labels, 32 px for titles, the top bar, the strip and dialogue. Labels may use 24 px.
 - Keys are written in brackets, as in "hold [shift]".
 
-**Colour roles**
-
-| Role | Colour | Used for |
-|---|---|---|
-| Papyrus | `#e2d0a6` | Pages, the scene's paper |
-| Dark papyrus | `#cbb07c` | Bars, the strip, buttons |
-| Ink | `#2e1d10` | Text, icons, borders |
-| Rule | `#8f7142` | Thin rules |
-| Ochre | `#62380e` | Secondary text |
-| Tag | `#963e28` | Speakers' tags, headings, the main button |
-| Minigame tag | `#456137` | Minigame instructions, clues and feedback |
-| Hint tag | `#d2ad46` | Hint-button messages |
-| Cream | `#f1e7cd` | Type on dark ink |
-| Red | `#b55b3c` | Danger ink, targets, anything red |
-
-A distinction never rests on colour alone: health, targets, warnings and counts also differ in shape or text.
+**Colours.** Names are in `godot/scripts/ui.gd`. A distinction never rests on colour alone: health, targets, warnings and counts also differ in shape or text.
 
 **In-game colours.** The few colours the player sees in the world and on the UI:
 
@@ -61,13 +46,32 @@ A distinction never rests on colour alone: health, targets, warnings and counts 
 | Dark red (`UI.DARK_RED`) | `#751c18` | The selected spear band in the Dangers (41) |
 | Glow (`UI.GLOW`) | about `#ffc247` at 60% opacity | The hover glow behind what can be clicked, reaching 9 px: in every level, the Dangers too |
 | Success glow (`UI.SUCCESS_GLOW`) | `#a0aa72` at 40% opacity | What a task just set right glows this for a moment, reaching 17 px: in every level |
+| Success ink (`UI.SUCCESS_INK`) | `#3f7a2a` | The strip's success line turns this green, then back to ink |
 | Faint ink (`UI.FAINT_INK`) | `#571d0a` (ink turned dark red-brown) at 25% opacity, about `#bfa37f` over papyrus | Where something goes: a drawing's place to drag a piece to, and the Survival sceptre imprints. Always this colour and opacity. Never used for a pattern that is only shown |
 
-**Red is always this red, at 100%.** A drawing turned red ends as exactly `UI.RED` (`#b55b3c`). The six in-game colours are the only palette names in `ui.gd`; a sprite drawn in ink is tinted with `UI.inked(UI.RED)`, which turns its ink into that colour exactly. A flash or pulse may pass through other values, but its final form is this red. "Make it red" means this red at 100% unless the author says otherwise.
+**Red is always this red, at 100%.** A drawing turned red ends as exactly `UI.RED` (`#b55b3c`). Palette colours are shown as they are; a sprite drawn in ink is tinted with `UI.inked(UI.RED)`, which turns its ink into that colour exactly. A flash or pulse may pass through other values, but its final form is this red. "Make it red" means this red at 100% unless the author says otherwise.
 
 **Tag colours** (the speaker's tag on the band, with an ink border): tag red `#963e28` (a UI colour, not one of the in-game colours) for everything else (the Scribe, figures, objects), with cream type; green `#456137` for minigame instructions, clues and feedback, with cream type; gold `#d2ad46` for Hint-button messages, with ink type.
 
 **Band colours** (the scroll's frame band, `godot/assets/ui/band_*.png`): ink `#2e1d10`, ochre `#c8a864`, terracotta `#ac6446`, sage green `#74886a`, pale green `#94a280`, grey-blue `#708092`. While only walking and reading a restored scroll the band is tinted warm (`UI.VIEW`).
+
+**Not yet categorized.** These are in use but not yet placed in the groups above:
+
+| Colour | Value | Where it is used |
+|---|---|---|
+| Rule (`UI.RULE`) | `#8f7142` | Thin rules, unlit sound pips |
+| Ochre (`UI.OCHRE`) | `#62380e` | Secondary text: journal notes, menu values, sound pips |
+| Cream (`UI.CREAM`) | `#f1e7cd` | Type on tags, menu hover type, the Dangers' paper |
+| Dim (`UI.DIM`) | `#1f140a` at 50% (72% behind modals) | Behind the journal, modals and menus |
+| Success flash (`UI.SUCCESS`) | multiplier (1.8, 1.4, 0.6) | A menu button flashes warm when it is pressed |
+| Band tint (`UI.VIEW`) | multiplier (1.7, 1.25, 0.45) | The frame band while only walking and reading a restored scroll |
+| Scroll paper (`papyrus.gdshader`, `figure.gdshader`) | base `#e7d6ae`, fibre `#785929` | The paper of the scroll scenes; not the same as `UI.PAPYRUS` |
+| Warm light (`light.gdshader`, `slit_light.gdshader`) | `#fff2c7`, core `#fffae6` | The finale light at the end of Procession; the slit of light in the doors |
+| Dust (`procession.gd`) | `#c9a869` | The dust drops in Procession |
+| Dissolve (`dissolve.gdshader`) | `#b55b3c` | The red a crumbling drawing turns; a copy of `UI.RED` written out by hand |
+| Dev outlines (`procession.gd`, `survival.tscn`) | `#a33320`, `#4d6b29`, `#59bfe6` | `--show-hits` outlines and editor debug shapes only; never shown in play |
+
+Scenes also write the palette out by hand: about 80 ink rectangles (`#2e1d10`), and some papyrus (`#e2d0a6`) and dark papyrus (`#cbb07c`) ones.
 
 **Icons.** Ink on transparent, on the font's grid: 4 px main strokes next to 32 px text and 2 px next to 16 px, about 28 px tall, hard pixels only. Signs follow New Gardiner forms. Icons are drawn as rows in `.claude/skills/make-artwork/menu_images.py`, and the full rules are in `make-artwork`.
 

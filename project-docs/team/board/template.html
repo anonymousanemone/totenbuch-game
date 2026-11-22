@@ -1,0 +1,632 @@
+<title>Team Board</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: a production swim-lane board. Columns alternate phase (work) and gate (decision); people lanes sit above agent lanes. */
+:root {
+  --bg: #eef1ef; --surface: #ffffff; --ink: #17212a; --muted: #56636c; --line: #d2d9d5; --line-strong: #b5c0ba;
+  --accent: #1d5bbd; --accent-soft: #e3ecfa; --gate: #9a6206; --gate-bg: #f6eedf; --person-bg: #e5eaf2;
+  --warn: #b0341c; --warn-soft: #fbe7e2; --ok: #2b7647; --dim: .32;
+  --f-display: "Archivo Narrow", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  --f-body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --lane-w: 176px; --phase-w: 232px; --gate-w: 196px;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #11161a; --surface: #192025; --ink: #e3e9ec; --muted: #9ba7ae; --line: #2a343a; --line-strong: #3d4a51;
+  --accent: #79a6ee; --accent-soft: #1d2a40; --gate: #e3aa48; --gate-bg: #272116; --person-bg: #1b2430;
+  --warn: #f08268; --warn-soft: #3a1f19; --ok: #6cc28e; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #11161a; --surface: #192025; --ink: #e3e9ec; --muted: #9ba7ae; --line: #2a343a; --line-strong: #3d4a51;
+  --accent: #79a6ee; --accent-soft: #1d2a40; --gate: #e3aa48; --gate-bg: #272116; --person-bg: #1b2430;
+  --warn: #f08268; --warn-soft: #3a1f19; --ok: #6cc28e; color-scheme: dark }
+* { box-sizing: border-box }
+body { background: var(--bg); color: var(--ink); font: 14px/1.45 var(--f-body); margin: 0 }
+.wrap { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 20px 28px; display: grid; gap: 16px }
+button, input, select, textarea { font: inherit; color: inherit }
+button { cursor: pointer }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px }
+header.top { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: end; justify-content: space-between }
+.titleblock { display: grid; gap: 4px; min-width: 0 }
+.eyebrow { font: 500 11px/1 var(--f-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted) }
+h1 { font: 700 30px/1.05 var(--f-display); margin: 0; letter-spacing: -.01em; text-wrap: balance }
+.game { display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap }
+.game label { font: 500 12px var(--f-mono); color: var(--muted) }
+.game input { border: 0; border-bottom: 1px dashed var(--line-strong); background: transparent; font: 600 16px var(--f-body); padding: 2px 0; min-width: 0; width: min(340px, 70vw) }
+.lede { margin: 0; color: var(--muted); max-width: 70ch }
+.tools { display: flex; flex-wrap: wrap; gap: 8px }
+.btn { border: 1px solid var(--line-strong); background: var(--surface); border-radius: 6px; padding: 6px 12px; font-weight: 500 }
+.btn:hover { border-color: var(--accent) }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--surface) }
+.btn.danger { color: var(--warn) }
+.btn.small { padding: 3px 8px; font-size: 12px }
+
+.roster { display: flex; flex-wrap: wrap; gap: 8px; align-items: center }
+.chip { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--line-strong); background: var(--surface); border-radius: 999px; padding: 4px 10px 4px 6px; font-size: 13px }
+.chip[aria-pressed="true"] { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent) }
+.dot { width: 10px; height: 10px; border-radius: 50%; border: 2px solid var(--muted); flex: none }
+.dot.tailored { background: var(--accent); border-color: var(--accent) }
+.dot.person { border-radius: 2px; background: var(--muted); border-color: var(--muted) }
+.warncount { font: 600 11px var(--f-mono); color: var(--warn); background: var(--warn-soft); border-radius: 999px; padding: 0 6px }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; color: var(--muted); font-size: 12px; align-items: center }
+.legend span { display: inline-flex; gap: 6px; align-items: center }
+
+.board-scroll { overflow: auto; max-height: calc(100vh - 120px); border: 1px solid var(--line); border-radius: 8px; background: var(--surface) }
+.board { display: grid; width: max-content; grid-template-columns: var(--lane-w) var(--cols) }
+.hd { position: sticky; top: 0; z-index: 3; background: var(--surface); border-bottom: 1px solid var(--line-strong); border-right: 1px solid var(--line); padding: 10px 12px; text-align: left; border-top: 0; border-left: 0; display: grid; gap: 3px; align-content: start }
+.hd:hover .hd-title { color: var(--accent) }
+.hd.gate { background: var(--gate-bg) }
+.hd-title { font: 600 15px/1.15 var(--f-display) }
+.hd-when { font: 400 11px var(--f-mono); color: var(--muted) }
+.gtag { font: 600 11px var(--f-mono); color: var(--gate); letter-spacing: .04em }
+.ptag { font: 500 11px var(--f-mono); color: var(--muted); letter-spacing: .04em; text-transform: uppercase }
+.corner { position: sticky; left: 0; top: 0; z-index: 5; background: var(--surface); border-bottom: 1px solid var(--line-strong); border-right: 1px solid var(--line-strong); padding: 10px 12px; font: 500 11px var(--f-mono); color: var(--muted); text-transform: uppercase; letter-spacing: .06em; display: flex; align-items: end }
+.lane { position: sticky; left: 0; z-index: 2; background: var(--surface); border-right: 1px solid var(--line-strong); border-bottom: 1px solid var(--line); padding: 10px 12px; text-align: left; border-top: 0; border-left: 0; display: grid; gap: 4px; align-content: start }
+.lane.person { background: var(--person-bg) }
+.lane-name { display: flex; gap: 6px; align-items: center; font: 600 15px/1.15 var(--f-display) }
+.lane-sub { font-size: 12px; color: var(--muted) }
+.lane-meta { display: flex; gap: 6px; align-items: center; font: 500 11px var(--f-mono); color: var(--muted) }
+.lane:hover .lane-name { color: var(--accent) }
+.worked { font: 600 10px var(--f-mono); color: var(--ok); text-transform: uppercase; letter-spacing: .06em }
+.cell { border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 9px 11px; text-align: left; background: var(--surface); border-top: 0; border-left: 0; display: grid; gap: 6px; align-content: start; font-size: 13px; transition: opacity .15s }
+.cell.gate { background: var(--gate-bg) }
+.cell.person { background: color-mix(in srgb, var(--person-bg) 70%, var(--surface)) }
+.cell.gate.person { background: color-mix(in srgb, var(--person-bg) 55%, var(--gate-bg)) }
+.cell:hover { box-shadow: inset 0 0 0 2px var(--accent) }
+.does { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden }
+.flows { display: flex; flex-wrap: wrap; gap: 4px }
+.flow { font: 500 11px var(--f-mono); border-radius: 4px; padding: 1px 5px; background: var(--bg); color: var(--muted); white-space: nowrap }
+.flow.out { color: var(--accent); background: var(--accent-soft) }
+.flag { font: 600 11px var(--f-mono); color: var(--warn); background: var(--warn-soft); border-radius: 4px; padding: 1px 5px; justify-self: start }
+.rec { font-size: 12px; color: var(--muted); border-top: 1px dotted var(--line-strong); padding-top: 5px }
+.rec b { font: 600 10px var(--f-mono); text-transform: uppercase; letter-spacing: .05em; color: var(--ink) }
+.person .rec b { color: var(--gate) }
+.dimmed .cell:not(.linked):not(.sel-lane), .dimmed .lane:not(.sel-lane) { opacity: var(--dim) }
+.others { grid-column: 1 / -1; position: sticky; left: 0; width: min(100vw - 34px, 720px); border-bottom: 1px solid var(--line); background: var(--surface) }
+.others-toggle { display: grid; gap: 4px; width: 100%; text-align: left; border: 0; background: transparent; padding: 10px 12px }
+.others-toggle:hover .lane-name { color: var(--accent) }
+.others-toggle .lane-name::before { content: "\25B8"; color: var(--muted) }
+.others-toggle[aria-expanded="true"] .lane-name::before { content: "\25BE" }
+.others-list { margin: 0; padding: 0 12px 12px 30px; display: grid; gap: 3px; font-size: 13px }
+.cell.linked { box-shadow: inset 0 0 0 2px var(--accent) }
+
+.scrim { position: fixed; inset: 0; background: rgb(10 14 18 / .35); z-index: 20 }
+.drawer { position: fixed; top: 0; right: 0; bottom: 0; width: min(460px, 100vw); background: var(--surface); z-index: 21; border-left: 1px solid var(--line-strong); display: grid; grid-template-rows: auto 1fr auto; padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); padding-right: env(safe-area-inset-right, 0px) }
+@media (max-width: 640px) { .drawer { top: auto; left: 0; width: 100%; max-height: 86vh; border-left: 0; border-top: 1px solid var(--line-strong); border-radius: 12px 12px 0 0; padding-left: env(safe-area-inset-left, 0px) } }
+.dr-head { padding: 16px 18px 12px; border-bottom: 1px solid var(--line); display: flex; gap: 12px; justify-content: space-between; align-items: start }
+.dr-head h2 { font: 700 21px/1.15 var(--f-display); margin: 4px 0 0; text-wrap: balance }
+.dr-body { overflow: auto; padding: 14px 18px 18px; display: grid; gap: 16px; align-content: start; min-width: 0 }
+.dr-foot { border-top: 1px solid var(--line); padding: 10px 18px; display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end }
+.close { border: 0; background: transparent; font-size: 22px; line-height: 1; padding: 4px 8px; color: var(--muted) }
+.sec { display: grid; gap: 6px; min-width: 0 }
+.sec h3 { font: 600 11px var(--f-mono); text-transform: uppercase; letter-spacing: .07em; color: var(--muted); margin: 0 }
+.sec p, .sec ul { margin: 0 }
+.sec ul { padding-left: 18px; display: grid; gap: 3px }
+.question { font: 600 17px/1.3 var(--f-display); border-left: 3px solid var(--gate); padding-left: 10px }
+.readlink { color: var(--accent); font-weight: 500 }
+textarea, .row input, .slot input { width: 100%; border: 1px solid var(--line-strong); border-radius: 6px; padding: 6px 8px; background: var(--bg) }
+textarea { min-height: 58px; resize: vertical }
+.row { display: grid; grid-template-columns: 132px 1fr auto; gap: 6px; align-items: center }
+.row select { border: 1px solid var(--line-strong); border-radius: 6px; padding: 6px; background: var(--bg); min-width: 0 }
+.row .x { border: 0; background: transparent; color: var(--muted); font-size: 18px; padding: 0 6px }
+.slot { display: grid; gap: 4px }
+.slot label { font-size: 12px; color: var(--muted) }
+.problems { display: grid; gap: 4px; margin: 0; padding: 8px 10px 8px 26px; background: var(--warn-soft); border-radius: 6px; color: var(--warn); font-size: 13px }
+.note { font-size: 12px; color: var(--muted) }
+.ro { background: var(--bg); border-radius: 6px; padding: 8px 10px }
+pre.export { margin: 0; white-space: pre; overflow: auto; max-height: 52vh; font: 12px/1.5 var(--f-mono); background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 10px }
+.status-pill { font: 600 11px var(--f-mono); border-radius: 999px; padding: 2px 8px; border: 1px solid var(--muted); color: var(--muted); text-transform: uppercase; letter-spacing: .05em }
+.status-pill.tailored { border-color: var(--accent); color: var(--accent); background: var(--accent-soft) }
+.abbr { text-decoration: underline dotted; text-decoration-thickness: 1px; text-underline-offset: 3px; cursor: help; border-radius: 3px }
+.abbr:hover, .abbr[aria-expanded="true"] { background: var(--accent-soft); color: var(--accent) }
+.pop { position: fixed; z-index: 40; width: min(320px, calc(100vw - 32px)); background: var(--surface); color: var(--ink); border: 1px solid var(--line-strong); border-radius: 8px; box-shadow: 0 8px 28px rgb(0 0 0 / .18); padding: 12px 14px; display: grid; gap: 4px; font-size: 13px; text-align: left }
+.pop-term { font: 700 18px/1.1 var(--f-display) }
+.pop-exp { font: 500 12px var(--f-mono); color: var(--muted) }
+.pop-def { margin: 4px 0 0 }
+.pop-src { font-size: 11px; color: var(--muted); margin-top: 4px }
+body:not(.sample) .sample-only { display: none !important }
+body.sample .sample-only { display: block }
+body.sample .sample-only.inline { display: inline-flex }
+body.sample .edit-only, body.sample .tools, body.sample .roster, body.sample .lane-meta, body.sample .flag { display: none !important }
+body.sample .board-scroll { max-height: none }
+body.sample .does { display: block; -webkit-line-clamp: unset; overflow: visible }
+.howto { border: 1px solid var(--line-strong); background: var(--surface); border-radius: 8px; padding: 12px 16px; max-width: 80ch }
+.howto ol { margin: 6px 0 0; padding-left: 20px; display: grid; gap: 4px }
+.hd-q { font-size: 12px; line-height: 1.35; color: var(--ink); font-weight: 500 }
+.xfer { display: grid; gap: 3px; font-size: 12px; line-height: 1.35 }
+.xfer > span { display: block }
+.xfer .who { display: block; font: 600 10px var(--f-mono); text-transform: uppercase; letter-spacing: .05em; color: var(--muted) }
+.xfer .out .who { color: var(--accent) }
+.lane.keyq { background: var(--accent-soft) }
+.cell.keyq { background: color-mix(in srgb, var(--accent-soft) 55%, var(--surface)) }
+.cell.keyq.gate { background: color-mix(in srgb, var(--accent-soft) 35%, var(--gate-bg)) }
+.kq-decision { font: 600 13px/1.35 var(--f-body); border-left: 3px solid var(--gate); padding-left: 8px }
+.kq-list { display: grid; gap: 5px; font-size: 12px; line-height: 1.35 }
+.kq-list > span { display: block }
+.kq-tag { display: block; font: 600 10px var(--f-mono); text-transform: uppercase; letter-spacing: .05em; color: var(--accent) }
+.kq-also .kq-tag { color: var(--gate) }
+.kq-list ul { margin: 0; padding-left: 16px; display: grid; gap: 3px }
+.toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); background: var(--ink); color: var(--surface); padding: 8px 14px; border-radius: 6px; z-index: 30; font-size: 13px }
+@media (prefers-reduced-motion: reduce) { .cell { transition: none } }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <div class="titleblock">
+      <span class="eyebrow" data-rich>COMS E6998 · Game Development Framework</span>
+      <h1>Team Board</h1>
+      <div class="game"><label for="game-name">Game</label><input id="game-name" aria-label="Game name"></div>
+    </div>
+    <div class="tools">
+      <label class="btn" for="import-files" title="Load role .md files or a team.json">Load team files</label>
+      <input id="import-files" type="file" accept=".md,.json" multiple hidden>
+      <button class="btn" id="btn-json" type="button">Copy team.json</button>
+      <button class="btn danger" id="btn-reset" type="button">Reset all</button>
+    </div>
+  </header>
+  <p class="lede edit-only" data-rich>Each column is a GDF phase or gate; each row is a member of your team. Click a column header for what that stage asks of you, a lane name for the role's primer and the facts it needs about your game, or a cell to see and edit what the role does, expects, delivers, and recommends there. The example game is <i>Signal Station</i> from the GDF reader.</p>
+  <div class="roster" id="roster" aria-label="Team roles"></div>
+  <div class="howto sample-only">
+    <b>How to read this board.</b> It is a sample for the GDF reader's example game, <i>Signal Station</i>.
+    <ol>
+      <li>Columns run left to right through the project: each phase of work, then the gate that decides whether it continues. Gate columns are tinted.</li>
+      <li>The first row holds the key questions. At every gate you answer the same four (Opportunity, Execution, Risks and mitigations, Alignment), worded for that gate, plus the gate's own. Phase columns list what that work must answer before the gate.</li>
+      <li>The next two rows are people. You decide; the instructor approves gates. The eight rows below are your agent team. Agents recommend.</li>
+      <li>Each cell says what that member does at that point, what they receive (<span class="flow">←</span> from whom), what they hand on (<span class="flow out">→</span> to whom), and what they recommend or decide.</li>
+    </ol>
+    <p class="note" style="margin:8px 0 0">Click a column header or a role name for more. Underlined abbreviations show their meaning on click.</p>
+  </div>
+  <div class="legend">
+    <span><i class="dot person"></i>Person; makes decisions</span><span class="sample-only inline"><i class="dot"></i>Agent; recommends</span>
+    <span class="edit-only"><i class="dot"></i>Agent on the shipped default</span>
+    <span class="edit-only"><i class="dot tailored"></i>Agent tailored to your game</span>
+    <span><span class="flow">← from</span><span class="flow out">→ to</span>handoffs</span>
+    <span class="edit-only"><span class="flag">!</span>handoff with no match on the other side</span>
+  </div>
+  <div class="board-scroll"><div class="board" id="board"></div></div>
+  <p class="note edit-only" id="notice" role="alert" hidden></p>
+  <p class="note edit-only">When you open this page with <code>python -m team serve</code> (an address starting with <code>http://127.0.0.1</code> or <code>http://localhost</code>), the page shows your role files as of the last <code>render</code>, and Save updates the <code>lanes</code>, <code>slots</code>, and <code>game</code> of the role file in <code>agent-team/roles/</code> after the checks pass; the rest of the file (permissions, subtitle, and the Instructions) stays as you wrote it. When you open the file directly, edits are saved in this browser until <code>render</code> writes a changed version of this page; to keep them, open a lane, choose <b>Show role file</b>, and replace the <code>game</code>, <code>slots</code>, and <code>lanes</code> blocks in <code>agent-team/roles/&lt;id&gt;.md</code> with the ones it shows. A role marked <i>revised</i> in your repository's coverage map changed after a handoff showed a weakness; that needs Git history, so this page shows default and tailored only.</p>
+</div>
+<div id="layer"></div>
+
+<script type="application/json" id="crew-data">/*CREW_DATA*/</script>
+<script>
+(function () {
+  "use strict";
+  var DATA = JSON.parse(document.getElementById("crew-data").textContent);
+  var COLS = DATA.columns, CIDS = COLS.map(function (c) { return c.id; });
+  var IDS = Object.keys(DATA.roles);
+  var READER = "https://github.com/columbia-university-ai-games/game-dev-f26/blob/main/docs/gdf.md#";
+  // One saved copy per game, so boards for different games opened from file:// keep separate edits.
+  var KEY = "team-board.v2:" + (DATA.game || "");
+  var clone = function (o) { return JSON.parse(JSON.stringify(o)); };
+  var SAMPLE = DATA.mode === "sample";
+  if (SAMPLE) document.body.classList.add("sample");
+  var DEF = clone(DATA);
+  var S = clone(DATA);
+  var sel = null, othersOpen = false;
+
+  var SLOTKEY = /^[A-Za-z0-9_-]+$/;
+  var KNOWN = IDS.concat((DATA.others || []).map(function (o) { return o.id; }));
+  function isStr(v) { return typeof v === "string"; }
+  function cleanPairs(list, what) {
+    if (!Array.isArray(list)) throw new Error(what + " must be a list");
+    return list.map(function (x) {
+      if (!Array.isArray(x) || x.length !== 2 || !isStr(x[0]) || !isStr(x[1])) throw new Error(what + " entries must be [role, text]");
+      if (KNOWN.indexOf(x[0]) < 0) throw new Error("unknown role id in " + what + ": " + JSON.stringify(x[0].slice(0, 40)));
+      return [x[0], x[1]];
+    });
+  }
+  function cleanLane(l) {
+    if (!isObj(l)) throw new Error("lane must be an object");
+    return { does: isStr(l.does) ? l.does : "", recommends: isStr(l.recommends) ? l.recommends : "",
+      expects: cleanPairs(l.expects || [], "expects"), delivers: cleanPairs(l.delivers || [], "delivers") };
+  }
+  function isObj(v) { return v !== null && typeof v === "object" && !Array.isArray(v); }
+  function cleanSlots(slots) {
+    if (!isObj(slots)) throw new Error("slots must be an object");
+    var out = {};
+    Object.keys(slots || {}).forEach(function (k) {
+      if (!SLOTKEY.test(k)) throw new Error("bad slot key " + JSON.stringify(k.slice(0, 40)) + "; use letters, digits, hyphens, and underscores");
+      var s = slots[k];
+      if (!isObj(s)) throw new Error("slot " + JSON.stringify(k) + " must be an object");
+      out[k] = { label: isStr(s.label) ? s.label : k, value: isStr(s.value) ? s.value : "" };
+    });
+    return out;
+  }
+  function hash(str) {
+    var h = 2166136261;
+    for (var i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619) >>> 0; }
+    return h.toString(16);
+  }
+  // The render a saved copy was made from: its date, its role data, and its game.
+  var FP = [DATA.rendered_on || "", hash(JSON.stringify(DATA.roles)), DATA.game || ""].join("|");
+  // Served by python -m team serve, the role files are the source of truth and a saved copy is never applied.
+  // Opened from file://, a saved copy applies only to the render it was made from; any other is discarded.
+  if (!SAMPLE && !served()) {
+    try {
+      var saved = JSON.parse(localStorage.getItem(KEY) || "null");
+      if (saved && saved.fp === FP) applySaved(saved); else if (saved) localStorage.removeItem(KEY);
+    } catch (e) {}
+  }
+  // Saved or imported data is validated before it touches S. Stored data that fails is skipped; imports pass strict and report the error.
+  function applySaved(sv, strict) {
+    if (isStr(sv.game)) S.game = sv.game;
+    Object.keys(sv.roles || {}).forEach(function (id) {
+      var r = S.roles[id]; if (!r || !r.editable) return;
+      try {
+        var x = sv.roles[id], lanes = {}, slots = null;
+        if (x.lanes) CIDS.forEach(function (c) { if (x.lanes[c]) lanes[c] = cleanLane(x.lanes[c]); });
+        if (x.slots) slots = cleanSlots(x.slots);
+        Object.keys(lanes).forEach(function (c) { r.lanes[c] = lanes[c]; });
+        if (slots) Object.keys(slots).forEach(function (k) { r.slots[k] = slots[k]; });
+      } catch (e) { if (strict) throw e; }
+    });
+  }
+  function persist() {
+    if (SAMPLE || served()) return;
+    var out = { fp: FP, game: S.game, roles: {} };
+    IDS.forEach(function (id) { var r = S.roles[id]; if (r.editable) out.roles[id] = { lanes: r.lanes, slots: r.slots }; });
+    try { localStorage.setItem(KEY, JSON.stringify(out)); } catch (e) {}
+  }
+
+  function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+  var GLOSS = {
+    "GDD": ["Game Design Document", "The description of the game's intended and implemented experience, rules, content, and behavior. Initial at G1, Update at G2/G3, Final at G4.", "GDF reader glossary"],
+    "AAR": ["After-Action Review", "The six-part account of results and lessons reviewed at G5: what was intended, what happened, why, and what you would change.", "GDF reader glossary; template in Section 5.7"],
+    "PPP": ["Progress / Plans / Problems", "The weekly coordination record: what got done, what comes next, and what is in the way. Posted in your course tracker (the Notion template, or Asana or GitHub Issues with the same fields) from G2 on.", "GDF reader glossary; template in Section 5.5"],
+    "QA": ["Quality Assurance", "The role that checks behavior, reproduces failures, verifies fixes, and preserves evidence. QA reports; the student decides what ships.", "GDF reader, Section 3.3"],
+    "BI": ["Business Intelligence", "The role that organizes and interprets player and performance evidence, and states what a small sample cannot support.", "GDF reader, Section 3.3"],
+    "X": ["The X", "The one-sentence statement of the game, used to align every later decision. It can improve as you learn.", "GDF reader glossary"]
+  };
+  COLS.forEach(function (c) { if (c.kind === "gate") GLOSS[c.id] = [c.title + " · " + c.when, c.question, "GDF reader, Part IV"]; });
+  var ABBR_RE = /\b(GDD|AAR|PPP|QA|BI|G[1-5])\b|(\b(?:the|an|The|An) )X\b/g;
+  function rich(s) {
+    return esc(s).replace(ABBR_RE, function (m, a, pre) {
+      var k = a || "X";
+      return (pre || "") + '<span class="abbr" role="button" tabindex="0" aria-expanded="false" data-abbr="' + esc(k) + '">' + k + "</span>";
+    });
+  }
+  var popEl = null, popFor = null;
+  function hidePop() { if (popEl) { popEl.remove(); popEl = null; } if (popFor) { popFor.setAttribute("aria-expanded", "false"); popFor = null; } }
+  function showPop(a) {
+    var same = popFor === a; hidePop(); if (same) return;
+    var g = GLOSS[a.dataset.abbr]; if (!g) return;
+    popEl = document.createElement("div"); popEl.className = "pop"; popEl.setAttribute("role", "dialog"); popEl.setAttribute("aria-label", a.dataset.abbr);
+    popEl.innerHTML = '<span class="pop-term">' + esc(a.dataset.abbr) + '</span><span class="pop-exp">' + esc(g[0]) + '</span><p class="pop-def">' + esc(g[1]) + "</p>" + (g[2] ? '<span class="pop-src">' + esc(g[2]) + "</span>" : "");
+    document.body.appendChild(popEl); popFor = a; a.setAttribute("aria-expanded", "true");
+    var r = a.getBoundingClientRect(), w = popEl.offsetWidth, h = popEl.offsetHeight;
+    var left = Math.min(Math.max(16, r.left), window.innerWidth - w - 16);
+    var top = r.bottom + 6 + h > window.innerHeight - 8 ? Math.max(8, r.top - h - 6) : r.bottom + 6;
+    popEl.style.left = left + "px"; popEl.style.top = top + "px";
+  }
+  document.querySelectorAll("[data-rich]").forEach(function (el) { el.innerHTML = rich(el.textContent).replace("Signal Station", "<i>Signal Station</i>"); });
+  window.addEventListener("scroll", hidePop, true); window.addEventListener("resize", hidePop);
+
+  function name(id) {
+    if (S.roles[id]) return S.roles[id].title;
+    var o = (DATA.others || []).filter(function (x) { return x.id === id; })[0];
+    return o ? o.title : id;
+  }
+  function L(id, c) { return S.roles[id].lanes[c]; }
+  function sends(src, dst, i) { return [i, i - 1].some(function (j) { return j >= 0 && L(src, CIDS[j]).delivers.some(function (d) { return d[0] === dst; }); }); }
+  function takes(dst, src, i) { return [i, i + 1].some(function (j) { return j < CIDS.length && L(dst, CIDS[j]).expects.some(function (e) { return e[0] === src; }); }); }
+  function problems(id, c) {
+    var i = CIDS.indexOf(c), lane = L(id, c), out = [];
+    lane.expects.forEach(function (e) { if (S.roles[e[0]] && !sends(e[0], id, i)) out.push("Expects “" + e[1] + "” from " + name(e[0]) + ", but " + name(e[0]) + " sends nothing to " + name(id) + " here or in the column before."); });
+    lane.delivers.forEach(function (d) { var t = S.roles[d[0]]; if (t && t.kind === "agent" && !takes(d[0], id, i)) out.push("Delivers “" + d[1] + "” to " + name(d[0]) + ", but " + name(d[0]) + " doesn't list it here or in the next column."); });
+    return out;
+  }
+  function roleProblems(id) { return CIDS.reduce(function (n, c) { return n + problems(id, c).length; }, 0); }
+  function status(id) {
+    var r = S.roles[id], d = DEF.roles[id];
+    if (r.kind !== "agent") return "person";
+    return JSON.stringify([r.lanes, r.slots]) === JSON.stringify([d.lanes, d.slots]) ? "default" : "tailored";
+  }
+
+  function xfer(lane) {
+    var rows = lane.expects.map(function (e) { return '<span><span class="who">\u2190 from ' + esc(name(e[0])) + "</span> " + rich(e[1]) + "</span>"; })
+      .concat(lane.delivers.map(function (d) { return '<span class="out"><span class="who">\u2192 to ' + esc(name(d[0])) + "</span> " + rich(d[1]) + "</span>"; }));
+    return rows.length ? '<span class="xfer">' + rows.join("") + "</span>" : "";
+  }
+  var CRIT = [["opportunity", "Opportunity"], ["execution", "Execution"], ["risks", "Risks and mitigations"], ["alignment", "Alignment"]];
+  function keyq(c) {
+    if (c.kind !== "gate") return '<span class="kq-list"><span><span class="kq-tag">Answer before the gate</span><ul>' + (c.investigate || []).map(function (q) { return "<li>" + rich(q) + "</li>"; }).join("") + "</ul></span></span>";
+    return '<span class="kq-decision">' + rich(c.question) + '</span><span class="kq-list">' +
+      CRIT.map(function (k) { return "<span><span class=\"kq-tag\">" + k[1] + "</span>" + rich(c.critical[k[0]]) + "</span>"; }).join("") +
+      '<span class="kq-also"><span class="kq-tag">Also ask at ' + esc(c.id) + "</span><ul>" + c.also.map(function (q) { return "<li>" + rich(q) + "</li>"; }).join("") + "</ul></span></span>";
+  }
+  function render() {
+    document.getElementById("game-name").value = S.game;
+    var roster = document.getElementById("roster");
+    roster.innerHTML = IDS.map(function (id) {
+      var st = status(id), n = roleProblems(id);
+      return '<button class="chip" type="button" data-sel="' + esc(id) + '" aria-pressed="' + (sel === id) + '" title="Highlight ' + esc(name(id)) + ' and its handoffs">' +
+        '<i class="dot ' + (st === "person" ? "person" : st) + '"></i>' + esc(name(id)) + (n ? '<span class="warncount">' + n + "</span>" : "") + "</button>";
+    }).join("");
+    var board = document.getElementById("board");
+    board.style.setProperty("--cols", COLS.map(function (c) { return c.kind === "gate" ? "var(--gate-w)" : "var(--phase-w)"; }).join(" "));
+    var h = ['<div class="corner">Team</div>'];
+    COLS.forEach(function (c) {
+      h.push('<button type="button" class="hd ' + c.kind + '" data-col="' + esc(c.id) + '">' +
+        (c.kind === "gate" ? '<span class="gtag">GATE ' + esc(c.id) + "</span>" : '<span class="ptag">Phase</span>') +
+        '<span class="hd-title">' + esc(c.kind === "gate" ? c.title.replace(/^G\d\s/, "") : c.title) + '</span><span class="hd-when">' + esc(c.when) + "</span>" + "</button>");
+    });
+    h.push('<div class="lane keyq"><span class="lane-name">Key questions</span><span class="lane-sub">The Four Critical Questions, asked at every gate (GDF 3.2), plus each gate\'s own. Phases list what their work must answer.</span></div>');
+    COLS.forEach(function (c) { h.push('<button type="button" class="cell keyq ' + c.kind + '" data-col="' + esc(c.id) + '">' + keyq(c) + "</button>"); });
+    IDS.forEach(function (id) {
+      var r = S.roles[id], st = status(id), person = r.kind === "person";
+      var linkedTo = sel && sel !== id;
+      h.push('<button type="button" class="lane' + (person ? " person" : "") + (sel === id ? " sel-lane" : "") + '" data-role="' + esc(id) + '">' +
+        '<span class="lane-name"><i class="dot ' + (person ? "person" : st) + '"></i>' + rich(r.title) + "</span>" +
+        '<span class="lane-sub">' + esc(r.subtitle) + "</span>" +
+        (person ? "" : '<span class="lane-meta">' + esc(st) + (r.worked ? ' · <span class="worked">worked example</span>' : "") + "</span>") + "</button>");
+      COLS.forEach(function (c) {
+        var lane = r.lanes[c.id], pr = problems(id, c.id);
+        var linked = linkedTo && (lane.expects.some(function (e) { return e[0] === sel; }) || lane.delivers.some(function (d) { return d[0] === sel; }));
+        var flows = lane.expects.map(function (e) { return '<span class="flow" title="' + esc(e[1]) + '">← ' + esc(name(e[0])) + "</span>"; })
+          .concat(lane.delivers.map(function (d) { return '<span class="flow out" title="' + esc(d[1]) + '">→ ' + esc(name(d[0])) + "</span>"; })).join("");
+        h.push('<button type="button" class="cell ' + c.kind + (person ? " person" : "") + (sel === id ? " sel-lane" : "") + (linked ? " linked" : "") + '" data-cell="' + esc(id) + "|" + esc(c.id) + '">' +
+          '<span class="does">' + rich(lane.does) + "</span>" + (SAMPLE ? xfer(lane) : (flows ? '<span class="flows">' + flows + "</span>" : "")) +
+          (pr.length ? '<span class="flag">! ' + pr.length + " unmatched</span>" : "") +
+          (lane.recommends ? '<span class="rec"><b>' + (person ? "Decides" : "Recommends") + "</b> " + rich(lane.recommends) + "</span>" : "") + "</button>");
+      });
+    });
+    var oth = DATA.others || [];
+    if (oth.length) {
+      h.push('<div class="others" data-others><button type="button" class="others-toggle" data-others-toggle aria-expanded="' + othersOpen + '"><span class="lane-name">Other roles (' + oth.length + ")</span>" +
+        '<span class="lane-sub">Roles you did not add as agents, and who covers each.</span></button>' +
+        (othersOpen ? '<ul class="others-list">' + oth.map(function (o) { return "<li><b>" + esc(o.title) + ":</b> covered by " + esc(o.covered_by) + "</li>"; }).join("") + "</ul>" : "") + "</div>");
+    }
+    board.innerHTML = h.join("");
+    board.classList.toggle("dimmed", !!sel);
+  }
+
+  var layer = document.getElementById("layer"), lastFocus = null;
+  function openDrawer(eyebrow, title, body, foot) {
+    lastFocus = document.activeElement;
+    layer.innerHTML = '<div class="scrim" data-close></div><section class="drawer" role="dialog" aria-modal="true" aria-label="' + esc(title) + '">' +
+      '<div class="dr-head"><div><span class="eyebrow">' + esc(eyebrow) + "</span><h2>" + rich(title) + '</h2></div><button class="close" type="button" data-close aria-label="Close">×</button></div>' +
+      '<div class="dr-body">' + body + "</div>" + (foot ? '<div class="dr-foot">' + foot + "</div>" : "") + "</section>";
+    var f = layer.querySelector(".drawer input, .drawer textarea, .drawer select, .close"); if (f) f.focus();
+  }
+  function closeDrawer() { hidePop(); layer.innerHTML = ""; if (lastFocus && document.body.contains(lastFocus)) lastFocus.focus(); }
+  function toast(msg) { var t = document.createElement("div"); t.className = "toast"; t.textContent = msg; document.body.appendChild(t); setTimeout(function () { t.remove(); }, 2200); }
+
+  function openCol(cid) {
+    var c = COLS[CIDS.indexOf(cid)];
+    var b = (c.question ? '<div class="sec"><h3>Decision question</h3><p class="question">' + rich(c.question) + "</p></div>" : "") +
+      (c.critical ? '<div class="sec"><h3>The Four Critical Questions at ' + esc(c.id) + "</h3><ul>" + CRIT.map(function (k) { return "<li><b>" + k[1] + ":</b> " + rich(c.critical[k[0]]) + "</li>"; }).join("") + "</ul></div>" +
+        '<div class="sec"><h3>Also ask at ' + esc(c.id) + "</h3><ul>" + c.also.map(function (q) { return "<li>" + rich(q) + "</li>"; }).join("") + "</ul></div>" : "") +
+      (c.investigate ? '<div class="sec"><h3>Questions this work must answer</h3><ul>' + c.investigate.map(function (q) { return "<li>" + rich(q) + "</li>"; }).join("") + "</ul></div>" : "") +
+      (c.summary ? '<div class="sec"><h3>The work</h3><p>' + rich(c.summary) + "</p></div>" : "") +
+      '<div class="sec"><h3>' + (c.kind === "gate" ? "Work before the review" : "What to do") + "</h3><ul>" + c.work.map(function (w) { return "<li>" + rich(w) + "</li>"; }).join("") + "</ul></div>" +
+      (c.evidence ? '<div class="sec"><h3>Evidence for the review</h3><ul>' + c.evidence.map(function (w) { return "<li>" + rich(w) + "</li>"; }).join("") + "</ul></div>" : "") +
+      '<div class="sec"><h3>Who does what here</h3><ul>' + IDS.map(function (id) { return "<li><b>" + rich(name(id)) + ":</b> " + rich(L(id, cid).does) + "</li>"; }).join("") + "</ul></div>" +
+      '<div class="sec"><a class="readlink" href="' + READER + c.anchor + '" target="_blank" rel="noopener">Read this section of the GDF reader ↗</a><p class="note">Dates follow the published syllabus.</p></div>';
+    openDrawer((c.kind === "gate" ? "Gate" : "Phase") + " · " + c.when, c.title, b);
+  }
+
+  function roleOptions(selected, self) {
+    var opts = IDS.filter(function (id) { return id !== self; }).map(function (id) { return '<option value="' + esc(id) + '"' + (id === selected ? " selected" : "") + ">" + esc(name(id)) + "</option>"; });
+    // A role that is not added stays selectable, so saving another field leaves the entry as it was.
+    if (selected !== self && IDS.indexOf(selected) < 0 && KNOWN.indexOf(selected) >= 0) {
+      var o = (DATA.others || []).filter(function (x) { return x.id === selected; })[0];
+      opts.push('<option value="' + esc(selected) + '" selected>' + esc((o && o.title) || selected) + " (not added)</option>");
+    }
+    return opts.join("");
+  }
+  function rowsHtml(kind, list, self, ro) {
+    if (ro) return list.length ? "<ul>" + list.map(function (x) { return "<li><b>" + rich(name(x[0])) + ":</b> " + rich(x[1]) + "</li>"; }).join("") + "</ul>" : '<p class="note">None.</p>';
+    return '<div class="rows" data-kind="' + kind + '">' + list.map(function (x, n) { return rowHtml(kind, x, self, n); }).join("") + "</div>" +
+      '<button type="button" class="btn small" data-add="' + kind + '">Add</button>';
+  }
+  var rowSeq = 0;
+  function rowHtml(kind, x, self) {
+    var k = "r" + (rowSeq++);
+    return '<div class="row"><select id="' + k + 's" aria-label="' + (kind === "expects" ? "From" : "To") + '">' + roleOptions(x[0], self) + '</select><input id="' + k + 'i" value="' + esc(x[1]) + '" aria-label="Deliverable"><button type="button" class="x" data-del aria-label="Remove">×</button></div>';
+  }
+  function openCell(id, cid) {
+    var r = S.roles[id], c = COLS[CIDS.indexOf(cid)], lane = r.lanes[cid], ro = SAMPLE || !r.editable, pr = SAMPLE ? [] : problems(id, cid);
+    var recLabel = r.kind === "person" ? "Decides" : "Recommends (to the student)";
+    var b = (c.question ? '<div class="sec"><h3>Gate question</h3><p class="question">' + rich(c.question) + "</p></div>" : "") +
+      (pr.length ? '<ul class="problems">' + pr.map(function (p) { return "<li>" + rich(p) + "</li>"; }).join("") + "</ul>" : "") +
+      '<div class="sec"><h3>Does</h3>' + (ro ? '<p class="ro">' + rich(lane.does) + "</p>" : '<textarea id="f-does">' + esc(lane.does) + "</textarea>") + "</div>" +
+      '<div class="sec"><h3>Expects from others</h3>' + rowsHtml("expects", lane.expects, id, ro) + "</div>" +
+      '<div class="sec"><h3>Delivers to others</h3>' + rowsHtml("delivers", lane.delivers, id, ro) + "</div>" +
+      '<div class="sec"><h3>' + recLabel + "</h3>" + (ro ? '<p class="ro">' + rich(lane.recommends) + "</p>" : '<textarea id="f-rec">' + esc(lane.recommends) + "</textarea>") + "</div>" +
+      (r.kind === "agent" ? '<p class="note">Agents recommend. You decide as Executive Producer and Creative Director, and the instructor approves gates.</p>' : "") +
+      (ro && !SAMPLE ? '<p class="note">The instructor lane is fixed by the syllabus and cannot be edited.</p>' : "");
+    var foot = ro ? "" : '<button type="button" class="btn" data-revert-cell="' + esc(id) + "|" + esc(cid) + '">Revert to default</button><button type="button" class="btn primary" data-save-cell="' + esc(id) + "|" + esc(cid) + '">Save</button>';
+    openDrawer(c.title + " · " + c.when, r.title + " at " + c.short, b, foot);
+  }
+  function readRows(kind) {
+    var out = [];
+    layer.querySelectorAll('.rows[data-kind="' + kind + '"] .row').forEach(function (row) {
+      var v = row.querySelector("input").value.trim(); if (v) out.push([row.querySelector("select").value, v]);
+    });
+    return out;
+  }
+  function served() { return location.protocol === "http:" && (location.hostname === "127.0.0.1" || location.hostname === "localhost"); }
+  function notice(lines) {
+    var n = document.getElementById("notice");
+    if (!lines || !lines.length) { n.hidden = true; n.textContent = ""; return; }
+    n.textContent = lines.join("\n"); n.style.whiteSpace = "pre-wrap"; n.hidden = false;
+  }
+  function applyServed(d, id) {
+    var r = isObj(d) && isObj(d.roles) && Object.prototype.hasOwnProperty.call(d.roles, id) ? d.roles[id] : null;
+    if (!r || !S.roles[id]) return;
+    var lanes = {}, slots = cleanSlots(r.slots || {});
+    CIDS.forEach(function (c) { if (r.lanes && r.lanes[c]) lanes[c] = cleanLane(r.lanes[c]); });
+    Object.keys(lanes).forEach(function (c) { S.roles[id].lanes[c] = lanes[c]; });
+    S.roles[id].slots = slots;
+    if (isStr(d.game)) S.game = d.game;
+    if (isObj(d.status)) S.status = d.status;
+    if (Array.isArray(d.warnings)) S.warnings = d.warnings.filter(isStr);
+  }
+  function putRole(id, after) {
+    if (SAMPLE || !served()) return;
+    var md;
+    try { md = roleMd(id); } catch (e) { return notice(["Not saved to agent-team/roles/: " + e.message]); }
+    fetch("/api/roles/" + encodeURIComponent(id), { method: "PUT", headers: { "Content-Type": "text/markdown; charset=utf-8" }, body: md })
+      .then(function (res) { return res.text().then(function (t) { return { ok: res.status === 200, status: res.status, text: t }; }); })
+      .then(function (r) {
+        var j = null; try { j = JSON.parse(r.text); } catch (e) {}
+        if (r.ok && j) { try { applyServed(j, id); } catch (e) { return notice(["Saved, but the page could not read the reply: " + e.message]); } notice(null); persist(); render(); toast("Saved to agent-team/roles/" + id + ".md"); if (after) after(); return; }
+        var errs = j && Array.isArray(j.errors) ? j.errors.map(String) : ["The server answered " + r.status + "."];
+        notice(["Not saved to agent-team/roles/ (your edit stays on this page until you reload it):"].concat(errs));
+      }, function () { notice(["Not saved to agent-team/roles/: the board server is not running."]); });
+  }
+  function saveCell(id, cid) {
+    var lane = S.roles[id].lanes[cid];
+    lane.does = document.getElementById("f-does").value.trim();
+    lane.recommends = document.getElementById("f-rec").value.trim();
+    lane.expects = readRows("expects"); lane.delivers = readRows("delivers");
+    persist(); render(); openCell(id, cid); if (!served()) toast("Saved in this browser"); putRole(id, function () { openCell(id, cid); });
+  }
+
+  function openRole(id) {
+    var r = S.roles[id], st = status(id), n = roleProblems(id);
+    var slots = Object.keys(r.slots);
+    var b = '<div class="sec"><h3>What this role does on a team</h3><p>' + rich(r.primer) + "</p></div>" +
+      (r.docs.length ? '<div class="sec"><h3>Documents this role is known for</h3><ul>' + r.docs.map(function (d) { return "<li>" + rich(d) + "</li>"; }).join("") + "</ul></div>" : "") +
+      (slots.length ? '<div class="sec"><h3>Facts about your game</h3><p class="note">' + (SAMPLE ? "Signal Station's answers. Each student fills these in for their own game." : "Replace each Signal Station default with the fact for your game, then choose Save.") + "</p>" +
+        slots.map(function (k, n) { return SAMPLE ? '<div class="slot"><span class="note">' + rich(r.slots[k].label) + '</span><p class="ro" style="margin:0">' + rich(r.slots[k].value) + "</p></div>" : '<div class="slot"><label for="s-' + n + '">' + rich(r.slots[k].label) + '</label><input id="s-' + n + '" data-slot="' + esc(k) + '" value="' + esc(r.slots[k].value) + '"></div>'; }).join("") + "</div>" : "") +
+      (r.kind === "agent" && !SAMPLE ? '<div class="sec"><h3>Status</h3><p><span class="status-pill ' + esc(st) + '">' + esc(st) + "</span> " + (n ? '<span class="warncount">' + n + " unmatched handoffs</span>" : '<span class="note">All handoffs match.</span>') + "</p></div>" : "");
+    var foot = SAMPLE ? "" : r.kind === "agent" ? '<button type="button" class="btn danger" data-reset-role="' + esc(id) + '">Reset role</button><button type="button" class="btn" data-md="' + esc(id) + '">Show role file</button>' + (slots.length ? '<button type="button" class="btn primary" data-save-role="' + esc(id) + '">Save</button>' : "") :
+      (r.editable ? '<button type="button" class="btn" data-sel-close="' + esc(id) + '">Highlight my handoffs</button>' : "");
+    openDrawer(r.kind === "person" ? "Person" : "Agent role", r.title, b, foot);
+  }
+
+  function q(s) { return JSON.stringify(String(s)); }
+  // The blocks the board owns. serve merges only these into agent-team/roles/<id>.md, and a student
+  // working from file:// pastes them over the same blocks there; everything else in the file stays.
+  function roleMd(id) {
+    var r = S.roles[id];
+    if (KNOWN.indexOf(id) < 0) throw new Error("unknown role id");
+    var o = ["---", "id: " + q(id), "game: " + q(S.game)], keys = Object.keys(r.slots);
+    if (keys.length) o.push("slots:");
+    keys.forEach(function (k) { if (!SLOTKEY.test(k)) throw new Error("bad slot key"); o.push("  " + k + ":", "    label: " + q(r.slots[k].label), "    value: " + q(r.slots[k].value)); });
+    o.push("lanes:");
+    CIDS.forEach(function (c) {
+      var l = r.lanes[c]; o.push("  " + c + ":", "    does: " + q(l.does));
+      [["expects", "from"], ["delivers", "to"]].forEach(function (p) {
+        if (!l[p[0]].length) { o.push("    " + p[0] + ": []"); return; }
+        o.push("    " + p[0] + ":"); l[p[0]].forEach(function (x) { if (KNOWN.indexOf(x[0]) < 0) throw new Error("unknown role id"); o.push("      - " + p[1] + ": " + q(x[0]), "        what: " + q(x[1])); });
+      });
+      o.push("    recommends: " + q(l.recommends));
+    });
+    o.push("---");
+    return o.join("\n") + "\n";
+  }
+
+  function parseYaml(text) {
+    var lines = text.split("\n").filter(function (l) { return l.trim() && l.trim().charAt(0) !== "#"; })
+      .map(function (l) { return { ind: l.match(/^ */)[0].length, t: l.trim() }; });
+    var i = 0;
+    function scalar(s) { s = s.trim(); if (s === "[]") return []; if (s === "{}") return {}; if (s.charAt(0) === '"') return JSON.parse(s); if (s.charAt(0) === "'") return s.slice(1, -1).replace(/''/g, "'"); return s; }
+    function isItem(k) { return lines[k].t === "-" || lines[k].t.indexOf("- ") === 0; }
+    function block(ind) { return i < lines.length && isItem(i) ? list(lines[i].ind) : map(ind); }
+    function map(ind) {
+      var o = {};
+      while (i < lines.length && lines[i].ind === ind && !isItem(i)) {
+        var t = lines[i].t, k = t.indexOf(":"), key = t.slice(0, k).trim(), rest = t.slice(k + 1).trim(); i++;
+        if (rest) o[key] = scalar(rest);
+        else if (i < lines.length && lines[i].ind > ind) o[key] = block(lines[i].ind);
+        else if (i < lines.length && lines[i].ind === ind && isItem(i)) o[key] = list(ind);
+        else o[key] = null;
+      }
+      return o;
+    }
+    function list(ind) {
+      var a = [];
+      while (i < lines.length && lines[i].ind === ind && isItem(i)) {
+        var t = lines[i].t.slice(2);
+        if (/^[\w-]+:(\s|$)/.test(t)) { lines[i] = { ind: ind + 2, t: t }; a.push(map(ind + 2)); } else { i++; a.push(scalar(t)); }
+      }
+      return a;
+    }
+    return lines.length ? block(lines[0].ind) : {};
+  }
+  function importMd(text) {
+    var m = text.match(/^---\s*\n([\s\S]*?)\n---/);
+    if (!m) throw new Error("no frontmatter between --- lines");
+    var y = parseYaml(m[1]), r = Object.prototype.hasOwnProperty.call(S.roles, y.id) ? S.roles[y.id] : null;
+    if (!isStr(y.id) || !r || r.kind !== "agent") throw new Error("unknown role id " + JSON.stringify(String(y.id).slice(0, 40)));
+    if (y.lanes != null && !isObj(y.lanes)) throw new Error("lanes must be an object");
+    var game = isStr(y.game) ? y.game : null, slots = y.slots ? cleanSlots(y.slots) : null, lanes = {};
+    CIDS.forEach(function (c) {
+      var l = y.lanes && y.lanes[c]; if (!l) return;
+      lanes[c] = cleanLane({ does: l.does, recommends: l.recommends,
+        expects: (l.expects || []).map(function (x) { return [x && x.from, x && x.what]; }),
+        delivers: (l.delivers || []).map(function (x) { return [x && x.to, x && x.what]; }) });
+    });
+    if (game) S.game = game;
+    if (slots) Object.keys(slots).forEach(function (k) { r.slots[k] = slots[k]; });
+    Object.keys(lanes).forEach(function (c) { r.lanes[c] = lanes[c]; });
+    return r.title;
+  }
+  function importJson(text) {
+    var j = JSON.parse(text); applySaved(j.roles && j.columns ? { game: j.game, roles: j.roles } : j, true); return "team.json";
+  }
+  document.getElementById("import-files").addEventListener("change", function (ev) {
+    var files = Array.prototype.slice.call(ev.target.files), done = [], bad = [];
+    Promise.all(files.map(function (f) { return f.text().then(function (t) {
+      try { done.push(/\.json$/i.test(f.name) ? importJson(t) : importMd(t)); } catch (e) { bad.push(f.name + ": " + e.message); }
+    }); })).then(function () {
+      persist(); render(); ev.target.value = "";
+      if (bad.length) openDrawer("Load team files", "Some files did not load", '<ul class="problems">' + bad.map(function (b) { return "<li>" + esc(b) + "</li>"; }).join("") + "</ul>" + (done.length ? '<p>Loaded: ' + esc(done.join(", ")) + "</p>" : ""));
+      else toast("Loaded " + done.join(", "));
+    });
+  });
+
+  function showExport(title, text, lead) {
+    openDrawer("Copy into your repository", title, (lead ? '<p class="note">' + esc(lead) + "</p>" : "") + '<pre class="export" id="export-text" tabindex="0">' + esc(text) + "</pre>", '<button type="button" class="btn primary" data-copy>Copy</button>');
+  }
+  function copyText() {
+    var el = document.getElementById("export-text"), txt = el.textContent;
+    var fallback = function () { var r = document.createRange(); r.selectNodeContents(el); var s = getSelection(); s.removeAllRanges(); s.addRange(r); toast("Selected; press Ctrl+C or Cmd+C"); };
+    try { navigator.clipboard.writeText(txt).then(function () { toast("Copied"); }, fallback); } catch (e) { fallback(); }
+  }
+  var armed = {};
+  function confirmClick(btn, key, label, fn) {
+    if (armed[key]) { clearTimeout(armed[key]); armed[key] = 0; fn(); return; }
+    var orig = btn.textContent; btn.textContent = label;
+    armed[key] = setTimeout(function () { armed[key] = 0; if (document.body.contains(btn)) btn.textContent = orig; }, 3000);
+  }
+
+  document.addEventListener("click", function (ev) {
+    var ab = ev.target.closest(".abbr");
+    if (ab) { ev.preventDefault(); ev.stopPropagation(); return showPop(ab); }
+    if (popEl && !ev.target.closest(".pop")) hidePop();
+    var t = ev.target.closest("button, [data-close]"); if (!t) return;
+    var ds = t.dataset;
+    if ("close" in ds) return closeDrawer();
+    if ("othersToggle" in ds) { othersOpen = !othersOpen; return render(); }
+    if (ds.sel) { sel = sel === ds.sel ? null : ds.sel; return render(); }
+    if (ds.col) return openCol(ds.col);
+    if (ds.role) return openRole(ds.role);
+    if (ds.cell) { var p = ds.cell.split("|"); return openCell(p[0], p[1]); }
+    if (ds.add) { var rows = layer.querySelector('.rows[data-kind="' + ds.add + '"]'); var self = layer.querySelector("[data-save-cell]").dataset.saveCell.split("|")[0]; rows.insertAdjacentHTML("beforeend", rowHtml(ds.add, [self === "producer" ? "student" : "producer", ""], self)); rows.lastElementChild.querySelector("input").focus(); return; }
+    if ("del" in ds) return t.closest(".row").remove();
+    if (ds.saveCell) { var a = ds.saveCell.split("|"); return saveCell(a[0], a[1]); }
+    if (ds.revertCell) { var b = ds.revertCell.split("|"); S.roles[b[0]].lanes[b[1]] = clone(DEF.roles[b[0]].lanes[b[1]]); persist(); render(); openCell(b[0], b[1]); return toast("Reverted to the shipped default"); }
+    if (ds.saveRole) { var r = S.roles[ds.saveRole]; Object.keys(r.slots).forEach(function (k, n) { var inp = document.getElementById("s-" + n); if (inp) r.slots[k].value = inp.value.trim(); }); persist(); render(); openRole(ds.saveRole); if (!served()) toast("Saved in this browser"); return putRole(ds.saveRole, function () { openRole(ds.saveRole); }); }
+    if (ds.resetRole) { var id = ds.resetRole; return confirmClick(t, "role-" + id, "Click again to reset", function () { S.roles[id].lanes = clone(DEF.roles[id].lanes); S.roles[id].slots = clone(DEF.roles[id].slots); persist(); render(); openRole(id); toast("Role reset"); }); }
+    if (ds.md) { var path = "agent-team/roles/" + ds.md + ".md"; try { return showExport(path, roleMd(ds.md), "Replace the game, slots, and lanes blocks in " + path + " with the ones below, and keep the rest of that file as it is."); } catch (e) { return toast("Cannot export this role: " + e.message); } }
+    if (ds.selClose) { sel = ds.selClose; closeDrawer(); return render(); }
+    if ("copy" in ds) return copyText();
+    if (t.id === "btn-json") { var out = { game: S.game, roles: {} }; IDS.forEach(function (i) { if (S.roles[i].kind === "agent") out.roles[i] = { lanes: S.roles[i].lanes, slots: S.roles[i].slots }; }); return showExport("team.json", JSON.stringify(out, null, 2)); }
+    if (t.id === "btn-reset") return confirmClick(t, "all", "Click again to reset everything", function () { S = clone(DEF); sel = null; try { localStorage.removeItem(KEY); } catch (e) {} render(); toast("Everything reset to the shipped defaults"); });
+  });
+  document.addEventListener("keydown", function (ev) {
+    var ab = ev.target.closest && ev.target.closest(".abbr");
+    if (ab && (ev.key === "Enter" || ev.key === " ")) { ev.preventDefault(); ev.stopPropagation(); return showPop(ab); }
+    if (ev.key === "Escape") { if (popEl) { var f = popFor; hidePop(); if (f) f.focus(); return; } if (layer.innerHTML) closeDrawer(); }
+  }, true);
+  document.getElementById("game-name").addEventListener("change", function (ev) { S.game = ev.target.value.trim() || DEF.game; persist(); render(); });
+  render();
+})();
+</script>

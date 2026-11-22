@@ -1,0 +1,274 @@
+{
+  "columns": [
+    {
+      "id": "ideation",
+      "kind": "phase",
+      "short": "Ideation",
+      "title": "Ideation and concept development",
+      "when": "Through Sun Nov 15",
+      "summary": "Find the experience you want to offer, explore several concepts, and write the X.",
+      "work": [
+        "Start from a player motivation and treat it as a hypothesis tied to behavior you can observe.",
+        "Explore two or three concepts before committing; genre sets expectations and production demands.",
+        "Study specific moments in reference games; record attribution and reuse terms.",
+        "Write the X: one sentence that states the game."
+      ],
+      "anchor": "before-g1-ideation-and-concept-development",
+      "investigate": [
+        "Which player motivation are you offering, stated as behavior you could observe?",
+        "Which two or three concepts did you compare, and why does one win?",
+        "What do specific moments in reference games teach you, and on what reuse terms?"
+      ]
+    },
+    {
+      "id": "G1",
+      "kind": "gate",
+      "short": "G1 Concept",
+      "title": "G1 Concept",
+      "when": "Mon Nov 16 (recording Sun Nov 15)",
+      "question": "Is this idea sufficiently clear and achievable to justify prototype work?",
+      "work": [
+        "Define the player, experience, core loop, references, and boundaries.",
+        "Name the largest design and technical uncertainties.",
+        "Decide what the in-game agent contributes and what a scripted baseline does.",
+        "Estimate time, model latency, and cost."
+      ],
+      "evidence": [
+        "Pitch and recording",
+        "X, core loop, references and attribution, systems diagram",
+        "Six-dimension Risk Profile with mitigations",
+        "Initial project plan (any format), Initial GDD, and Configuration Document",
+        "AI design hypothesis, scripted baseline, playtest question, latency and cost budgets"
+      ],
+      "anchor": "gate-1-concept",
+      "critical": {
+        "opportunity": "What experience are you offering, to which player, and why is it worth pursuing?",
+        "execution": "What core loop, agent role, and scripted baseline will the prototype test, and how?",
+        "risks": "What are the largest design and technical uncertainties, how will you detect them, and what will you do?",
+        "alignment": "Do the pitch, Initial GDD, Configuration Document, and plan describe the same game?"
+      },
+      "also": [
+        "What would the player lose if the agent were replaced by the scripted baseline?",
+        "What are the latency and cost budgets, and what are they based on?",
+        "What is in scope, what is excluded, and what would you reduce first?"
+      ]
+    },
+    {
+      "id": "prototype",
+      "kind": "phase",
+      "short": "Prototype",
+      "title": "Prototyping and player observation",
+      "when": "Nov 16 to Nov 28",
+      "summary": "Build the core interaction and the bounded agent, then watch an external player use it.",
+      "work": [
+        "Implement the core interaction and bounded agent behavior.",
+        "Run deterministic checks and budgeted live evaluation.",
+        "Observe an external player using the loop.",
+        "Keep what happened apart from your explanation of why."
+      ],
+      "anchor": "gate-2-prototype",
+      "investigate": [
+        "Does an external player use the core loop the way you intended?",
+        "Does the agent help the player without revealing what it should not know?",
+        "What happened, kept separate from why you think it happened?"
+      ]
+    },
+    {
+      "id": "G2",
+      "kind": "gate",
+      "short": "G2 Prototype",
+      "title": "G2 Prototype",
+      "when": "Mon Nov 30, with G3 (recording Sat Nov 28)",
+      "question": "What evidence supports the core experience, including the agent's contribution?",
+      "work": [
+        "Show the first playable with its agent.",
+        "Show what an external player did with the core loop.",
+        "Separate findings that need design changes from findings that need code changes."
+      ],
+      "evidence": [
+        "First playable and recording",
+        "Initial Playtest Log",
+        "Update GDD and Configuration Document",
+        "Updated plan and Risk Register",
+        "Implementation and evaluation evidence"
+      ],
+      "anchor": "gate-2-prototype",
+      "critical": {
+        "opportunity": "Did observed players get the experience you intended?",
+        "execution": "What does the first playable demonstrate, including the agent's contribution?",
+        "risks": "Which assumptions failed, which failures can you reproduce, and what did you change?",
+        "alignment": "Does the agent's configured knowledge match the GDD's information boundaries?"
+      },
+      "also": [
+        "Which findings need a design change, and which need a code change?",
+        "What does the evidence not yet support?"
+      ]
+    },
+    {
+      "id": "planning",
+      "kind": "phase",
+      "short": "Planning",
+      "title": "Production planning and feasibility checks",
+      "when": "Nov 16 to Nov 28, alongside the prototype",
+      "summary": "Turn the demonstrated experience into a plan you can finish, with Alpha, Beta, and Gold checks.",
+      "work": [
+        "Identify dependencies, asset and content work, role coverage, tests, and release preparation.",
+        "Define Alpha, Beta, and Gold acceptance checks.",
+        "Decide what stays, what is excluded, and what can shrink.",
+        "Give every fallback a trigger and a concrete action."
+      ],
+      "anchor": "gate-3-production",
+      "investigate": [
+        "What work remains, at what quality, and what depends on what?",
+        "Which roles in your agent team cover that work, and where are the gaps?",
+        "What gets cut first, and what triggers each fallback?"
+      ]
+    },
+    {
+      "id": "G3",
+      "kind": "gate",
+      "short": "G3 Production",
+      "title": "G3 Production",
+      "when": "Mon Nov 30, combined with G2",
+      "question": "Can you complete the agreed game with the time and resources remaining?",
+      "work": [
+        "Propose the scope lock and the exclusions list.",
+        "Show capacity, dependencies, and contingencies."
+      ],
+      "evidence": [
+        "Scope-lock plan and exclusions",
+        "Final Project Plan",
+        "Updated Risk Register",
+        "Update GDD and Configuration Document",
+        "Links to prototype evidence"
+      ],
+      "anchor": "gate-3-production",
+      "critical": {
+        "opportunity": "Is the demonstrated experience still worth the time that remains?",
+        "execution": "Can you finish the agreed scope with your remaining time and capacity, including release testing?",
+        "risks": "What is excluded, what shrinks first, and what triggers each fallback?",
+        "alignment": "Do the scope-lock plan, GDD, and agent team coverage describe the same game?"
+      },
+      "also": [
+        "What are the Alpha, Beta, and Gold acceptance checks?",
+        "Where is the buffer for a release playtest and fixes?"
+      ]
+    },
+    {
+      "id": "production",
+      "kind": "phase",
+      "short": "Production",
+      "title": "Production, integration, testing, and release preparation",
+      "when": "Dec 1 to Dec 5",
+      "summary": "Reach Alpha, lock content at Beta, run a release playtest, and verify fixes.",
+      "work": [
+        "Alpha: all agreed features integrated well enough to exercise.",
+        "Beta: release content complete and locked; work turns to fixes and polish.",
+        "Observe an external release playtest after Alpha and before the Gold recording.",
+        "Classify problems by consequence; name build, steps, owner, and verification."
+      ],
+      "anchor": "gate-4-final--pre-launch-review",
+      "investigate": [
+        "Are all agreed features integrated well enough to exercise (Alpha)?",
+        "Is release content complete and locked (Beta)?",
+        "Did an external release playtest change anything, and do the fixes hold?"
+      ]
+    },
+    {
+      "id": "G4",
+      "kind": "gate",
+      "short": "G4 Final",
+      "title": "G4 Final / Pre-Launch Review",
+      "when": "Mon Dec 7 (recording Sat Dec 5)",
+      "question": "Is this identified build ready for release or showcase?",
+      "work": [
+        "Identify the exact Gold candidate and its configuration.",
+        "Show triaged fixes verified and accepted defects listed.",
+        "Show full development-role coverage."
+      ],
+      "evidence": [
+        "Gold candidate and recording",
+        "Final GDD and Configuration Document",
+        "Evaluation harness and results",
+        "Update Playtest Log and Risk Register",
+        "Release instructions another person can follow"
+      ],
+      "anchor": "gate-4-final--pre-launch-review",
+      "critical": {
+        "opportunity": "Does this build deliver the X to its intended players?",
+        "execution": "Which exact build is ready, and what release checks and verified fixes show it?",
+        "risks": "Which defects do you accept and why, and what is the deterministic fallback?",
+        "alignment": "Do the Final GDD, Configuration Document, and build agree, with every role covered?"
+      },
+      "also": [
+        "Can another person run the release from its instructions alone?",
+        "Which model and configuration were tested, including failed runs?"
+      ]
+    },
+    {
+      "id": "release",
+      "kind": "phase",
+      "short": "Release",
+      "title": "Release, showcase, feedback, and reflection",
+      "when": "Dec 7 to Dec 13",
+      "summary": "Release the Gold build, collect feedback, play three classmates' builds, and draft the AAR.",
+      "work": [
+        "Release or showcase the approved game.",
+        "Collect feedback and complete the Playtest Log.",
+        "Play the three assigned classmates' builds.",
+        "Review decisions, failures, changes, and agent handoffs."
+      ],
+      "anchor": "gate-5-retrospective--closure",
+      "investigate": [
+        "Can players reach and run the released game?",
+        "What did players and classmates report?",
+        "How does the result compare with what you set out to make?"
+      ]
+    },
+    {
+      "id": "G5",
+      "kind": "gate",
+      "short": "G5 Closure",
+      "title": "G5 Retrospective / Closure",
+      "when": "Mon Dec 14",
+      "question": "What does the finished project teach, and can someone understand and use its archive?",
+      "work": [
+        "Compare the result with the original intentions.",
+        "Account for the full agent team and the decisions you kept."
+      ],
+      "evidence": [
+        "Final game and AAR",
+        "Final Playtest Log",
+        "Project archive",
+        "Showcase evidence"
+      ],
+      "anchor": "gate-5-retrospective--closure",
+      "critical": {
+        "opportunity": "What did players experience compared with what you intended?",
+        "execution": "What did the process deliver, what slipped, and why?",
+        "risks": "Which risks happened, and did your responses work?",
+        "alignment": "Can someone find the approved build and the evidence behind the AAR's conclusions?"
+      },
+      "also": [
+        "Which decisions did you keep as Executive Producer and Creative Director?",
+        "What would you test first in a next version?"
+      ]
+    }
+  ],
+  "starts": {
+    "ideation": "2026-11-09",
+    "G1": "2026-11-15",
+    "prototype": "2026-11-17",
+    "G2": "2026-11-28",
+    "planning": "2026-11-29",
+    "G3": "2026-11-30",
+    "production": "2026-12-01",
+    "G4": "2026-12-05",
+    "release": "2026-12-08",
+    "G5": "2026-12-14"
+  },
+  "dates": {
+    "default_warning": "2026-11-30",
+    "strict": "2026-12-05"
+  }
+}

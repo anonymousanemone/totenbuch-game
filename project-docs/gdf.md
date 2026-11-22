@@ -118,7 +118,7 @@ Your production agents perform delegated work in development roles. You retain a
 | **Business Intelligence (BI)** | Organize and interpret relevant player and performance evidence. | Measurements with limitations for design, production, and the student. |
 | **Publishing and Release** | Make the game understandable, accessible to its intended players, and reproducible at release. | Release instructions, presentation materials, and archive checks for the student. |
 
-These are responsibilities to cover, scaled to your game. A small game can use a modest visual style, a small sound vocabulary, and little narrative. The role-coverage map explains how your configured agents address the relevant work. Shared models are allowed. A list of job titles needs executable configurations and evidence of use to establish coverage.
+These are responsibilities to cover, scaled to your game. A small game can use a modest visual style, a small sound vocabulary, and little narrative. Your agent team grows from evidence: you start with the implementation agent and independent reviewer from your midterm, and add an agent when you have hit the same friction twice, with an **origin note** linking those two dated moments. The role-coverage map gives every role one line: the agent that covers it, "I do this myself," or "not needed, because...". The syllabus sets the minimum at each gate. Shared models are allowed. A job title counts as an agent only with an executable configuration and evidence of use.
 
 A **handoff** tells the recipient what to use, what to produce, and how acceptance will be judged. For example:
 
@@ -134,7 +134,7 @@ Choose a work cycle that fits the remaining time and the published milestones. T
 
 Protect committed work from casual additions. Put new ideas in the backlog and compare them at the next planning point. When a defect, failed assumption, or access problem makes the commitment unworkable, record the change, its reason, and its effect. Seek instructor approval when it changes a gate commitment. Scope protection should support responsible decisions as evidence changes.
 
-Use **Asana** for coordination from G2 on (your G1 plan can be a simple document): tasks, student Owner and GDF role, acceptance criteria, dependencies, risks, weekly **PPP (Progress / Plans / Problems)**, and gate decisions. Use **GitHub** for code, PRs, CI, and releases. Link the relevant evidence between them. CourseWorks holds submissions, grades, and private feedback according to the syllabus.
+Use the course's **Notion tracker template** for coordination from G2 on (your G1 plan can be a simple document; Asana or another tracker with the same fields also works): tasks, student Owner and GDF role, acceptance criteria, dependencies, risks, and weekly **PPP (Progress / Plans / Problems)**. Gate decisions go in the "Gate decisions" issue of your final repository, `final-<github-login>`. Use **GitHub** for code, PRs, CI, and releases. Link the relevant evidence between them. CourseWorks holds submissions, grades, and private feedback according to the syllabus.
 
 A task such as “improve hints” leaves acceptance uncertain. “When the service times out, display the scripted hint, preserve the turn state, and record the fallback in the trace” gives implementation and review a shared target.
 
@@ -185,13 +185,13 @@ Your sixty-second pitch from the first pitch round on November 9 is an early dra
 
 **Work before the review.** Define the intended player, experience, core loop, references, and boundaries. Identify the largest design and technical uncertainties. Decide what the in-game agent contributes and what a scripted baseline will do. Sketch the systems and information boundaries. Estimate time, model latency, and cost, and establish the Initial plan, Risk Register, GDD, and Configuration Document.
 
-**Evidence for the review.** Bring the pitch and recording required by the syllabus, the X, core loop, references and attribution, systems diagram, six-dimension Risk Profile with mitigations, Initial project plan in any format (it moves to Asana after G1), and Initial GDD and Configuration Document. State the AI design hypothesis, scripted baseline, playtest question, and latency/cost budgets. Initial documents should make the proposal inspectable while keeping open questions visible.
+**Evidence for the review.** Bring the pitch and recording required by the syllabus, the X, core loop, references and attribution, systems diagram, six-dimension Risk Profile with mitigations, Initial project plan in any format (it moves to your tracker after G1), and Initial GDD and Configuration Document. State the AI design hypothesis, scripted baseline, playtest question, and latency/cost budgets. Initial documents should make the proposal inspectable while keeping open questions visible.
 
 **Roles and handoffs.** The Design Lead proposes the loop and test question. The Tech Lead identifies a feasible implementation and agent boundary. The Art Lead, Narrative and Audio roles identify the minimum presentation needed to communicate the experience. QA proposes failure cases; BI helps define observations and measures. Publishing and Release identifies how players will access the game. The Producer combines these recommendations into a plan. You choose the concept and commitments to put before the instructor.
 
 **Signal Station at G1.** The intended loop is inspect a record, compare facts, test a relay setting, and interpret the response. The hypothesis is that grounded conversation can help players connect discovered facts while preserving deduction. The proposed scope is one station, one bounded puzzle, and one archivist. Procedural stations and free-form world-changing dialogue go on the exclusions list. The first experiment tests whether players can understand the clue relationship with a scripted hint before adding model variation.
 
-**Decision and next commitment.** Approval authorizes the agreed prototype investigation. A Hold identifies what must be clarified or reduced. At G1 the instructor posts the decision and conditions as a comment on your CourseWorks submission; from G2 on, decisions go in the Asana gate task. Section 5.1 helps organize the pitch.
+**Decision and next commitment.** Approval authorizes the agreed prototype investigation. A Hold identifies what must be clarified or reduced. At G1 the instructor posts the decision and conditions as a comment on your CourseWorks submission; from G2 on, decisions go in your final repository's "Gate decisions" issue. Section 5.1 helps organize the pitch.
 
 ### Gate 2: Prototype
 
@@ -237,13 +237,13 @@ Across the course's G2-to-G4 window, use at least two distinct external players.
 
 Classify problems by their consequences. A broken ending or leaked hidden state may block release. A minor presentation defect may be accepted with a recorded explanation. Name the affected build, reproduction steps, owner, and verification result.
 
-**Evidence for the review.** Bring the Gold candidate and recording, Final GDD and Configuration Document, evaluation harness and results, Update Playtest Log and Risk Register, release instructions, and evidence that triaged fixes work. Show full development-role coverage in the configuration record. Identify any accepted defects and the deterministic fallback. The release should be runnable by another person following its instructions.
+**Evidence for the review.** Bring the Gold candidate and recording, Final GDD and Configuration Document, evaluation harness and results, Update Playtest Log and Risk Register, release instructions, and evidence that triaged fixes work. Show every development role accounted for in the coverage map. Identify any accepted defects and the deterministic fallback. The release should be runnable by another person following its instructions.
 
 **Roles and handoffs.** The Tech Lead identifies the exact build and configuration. QA verifies fixes and release checks. BI summarizes outcomes, failures, latency, cost, and the limits of the evidence. Design checks the intended experience; Art, Narrative, and Audio check integrated readability and consistency. Publishing and Release verifies packaging and player instructions. The Producer assembles readiness evidence. You accept the proposed release and disclose unresolved issues; the instructor approves Gold.
 
 **Signal Station at G4.** The fictional release test finds that a model timeout leaves the hint control disabled. QA reproduces it, the Tech Lead repairs the recovery path, and QA verifies it with a forced timeout. The student keeps a minor animation defect on the accepted-issues list. The final report records the tested model/configuration, including unavailable or failed runs, rather than displaying only successful conversations.
 
-**Decision and next commitment.** Approval applies to the identified Gold build. Preserve its tag. After G4, corrective releases require recorded patches, tests, and instructor approval linked from the Asana gate task. Keep approved Gold reproducible while making any authorized corrective release separately identifiable.
+**Decision and next commitment.** Approval applies to the identified Gold build. Preserve its tag. After G4, corrective releases require recorded patches, tests, and instructor approval linked from your repository's "Gate decisions" issue. Keep approved Gold reproducible while making any authorized corrective release separately identifiable.
 
 ### Gate 5: Retrospective / Closure
 
@@ -365,7 +365,7 @@ Organize the pitch, recording, or review around the question at that gate:
 6. Remaining work, dependencies, exclusions, and proposed next commitment.
 7. Links to the required artifacts and reproducible evidence.
 
-In the Asana gate task, preserve the **instructor's decision**, reviewed versions, approved scope/build, conditions, corrective work, and follow-up. Mark your own proposal as a proposal until the decision is made. A Hold specifies the work needed for reconsideration.
+In your repository's "Gate decisions" issue, keep the **instructor's decision**, reviewed versions, approved scope/build, conditions, corrective work, and follow-up. Mark your own proposal as a proposal until the decision is made. A Hold specifies the work needed for reconsideration.
 
 ### 5.7 After-Action Review (G5)
 
@@ -396,7 +396,7 @@ This matrix summarizes the current course sequence. The published syllabus speci
 |---|---|---|---|---|---|---|
 | Pitch and concept | Creative Director | Concept for approval | Revise as needed | Match locked scope | Match release | Reflect on changes |
 | GDD and Configuration Document, including role coverage | Design Lead / Tech Lead | Initial | Update | Update | Final | Archive |
-| Project Plan (in Asana from G2) | Producer | Initial | Update | Final baseline | Record changes | Archive |
+| Project Plan (in your tracker from G2) | Producer | Initial | Update | Final baseline | Record changes | Archive |
 | Risk Register | Producer | Initial | Update | Update | Update | Archive |
 | Tasks and weekly PPP | Producer | Maintain | Maintain | Maintain | Maintain | Archive history |
 | Playtest Log | Design Lead / QA / BI | Test question | Initial | Same log at combined review | Update | Final |
@@ -462,6 +462,6 @@ Use these questions to examine a decision in your own project or in the fictiona
 
 This reader draws on the instructor's `game-dev-frameworks` collection and the original course reader. The following notes identify the principal sources for the explanations above. Studio materials are historical examples; their labels, counts, timing, and product assumptions should be interpreted in their own contexts.
 
-The original course-materials PDF is preserved in the instructor's reference library. For current course application, use the [published syllabus](https://courseworks2.columbia.edu/courses/258228/assignments/syllabus), particularly its Final assignment, presentations, playtests, and GDF decisions. The syllabus also describes the course's retained human leadership and role-complete agent team. The local Motivation Atlas supplies optional examples and the eleven motivator groups; it adds no required reading here.
+The original course-materials PDF is preserved in the instructor's reference library. For current course application, use the [published syllabus](https://courseworks2.columbia.edu/courses/258228/assignments/syllabus), particularly its Final assignment, presentations, playtests, and GDF decisions. The syllabus also describes the course's retained human leadership and the agent team you build from evidence. The local Motivation Atlas supplies optional examples and the eleven motivator groups; it adds no required reading here.
 
 *Signal Station* and every result attributed to its development are fictional. Numerical budgets, timing, and thresholds for your own project should be explicit, justified, and consistent with the syllabus and approved scope.

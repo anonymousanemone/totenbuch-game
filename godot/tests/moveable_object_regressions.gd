@@ -107,6 +107,12 @@ func _run() -> void:
 	expect(table.holding() == "" and table.sprite_of(loaf) != null, "rejected object becomes floor physics, never pointer-following")
 	table.reset()
 	table.take("goose")
+	var goose_place: Vector2 = table._goose_rect.get_center()
+	expect(not scene._snap_offering(goose_place + Vector2(100, 0)) and table.holding() == "goose", "the goose does not snap far from the bearer's arms")
+	expect(scene._snap_offering(goose_place) and table.bearer == "goose" and table.holding() == ""
+		and table.objects.goose.locked_in_place, "the goose snaps into the bearer's arms while carried, like the table pieces")
+	table.reset()
+	table.take("goose")
 	var result: String = table.bearer_act()
 	expect(result == "swapped" and table.bearer == "goose" and table.holding() == "", "goose swap drops loaf without putting it in hand")
 	expect(table.sprite_of(loaf) != null and table.objects.goose.locked_in_place, "displaced loaf has physics and accepted goose is locked")

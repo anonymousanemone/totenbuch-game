@@ -1,6 +1,6 @@
 ---
 name: write-notion
-description: Rules for writing to the Totenbuch Tasks database in Notion: stay inside it, never delete without approval, sweep Done tasks into History only on explicit request and after confirming the exact list, set Roles, never reference gitignored files (turbo plans get their own row with full content), and write safely. Use before any Notion create, update, move or delete.
+description: Rules for writing to the Totenbuch Tasks database in Notion: stay inside it, never delete without approval, sweep Done tasks into History only on explicit request and after confirming the exact list, set Roles, never reference gitignored files except `references/` source paths (turbo plans get their own row with full content), and write safely. Use before any Notion create, update, move or delete.
 ---
 
 # Writing to Notion
@@ -86,7 +86,7 @@ Batch the move: write all entries for a scope in one edit, verify, then remove t
 
 ## 4. Role on each item
 
-The **Role** property says which agent a task belongs to: Producer, Design Lead, Tech Lead, Art Lead, Narrative, Audio, QA, BI or Publishing & Release. The team is those agents, the user and the professor.
+The **Role** property says which agent a task belongs to: Producer, Design Lead, Tech Lead, Art Lead, Narrative and Audio, QA, BI or Publishing & Release. The team is those agents, the user and the professor.
 
 - **One role per task.** Work shared between roles is split into separate tasks.
 - **Who sets it.** An agent sets its own role on a task it is doing or has finished. For any other task, propose roles to the user in one batch (task, proposed role, a few words why) and set them only after approval. Do not change a Role the user set.
@@ -124,7 +124,8 @@ Agent log
 - **Smallest edit.** Prefer `update_content` and `insert_content` to `replace_content`. Preserve wording, order and native links you were not asked to change. Text a person wrote is never overwritten: append, or ask.
 - **Write backticks, match `<code>`.** Write inline code with backticks. Notion returns it as `<code>…</code>` (and bold as `<b>`), so an `update_content` `old_str` must copy the fetched form, not what you sent.
 - **Check for change.** If a page's `page_last_edited_at` is later than when you read it, fetch again before editing.
-- **No gitignored files.** Never reference a gitignored path in Notion (a link, a path, "see file X"): other people and agents can't open it. Check with `git check-ignore -v <path>`, which also catches the global ignore (for example `.turbo/` and `references/`). Copy the content in instead, or leave the reference out.
+- **No gitignored files.** Never reference a gitignored path in Notion (a link, a path, "see file X"): other people and agents can't open it. Check with `git check-ignore -v <path>`, which also catches the global ignore (for example `.turbo/`). Copy the content in instead, or leave the reference out.
+- **Exception: `references/`.** Source PDFs are cited by their `references/` path (including the `BookoftheDead alias` readings). That is the main way the List of Sources and other pages point to a source, so use it.
 - **Turbo plans become their own row, only when the user says.** Never put a turbo plan into Notion on your own; wait until the user tells you to add that plan. Then it gets its own task row in the matching scope, with the plan's full content copied into the page body, unchanged and in order. Never link or point to the plan file. Name, Description, Category, Role and Status follow Sections 4 and 6 (Status Backlog unless the user says otherwise). If the plan changes later, update the row's body only when the user asks.
 - **Docs, Plans, tasks.** One Doc (what is built, Status Documentation) and one Plan (large or unbuilt work, Status Plan) per scope, plus the Game-wide topic Docs the user created. Do not add another without being asked. See "Task, TBD or Plan" below for what becomes a row.
 

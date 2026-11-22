@@ -11,7 +11,9 @@ Read these skills before starting. This skill adds the order of work and the esc
 
 - `write-notion` for every Notion read and write;
 - `check-features` for sorting details, the interaction grid, text coverage, frames and the bug-report steps;
-- `write-game-text` (and `cite-references` if the text comes from a source) for any line the player sees;
+- `write-notion` section 4 for handing work to another role.
+
+Wording is not the Tech Lead's. The text the player sees (`registry.json`, `puzzles.json`, `messages.json`) and its citations belong to Narrative and Audio, which uses `write-game-text` and `cite-references`. See "Hand text to Narrative and Audio" below.
 - `log-decisions` at the end.
 
 ## What counts as small
@@ -55,7 +57,7 @@ Ask before building when:
 - the fix would change a rule, a control or the player interface beyond the item;
 - "most", "all" or "every" is used about siblings: list the exact siblings and ask which are in;
 - it turns out not to be small (section "What counts as small");
-- a line of game text has to be written that the author did not give, and its wording changes what the player learns.
+- it is unclear whether an item is a wording change (Narrative and Audio) or a change to when a line is shown (Tech Lead).
 
 How to ask:
 
@@ -69,9 +71,19 @@ Tell the author afterwards, without asking first, about defaults you took from a
 ## 4. Fix it
 
 1. **Test first.** Write the failing regression in the level's suite under `godot/tests/` (or the shared suite for shared code) that shows the bug, as `check-features` "When the author reports a bug". Compare shown text only against the JSON. Hover cases use a `SubViewport` with `push_input`, never the real cursor.
-2. **Smallest change.** Change only what the item needs, in the shared place. Remove only what your change orphaned. Text goes in the JSON, never a script or a scene, and follows `write-game-text`: show the old line and the new.
+2. **Smallest change.** Change only what the item needs, in the shared place. Remove only what your change orphaned. Scripts choose which JSON key is shown and when; never put text in a script or a scene, and never edit the wording in the JSON yourself.
 3. **Neighbours.** Check the same object in its other states, and the same state for the other objects in the area (the interaction grid in `check-features`, only for the area touched). If a neighbour has the same bug, report it; fix it only if the author's item covers it.
 4. **General rule.** If the cause was a general assumption ("hands full applies to everything"), propose the rule for `AGENTS.md` or the matching skill; add it after the author agrees.
+
+## Hand text to Narrative and Audio
+
+An item, or part of one, goes to Narrative and Audio when it changes what a line says: a new, reworded, shortened or moved description, instruction, feedback, success line, hint or message, a caption or translation, or a citation. That holds even when the author dictated the exact words.
+
+- **What stays with the Tech Lead:** a line that exists but never shows, shows at the wrong time, or comes back after its puzzle is done; a script that shows the wrong key. Fix the script, and test against the JSON.
+- **Split it off.** Create a Notion row in the same scope with Role `Narrative and Audio`, Category `Writing` (or `References` / `Source check` for a citation), the author's words and the JSON key and file in the body, and a first log line `<date time> · Tech Lead → Narrative and Audio · created: split off from <fix>`. If the Tech Lead's part waits on the new text, set **Blocked by** on your row and leave it In progress.
+- **Handoff note.** If `agent-team/roles/narrative.md` exists, also write `agent-team/handoffs/YYYY-MM-DD-tech-to-narrative.md` from `project-docs/team/defaults/handoff-template.md`: the key, file, current line, the author's request, and where in the game it shows.
+- **New key.** If a fix needs a key that doesn't exist yet, wire the script to the new key name and leave the wording to Narrative and Audio; until then the test may check only that the key is shown.
+- Say in the report which items went to Narrative and Audio and why.
 
 ## 5. Verify
 
@@ -90,9 +102,10 @@ Tell the author afterwards, without asking first, about defaults you took from a
 ## Checking
 
 1. Every item in the author's list has a Notion row, an outcome or a blocker line, and appears in the report.
-2. Each fix was reproduced before it was changed, and earlier History entries and decisions for the same object were read.
-3. The fix uses the shared code a sibling uses; nothing was copied into a level, and no `AGENTS.md` exception was made without the author.
-4. A regression test fails without the fix and passes with it; only the relevant suites were run, and they pass.
-5. The fix was seen working in the running game, with frames.
-6. Every question the author had to decide was asked, and nothing was decided by default.
-7. No asset was rebuilt, nothing was written to `art/`, nothing was committed.
+2. No wording or citation was changed by the Tech Lead; each such item has a Narrative and Audio row (and a handoff note if the role exists).
+3. Each fix was reproduced before it was changed, and earlier History entries and decisions for the same object were read.
+4. The fix uses the shared code a sibling uses; nothing was copied into a level, and no `AGENTS.md` exception was made without the author.
+5. A regression test fails without the fix and passes with it; only the relevant suites were run, and they pass.
+6. The fix was seen working in the running game, with frames.
+7. Every question the author had to decide was asked, and nothing was decided by default.
+8. No asset was rebuilt, nothing was written to `art/`, nothing was committed.

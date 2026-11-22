@@ -24,7 +24,7 @@ Never put game text in a script or a scene. Tests compare shown text only agains
 - **Descriptions** say what the player sees. **Speech** is what a figure says. Either may carry a **clue** that helps the player infer the fix ("The young calf shakes at the sight of the sacrifice."), but never the fix itself ("Turn the calf around.").
 - **Feedback** says what went wrong, never how to put it right. The same goes for journal notes.
 - **Success** says what is now set right.
-- **Hints** come only from the Hint button. Each puzzle has one **Find** line, which says where an unfinished puzzle is. Each phase then has up to three lines, about that one phase: **Notice** points to a detail or someone to consult, **Interpret** gives the relationship to understand, and **Act** says what to do. The last line must be something the player can act on. Don't pad a simple action with extra levels, and don't bring in another task in a later line.
+- **Hints** come only from the Hint button. Each puzzle has one **Find** line, a notice that says where an unfinished puzzle is. Each phase then has up to three lines, about that one phase: **Notice** points to something visible, **Interpret** gives the relationship to understand or how the mechanic behaves, and **Act** says what to do. The last line must be something the player can act on, and a later line never brings in another task. The `write-hints` skill decides how many hints each phase needs, what each kind says, and how to judge existing ones.
 
 ## Rules
 

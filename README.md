@@ -3,6 +3,32 @@
 Levels of the Book of the Dead as a point-and-click game, built from Lepsius's
 *Das Todtenbuch der Ägypter* (1842). Every figure is cut from the plate scans; nothing is redrawn.
 
+## Where things live
+
+- The game: `godot/` (open `godot/project.godot`).
+- The gate documents (GDD, Configuration Document, plan, risk register, decision log): `project-docs/`.
+- The tracker: the [Totenbuch Tasks](https://app.notion.com/p/41b67ab14ecf81048c25c441f4064b1d) database in Notion.
+
+## Your agent team
+
+Run this from the repository root to start your agent team with the Tech Lead and QA roles:
+
+```
+PYTHONPATH=project-docs python -m team init
+```
+
+The course tool lives in `project-docs/team/` and its tests in `project-docs/tests/`, so every `python -m team` command needs `PYTHONPATH=project-docs` in front of it; `agent-team/` stays at the root, where the tool writes it. Where `python` is missing, `python3` works the same in every command. `init` runs `render` once, so you can commit right away. After each edit to `agent-team/`, run `PYTHONPATH=project-docs python -m team render` and commit everything it writes. The guide is in `project-docs/team/README.md`; its commands are written without the `PYTHONPATH=project-docs` prefix.
+
+## Classmates' repositories
+
+Read classmates' repositories on GitHub. Keep their tools and your coding assistant out of any clone of their repository, since its code and agent files would run on your machine.
+
+## Handing in
+
+Your last push to `main` before each recording deadline is what the course reviews. Gate decisions appear in the "Gate decisions" issue.
+
+## Playing
+
 Open `godot/project.godot` in Godot 4.7+ and press **Play** (F5). A level menu opens first.
 The scroll reads right to left; click the papyrus (or use ← →) to walk.
 

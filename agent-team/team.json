@@ -1,0 +1,1323 @@
+{
+ "columns": [
+  {
+   "anchor": "before-g1-ideation-and-concept-development",
+   "id": "ideation",
+   "investigate": [
+    "Which player motivation are you offering, stated as behavior you could observe?",
+    "Which two or three concepts did you compare, and why does one win?",
+    "What do specific moments in reference games teach you, and on what reuse terms?"
+   ],
+   "kind": "phase",
+   "short": "Ideation",
+   "summary": "Find the experience you want to offer, explore several concepts, and write the X.",
+   "title": "Ideation and concept development",
+   "when": "Through Sun Nov 15",
+   "work": [
+    "Start from a player motivation and treat it as a hypothesis tied to behavior you can observe.",
+    "Explore two or three concepts before committing; genre sets expectations and production demands.",
+    "Study specific moments in reference games; record attribution and reuse terms.",
+    "Write the X: one sentence that states the game."
+   ]
+  },
+  {
+   "also": [
+    "What would the player lose if the agent were replaced by the scripted baseline?",
+    "What are the latency and cost budgets, and what are they based on?",
+    "What is in scope, what is excluded, and what would you reduce first?"
+   ],
+   "anchor": "gate-1-concept",
+   "critical": {
+    "alignment": "Do the pitch, Initial GDD, Configuration Document, and plan describe the same game?",
+    "execution": "What core loop, agent role, and scripted baseline will the prototype test, and how?",
+    "opportunity": "What experience are you offering, to which player, and why is it worth pursuing?",
+    "risks": "What are the largest design and technical uncertainties, how will you detect them, and what will you do?"
+   },
+   "evidence": [
+    "Pitch and recording",
+    "X, core loop, references and attribution, systems diagram",
+    "Six-dimension Risk Profile with mitigations",
+    "Initial project plan (any format), Initial GDD, and Configuration Document",
+    "AI design hypothesis, scripted baseline, playtest question, latency and cost budgets"
+   ],
+   "id": "G1",
+   "kind": "gate",
+   "question": "Is this idea sufficiently clear and achievable to justify prototype work?",
+   "short": "G1 Concept",
+   "title": "G1 Concept",
+   "when": "Mon Nov 16 (recording Sun Nov 15)",
+   "work": [
+    "Define the player, experience, core loop, references, and boundaries.",
+    "Name the largest design and technical uncertainties.",
+    "Decide what the in-game agent contributes and what a scripted baseline does.",
+    "Estimate time, model latency, and cost."
+   ]
+  },
+  {
+   "anchor": "gate-2-prototype",
+   "id": "prototype",
+   "investigate": [
+    "Does an external player use the core loop the way you intended?",
+    "Does the agent help the player without revealing what it should not know?",
+    "What happened, kept separate from why you think it happened?"
+   ],
+   "kind": "phase",
+   "short": "Prototype",
+   "summary": "Build the core interaction and the bounded agent, then watch an external player use it.",
+   "title": "Prototyping and player observation",
+   "when": "Nov 16 to Nov 28",
+   "work": [
+    "Implement the core interaction and bounded agent behavior.",
+    "Run deterministic checks and budgeted live evaluation.",
+    "Observe an external player using the loop.",
+    "Keep what happened apart from your explanation of why."
+   ]
+  },
+  {
+   "also": [
+    "Which findings need a design change, and which need a code change?",
+    "What does the evidence not yet support?"
+   ],
+   "anchor": "gate-2-prototype",
+   "critical": {
+    "alignment": "Does the agent's configured knowledge match the GDD's information boundaries?",
+    "execution": "What does the first playable demonstrate, including the agent's contribution?",
+    "opportunity": "Did observed players get the experience you intended?",
+    "risks": "Which assumptions failed, which failures can you reproduce, and what did you change?"
+   },
+   "evidence": [
+    "First playable and recording",
+    "Initial Playtest Log",
+    "Update GDD and Configuration Document",
+    "Updated plan and Risk Register",
+    "Implementation and evaluation evidence"
+   ],
+   "id": "G2",
+   "kind": "gate",
+   "question": "What evidence supports the core experience, including the agent's contribution?",
+   "short": "G2 Prototype",
+   "title": "G2 Prototype",
+   "when": "Mon Nov 30, with G3 (recording Sat Nov 28)",
+   "work": [
+    "Show the first playable with its agent.",
+    "Show what an external player did with the core loop.",
+    "Separate findings that need design changes from findings that need code changes."
+   ]
+  },
+  {
+   "anchor": "gate-3-production",
+   "id": "planning",
+   "investigate": [
+    "What work remains, at what quality, and what depends on what?",
+    "Which roles in your agent team cover that work, and where are the gaps?",
+    "What gets cut first, and what triggers each fallback?"
+   ],
+   "kind": "phase",
+   "short": "Planning",
+   "summary": "Turn the demonstrated experience into a plan you can finish, with Alpha, Beta, and Gold checks.",
+   "title": "Production planning and feasibility checks",
+   "when": "Nov 16 to Nov 28, alongside the prototype",
+   "work": [
+    "Identify dependencies, asset and content work, role coverage, tests, and release preparation.",
+    "Define Alpha, Beta, and Gold acceptance checks.",
+    "Decide what stays, what is excluded, and what can shrink.",
+    "Give every fallback a trigger and a concrete action."
+   ]
+  },
+  {
+   "also": [
+    "What are the Alpha, Beta, and Gold acceptance checks?",
+    "Where is the buffer for a release playtest and fixes?"
+   ],
+   "anchor": "gate-3-production",
+   "critical": {
+    "alignment": "Do the scope-lock plan, GDD, and agent team coverage describe the same game?",
+    "execution": "Can you finish the agreed scope with your remaining time and capacity, including release testing?",
+    "opportunity": "Is the demonstrated experience still worth the time that remains?",
+    "risks": "What is excluded, what shrinks first, and what triggers each fallback?"
+   },
+   "evidence": [
+    "Scope-lock plan and exclusions",
+    "Final Project Plan",
+    "Updated Risk Register",
+    "Update GDD and Configuration Document",
+    "Links to prototype evidence"
+   ],
+   "id": "G3",
+   "kind": "gate",
+   "question": "Can you complete the agreed game with the time and resources remaining?",
+   "short": "G3 Production",
+   "title": "G3 Production",
+   "when": "Mon Nov 30, combined with G2",
+   "work": [
+    "Propose the scope lock and the exclusions list.",
+    "Show capacity, dependencies, and contingencies."
+   ]
+  },
+  {
+   "anchor": "gate-4-final--pre-launch-review",
+   "id": "production",
+   "investigate": [
+    "Are all agreed features integrated well enough to exercise (Alpha)?",
+    "Is release content complete and locked (Beta)?",
+    "Did an external release playtest change anything, and do the fixes hold?"
+   ],
+   "kind": "phase",
+   "short": "Production",
+   "summary": "Reach Alpha, lock content at Beta, run a release playtest, and verify fixes.",
+   "title": "Production, integration, testing, and release preparation",
+   "when": "Dec 1 to Dec 5",
+   "work": [
+    "Alpha: all agreed features integrated well enough to exercise.",
+    "Beta: release content complete and locked; work turns to fixes and polish.",
+    "Observe an external release playtest after Alpha and before the Gold recording.",
+    "Classify problems by consequence; name build, steps, owner, and verification."
+   ]
+  },
+  {
+   "also": [
+    "Can another person run the release from its instructions alone?",
+    "Which model and configuration were tested, including failed runs?"
+   ],
+   "anchor": "gate-4-final--pre-launch-review",
+   "critical": {
+    "alignment": "Do the Final GDD, Configuration Document, and build agree, with every role covered?",
+    "execution": "Which exact build is ready, and what release checks and verified fixes show it?",
+    "opportunity": "Does this build deliver the X to its intended players?",
+    "risks": "Which defects do you accept and why, and what is the deterministic fallback?"
+   },
+   "evidence": [
+    "Gold candidate and recording",
+    "Final GDD and Configuration Document",
+    "Evaluation harness and results",
+    "Update Playtest Log and Risk Register",
+    "Release instructions another person can follow"
+   ],
+   "id": "G4",
+   "kind": "gate",
+   "question": "Is this identified build ready for release or showcase?",
+   "short": "G4 Final",
+   "title": "G4 Final / Pre-Launch Review",
+   "when": "Mon Dec 7 (recording Sat Dec 5)",
+   "work": [
+    "Identify the exact Gold candidate and its configuration.",
+    "Show triaged fixes verified and accepted defects listed.",
+    "Show full development-role coverage."
+   ]
+  },
+  {
+   "anchor": "gate-5-retrospective--closure",
+   "id": "release",
+   "investigate": [
+    "Can players reach and run the released game?",
+    "What did players and classmates report?",
+    "How does the result compare with what you set out to make?"
+   ],
+   "kind": "phase",
+   "short": "Release",
+   "summary": "Release the Gold build, collect feedback, play three classmates' builds, and draft the AAR.",
+   "title": "Release, showcase, feedback, and reflection",
+   "when": "Dec 7 to Dec 13",
+   "work": [
+    "Release or showcase the approved game.",
+    "Collect feedback and complete the Playtest Log.",
+    "Play the three assigned classmates' builds.",
+    "Review decisions, failures, changes, and agent handoffs."
+   ]
+  },
+  {
+   "also": [
+    "Which decisions did you keep as Executive Producer and Creative Director?",
+    "What would you test first in a next version?"
+   ],
+   "anchor": "gate-5-retrospective--closure",
+   "critical": {
+    "alignment": "Can someone find the approved build and the evidence behind the AAR's conclusions?",
+    "execution": "What did the process deliver, what slipped, and why?",
+    "opportunity": "What did players experience compared with what you intended?",
+    "risks": "Which risks happened, and did your responses work?"
+   },
+   "evidence": [
+    "Final game and AAR",
+    "Final Playtest Log",
+    "Project archive",
+    "Showcase evidence"
+   ],
+   "id": "G5",
+   "kind": "gate",
+   "question": "What does the finished project teach, and can someone understand and use its archive?",
+   "short": "G5 Closure",
+   "title": "G5 Retrospective / Closure",
+   "when": "Mon Dec 14",
+   "work": [
+    "Compare the result with the original intentions.",
+    "Account for the full agent team and the decisions you kept."
+   ]
+  }
+ ],
+ "game": "Totenbuch: the Book of the Dead as a point-and-click game",
+ "notes": [
+  {
+   "column": "prototype",
+   "file": "handoffs/2026-11-22-student-to-narrative.md",
+   "from": "student",
+   "kind": "origin",
+   "routed": false,
+   "to": "narrative"
+  }
+ ],
+ "others": [
+  {
+   "covered_by": "unset",
+   "id": "producer",
+   "title": "Producer"
+  },
+  {
+   "covered_by": "unset",
+   "id": "design",
+   "title": "Design Lead"
+  },
+  {
+   "covered_by": "unset",
+   "id": "art",
+   "title": "Art Lead"
+  },
+  {
+   "covered_by": "unset",
+   "id": "bi",
+   "title": "Business Intelligence"
+  },
+  {
+   "covered_by": "unset",
+   "id": "release",
+   "title": "Publishing and Release"
+  }
+ ],
+ "rendered_on": "2026-11-22",
+ "roles": {
+  "instructor": {
+   "docs": [],
+   "editable": false,
+   "kind": "person",
+   "lanes": {
+    "G1": {
+     "delivers": [
+      [
+       "student",
+       "decision and conditions as a CourseWorks comment"
+      ]
+     ],
+     "does": "Review the pitch and evidence.",
+     "expects": [
+      [
+       "student",
+       "G1 recording and documents"
+      ]
+     ],
+     "recommends": "Approve or Hold the prototype investigation."
+    },
+    "G2": {
+     "delivers": [
+      [
+       "student",
+       "decision in the repository's Gate decisions issue"
+      ]
+     ],
+     "does": "Review the first playable and playtest evidence.",
+     "expects": [
+      [
+       "student",
+       "first-playable recording"
+      ]
+     ],
+     "recommends": "Approve or Hold further refinement."
+    },
+    "G3": {
+     "delivers": [
+      [
+       "student",
+       "decision in the repository's Gate decisions issue"
+      ]
+     ],
+     "does": "Review the scope-lock plan.",
+     "expects": [
+      [
+       "student",
+       "scope-lock plan"
+      ]
+     ],
+     "recommends": "Approve or Hold production against the scope."
+    },
+    "G4": {
+     "delivers": [
+      [
+       "student",
+       "Gold decision in the repository's Gate decisions issue"
+      ]
+     ],
+     "does": "Review the Gold candidate.",
+     "expects": [
+      [
+       "student",
+       "Gold candidate and evidence"
+      ]
+     ],
+     "recommends": "Approve Gold for the identified build."
+    },
+    "G5": {
+     "delivers": [
+      [
+       "student",
+       "closure review"
+      ]
+     ],
+     "does": "Review closure.",
+     "expects": [
+      [
+       "student",
+       "AAR and archive"
+      ]
+     ],
+     "recommends": "Close the project."
+    },
+    "ideation": {
+     "delivers": [
+      [
+       "student",
+       "pitch-round notes"
+      ]
+     ],
+     "does": "Ran the first pitch round on Nov 9.",
+     "expects": [],
+     "recommends": "No selection; feedback only."
+    },
+    "planning": {
+     "delivers": [],
+     "does": "Answer scope questions.",
+     "expects": [],
+     "recommends": "No decision before G3."
+    },
+    "production": {
+     "delivers": [
+      [
+       "student",
+       "approval or refusal"
+      ]
+     ],
+     "does": "Review any material scope change.",
+     "expects": [
+      [
+       "student",
+       "change request with cause and impact"
+      ]
+     ],
+     "recommends": "Scope changes after G3."
+    },
+    "prototype": {
+     "delivers": [
+      [
+       "student",
+       "checkpoint feedback on the deployed model call"
+      ]
+     ],
+     "does": "Office hours; Session 10 working session on Nov 23.",
+     "expects": [],
+     "recommends": "No decision; coaching."
+    },
+    "release": {
+     "delivers": [
+      [
+       "student",
+       "feedback on the draft"
+      ]
+     ],
+     "does": "Read AAR drafts; approve any corrective release.",
+     "expects": [
+      [
+       "student",
+       "AAR draft"
+      ]
+     ],
+     "recommends": "Corrective releases after Gold."
+    }
+   },
+   "primer": "The instructor approves each gate or places it on Hold with corrective work. Braintrust feedback from classmates informs the decision; it does not make it.",
+   "slots": {},
+   "subtitle": "Gate Approver",
+   "title": "Instructor"
+  },
+  "narrative": {
+   "docs": [
+    "Text and dialogue inventory",
+    "Sound list",
+    "Agent voice guide"
+   ],
+   "editable": true,
+   "kind": "agent",
+   "lanes": {
+    "G1": {
+     "delivers": [
+      [
+       "producer",
+       "minimum text and sound list"
+      ]
+     ],
+     "does": "Name the minimum writing and sound for the experience.",
+     "expects": [
+      [
+       "design",
+       "core loop"
+      ]
+     ],
+     "recommends": "What the agent may and may not say."
+    },
+    "G2": {
+     "delivers": [
+      [
+       "student",
+       "feedback notes"
+      ]
+     ],
+     "does": "Check that feedback text and sound were noticed.",
+     "expects": [
+      [
+       "bi",
+       "observations"
+      ]
+     ],
+     "recommends": "Text or sound to change."
+    },
+    "G3": {
+     "delivers": [
+      [
+       "tech",
+       "content list"
+      ]
+     ],
+     "does": "Lock the content list.",
+     "expects": [],
+     "recommends": "Content scope for production."
+    },
+    "G4": {
+     "delivers": [
+      [
+       "qa",
+       "content defects"
+      ]
+     ],
+     "does": "Check integrated text, voice, and sound for consistency.",
+     "expects": [
+      [
+       "tech",
+       "release build"
+      ]
+     ],
+     "recommends": "Whether content blocks release."
+    },
+    "G5": {
+     "delivers": [
+      [
+       "student",
+       "narrative notes for the AAR"
+      ]
+     ],
+     "does": "Note what the agent's voice did for players.",
+     "expects": [],
+     "recommends": "Voice and content lessons."
+    },
+    "ideation": {
+     "delivers": [
+      [
+       "student",
+       "tone sketches"
+      ]
+     ],
+     "does": "Sketch setting and tone for each concept.",
+     "expects": [
+      [
+       "design",
+       "concept options"
+      ]
+     ],
+     "recommends": "How much text and sound each concept needs."
+    },
+    "planning": {
+     "delivers": [
+      [
+       "producer",
+       "content estimate"
+      ]
+     ],
+     "does": "Estimate the remaining writing and audio work.",
+     "expects": [],
+     "recommends": "Content to cut."
+    },
+    "production": {
+     "delivers": [
+      [
+       "tech",
+       "final text and audio"
+      ]
+     ],
+     "does": "Finish the text and citations for the locked levels and the planned sounds; lock them at Beta.",
+     "expects": [
+      [
+       "student",
+       "content lock at Beta"
+      ]
+     ],
+     "recommends": "Late content to refuse."
+    },
+    "prototype": {
+     "delivers": [
+      [
+       "tech",
+       "text, voice guide, and sound cues"
+      ]
+     ],
+     "does": "Write Procession's text fixes handed over by tech, Min's voice guide and scripted fallback lines, and source every new caption or description.",
+     "expects": [
+      [
+       "design",
+       "design spec"
+      ]
+     ],
+     "recommends": "Feedback cues players need to read the loop."
+    },
+    "release": {
+     "delivers": [
+      [
+       "release",
+       "game description"
+      ]
+     ],
+     "does": "Write the showcase description.",
+     "expects": [],
+     "recommends": "One line that tells a player what to do."
+    }
+   },
+   "primer": "Narrative and audio roles write the words, characters, and sounds, and fit them to what the systems allow. With an in-game agent, they also write the agent's voice and the limits of what it may say.",
+   "slots": {
+    "scope": {
+     "label": "Narrative scope",
+     "value": "Captions and translations from Davis 1894 for each built level; descriptions, instructions, feedback, success lines and Hint ladders in the JSON; every line at most three rows (about 180 characters), reachable, and cited when it comes from a source"
+    },
+    "sound": {
+     "label": "Sound vocabulary",
+     "value": "Built: the haul's drum and pull tones (synthesised in haul.gd) and a Sound volume setting. No music or other effects before G2; background music that can be turned off and sound effects after"
+    },
+    "voice": {
+     "label": "Agent voice and limits",
+     "value": "Min: anxious and fussy, frets over the Negative Confession, one short line when clicked; never names the fix, his target piece or its destination; facts only by fact_id from the entries he may see (Configuration Document, Section 4)"
+    }
+   },
+   "subtitle": "Captions, descriptions, hints, citations, Min's voice, sound",
+   "title": "Narrative and Audio",
+   "worked": false
+  },
+  "qa": {
+   "docs": [
+    "Bug report: build, steps, expected, actual, severity",
+    "Release checklist",
+    "Playtest and Evaluation Record (GDF 5.9)"
+   ],
+   "editable": true,
+   "kind": "agent",
+   "lanes": {
+    "G1": {
+     "delivers": [
+      [
+       "producer",
+       "failure cases"
+      ]
+     ],
+     "does": "Propose failure cases and how each would be detected.",
+     "expects": [
+      [
+       "design",
+       "core loop"
+      ]
+     ],
+     "recommends": "Tests to write before the first playable."
+    },
+    "G2": {
+     "delivers": [
+      [
+       "student",
+       "defect summary"
+      ]
+     ],
+     "does": "Summarize defects found and fixed.",
+     "expects": [],
+     "recommends": "Failures to fix before production."
+    },
+    "G3": {
+     "delivers": [
+      [
+       "student",
+       "verification plan"
+      ]
+     ],
+     "does": "Attach the verification plan to the scope lock.",
+     "expects": [
+      [
+       "release",
+       "release checklist"
+      ]
+     ],
+     "recommends": "The release criteria."
+    },
+    "G4": {
+     "delivers": [
+      [
+       "student",
+       "release check results"
+      ],
+      [
+       "producer",
+       "release check results"
+      ]
+     ],
+     "does": "Run the release checks on the tagged candidate.",
+     "expects": [
+      [
+       "release",
+       "tagged candidate and checklist"
+      ],
+      [
+       "art",
+       "visual defects with screenshots"
+      ],
+      [
+       "narrative",
+       "content defects"
+      ]
+     ],
+     "recommends": "Release or hold, with the evidence."
+    },
+    "G5": {
+     "delivers": [
+      [
+       "student",
+       "QA notes for the AAR"
+      ]
+     ],
+     "does": "Separate observed results from claims in the AAR.",
+     "expects": [],
+     "recommends": "Tests a future team should keep."
+    },
+    "ideation": {
+     "delivers": [
+      [
+       "producer",
+       "early failure cases"
+      ]
+     ],
+     "does": "List what could break in each concept.",
+     "expects": [
+      [
+       "design",
+       "concept options"
+      ]
+     ],
+     "recommends": "Concepts that are hard to test."
+    },
+    "planning": {
+     "delivers": [
+      [
+       "producer",
+       "test plan"
+      ]
+     ],
+     "does": "Write the test plan and the Alpha, Beta, and Gold checks.",
+     "expects": [],
+     "recommends": "Time reserved for release testing."
+    },
+    "production": {
+     "delivers": [
+      [
+       "student",
+       "triaged bug list with severities"
+      ],
+      [
+       "tech",
+       "triaged bugs"
+      ],
+      [
+       "producer",
+       "bug counts by severity"
+      ]
+     ],
+     "does": "Triage bugs by severity in Notion and verify each small fix against the build that claims it.",
+     "expects": [
+      [
+       "tech",
+       "fixes to verify"
+      ]
+     ],
+     "recommends": "Blockers versus accepted defects."
+    },
+    "prototype": {
+     "delivers": [
+      [
+       "student",
+       "reproducible failures"
+      ],
+      [
+       "tech",
+       "reproducible failures"
+      ],
+      [
+       "producer",
+       "open blockers"
+      ]
+     ],
+     "does": "Run the level suites and the interaction grid on each Procession build, playtest it cold, reproduce failures, verify small fixes, and probe what Min knows.",
+     "expects": [
+      [
+       "tech",
+       "playable build"
+      ],
+      [
+       "design",
+       "intended behavior to check"
+      ]
+     ],
+     "recommends": "A severity for each failure."
+    },
+    "release": {
+     "delivers": [
+      [
+       "producer",
+       "verified-fix record"
+      ]
+     ],
+     "does": "Record verified fixes and accepted defects.",
+     "expects": [],
+     "recommends": "Defects to disclose."
+    }
+   },
+   "primer": "QA checks what the game does against what it should do, reproduces failures so someone else can see them, and verifies fixes. QA reports; it never decides what ships. It writes tests and reports; tech fixes.",
+   "slots": {
+    "blocking": {
+     "label": "What counts as a blocking bug",
+     "value": "A crash or script error, a level or minigame that cannot be finished or left, a soft lock (an object lost, hands stuck full, the camera stuck in minigame view), lost progress, or Min revealing a solution the player has not reached"
+    },
+    "rules": {
+     "label": "Rule-change check",
+     "value": "On any change to a rule, a control or the player interface, sort its details as check-features step 1 and send every unstated one to the student; never accept it by default"
+    },
+    "severity": {
+     "label": "Severity scale",
+     "value": "Blocker, major, minor, cosmetic"
+    }
+   },
+   "subtitle": "Reproduce, verify fixes, cold playtests, release checks",
+   "title": "QA",
+   "worked": true
+  },
+  "student": {
+   "docs": [],
+   "editable": true,
+   "kind": "person",
+   "lanes": {
+    "G1": {
+     "delivers": [
+      [
+       "instructor",
+       "G1 recording, X, Risk Profile, Initial GDD, and Configuration Document"
+      ]
+     ],
+     "does": "Record and present the pitch.",
+     "expects": [
+      [
+       "producer",
+       "Initial Project Plan and Risk Register"
+      ],
+      [
+       "design",
+       "Initial GDD"
+      ],
+      [
+       "tech",
+       "Initial Configuration Document"
+      ]
+     ],
+     "recommends": "The concept and commitments put before the instructor."
+    },
+    "G2": {
+     "delivers": [
+      [
+       "instructor",
+       "first-playable recording and evidence"
+      ]
+     ],
+     "does": "Present the first playable and what players did with it.",
+     "expects": [
+      [
+       "tech",
+       "first playable and traces"
+      ],
+      [
+       "bi",
+       "Initial Playtest Log"
+      ],
+      [
+       "producer",
+       "updated plan and Risk Register"
+      ]
+     ],
+     "recommends": "What you claim the prototype shows."
+    },
+    "G3": {
+     "delivers": [
+      [
+       "instructor",
+       "scope-lock plan, exclusions, updated Risk Register"
+      ]
+     ],
+     "does": "Propose the scope lock.",
+     "expects": [
+      [
+       "producer",
+       "Final Project Plan"
+      ]
+     ],
+     "recommends": "The scope you propose for approval."
+    },
+    "G4": {
+     "delivers": [
+      [
+       "instructor",
+       "Gold candidate, recording, Final GDD, and Configuration Document"
+      ]
+     ],
+     "does": "Accept the release candidate and disclose open issues.",
+     "expects": [
+      [
+       "producer",
+       "readiness evidence"
+      ],
+      [
+       "qa",
+       "release check results"
+      ],
+      [
+       "release",
+       "release instructions"
+      ]
+     ],
+     "recommends": "Accept the release; list the accepted defects."
+    },
+    "G5": {
+     "delivers": [
+      [
+       "instructor",
+       "final game, AAR, Final Playtest Log, archive"
+      ]
+     ],
+     "does": "Account for the whole team and the decisions you kept.",
+     "expects": [
+      [
+       "release",
+       "archive check"
+      ]
+     ],
+     "recommends": "Whether the archive is complete enough to close."
+    },
+    "ideation": {
+     "delivers": [
+      [
+       "design",
+       "intended experience and player"
+      ],
+      [
+       "producer",
+       "limits on your own weekly time"
+      ],
+      [
+       "bi",
+       "intended experience and player"
+      ]
+     ],
+     "does": "Choose the experience and player motivation; pick one concept from several.",
+     "expects": [
+      [
+       "design",
+       "two or three concept options, each with an X"
+      ],
+      [
+       "producer",
+       "rough time and cost estimate per concept"
+      ]
+     ],
+     "recommends": "Which concept goes to G1."
+    },
+    "planning": {
+     "delivers": [
+      [
+       "producer",
+       "approved priorities, exclusions, and fallback triggers"
+      ],
+      [
+       "design",
+       "scope decision"
+      ]
+     ],
+     "does": "Reconcile competing estimates; set scope and exclusions.",
+     "expects": [
+      [
+       "producer",
+       "scope-lock plan draft"
+      ],
+      [
+       "design",
+       "remaining design work"
+      ],
+      [
+       "tech",
+       "integration and deployment check"
+      ]
+     ],
+     "recommends": "What stays in, what is cut, and each fallback trigger."
+    },
+    "production": {
+     "delivers": [
+      [
+       "tech",
+       "priority order for fixes"
+      ],
+      [
+       "narrative",
+       "content lock at Beta"
+      ],
+      [
+       "instructor",
+       "change request, if scope must move"
+      ]
+     ],
+     "does": "Review builds against the plan; triage with QA.",
+     "expects": [
+      [
+       "qa",
+       "triaged bug list with severities"
+      ],
+      [
+       "producer",
+       "weekly PPP and readiness summary"
+      ]
+     ],
+     "recommends": "Which defects block release and which you accept."
+    },
+    "prototype": {
+     "delivers": [
+      [
+       "design",
+       "direction after each finding"
+      ],
+      [
+       "tech",
+       "accepted or rejected builds"
+      ]
+     ],
+     "does": "Watch the playtest; decide what each finding means for the concept.",
+     "expects": [
+      [
+       "design",
+       "playtest questions"
+      ],
+      [
+       "bi",
+       "observations kept apart from interpretations"
+      ],
+      [
+       "qa",
+       "reproducible failures"
+      ]
+     ],
+     "recommends": "Whether a finding changes the concept or only the build."
+    },
+    "release": {
+     "delivers": [
+      [
+       "instructor",
+       "AAR draft for Braintrust"
+      ]
+     ],
+     "does": "Showcase the game, play three classmates' builds, and draft the AAR.",
+     "expects": [
+      [
+       "producer",
+       "project timeline and decision log"
+      ],
+      [
+       "bi",
+       "outcome summary with limits"
+      ]
+     ],
+     "recommends": "What the project taught, in your own account."
+    }
+   },
+   "primer": "You set the vision, priorities, scope, and quality bar. You resolve conflicting recommendations and accept the work. Agents recommend; you decide, and you stay accountable for every GDF deliverable.",
+   "slots": {},
+   "subtitle": "Executive Producer and Creative Director",
+   "title": "You"
+  },
+  "tech": {
+   "docs": [
+    "Configuration Document (GDF 5.2)",
+    "Build and test evidence",
+    "Technical decision records"
+   ],
+   "editable": true,
+   "kind": "agent",
+   "lanes": {
+    "G1": {
+     "delivers": [
+      [
+       "student",
+       "Initial Configuration Document"
+      ],
+      [
+       "producer",
+       "feasibility and agent boundary"
+      ]
+     ],
+     "does": "Propose the implementation, agent boundary, and latency and cost budgets.",
+     "expects": [
+      [
+       "design",
+       "systems sketch and agent role"
+      ]
+     ],
+     "recommends": "The smallest stack that can test the loop."
+    },
+    "G2": {
+     "delivers": [
+      [
+       "student",
+       "first playable and traces"
+      ]
+     ],
+     "does": "Supply the Procession build with Min, its call logs, and the suite results.",
+     "expects": [],
+     "recommends": "Which agent failures need a code change."
+    },
+    "G3": {
+     "delivers": [
+      [
+       "student",
+       "Update Configuration Document"
+      ]
+     ],
+     "does": "Update the Configuration Document for the locked scope.",
+     "expects": [
+      [
+       "design",
+       "locked feature list"
+      ],
+      [
+       "art",
+       "style guide and asset list"
+      ],
+      [
+       "narrative",
+       "content list"
+      ]
+     ],
+     "recommends": "The release build and configuration plan."
+    },
+    "G4": {
+     "delivers": [
+      [
+       "student",
+       "Final Configuration Document"
+      ],
+      [
+       "design",
+       "release build"
+      ],
+      [
+       "art",
+       "release build"
+      ],
+      [
+       "narrative",
+       "release build"
+      ],
+      [
+       "release",
+       "tagged Gold candidate"
+      ]
+     ],
+     "does": "Identify the exact build and configuration, and tag it.",
+     "expects": [],
+     "recommends": "The tag to approve."
+    },
+    "G5": {
+     "delivers": [
+      [
+       "student",
+       "engineering section of the AAR"
+      ]
+     ],
+     "does": "Record the technical lessons.",
+     "expects": [],
+     "recommends": "Technical debt a future team inherits."
+    },
+    "ideation": {
+     "delivers": [
+      [
+       "producer",
+       "technical risk per concept"
+      ]
+     ],
+     "does": "Flag the technical risk in each concept.",
+     "expects": [
+      [
+       "design",
+       "concept options"
+      ]
+     ],
+     "recommends": "Concepts to avoid on this calendar."
+    },
+    "planning": {
+     "delivers": [
+      [
+       "student",
+       "integration and deployment check"
+      ],
+      [
+       "producer",
+       "integration estimate"
+      ]
+     ],
+     "does": "Check the integration and deployment path; estimate remaining work.",
+     "expects": [],
+     "recommends": "Technical scope to cut first."
+    },
+    "production": {
+     "delivers": [
+      [
+       "producer",
+       "Alpha and Beta status"
+      ],
+      [
+       "qa",
+       "fixes to verify"
+      ],
+      [
+       "bi",
+       "Alpha build"
+      ]
+     ],
+     "does": "Reach Alpha, then Beta; fix triaged bugs through the small-fixes workflow.",
+     "expects": [
+      [
+       "student",
+       "priority order for fixes"
+      ],
+      [
+       "design",
+       "tuning changes"
+      ],
+      [
+       "art",
+       "final assets"
+      ],
+      [
+       "narrative",
+       "final text and audio"
+      ],
+      [
+       "qa",
+       "triaged bugs"
+      ]
+     ],
+     "recommends": "Fixes that are safe before Gold."
+    },
+    "prototype": {
+     "delivers": [
+      [
+       "producer",
+       "build status"
+      ],
+      [
+       "qa",
+       "playable build"
+      ],
+      [
+       "release",
+       "build to share with a playtester"
+      ]
+     ],
+     "does": "Build the Procession level and Min, the guide module with its scripted fallback; fix the author's small-fix lists; run the level suites.",
+     "expects": [
+      [
+       "student",
+       "accepted or rejected builds"
+      ],
+      [
+       "design",
+       "design spec for the core interaction"
+      ],
+      [
+       "art",
+       "readable placeholder assets"
+      ],
+      [
+       "narrative",
+       "text, voice guide, and sound cues"
+      ],
+      [
+       "qa",
+       "reproducible failures"
+      ]
+     ],
+     "recommends": "What the traces show about agent behavior."
+    },
+    "release": {
+     "delivers": [
+      [
+       "release",
+       "build notes"
+      ]
+     ],
+     "does": "Keep Gold reproducible; prepare any corrective patch.",
+     "expects": [],
+     "recommends": "Patches that need instructor approval."
+    }
+   },
+   "primer": "The tech lead makes the game run reliably: systems, the in-game agent's interface, builds, tests, and deployment. They decide how to build it, and they tell the producer early when something costs more than planned.",
+   "slots": {
+    "deploy": {
+     "label": "Where model calls run",
+     "value": "Vertex AI Gemini 3.5 Flash-Lite through a Cloud Run proxy, only in the removable guide module (godot/guides/)"
+    },
+    "stack": {
+     "label": "Language and engine",
+     "value": "Godot 4.7+ (GDScript), 1280 × 720; release as a web export"
+    },
+    "tests": {
+     "label": "Test command",
+     "value": "python3 godot/tests/run_tests.py (all suites); one suite: godot --headless --path godot --script res://tests/<suite>.gd"
+    }
+   },
+   "subtitle": "Godot levels, shared code, fixes, tests, guide module",
+   "title": "Tech Lead",
+   "worked": false
+  }
+ },
+ "status": {
+  "narrative": "tailored",
+  "qa": "tailored",
+  "tech": "tailored"
+ },
+ "warnings": [
+  "other-roles.md: producer is empty; write student, not needed, <reason>, or agent <path>",
+  "other-roles.md: design is empty; write student, not needed, <reason>, or agent <path>",
+  "other-roles.md: art is empty; write student, not needed, <reason>, or agent <path>",
+  "other-roles.md: bi is empty; write student, not needed, <reason>, or agent <path>",
+  "other-roles.md: release is empty; write student, not needed, <reason>, or agent <path>"
+ ]
+}

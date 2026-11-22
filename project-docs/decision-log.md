@@ -292,3 +292,31 @@ Who decided what, session by session: the author's decisions, what was made from
 - **Decided:** keep only the skill, no subagent; a skill counts as an agent for the course's team tool.
 - **Made:** `.claude/skills/small-fixes/SKILL.md`; `AGENTS.md` and `project-docs/configuration.md` (Tech Lead row) list it.
 - **Agent did:** new rows get Role Tech Lead and Status In progress; Done in commit waits for an approved commit; tech-to-qa handoff only once `agent-team/` exists.
+
+## 2026-11-22 · course agent-team files
+- **Decided:** copy the course repository's files in; add its rules to `AGENTS.md`; prepend its README sections, filled; use its `CLAUDE.md` (`@AGENTS.md`); merge `.gitignore`; run `team init`; keep the CI "Your tests" placeholder.
+- **Made:** `team/`, `tests/`, `.github/workflows/final.yml`; `agent-team/`, `.claude/agents/team-tech.md`, `team-qa.md`, `.agents/skills/` from `python -m team init`; `AGENTS.md`, `README.md`, `CLAUDE.md`, `.gitignore`.
+- **Agent did:** README tracker link is the Totenbuch Tasks database; gate documents named as `project-docs/`; added a "Playing" heading over the old intro; starter roles left untailored and `other-roles.md` lines empty.
+- **Decided:** move `team/` and `tests/` into `project-docs/`; `agent-team/` stays at the root, where the course tool writes it.
+- **Made:** `project-docs/team/`, `project-docs/tests/` (`test_team_ci.py` workflow path); `.github/workflows/final.yml` (`PYTHONPATH: project-docs`, tests path); handoff-template path in `agent-team/roles/tech.md`, `qa.md`, re-rendered; README and `AGENTS.md` commands.
+- **Decided:** restore the course guide; **Made:** `project-docs/team/README.md`, linked from README and `AGENTS.md`.
+- **Decided:** tailor `agent-team/roles/tech.md` to the game and point it to the skills.
+- **Made:** `agent-team/roles/tech.md` (game, stack, model, test slots; prototype, G2, production lanes; Instructions name `small-fixes`, `check-features`, `build-levels`, `draft-ui`, `write-notion`, `log-decisions`), re-rendered; configuration Tech Lead row.
+- **Agent did:** chose those skills (playtest left to QA, art skills to Art); text handed to Narrative as a split-off Notion row with Role Narrative, plus a tech-to-narrative note once that role exists, even for dictated wording; lanes' expects/delivers kept; added no-commit and no-asset-rebuild rules to the Instructions.
+- **Corrected:** agent gave the Tech Lead `write-game-text` and `cite-references`; wording and citations belong to Narrative and are handed off (`small-fixes`, `agent-team/roles/tech.md`).
+- **Decided:** Narrative and Audio are one role again, as in the course roles.
+- **Made:** one Narrative and Audio row in `project-docs/configuration.md`; role name in `write-notion`, `small-fixes`, `agent-team/roles/tech.md` (re-rendered) and `project-docs/risk.md`.
+- **Decided:** add the Narrative and Audio role with the right skills.
+- **Made:** `agent-team/roles/narrative.md` (skills `write-game-text`, `cite-references`, `write-notion`, `log-decisions`), origin note `agent-team/handoffs/2026-11-22-student-to-narrative.md`, re-rendered; configuration row.
+- **Agent did:** gave the role edit rights to JSON wording and references only, no code; slots for Davis text, built haul sounds and Min's voice; drafted the origin note's Why, Use, Produce, Accepted when and Evidence; Student decision left empty.
+- **Decided:** Narrative and Audio works under close oversight: validate every claim, never invent facts or story without asking, edit only its own additions, change or delete existing text only on an explicit command or confirmed bounds; reads the List of Sources page and `references/` PDFs; existing references preferred, new ones allowed.
+- **Made:** oversight rules in `agent-team/roles/narrative.md`, re-rendered.
+- **Agent did:** named the readings folder behind `references/BookoftheDead alias`; asks before adding a source to the List of Sources.
+- Corrected (author): `references/` paths belong in Notion; they are the main way sources are cited. Narrative and Audio cites sources in Notion by their `references/` path, and `write-notion` now makes `references/` the one exception to its no-gitignored-paths rule.
+- **Decided:** set up the QA agent with relevant skills.
+- **Made:** `agent-team/roles/qa.md` tailored (skills `check-features`, `playtest`, `small-fixes` for verifying fixes, `write-notion`, `log-decisions`), re-rendered; QA row in `project-docs/configuration.md`.
+- **Agent did:** gave QA edit and write so it can write tests (never game code, JSON text or assets); set blocking bugs to crashes, unfinishable levels, soft locks, lost progress and Min giving away a solution; replaced the example `rules-reviewer` check (no such agent here) with `check-features` step 1 and asking the student.
+- **Decided:** a `write-hints` skill: one Find line, then at most three graded hints per phase, fewer when fewer are needed; it also judges existing hints (helpful, not too revealing, graded). No current game hints as examples until the author picks some, since several are not satisfactory.
+- **Made:** `.claude/skills/write-hints/SKILL.md`; pointers in `AGENTS.md`, `write-game-text`, the Narrative and Audio and QA roles (re-rendered) and the configuration row.
+- **Agent did:** named the hint kinds notice, interpret, act (the existing labels) and added `tip` for skill phases; noted that `hint_regressions.gd` rejects `tip` until the test is extended.
+- Corrected (author): the Find line is a `notice`; there is no `tip` kind, technique is an `interpret`; a phase with only an `act` (or act plus tip) needs a very good reason and the author's agreement; a hint may be vague about what to do or tangential, but must point to something visible. `write-hints` and the Hints bullet in `write-game-text` updated; `hint_regressions.gd` needs no change.

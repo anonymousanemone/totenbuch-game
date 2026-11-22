@@ -1,6 +1,6 @@
 # Project instructions
 
-- Project skills live in `.claude/skills/<name>/SKILL.md`: `build-levels` (building a level from an `.mdp`), `suggest-games` (proposing puzzles and minigames), `cite-references` (citing sources in registries and the Scene Atlas), `splice-plates` (rotating and splicing plates into a new `.mdp`), `make-artwork` (scroll art that keeps the original drawing, UI art that matches the Old Fax font), `draft-ui` (HTML drafts with several tunable versions before any UI is built), `write-game-text` (instructions, feedback, hints, descriptions and messages the player sees), `check-features` (checking a feature or fix behaves as intended before the author plays it), `playtest` (playing a level as a cold first-time player and bringing back only the decisions that need the author), `log-decisions` (the brief per-session record in `project-docs/decision-log.md`), `write-notion` (rules for writing to the Totenbuch Tasks database in Notion) and `small-fixes` (carrying a list of small fixes from the author through Notion, existing behaviour, shared code, tests and the running game). Read the matching one before starting that kind of work.
+- Project skills live in `.claude/skills/<name>/SKILL.md`: `build-levels` (building a level from an `.mdp`), `suggest-games` (proposing puzzles and minigames), `cite-references` (citing sources in registries and the Scene Atlas), `splice-plates` (rotating and splicing plates into a new `.mdp`), `make-artwork` (scroll art that keeps the original drawing, UI art that matches the Old Fax font), `draft-ui` (HTML drafts with several tunable versions before any UI is built), `write-game-text` (instructions, feedback, hints, descriptions and messages the player sees), `write-hints` (the graded Hint-button ladder for each puzzle, and judging existing hints), `check-features` (checking a feature or fix behaves as intended before the author plays it), `playtest` (playing a level as a cold first-time player and bringing back only the decisions that need the author), `log-decisions` (the brief per-session record in `project-docs/decision-log.md`), `write-notion` (rules for writing to the Totenbuch Tasks database in Notion) and `small-fixes` (carrying a list of small fixes from the author through Notion, existing behaviour, shared code, tests and the running game). Read the matching one before starting that kind of work.
 - Every session that decides, makes or changes anything ends by updating its entry in `project-docs/decision-log.md` with the `log-decisions` skill, before the closing message.
 - Art follows `project-docs/style-guide.md` and the art skills, with no exceptions unless the user explicitly approves one. The user may approve an exception at any time; record it in the style guide's Approved exceptions table.
 - Only create or save files in `mockups/` when the user explicitly requests it, or for a new UI draft made with the `draft-ui` skill. Put temporary screenshots, previews, and verification artifacts in a temporary directory outside the repository instead.
@@ -40,6 +40,15 @@
 - Each level holds the camera from its active minigame state.
 - Walking into a location keeps the current text. Changes in game state can be announced. Survival 59 plays its sequence on walk-in.
 
+
+## Course agent team
+
+This is the student's own repository for their final game in AI in Practice: Game Design and Development (Columbia, Fall 2026).
+
+- You recommend; the student decides; the instructor approves gates. You never approve a gate, merge a pull request, or change a deadline.
+- `agent-team/` holds the student's role files, handoffs, and origin notes. The generated files (`agent-team/team.json`, `agent-team/coverage-map.md`, `agent-team/board.html`, `.claude/agents/team-<id>.md`, and `.agents/skills/team-<id>/SKILL.md`) are written by `python -m team render`, never by hand. Change a role file, then run `PYTHONPATH=project-docs python -m team render`. The tool is in `project-docs/team/`, its tests in `project-docs/tests/`. The guide is `project-docs/team/README.md`.
+- QA writes tests, never game code.
+- The student keeps every decision: they act as Executive Producer and Creative Director, and the instructor approves gates.
 
 Behavioral guidelines to reduce common LLM coding mistakes. Merge with project-specific instructions as needed.
 

@@ -1,0 +1,400 @@
+{
+  "student": {
+    "title": "You",
+    "subtitle": "Executive Producer and Creative Director",
+    "kind": "person",
+    "editable": true,
+    "primer": "You set the vision, priorities, scope, and quality bar. You resolve conflicting recommendations and accept the work. Agents recommend; you decide, and you stay accountable for every GDF deliverable.",
+    "docs": [],
+    "slots": {},
+    "lanes": {
+      "ideation": {
+        "does": "Choose the experience and player motivation; pick one concept from several.",
+        "expects": [
+          [
+            "design",
+            "two or three concept options, each with an X"
+          ],
+          [
+            "producer",
+            "rough time and cost estimate per concept"
+          ]
+        ],
+        "delivers": [
+          [
+            "design",
+            "intended experience and player"
+          ],
+          [
+            "producer",
+            "limits on your own weekly time"
+          ],
+          [
+            "bi",
+            "intended experience and player"
+          ]
+        ],
+        "recommends": "Which concept goes to G1."
+      },
+      "G1": {
+        "does": "Record and present the pitch.",
+        "expects": [
+          [
+            "producer",
+            "Initial Project Plan and Risk Register"
+          ],
+          [
+            "design",
+            "Initial GDD"
+          ],
+          [
+            "tech",
+            "Initial Configuration Document"
+          ]
+        ],
+        "delivers": [
+          [
+            "instructor",
+            "G1 recording, X, Risk Profile, Initial GDD, and Configuration Document"
+          ]
+        ],
+        "recommends": "The concept and commitments put before the instructor."
+      },
+      "prototype": {
+        "does": "Watch the playtest; decide what each finding means for the concept.",
+        "expects": [
+          [
+            "design",
+            "playtest questions"
+          ],
+          [
+            "bi",
+            "observations kept apart from interpretations"
+          ],
+          [
+            "qa",
+            "reproducible failures"
+          ]
+        ],
+        "delivers": [
+          [
+            "design",
+            "direction after each finding"
+          ],
+          [
+            "tech",
+            "accepted or rejected builds"
+          ]
+        ],
+        "recommends": "Whether a finding changes the concept or only the build."
+      },
+      "G2": {
+        "does": "Present the first playable and what players did with it.",
+        "expects": [
+          [
+            "tech",
+            "first playable and traces"
+          ],
+          [
+            "bi",
+            "Initial Playtest Log"
+          ],
+          [
+            "producer",
+            "updated plan and Risk Register"
+          ]
+        ],
+        "delivers": [
+          [
+            "instructor",
+            "first-playable recording and evidence"
+          ]
+        ],
+        "recommends": "What you claim the prototype shows."
+      },
+      "planning": {
+        "does": "Reconcile competing estimates; set scope and exclusions.",
+        "expects": [
+          [
+            "producer",
+            "scope-lock plan draft"
+          ],
+          [
+            "design",
+            "remaining design work"
+          ],
+          [
+            "tech",
+            "integration and deployment check"
+          ]
+        ],
+        "delivers": [
+          [
+            "producer",
+            "approved priorities, exclusions, and fallback triggers"
+          ],
+          [
+            "design",
+            "scope decision"
+          ]
+        ],
+        "recommends": "What stays in, what is cut, and each fallback trigger."
+      },
+      "G3": {
+        "does": "Propose the scope lock.",
+        "expects": [
+          [
+            "producer",
+            "Final Project Plan"
+          ]
+        ],
+        "delivers": [
+          [
+            "instructor",
+            "scope-lock plan, exclusions, updated Risk Register"
+          ]
+        ],
+        "recommends": "The scope you propose for approval."
+      },
+      "production": {
+        "does": "Review builds against the plan; triage with QA.",
+        "expects": [
+          [
+            "qa",
+            "triaged bug list with severities"
+          ],
+          [
+            "producer",
+            "weekly PPP and readiness summary"
+          ]
+        ],
+        "delivers": [
+          [
+            "tech",
+            "priority order for fixes"
+          ],
+          [
+            "narrative",
+            "content lock at Beta"
+          ],
+          [
+            "instructor",
+            "change request, if scope must move"
+          ]
+        ],
+        "recommends": "Which defects block release and which you accept."
+      },
+      "G4": {
+        "does": "Accept the release candidate and disclose open issues.",
+        "expects": [
+          [
+            "producer",
+            "readiness evidence"
+          ],
+          [
+            "qa",
+            "release check results"
+          ],
+          [
+            "release",
+            "release instructions"
+          ]
+        ],
+        "delivers": [
+          [
+            "instructor",
+            "Gold candidate, recording, Final GDD, and Configuration Document"
+          ]
+        ],
+        "recommends": "Accept the release; list the accepted defects."
+      },
+      "release": {
+        "does": "Showcase the game, play three classmates' builds, and draft the AAR.",
+        "expects": [
+          [
+            "producer",
+            "project timeline and decision log"
+          ],
+          [
+            "bi",
+            "outcome summary with limits"
+          ]
+        ],
+        "delivers": [
+          [
+            "instructor",
+            "AAR draft for Braintrust"
+          ]
+        ],
+        "recommends": "What the project taught, in your own account."
+      },
+      "G5": {
+        "does": "Account for the whole team and the decisions you kept.",
+        "expects": [
+          [
+            "release",
+            "archive check"
+          ]
+        ],
+        "delivers": [
+          [
+            "instructor",
+            "final game, AAR, Final Playtest Log, archive"
+          ]
+        ],
+        "recommends": "Whether the archive is complete enough to close."
+      }
+    }
+  },
+  "instructor": {
+    "title": "Instructor",
+    "subtitle": "Gate Approver",
+    "kind": "person",
+    "editable": false,
+    "primer": "The instructor approves each gate or places it on Hold with corrective work. Braintrust feedback from classmates informs the decision; it does not make it.",
+    "docs": [],
+    "slots": {},
+    "lanes": {
+      "ideation": {
+        "does": "Ran the first pitch round on Nov 9.",
+        "expects": [],
+        "delivers": [
+          [
+            "student",
+            "pitch-round notes"
+          ]
+        ],
+        "recommends": "No selection; feedback only."
+      },
+      "G1": {
+        "does": "Review the pitch and evidence.",
+        "expects": [
+          [
+            "student",
+            "G1 recording and documents"
+          ]
+        ],
+        "delivers": [
+          [
+            "student",
+            "decision and conditions as a CourseWorks comment"
+          ]
+        ],
+        "recommends": "Approve or Hold the prototype investigation."
+      },
+      "prototype": {
+        "does": "Office hours; Session 10 working session on Nov 23.",
+        "expects": [],
+        "delivers": [
+          [
+            "student",
+            "checkpoint feedback on the deployed model call"
+          ]
+        ],
+        "recommends": "No decision; coaching."
+      },
+      "G2": {
+        "does": "Review the first playable and playtest evidence.",
+        "expects": [
+          [
+            "student",
+            "first-playable recording"
+          ]
+        ],
+        "delivers": [
+          [
+            "student",
+            "decision in the repository's Gate decisions issue"
+          ]
+        ],
+        "recommends": "Approve or Hold further refinement."
+      },
+      "planning": {
+        "does": "Answer scope questions.",
+        "expects": [],
+        "delivers": [],
+        "recommends": "No decision before G3."
+      },
+      "G3": {
+        "does": "Review the scope-lock plan.",
+        "expects": [
+          [
+            "student",
+            "scope-lock plan"
+          ]
+        ],
+        "delivers": [
+          [
+            "student",
+            "decision in the repository's Gate decisions issue"
+          ]
+        ],
+        "recommends": "Approve or Hold production against the scope."
+      },
+      "production": {
+        "does": "Review any material scope change.",
+        "expects": [
+          [
+            "student",
+            "change request with cause and impact"
+          ]
+        ],
+        "delivers": [
+          [
+            "student",
+            "approval or refusal"
+          ]
+        ],
+        "recommends": "Scope changes after G3."
+      },
+      "G4": {
+        "does": "Review the Gold candidate.",
+        "expects": [
+          [
+            "student",
+            "Gold candidate and evidence"
+          ]
+        ],
+        "delivers": [
+          [
+            "student",
+            "Gold decision in the repository's Gate decisions issue"
+          ]
+        ],
+        "recommends": "Approve Gold for the identified build."
+      },
+      "release": {
+        "does": "Read AAR drafts; approve any corrective release.",
+        "expects": [
+          [
+            "student",
+            "AAR draft"
+          ]
+        ],
+        "delivers": [
+          [
+            "student",
+            "feedback on the draft"
+          ]
+        ],
+        "recommends": "Corrective releases after Gold."
+      },
+      "G5": {
+        "does": "Review closure.",
+        "expects": [
+          [
+            "student",
+            "AAR and archive"
+          ]
+        ],
+        "delivers": [
+          [
+            "student",
+            "closure review"
+          ]
+        ],
+        "recommends": "Close the project."
+      }
+    }
+  }
+}

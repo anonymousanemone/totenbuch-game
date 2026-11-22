@@ -1,0 +1,47 @@
+name: Final
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+jobs:
+  final:
+    name: Agent team and your tests
+    runs-on: ${{ vars.CI_RUNNER == 'self-hosted' && (github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository) && fromJSON('["self-hosted","linux","x64","course-lxd","conductor1"]') || 'ubuntu-latest' }}
+    timeout-minutes: 10
+    env:
+      PYTHONPATH: project-docs
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Team tests
+        run: python -m unittest discover -s project-docs/tests -t project-docs/tests -p "test_team_*.py" -v
+      - name: Validate your agent team
+        run: python -m team validate
+      - name: Render your agent team
+        run: python -m team render --today from-team-json
+      - name: Generated files are committed
+        run: |
+          git add -N .
+          if ! git diff --exit-code; then
+            echo "The generated team files are out of date. Run python -m team render and commit the result."
+            exit 1
+          fi
+      # Replace the command below with your game's test command.
+      - name: Your tests
+        run: echo "Add your game's test command here"
+      - uses: actions/upload-artifact@v4
+        if: hashFiles('agent-team/board.html') != ''
+        with:
+          name: team-board
+          path: agent-team/board.html
+          retention-days: 14

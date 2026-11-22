@@ -282,11 +282,13 @@ Who decided what, session by session: the author's decisions, what was made from
 - **Made:** `godot/scripts/debug_menu.gd`, Scroll and level integrations, `.claude/skills/build-levels/SKILL.md`, and mechanics QA guidance in `README.md`.
 - **Agent did:** Fixed the stale bearer sprite reference in `offering_table.gd` and added regressions for the bread and debug menu.
 
-
 ## 2026-11-22 · Notion completion dates
 - **Decided:** Fill a blank Done date with the date the task is seen in Done.
 - **Made:** `.claude/skills/write-notion/SKILL.md`.
 
-## 2026-11-22 · local main reconciliation
-- **Decided:** Reconcile local `main` with GitHub and leave a clean working tree.
-- **Agent did:** Preserved the archive-cleanup commit and pending documentation, recovered two historical Git blobs, and excluded local Finder and editor files.
+
+## 2026-11-22 · small-fixes implementation agent
+- **Decided:** make an implementation agent for small fixes from the author's lists, built from the Notion history and open tasks, that checks existing behaviour, uses shared code and escalates decisions.
+- **Decided:** keep only the skill, no subagent; a skill counts as an agent for the course's team tool.
+- **Made:** `.claude/skills/small-fixes/SKILL.md`; `AGENTS.md` and `project-docs/configuration.md` (Tech Lead row) list it.
+- **Agent did:** new rows get Role Tech Lead and Status In progress; Done in commit waits for an approved commit; tech-to-qa handoff only once `agent-team/` exists.

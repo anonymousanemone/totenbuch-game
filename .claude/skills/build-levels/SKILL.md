@@ -90,6 +90,11 @@ Other shared code to reuse, never re-derive:
 - **Glows:** `UI.hover_glow` for what is under the pointer (fades in over `UI.HOVER_FADE`), `UI.success_flash`
   for a task done. Tween a glow's `strength` only through `UI.glow_step`.
 - **Figures drawn opaque:** `figure_mask.gd` (`create_texture`) with `figure.gdshader`.
+- **Opening out a vignette:** when a minigame expands its screen (the double lines push outward, as in
+  Survival's `widen.gd`), any vertical wall of text standing between those double lines slides down
+  as one whole column, together with the text below the ground in the same column, until its top
+  rests under the ground rule; the ground rule runs across where it stood. It slides back up as
+  drawn when the screen closes.
 
 The Game-wide Documentation pages in Notion describe them: *Explore levels: shared base classes*,
 *Shared camera*, *Avatar movement*, *Glow helpers* and *Figure masks*.

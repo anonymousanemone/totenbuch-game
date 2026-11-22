@@ -5,6 +5,9 @@
 ## papyrus in between, the rule under the captions carried across. The top rules and the text
 ## below the ground stay where they are, and the neighbours still show beyond the pushed lines.
 ## (The camera holds still in a minigame, so what is pushed is a picture of the view as it was.)
+## A column of vertical text standing inside the double lines slides down whole as it opens, the
+## part above the ground and the text below it together, until its top rests under the ground
+## rule, which runs on across where it stood.
 extends RefCounted
 
 const WIDEN := 120.0                 ## strip px everything beyond each double line moves outward
@@ -21,6 +24,14 @@ const CELLS := {
 	53: Vector2(4266.0, 4813.0),
 	57: Vector2(2489.0, 3314.0),
 }
+## The column of vertical text just inside a vignette's left double line, where it has one: from
+## the line's right edge to the column's right rule (strip x), from the caption rule to the strip's
+## foot.
+const WALLS := {
+	52: Vector2(4813.0, 5069.0),
+	57: Vector2(2509.0, 2761.0),
+}
+const GROUND_RULE := 6.0             ## the ground rule's height
 
 var game
 var layer: Node2D                    ## above the scroll's foreground columns
@@ -30,6 +41,10 @@ var sides: Array[Sprite2D] = []      ## left, right: the view beyond each double
 var _home: Array[Vector2] = [Vector2.ZERO, Vector2.ZERO]
 var _gaps: Array[ColorRect] = []     ## left band, left picture, right band, right picture
 var _rules: Array[Sprite2D] = []     ## the rule under the captions, across each gap
+var wall := Vector2.ZERO             ## this vignette's column (WALLS), or zero
+var _wall_paper: ColorRect           ## papyrus over the column as drawn
+var _wall_ink: Sprite2D              ## the whole column, sliding down
+var _wall_ground: Sprite2D           ## the ground rule carried across where it stood (under the column)
 var _tween: Tween
 var _token := 0                      ## bumped on each open and close: a stale open does nothing
 
@@ -61,6 +76,19 @@ func setup() -> void:
 		r.texture = game.get_node("Strip").texture
 		layer.add_child(r)
 		_rules.append(r)
+	_wall_paper = ColorRect.new()
+	_wall_paper.material = game.get_node("Papyrus").material
+	_wall_paper.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	layer.add_child(_wall_paper)
+	for i in 2:
+		var w := Sprite2D.new()
+		w.centered = false
+		w.region_enabled = true
+		w.region_filter_clip_enabled = true    # no hairline from the rules beside it
+		w.texture = game.get_node("Strip").texture
+		layer.add_child(w)
+	_wall_ground = layer.get_child(-2)
+	_wall_ink = layer.get_child(-1)
 	layer.visible = false
 
 
@@ -69,6 +97,7 @@ func open(sp: int) -> void:
 	_token += 1
 	var token := _token
 	cell = CELLS[sp]
+	wall = WALLS.get(sp, Vector2.ZERO)
 	if DisplayServer.get_name() == "headless":    # nothing is drawn (tests): no picture to push
 		await game.get_tree().process_frame
 	else:
@@ -142,3 +171,26 @@ func _set_amount(k: float) -> void:
 		_gaps[2 * i + 1].size = Vector2(d, GROUND - RULE.y)
 		_rules[i].position = Vector2(x, RULE.x)
 		_rules[i].region_rect = Rect2(cell.x + DOUBLE + 4.0, RULE.x, d, RULE.y - RULE.x)
+	_set_wall(k)
+
+
+## The column slides down with the opening: at k 1 its top rests under the ground rule, which
+## fades in across where it stood; the strip's foot cuts it off below.
+func _set_wall(k: float) -> void:
+	var has := wall != Vector2.ZERO
+	_wall_paper.visible = has
+	_wall_ground.visible = has
+	_wall_ink.visible = has
+	if not has:
+		return
+	var w := wall.y - wall.x
+	var foot: float = game.get_node("Strip").texture.get_height()
+	var drop := (GROUND + GROUND_RULE - RULE.y) * k
+	_wall_paper.position = Vector2(wall.x, RULE.y)
+	_wall_paper.size = Vector2(w, foot - RULE.y)
+	_wall_ink.position = Vector2(wall.x, RULE.y + drop)
+	_wall_ink.region_rect = Rect2(wall.x, RULE.y, w, foot - RULE.y - drop)
+	# from the double line's outer edge, so the rule also bridges the gap between its two lines
+	_wall_ground.position = Vector2(cell.x, GROUND)
+	_wall_ground.region_rect = Rect2(wall.y + 4.0, GROUND, wall.y - cell.x, GROUND_RULE)
+	_wall_ground.modulate.a = k

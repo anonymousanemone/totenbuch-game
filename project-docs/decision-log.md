@@ -247,7 +247,24 @@ Who decided what, session by session: the author's decisions, what was made from
 - **Made:** `minigame_view.gd`, Dangers and Procession entry and exit, `survival/survival.gd`, Gates and Survival scene settings, puzzle text, and regression coverage.
 - **Agent did:** Used the other side of the man in Survival 57 when standing on the approach side would clip the avatar at the vignette seam.
 
-## 2026-11-22 · citation to-dos and frozen Dangers registry
-- **Decided:** new citations always get a search for a source; citations the author marks done or deletes on purpose are no longer to-do; the Dangers registry is done and frozen; commit to main and delete `minigame-entry-exit`.
-- **Made:** `.claude/skills/cite-references/SKILL.md`; `godot/assets/dangers/registry.json` committed as frozen.
-- **Agent did:** put the rule only in `cite-references` (`build-levels` has no citation steps); counted a missing `reference` field as a deliberate deletion.
+## 2026-11-22 · citation to-dos, frozen Dangers registry, sliding text columns
+- **Decided:** new citations always get a search for a source; citations the author marks done or deletes on purpose are no longer to-do; the Dangers registry is frozen.
+- **Decided:** commit to main and delete `minigame-entry-exit`; when a minigame's double lines push outward, vertical text inside them slides down to ground level, Survival included.
+- **Made:** `.claude/skills/cite-references/SKILL.md`, `godot/assets/dangers/registry.json` (a3a108e); `.claude/skills/build-levels/SKILL.md`; `godot/scripts/survival/widen.gd` (`WALLS` 52, 57); `godot/tests/survival_rites_regressions.gd`.
+- **Agent did:** rule only in `cite-references`; a missing `reference` field counts as deleted; slide timed with the opening, back on close; carried ground rule fades in.
+- **Corrected:** the text wall does not sink into the ground and vanish; the whole column, with its text below the ground, slides down until its top is under the ground rule.
+
+## 2026-11-22 · gitignored files and turbo plans in Notion
+- **Decided:** Notion never references gitignored files; a turbo plan becomes its own row with its full content copied in, only when the author says.
+- **Made:** `.claude/skills/write-notion/SKILL.md` (Section 5).
+- **Agent did:** plan rows start at Status Backlog; row body updated on plan change only when asked; check with `git check-ignore -v`.
+
+## 2026-11-22 · reference file server for Notion source links
+- **Decided:** Notion source links open local reference files through a server the author starts by double-clicking a command (Control-C stops it); the server serves only the repo and the BookoftheDead readings folder.
+- **Made:** `tools/open-local/serve.py`; `Start reference server.command` (author moved it from the repo root).
+- **Agent did:** port 8765, read-only, 127.0.0.1 only, refuses other Host headers, no folder listings, Range support; command calls `serve.py` by absolute path so it works after moving.
+- **Corrected:** agent assumed Notion follows `totenbuch://` links through a macOS URL-handler app; Notion ignores custom-scheme links, so the app and its scripts were removed.
+
+## 2026-11-22 · Archive cleanup
+- **Decided** Remove the retired Godot assets and Hall scene. Remove the map generator's dependency on the archived scroll scene.
+- **Made** Removed `archive/godot/assets/` and `archive/godot/scenes/hall.tscn`. Updated `.claude/skills/build-levels/build_scroll_map.py`.

@@ -1,6 +1,6 @@
 ---
 name: write-notion
-description: Rules for writing to the Totenbuch Tasks database in Notion: stay inside it, never delete without approval, sweep short Done tasks into History, flag substantial Done pages for review, set Roles, and write safely. Use before any Notion create, update, move or delete.
+description: Rules for writing to the Totenbuch Tasks database in Notion: stay inside it, never delete without approval, sweep short Done tasks into History, flag substantial Done pages for review, set Roles, never reference gitignored files (turbo plans get their own row with full content), and write safely. Use before any Notion create, update, move or delete.
 ---
 
 # Writing to Notion
@@ -120,6 +120,8 @@ Agent log
 - **Smallest edit.** Prefer `update_content` and `insert_content` to `replace_content`. Preserve wording, order and native links you were not asked to change. Text a person wrote is never overwritten: append, or ask.
 - **Write backticks, match `<code>`.** Write inline code with backticks. Notion returns it as `<code>…</code>` (and bold as `<b>`), so an `update_content` `old_str` must copy the fetched form, not what you sent.
 - **Check for change.** If a page's `page_last_edited_at` is later than when you read it, fetch again before editing.
+- **No gitignored files.** Never reference a gitignored path in Notion (a link, a path, "see file X"): other people and agents can't open it. Check with `git check-ignore -v <path>`, which also catches the global ignore (for example `.turbo/` and `references/`). Copy the content in instead, or leave the reference out.
+- **Turbo plans become their own row, only when the user says.** Never put a turbo plan into Notion on your own; wait until the user tells you to add that plan. Then it gets its own task row in the matching scope, with the plan's full content copied into the page body, unchanged and in order. Never link or point to the plan file. Name, Description, Category, Role and Status follow Sections 4 and 6 (Status Backlog unless the user says otherwise). If the plan changes later, update the row's body only when the user asks.
 - **Docs, Plans, tasks.** One Doc (what is built, Status Documentation) and one Plan (large or unbuilt work, Status Plan) per scope, plus the Game-wide topic Docs the user created. Do not add another without being asked. See "Task, TBD or Plan" below for what becomes a row.
 
 ## 6. Task, TBD or Plan

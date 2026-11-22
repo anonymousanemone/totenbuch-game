@@ -164,6 +164,7 @@ func _run() -> void:
 	await seconds(1.5)
 	expect(scene.mode == scene.Mode.WATER57 and scene.pieces.spell57_man.visible and scene.avatar.visible, "he stands beside the 57 man")
 	expect(scene.widen.amount == 1.0 and scene.widen.cell == scene.widen.CELLS[57], "57: the vignette opens out")
+	expect(scene.widen.wall == scene.widen.WALLS[57] and scene.widen._wall_ink.position.y == scene.widen.GROUND + scene.widen.GROUND_RULE, "57: its column of text has slid down whole, its top under the ground rule")
 	expect(scene._bending and scene.pieces.spell57_stream.region_rect.size.y == scene.pieces.spell57_stream.texture.get_height(), "the water flows in full")
 	scene._water57(0.5)
 	expect(scene._bend < 0.0, "let go, he bends lower")
@@ -243,6 +244,7 @@ func _run() -> void:
 	await seconds(0.6)
 	expect(scene.mode == scene.Mode.TABLE and t.g.playing and t.g.flesh == t.FLESH and scene.figures.spell52_seated_man.visible, "52: clicking the chair seats him and the game begins")
 	expect(scene.widen.amount == 1.0 and scene.widen.cell == scene.widen.CELLS[52], "52: the vignette opens out")
+	expect(scene.widen.wall == scene.widen.WALLS[52] and scene.widen._wall_ink.position.y == scene.widen.GROUND + scene.widen.GROUND_RULE, "52: its column of text has slid down whole, its top under the ground rule")
 	var r52: Dictionary = t.rigs[52]
 	t.g.timer = 99.0
 	t._drop()

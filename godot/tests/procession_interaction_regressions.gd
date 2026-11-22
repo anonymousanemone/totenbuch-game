@@ -166,6 +166,33 @@ func _run() -> void:
 	expect(level.hud._text == level.PUZZLES.text("procession.offerings", "success"), "completed table click reports it is whole again")
 	level.solved.t3 = false
 	level.leave_table()
+	offerings.reset()
+	level.enter_table(true)
+	arrive(level)
+	level._stack_table_but_frond()
+	level._place_table_piece(offerings.stackable()[0])
+	offerings.take("goose")
+	level._act_bearer()
+	level.leave_table()
+	var loaf_drawing: Sprite2D = offerings.objects[loaf].sprite
+	expect(level.solved.t3 and level.solved.t4 and loaf_drawing.is_visible_in_tree(),
+		"completed table shows the bread after the goose is returned")
+	var goose_box: Rect2 = level._descriptions.sprite_bounds(offerings._bearer_sprite)
+	var goose_point := Vector2.INF
+	for y in 12:
+		for x in 12:
+			var sample := goose_box.position + goose_box.size * Vector2((x + 0.5) / 12, (y + 0.5) / 12)
+			if offerings.goose_at(sample):
+				goose_point = sample
+				break
+		if goose_point != Vector2.INF:
+			break
+	expect(goose_point != Vector2.INF, "returned goose has a readable hotspot")
+	if goose_point != Vector2.INF:
+		level._click_world(goose_point)
+		expect(level.hud._text == level.PUZZLES.text("procession.goose", "feedback", "goose_refuses")
+			and offerings.placed.has(loaf) and loaf_drawing.is_visible_in_tree(),
+			"inspecting the returned goose leaves the bread visible on the table")
 	level.in_standards = true
 	var original: Sprite2D = level._pieces[level.slot.pole1]
 	var original_scale: Vector2 = original.scale

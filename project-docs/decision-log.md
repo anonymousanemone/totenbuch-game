@@ -268,3 +268,25 @@ Who decided what, session by session: the author's decisions, what was made from
 ## 2026-11-22 · Archive cleanup
 - **Decided** Remove the retired Godot assets and Hall scene. Remove the map generator's dependency on the archived scroll scene.
 - **Made** Removed `archive/godot/assets/` and `archive/godot/scenes/hall.tscn`. Updated `.claude/skills/build-levels/build_scroll_map.py`.
+
+## 2026-11-22 · Notion History sweeps
+- **Decided:** Sweep Done tasks into History only on explicit request and confirm the exact batch first.
+- **Made:** `.claude/skills/write-notion/SKILL.md`.
+
+## 2026-11-22 · Totenbuch task fields
+- **Decided:** Use known due dates only, leave acceptance criteria blank for TBD, and record outcomes once tasks are Done.
+- **Decided:** Keep any otherwise unrecorded TODO.md line and section references in task bodies. Preserve the existing Notion views.
+
+## 2026-11-22 · shared playtest menu and Procession bread
+- **Decided:** Give all levels one hidden T menu and a level integration guide. Add mechanics QA coverage.
+- **Made:** `godot/scripts/debug_menu.gd`, Scroll and level integrations, `.claude/skills/build-levels/SKILL.md`, and mechanics QA guidance in `README.md`.
+- **Agent did:** Fixed the stale bearer sprite reference in `offering_table.gd` and added regressions for the bread and debug menu.
+
+
+## 2026-11-22 · Notion completion dates
+- **Decided:** Fill a blank Done date with the date the task is seen in Done.
+- **Made:** `.claude/skills/write-notion/SKILL.md`.
+
+## 2026-11-22 · local main reconciliation
+- **Decided:** Reconcile local `main` with GitHub and leave a clean working tree.
+- **Agent did:** Preserved the archive-cleanup commit and pending documentation, recovered two historical Git blobs, and excluded local Finder and editor files.

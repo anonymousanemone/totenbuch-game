@@ -41,6 +41,7 @@ def main():
     suites.append(("mouth", ["--script", "res://tests/opening_mouth_regressions.gd"], "MOUTH REGRESSIONS OK"))
     suites.append(("ui", ["--script", "res://tests/ui_regressions.gd"], "UI REGRESSIONS OK"))
     suites.append(("menu_scenes", ["--script", "res://tests/menu_scene_regressions.gd"], "MENU SCENE REGRESSIONS OK"))
+    suites.append(("debug_menu", ["--script", "res://tests/debug_menu_regressions.gd"], "DEBUG MENU REGRESSIONS OK"))
     suites.append(("view_mode", ["--script", "res://tests/view_mode_regressions.gd"], "VIEW MODE REGRESSIONS OK"))
     # These also occur in the committed baseline. The sampler diagnostic is specific
     # to compiling the existing glow shader with Godot's headless dummy renderer.

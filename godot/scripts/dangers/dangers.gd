@@ -115,7 +115,6 @@ var _fight_tweens: Array[Tween] = []
 var _hover := []                ## the actors glowing under the pointer
 var _caption := {}              ## the encounter whose caption glows under the pointer
 var _caption_glow: Sprite2D
-var _debug_menu: DebugMenu   ## debug builds only: T opens it
 
 @onready var avatar: Node2D = $Avatar
 @onready var _item_poses := {"ankh38": $Avatar/CarryAnkh, "sail38": $Avatar/CarryBreath}
@@ -206,17 +205,21 @@ func _ready() -> void:
 	hud.hint_pressed.connect(hint)
 	hud.restart_pressed.connect(reset)
 	hud.menu_pressed.connect(func(): get_tree().change_scene_to_file("res://scenes/menu.tscn"))
-	if OS.is_debug_build():
-		var entries := []
-		for e in ENCOUNTERS:
-			if e.kind != "note":
-				entries.append(["Complete %s %s" % [e.id, e.get("tag", "breath sign")], debug_complete.bind(e)])
-		entries.append(["Complete all", debug_complete_all])
-		_debug_menu = DebugMenu.new()
-		_debug_menu.setup(entries)
-		add_child(_debug_menu)
 	reset()
 	_maybe_run_cli()
+
+
+func playtest_actions() -> Array:
+	var entries := []
+	for e in ENCOUNTERS:
+		if e.kind != "note":
+			entries.append(["Complete %s %s" % [e.id, e.get("tag", "breath sign")], debug_complete.bind(e)])
+	entries.append(["Complete all", debug_complete_all])
+	return entries
+
+
+func playtest_is_finishing() -> bool:
+	return finished
 
 
 ## Temporary copies spawned during fights; permanent actors live in the scene.
@@ -421,8 +424,6 @@ func _carried_item_input(event: InputEvent) -> bool:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if _debug_menu and _debug_menu.handle_shortcut(event):
-		return
 	if hud.is_blocking() or finished:
 		return
 	if event.is_action_pressed("ui_cancel") and not fight.is_empty():   # Esc always steps out of a fight

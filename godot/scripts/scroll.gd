@@ -62,6 +62,8 @@ var fullscreen := false
 
 
 func _ready() -> void:
+	if OS.is_debug_build():
+		add_child(DebugMenu.new())
 	var cfg := ConfigFile.new()
 	if cfg.load(SAVE) == OK:
 		restored.assign(cfg.get_value("progress", "restored", []))

@@ -555,12 +555,11 @@ func _set_hover(id: String) -> void:
 		return
 	if id == _hover:
 		return
+	_clear_special_glow()
 	super._set_hover("")
 	_hover = id
 	for sprite in _special_sprites(id):
-		var g := UI.sprite_glow(sprite, UI.Glow.PROCESSION)
-		(g.material as ShaderMaterial).set_shader_parameter("strength", 1.0)
-		_special_glows.append(g)
+		_special_glows.append(UI.hover_glow(sprite))
 	Input.set_default_cursor_shape(Input.CURSOR_POINTING_HAND)
 
 

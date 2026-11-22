@@ -539,7 +539,7 @@ def cosmos():
                  ground=534, view_height=701, scale=1.5, plates=data['plates'], figures=data['figures'])
     (out/'level.json').write_text(json.dumps(level, indent=1, ensure_ascii=False)+'\n')
     resources = ['[gd_scene format=3]\n',
-     '[ext_resource type="Script" path="res://scripts/cosmos/cosmos.gd" id="level"]',
+     '[ext_resource type="Script" path="res://scripts/walk/walk.gd" id="level"]',
      '[ext_resource type="Texture2D" path="res://assets/cosmos/figures/strip.png" id="strip"]',
      '[ext_resource type="Script" path="res://scripts/avatar.gd" id="avatar"]',
      '[ext_resource type="Script" path="res://scripts/hud.gd" id="hud"]',
@@ -553,6 +553,12 @@ shader_parameter/fibre = Color(0.47, 0.35, 0.16, 1)
 
 [node name="Cosmos" type="Node2D"]
 script = ExtResource("level")
+level_key = "cosmos"
+hint_key = "cosmos"
+title = "The Night Journey"
+journal_hint = "Click figures in the scroll to record them here."
+intro_title = "Spell 17: The Night Journey"
+intro_body = "Explore the night world as it is drawn.\\n\\nWalk [b]right to left[/b] with [←] [→] or click the papyrus. Click a figure to walk up to it and read its description. Open the Journal with [j]."
 
 [node name="Papyrus" type="ColorRect" parent="."]
 material = SubResource("paper")

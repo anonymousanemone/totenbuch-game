@@ -30,6 +30,7 @@ func _run() -> void:
 	_test_dangers_damage_shake()
 	_test_donkey_hover()
 	_test_hover_glow()
+	_test_ui_hover_glow()
 	_test_success_glow()
 	print("REGRESSIONS ", "OK" if _failures.is_empty() else "FAILED")
 	quit(0 if _failures.is_empty() else 1)
@@ -430,6 +431,23 @@ func _test_hover_glow() -> void:
 	_expect(glow.visible and is_equal_approx(glow.material.get_shader_parameter("strength"), 1.0),
 		"rapid hover changes leave the drawing glowing")
 	level.free()
+
+
+func _test_ui_hover_glow() -> void:
+	var sprite := Sprite2D.new()
+	sprite.texture = load("res://assets/ui/icon_ankh.png")
+	root.add_child(sprite)
+	var glow := UI.hover_glow(sprite)
+	var material := glow.material as ShaderMaterial
+	_expect(glow.get_parent() == sprite and material.get_shader_parameter("level") == UI.Glow.PROCESSION, "the shared hover glow sits behind the drawing in the hover colour")
+	_expect(is_zero_approx(material.get_shader_parameter("strength")), "the shared hover glow starts unlit")
+	var tween: Tween = get_processed_tweens().back()
+	tween.custom_step(UI.HOVER_FADE / 2.0)
+	var rising: float = material.get_shader_parameter("strength")
+	_expect(rising > 0.0 and rising < 1.0, "the shared hover glow fades in instead of flashing on")
+	tween.custom_step(UI.HOVER_FADE / 2.0)
+	_expect(is_equal_approx(material.get_shader_parameter("strength"), 1.0), "the shared hover glow reaches full strength after the hover fade")
+	sprite.free()
 
 
 func _test_success_glow() -> void:

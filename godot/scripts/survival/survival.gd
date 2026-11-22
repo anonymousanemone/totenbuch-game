@@ -4,8 +4,7 @@ extends Node2D
 
 const SCROLL_CAMERA := preload("res://scripts/scroll_camera.gd")
 @export var level_key := "survival"
-const VIEW_TOP := 36.0
-const GLOW_FADE := 0.15
+const VIEW_TOP := SCROLL_CAMERA.VIEW_TOP
 
 var _descriptions: RefCounted
 var level: Dictionary
@@ -124,10 +123,7 @@ func _set_hover(id: String) -> void:
 		_glow.queue_free()
 		_glow = null
 	if id != "":
-		_glow = UI.sprite_glow(figures[id], UI.Glow.PROCESSION)
-		_glow.create_tween().tween_method(func(strength: float):
-			if is_instance_valid(_glow):
-				(_glow.material as ShaderMaterial).set_shader_parameter("strength", strength), 0.0, 1.0, GLOW_FADE)
+		_glow = UI.hover_glow(figures[id])
 	Input.set_default_cursor_shape(Input.CURSOR_POINTING_HAND if id != "" else Input.CURSOR_ARROW)
 
 
@@ -140,16 +136,8 @@ func _process(delta: float) -> void:
 
 
 func _update_camera(delta: float) -> void:
-	var viewport := get_viewport_rect().size
-	var top: float = hud.top_height()
-	var bottom: float = hud.bottom_height()
-	var zoom := SCROLL_CAMERA.fit_zoom(viewport, top, bottom, level.view_height,
-		_unit, 0.4 / _unit, 2.4 / _unit, VIEW_TOP)
-	camera.zoom = Vector2(zoom, zoom)
-	var target := SCROLL_CAMERA.clamp_horizontal(avatar.position.x - viewport.x / zoom * 0.05,
-		viewport.x / zoom, level.width)
-	camera.position.x = lerpf(camera.position.x, target, SCROLL_CAMERA.smoothing(delta))
-	camera.position.y = SCROLL_CAMERA.vertical_center(level.view_height, top, bottom, zoom, VIEW_TOP)
+	SCROLL_CAMERA.follow(camera, get_viewport_rect().size, hud.top_height(), hud.bottom_height(), delta, _unit,
+		{"left": 0.0, "right": float(level.width), "top": VIEW_TOP, "bottom": float(level.view_height)}, avatar.position.x)
 
 
 ## Development previews use the same saved scene and camera as normal play.

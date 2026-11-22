@@ -70,7 +70,7 @@ A distinction never rests on colour alone: health, targets, warnings and counts 
 
 - Lepsius, *Das Todtenbuch der Ägypter* (1842): the plates, scan in `tools/lepsius_todtenbuch.pdf`. Reuse terms still to confirm (GDD Q5).
 - Gardiner's sign list (New Gardiner forms) for hieroglyph icons.
-- Earlier UI drafts in `mockups/`: `topbar-icons.png` is the icon reference set.
+- Earlier UI drafts in `mockups/`: `icons.png` is the icon reference set.
 
 ## 6. Approved exceptions
 

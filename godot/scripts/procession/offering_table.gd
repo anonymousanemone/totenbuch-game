@@ -227,10 +227,6 @@ func holding() -> String:
 	return _held
 
 
-func held_texture() -> Texture2D:
-	return _tex.get(_held)
-
-
 func held_name() -> String:
 	return name_of(_held)
 
@@ -244,11 +240,6 @@ func name_of(id: String) -> String:
 		"frond": return "the palm frond"
 		"held": return "the loaf"
 	return "an offering"
-
-
-## Where a piece set down here would land: the floor between the bouquets, below the frame.
-func in_zone(p: Vector2) -> bool:
-	return p.x >= floor_x.x and p.x <= floor_x.y and p.y < ground and p.y > 0.0
 
 
 # ---------------------------------------------------------------- the player's hands

@@ -9,7 +9,7 @@ The log replaces transcripts. It records who decided what, what came of it, and 
 
 ## When
 
-At the end of every session that decided, made or changed anything, before the closing message. If the session continues, update its entry rather than adding a second one. A session that only answered a question, or only read, logs nothing.
+At the end of every session that decided, made or changed anything, before the closing message. If the session continues, update its entry rather than adding a second one. A session that only answered a question, or only read, logs nothing. Changes made only in Notion (rows created, edited, moved or swept) are not logged: Notion already records when and what was created. A session that changed the repo too logs only the repo work, and leaves its Notion edits out of **Made**.
 
 Each session writes only its own entry. Never edit another session's entry, even a parent or a side session; add a line to your own instead ("corrects 2026-11-18 playtest entry: ...").
 

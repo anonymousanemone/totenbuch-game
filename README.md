@@ -27,7 +27,7 @@ What each level plays, rule by rule, is in
 | Dangers on the Road | 31–42 | `godot/scenes/dangers.tscn` | `godot/scripts/dangers/` |
 | Survival and Sustenance | 43–63 | `godot/scenes/survival.tscn` | `godot/scripts/survival/` |
 | Gates | 144–146 | `godot/scenes/gates.tscn` | `godot/scripts/gates/` |
-| Night Journey | | `godot/scenes/cosmos.tscn` | `godot/scripts/cosmos/` |
+| Night Journey | | `godot/scenes/cosmos.tscn` | `godot/scripts/walk/` |
 
 **View mode:** a restored level's map card offers **View** beside Play again. The level opens already
 solved (`Scroll.viewing`): clicks only walk up to figures and captions and read them, with no puzzles,

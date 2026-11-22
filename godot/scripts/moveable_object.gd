@@ -121,9 +121,6 @@ func lock_in_place() -> void:
 func request_description() -> void:
 	description_requested.emit(id, description_id)
 
-func world_rect() -> Rect2:
-	return preload("res://scripts/descriptions.gd").sprite_bounds(sprite)
-
 func contains_point(world_point: Vector2) -> bool:
 	if not sprite.is_visible_in_tree() or sprite.texture == null:
 		return false

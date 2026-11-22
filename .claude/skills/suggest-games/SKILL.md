@@ -43,7 +43,7 @@ Each working game takes one gesture or state that is already drawn and makes the
 | A heaped table | Rebuild the heap, a piece only stays once what it rests on is there (`offering_table.gd`) |
 | Bearers with standards | Put each god back on its pole (procession) |
 | Goose-bearer, loose goose | Take the wrong thing from his hands, give him the right one |
-| Two lions back to back | Turn each lion (`cosmos.gd`) |
+| Two lions back to back | Turn each lion (Night Journey, `cosmos.tscn`) |
 | Cat with a knife at a snake | Strike when the head is under the knife |
 | Spear-bearer facing a creature | Each creature's own spear fight (`danger_encounters.gd`) |
 | Ploughman, sower, reaper, ox | Do the field work in order (`field.gd`) |

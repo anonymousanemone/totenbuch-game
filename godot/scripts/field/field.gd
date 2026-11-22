@@ -8,7 +8,6 @@ extends Node2D
 const SCROLL_CAMERA := preload("res://scripts/scroll_camera.gd")
 const PUZZLES := preload("res://scripts/puzzles.gd")
 const DATA_PATH := "res://assets/field/level.json"
-const GLOW_FADE := 0.15
 const CROSS_SECONDS := 0.9
 const MARGIN := 60.0              ## how far from the page edges the avatar stops, in avatar units
 const WATER_CLICK := 8.0          ## rows under the ground line that still count as the water below
@@ -166,10 +165,7 @@ func _set_hover(id: String) -> void:
 		_glow.queue_free()
 		_glow = null
 	if id != "":
-		_glow = UI.sprite_glow(figures[id], UI.Glow.PROCESSION)
-		_glow.create_tween().tween_method(func(strength: float):
-			if is_instance_valid(_glow):
-				(_glow.material as ShaderMaterial).set_shader_parameter("strength", strength), 0.0, 1.0, GLOW_FADE)
+		_glow = UI.hover_glow(figures[id])
 	Input.set_default_cursor_shape(Input.CURSOR_POINTING_HAND if id != "" else Input.CURSOR_ARROW)
 
 
@@ -183,16 +179,8 @@ func _process(delta: float) -> void:
 
 ## One zoom for every register (they are all the same height); the camera glides between them.
 func _update_camera(delta: float) -> void:
-	var viewport := get_viewport_rect().size
-	var top: float = hud.top_height()
-	var bottom: float = hud.bottom_height()
 	var rows: Dictionary = level.lanes[lane]
-	var zoom := SCROLL_CAMERA.fit_zoom(viewport, top, bottom, rows.bottom, _unit, 0.4 / _unit, 2.4 / _unit, rows.top)
-	camera.zoom = Vector2(zoom, zoom)
 	var page: Dictionary = level.page
-	var target: float = SCROLL_CAMERA.clamp_horizontal(avatar.position.x - viewport.x / zoom * 0.05 - page.x,
-		viewport.x / zoom, page.w) + page.x
-	var k := SCROLL_CAMERA.smoothing(delta)
-	camera.position.x = lerpf(camera.position.x, target, k)
-	camera.position.y = lerpf(camera.position.y,
-		SCROLL_CAMERA.vertical_center(rows.bottom, top, bottom, zoom, rows.top), k)
+	SCROLL_CAMERA.follow(camera, get_viewport_rect().size, hud.top_height(), hud.bottom_height(), delta, _unit,
+		{"left": float(page.x), "right": float(page.x) + float(page.w), "top": float(rows.top), "bottom": float(rows.bottom)},
+		avatar.position.x, true)

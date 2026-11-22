@@ -32,7 +32,7 @@ var sheaf = SHEAF.new(self)
 
 const HUD := preload("res://scripts/hud.gd")
 const SCROLL_CAMERA := preload("res://scripts/scroll_camera.gd")
-const VIEW_TOP := 36.0   ## the row under the top register's upper rule: the title bar's band takes its place
+const VIEW_TOP := SCROLL_CAMERA.VIEW_TOP
 const DATA_PATH := "res://assets/dangers/level.json"
 const SHEET_PATH := "res://assets/dangers/animation/spearers.json"   ## the spear-bearers' thrust (.claude/skills/make-artwork/spearers.py thrust)
 const FIGURE_MASK := preload("res://scripts/figure_mask.gd")
@@ -569,7 +569,7 @@ func _set_caption_hover(e: Dictionary) -> void:
 	if not _caption.is_empty():
 		var g := _caption_glow
 		var t := create_tween()
-		t.tween_method(func(v: float): (g.material as ShaderMaterial).set_shader_parameter("strength", v), 1.0, 0.0, 0.15)
+		UI.glow_step(t, g, 1.0, 0.0, UI.HOVER_FADE)
 		t.tween_callback(g.queue_free)
 		for n in _caption_signs(_caption):
 			_glow(n, false)
@@ -577,7 +577,7 @@ func _set_caption_hover(e: Dictionary) -> void:
 	if not e.is_empty():
 		var g := UI.part_glow($Strip, _caption_rect(e), GLOW)
 		_caption_glow = g
-		create_tween().tween_method(func(v: float): (g.material as ShaderMaterial).set_shader_parameter("strength", v), 0.0, 1.0, 0.15)
+		UI.glow_step(create_tween(), g, 0.0, 1.0, UI.HOVER_FADE)
 		for n in _caption_signs(e):
 			_glow(n, true)
 
@@ -617,8 +617,7 @@ func _glow(n: String, on: bool) -> void:
 		g.visible = true
 	var t := create_tween()
 	g.set_meta("fade", t)
-	t.tween_method(func(v: float): (g.material as ShaderMaterial).set_shader_parameter("strength", v),
-		(g.material as ShaderMaterial).get_shader_parameter("strength"), 1.0 if on else 0.0, 0.15)
+	UI.glow_step(t, g, (g.material as ShaderMaterial).get_shader_parameter("strength"), 1.0 if on else 0.0, UI.HOVER_FADE)
 	if not on:
 		t.tween_callback(g.hide)
 
@@ -1616,15 +1615,6 @@ func _to_world(r: Rect2) -> Rect2:
 	return Rect2(camera.position + (r.position - vp / 2.0) / z, r.size / z)
 
 
-## The opened-out vignette in the world: inside its frame, under the caption band.
-func _arena_rect() -> Rect2:
-	if fight.is_empty() or not fight.kind in ARENA_FIGHTS:
-		return Rect2()
-	var f := _frame_now()
-	var side: float = fight.gap + fight.line
-	return _to_world(Rect2(f.l + side, f.rule + fight.line, f.r - f.l - 2.0 * side, f.bot - side - f.rule - fight.line))
-
-
 ## Draw the fight's frame where it is now: papyrus inside it (over the band and the picture), the
 ## caption (and its signs that are sprites) where the band shows it, and the lines redrawn.
 func _place_frame() -> void:
@@ -1822,7 +1812,7 @@ func _update_camera(delta: float) -> void:
 	var vp := get_viewport_rect().size
 	var top: float = hud.top_height()
 	var bottom: float = hud.bottom_height()
-	var z := SCROLL_CAMERA.fit_zoom(vp, top, bottom, _view_height(), unit, 0.4 / unit, 2.4 / unit, VIEW_TOP)
+	var z := SCROLL_CAMERA.fit_zoom(vp, top, bottom, SCROLL_CAMERA.view_height(level), unit, 0.4 / unit, 2.4 / unit, VIEW_TOP)
 	camera.zoom = Vector2(z, z)
 	var vis_w: float = vp.x / z
 	var focus := avatar.position.x - vis_w * 0.05
@@ -1831,7 +1821,7 @@ func _update_camera(delta: float) -> void:
 		focus = (s.x + s.y) / 2.0
 	focus = SCROLL_CAMERA.clamp_horizontal(focus, vis_w, level.width)
 	var k := SCROLL_CAMERA.smoothing(delta, 0.002)
-	var y := SCROLL_CAMERA.vertical_center(_view_height(), top, bottom, z, VIEW_TOP)
+	var y := SCROLL_CAMERA.vertical_center(SCROLL_CAMERA.view_height(level), top, bottom, z, VIEW_TOP)
 	if not fight.is_empty() and fight.kind in ARENA_FIGHTS:
 		# the opened-out vignette: from the camera you walked with to the fight's (easing in and out)
 		var o: float = smoothstep(0.0, 1.0, fight.open)
@@ -1842,14 +1832,6 @@ func _update_camera(delta: float) -> void:
 		k = 1.0
 	camera.position.x = lerpf(camera.position.x, focus, k)
 	camera.position.y = y
-
-
-func _view_height() -> float:
-	return level.get("view_height", level.height)
-
-
-func _visible_rect() -> Rect2:
-	return SCROLL_CAMERA.visible_rect(camera, get_viewport_rect().size)
 
 
 func _draw_overlay() -> void:

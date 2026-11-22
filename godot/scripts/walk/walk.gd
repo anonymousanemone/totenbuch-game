@@ -1,13 +1,15 @@
-## A walk-only level: one lane to explore as drawn, with no puzzles or barriers (the Fourteen Mounds, Mouth and Heart).
-## Saved scene nodes own placement; level.json supplies stable IDs and the camera's rows. The scene sets `level_key`
-## (its assets/<level_key>/ folder) and the title and introduction shown by the HUD.
+## A walk-only level: one lane to explore as drawn, with no puzzles or barriers (the Night Journey, the Fourteen Mounds,
+## Mouth and Heart, the Weighing of the Heart). Saved scene nodes own placement; level.json supplies stable IDs and the
+## camera's rows. The scene sets `level_key` (its assets/<level_key>/ folder), the title, the introduction and the
+## journal's hint shown by the HUD, and `hint_key` (the prefix of its start and Hint messages: "walk" unless the level has its own).
 extends Node2D
 
 const SCROLL_CAMERA := preload("res://scripts/scroll_camera.gd")
-const GLOW_FADE := 0.15
 
 @export var level_key := ""
+@export var hint_key := "walk"
 @export var title := ""
+@export var journal_hint := "Click anything drawn in the scroll to record it here."
 @export var intro_title := ""
 @export_multiline var intro_body := ""
 
@@ -42,7 +44,7 @@ func _ready() -> void:
 		figures[id] = node
 	hud.setup(self, {
 		"title": title,
-		"journal_hint": "Click anything drawn in the scroll to record it here.",
+		"journal_hint": journal_hint,
 		"intro_title": intro_title,
 		"intro_body": intro_body,
 		"outro_title": title,
@@ -71,12 +73,12 @@ func reset() -> void:
 	avatar.max_x = max_x()
 	journal.clear()
 	hud.reset_view()
-	hud.say_instructions("Scribe", _hints.message("view.start" if Scroll.viewing else "walk.start"))
+	hud.say_instructions("Scribe", _hints.message("view.start" if Scroll.viewing else hint_key + ".start"))
 	_update_camera(1.0)
 
 
 func hint() -> void:
-	hud.say("Hint", _hints.message("view.hint" if Scroll.viewing else "walk.explore"))
+	hud.say("Hint", _hints.message("view.hint" if Scroll.viewing else hint_key + ".explore"))
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -117,10 +119,7 @@ func _set_hover(id: String) -> void:
 		_glow.queue_free()
 		_glow = null
 	if id != "":
-		_glow = UI.sprite_glow(figures[id], UI.Glow.PROCESSION)
-		_glow.create_tween().tween_method(func(strength: float):
-			if is_instance_valid(_glow):
-				(_glow.material as ShaderMaterial).set_shader_parameter("strength", strength), 0.0, 1.0, GLOW_FADE)
+		_glow = UI.hover_glow(figures[id])
 	Input.set_default_cursor_shape(Input.CURSOR_POINTING_HAND if id != "" else Input.CURSOR_ARROW)
 
 
@@ -133,22 +132,12 @@ func _process(delta: float) -> void:
 
 
 func _update_camera(delta: float) -> void:
-	var viewport := get_viewport_rect().size
-	var top: float = hud.top_height()
-	var bottom: float = hud.bottom_height()
-	var span := view()
-	var zoom := SCROLL_CAMERA.fit_zoom(viewport, top, bottom, span.bottom,
-		_unit, 0.4 / _unit, 2.4 / _unit, span.top)
-	camera.zoom = Vector2(zoom, zoom)
-	var width: float = span.right - span.left
-	var target: float = span.left + width / 2.0     # the whole scroll fits the view (the hall): keep it centred
-	if viewport.x / zoom < width:
-		target = span.left + SCROLL_CAMERA.clamp_horizontal(avatar.position.x - span.left - viewport.x / zoom * 0.05,
-			viewport.x / zoom, width)
-	camera.position.x = lerpf(camera.position.x, target, SCROLL_CAMERA.smoothing(delta))
-	camera.position.y = SCROLL_CAMERA.vertical_center(span.bottom, top, bottom, zoom, span.top)
+	SCROLL_CAMERA.follow(camera, get_viewport_rect().size, hud.top_height(), hud.bottom_height(), delta, _unit,
+		view(), avatar.position.x)
 
 
-## What the camera frames: columns `left` to `right` and rows `top` to `bottom` (by default the whole scroll).
+## What the camera frames: columns `left` to `right` and rows `top` to `bottom` (by default the whole scroll,
+## from the level's `view_top`, or the shared first row where it names none).
 func view() -> Dictionary:
-	return {"left": 0.0, "right": float(level.width), "top": float(level.view_top), "bottom": float(level.view_height)}
+	return {"left": 0.0, "right": float(level.width), "top": float(level.get("view_top", SCROLL_CAMERA.VIEW_TOP)),
+		"bottom": float(level.view_height)}

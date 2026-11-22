@@ -9,7 +9,7 @@ extends Node2D
 const PUZZLES := preload("res://scripts/puzzles.gd")
 
 const SCROLL_CAMERA := preload("res://scripts/scroll_camera.gd")
-const VIEW_TOP := 36.0   ## the row under the top register's upper rule: the title bar's band takes its place
+const VIEW_TOP := SCROLL_CAMERA.VIEW_TOP
 ## Zoomed out (at the table, the standards, the water), the top guideline stays flush under the
 ## title bar and more of the text below shows. false: the scene stays centred between the bars.
 ## (At the usual zoom the two are the same.)
@@ -74,7 +74,6 @@ const HOVER := Color(0.64, 0.2, 0.12, 0.55)  ## only for the `--show-hits` dev o
 const HOVER_SLOT := Color(0.3, 0.42, 0.16, 0.7)
 const DRAG := 8.0            ## screen px: let go further than this from where you took it and it is set down there
 const SCENE_MARGIN := 40.0   ## strip px of papyrus kept either side of the table scene
-const GLOW_FADE := 0.15      ## s for the hover glow to come and go
 const GLOW := UI.Glow.PROCESSION
 const REFOCUS := 0.8         ## s for the camera to ease to a new focus (the table, the standards, the water, the rope)
 const CAPTION_LINE := 187.0  ## first row below the frame line over the figures: glows start here
@@ -639,12 +638,12 @@ func _set_hover(h: Dictionary) -> void:
 	for g in _glows:
 		if is_instance_valid(g):
 			var t := (g as Node).create_tween()
-			t.tween_method(_glow_strength.bind(g), (g.material as ShaderMaterial).get_shader_parameter("strength"), 0.0, GLOW_FADE)
+			UI.glow_step(t, g, (g.material as ShaderMaterial).get_shader_parameter("strength"), 0.0, UI.HOVER_FADE)
 			t.tween_callback(g.queue_free)
 	_glows.clear()
 	for target in _glow_targets(h):
 		var g := _glow(target)
-		g.create_tween().tween_method(_glow_strength.bind(g), 0.0, 1.0, GLOW_FADE)
+		UI.glow_step(g.create_tween(), g, 0.0, 1.0, UI.HOVER_FADE)
 		_glows.append(g)
 	overlay.queue_redraw()
 	Input.set_default_cursor_shape(Input.CURSOR_POINTING_HAND if h else Input.CURSOR_ARROW)
@@ -744,10 +743,6 @@ func _success(targets: Array) -> void:
 		UI.flash_glow(_glow(target, UI.Glow.SUCCESS))
 
 
-func _glow_strength(v: float, g: Sprite2D) -> void:
-	(g.material as ShaderMaterial).set_shader_parameter("strength", v)
-
-
 ## The drawings a click on figure `id` means: those it glows as (_glow_targets), else (and while
 ## _ready sets up the games) its sprites in the scene.
 func _hot_sprites(id: String) -> Array:
@@ -796,10 +791,6 @@ func min_x() -> float:
 
 func max_x() -> float:
 	return level.width - 60.0 * unit
-
-
-func procession_moving() -> bool:
-	return solved.t1 and solved.t2
 
 
 ## Walk toward x and run `then` on arrival.
@@ -1405,7 +1396,7 @@ func _check() -> void:
 ## only which way something changed.
 func _stela_news() -> String:
 	var stela := _hot_rect("stela")
-	if _visible_rect().grow(100.0 * unit).intersects(stela):
+	if SCROLL_CAMERA.visible_rect(camera, get_viewport_rect().size).grow(100.0 * unit).intersects(stela):
 		return PUZZLES.message("procession.stela_glows")
 	return PUZZLES.message("procession.stela_far") % ("left" if stela.get_center().x < avatar.position.x else "right")
 
@@ -1668,7 +1659,7 @@ func _update_camera(delta: float) -> void:
 	var vp := get_viewport_rect().size
 	var top: float = hud.top_height()
 	var bottom: float = hud.bottom_height()
-	var fit := (vp.y - top - bottom - 10.0) / (_view_height() - VIEW_TOP)
+	var fit := (vp.y - top - bottom - 10.0) / (SCROLL_CAMERA.view_height(level) - VIEW_TOP)
 	var z := clampf(minf(fit, vp.x / (1000.0 * unit)), 0.4 / unit, 2.4 / unit)
 	var target_x := avatar.position.x - vp.x / z * 0.05
 	if in_table or water.active or in_standards or haul.active or bulls.active:   # hold on the whole scene: the table, the water, the hauling, the bulls
@@ -1703,12 +1694,12 @@ func _update_camera(delta: float) -> void:
 		var face_y := mouth.face_view().get_center().y + (bottom - top) / 2.0 / z
 		camera.position.y = lerpf(_refocus.y, face_y, smoothstep(0.0, REFOCUS, _refocus.t)) if not _refocus.is_empty() else face_y
 	elif not _refocus.is_empty() and _refocus.face:
-		var normal_y := VIEW_TOP + (vp.y / 2.0 - top) / z if FRAME_FROM_TOP else SCROLL_CAMERA.vertical_center(_view_height(), top, bottom, z, VIEW_TOP)
+		var normal_y := VIEW_TOP + (vp.y / 2.0 - top) / z if FRAME_FROM_TOP else SCROLL_CAMERA.vertical_center(SCROLL_CAMERA.view_height(level), top, bottom, z, VIEW_TOP)
 		camera.position.y = lerpf(_refocus.y, normal_y, smoothstep(0.0, REFOCUS, _refocus.t))
 	elif FRAME_FROM_TOP:
 		camera.position.y = VIEW_TOP + (vp.y / 2.0 - top) / z
 	else:
-		camera.position.y = SCROLL_CAMERA.vertical_center(_view_height(), top, bottom, z, VIEW_TOP)
+		camera.position.y = SCROLL_CAMERA.vertical_center(SCROLL_CAMERA.view_height(level), top, bottom, z, VIEW_TOP)
 
 
 ## While hauling the camera holds still on the train and the road ahead of the ox, from the
@@ -1717,15 +1708,6 @@ func _haul_view() -> Vector2:
 	var o: Dictionary = level.sprites.ox
 	var h: Dictionary = level.sprites.haul_hauler
 	return Vector2(o.x - HAUL_AHEAD * unit, h.x + h.w + HaulSledge.BACK)
-
-
-## Rows the camera fits on screen: the strip and the visible text beneath it.
-func _view_height() -> float:
-	return level.get("view_height", level.height)
-
-
-func _visible_rect() -> Rect2:
-	return SCROLL_CAMERA.visible_rect(camera, get_viewport_rect().size)
 
 
 # ---------------------------------------------------------------- drawing

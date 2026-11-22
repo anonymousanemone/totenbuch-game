@@ -2,16 +2,16 @@
 
 Levels set aside for later: the Night Journey (cosmos), the Field of Offerings (field) and the
 Weighing of the Heart (hall). The Field of Offerings is back in the game as a level to walk and read
-(`godot/scenes/field.tscn`, cut from `art/fields110.mdp` by `tools/build_field.py`); what stays here
-is its puzzle script, `godot/scripts/field.gd`, for when its puzzles return. The Weighing of the Heart is likewise
+(`godot/scenes/field.tscn`, cut from `art/fields110.mdp` by `tools/build_field.py`); its
+puzzle script is gone from here (see below). The Weighing of the Heart is likewise
 back as a level to walk and read (`godot/scenes/hall.tscn`, cut from `art/judgement125.mdp` by
-`tools/build_walk.py hall`); its puzzle version stays here. They are kept as they were, but are left out of the game, the tests
-and refactors. The folders mirror the repository (`godot/scenes`, `godot/scripts`, `godot/assets`,
+`tools/build_walk.py hall`). The scenes and assets kept here are left as they were, out of the game, the tests
+and refactors. The old scripts (`cosmos.gd`, `field.gd`, `hall.gd` and the vertical map's `scroll_screen.gd`) were deleted on
+2026-11-21; the last commit that has them is `b54f3cb` (`git show b54f3cb:archive/godot/scripts/field.gd`). The folders mirror the repository (`godot/scenes`, `godot/scripts`, `godot/assets`,
 `tools`), so a level comes back by moving its files to the same paths and running the import:
 
 ```bash
 git mv archive/godot/scenes/cosmos.tscn godot/scenes/
-git mv archive/godot/scripts/cosmos.gd archive/godot/scripts/cosmos.gd.uid godot/scripts/
 git mv archive/godot/assets/cosmos godot/assets/
 ```
 
@@ -23,10 +23,9 @@ stay in `art/` (`cosmos17-21.mdp`, `fields110.mdp`, `judgement125.mdp`); `tools/
 gitignored, as the main one is, and imports from the main `tools/`.
 
 ## The earlier map (2026-11-18)
-`godot/scenes/scroll.tscn` and `godot/scripts/menu/scroll_screen.gd`: the map as a vertical list, each act a
+`godot/scenes/scroll.tscn` (its script, `godot/scripts/menu/scroll_screen.gd`, is deleted): the map as a vertical list, each act a
 heading and a band over a flow of small cards, with the chosen scene in a footer. It was replaced by one
-register of the scroll (option A of `mockups/menus.html`). The archived script has no `.uid`; give it the map's
-script uid back (`uid://cemx7nosbyg3v`) if it returns, and fix the tests that read the map.
+register of the scroll (option A of `mockups/menus.html`). If it returns, give its script the map's uid back (`uid://cemx7nosbyg3v`) and fix the tests that read the map.
 
 ## The Night Journey (spell 17, pl. VII–XI)
 The drawing is `art/cosmos17-21.mdp`. Its `dissected` folder groups nearby scenes into
@@ -55,7 +54,7 @@ The horizon, the snake and Ra's boat each bar the way until dealt with. `--skip=
 first N tasks; `--show-hits` outlines the click regions.
 
 ## The Field of Offerings (spell 110, pl. XLI)
-The puzzles below are the archived design (`godot/scripts/field.gd`, written against the old hand-cut art, which is no longer here). The level in the game has none of them yet: it is the whole scroll to walk and read.
+The puzzles below are the archived design (the deleted `godot/scripts/field.gd`, written against the old hand-cut art, which is no longer here). The level in the game has none of them yet: it is the whole scroll to walk and read.
 
 The whole page in three bands framed by water; the camera shows one band, and clicking another
 band crosses over (the lowest band is entered at its left end).

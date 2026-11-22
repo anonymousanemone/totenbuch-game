@@ -1,6 +1,34 @@
 ## Shared scroll framing. Levels choose their own focus, bounds and transition behavior.
 extends RefCounted
 
+## The first row shown when a level's `level.json` names none: the row under the top register's upper
+## rule, where the title bar's band takes over.
+const VIEW_TOP := 36.0
+
+
+## The rows the camera fits between the bars: the strip and the visible text beneath it.
+static func view_height(level: Dictionary) -> float:
+	return level.get("view_height", level.height)
+
+
+## The explore levels' camera. One zoom fits the rows of `span` (`left`, `right`, `top`, `bottom`)
+## between the bars. The view glides to `focus_x` (a twentieth of its width ahead of it), stays inside
+## `span` (centred when `span` fits whole) and has the rows centred between the bars. The vertical
+## position snaps, or glides too (`glide_y`) where the rows change, as between the Field's lanes.
+static func follow(camera: Camera2D, viewport: Vector2, top: float, bottom: float, delta: float,
+		unit: float, span: Dictionary, focus_x: float, glide_y := false) -> void:
+	var zoom := fit_zoom(viewport, top, bottom, span.bottom, unit, 0.4 / unit, 2.4 / unit, span.top)
+	camera.zoom = Vector2(zoom, zoom)
+	var width: float = span.right - span.left
+	var visible := viewport.x / zoom
+	var target: float = span.left + width / 2.0
+	if visible < width:
+		target = span.left + clamp_horizontal(focus_x - span.left - visible * 0.05, visible, width)
+	var k := smoothing(delta)
+	camera.position.x = lerpf(camera.position.x, target, k)
+	var y := vertical_center(span.bottom, top, bottom, zoom, span.top)
+	camera.position.y = lerpf(camera.position.y, y, k) if glide_y else y
+
 
 ## `view_top` is the first row shown (0: the top of the strip, with a small margin above it).
 static func fit_zoom(viewport: Vector2, top: float, bottom: float, view_height: float,

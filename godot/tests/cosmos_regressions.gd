@@ -87,7 +87,7 @@ func _run() -> void:
 		scene.hud.toggle_journal(false)
 		scene.reset()
 		expect(scene.journal.is_empty() and scene.avatar.position == scene._start and not scene.avatar.is_walking(), tag + "restart restores the start and clears pending travel and journal")
-		var page: Rect2 = scene.get_canvas_transform() * Rect2(0, scene.VIEW_TOP, 100, scene.level.view_height - scene.VIEW_TOP)
+		var page: Rect2 = scene.get_canvas_transform() * Rect2(0, scene.SCROLL_CAMERA.VIEW_TOP, 100, scene.level.view_height - scene.SCROLL_CAMERA.VIEW_TOP)
 		expect(page.position.y >= scene.hud.top_height() - 1 and page.end.y <= dimensions.y - scene.hud.bottom_height() + 1, tag + "scroll fits between the shared HUD bars")
 		scene.free()
 		await frames()

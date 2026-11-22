@@ -364,9 +364,9 @@ func _test_procession_scenes() -> void:
 		level.avatar._process(0.0)
 		await frames(20)
 		expect(level.in_standards, "standards entry works from either side")
-		expect(level._visible_rect().has_point(level.avatar.position), "avatar remains in the standards frame")
-		if not level._visible_rect().has_point(level.avatar.position):
-			print("FRAME ", level._visible_rect(), " avatar=", level.avatar.position)
+		expect(level.SCROLL_CAMERA.visible_rect(level.camera, level.get_viewport_rect().size).has_point(level.avatar.position), "avatar remains in the standards frame")
+		if not level.SCROLL_CAMERA.visible_rect(level.camera, level.get_viewport_rect().size).has_point(level.avatar.position):
+			print("FRAME ", level.SCROLL_CAMERA.visible_rect(level.camera, level.get_viewport_rect().size), " avatar=", level.avatar.position)
 		level.act_slot("pole1")
 		expect(level.hud._text.begins_with(level.PUZZLES.text("procession.standards", "feedback", "standard_taken").get_slice("%s", 0)), "taking a standard says what you took")
 		level.hint()

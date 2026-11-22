@@ -29,6 +29,7 @@ enum Glow { DEFAULT, PROCESSION, DANGER, SUCCESS }
 const SUCCESS_GLOW := Color(160.0 / 255.0, 170.0 / 255.0, 114.0 / 255.0, 0.4)  ## dull olive green #a0aa72
 const SUCCESS_IN := 0.8       ## s for a success glow to come up ...
 const SUCCESS_OUT := 3.2      ## ... and to fade
+const HOVER_FADE := 0.15      ## s for a hover glow to fade in (Dangers and Procession fade it out over the same time)
 const SUCCESS_INK := Color("3f7a2a")  ## a success line in the strip turns this green, then back to ink
 const VIEW := Color(1.7, 1.25, 0.45)  ## tints the frame band while only walking and reading a restored scroll
 const DIM := Color(0.12, 0.08, 0.04, 0.5)
@@ -173,6 +174,21 @@ static func sprite_glow(sprite: Sprite2D, level: Glow = Glow.DEFAULT) -> Sprite2
 	return g
 
 
+## What is under the pointer glows: the pale hover glow of the explorable levels, faded in over
+## `HOVER_FADE`. The caller frees it (or its sprite does) when the pointer moves on.
+static func hover_glow(sprite: Sprite2D) -> Sprite2D:
+	var g := sprite_glow(sprite, Glow.PROCESSION)
+	glow_step(g.create_tween(), g, 0.0, 1.0, HOVER_FADE)
+	return g
+
+
+## Add a step to tween `t` that moves glow `g`'s `strength` from `from` to `to` over `seconds`. The
+## one place a glow's strength is tweened: the hover glows, the success flash and the creatures' glows.
+static func glow_step(t: Tween, g: Sprite2D, from: float, to: float, seconds: float) -> MethodTweener:
+	var mat := g.material as ShaderMaterial
+	return t.tween_method(func(strength: float) -> void: mat.set_shader_parameter("strength", strength), from, to, seconds)
+
+
 ## A task done: the drawings it set right glow pale green for a moment (`success` in glow.gdshader).
 static func success_flash(sprite: Sprite2D) -> void:
 	flash_glow(sprite_glow(sprite, Glow.SUCCESS))
@@ -180,11 +196,9 @@ static func success_flash(sprite: Sprite2D) -> void:
 
 ## Bring a glow (made at strength 0) up and fade it out again, then free it.
 static func flash_glow(g: Sprite2D) -> void:
-	var mat := g.material as ShaderMaterial
-	var set_strength := func(v: float) -> void: mat.set_shader_parameter("strength", v)
 	var t := g.create_tween()
-	t.tween_method(set_strength, 0.0, 1.0, SUCCESS_IN).set_trans(Tween.TRANS_SINE)
-	t.tween_method(set_strength, 1.0, 0.0, SUCCESS_OUT).set_trans(Tween.TRANS_SINE)
+	glow_step(t, g, 0.0, 1.0, SUCCESS_IN).set_trans(Tween.TRANS_SINE)
+	glow_step(t, g, 1.0, 0.0, SUCCESS_OUT).set_trans(Tween.TRANS_SINE)
 	t.tween_callback(g.queue_free)
 
 

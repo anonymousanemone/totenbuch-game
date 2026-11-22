@@ -87,6 +87,13 @@ func _run() -> void:
 	var tm: Sprite2D = scene.pieces.spell45_tm
 	scene._mummy_input(_click(scene.get_canvas_transform() * (tm.global_position + tm.texture.get_size() / 2.0)))
 	expect(tm.modulate != Color.WHITE, "45: clicking the tm sign flashes it")
+	expect(scene._special_glows.size() == 1 and scene._special_glows[0].get_parent() == tm, "45: hovering the tm sign lights a glow behind it")
+	expect(scene._special_glows.all(func(g): return is_zero_approx(g.material.get_shader_parameter("strength"))), "45: that hover glow fades in instead of snapping on")
+	var tm_glow: Sprite2D = scene._special_glows[0]
+	scene._set_hover("#door")
+	await frames(2)
+	expect(not is_instance_valid(tm_glow) and scene._special_glows.size() == 1 and scene._special_glows[0].get_parent() == scene.pieces.spell44_door, "45: moving straight to another special target puts the first one's glow out")
+	scene._set_hover("")
 	while scene.mode == scene.Mode.MUMMY:
 		scene.click_tm()
 		await process_frame

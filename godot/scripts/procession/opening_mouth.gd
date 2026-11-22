@@ -149,14 +149,6 @@ func carrying() -> String:
 	return ""
 
 
-func carried_name() -> String:
-	return {"adze": "the adze", "words": "the words"}.get(carrying(), "")
-
-
-func carried_texture() -> Texture2D:
-	return _adze.texture if phase == Phase.ADZE else _words.texture if phase == Phase.WORDS else null
-
-
 ## Under the pointer: "adze" on the stand, "mummy" with the adze in hand, "words" above the
 ## mummy, "home" (the imprint over Ra) with the words in hand; else "".
 func pick(p: Vector2) -> String:

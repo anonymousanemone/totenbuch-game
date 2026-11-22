@@ -150,7 +150,7 @@ func _apep_dress(e: Dictionary) -> void:
 				if up == 0 or down == src.get_height() - 1 or not ink.call(xx, up - 1) or not ink.call(xx, down + 1):
 					break   # not closed in by both outlines here: the neck ends
 				for y in range(up, down + 1):
-					body.set_pixel(xx, y + P, UI.DANGER.blend(body.get_pixel(xx, y + P)))
+					body.set_pixel(xx, y + P, UI.RED.blend(body.get_pixel(xx, y + P)))
 				cy = (up + down) / 2
 				mid[xx] = cy
 	sp.texture = ImageTexture.create_from_image(body)

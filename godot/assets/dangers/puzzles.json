@@ -16,12 +16,12 @@
   },
   "puzzles": {
 	"dangers.e31": {
-	  "instructions": "Spear each crocodile before it reaches you. Any that slip past make off with your words of power, and crocodiles do not give things back.",
+	  "instructions": "Spear each crocodile before it reaches you.",
 	  "success": "The crocodiles turn away.",
 	  "feedback": {
-		"controls": "Press [space] to strike; [↑] [↓] move you.",
+		"controls": "Press [space] to strike; use [↑] [↓] to move.",
 		"first_crocodile": "Here comes one. Press [space] to strike.",
-		"first_strike": "Well struck. Its friends are coming, at different heights.",
+		"first_strike": "Well struck. More are coming.",
 		"crocodile_defeated": "The crocodile turns away.",
 		"heka_break": "The crocodiles draw back. Above, signs begin to glow red.",
 		"heka_on_normal_crocodile": "Magic spent on an ordinary crocodile! It seizes the word of power and makes off with it. The crocodiles are not turned back.",
@@ -57,7 +57,7 @@
 	  }
 	},
 	"dangers.e32": {
-	  "instructions": "Crocodiles, now from both sides. Turn to meet each one with your spear. Any that slip past make off with your words of power.",
+	  "instructions": "Crocodiles come from both sides now. Turn and spear each one.",
 	  "success": "The crocodiles of the four quarters are turned back.",
 	  "feedback": {
 		"controls_both": "Press [space] to thrust the spear; [↑] [↓] (or [w] [s]) move you; [←] [→] turn you.",

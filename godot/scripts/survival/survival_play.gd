@@ -57,7 +57,6 @@ const PYLON_TOP := 288.0         ## 47: the top of the pylon (strip y) ...
 const IMPRINT_AT := [Vector2(7367.0, 210.0), Vector2(7379.0, 210.0), Vector2(7389.0, 211.0)]
 const RESPAWN_X := 7363.0
 const CLAIM_MOST := 2            ## the most sceptres that stand in the pylon (the first spots in IMPRINT_AT)
-const IMPRINT_FAINT := 0.3       ## a sceptre's imprint, before he has died
 
 # 45: steadying the mummy (clicking the tm sign, "not", against its growing rocking)
 const MUMMY_START := 0.10        ## rad: its swing forward when he becomes the mummy
@@ -357,7 +356,7 @@ func _crumble(sprite: Sprite2D, then := Callable()) -> void:
 	mat.shader = DISSOLVE
 	sprite.material = mat
 	var t := sprite.create_tween()
-	t.tween_property(sprite, "modulate", UI.INK_TINT, 0.3)
+	t.tween_property(sprite, "modulate", UI.inked(UI.RED), 0.3)
 	t.tween_method(func(v: float): mat.set_shader_parameter("amount", v), 0.0, 1.05, 1.4)
 	if then.is_valid():
 		t.tween_callback(then)
@@ -473,7 +472,7 @@ func _process(delta: float) -> void:
 	tables.process(delta)
 	# 47: the seat sign pulses red until the dwelling is claimed
 	var pulse := 0.0 if claimed or not gate_used else 0.5 + 0.5 * sin(Time.get_ticks_msec() / 1000.0 * 5.0)
-	pieces.spell47_seat.modulate = Color.WHITE.lerp(UI.DANGER, pulse)
+	pieces.spell47_seat.modulate = Color.WHITE.lerp(UI.inked(UI.RED), pulse)
 	_was_x = x
 	if mode == Mode.WALK:
 		# upside down only where he is drawn whole as the 51 man; at the line his 51 half is turned
@@ -695,7 +694,7 @@ func _set_imprints(full: bool) -> void:
 	_imprints_full = full and claimed and claim_count > 0
 	for i in _imprints.size():
 		_imprints[i].visible = claimed and i < claim_count
-		_imprints[i].modulate = Color(1, 1, 1, 1.0 if full else IMPRINT_FAINT)
+		_imprints[i].modulate = Color.WHITE if full else UI.inked(UI.FAINT_INK)
 
 
 ## Dead: with the dwelling claimed he comes back at 47, else the level begins again.
@@ -844,7 +843,7 @@ func click_tm() -> void:
 		return
 	_swing = maxf(0.0, _swing - MUMMY_CLICK)
 	var tm: Sprite2D = pieces.spell45_tm
-	tm.modulate = UI.INK_TINT
+	tm.modulate = UI.inked(UI.RED)
 	tm.create_tween().tween_property(tm, "modulate", Color.WHITE, 0.15)
 
 
@@ -991,7 +990,7 @@ func _eat_filth() -> void:
 	_lose_sceptre()
 	hud.say("Scribe", _hints.message("survival.filth"))
 	var t := create_tween()
-	t.tween_property(avatar, "modulate", UI.INK_TINT, 0.2)
+	t.tween_property(avatar, "modulate", UI.inked(UI.RED), 0.2)
 	t.tween_property(avatar, "modulate", Color.WHITE, 0.6)
 
 
@@ -1155,7 +1154,7 @@ var _next := 0
 
 
 func _flash_line(key: String, seconds: float) -> void:
-	pieces[key].modulate = UI.INK_TINT
+	pieces[key].modulate = UI.inked(UI.RED)
 	get_tree().create_timer(seconds).timeout.connect(func(): pieces[key].modulate = Color.WHITE)
 
 

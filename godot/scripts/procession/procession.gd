@@ -1787,7 +1787,7 @@ func recite() -> void:
 		glyph.centered = false
 		glyph.scale = Vector2(s, s)
 		glyph.position = Vector2(r.centre - size.x / 2.0, r.bottom - size.y)   # over the top of his sheet
-		glyph.modulate = Color(UI.INK_TINT, 0.0)
+		glyph.modulate = Color(UI.inked(UI.RED), 0.0)
 		_recital.add_child(glyph)
 		_recital_tween.tween_property(glyph, "modulate:a", 1.0, RECITE_FADE_IN)
 		_recital_tween.tween_interval(RECITE_STEP - RECITE_FADE_IN - RECITE_FADE_OUT)

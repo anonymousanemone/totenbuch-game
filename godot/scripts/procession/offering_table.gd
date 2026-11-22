@@ -107,7 +107,7 @@ func setup(table: Dictionary, goose: Rect2, ground_y: float, nodes: Dictionary, 
 	_clothes = nodes.clothes
 	_bearer_sprite = nodes.held_loaf
 	_placement_imprint = Sprite2D.new()
-	_placement_imprint.modulate = UI.PREVIEW
+	_placement_imprint.modulate = UI.inked(UI.FAINT_INK)
 	_placement_imprint.visible = false
 	add_child(_placement_imprint)
 	_speak = nodes.table_speech
@@ -371,17 +371,17 @@ func speak() -> bool:
 	var s := minf(1.0, minf(_speech.size.x / size.x, _speech.size.y / size.y))
 	_placement_imprint.texture = _tex[id]
 	_placement_imprint.position = pieces[id].rect.get_center()
-	_placement_imprint.modulate = Color(UI.PREVIEW, 0.0)
+	_placement_imprint.modulate = Color(UI.inked(UI.FAINT_INK), 0.0)
 	_placement_imprint.visible = true
 	_speak.texture = _ink_only(id)
 	_speak.scale = Vector2(s, s)
 	_speak.position = _speech.get_center()
-	_speak.modulate = Color(UI.INK_TINT, 0.0)   # in red ink, like the plumed lector's signs
+	_speak.modulate = Color(UI.inked(UI.RED), 0.0)   # in red ink, like the plumed lector's signs
 	_speak.visible = true
 	_speak.set_meta("id", id)
 	_speak_tween = create_tween()
 	_speak_tween.tween_property(_speak, "modulate:a", 1.0, SPEAK_FADE_IN)
-	_speak_tween.parallel().tween_property(_placement_imprint, "modulate:a", UI.PREVIEW.a, SPEAK_FADE_IN)
+	_speak_tween.parallel().tween_property(_placement_imprint, "modulate:a", UI.FAINT_INK.a, SPEAK_FADE_IN)
 	_speak_tween.tween_interval(SPEAK_HOLD)
 	_speak_tween.tween_property(_speak, "modulate:a", 0.0, SPEAK_FADE_OUT)
 	_speak_tween.parallel().tween_property(_placement_imprint, "modulate:a", 0.0, SPEAK_FADE_OUT)

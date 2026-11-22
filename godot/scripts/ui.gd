@@ -11,7 +11,7 @@ const DIALOGUE := 32
 const BAND := 16.0            ## the frame band's thickness
 
 const PAPYRUS := Color("e2d0a6")     ## the scene's papyrus: pages
-const DEEP := Color("cbb07c")        ## deep papyrus: bars, strips, buttons
+const DARK_PAPYRUS := Color("cbb07c") ## dark papyrus: bars, strips, buttons
 const INK := Color("2e1d10")
 const RULE := Color("8f7142")
 const OCHRE := Color("62380e")
@@ -21,11 +21,14 @@ const TAG_HINT := Color("d2ad46")     ## Hint-button messages
 const CREAM := Color("f1e7cd")
 
 # Display colors and ink multipliers are deliberately separate.
-const DANGER := Color("b55b3c")
+const RED := Color("b55b3c")         ## the red: anything red ends exactly this, at 100%
+const DARK_RED := Color("751c18")    ## the selected spear band (Dangers 41)
 const SUCCESS := Color(1.8, 1.4, 0.6)
-const PREVIEW := Color(1.9, 1.0, 0.6, 0.2)
-## Matches the level selector in glow.gdshader; all hover glow colors live there.
-enum Glow { DEFAULT, PROCESSION, DANGER, SUCCESS }
+## Faint ink: dark red-brown at 25% opacity. It marks where a piece is to be dragged.
+const FAINT_INK := Color("571d0a", 0.25)
+const GLOW := Color(1.0, 0.76, 0.28, 0.6)   ## the hover glow, gold (#ffc247): every level, the Dangers too
+## Matches the level selector in glow.gdshader.
+enum Glow { DEFAULT, PROCESSION, SUCCESS }
 const SUCCESS_GLOW := Color(160.0 / 255.0, 170.0 / 255.0, 114.0 / 255.0, 0.4)  ## dull olive green #a0aa72
 const SUCCESS_IN := 0.8       ## s for a success glow to come up ...
 const SUCCESS_OUT := 3.2      ## ... and to fade
@@ -33,10 +36,15 @@ const HOVER_FADE := 0.15      ## s for a hover glow to fade in (Dangers and Proc
 const SUCCESS_INK := Color("3f7a2a")  ## a success line in the strip turns this green, then back to ink
 const VIEW := Color(1.7, 1.25, 0.45)  ## tints the frame band while only walking and reading a restored scroll
 const DIM := Color(0.12, 0.08, 0.04, 0.5)
-const INK_TINT := Color(DANGER.r / INK.r, DANGER.g / INK.g, DANGER.b / INK.b)
 const GLOW_SHADER := preload("res://scripts/glow.gdshader")
 
 const IMAGES := "res://assets/ui/%s.png"
+
+
+## The modulate that turns a drawing in ink into `color` exactly (its alpha is kept). Palette
+## colours are shown as they are; a sprite drawn in ink is tinted with `UI.inked(UI.RED)`.
+static func inked(color: Color) -> Color:
+	return Color(color.r / INK.r, color.g / INK.g, color.b / INK.b, color.a)
 
 
 ## Only walking and reading a restored scroll (`Scroll.viewing`, looked up by name so this script
@@ -108,7 +116,7 @@ static func theme() -> Theme:
 	th.set_color("font_focus_color", "Button", INK)
 	th.set_stylebox("normal", "Button", box(PAPYRUS, INK, 4, 16, 8))
 	th.set_stylebox("hover", "Button", box(Color("efe0bb"), INK, 4, 16, 8))
-	th.set_stylebox("pressed", "Button", box(DEEP, INK, 4, 16, 8))
+	th.set_stylebox("pressed", "Button", box(DARK_PAPYRUS, INK, 4, 16, 8))
 	th.set_stylebox("focus", "Button", StyleBoxEmpty.new())   # menu buttons turn red instead (menu.gd)
 	th.set_stylebox("panel", "TooltipPanel", box(PAPYRUS, INK, 2, 8, 4))
 	th.set_color("font_color", "TooltipLabel", INK)
@@ -119,6 +127,8 @@ static func glow_material(texture: Texture2D, level: Glow = Glow.DEFAULT) -> Sha
 	var mat := ShaderMaterial.new()
 	mat.shader = GLOW_SHADER
 	mat.set_shader_parameter("level", level)
+	mat.set_shader_parameter("default_color", GLOW)
+	mat.set_shader_parameter("procession", GLOW)
 	mat.set_shader_parameter("success", SUCCESS_GLOW)
 	if level == Glow.SUCCESS:
 		mat.set_shader_parameter("pad", 17.0)

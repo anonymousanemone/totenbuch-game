@@ -38,7 +38,7 @@ The UI is the scroll's own furniture: papyrus bars, its frame band and a pixel f
 | Role | Colour | Used for |
 |---|---|---|
 | Papyrus | `#e2d0a6` | Pages, the scene's paper |
-| Deep papyrus | `#cbb07c` | Bars, the strip, buttons |
+| Dark papyrus | `#cbb07c` | Bars, the strip, buttons |
 | Ink | `#2e1d10` | Text, icons, borders |
 | Rule | `#8f7142` | Thin rules |
 | Ochre | `#62380e` | Secondary text |
@@ -46,15 +46,33 @@ The UI is the scroll's own furniture: papyrus bars, its frame band and a pixel f
 | Minigame tag | `#456137` | Minigame instructions, clues and feedback |
 | Hint tag | `#d2ad46` | Hint-button messages |
 | Cream | `#f1e7cd` | Type on dark ink |
-| Danger | `#b55b3c` | Danger ink, targets |
+| Red | `#b55b3c` | Danger ink, targets, anything red |
 
 A distinction never rests on colour alone: health, targets, warnings and counts also differ in shape or text.
+
+**In-game colours.** The few colours the player sees in the world and on the UI:
+
+| Colour | Value | Meaning |
+|---|---|---|
+| Ink (`UI.INK`) | `#2e1d10` | Drawings, text, borders |
+| Papyrus (`UI.PAPYRUS`) | `#e2d0a6` | The scene's paper, pages |
+| Dark papyrus (`UI.DARK_PAPYRUS`) | `#cbb07c` | Bars, the strip, buttons |
+| Red (`UI.RED`) | `#b55b3c` | Danger, and anything the author calls "red" |
+| Dark red (`UI.DARK_RED`) | `#751c18` | The selected spear band in the Dangers (41) |
+| Glow (`UI.GLOW`) | about `#ffc247` at 60% opacity | The hover glow behind what can be clicked: in every level, the Dangers too |
+| Faint ink (`UI.FAINT_INK`) | `#571d0a` (ink turned dark red-brown) at 25% opacity, about `#bfa37f` over papyrus | Where something goes: a drawing's place to drag a piece to, and the Survival sceptre imprints. Always this colour and opacity. Never used for a pattern that is only shown |
+
+**Red is always this red, at 100%.** A drawing turned red ends as exactly `UI.RED` (`#b55b3c`). The six in-game colours are the only palette names in `ui.gd`; a sprite drawn in ink is tinted with `UI.inked(UI.RED)`, which turns its ink into that colour exactly. A flash or pulse may pass through other values, but its final form is this red. "Make it red" means this red at 100% unless the author says otherwise.
+
+**Tag colours** (the speaker's tag on the band, with an ink border): tag red `#963e28` (a UI colour, not one of the in-game colours) for everything else (the Scribe, figures, objects), with cream type; green `#456137` for minigame instructions, clues and feedback, with cream type; gold `#d2ad46` for Hint-button messages, with ink type.
+
+**Band colours** (the scroll's frame band, `godot/assets/ui/band_*.png`): ink `#2e1d10`, ochre `#c8a864`, terracotta `#ac6446`, sage green `#74886a`, pale green `#94a280`, grey-blue `#708092`. While only walking and reading a restored scroll the band is tinted warm (`UI.VIEW`).
 
 **Icons.** Ink on transparent, on the font's grid: 4 px main strokes next to 32 px text and 2 px next to 16 px, about 28 px tall, hard pixels only. Signs follow New Gardiner forms. Icons are drawn as rows in `.claude/skills/make-artwork/menu_images.py`, and the full rules are in `make-artwork`.
 
 ## 3. Feedback
 
-- **Clickable things glow on hover.** A soft warm glow behind the drawing. Hover colours are set per level in `glow.gdshader`: gold by default, orange in the Dangers.
+- **Clickable things glow on hover.** A soft warm glow behind the drawing. The hover glow is `UI.GLOW`, gold in every level.
 - **Success.** The drawings just set right glow pale olive (`#a0aa72`) for a moment, and the line in the strip turns green (`#3f7a2a`) and back to ink.
 - **Restored scroll.** While only walking and reading, the frame band is tinted warm.
 - **Figures react.** For example, the pylon's plumes rise for a right name and sag for a wrong one.

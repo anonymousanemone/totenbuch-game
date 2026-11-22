@@ -5,7 +5,7 @@
 ## hidden along the scroll (`ending.hide` in level.json): the stand inside the canopy frame behind
 ## the women mourners (pl. I), the sun disc between the legs of the creature on the mummy's bier
 ## (pl. II; it rides with the sledge), the lotus on the second offering pile (pl. V). Once the
-## other rites are done (`show_imprint`) the stela by the tomb shows a faint imprint of the three as
+## other rites are done (`show_imprint`) the stela by the tomb shows a pattern of the three, in ink, as
 ## they stand; until then its face is blank. A piece found is worn: it goes onto you, posed as in
 ## WORN (the stand held before you, the sun disc on your head, the lotus over your shoulder),
 ## mirrored as you turn. Take one off you (drag it) and it
@@ -29,7 +29,8 @@ const RESTS_ON := {"stand": "", "sun": "stand", "lotus": "sun"}
 const NAMES := {"stand": "the offering stand", "sun": "the sun disc", "lotus": "the lotus"}
 ## Who speaks for a piece (the tag over what is said about it).
 const TAGS := {"stand": "Offering stand", "sun": "Sun disc", "lotus": "Lotus"}
-const IMPRINT := UI.PREVIEW   ## the imprint on the stela: faint and reddish
+var IMPRINT := UI.inked(UI.FAINT_INK)   ## the stand's clue at its place before Ra: faint and reddish
+const STELA_INK := Color.WHITE   ## the pattern on the stela: plain ink, as drawn
 const IMPRINT_FADE := 1.5    ## s for the imprint to go once the stand stands
 const SNAP := 35.0           ## how near its place a piece must be carried to go on, without letting go
 const KNEEL := 0.8           ## s for you to sink into the adorer's place
@@ -114,7 +115,7 @@ func reset() -> void:
 	for nm in PIECES:
 		_hide(nm)
 	_imprint.visible = false
-	_imprint.modulate = IMPRINT
+	_imprint.modulate = STELA_INK
 	_kneeler.visible = false
 	_kneeler.modulate.a = 1.0
 	_light.visible = false
@@ -338,18 +339,18 @@ func kneel(avatar: CanvasItem) -> void:
 	_tween.tween_callback(ended.emit)
 
 
-## The other rites are done: the imprint of the stand comes up faintly on the stela (unless the
+## The other rites are done: the pattern of the stand comes up in ink on the stela (unless the
 ## stand already stands before Ra).
 func show_imprint() -> void:
 	if imprint_shown or complete():
 		return
 	imprint_shown = true
 	_imprint.visible = true
-	_imprint.modulate = IMPRINT
+	_imprint.modulate = STELA_INK
 	if instant:
 		return
 	_imprint.modulate.a = 0.0
-	create_tween().tween_property(_imprint, "modulate:a", IMPRINT.a, IMPRINT_FADE)
+	create_tween().tween_property(_imprint, "modulate:a", STELA_INK.a, IMPRINT_FADE)
 
 
 func _fade_imprint() -> void:

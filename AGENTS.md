@@ -25,6 +25,13 @@
 - Accept only valid placements; otherwise restore the valid attachment/location using the puzzle's recovery rules. Preserve object size and lock final placements against further dragging.
 - Ask before adding exceptions. Existing approved exceptions are the words' click-follow/appearance animation, adze tool controls at 50% scale during carving, and offering-table automatic snapping/physics. Carving starts by dragging the adze onto the mummy, or by clicking the mummy with the adze in hand. Calf/jar gestures transform in place and are outside this system.
 
+## Shared level code
+
+- A walk-and-read level is a scene on `godot/scripts/walk/walk.gd` with its exports set; do not copy the script. Survival and Gates share `survival/survival.gd`.
+- Use `ScrollCamera` (`godot/scripts/scroll_camera.gd`: `follow`, `view_height`, `VIEW_TOP`) for the camera's zoom, clamp and rows; do not re-derive them in a level.
+- Hover glows are `UI.hover_glow`; a glow's strength is tweened only through `UI.glow_step`, timed by `UI.HOVER_FADE`.
+- Notion's Game-wide Documentation pages describe these (*Explore levels: shared base classes*, *Shared camera*, *Avatar movement*, *Glow helpers*, *Figure masks*); update the matching one when you change shared code.
+
 ## Minigame view
 
 - Starting a minigame enters minigame view: the camera moves once to the minigame's framing and then stays fixed until the minigame is exited (won, lost or left). Examples are the procession games, where the camera zooms in on the scene, the Dangers fights, where the vignette expands across the screen, and the Survival altars (52, 53).

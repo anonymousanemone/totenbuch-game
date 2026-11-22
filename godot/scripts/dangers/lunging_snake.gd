@@ -147,7 +147,7 @@ func _lunge_mark_r() -> float:
 
 ## The red patch fills the body beneath its original ink outline.
 static func _paint_mark(img: Image, c: Vector2i, r: float) -> void:
-	var red := UI.DANGER
+	var red := UI.RED
 	var k := 4                                       # closes the gap between the two outlines
 	var R := int(ceil(r)) + k + 1
 	var x0 := maxi(0, c.x - R)

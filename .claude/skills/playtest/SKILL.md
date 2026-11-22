@@ -21,6 +21,8 @@ Its brief says: you are playing an unknown game for the first time, think aloud,
 
 The launch flags (`--screenshot=`, `--record=`, `--autotest`) can't take one action, return a frame and wait for the next. The step driver (`godot/tests/step_driver.gd`, client `godot/tests/step.py`; README.md, "Playtest step driver") can: it keeps the game running, takes one action at a time, and returns a frame plus the band text with timings. Time passes only when an action or a wait says so, so pacing can be measured. Its replies never name the level, a node or an id, so they can go to the tester as they are. Reuse it for every playtest; the tester is given the commands and nothing about what it will find.
 
+Known limit (found 2026-11-21, not fixed): the levels find what is under the pointer with `get_global_mouse_position()`, which in the main window is the real cursor. The driver's injected pointer events reach the game's input handlers but not that position, so hover glows may not light and a click may walk the avatar toward the real cursor instead of the aimed point. If a playtest shows no glow or a click landing off target, check this before reporting a confusion: it is the driver, not the level. The fix would be to run the level in a `SubViewport` and push events with `push_input`.
+
 ## Players
 
 Run each as its own tester, since each finds different problems:

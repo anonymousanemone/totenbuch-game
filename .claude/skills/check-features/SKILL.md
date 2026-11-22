@@ -38,7 +38,7 @@ Leave out columns that can't happen, and say so. Each cell gives the expected:
 - text, by its JSON key, and what the band shows afterwards;
 - action: picks up, drops, starts which game, refuses, or nothing.
 
-Write the grid before the code. Every cell becomes a test.
+Write the grid before the code. Every cell becomes a test. A hover cell is tested by hosting the level in a 1280 × 720 `SubViewport` and sending the motion with `push_input`: in the main window the levels read the real cursor, so the step driver and `root.push_input` cannot aim.
 
 ## While building
 
@@ -98,5 +98,5 @@ Hand back:
 3. The text coverage list holds for every id the change touches.
 4. The frames for the key states were captured and looked at.
 5. Every precedent was compared with its sibling.
-6. The suites for the levels touched pass, and every level that uses a changed shared script (`godot/tests/run_tests.py`; only the edited levels otherwise).
+6. The suites for the levels touched pass, and every level that uses a changed shared script (`godot/tests/run_tests.py`; only the edited levels otherwise). `walk.gd` serves cosmos, mouth, mounds, hall, prologue and doors; `survival.gd` serves survival and gates; `scroll_camera.gd`, `ui.gd` and `avatar.gd` serve every level.
 7. The change was played once in the running game, not only headless.

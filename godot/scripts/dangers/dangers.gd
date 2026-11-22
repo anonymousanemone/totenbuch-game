@@ -52,7 +52,7 @@ const DEBUG_OPEN_ROAD := true
 
 const ENCOUNTERS := preload("res://scripts/dangers/danger_encounters.gd").ENCOUNTERS
 const END_X := 140.0     ## walking left past this (strip px), with every danger overcome, ends the level
-const GLOW := UI.Glow.DANGER
+const GLOW := UI.Glow.DEFAULT
 
 var level: Dictionary
 var unit := 1.0          ## strip px per plate px at 200 dpi (level.json `scale`)
@@ -1128,8 +1128,8 @@ const THRUST_TIME := [0.07, 0.18]   ## from drawn back to the full strike, and b
 const THRUST_DOWN := 0.5        ## (Apep, the Merti snakes) the point strikes once this far into the full thrust
 ## Red is #B55B3C. The sprites are drawn in ink (46, 29, 16), so the modulate that turns ink into
 ## that red is the ratio of the two.
-const RED_CROC := UI.INK_TINT   ## red crocodiles, heka word and spear
-const HURT := RED_CROC                      ## the bearer's body when bitten
+var RED_CROC := UI.inked(UI.RED)   ## red crocodiles, heka word and spear
+var HURT := RED_CROC               ## the bearer's body when bitten
 const DISSOLVE := preload("res://scripts/dangers/dissolve.gdshader")
 const FRAME_GAP := 8.0          ## between the two lines of a double line, as drawn (plate px)
 
@@ -1942,7 +1942,7 @@ func _draw_flesh_health() -> void:
 	var left: float = head.x + shift - (health * fs.x + (health - 1) * FLESH_GAP) / 2.0
 	for i in health:
 		var at := Vector2(left + i * (fs.x + FLESH_GAP), head.y - FLESH_LIFT - fs.y)
-		overlay.draw_texture_rect(_flesh_tex, Rect2(at, fs), false, Color(UI.DANGER, fight.open))
+		overlay.draw_texture_rect(_flesh_tex, Rect2(at, fs), false, Color(UI.RED, fight.open))
 
 
 ## The top of the bearer's head in the arena (world): his picture's head point, turned with him.

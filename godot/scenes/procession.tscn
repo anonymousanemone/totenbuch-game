@@ -829,7 +829,6 @@ metadata/piece_id = "plumes_place"
 script = ExtResource("script_ending")
 
 [node name="StelaImprint" type="Node2D" parent="Pieces/Ending" unique_id=1035572744]
-modulate = Color(1.9, 1, 0.6, 0.2)
 position = Vector2(1168, 94)
 scale = Vector2(0.75, 0.75)
 metadata/piece_id = "stela_imprint"

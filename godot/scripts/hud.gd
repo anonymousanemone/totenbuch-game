@@ -278,7 +278,7 @@ func add_journal_entry(label: String, note: String, tex: Texture2D, count: int, 
 	entry.mouse_filter = Control.MOUSE_FILTER_STOP
 	entry.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	var frame := PanelContainer.new()
-	frame.add_theme_stylebox_override("panel", UI.box(UI.DEEP, UI.RULE, 2, 4, 4))
+	frame.add_theme_stylebox_override("panel", UI.box(UI.DARK_PAPYRUS, UI.RULE, 2, 4, 4))
 	frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	var pic := TextureRect.new()
 	pic.texture = tex
@@ -352,7 +352,7 @@ func _input(event: InputEvent) -> void:
 
 func _build_top_bar() -> void:
 	var bar := ColorRect.new()
-	bar.color = UI.DEEP
+	bar.color = UI.DARK_PAPYRUS
 	bar.set_anchors_preset(Control.PRESET_TOP_WIDE)
 	bar.offset_bottom = TOP_BAR
 	_root.add_child(bar)
@@ -382,7 +382,7 @@ func _build_top_bar() -> void:
 ## line said with its speaker's tag on the band, what you carry, Journal and Hint.
 func _build_strip() -> void:
 	var strip := ColorRect.new()
-	strip.color = UI.DEEP
+	strip.color = UI.DARK_PAPYRUS
 	strip.set_anchors_preset(Control.PRESET_BOTTOM_WIDE)
 	strip.offset_top = -STRIP
 	_root.add_child(strip)

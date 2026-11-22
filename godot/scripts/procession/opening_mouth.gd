@@ -17,7 +17,7 @@ signal changed
 
 enum Phase { START, ADZE, SPOKEN, WORDS, DONE }
 
-const IMPRINT := UI.PREVIEW   ## the words' imprint over Ra: faint and reddish, like the stela's
+var IMPRINT := UI.inked(UI.FAINT_INK)   ## the words' imprint over Ra: faint and reddish, like the stela's
 const BALL := 44.0            ## strip px across: the words as they leave the mouth
 const RISE := 0.6             ## s for the ball to rise out of the mouth ...
 const UNROLL := 0.9           ## ... and to unroll into the line of signs

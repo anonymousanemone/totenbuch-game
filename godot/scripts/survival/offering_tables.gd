@@ -20,7 +20,6 @@ const RETRACT := 50.0            ## his hand comes in this far from where it is 
 const LEAN_MAX := 0.4            ## rad he leans at most ...
 const STRETCH_MAX := 14.0        ## ... and his torso stretches (strip px), once his arm is straight
 const ARM_HALF := 7.0            ## 52: half the arm's thickness that keeps a piece off
-const FILTH_TINT := Color(0.45, 0.13, 0.08)   ## excrement, dark red
 const THIGH := Vector2(1.0, 0.12)  ## along his lap, from the hip
 const FLESH_GAP := 6.0           ## strip px between the flesh signs ...
 const FLESH_LIFT := 8.0          ## ... and from them to the top of his head
@@ -33,7 +32,7 @@ var game
 var rigs := {}                   ## 52, 53 -> the arm's nodes and its pose as drawn
 var g := {}                      ## the game being played (empty when none)
 var _flesh_tex: Texture2D
-var _filth_tex: Texture2D          ## the excrement sign as white ink, tinted FILTH_TINT
+var _filth_tex: Texture2D          ## the excrement sign as white ink, tinted red
 var _flesh: Array[Sprite2D] = []
 
 
@@ -83,7 +82,7 @@ func setup() -> void:
 	for i in FLESH:
 		var s := Sprite2D.new()
 		s.texture = _flesh_tex
-		s.modulate = UI.DANGER
+		s.modulate = UI.RED
 		s.z_index = 6
 		s.visible = false
 		game.add_child(s)
@@ -259,7 +258,7 @@ func _drop() -> void:
 	s.position = Vector2(x, FALL_FROM)
 	s.z_index = 3
 	if kind == "filth":
-		s.modulate = FILTH_TINT
+		s.modulate = UI.RED
 	game.get_node("Figures/Spell%d" % g.sp).add_child(s)
 	if not g.has("falling"):
 		g.falling = []
@@ -368,7 +367,7 @@ func _hurt() -> void:
 	g.flesh -= 1
 	var r: Dictionary = rigs[g.sp]
 	var t: Tween = r.body.create_tween()
-	t.tween_property(r.body, "modulate", UI.INK_TINT, 0.15)
+	t.tween_property(r.body, "modulate", UI.inked(UI.RED), 0.15)
 	t.tween_property(r.body, "modulate", Color.WHITE, 0.4)
 	_show_flesh()
 	if g.flesh <= 0:

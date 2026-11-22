@@ -23,7 +23,8 @@ builders in this skill's folder (`build_scene.py`, `build_field.py`, `build_prol
 already cut by hand in the `.mdp` as sprites and `level.json` data.
 Export named artwork into `godot/assets/<level>/figures/` and keep animation sheets, if
 needed, in `animation/`. Record stable IDs, source bounds, dimensions, scale, ground,
-and camera view height in `level.json`. Keep descriptions in the level's data catalog,
+and the camera's rows in `level.json`: `view_height`, and `view_top` only when the first row shown is
+not the shared one (`ScrollCamera.VIEW_TOP`, 36). Keep descriptions in the level's data catalog,
 following the shared `descriptions.gd` format.
 
 Export the complete scroll, including captions, frame lines, and lower inscriptions.
@@ -72,9 +73,26 @@ or overwrite editor placement. Keep source coordinates separately in the metadat
 
 ## Connect shared behavior
 
-For navigation-only levels, reuse the shared
-avatar, `scroll_camera.gd`, HUD, hover glow, figure picking, descriptions, and journal.
-Allow the complete scroll to be explored without puzzles or progression barriers.
+For navigation-only levels, point the scene root at `godot/scripts/walk/walk.gd` and set its exports
+(`level_key`, `title`, `intro_title`, `intro_body`, and `journal_hint` or `hint_key` only where the level
+needs its own wording; `hint_key` is the prefix of the `<hint_key>.start` and `<hint_key>.explore`
+messages, `walk` by default). Never copy the script: the Night Journey ran its own copy until it was
+folded into `walk.gd` (2026-11-21). A level that frames differently overrides `view()` (the Prologue
+does, per stage); one with rites of its own extends `walk.gd` (Prologue, Doors) or `survival.gd`
+(Survival, Gates). That gives the shared avatar, HUD, hover glow, figure picking, descriptions and
+journal. Allow the complete scroll to be explored without puzzles or progression barriers.
+
+Other shared code to reuse, never re-derive:
+
+- **Camera:** `scroll_camera.gd`. The explore levels' whole camera is `ScrollCamera.follow`; the zoom,
+  clamp, `view_height(level)` and `VIEW_TOP` come from there. A minigame's holds and eases stay in the
+  level and follow the Minigame view rule in `AGENTS.md`.
+- **Glows:** `UI.hover_glow` for what is under the pointer (fades in over `UI.HOVER_FADE`), `UI.success_flash`
+  for a task done. Tween a glow's `strength` only through `UI.glow_step`.
+- **Figures drawn opaque:** `figure_mask.gd` (`create_texture`) with `figure.gdshader`.
+
+The Game-wide Documentation pages in Notion describe them: *Explore levels: shared base classes*,
+*Shared camera*, *Avatar movement*, *Glow helpers* and *Figure masks*.
 Keep foreground inscriptions above the avatar in draw order, with papyrus backing
 where needed so the avatar actually disappears behind the text columns.
 
@@ -153,6 +171,12 @@ column. Use checks appropriate to the change and confirm the source MDP is uncha
 Store temporary screenshots and verification artifacts outside the repository;
 do not write to `mockups/` unless explicitly requested.
 
+Hover cannot be driven through the step driver: in the main window the levels read the real cursor
+(`get_global_mouse_position()`), so injected pointer events never reach them. To check a hover or a click's
+aim, host the level in a 1280 × 720 `SubViewport` in a scratch script and send events with
+`push_input`; a viewport that is not the main window takes its mouse position from the last pushed
+event. Never move the real cursor (`Input.warp_mouse`).
+
 In a debug build, press `T` during gameplay and with a paused in-level overlay.
 Exercise each completion action and verify the level's ordinary progress indicators,
 cleanup, and next available actions. Check that scene changes clear old entries.
@@ -175,6 +199,11 @@ existing pages for the level's scope in the Totenbuch Tasks database:
 Fetch both pages before editing, use the smallest edits, and verify them afterward.
 If a page or scope is missing, follow the approval rules in `write-notion` and
 report any update still pending.
+
+If the level added or changed shared code (`walk.gd`, `survival.gd`, `scroll_camera.gd`, `ui.gd`,
+`avatar.gd`, `figure_mask.gd`), update the matching Game-wide Documentation page too (*Explore levels:
+shared base classes*, *Shared camera*, *Glow helpers*, *Avatar movement*, *Figure masks*), and add a new
+scene to the table in *Explore levels: shared base classes*.
 
 Always list the verified shortcuts in the handoff to the author. Give the exact key,
 where it works, the available action labels and their effects, and whether an action

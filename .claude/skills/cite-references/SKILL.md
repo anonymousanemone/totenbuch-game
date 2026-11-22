@@ -67,7 +67,8 @@ The rules for the `reference` string:
 - Leave out page numbers.
 - Where it helps, add a very short, informal note: a different reading in another source, an uncertain word, or "placement is my reading" when you decided which part of the plate a text belongs to.
 - Don't cite Lepsius 1842 for what the plates show. Every level is cut from them, so citing them is redundant. An entry that only describes what is drawn gets `"reference": "as drawn"`. A claim that goes beyond the drawing (who a figure is, what an object is for) still needs a source.
-- When you don't know where something came from, write `"reference": ""` and add an unchecked item for it to that level's section of `TODO.md`. Never guess a source. Put placement or reading questions in the TODO too, as items to verify.
+- When you write a new citation, always try to find a source for it first: look in the sources already read, then look further. Only if none turns up, write `"reference": ""` and add an unchecked item for it to that level's section of `TODO.md`. Never guess a source. Put placement or reading questions in the TODO too, as items to verify.
+- Citations the user has marked as done, blanked or deleted on purpose (including a missing `reference` field, or a whole registry the user calls done or frozen) are settled. Leave them as they are: don't refill them, don't add TODO items for them, and don't list them as missing.
 - Check that the file is still valid JSON after editing, e.g. `python3 -c "import json; json.load(open('godot/assets/<level>/registry.json'))"`.
 
 ## In the Scene Atlas artifact

@@ -26,10 +26,12 @@ const DARK_RED := Color("751c18")    ## the selected spear band (Dangers 41)
 const SUCCESS := Color(1.8, 1.4, 0.6)
 ## Faint ink: dark red-brown at 25% opacity. It marks where a piece is to be dragged.
 const FAINT_INK := Color("571d0a", 0.25)
-const GLOW := Color(1.0, 0.76, 0.28, 0.6)   ## the hover glow, gold (#ffc247): every level, the Dangers too
+const GLOW := Color(1.0, 0.76, 0.28, 0.6)   ## the hover glow, gold (#ffc247), opacity in the colour: every level
+const GLOW_REACH := 9.0       ## texture px the hover glow reaches out, everywhere
 ## Matches the level selector in glow.gdshader.
 enum Glow { DEFAULT, PROCESSION, SUCCESS }
-const SUCCESS_GLOW := Color(160.0 / 255.0, 170.0 / 255.0, 114.0 / 255.0, 0.4)  ## dull olive green #a0aa72
+const SUCCESS_GLOW := Color(160.0 / 255.0, 170.0 / 255.0, 114.0 / 255.0, 0.4)  ## dull olive green #a0aa72, opacity in the colour: every level
+const SUCCESS_GLOW_REACH := 17.0   ## texture px the success glow reaches out, everywhere
 const SUCCESS_IN := 0.8       ## s for a success glow to come up ...
 const SUCCESS_OUT := 3.2      ## ... and to fade
 const HOVER_FADE := 0.15      ## s for a hover glow to fade in (Dangers and Procession fade it out over the same time)
@@ -130,8 +132,7 @@ static func glow_material(texture: Texture2D, level: Glow = Glow.DEFAULT) -> Sha
 	mat.set_shader_parameter("default_color", GLOW)
 	mat.set_shader_parameter("procession", GLOW)
 	mat.set_shader_parameter("success", SUCCESS_GLOW)
-	if level == Glow.SUCCESS:
-		mat.set_shader_parameter("pad", 17.0)
+	mat.set_shader_parameter("pad", SUCCESS_GLOW_REACH if level == Glow.SUCCESS else GLOW_REACH)
 	mat.set_shader_parameter("strength", 0.0)
 	if texture is AtlasTexture:
 		var atlas := texture as AtlasTexture

@@ -59,7 +59,8 @@ A distinction never rests on colour alone: health, targets, warnings and counts 
 | Dark papyrus (`UI.DARK_PAPYRUS`) | `#cbb07c` | Bars, the strip, buttons |
 | Red (`UI.RED`) | `#b55b3c` | Danger, and anything the author calls "red" |
 | Dark red (`UI.DARK_RED`) | `#751c18` | The selected spear band in the Dangers (41) |
-| Glow (`UI.GLOW`) | about `#ffc247` at 60% opacity | The hover glow behind what can be clicked: in every level, the Dangers too |
+| Glow (`UI.GLOW`) | about `#ffc247` at 60% opacity | The hover glow behind what can be clicked, reaching 9 px: in every level, the Dangers too |
+| Success glow (`UI.SUCCESS_GLOW`) | `#a0aa72` at 40% opacity | What a task just set right glows this for a moment, reaching 17 px: in every level |
 | Faint ink (`UI.FAINT_INK`) | `#571d0a` (ink turned dark red-brown) at 25% opacity, about `#bfa37f` over papyrus | Where something goes: a drawing's place to drag a piece to, and the Survival sceptre imprints. Always this colour and opacity. Never used for a pattern that is only shown |
 
 **Red is always this red, at 100%.** A drawing turned red ends as exactly `UI.RED` (`#b55b3c`). The six in-game colours are the only palette names in `ui.gd`; a sprite drawn in ink is tinted with `UI.inked(UI.RED)`, which turns its ink into that colour exactly. A flash or pulse may pass through other values, but its final form is this red. "Make it red" means this red at 100% unless the author says otherwise.

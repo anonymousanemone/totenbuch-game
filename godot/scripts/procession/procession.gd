@@ -162,7 +162,6 @@ var _recital: Node2D
 var _recital_tween: Tween
 var _show_hits := false
 var _last_said := ""         ## the last line said, for the autotest
-var _debug_menu: DebugMenu   ## debug builds only: T opens it
 
 @onready var avatar: Node2D = $Avatar
 @onready var camera: Camera2D = $Camera
@@ -277,20 +276,24 @@ func _ready() -> void:
 	hud.menu_pressed.connect(func(): get_tree().change_scene_to_file("res://scenes/menu.tscn"))
 	hud.hint_pressed.connect(hint)
 	hud.restart_pressed.connect(reset)
-	if OS.is_debug_build():
-		_debug_menu = DebugMenu.new()
-		_debug_menu.setup([
-			["Offering table: frond left", debug_table_frond],
-			["Complete hauling", debug_complete.bind("t1")],
-			["Complete standards", debug_complete.bind("t2")],
-			["Complete water", debug_complete.bind("t5")],
-			["Complete mouth", debug_complete.bind("t6")],
-			["Complete bulls", debug_complete.bind("t8")],
-			["Complete offering stand", debug_complete.bind("t7")],
-		])
-		add_child(_debug_menu)
 	reset()
 	_maybe_run_cli()
+
+
+func playtest_actions() -> Array:
+	return [
+		["Offering table: frond left", debug_table_frond],
+		["Complete hauling", debug_complete.bind("t1")],
+		["Complete standards", debug_complete.bind("t2")],
+		["Complete water", debug_complete.bind("t5")],
+		["Complete mouth", debug_complete.bind("t6")],
+		["Complete bulls", debug_complete.bind("t8")],
+		["Complete offering stand", debug_complete.bind("t7")],
+	]
+
+
+func playtest_is_finishing() -> bool:
+	return finished
 
 
 func reset() -> void:
@@ -355,8 +358,6 @@ func _restore_all() -> void:
 # ---------------------------------------------------------------- input
 
 func _unhandled_input(event: InputEvent) -> void:
-	if _debug_menu and _debug_menu.handle_shortcut(event):
-		return
 	if hud.is_blocking() or finished:
 		return
 	if _object_press != null and _carried_input(event):

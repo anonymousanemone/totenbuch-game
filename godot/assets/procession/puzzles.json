@@ -1,5 +1,6 @@
 {
   "messages": {
+    "procession.click_rope": "Click the rope to take your place.",
     "procession.complete": "Off to the left, something glows.",
     "procession.stela_glows": "The stela glows faintly.",
     "procession.stela_far": "Something has changed to the %s.",
@@ -8,11 +9,11 @@
   },
   "puzzles": {
     "procession.haul": {
-      "instructions": "Can you help us haul the bier? Heave with [space] when my whip falls. Wait for my count, then pull on each beat.",
+      "instructions": "Can you help us haul the bier? Heave with [space] when my whip falls. Wait for my count, then pull on each beat. Press [esc] to leave.",
       "success": "Well hauled! The sledge stands where it should, and the mummy goes on toward the tomb.",
       "feedback": {
         "success_hauler": "You've helped the procession advance.",
-        "left_haul": "Speak with the ox-driver when you are ready to return.",
+        "left_haul": "Take up the rope again when you are ready.",
         "wait_for_count": "Wait for my call.",
         "ready": "Ready...",
         "and": "...and...",

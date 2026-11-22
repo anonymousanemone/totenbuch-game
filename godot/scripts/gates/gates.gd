@@ -2,7 +2,7 @@
 ## adorer stays hidden until its keeper's name is given (`name_given`), and each spell-147 gate's
 ## adorer until `reveal_adorer` is called for it; the avatar is a copy of the first adorer, and the
 ## plumes answer every naming (PylonPlumes).
-extends "res://scripts/survival/survival.gd"
+extends "res://scripts/walk/walk.gd"
 
 const ADORER_FADE := 0.6    ## seconds for an adorer to appear
 

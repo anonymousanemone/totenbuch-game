@@ -259,7 +259,6 @@ func touch() -> void:
 		return
 	adze_object.interaction_mode = MoveableObject.InteractionMode.TOOL_USE
 	active = true
-	_clear_face()
 	instructed.emit("Anubis", PUZZLES.text("procession.opening_mouth", "instructions"))
 	changed.emit()
 
@@ -422,7 +421,6 @@ func leave() -> void:
 	active = false
 	adze_object.interaction_mode = MoveableObject.InteractionMode.TRANSPORT
 	adze_object.follow()
-	_clear_face()
 	said.emit("Anubis", PUZZLES.text("procession.opening_mouth", "feedback", "left_carving"))
 	changed.emit()
 

@@ -235,3 +235,9 @@ Who decided what, session by session: the author's decisions, what was made from
 - **Agent did:** Split touching figures at their contact points, added a separate bowl layer in 152, and kept Isis's ball in her layer.
 - **Made:** The glow decision in the 2026-11-21 Procession entry reached `godot/scripts/ui.gd`, `godot/scripts/glow.gdshader`, and `project-docs/style-guide.md`.
 - **Agent did:** Applied the shared glow settings per glow type, retaining 9 texture pixels for hover and 17 for success.
+
+## 2026-11-22 · Minigame entry and exit
+- **Decided:** Click people for instructions and implements to take their place. Esc leaves those games. Left and Right also leave drag-and-drop games, which retain progress.
+- **Decided:** Keep the camera fixed during play. Location alone stays quiet except for Survival 59. Survival and Gates use `walk.gd`.
+- **Made:** `minigame_view.gd`, Dangers and Procession entry and exit, `survival/survival.gd`, Gates and Survival scene settings, puzzle text, and regression coverage.
+- **Agent did:** Used the other side of the man in Survival 57 when standing on the approach side would clip the avatar at the vignette seam.

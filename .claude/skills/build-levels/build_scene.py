@@ -181,7 +181,7 @@ def survival():
 
 def write_survival_scene(figures):
     resources = ['[gd_scene format=3]',
-        '[ext_resource type="Script" path="res://scripts/survival/survival_play.gd" id="level"]',
+        '[ext_resource type="Script" path="res://scripts/survival/survival.gd" id="level"]',
         '[ext_resource type="Script" path="res://scripts/avatar.gd" id="avatar"]',
         '[ext_resource type="Script" path="res://scripts/hud.gd" id="hud"]',
         '[ext_resource type="Shader" path="res://scripts/papyrus.gdshader" id="papyrus"]']
@@ -192,6 +192,12 @@ shader = ExtResource("papyrus")
 
 [node name="Survival" type="Node2D"]
 script = ExtResource("level")
+level_key = "survival"
+hint_key = "survival"
+chapter_titles = true
+only_present_entries = true
+foreground_blocks = true
+dev_args = true
 
 [node name="Papyrus" type="ColorRect" parent="."]
 material = SubResource("paper")
@@ -438,6 +444,11 @@ def write_gates_scene(figures):
     text.append(f'''[node name="Gates" type="Node2D"]
 script = ExtResource("level")
 level_key = "gates"
+hint_key = "gates"
+chapter_titles = true
+only_present_entries = true
+foreground_blocks = true
+dev_args = true
 
 [node name="Papyrus" type="ColorRect" parent="."]
 material = SubResource("paper")

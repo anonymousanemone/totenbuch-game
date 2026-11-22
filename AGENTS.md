@@ -27,7 +27,7 @@
 
 ## Shared level code
 
-- A walk-and-read level is a scene on `godot/scripts/walk/walk.gd` with its exports set; do not copy the script. Survival and Gates share `survival/survival.gd`.
+- A walk-and-read level is a scene on `godot/scripts/walk/walk.gd` with its exports set; do not copy the script. Survival and Gates extend `walk.gd` and enable its chapter titles, scene-only journal totals, foreground blocking and development flags.
 - Use `ScrollCamera` (`godot/scripts/scroll_camera.gd`: `follow`, `view_height`, `VIEW_TOP`) for the camera's zoom, clamp and rows; do not re-derive them in a level.
 - Hover glows are `UI.hover_glow`; a glow's strength is tweened only through `UI.glow_step`, timed by `UI.HOVER_FADE`.
 - Notion's Game-wide Documentation pages describe these (*Explore levels: shared base classes*, *Shared camera*, *Avatar movement*, *Glow helpers*, *Figure masks*); update the matching one when you change shared code.
@@ -36,6 +36,9 @@
 
 - Starting a minigame enters minigame view: the camera moves once to the minigame's framing and then stays fixed until the minigame is exited (won, lost or left). Examples are the procession games, where the camera zooms in on the scene, the Dangers fights, where the vignette expands across the screen, and the Survival altars (52, 53).
 - While in minigame view the camera must not follow the avatar or objects, refit to HUD or message size changes, or drift and wobble. Normal camera behaviour resumes only on exit.
+- Esc leaves take-the-place games. Left, Right or Esc leaves drag-and-drop games. Procession and Survival use `minigame_view.is_exit` for these keys.
+- Each level holds the camera from its active minigame state.
+- Walking into a location keeps the current text. Changes in game state can be announced. Survival 59 plays its sequence on walk-in.
 
 
 Behavioral guidelines to reduce common LLM coding mistakes. Merge with project-specific instructions as needed.

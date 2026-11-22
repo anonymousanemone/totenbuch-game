@@ -1,9 +1,8 @@
 ## Spells 31-42: dangers on the road (Lepsius, Todtenbuch pl. XVI-XIX).
 ##
 ## The scroll reads right to left. The player (the adoring deceased of spell 30) walks left
-## through the vignettes. Each vignette with a creature is an encounter: walking into it
-## offers its introduction; clicking a creature takes its spear-bearer’s place and starts
-## the fight. Space thrusts. The spell-38 gate waits until the preceding dangers are overcome. Solving an encounter puts the vignette back as it is drawn on the plate.
+## through the vignettes. Clicking a creature describes it. Clicking its spear takes the
+## spear-bearer's place and starts the fight. Space thrusts. The spell-38 gate waits until the preceding dangers are overcome. Solving an encounter puts the vignette back as it is drawn on the plate.
 ## Positions come from assets/dangers/level.json, written by .claude/skills/build-levels/extract_dangers300.py from the
 ## hand-made 300-dpi strip bod31-42.mdp. Distances below are in 200-dpi plate pixels and are
 ## multiplied by `unit` (level.json `scale`).
@@ -66,7 +65,6 @@ var boxes := {}          ## encounter id -> Vector2(x0, x1)
 var _descriptions = preload("res://scripts/descriptions.gd").new("dangers")
 var _hints = preload("res://scripts/puzzles.gd").new()
 var solved := {}         ## encounter id -> true
-var _section := ""       ## the encounter whose vignette you are walking through
 var objects := {}
 var _object_press: MoveableObject
 var _object_press_screen := Vector2.ZERO
@@ -162,7 +160,7 @@ func _ready() -> void:
 	for b in level.boxes:
 		boxes[b] = Vector2(level.boxes[b][0], level.boxes[b][1])
 	# the spear-bearers come from one sprite sheet: the man as drawn with his spear in a pose, and over
-	# him the spear alone in the same pose, shown only when it is tinted red for heka
+	# him the spear alone in the same pose, shown on the scroll and tinted red for heka in a fight
 	sheet = JSON.parse_string(FileAccess.get_file_as_string(SHEET_PATH))
 	_sheet_tex = load(SHEET_TEX)
 	if absf(float(sheet.reach) - CROC_THRUST * unit) > 0.5 or absf(float(sheet.back) - CROC_PREP * unit) > 0.5:
@@ -202,7 +200,7 @@ func _ready() -> void:
 		"title": "Dangers on the Road",
 		"journal_hint": "Each creature you overcome is recorded here.",
 		"intro_title": "Spells 31–42: Dangers on the Road",
-		"intro_body": "Crocodiles, snakes, beetles, and Apep guard the road. Turn them back and take the breath of life.\n\nWalk [b]right to left[/b] with [←] [→] or click the papyrus. Click a creature to learn its rule and take up the spear. [esc] leaves a fight.",
+		"intro_body": _hints.message("dangers.intro"),
 		"outro_title": "The road is clear",
 	})
 	hud.hint_pressed.connect(hint)
@@ -247,7 +245,6 @@ func reset() -> void:
 		_crocs_cleanup()
 	heka_known = false
 	solved.clear()
-	_section = ""
 	_object_press = null
 	_object_dragging = false
 	for item in objects.values():
@@ -272,6 +269,10 @@ func reset() -> void:
 		if n in _item_poses:
 			actors[n].z_index = 0
 		actors[n].visible = not n.begins_with("spear") and not n.begins_with("sheaf41_")   # the sheaf's pieces show only in its fight
+	if not Scroll.viewing:
+		for e in ENCOUNTERS:
+			if e.kind in FIGHTS:
+				_show_walking_spear(e)
 	avatar.visible = true
 	avatar.set_process(true)
 	avatar.stop()
@@ -296,7 +297,7 @@ func _refresh() -> void:
 		if not solved.has(e.id):
 			current = e
 			break
-	# he walks through every vignette (a fight starts only on clicking its creature), but not into a
+	# he walks through every vignette (a fight starts only on clicking its spear), but not into a
 	# gate vignette while one before it is still undone: its man blocks the way. The barrier is not drawn.
 	gate = {}
 	var args := OS.get_cmdline_user_args()
@@ -456,41 +457,42 @@ func _unhandled_input(event: InputEvent) -> void:
 		_set_caption_hover(_caption_at(at) if fight.is_empty() and _hover.is_empty() else {})
 		Input.set_default_cursor_shape(Input.CURSOR_POINTING_HAND if not (_hover.is_empty() and _caption.is_empty()) else Input.CURSOR_ARROW)
 	elif event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-		var p := get_global_mouse_position()
-		if _heka_at(p) != "":
-			heka_known = true
-			say("Scribe", _hints.message("dangers.heka_controls"))
-			return
-		if fight.is_empty() and _clue_sign_at(p) != "":
-			say("Scribe", _hints.message("dangers.clue_signs"))
-			return
-		if not fight.is_empty():
-			fight_click(p)
-			return
-		var f := _fight_at(p)
-		if not f.is_empty():
-			# step into its vignette, then take up the spear
-			var s := span(f)
-			walk_then(clampf(avatar.position.x, s.x + 40.0 * unit, s.y - 40.0 * unit), func():
-				if fight.is_empty():
-					_set_hover([])
-					start_fight(f))
-			return
-		var it := _item_at(p)
-		if it != "":
-			walk_then(actor_rect(it).end.x + BESIDE * unit, take.bind(_taking(it), it))
-			return
-		var c := _caption_at(p)
-		if not c.is_empty():
-			_descriptions.show("caption_" + c.id, hud)
-			return
-		var subject := _inspection_at(p)
-		if subject != "":
-			var bounds := actor_rect(subject)
-			var destination: float = avatar.reach(bounds)
-			walk_then(destination, _record_actor.bind(subject))
-			return
-		walk_then(p.x)
+		_click_world(get_global_mouse_position())
+
+
+func _click_world(p: Vector2) -> void:
+	if _heka_at(p) != "":
+		heka_known = true
+		say("Scribe", _hints.message("dangers.heka_controls"))
+		return
+	if fight.is_empty() and _clue_sign_at(p) != "":
+		say("Scribe", _hints.message("dangers.clue_signs"))
+		return
+	if not fight.is_empty():
+		fight_click(p)
+		return
+	var f := _fight_at(p)
+	if not f.is_empty():
+		walk_then(avatar.reach(actor_rect(f.spear)), func():
+			if fight.is_empty():
+				_set_hover([])
+				start_fight(f))
+		return
+	var it := _item_at(p)
+	if it != "":
+		walk_then(actor_rect(it).end.x + BESIDE * unit, take.bind(_taking(it), it))
+		return
+	var c := _caption_at(p)
+	if not c.is_empty():
+		_descriptions.show("caption_" + c.id, hud)
+		return
+	var subject := _inspection_at(p)
+	if subject != "":
+		var bounds := actor_rect(subject)
+		var destination: float = avatar.reach(bounds)
+		walk_then(destination, _record_actor.bind(subject))
+		return
+	walk_then(p.x)
 
 
 func _inspection_at(point: Vector2) -> String:
@@ -506,15 +508,17 @@ func _inspection_at(point: Vector2) -> String:
 func _record_actor(name: String) -> void:
 	var id: String = actors[name].get_meta("registry_id")
 	var variant := "settled" if solved.has(id) else "default"
-	if _stats.has(id):        # a creature fought: its entry keeps its counts
+	if not Scroll.viewing and not solved.has(id) and ENCOUNTERS.any(func(e): return e.id == id and e.kind in FIGHTS):
+		var content: Dictionary = _descriptions.line(id)
+		say(content.speaker, content.text + " " + _hints.message("dangers.click_to_fight"))
+	else:
 		_descriptions.show(id, hud, variant)
+	if _stats.has(id):
 		_journal_fight(id)
-		return
-	_descriptions.inspect(id, hud, journal, _picture(actors[name]).texture, _descriptions.journal_total(), variant)
+	else:
+		_descriptions.remember(id, hud, journal, _picture(actors[name]).texture, _descriptions.journal_total(), variant)
 
 
-## What glows under the pointer (hit-tested by box): a heka word; a target in a fight, or, walking, a
-## creature (all of its encounter's) or an item to take.
 func _hover_at(p: Vector2) -> Array:
 	var h := _heka_at(p)              # part for whole: a heka word glows alone; the rest of its caption, the whole
 	if h != "":
@@ -528,7 +532,7 @@ func _hover_at(p: Vector2) -> Array:
 		return []
 	var f := _fight_at(p)
 	if not f.is_empty():
-		return _creatures(f)
+		return [f.spear + "_pole"]
 	var it := _item_at(p)
 	if it != "":
 		return [it]
@@ -622,8 +626,6 @@ func _glow(n: String, on: bool) -> void:
 		t.tween_callback(g.hide)
 
 
-## The creatures you click to take up the spear against encounter `e`, with what the creature is
-## drawn on (they glow together): the donkey and its tail under spell 40's snake, spell 41's sheaf.
 func _creatures(e: Dictionary) -> Array:
 	var out: Array = e.foes if e.has("foes") else [e.foe]
 	for k in ["donkey", "tail", "bundle"]:
@@ -632,14 +634,20 @@ func _creatures(e: Dictionary) -> Array:
 	return out
 
 
-## The unsolved fight (on this side of the gate) whose creature is at `p`, or {}.
+func _show_walking_spear(e: Dictionary) -> void:
+	actors[e.spear].visible = false
+	var pole: Node2D = actors[e.spear + "_pole"]
+	pole.visible = true
+	_picture(pole).visible = true
+	_bearer_pose(e.spear, 0.0)
+
+
 func _fight_at(p: Vector2) -> Dictionary:
 	for e in ENCOUNTERS:
 		if not e.kind in FIGHTS or solved.has(e.id) or span(e).y <= gate_x():
 			continue
-		for n in _creatures(e):
-			if actors[n].visible and actors[n].modulate.a > 0.1 and actor_rect(n).grow(8 * unit).has_point(p):
-				return e
+		if _descriptions.hit(_picture(actors[e.spear + "_pole"]), p):
+			return e
 	return {}
 
 
@@ -680,20 +688,8 @@ func _process(delta: float) -> void:
 		_place_frame()
 
 
-## Say a vignette's line each time you walk into it while its danger is still there (a fight waits
-## for a click on the creature), and end the level at END_X once every danger is overcome.
 func _check_position() -> void:
-	var x := avatar.position.x
-	var here_now := ""
-	for e in ENCOUNTERS:
-		var s := span(e)
-		if x < s.y - 20.0 * unit and x > s.x:
-			here_now = e.id
-			if here_now != _section and not solved.has(e.id):
-				say("Scribe", _descriptions.line(e.id, "default", true).text + (" " + _hints.message("dangers.click_to_fight") if e.kind in FIGHTS else ""))
-			break
-	_section = here_now
-	if x < END_X and current.is_empty():
+	if avatar.position.x < END_X and current.is_empty():
 		finish()
 
 
@@ -901,6 +897,7 @@ func start_fight(e: Dictionary) -> void:
 	_follow_items()
 	avatar.set_process(false)
 	actors[e.spear].visible = true
+	_picture(actors[e.spear + "_pole"]).visible = false
 	_set_hover([])
 	_set_caption_hover({})
 	if not e.kind in ARENA_FIGHTS:
@@ -948,6 +945,7 @@ func end_fight() -> void:
 		_crocs_cleanup()
 	_kill_fight_tweens()
 	var e: Dictionary = fight.e
+	_picture(actors[e.spear + "_pole"]).visible = false
 	var spear: Rect2 = rects[e.spear]
 	fight = {}
 	for n in _box_actors(e):
@@ -961,7 +959,7 @@ func end_fight() -> void:
 
 
 ## Esc: step back out of the fight, not won. The vignette closes (as when a fight is lost), the
-## creature and the bearer stand as drawn, and clicking the creature takes it up again.
+## creature and the spear stand as drawn, and clicking the spear takes it up again.
 func leave_fight() -> void:
 	if fight.is_empty() or fight.get("closing", false):
 		return
@@ -974,9 +972,7 @@ func leave_fight() -> void:
 			_crocs_cleanup()
 		for n in _box_actors(e):
 			_restore(n)
-		for n in [e.spear, e.spear + "_pole"]:
-			if actors.has(n):
-				actors[n].visible = false
+		_show_walking_spear(e)
 		fight = {}
 		avatar.position.x = rects[e.spear].get_center().x
 		avatar.visible = true
@@ -1520,15 +1516,13 @@ func _disintegrate(e: Dictionary) -> void:
 
 
 ## A lost arena fight: the vignette closes and he stands in it again on the scroll, the fight not
-## won. Clicking the creature takes it up again, from the first wave.
+## won. Clicking the spear takes it up again, from the first wave.
 func _arena_lost(e: Dictionary) -> void:
 	_crocs_close(func():
 		_crocs_cleanup()
 		for n in _box_actors(e):
 			_restore(n)
-		for n in [e.spear, e.spear + "_pole"]:    # he appears as drawn only once it is won
-			if actors.has(n):
-				actors[n].visible = false
+		_show_walking_spear(e)
 		fight = {}
 		avatar.position.x = rects[e.spear].get_center().x
 		avatar.visible = true
@@ -1861,6 +1855,7 @@ func _maybe_run_cli() -> void:
 						items.append(e.items[0])
 					else:
 						actors[e.spear].visible = true
+						_picture(actors[e.spear + "_pole"]).visible = false
 					n -= 1
 			_refresh()
 		elif a.begins_with("--at="):

@@ -164,7 +164,7 @@ under the pointer in a fight, and when clicked tells the player to hold Shift.
 
 ## Survival and Sustenance (spells 43–63, pl. XX–XXIII)
 
-`godot/scripts/survival/` (`survival_play.gd` on top of `survival.gd`). Walk right to left by arrows
+`godot/scripts/survival/` (`survival.gd` on top of `walk.gd`). Walk right to left by arrows
 or by clicking the papyrus. Click a glowing figure to approach it, read its description and record it
 in the Journal; captions can be inspected without journal entries. Tall text columns are foreground
 nodes, so the avatar passes behind them. The avatar is a copy of the spell-43 worshipper and stands in

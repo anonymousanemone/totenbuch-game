@@ -30,6 +30,7 @@ const PARTS := ["spell53_loaf1", "spell53_loaf2", "spell53_loaf3", "spell53_loaf
 
 var game
 var rigs := {}                   ## 52, 53 -> the arm's nodes and its pose as drawn
+var _seat_transition: Tween
 var g := {}                      ## the game being played (empty when none)
 var _flesh_tex: Texture2D
 var _filth_tex: Texture2D          ## the excrement sign as white ink, tinted red
@@ -102,6 +103,7 @@ static func _white_ink(tex: Texture2D) -> Texture2D:
 
 ## As at the start of the level: the chairs empty, 53's table bare (or as drawn once solved).
 func reset() -> void:
+	_stop_seat_transition()
 	_clear_falling()
 	g = {}
 	for f in _flesh:
@@ -178,13 +180,13 @@ func start(sp: int) -> void:
 	g = {"sp": sp, "playing": false}
 	game.widen.open(sp)
 	pose(r, r.T0.x)
-	var t: Tween = game.create_tween()
-	t.tween_property(game.avatar, "modulate:a", 0.0, 0.4)
+	_seat_transition = game.create_tween()
+	_seat_transition.tween_property(game.avatar, "modulate:a", 0.0, 0.4)
 	for n in [r.body, r.hips]:
 		n.visible = true
 		n.modulate.a = 0.0
-		t.parallel().tween_property(n, "modulate:a", 1.0, 0.4)
-	t.tween_callback(func():
+		_seat_transition.parallel().tween_property(n, "modulate:a", 1.0, 0.4)
+	_seat_transition.tween_callback(func():
 		game.avatar.visible = false
 		_begin(sp))
 	game.hud.say_instructions("Scribe", _instructions(sp), "minigame", _in_play.bind(sp))
@@ -465,6 +467,7 @@ func _win() -> void:
 func leave() -> void:
 	if g.is_empty():
 		return
+	_stop_seat_transition()
 	game.hud.end_instructions()
 	var sp: int = g.sp
 	var r: Dictionary = rigs[sp]
@@ -475,16 +478,22 @@ func leave() -> void:
 		f.visible = false
 	game.mode = game.Mode.SCENE
 	pose(r, r.T0.x)
-	var t: Tween = game.create_tween()
+	_seat_transition = game.create_tween()
 	for n in [r.body, r.hips]:
-		t.parallel().tween_property(n, "modulate:a", 0.0, 0.3)
-	t.tween_callback(func():
+		_seat_transition.parallel().tween_property(n, "modulate:a", 0.0, 0.3)
+	_seat_transition.tween_callback(func():
 		r.body.visible = false
 		r.hips.visible = false
 		if sp == 53:
 			for key in PARTS:
 				game.pieces[key].visible = false
 		_stand_up(sp))
+
+
+func _stop_seat_transition() -> void:
+	if _seat_transition:
+		_seat_transition.kill()
+		_seat_transition = null
 
 
 func _stand_up(sp: int) -> void:

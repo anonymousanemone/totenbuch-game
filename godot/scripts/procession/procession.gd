@@ -6,6 +6,7 @@
 ## .claude/skills/build-levels/export_scene_layers.py, retains source-art data and interaction geometry; registry.json owns descriptions.
 extends Node2D
 
+const MINIGAME_VIEW := preload("res://scripts/minigame_view.gd")
 const PUZZLES := preload("res://scripts/puzzles.gd")
 
 const SCROLL_CAMERA := preload("res://scripts/scroll_camera.gd")
@@ -55,7 +56,7 @@ const START := {
 const POLES := ["pole1", "pole2", "pole3", "pole4", "pole5", "pole6", "pole7", "pole8"]
 ## Pieces that stay where they are drawn (the ox walks with the hauling, see haul.gd).
 const FIXED := ["ox"]
-## The ox-driver, or the empty rope where the hauler stands once it is home, starts hauling.
+## The figures in the haul vignette.
 const HAUL_FIGURES := ["hauler", "ox_driver", "funerary_bier"]
 const INTO_POSE := 0.5        ## s for you to fade into the hauler's pose on the rope (and out again)
 const HAUL_AHEAD := 200.0     ## plate px of the road ahead of the ox the camera shows while hauling
@@ -140,6 +141,7 @@ var standard_objects := {}
 var _drag_from := Vector2.INF  ## where (screen px) the piece in hand was taken up, while the button is down
 var _hints = preload("res://scripts/puzzles.gd").new()
 var _feedback := {}
+var _camera_hold := {}
 var _focus := ""             ## what the camera holds on: "" (you), "table", "water", "standards" or "haul"
 var _refocus := {}           ## an ease to a new focus under way: its start (zoom, x) and time
 var _dust: Array = []
@@ -292,6 +294,7 @@ func _ready() -> void:
 
 
 func reset() -> void:
+	_camera_hold.clear()
 	_object_press = null
 	_object_dragging = false
 	for item in standard_objects.values():
@@ -359,20 +362,20 @@ func _unhandled_input(event: InputEvent) -> void:
 	if _object_press != null and _carried_input(event):
 		return
 	if mouth.active:
-		if event.is_action_pressed("ui_cancel") or (event is InputEventKey and event.pressed and event.keycode in [KEY_LEFT, KEY_RIGHT, KEY_UP, KEY_DOWN]):
+		if MINIGAME_VIEW.is_exit(event, MINIGAME_VIEW.Kind.DRAG):
 			mouth.leave()
 		elif event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 			mouth.chop(get_global_mouse_position())
 		get_viewport().set_input_as_handled()
 		return
-	if in_standards and event.is_action_pressed("ui_cancel"):
+	if in_standards and MINIGAME_VIEW.is_exit(event, MINIGAME_VIEW.Kind.DRAG):
 		leave_standards()
 		return
 	if in_standards:    # with the standard-bearers: drag the standards; a click never walks you off
 		_standards_input(event)
 		return
 	if haul.active:     # holding the rope: Space, Shift or a click pulls; Esc lets go
-		if event.is_action_pressed("ui_cancel") or (event is InputEventKey and event.pressed and event.keycode in [KEY_LEFT, KEY_RIGHT, KEY_UP, KEY_DOWN]):
+		if MINIGAME_VIEW.is_exit(event, MINIGAME_VIEW.Kind.TAKE_PLACE):
 			haul.quit()
 		elif event is InputEventKey and event.pressed and not event.echo and event.keycode in [KEY_SPACE, KEY_SHIFT]:
 			haul.press()
@@ -381,21 +384,21 @@ func _unhandled_input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 		return
 	if water.active:    # at the water: press on the jar and drag to tip it; Esc (or walking off) steps away
-		if event.is_action_pressed("ui_cancel"):
+		if MINIGAME_VIEW.is_exit(event, MINIGAME_VIEW.Kind.DRAG):
 			leave_water()
 			get_viewport().set_input_as_handled()
 		else:
 			_water_input(event)
 		return
 	if bulls.active:    # at the three bulls: drag the calf or the plumes; Esc (or walking off) steps away
-		if event.is_action_pressed("ui_cancel"):
+		if MINIGAME_VIEW.is_exit(event, MINIGAME_VIEW.Kind.DRAG):
 			leave_bulls()
 			get_viewport().set_input_as_handled()
 		else:
 			_bulls_input(event)
 		return
 	if in_table:        # at the offering table: Esc (or walking off with the arrow keys) steps away
-		if event.is_action_pressed("ui_cancel"):
+		if MINIGAME_VIEW.is_exit(event, MINIGAME_VIEW.Kind.DRAG):
 			leave_table()
 			get_viewport().set_input_as_handled()
 		else:
@@ -533,7 +536,9 @@ func _click_world(p: Vector2) -> void:
 		else:
 			enter_standards()
 	elif h.spot.id in HAUL_FIGURES and not haul.done:
-		if h.spot.id in ["ox_driver", "hauler"]:   # you walk to the hauler's place and take up his rope
+		if h.spot.id == "ox_driver":
+			walk_then(avatar.reach(h.rect), _describe_haul.bind(h.spot))
+		elif h.spot.id == "hauler":
 			var hl: Dictionary = level.sprites.haul_hauler
 			walk_then(hl.x + hl.w / 2.0, take_rope.bind(h.spot))
 		else:
@@ -1195,6 +1200,11 @@ func kind_of(_piece: String) -> String:
 	return "std"
 
 
+func _describe_haul(spot: Dictionary) -> void:
+	_add_journal(spot)
+	say_game(spot.label, PUZZLES.text("procession.haul", "instructions") + " " + _hints.message("procession.click_rope"))
+
+
 ## At the hauling: take up the rope (and record the figure clicked).
 func take_rope(h: Dictionary) -> void:
 	_add_journal(h)
@@ -1627,14 +1637,6 @@ func _process(delta: float) -> void:
 	_time += delta
 	avatar.min_x = min_x()
 	avatar.max_x = max_x()
-	if in_standards and (Input.get_axis("ui_left", "ui_right") != 0.0 or Input.get_axis("ui_up", "ui_down") != 0.0):
-		leave_standards()
-	if bulls.active and Input.get_axis("ui_left", "ui_right") != 0.0:
-		leave_bulls()
-	if in_table and Input.get_axis("ui_left", "ui_right") != 0.0:   # walking off steps away
-		leave_table()
-	if water.active and Input.get_axis("ui_left", "ui_right") != 0.0:
-		leave_water()
 	if haul.active:     # you hold the rope where the hauler is drawn, leaning on the beat
 		var h: Dictionary = level.sprites.haul_hauler
 		avatar.position.x = h.x + h.w / 2.0 + haul.offset
@@ -1656,6 +1658,13 @@ func _process(delta: float) -> void:
 ## Fit the scene's height into the space between the HUD bars; keep at least ~1000 px of
 ## scroll visible on narrow windows.
 func _update_camera(delta: float) -> void:
+	var focus := "mouth" if mouth.active else "table" if in_table else "water" if water.active else "standards" if in_standards else "haul" if haul.active else "bulls" if bulls.active else ""
+	if _camera_hold.get("focus", "") != focus:
+		_camera_hold.clear()
+	elif not _camera_hold.is_empty():
+		camera.zoom = _camera_hold.zoom
+		camera.position = _camera_hold.position
+		return
 	var vp := get_viewport_rect().size
 	var top: float = hud.top_height()
 	var bottom: float = hud.bottom_height()
@@ -1666,7 +1675,6 @@ func _update_camera(delta: float) -> void:
 		var v: Vector2 = _standards_view if in_standards else (water.view() if water.active else _haul_view() if haul.active else bulls.view() if bulls.active else Vector2(level.table.view[0], level.table.view[1]))
 		z = clampf(minf(fit, vp.x / (v.y - v.x + 2.0 * SCENE_MARGIN)), 0.2 / unit, 2.4 / unit)
 		target_x = (v.x + v.y) / 2.0
-	var focus := "mouth" if mouth.active else "table" if in_table else "water" if water.active else "standards" if in_standards else "haul" if haul.active else "bulls" if bulls.active else ""
 	if mouth.active:
 		var face := mouth.face_view()
 		z = minf((vp.y - top - bottom - 20.0) / face.size.y, vp.x / (face.size.x + 80.0))
@@ -1700,6 +1708,9 @@ func _update_camera(delta: float) -> void:
 		camera.position.y = VIEW_TOP + (vp.y / 2.0 - top) / z
 	else:
 		camera.position.y = SCROLL_CAMERA.vertical_center(SCROLL_CAMERA.view_height(level), top, bottom, z, VIEW_TOP)
+
+	if focus != "" and _refocus.is_empty():
+		_camera_hold = {"focus": focus, "zoom": camera.zoom, "position": camera.position}
 
 
 ## While hauling the camera holds still on the train and the road ahead of the ox, from the
@@ -2232,7 +2243,7 @@ func _autotest_mouth(expect: Callable) -> void:
 	expect.call(mouth.active and mouth._progress[0] == progress and not avatar.keys,
 		"repeated misses preserve progress and keep the carving view active")
 	mouth.leave()
-	expect.call(not mouth.active and mouth._progress.all(func(v): return v == 0.0), "stepping away clears an unfinished face")
+	expect.call(not mouth.active and mouth._progress[0] == progress, "stepping away keeps an unfinished face")
 	mouth.touch()
 	for stroke in [1, 0]:   # the eye, then the mouth (the beard is not carved)
 		var guard := 0

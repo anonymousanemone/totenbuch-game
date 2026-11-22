@@ -85,7 +85,7 @@ func _run() -> void:
 		expect(clue.visible and clue.position == p.ending._rects.stand.position and clue.texture == p.ending.sprite_of("stand").texture,
 			"Ra shows the base at its destination while wearing " + part)
 		p.ending._base_clue_tween.custom_step(0.3)
-		expect(clue.modulate.is_equal_approx(EndingStand.IMPRINT), "base imprint fades in using the shared imprint color")
+		expect(clue.modulate.is_equal_approx(UI.inked(UI.FAINT_INK)), "base imprint fades in using the shared imprint color")
 		p.ending._base_clue_tween.custom_step(3.2)
 		expect(not clue.visible and clue.modulate.a == 0.0, "base imprint fades out and hides")
 		p.ending.hold(part)
@@ -127,7 +127,40 @@ func _run() -> void:
 				break
 		if found:
 			break
-	expect(d._fight_at(ink).get("id") == "e31", "unsolved creature clicks retain combat priority")
+	expect(d._fight_at(ink).is_empty(), "creature ink does not take up the spear")
+	var creature: String = d._inspection_at(ink)
+	expect(creature != "", "unsolved creature can be inspected")
+	if creature != "":
+		d._click_world(ink)
+		d.avatar._process(100.0)
+		d.avatar._process(0.1)
+		var description: String = d._descriptions.text("e31")
+		var prompt: String = d._hints.message("dangers.click_to_fight")
+		expect(d.hud._text == UI.plain(description + " " + prompt) and d.fight.is_empty(), "the creature description explains where to click")
+	var pole: Sprite2D = d._picture(d.actors.spear31_pole)
+	var pole_image := pole.texture.get_image()
+	var spear_ink := Vector2.INF
+	for y in pole_image.get_height():
+		for x in pole_image.get_width():
+			if pole_image.get_pixel(x, y).a > 0.8:
+				spear_ink = pole.to_global(pole.get_rect().position + Vector2(x, y))
+				break
+		if spear_ink != Vector2.INF:
+			break
+	expect(pole.is_visible_in_tree() and not d.actors.spear31.visible, "only the spear is drawn before the fight")
+	expect(d._fight_at(spear_ink).get("id") == "e31", "spear ink is the fight target")
+	expect(d._fight_at(d.rects.spear31_pole.get_center()).is_empty(), "blank paper inside the spear box is not a fight target")
+	d._instant = true
+	var escape := InputEventAction.new()
+	escape.action = "ui_cancel"
+	escape.pressed = true
+	for attempt in 2:
+		d._click_world(spear_ink)
+		d.avatar._process(100.0)
+		d.avatar._process(0.1)
+		expect(d.fight.get("e", {}).get("id") == "e31" and d.fight.get("hits") == 0, "spear click starts a fresh fight on attempt %d" % (attempt + 1))
+		d._unhandled_input(escape)
+		expect(d.fight.is_empty() and pole.is_visible_in_tree(), "Esc restores the walking spear")
 	d.solved.e31 = true
 	var subject: String = d._inspection_at(ink)
 	expect(subject != "" and d._fight_at(ink).is_empty(), "completed creatures remain inspectable without restarting combat")

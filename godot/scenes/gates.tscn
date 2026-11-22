@@ -818,6 +818,11 @@ size = Vector2(2020, 116)
 [node name="Gates" type="Node2D" unique_id=92962497]
 script = ExtResource("level")
 level_key = "gates"
+hint_key = "gates"
+chapter_titles = true
+only_present_entries = true
+foreground_blocks = true
+dev_args = true
 
 [node name="Papyrus" type="ColorRect" parent="." unique_id=1989295569]
 material = SubResource("paper")

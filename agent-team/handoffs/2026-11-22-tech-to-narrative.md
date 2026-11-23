@@ -1,7 +1,7 @@
 ---
 from: tech
 to: narrative
-column: To do
+column: prototype
 date: 2026-11-22
 ---
 ## Use

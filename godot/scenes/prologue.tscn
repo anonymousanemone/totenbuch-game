@@ -6,23 +6,114 @@
 [ext_resource type="Shader" path="res://scripts/papyrus.gdshader" id="papyrus"]
 [ext_resource type="Texture2D" path="res://assets/procession/figures/avatar.png" id="avatar_texture"]
 [ext_resource type="Texture2D" path="res://assets/prologue/figures/strip151ab.png" id="strip151ab"]
-[ext_resource type="Texture2D" path="res://assets/prologue/figures/frame151ab_left.png" id="frame151ab_left"]
-[ext_resource type="Texture2D" path="res://assets/prologue/figures/frame151ab_right.png" id="frame151ab_right"]
+[ext_resource type="Texture2D" path="res://assets/prologue/figures/rule151ab_left.png" id="rule151ab_left"]
+[ext_resource type="Texture2D" path="res://assets/prologue/figures/rule151ab_right.png" id="rule151ab_right"]
 [ext_resource type="Texture2D" path="res://assets/prologue/figures/strip151c.png" id="strip151c"]
-[ext_resource type="Texture2D" path="res://assets/prologue/figures/frame151c_left.png" id="frame151c_left"]
-[ext_resource type="Texture2D" path="res://assets/prologue/figures/frame151c_right.png" id="frame151c_right"]
+[ext_resource type="Texture2D" path="res://assets/prologue/figures/rule151c_left.png" id="rule151c_left"]
+[ext_resource type="Texture2D" path="res://assets/prologue/figures/rule151c_right.png" id="rule151c_right"]
 [ext_resource type="Texture2D" path="res://assets/prologue/figures/strip151de.png" id="strip151de"]
-[ext_resource type="Texture2D" path="res://assets/prologue/figures/frame151de_left.png" id="frame151de_left"]
-[ext_resource type="Texture2D" path="res://assets/prologue/figures/frame151de_right.png" id="frame151de_right"]
+[ext_resource type="Texture2D" path="res://assets/prologue/figures/rule151de_left.png" id="rule151de_left"]
+[ext_resource type="Texture2D" path="res://assets/prologue/figures/rule151de_right.png" id="rule151de_right"]
 [ext_resource type="Texture2D" path="res://assets/prologue/figures/strip152.png" id="strip152"]
-[ext_resource type="Texture2D" path="res://assets/prologue/figures/frame152_left.png" id="frame152_left"]
-[ext_resource type="Texture2D" path="res://assets/prologue/figures/frame152_right.png" id="frame152_right"]
+[ext_resource type="Texture2D" path="res://assets/prologue/figures/rule152_left.png" id="rule152_left"]
+[ext_resource type="Texture2D" path="res://assets/prologue/figures/rule152_right.png" id="rule152_right"]
 [ext_resource type="Texture2D" path="res://assets/prologue/figures/strip154.png" id="strip154"]
-[ext_resource type="Texture2D" path="res://assets/prologue/figures/frame154_left.png" id="frame154_left"]
-[ext_resource type="Texture2D" path="res://assets/prologue/figures/frame154_right.png" id="frame154_right"]
+[ext_resource type="Texture2D" path="res://assets/prologue/figures/rule154_left.png" id="rule154_left"]
+[ext_resource type="Texture2D" path="res://assets/prologue/figures/rule154_right.png" id="rule154_right"]
+[ext_resource type="Texture2D" path="res://assets/prologue/figures/spell151ab_mummy_left.png" id="spell151ab_mummy_left"]
+[ext_resource type="Texture2D" path="res://assets/prologue/figures/spell151ab_mummy_right.png" id="spell151ab_mummy_right"]
+[ext_resource type="Texture2D" path="res://assets/prologue/figures/spell151ab_anubis.png" id="spell151ab_anubis"]
+[ext_resource type="Texture2D" path="res://assets/prologue/figures/spell151ab_shrine.png" id="spell151ab_shrine"]
+[ext_resource type="Texture2D" path="res://assets/prologue/figures/spell151c_nephthys.png" id="spell151c_nephthys"]
+[ext_resource type="Texture2D" path="res://assets/prologue/figures/spell151c_nephthys_ball.png" id="spell151c_nephthys_ball"]
+[ext_resource type="Texture2D" path="res://assets/prologue/figures/spell151c_isis.png" id="spell151c_isis"]
+[ext_resource type="Texture2D" path="res://assets/prologue/figures/spell151c_isis_ball.png" id="spell151c_isis_ball"]
+[ext_resource type="Texture2D" path="res://assets/prologue/figures/spell151c_mummy.png" id="spell151c_mummy"]
+[ext_resource type="Texture2D" path="res://assets/prologue/figures/spell151c_bier.png" id="spell151c_bier"]
+[ext_resource type="Texture2D" path="res://assets/prologue/figures/spell151de_mummy_left.png" id="spell151de_mummy_left"]
+[ext_resource type="Texture2D" path="res://assets/prologue/figures/spell151de_mummy_right.png" id="spell151de_mummy_right"]
+[ext_resource type="Texture2D" path="res://assets/prologue/figures/spell151de_anubis.png" id="spell151de_anubis"]
+[ext_resource type="Texture2D" path="res://assets/prologue/figures/spell151de_shrine.png" id="spell151de_shrine"]
+[ext_resource type="Texture2D" path="res://assets/prologue/figures/spell152_offering.png" id="spell152_offering"]
+[ext_resource type="Texture2D" path="res://assets/prologue/figures/spell152_bowl.png" id="spell152_bowl"]
+[ext_resource type="Texture2D" path="res://assets/prologue/figures/spell152_kneeling_woman.png" id="spell152_kneeling_woman"]
+[ext_resource type="Texture2D" path="res://assets/prologue/figures/spell152_seated_man.png" id="spell152_seated_man"]
+[ext_resource type="Texture2D" path="res://assets/prologue/figures/spell154_sun_disc.png" id="spell154_sun_disc"]
+[ext_resource type="Texture2D" path="res://assets/prologue/figures/spell154_sky.png" id="spell154_sky"]
+[ext_resource type="Texture2D" path="res://assets/prologue/figures/spell154_mummy.png" id="spell154_mummy"]
+[ext_resource type="Texture2D" path="res://assets/prologue/figures/spell154_bier.png" id="spell154_bier"]
+
+[sub_resource type="RectangleShape2D" id="box"]
+size = Vector2(1, 1)
 
 [sub_resource type="ShaderMaterial" id="paper"]
 shader = ExtResource("papyrus")
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell151ab_mummy_left"]
+size = Vector2(92.0, 304.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell151ab_mummy_right"]
+size = Vector2(80.0, 296.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell151ab_anubis"]
+size = Vector2(272.0, 224.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell151ab_shrine"]
+size = Vector2(236.0, 148.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell151c_nephthys"]
+size = Vector2(160.0, 276.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell151c_nephthys_ball"]
+size = Vector2(52.0, 48.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell151c_isis"]
+size = Vector2(124.0, 248.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell151c_isis_ball"]
+size = Vector2(44.0, 40.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell151c_mummy"]
+size = Vector2(256.0, 76.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell151c_bier"]
+size = Vector2(368.0, 252.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell151de_mummy_left"]
+size = Vector2(84.0, 296.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell151de_mummy_right"]
+size = Vector2(84.0, 284.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell151de_anubis"]
+size = Vector2(296.0, 220.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell151de_shrine"]
+size = Vector2(264.0, 160.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell152_offering"]
+size = Vector2(100.0, 132.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell152_bowl"]
+size = Vector2(88.0, 60.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell152_kneeling_woman"]
+size = Vector2(156.0, 292.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell152_seated_man"]
+size = Vector2(176.0, 276.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell154_sun_disc"]
+size = Vector2(92.0, 156.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell154_sky"]
+size = Vector2(392.0, 60.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell154_mummy"]
+size = Vector2(320.0, 68.0)
+
+[sub_resource type="RectangleShape2D" id="hitbox_spell154_bier"]
+size = Vector2(456.0, 340.0)
 
 [node name="Prologue" type="Node2D"]
 script = ExtResource("level")
@@ -35,72 +126,194 @@ intro_body = "The body is laid out in its burial chamber, and must be guarded be
 material = SubResource("paper")
 offset_left = -1500.0
 offset_top = -1000.0
-offset_right = 5279.0
-offset_bottom = 2881.0
+offset_right = 3583.0
+offset_bottom = 4413.0
 mouse_filter = 2
 metadata/_edit_lock_ = true
 
 [node name="Strip" type="Node2D" parent="."]
 
 [node name="Strip151ab" type="Sprite2D" parent="Strip"]
-position = Vector2(3005, 381)
+position = Vector2(1309, 0)
 texture = ExtResource("strip151ab")
 centered = false
 metadata/stage = "151ab"
-metadata/source_x = 4274
 
 [node name="Strip151c" type="Sprite2D" parent="Strip"]
-position = Vector2(2234, 0)
+position = Vector2(1310, 982)
 texture = ExtResource("strip151c")
 centered = false
 metadata/stage = "151c"
-metadata/source_x = 3533
 
 [node name="Strip151de" type="Sprite2D" parent="Strip"]
-position = Vector2(1470, 97)
+position = Vector2(1310, 1859)
 texture = ExtResource("strip151de")
 centered = false
 metadata/stage = "151de"
-metadata/source_x = 2799
 
 [node name="Strip152" type="Sprite2D" parent="Strip"]
-position = Vector2(820, 381)
+position = Vector2(740, 2171)
 texture = ExtResource("strip152")
 centered = false
 metadata/stage = "152"
-metadata/source_x = 2179
 
 [node name="Strip154" type="Sprite2D" parent="Strip"]
-position = Vector2(0, 381)
+position = Vector2(0, 2171)
 texture = ExtResource("strip154")
 centered = false
 metadata/stage = "154"
-metadata/source_x = 1389
 
 [node name="Figures" type="Node2D" parent="."]
 
 [node name="Spell151ab" type="Node2D" parent="Figures"]
-position = Vector2(3005, 381)
 metadata/stage = "151ab"
 
 [node name="Spell151c" type="Node2D" parent="Figures"]
-position = Vector2(2234, 0)
 metadata/stage = "151c"
 
 [node name="Spell151de" type="Node2D" parent="Figures"]
-position = Vector2(1470, 97)
 metadata/stage = "151de"
 
 [node name="Spell152" type="Node2D" parent="Figures"]
-position = Vector2(820, 381)
 metadata/stage = "152"
 
 [node name="Spell154" type="Node2D" parent="Figures"]
-position = Vector2(0, 381)
 metadata/stage = "154"
 
+[node name="spell151ab_mummy_left" type="Sprite2D" parent="Figures/Spell151ab"]
+position = Vector2(1459.5, 383)
+texture = ExtResource("spell151ab_mummy_left")
+metadata/registry_id = "spell151ab_mummy_left"
+metadata/source_layer_id = "2094"
+
+[node name="spell151ab_mummy_right" type="Sprite2D" parent="Figures/Spell151ab"]
+position = Vector2(1929.5, 388.5)
+texture = ExtResource("spell151ab_mummy_right")
+metadata/registry_id = "spell151ab_mummy_right"
+metadata/source_layer_id = "2095"
+
+[node name="spell151ab_anubis" type="Sprite2D" parent="Figures/Spell151ab"]
+position = Vector2(1662.5, 384)
+texture = ExtResource("spell151ab_anubis")
+metadata/registry_id = "spell151ab_anubis"
+metadata/source_layer_id = "2096"
+
+[node name="spell151ab_shrine" type="Sprite2D" parent="Figures/Spell151ab"]
+position = Vector2(1679, 462.5)
+texture = ExtResource("spell151ab_shrine")
+metadata/registry_id = "spell151ab_shrine"
+metadata/source_layer_id = "2097"
+
+[node name="spell151c_nephthys" type="Sprite2D" parent="Figures/Spell151c"]
+position = Vector2(1471.5, 1756.5)
+texture = ExtResource("spell151c_nephthys")
+metadata/registry_id = "spell151c_nephthys"
+metadata/source_layer_id = "2099"
+
+[node name="spell151c_nephthys_ball" type="Sprite2D" parent="Figures/Spell151c"]
+position = Vector2(1524.5, 1866)
+texture = ExtResource("spell151c_nephthys_ball")
+metadata/registry_id = "spell151c_nephthys_ball"
+metadata/source_layer_id = "2146"
+
+[node name="spell151c_isis" type="Sprite2D" parent="Figures/Spell151c"]
+position = Vector2(1955.5, 1770)
+texture = ExtResource("spell151c_isis")
+metadata/registry_id = "spell151c_isis"
+metadata/source_layer_id = "2100"
+
+[node name="spell151c_isis_ball" type="Sprite2D" parent="Figures/Spell151c"]
+position = Vector2(1906, 1878.5)
+texture = ExtResource("spell151c_isis_ball")
+metadata/registry_id = "spell151c_isis_ball"
+metadata/source_layer_id = "2145"
+
+[node name="spell151c_mummy" type="Sprite2D" parent="Figures/Spell151c"]
+position = Vector2(1730.5, 1727)
+texture = ExtResource("spell151c_mummy")
+metadata/registry_id = "spell151c_mummy"
+metadata/source_layer_id = "2101"
+
+[node name="spell151c_bier" type="Sprite2D" parent="Figures/Spell151c"]
+position = Vector2(1726, 1771)
+texture = ExtResource("spell151c_bier")
+metadata/registry_id = "spell151c_bier"
+metadata/source_layer_id = "2102"
+
+[node name="spell151de_mummy_left" type="Sprite2D" parent="Figures/Spell151de"]
+position = Vector2(1468, 2556.5)
+texture = ExtResource("spell151de_mummy_left")
+metadata/registry_id = "spell151de_mummy_left"
+metadata/source_layer_id = "2104"
+
+[node name="spell151de_mummy_right" type="Sprite2D" parent="Figures/Spell151de"]
+position = Vector2(1942, 2562)
+texture = ExtResource("spell151de_mummy_right")
+metadata/registry_id = "spell151de_mummy_right"
+metadata/source_layer_id = "2105"
+
+[node name="spell151de_anubis" type="Sprite2D" parent="Figures/Spell151de"]
+position = Vector2(1697, 2544.5)
+texture = ExtResource("spell151de_anubis")
+metadata/registry_id = "spell151de_anubis"
+metadata/source_layer_id = "2106"
+
+[node name="spell151de_shrine" type="Sprite2D" parent="Figures/Spell151de"]
+position = Vector2(1715.5, 2624.5)
+texture = ExtResource("spell151de_shrine")
+metadata/registry_id = "spell151de_shrine"
+metadata/source_layer_id = "2107"
+
+[node name="spell152_offering" type="Sprite2D" parent="Figures/Spell152"]
+position = Vector2(1082.5, 2435)
+texture = ExtResource("spell152_offering")
+metadata/registry_id = "spell152_offering"
+metadata/source_layer_id = "2110"
+
+[node name="spell152_bowl" type="Sprite2D" parent="Figures/Spell152"]
+position = Vector2(1041.5, 2575)
+texture = ExtResource("spell152_bowl")
+metadata/registry_id = "spell152_bowl"
+metadata/source_layer_id = "2111"
+
+[node name="spell152_kneeling_woman" type="Sprite2D" parent="Figures/Spell152"]
+position = Vector2(973.5, 2557.5)
+texture = ExtResource("spell152_kneeling_woman")
+metadata/registry_id = "spell152_kneeling_woman"
+metadata/source_layer_id = "2112"
+
+[node name="spell152_seated_man" type="Sprite2D" parent="Figures/Spell152"]
+position = Vector2(1169.5, 2569.5)
+texture = ExtResource("spell152_seated_man")
+metadata/registry_id = "spell152_seated_man"
+metadata/source_layer_id = "2113"
+
+[node name="spell154_sun_disc" type="Sprite2D" parent="Figures/Spell154"]
+position = Vector2(438.5, 2431)
+texture = ExtResource("spell154_sun_disc")
+metadata/registry_id = "spell154_sun_disc"
+metadata/source_layer_id = "2116"
+
+[node name="spell154_sky" type="Sprite2D" parent="Figures/Spell154"]
+position = Vector2(444.5, 2358)
+texture = ExtResource("spell154_sky")
+metadata/registry_id = "spell154_sky"
+metadata/source_layer_id = "2117"
+
+[node name="spell154_mummy" type="Sprite2D" parent="Figures/Spell154"]
+position = Vector2(422, 2501)
+texture = ExtResource("spell154_mummy")
+metadata/registry_id = "spell154_mummy"
+metadata/source_layer_id = "2118"
+
+[node name="spell154_bier" type="Sprite2D" parent="Figures/Spell154"]
+position = Vector2(424, 2533.5)
+texture = ExtResource("spell154_bier")
+metadata/registry_id = "spell154_bier"
+metadata/source_layer_id = "2119"
+
 [node name="Avatar" type="Node2D" parent="."]
-position = Vector2(3599, 907)
+position = Vector2(1901, 526)
 script = ExtResource("avatar")
 
 [node name="Sprite" type="Sprite2D" parent="Avatar"]
@@ -111,50 +324,53 @@ offset = Vector2(0, -148)
 z_index = 6
 
 [node name="Frame151ab" type="Node2D" parent="Foreground"]
-position = Vector2(3005, 381)
+position = Vector2(1309, 30)
 metadata/stage = "151ab"
 
 [node name="Left" type="Node2D" parent="Foreground/Frame151ab"]
-position = Vector2(0, 0)
+position = Vector2(31, 0)
 
 [node name="Papyrus" type="ColorRect" parent="Foreground/Frame151ab/Left"]
 material = SubResource("paper")
-offset_right = 50.0
-offset_bottom = 1062.0
+offset_left = -150.0
+offset_right = 20.0
+offset_bottom = 1002.0
 mouse_filter = 2
 
 [node name="Ink" type="Sprite2D" parent="Foreground/Frame151ab/Left"]
-texture = ExtResource("frame151ab_left")
+texture = ExtResource("rule151ab_left")
 centered = false
 
 [node name="Right" type="Node2D" parent="Foreground/Frame151ab"]
-position = Vector2(724, 0)
+position = Vector2(722, 0)
 
 [node name="Papyrus" type="ColorRect" parent="Foreground/Frame151ab/Right"]
 material = SubResource("paper")
-offset_right = 50.0
-offset_bottom = 1062.0
+offset_left = 0.0
+offset_right = 20.0
+offset_bottom = 1002.0
 mouse_filter = 2
 
 [node name="Ink" type="Sprite2D" parent="Foreground/Frame151ab/Right"]
-texture = ExtResource("frame151ab_right")
+texture = ExtResource("rule151ab_right")
 centered = false
 
 [node name="Frame151c" type="Node2D" parent="Foreground"]
-position = Vector2(2234, 0)
+position = Vector2(1310, 1012)
 metadata/stage = "151c"
 
 [node name="Left" type="Node2D" parent="Foreground/Frame151c"]
-position = Vector2(0, 0)
+position = Vector2(30, 0)
 
 [node name="Papyrus" type="ColorRect" parent="Foreground/Frame151c/Left"]
 material = SubResource("paper")
-offset_right = 50.0
-offset_bottom = 957.0
+offset_left = -150.0
+offset_right = 20.0
+offset_bottom = 897.0
 mouse_filter = 2
 
 [node name="Ink" type="Sprite2D" parent="Foreground/Frame151c/Left"]
-texture = ExtResource("frame151c_left")
+texture = ExtResource("rule151c_left")
 centered = false
 
 [node name="Right" type="Node2D" parent="Foreground/Frame151c"]
@@ -162,59 +378,63 @@ position = Vector2(721, 0)
 
 [node name="Papyrus" type="ColorRect" parent="Foreground/Frame151c/Right"]
 material = SubResource("paper")
-offset_right = 50.0
-offset_bottom = 957.0
+offset_left = 0.0
+offset_right = 20.0
+offset_bottom = 897.0
 mouse_filter = 2
 
 [node name="Ink" type="Sprite2D" parent="Foreground/Frame151c/Right"]
-texture = ExtResource("frame151c_right")
+texture = ExtResource("rule151c_right")
 centered = false
 
 [node name="Frame151de" type="Node2D" parent="Foreground"]
-position = Vector2(1470, 97)
+position = Vector2(1310, 1889)
 metadata/stage = "151de"
 
 [node name="Left" type="Node2D" parent="Foreground/Frame151de"]
-position = Vector2(0, 0)
+position = Vector2(30, 0)
 
 [node name="Papyrus" type="ColorRect" parent="Foreground/Frame151de/Left"]
 material = SubResource("paper")
-offset_right = 50.0
-offset_bottom = 860.0
+offset_left = 0.0
+offset_right = 20.0
+offset_bottom = 828.0
 mouse_filter = 2
 
 [node name="Ink" type="Sprite2D" parent="Foreground/Frame151de/Left"]
-texture = ExtResource("frame151de_left")
+texture = ExtResource("rule151de_left")
 centered = false
 
 [node name="Right" type="Node2D" parent="Foreground/Frame151de"]
-position = Vector2(714, 0)
+position = Vector2(721, 0)
 
 [node name="Papyrus" type="ColorRect" parent="Foreground/Frame151de/Right"]
 material = SubResource("paper")
-offset_right = 50.0
-offset_bottom = 860.0
+offset_left = 0.0
+offset_right = 20.0
+offset_bottom = 828.0
 mouse_filter = 2
 
 [node name="Ink" type="Sprite2D" parent="Foreground/Frame151de/Right"]
-texture = ExtResource("frame151de_right")
+texture = ExtResource("rule151de_right")
 centered = false
 
 [node name="Frame152" type="Node2D" parent="Foreground"]
-position = Vector2(820, 381)
+position = Vector2(740, 2201)
 metadata/stage = "152"
 
 [node name="Left" type="Node2D" parent="Foreground/Frame152"]
-position = Vector2(0, 0)
+position = Vector2(30, 0)
 
 [node name="Papyrus" type="ColorRect" parent="Foreground/Frame152/Left"]
 material = SubResource("paper")
-offset_right = 50.0
-offset_bottom = 1500.0
+offset_left = 0.0
+offset_right = 20.0
+offset_bottom = 516.0
 mouse_filter = 2
 
 [node name="Ink" type="Sprite2D" parent="Foreground/Frame152/Left"]
-texture = ExtResource("frame152_left")
+texture = ExtResource("rule152_left")
 centered = false
 
 [node name="Right" type="Node2D" parent="Foreground/Frame152"]
@@ -222,29 +442,31 @@ position = Vector2(600, 0)
 
 [node name="Papyrus" type="ColorRect" parent="Foreground/Frame152/Right"]
 material = SubResource("paper")
-offset_right = 50.0
-offset_bottom = 1500.0
+offset_left = 0.0
+offset_right = 20.0
+offset_bottom = 516.0
 mouse_filter = 2
 
 [node name="Ink" type="Sprite2D" parent="Foreground/Frame152/Right"]
-texture = ExtResource("frame152_right")
+texture = ExtResource("rule152_right")
 centered = false
 
 [node name="Frame154" type="Node2D" parent="Foreground"]
-position = Vector2(0, 381)
+position = Vector2(0, 2201)
 metadata/stage = "154"
 
 [node name="Left" type="Node2D" parent="Foreground/Frame154"]
-position = Vector2(0, 0)
+position = Vector2(31, 0)
 
 [node name="Papyrus" type="ColorRect" parent="Foreground/Frame154/Left"]
 material = SubResource("paper")
-offset_right = 51.0
-offset_bottom = 1250.0
+offset_left = 0.0
+offset_right = 20.0
+offset_bottom = 516.0
 mouse_filter = 2
 
 [node name="Ink" type="Sprite2D" parent="Foreground/Frame154/Left"]
-texture = ExtResource("frame154_left")
+texture = ExtResource("rule154_left")
 centered = false
 
 [node name="Right" type="Node2D" parent="Foreground/Frame154"]
@@ -252,18 +474,283 @@ position = Vector2(770, 0)
 
 [node name="Papyrus" type="ColorRect" parent="Foreground/Frame154/Right"]
 material = SubResource("paper")
-offset_right = 50.0
-offset_bottom = 1250.0
+offset_left = 0.0
+offset_right = 20.0
+offset_bottom = 516.0
 mouse_filter = 2
 
 [node name="Ink" type="Sprite2D" parent="Foreground/Frame154/Right"]
-texture = ExtResource("frame154_right")
+texture = ExtResource("rule154_right")
 centered = false
 
 [node name="Camera" type="Camera2D" parent="."]
-position = Vector2(3392, 799)
+position = Vector2(1696, 418)
 
 [node name="HUD" type="CanvasLayer" parent="."]
 script = ExtResource("hud")
 
 [node name="Hitboxes" type="Node2D" parent="."]
+
+[node name="spell151ab_mummy_left" type="Area2D" parent="Hitboxes"]
+position = Vector2(1460.0, 383.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell151ab_mummy_left"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell151ab_mummy_left"]
+shape = SubResource("hitbox_spell151ab_mummy_left")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell151ab_mummy_right" type="Area2D" parent="Hitboxes"]
+position = Vector2(1929.0, 390.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell151ab_mummy_right"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell151ab_mummy_right"]
+shape = SubResource("hitbox_spell151ab_mummy_right")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell151ab_anubis" type="Area2D" parent="Hitboxes"]
+position = Vector2(1664.0, 384.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell151ab_anubis"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell151ab_anubis"]
+shape = SubResource("hitbox_spell151ab_anubis")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell151ab_shrine" type="Area2D" parent="Hitboxes"]
+position = Vector2(1679.0, 464.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell151ab_shrine"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell151ab_shrine"]
+shape = SubResource("hitbox_spell151ab_shrine")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell151c_nephthys" type="Area2D" parent="Hitboxes"]
+position = Vector2(1472.0, 1758.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell151c_nephthys"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell151c_nephthys"]
+shape = SubResource("hitbox_spell151c_nephthys")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell151c_nephthys_ball" type="Area2D" parent="Hitboxes"]
+position = Vector2(1526.0, 1867.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell151c_nephthys_ball"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell151c_nephthys_ball"]
+shape = SubResource("hitbox_spell151c_nephthys_ball")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell151c_isis" type="Area2D" parent="Hitboxes"]
+position = Vector2(1956.0, 1771.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell151c_isis"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell151c_isis"]
+shape = SubResource("hitbox_spell151c_isis")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell151c_isis_ball" type="Area2D" parent="Hitboxes"]
+position = Vector2(1906.0, 1880.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell151c_isis_ball"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell151c_isis_ball"]
+shape = SubResource("hitbox_spell151c_isis_ball")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell151c_mummy" type="Area2D" parent="Hitboxes"]
+position = Vector2(1731.0, 1728.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell151c_mummy"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell151c_mummy"]
+shape = SubResource("hitbox_spell151c_mummy")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell151c_bier" type="Area2D" parent="Hitboxes"]
+position = Vector2(1727.0, 1771.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell151c_bier"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell151c_bier"]
+shape = SubResource("hitbox_spell151c_bier")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell151de_mummy_left" type="Area2D" parent="Hitboxes"]
+position = Vector2(1458.0, 2557.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell151de_mummy_left"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell151de_mummy_left"]
+shape = SubResource("hitbox_spell151de_mummy_left")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell151de_mummy_right" type="Area2D" parent="Hitboxes"]
+position = Vector2(1942.0, 2562.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell151de_mummy_right"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell151de_mummy_right"]
+shape = SubResource("hitbox_spell151de_mummy_right")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell151de_anubis" type="Area2D" parent="Hitboxes"]
+position = Vector2(1697.0, 2546.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell151de_anubis"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell151de_anubis"]
+shape = SubResource("hitbox_spell151de_anubis")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell151de_shrine" type="Area2D" parent="Hitboxes"]
+position = Vector2(1716.0, 2625.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell151de_shrine"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell151de_shrine"]
+shape = SubResource("hitbox_spell151de_shrine")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell152_offering" type="Area2D" parent="Hitboxes"]
+position = Vector2(1083.0, 2436.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell152_offering"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell152_offering"]
+shape = SubResource("hitbox_spell152_offering")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell152_bowl" type="Area2D" parent="Hitboxes"]
+position = Vector2(1041.0, 2575.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell152_bowl"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell152_bowl"]
+shape = SubResource("hitbox_spell152_bowl")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell152_kneeling_woman" type="Area2D" parent="Hitboxes"]
+position = Vector2(975.0, 2559.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell152_kneeling_woman"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell152_kneeling_woman"]
+shape = SubResource("hitbox_spell152_kneeling_woman")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell152_seated_man" type="Area2D" parent="Hitboxes"]
+position = Vector2(1170.0, 2570.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell152_seated_man"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell152_seated_man"]
+shape = SubResource("hitbox_spell152_seated_man")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell154_sun_disc" type="Area2D" parent="Hitboxes"]
+position = Vector2(439.0, 2432.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell154_sun_disc"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell154_sun_disc"]
+shape = SubResource("hitbox_spell154_sun_disc")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell154_sky" type="Area2D" parent="Hitboxes"]
+position = Vector2(445.0, 2359.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell154_sky"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell154_sky"]
+shape = SubResource("hitbox_spell154_sky")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell154_mummy" type="Area2D" parent="Hitboxes"]
+position = Vector2(422.0, 2502.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell154_mummy"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell154_mummy"]
+shape = SubResource("hitbox_spell154_mummy")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)
+
+[node name="spell154_bier" type="Area2D" parent="Hitboxes"]
+position = Vector2(424.0, 2534.0)
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+metadata/registry_id = "spell154_bier"
+
+[node name="Shape" type="CollisionShape2D" parent="Hitboxes/spell154_bier"]
+shape = SubResource("hitbox_spell154_bier")
+debug_color = Color(0.35, 0.75, 0.9, 0.3)

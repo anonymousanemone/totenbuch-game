@@ -1,4 +1,181 @@
 {
  "references": {},
- "entries": {}
+ "entries": {
+  "spell151ab_mummy_left": {
+   "name": "Mummiform figure",
+   "descriptions": {
+    "default": "A figure wrapped like a mummy stands upright at the left of the shrine, its face showing."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell151ab_mummy_right": {
+   "name": "Mummiform figure",
+   "descriptions": {
+    "default": "A figure wrapped like a mummy stands upright at the right of the shrine, its face showing."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell151ab_anubis": {
+   "name": "Anubis",
+   "descriptions": {
+    "default": "Anubis, as a jackal, lies on top of a shrine with his tail hanging down."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell151ab_shrine": {
+   "name": "Shrine",
+   "descriptions": {
+    "default": "A low shrine with a panelled front stands on four legs."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell151c_nephthys": {
+   "name": "Nephthys",
+   "descriptions": {
+    "default": "A goddess kneels at one end of the bier, the sign of her name on her head."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell151c_nephthys_ball": {
+   "name": "Round sign",
+   "descriptions": {
+    "default": "A small round sign rests on the ground in front of Nephthys."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell151c_isis": {
+   "name": "Isis",
+   "descriptions": {
+    "default": "A goddess kneels at one end of the bier, the sign of her name on her head."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell151c_isis_ball": {
+   "name": "Round sign",
+   "descriptions": {
+    "default": "A small round sign rests on the ground in front of Isis."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell151c_mummy": {
+   "name": "Mummy",
+   "descriptions": {
+    "default": "The wrapped body lies on its back on the bier."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell151c_bier": {
+   "name": "Lion bier",
+   "descriptions": {
+    "default": "A bier shaped like a lion, its head at one end and its tail curled up at the other."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell151de_mummy_left": {
+   "name": "Mummiform figure",
+   "descriptions": {
+    "default": "A figure wrapped like a mummy stands upright at the left of the shrine, its face showing."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell151de_mummy_right": {
+   "name": "Mummiform figure",
+   "descriptions": {
+    "default": "A figure wrapped like a mummy stands upright at the right of the shrine, its face showing."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell151de_anubis": {
+   "name": "Anubis",
+   "descriptions": {
+    "default": "Anubis, as a jackal, lies on top of a shrine with his tail hanging down."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell151de_shrine": {
+   "name": "Shrine",
+   "descriptions": {
+    "default": "A low shrine with a panelled front stands on four legs."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell152_offering": {
+   "name": "Offering",
+   "descriptions": {
+    "default": "An offering is held up between the two figures."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell152_bowl": {
+   "name": "Bowl",
+   "descriptions": {
+    "default": "A shallow bowl at the kneeling woman's knees."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell152_kneeling_woman": {
+   "name": "Kneeling woman",
+   "descriptions": {
+    "default": "A woman kneels and reaches up toward the seated man."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell152_seated_man": {
+   "name": "Seated man",
+   "descriptions": {
+    "default": "A man sits on a low seat, facing the kneeling woman."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell154_sun_disc": {
+   "name": "Sun disc",
+   "descriptions": {
+    "default": "The sun disc hangs above the body on a short stem."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell154_sky": {
+   "name": "Sky",
+   "descriptions": {
+    "default": "The sign of the sky stretches over the bier."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell154_mummy": {
+   "name": "Mummy",
+   "descriptions": {
+    "default": "The wrapped body lies on its back on the bier."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  },
+  "spell154_bier": {
+   "name": "Lion bier",
+   "descriptions": {
+    "default": "A bier shaped like a lion, its head at one end and its tail curled up at the other."
+   },
+   "journal": true,
+   "reference": "as drawn"
+  }
+ }
 }

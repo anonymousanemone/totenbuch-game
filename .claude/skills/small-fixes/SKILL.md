@@ -27,7 +27,14 @@ A small fix changes one behaviour, line or value in a mechanic that already exis
 - two things that should match don't (speech colours, glow, exit keys);
 - a stale reference loses an object (the bread after the goose returns).
 
-It is **not** small, and goes back to the author as a proposed Notion task instead, when it needs new art, a rebuild under `godot/assets/`, a write to `art/`, a new mechanic or minigame, a change to a shared system that several levels use beyond what was asked, or a level-wide refactor. Say what makes it big, and propose the task title, scope and category for `write-notion`.
+It is **not** small, and goes back to the author as a proposed Notion task instead, when it needs new art, a rebuild under `godot/assets/`, a write to `art/`, a new mechanic or minigame, a change to a shared system that several levels use beyond what was asked, or a level-wide refactor. Say what makes it big, and propose the task title, scope, category and role for `write-notion` in the report; the row is not created until the author approves it (see "No new rows while working").
+
+## No new rows while working
+
+Never create a Notion row in the middle of the work for anything that turns up: a bigger task, a bug in a neighbour, a split to Narrative and Audio, a follow-up. The only rows made before the fixes are the author's own list, at intake (section 1). What turns up is handled in one of two ways:
+
+- **A quick resolution** (a yes or no, or a pick between a few options, that the author can answer in a line): if the author ran this skill directly in the main session, ask at once with `AskUserQuestion`, and carry on with the answer. An agent working for the main session cannot ask: it puts the question in its report, and the main session asks.
+- **Anything else** (work of its own): list it in the report as a proposed row (title, scope, category, role, and a few words on why). The author approves them after all the fixes are done, and only then is a row created, with the handoff note if it is a split to Narrative and Audio.
 
 ## 1. Take in the list
 
@@ -80,8 +87,8 @@ Tell the author afterwards, without asking first, about defaults you took from a
 An item, or part of one, goes to Narrative and Audio when it changes what a line says: a new, reworded, shortened or moved description, instruction, feedback, success line, hint or message, a caption or translation, or a citation. That holds even when the author dictated the exact words.
 
 - **What stays with the Tech Lead:** a line that exists but never shows, shows at the wrong time, or comes back after its puzzle is done; a script that shows the wrong key. Fix the script, and test against the JSON.
-- **Split it off.** Create a Notion row in the same scope with Role `Narrative and Audio`, Category `Writing` (or `References` / `Source check` for a citation), the author's words and the JSON key and file in the body, and a first log line `<date time> · Tech Lead → Narrative and Audio · created: split off from <fix>`. If the Tech Lead's part waits on the new text, set **Blocked by** on your row and leave it In progress.
-- **Handoff note.** If `agent-team/roles/narrative.md` exists, also write `agent-team/handoffs/YYYY-MM-DD-tech-to-narrative.md` from `project-docs/team/defaults/handoff-template.md`: the key, file, current line, the author's request, and where in the game it shows.
+- **Propose the split.** Do not create the row now (see "No new rows while working"). Put it in the report as a proposed row in the same scope with Role `Narrative and Audio`, Category `Writing` (or `References` / `Source check` for a citation), the author's words and the JSON key and file in the body. Once the author approves it, create it with a first log line `<date time> · Tech Lead → Narrative and Audio · created: split off from <fix>`. If the Tech Lead's part waits on the new text, say so in the report; **Blocked by** is set when the row exists.
+- **Handoff note.** When the row is approved and `agent-team/roles/narrative.md` exists, also write `agent-team/handoffs/YYYY-MM-DD-tech-to-narrative.md` from `project-docs/team/defaults/handoff-template.md`: the key, file, current line, the author's request, and where in the game it shows. The column is the current phase id from `project-docs/team/defaults/columns.json` (`ideation`, `G1`, `prototype`, `G2`, `planning`, `G3`, `production`, `G4`, `release`, `G5`).
 - **New key.** If a fix needs a key that doesn't exist yet, wire the script to the new key name and leave the wording to Narrative and Audio; until then the test may check only that the key is shown.
 - Say in the report which items went to Narrative and Audio and why.
 
@@ -95,17 +102,17 @@ An item, or part of one, goes to Narrative and Audio when it changes what a line
 
 1. **Notion**, per `write-notion`: a log line saying what was done (`… · Tech Lead · done: goose snaps into the bearer's arms on drag, like the offering table`), Status Done, an empty Done date filled with today, and a one- or two-sentence **Outcome** in the History style: what the player now sees, and how it was verified. Leave **Done in commit** empty until the author approves a commit. If the fix changed shared code, update the matching Game-wide Documentation page named in `AGENTS.md`. Do not sweep into History.
 2. **Handoff.** If `agent-team/` exists, write `agent-team/handoffs/YYYY-MM-DD-tech-to-qa.md` from its template (Use, Produce, Accepted when, Evidence; Student decision left empty), naming the build as the working tree or a commit.
-3. **Report** to the author, per item: done, blocked or proposed as a bigger task; what changed (files); the test added and the suites run with their results; the frames by state; defaults taken from siblings and tuning constants with values; what is not checked and why. Then the questions still open. Keep it short; the details are in Notion and the tests.
+3. **Report** to the author, per item: done, blocked or proposed as a bigger task; what changed (files); the test added and the suites run with their results; the frames by state; defaults taken from siblings and tuning constants with values; what is not checked and why. Then the proposed Notion rows (bigger tasks, neighbour bugs, Narrative and Audio splits) for the author to approve, and the questions still open. Keep it short; the details are in Notion and the tests.
 4. **Decision log** entry with `log-decisions`.
 5. **Never commit or push** without the author's explicit yes for that commit; show the files and message first.
 
 ## Checking
 
 1. Every item in the author's list has a Notion row, an outcome or a blocker line, and appears in the report.
-2. No wording or citation was changed by the Tech Lead; each such item has a Narrative and Audio row (and a handoff note if the role exists).
+2. No wording or citation was changed by the Tech Lead; each such item is proposed as a Narrative and Audio row in the report (the row and handoff note come only after the author approves). No row was created while working, apart from the author's own list.
 3. Each fix was reproduced before it was changed, and earlier History entries and decisions for the same object were read.
 4. The fix uses the shared code a sibling uses; nothing was copied into a level, and no `AGENTS.md` exception was made without the author.
 5. A regression test fails without the fix and passes with it; only the relevant suites were run, and they pass.
 6. The fix was seen working in the running game, with frames.
-7. Every question the author had to decide was asked, and nothing was decided by default.
+7. Every question the author had to decide was asked (quick ones in a question box when the skill ran directly, otherwise in the report), and nothing was decided by default.
 8. No asset was rebuilt, nothing was written to `art/`, nothing was committed.

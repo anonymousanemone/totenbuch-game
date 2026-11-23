@@ -117,7 +117,7 @@ Narrative and audio roles write the words, characters, and sounds, and fit them 
 You read `AGENTS.md`, the GDD, the information boundaries of the in-game agent (Configuration Document, Section 4), the level JSON, the Notion Totenbuch Tasks rows with Role Narrative and Audio, and the handoff notes addressed to you.
 Use the project skills in `.claude/skills/`, reading the matching one before you start:
 - `write-game-text` for every line the player sees: instructions, feedback, success lines, Hint-button hints, descriptions, speech, journal notes and shared messages.
-- `write-hints` for each puzzle's Hint-button ladder (notice, interpret, act: at most three per phase, the Find line counting as a notice) and for judging existing hints; report judgements, and change an existing hint only on the student's command.
+- `write-hints-instructions` for each puzzle's instructions (sparse: the task and the keys in general terms) and Hint-button ladder (notice, interpret, act: at most three per phase, the Find line counting as a notice), and for judging existing ones; report judgements, and change an existing line only on the student's command.
 - `cite-references` whenever a description, caption or translation is added or changed from a source, or a new source is read.
 - `write-notion` before any Notion write, and `log-decisions` at the end of every session that changed anything.
 

@@ -1,11 +1,17 @@
 {
  "source": "art/guardingbody151-154.mdp",
- "sha256": "f938c4c4d5242fadcb70e755dea0b1e8693a447b99a230d580010a59aa8b85db",
- "width": 3779,
- "height": 1881,
- "ground": 907,
- "view_top": 292,
- "view_height": 1082,
+ "sha256": "8270032da95ce22528e6763a74922087ef4c8d5cb22173b21d7a9a63cb63588b",
+ "origin": [
+  391,
+  509
+ ],
+ "width": 2083,
+ "height": 3413,
+ "ground": 2697,
+ "view_top": 2207,
+ "view_height": 2872,
+ "view_left": 31,
+ "view_right": 2051,
  "scale": 1.5,
  "avatar": "procession/avatar",
  "order": [
@@ -15,83 +21,333 @@
   "152",
   "154"
  ],
+ "column": [
+  "151ab",
+  "151c"
+ ],
+ "row": [
+  "151de",
+  "152",
+  "154"
+ ],
  "stages": {
   "151ab": {
    "source_rect": {
-    "x": 4274,
-    "y": 0,
+    "x": 1700,
+    "y": 509,
     "w": 774,
     "h": 1062
    },
    "width": 774,
    "height": 1062,
    "ground": 526,
-   "wall_left": 50,
-   "wall_right": 724,
+   "top": 30,
+   "bottom": 1032,
+   "outer_left": 31,
+   "wall_left": 51,
+   "wall_right": 722,
+   "outer_right": 742,
    "view_top": 36,
    "view_height": 701
   },
   "151c": {
    "source_rect": {
-    "x": 3533,
-    "y": 0,
+    "x": 1701,
+    "y": 1491,
     "w": 771,
     "h": 957
    },
    "width": 771,
    "height": 957,
    "ground": 907,
+   "top": 30,
+   "bottom": 927,
+   "outer_left": 30,
    "wall_left": 50,
    "wall_right": 721,
-   "view_top": 292,
-   "view_height": 957
+   "outer_right": 741,
+   "view_top": 417,
+   "view_height": 1082
   },
   "151de": {
    "source_rect": {
-    "x": 2799,
-    "y": 0,
-    "w": 764,
-    "h": 860
+    "x": 1701,
+    "y": 2368,
+    "w": 772,
+    "h": 1375
    },
-   "width": 764,
-   "height": 860,
-   "ground": 810,
+   "width": 772,
+   "height": 1375,
+   "ground": 838,
+   "top": 30,
+   "bottom": 858,
+   "outer_left": 30,
    "wall_left": 50,
-   "wall_right": 714,
-   "view_top": 195,
-   "view_height": 860
+   "wall_right": 721,
+   "outer_right": 741,
+   "view_top": 348,
+   "view_height": 1013
   },
   "152": {
    "source_rect": {
-    "x": 2179,
-    "y": 0,
+    "x": 1131,
+    "y": 2680,
     "w": 650,
-    "h": 1500
+    "h": 1242
    },
    "width": 650,
-   "height": 1500,
+   "height": 1242,
    "ground": 526,
+   "top": 30,
+   "bottom": 546,
+   "outer_left": 30,
    "wall_left": 50,
    "wall_right": 600,
+   "outer_right": 620,
    "view_top": 36,
    "view_height": 701
   },
   "154": {
    "source_rect": {
-    "x": 1389,
-    "y": 0,
+    "x": 391,
+    "y": 2680,
     "w": 820,
-    "h": 1250
+    "h": 1242
    },
    "width": 820,
-   "height": 1250,
+   "height": 1242,
    "ground": 526,
+   "top": 30,
+   "bottom": 546,
+   "outer_left": 31,
    "wall_left": 51,
    "wall_right": 770,
+   "outer_right": 790,
    "view_top": 36,
    "view_height": 701
   }
  },
- "figures": {},
+ "figures": {
+  "spell151ab_mummy_left": {
+   "stage": "151ab",
+   "source_layer_id": "2094",
+   "source_rect": {
+    "x": 1809,
+    "y": 744,
+    "w": 83,
+    "h": 296
+   }
+  },
+  "spell151ab_mummy_right": {
+   "stage": "151ab",
+   "source_layer_id": "2095",
+   "source_rect": {
+    "x": 2284,
+    "y": 755,
+    "w": 73,
+    "h": 285
+   }
+  },
+  "spell151ab_anubis": {
+   "stage": "151ab",
+   "source_layer_id": "2096",
+   "source_rect": {
+    "x": 1923,
+    "y": 785,
+    "w": 261,
+    "h": 216
+   }
+  },
+  "spell151ab_shrine": {
+   "stage": "151ab",
+   "source_layer_id": "2097",
+   "source_rect": {
+    "x": 1956,
+    "y": 903,
+    "w": 228,
+    "h": 137
+   }
+  },
+  "spell151c_nephthys": {
+   "stage": "151c",
+   "source_layer_id": "2099",
+   "source_rect": {
+    "x": 1787,
+    "y": 2133,
+    "w": 151,
+    "h": 265
+   }
+  },
+  "spell151c_nephthys_ball": {
+   "stage": "151c",
+   "source_layer_id": "2146",
+   "source_rect": {
+    "x": 1895,
+    "y": 2356,
+    "w": 41,
+    "h": 38
+   }
+  },
+  "spell151c_isis": {
+   "stage": "151c",
+   "source_layer_id": "2100",
+   "source_rect": {
+    "x": 2289,
+    "y": 2160,
+    "w": 115,
+    "h": 238
+   }
+  },
+  "spell151c_isis_ball": {
+   "stage": "151c",
+   "source_layer_id": "2145",
+   "source_rect": {
+    "x": 2279,
+    "y": 2373,
+    "w": 36,
+    "h": 29
+   }
+  },
+  "spell151c_mummy": {
+   "stage": "151c",
+   "source_layer_id": "2101",
+   "source_rect": {
+    "x": 1998,
+    "y": 2203,
+    "w": 247,
+    "h": 66
+   }
+  },
+  "spell151c_bier": {
+   "stage": "151c",
+   "source_layer_id": "2102",
+   "source_rect": {
+    "x": 1938,
+    "y": 2158,
+    "w": 358,
+    "h": 244
+   }
+  },
+  "spell151de_mummy_left": {
+   "stage": "151de",
+   "source_layer_id": "2104",
+   "source_rect": {
+    "x": 1811,
+    "y": 2922,
+    "w": 96,
+    "h": 287
+   }
+  },
+  "spell151de_mummy_right": {
+   "stage": "151de",
+   "source_layer_id": "2105",
+   "source_rect": {
+    "x": 2295,
+    "y": 2933,
+    "w": 76,
+    "h": 276
+   }
+  },
+  "spell151de_anubis": {
+   "stage": "151de",
+   "source_layer_id": "2106",
+   "source_rect": {
+    "x": 1944,
+    "y": 2949,
+    "w": 288,
+    "h": 209
+   }
+  },
+  "spell151de_shrine": {
+   "stage": "151de",
+   "source_layer_id": "2107",
+   "source_rect": {
+    "x": 1979,
+    "y": 3058,
+    "w": 255,
+    "h": 151
+   }
+  },
+  "spell152_offering": {
+   "stage": "152",
+   "source_layer_id": "2110",
+   "source_rect": {
+    "x": 1428,
+    "y": 2883,
+    "w": 91,
+    "h": 122
+   }
+  },
+  "spell152_bowl": {
+   "stage": "152",
+   "source_layer_id": "2111",
+   "source_rect": {
+    "x": 1392,
+    "y": 3058,
+    "w": 81,
+    "h": 52
+   }
+  },
+  "spell152_kneeling_woman": {
+   "stage": "152",
+   "source_layer_id": "2112",
+   "source_rect": {
+    "x": 1292,
+    "y": 2926,
+    "w": 145,
+    "h": 281
+   }
+  },
+  "spell152_seated_man": {
+   "stage": "152",
+   "source_layer_id": "2113",
+   "source_rect": {
+    "x": 1477,
+    "y": 2945,
+    "w": 167,
+    "h": 267
+   }
+  },
+  "spell154_sun_disc": {
+   "stage": "154",
+   "source_layer_id": "2116",
+   "source_rect": {
+    "x": 788,
+    "y": 2867,
+    "w": 83,
+    "h": 146
+   }
+  },
+  "spell154_sky": {
+   "stage": "154",
+   "source_layer_id": "2117",
+   "source_rect": {
+    "x": 644,
+    "y": 2842,
+    "w": 383,
+    "h": 50
+   }
+  },
+  "spell154_mummy": {
+   "stage": "154",
+   "source_layer_id": "2118",
+   "source_rect": {
+    "x": 657,
+    "y": 2981,
+    "w": 312,
+    "h": 58
+   }
+  },
+  "spell154_bier": {
+   "stage": "154",
+   "source_layer_id": "2119",
+   "source_rect": {
+    "x": 591,
+    "y": 2877,
+    "w": 448,
+    "h": 331
+   }
+  }
+ },
  "columns": {}
 }

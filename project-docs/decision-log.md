@@ -358,3 +358,25 @@ Who decided what, session by session: the author's decisions, what was made from
 - **Agent did:** a locked piece picks the table hotspot itself, so it follows the table in every state (minigame, walking, view mode); left `goose_refuses` in `puzzles.json` unused for Narrative and Audio.
 - **Decided:** add the AGENTS.md rule "Grouped and locked parts" (nodes group drawings; locked parts glow and answer as their whole).
 - **Made:** `AGENTS.md`.
+
+## 2026-11-22 · prologue rebuilt from the restacked .mdp
+- **Decided:** 151ab, 151c, 151de play top to bottom: camera keeps its size and holds on each vignette; once about 3/4 of the avatar is past the left wall the camera pans down and he appears on the right of the vignette below; along the bottom row (151de, 152, 154) the camera follows him; keep the 151ab text copy under 151de; show every vignette as drawn; walking back only along the row.
+- **Made:** `.claude/skills/build-levels/build_prologue.py` rewritten; `godot/assets/prologue/` (figures, strips, rule bands, `level.json`, `registry.json`), `godot/assets/menu/prologue.png`, `godot/scenes/prologue.tscn` (old `frame*.png` removed); `godot/scripts/prologue/prologue.gd`; `godot/tests/prologue_regressions.gd` (in `run_tests.py`).
+- **Agent did:** cut each figure layer as a sprite with 22 "as drawn" registry descriptions (renamed `nepthys` to `nephthys`; the two balls as "Round sign"); left text blocks unclickable in the strip; frame papyrus runs an avatar's width past column left walls so he vanishes as he leaves; pan 0.7 s then fade-in; ending on 154's left wall; T-menu "Setup: stand in <stage>" per vignette.
+
+## 2026-11-22 · art lead set up for Godot effects and animation
+- **Decided:** art lead specifies Godot effects for the Tech Lead, naming the existing function to use, and never writes Godot code; decided work needing no new art or art decision goes to Tech Lead.
+- **Made:** `agent-team/roles/art.md` (writes, constraints, readability, production lane, "Godot effects and animation" section); generated team files not yet re-rendered, blocked by errors in the existing `tech-to-*` handoffs.
+- **Agent did:** inventoried existing effects (glow, dissolve, squash, bends, light) in the role; added a QA handoff line in production; no new skill.
+- **Corrected:** first draft let the art lead write shaders and effect helpers; the art lead hands effects off as specs only.
+
+## 2026-11-23 · write-hints becomes write-hints-instructions
+- **Decided:** the skill also covers game instructions, aimed at `puzzles.json`; instructions stay sparse and loose (keys named in general terms, the player infers the rest), with room for exceptions and asking when unclear.
+- **Made:** `.claude/skills/write-hints-instructions/SKILL.md` (renamed from `write-hints`; new Instructions section, instruction judging, checks); name updated in `AGENTS.md`, `write-game-text`, `agent-team/roles/narrative.md`, `qa.md`, `project-docs/configuration.md`.
+- **Agent did:** QA's pointer now says section 6; left out an open question on whether players can re-read an instruction; the generated `.claude/agents/team-*.md` and `.agents/skills/` still say `write-hints`, because `python -m team render` is blocked by errors in the `tech-to-*` handoffs.
+
+## 2026-11-23 · Survival small fixes; Tech Lead adds no Notion rows mid-work
+- **Decided:** the non-artwork, non-animation Survival fixes run by the Tech Lead agent: spell 52 blocked only by the hand; faster hand in 53; the sail walks him to its sign, then appears there and flies to him; after the mummy he faces left; the adoring figure kept up to the gate; a head belongs to its figure (glow and click); the 49|50 wall glitch left as it is (looks fine); dying at the black door crumbles the worshipper whole; the 51 turn-around kept.
+- **Decided:** the Tech Lead never adds a Notion row mid-implementation: issues go to the main session, quick ones in a question box when the skill runs directly, the rest proposed as rows for approval after all the work.
+- **Made:** `godot/scripts/survival/survival.gd`, `breaths.gd`, `offering_tables.gd`, `godot/tests/survival_rites_regressions.gd`; `.claude/skills/small-fixes/SKILL.md` ("No new rows while working"), `agent-team/roles/tech.md`.
+- **Agent did:** chose `HAND_LEN` 36, `HAND_SPEED_53` 260, sail `FLIGHT` 0.5 s; crumbled the door death on a plain picture of the worshipper (the avatar's own texture dissolves as a box); mirrored looks 46 and 51 in the picture (`DRAWN_RIGHT`) so carried items stay on his back; the head group also takes the seated men's arm, forearm and cup and the mummy's body and forearm; the generated Tech Lead agent file lacks the new rule, because `python -m team render` is blocked by errors in the `tech-to-*` handoffs.

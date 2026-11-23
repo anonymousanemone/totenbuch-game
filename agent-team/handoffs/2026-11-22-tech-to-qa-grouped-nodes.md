@@ -1,7 +1,7 @@
 ---
 from: tech
 to: qa
-column: Done
+column: prototype
 date: 2026-11-22
 ---
 ## Use

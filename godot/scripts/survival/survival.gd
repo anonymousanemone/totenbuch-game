@@ -9,7 +9,7 @@ extends "res://scripts/walk/walk.gd"
 const MINIGAME_VIEW := preload("res://scripts/minigame_view.gd")
 
 # Frame lines and vignettes, in strip px.
-const SPLICE_43_44 := 8641.5     ## the worshipper becomes the 44 man as he passes behind it
+const SPLICE_43_44 := 8641.5     ## the door turns black once he has passed this (he stays the worshipper)
 const LINE_44_45 := 8127.0       ## barred: the gate is the only way on
 const LINE_45_46 := 7832.0       ## after the mummy, there is no way back right
 const SPLICE_49_50 := 6222.5
@@ -22,22 +22,24 @@ const SPLICE_REACH := 110.0      ## how near a splice line he is drawn in two pa
 const FIG := "res://assets/survival/figures/"
 const LOOKS := {
 	"43": preload(FIG + "spell43_worshipper.png"),
-	"44": preload(FIG + "avatar_44.png"),
 	"46": preload(FIG + "spell46_staff_bearer.png"),
 	"50": preload(FIG + "spell50_walking_man.png"),
 	"51": preload(FIG + "avatar_51.png"),
 }
-## Loops in a look that are not filled (source px): the 44 man's hanging arm.
-const OPEN := {"44": [Vector2i(123, 105)]}
-## Looks whose head can fall: [the figure without its head, the head, the whole look's key in level.avatars].
+## Looks drawn facing right: their pictures are turned to face left like the others, so that he faces
+## the way he walks (the avatar mirrors a figure that walks right, and carries things to match).
+const DRAWN_RIGHT := ["46", "51"]
+## Looks whose head can fall: [the figure without its head, the head, the whole look's key in level.avatars,
+## which way they are drawn facing].
 const HEADS := {
-	"44": ["spell44_staff_bearer", "spell44_head", "avatar_44"],
-	"51": ["spell51_walking_man", "spell51_head", "avatar_51"],
+	"51": ["spell51_walking_man", "spell51_head", "avatar_51", 1],
 }
 ## The figures the avatar stands in for; their drawings are hidden.
 const PLAYED := ["spell44_staff_bearer", "spell46_staff_bearer",
 	"spell48_walking_man", "spell49_staff_bearer", "spell50_walking_man", "spell51_walking_man"]
 const PLAYED_PIECES := ["spell44_head", "spell51_head"]
+## Figures with drawings cut out of them (_parts): hit, glowed and read as one.
+const PARTED := ["spell45_mummy", "spell52_seated_man", "spell53_seated_man"]
 const DISSOLVE := preload("res://scripts/dangers/dissolve.gdshader")
 const FIGURE_MASK := preload("res://scripts/figure_mask.gd")
 const FIGURE_SHADER := preload("res://scripts/figure.gdshader")
@@ -107,6 +109,7 @@ var _sceptres: Array[MoveableObject] = []
 var _carried: Array[MoveableObject] = []
 var _masked := {}
 var _splice: Sprite2D
+var _dying: Sprite2D             ## the worshipper crumbling at the black door
 var _look := ""
 var _dark: ColorRect
 var _dark_fade: Tween
@@ -262,6 +265,7 @@ func _restart() -> void:
 		obj.sprite.modulate = Color.WHITE
 		obj.sprite.material = null
 	_carried.clear()
+	_mend_avatar()
 	avatar.stop()
 	avatar.position = _start
 	avatar.facing = -1
@@ -330,6 +334,43 @@ func _die(head_look: String, body_at: Vector2, facing: int) -> void:
 		_after_death())
 
 
+## Lost at the black door: the worshipper, as drawn, reddens and crumbles whole, then back to the start
+## (or, once the dwelling is claimed, to 47). The same beats as _die, with no head to fall.
+func _crumble_whole() -> void:
+	mode = Mode.SCENE
+	avatar.keys = false
+	avatar.stop()
+	var s := Sprite2D.new()
+	s.texture = LOOKS["43"]
+	s.centered = true
+	s.flip_h = avatar.facing == 1
+	s.position = avatar.position + Vector2(0.0, -s.texture.get_height() / 2.0)
+	s.z_index = 4
+	add_child(s)
+	avatar.visible = false
+	_dying = s
+	var run := _run
+	var t := create_tween()
+	t.tween_interval(0.4)
+	t.tween_callback(func():
+		if run == _run:
+			_crumble(s))
+	t.tween_interval(2.4)
+	t.tween_callback(func():
+		if run != _run:
+			return
+		hud.say("Scribe", _hints.message("survival.died"))
+		_after_death())
+
+
+## He is whole again: the crumbling picture is gone and he stands in its place.
+func _mend_avatar() -> void:
+	if is_instance_valid(_dying):
+		_dying.queue_free()
+	_dying = null
+	avatar.visible = true
+
+
 ## The look's body without its head and the head, as loose sprites standing where he stood.
 func _headless(look: String, at: Vector2, facing: int) -> Array[Sprite2D]:
 	var spec: Array = HEADS[look]
@@ -342,7 +383,7 @@ func _headless(look: String, at: Vector2, facing: int) -> Array[Sprite2D]:
 		s.texture = (figures[key] if i == 0 else pieces[key]).texture
 		s.centered = true
 		var local := Vector2(it.x - whole.x - whole.w / 2.0 + it.w / 2.0, it.y - whole.y - whole.h + it.h / 2.0)
-		if facing != avatar.drawn_facing:
+		if facing != spec[3]:
 			local.x = -local.x
 			s.flip_h = true
 		s.position = at + local
@@ -400,7 +441,7 @@ func _clear_dark() -> void:
 
 func _look_at(x: float) -> String:
 	if not gate_used:
-		return "43" if x > SPLICE_43_44 else "44"
+		return "43"
 	if x > SPLICE_49_50:
 		return "46"
 	return "50" if x > SPLICE_50_51 else "51"
@@ -408,7 +449,14 @@ func _look_at(x: float) -> String:
 
 func _masked_look(look: String) -> Texture2D:
 	if not _masked.has(look):
-		_masked[look] = FIGURE_MASK.create_texture(LOOKS[look], PAD, OPEN.get(look, []))
+		var picture: Texture2D = LOOKS[look]
+		if look in DRAWN_RIGHT:
+			var image := picture.get_image()
+			if image.is_compressed():
+				image.decompress()
+			image.flip_x()
+			picture = ImageTexture.create_from_image(image)
+		_masked[look] = FIGURE_MASK.create_texture(picture, PAD)
 	return _masked[look]
 
 
@@ -435,7 +483,7 @@ func _dress_texture(sprite: Sprite2D, texture: Texture2D) -> void:
 func _update_splice() -> void:
 	var x: float = avatar.position.x
 	var line := 0.0
-	for l in ([SPLICE_43_44] if not gate_used else [SPLICE_49_50, SPLICE_50_51]):
+	for l in ([] if not gate_used else [SPLICE_49_50, SPLICE_50_51]):
 		if absf(x - l) < SPLICE_REACH:
 			line = l
 	var right := _look_at(x + 0.5 if line == 0.0 else line + 1.0)
@@ -553,7 +601,25 @@ func _pick(point: Vector2) -> String:
 			for key in LINE_ORDER:
 				if _descriptions.hit(pieces[key], point):
 					return "#" + key
+	return _pick_figure(point)
+
+
+## A figure under the pointer. A drawing cut out of a figure so that it can move (the mummy's body and
+## head, a seated man's head, arm and cup) is the figure: it is hit as the figure is. None of them lies
+## under a text column.
+func _pick_figure(point: Vector2) -> String:
+	for id in PARTED:
+		if figures[id].is_visible_in_tree() and _parts(id).any(func(s): return _descriptions.hit(s, point)):
+			return id
 	return super._pick(point)
+
+
+## The drawings cut out of figure `id`: they glow with it.
+func _parts(id: String) -> Array:
+	if id == "spell45_mummy":
+		return [pieces.spell45_mummy_body, pieces.spell45_mummy_head, pieces.spell45_arm]
+	var hips := get_node_or_null("Figures/Spell%s/Hips" % id.substr(5, 2))
+	return hips.find_children("*", "Sprite2D", true, false) if hips else []
 
 
 func _avatar_rect() -> Rect2:
@@ -564,8 +630,13 @@ func _avatar_rect() -> Rect2:
 
 func _set_hover(id: String) -> void:
 	if not id.begins_with("#"):
+		if id == _hover:
+			return
 		_clear_special_glow()
 		super._set_hover(id)
+		for part in (_parts(id) if id in PARTED else []):
+			if part.is_visible_in_tree():
+				_special_glows.append(UI.hover_glow(part))
 		return
 	if id == _hover:
 		return
@@ -689,8 +760,8 @@ func _use(id: String, point: Vector2) -> void:
 		"#claim":
 			_claim()
 		"#breath_loc1", "#breath_loc2", "#breath_loc3", "#breath_loc4":
-			breaths.take(id.trim_prefix("#"))
-			_descriptions.show("breath_sign", hud)
+			var spot: Sprite2D = pieces[id.trim_prefix("#")]
+			walk_then(spot.global_position.x + spot.texture.get_width() / 2.0, _take_sail.bind(id.trim_prefix("#")))
 		"#imprints":
 			walk_then(RESPAWN_X, _take_back)
 		"#spell52_altar":
@@ -762,6 +833,7 @@ func _respawn47() -> void:
 	tables.reset()
 	widen.close(true)
 	var x: float = RESPAWN_X
+	_mend_avatar()
 	avatar.stop()
 	avatar.position = Vector2(x, avatar.position.y)
 	avatar.facing = -1
@@ -778,6 +850,14 @@ func _respawn47() -> void:
 	_set_look(_look_at(x))
 	_update_splice()
 	hud.say("Scribe", _hints.message("survival.respawn47"))
+
+
+## He stands under the sign: its sail comes to him (once), and is described.
+func _take_sail(key: String) -> void:
+	if breaths.taken.has(key):
+		return
+	breaths.take(key)
+	_descriptions.show("breath_sign", hud)
 
 
 ## He takes back the sails lying on the pylon, and the sceptres standing out of it; their
@@ -821,7 +901,7 @@ func _enter_gate() -> void:
 	var run := _run
 	_spent45 = _lose_sceptre()
 	if not _spent45:
-		_die("44", avatar.position, avatar.facing)
+		_crumble_whole()
 		return
 	var t := create_tween()
 	t.tween_interval(1.4)
@@ -917,7 +997,7 @@ func _steady45() -> void:
 
 
 ## It falls over forward, away from Anubis, against the frame line, and its head comes off. With a sceptre left he is back
-## at the black door as the 44 man (going in again costs one); with none, he dies.
+## at the black door as the worshipper (going in again costs one); with none, he dies.
 func _fall45() -> void:
 	mode = Mode.SCENE
 	_set_hover("")
@@ -986,7 +1066,7 @@ func _back_to_door(message: String) -> void:
 	avatar.modulate = Color.WHITE
 	avatar.visible = true
 	_was_x = avatar.position.x
-	_set_look("44")
+	_set_look("43")
 	for obj in _carried:
 		obj.sprite.visible = true
 		obj.sprite.modulate = Color.WHITE

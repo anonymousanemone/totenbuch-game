@@ -283,6 +283,46 @@
   },
   {
    "column": "prototype",
+   "file": "handoffs/2026-11-22-tech-to-narrative.md",
+   "from": "tech",
+   "kind": "",
+   "routed": false,
+   "to": "narrative"
+  },
+  {
+   "column": "prototype",
+   "file": "handoffs/2026-11-22-tech-to-qa-camera-ends.md",
+   "from": "tech",
+   "kind": "",
+   "routed": false,
+   "to": "qa"
+  },
+  {
+   "column": "prototype",
+   "file": "handoffs/2026-11-22-tech-to-qa-grouped-nodes.md",
+   "from": "tech",
+   "kind": "",
+   "routed": false,
+   "to": "qa"
+  },
+  {
+   "column": "prototype",
+   "file": "handoffs/2026-11-22-tech-to-qa-table-locked.md",
+   "from": "tech",
+   "kind": "",
+   "routed": false,
+   "to": "qa"
+  },
+  {
+   "column": "prototype",
+   "file": "handoffs/2026-11-22-tech-to-qa-trees.md",
+   "from": "tech",
+   "kind": "",
+   "routed": false,
+   "to": "qa"
+  },
+  {
+   "column": "prototype",
    "file": "handoffs/2026-11-22-tech-to-qa.md",
    "from": "tech",
    "kind": "",
@@ -307,7 +347,7 @@
    "title": "Publishing and Release"
   }
  ],
- "rendered_on": "2026-11-22",
+ "rendered_on": "2026-11-23",
  "roles": {
   "art": {
    "docs": [
@@ -414,10 +454,14 @@
      "delivers": [
       [
        "tech",
-       "final assets"
+       "final assets, and an effect spec for each: the look, its timing and colours, and the existing function to use or what is missing"
+      ],
+      [
+       "qa",
+       "what each effect should look like at rest, mid-way and at its end"
       ]
      ],
-     "does": "Make and fit final assets one named item at a time.",
+     "does": "Make and fit final assets, and specify the Godot effects and animations that move them, one named item at a time.",
      "expects": [],
      "recommends": "Visual defects to fix or accept."
     },
@@ -449,22 +493,22 @@
      "recommends": "Images that show the core loop."
     }
    },
-   "primer": "The art lead sets the visual direction and makes it readable: what the player looks at first, what looks interactive, and how assets are made and named. In this game that means plates spliced and cut without redrawing them, scroll figures posed from the original drawing, and UI art that looks like the Old Fax font.",
+   "primer": "The art lead sets the visual direction and makes it readable: what the player looks at first, what looks interactive, and how assets are made and named. In this game that means plates spliced and cut without redrawing them, scroll figures posed from the original drawing, UI art that looks like the Old Fax font, and the Godot effects and animations (glow, bend, crumble, squash, shine) that move the drawn ink. The art lead decides what an effect looks like and hands it to the Tech Lead to build; it does not write Godot code.",
    "slots": {
     "constraints": {
      "label": "Visual constraints",
-     "value": "Scroll art is cut from the Lepsius plates and keeps the original drawing, never redrawn; UI art matches the Old Fax pixel font; approved animation sheets are never regenerated"
+     "value": "Scroll art is cut from the Lepsius plates and keeps the original drawing, never redrawn; UI art matches the Old Fax pixel font; approved animation sheets are never regenerated; an effect only moves, bends, fades or discards the drawn ink and ends on the plate pixel for pixel"
     },
     "readability": {
      "label": "Readability rule",
-     "value": "Clickable things glow (UI.hover_glow); faint ink marks only where a piece is to be dragged; every colour comes from the style guide's list"
+     "value": "Clickable things glow (UI.hover_glow); faint ink marks only where a piece is to be dragged; every colour comes from the style guide's list; an effect never hides what is clickable and never moves the camera in minigame view"
     },
     "references": {
      "label": "Reference images",
      "value": "Lepsius, Das Todtenbuch der Ägypter (1842), references/lepsius_todtenbuch.pdf; Old Fax font (George Blackwell, CC BY 4.0); project-docs/style-guide.md"
     }
    },
-   "subtitle": "Plate splicing and cutting, scroll and UI art, style guide",
+   "subtitle": "Plate splicing and cutting, scroll and UI art, Godot effects and animation, style guide",
    "title": "Art Lead",
    "worked": false
   },
@@ -1705,7 +1749,7 @@
   "design": "tailored",
   "narrative": "tailored",
   "qa": "tailored",
-  "tech": "tailored"
+  "tech": "revised"
  },
  "warnings": []
 }

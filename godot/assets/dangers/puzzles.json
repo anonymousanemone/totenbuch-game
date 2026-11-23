@@ -27,16 +27,11 @@
 		"heka_break": "The crocodiles draw back. Above, signs begin to glow red.",
 		"heka_on_normal_crocodile": "Magic spent on an ordinary crocodile! It seizes the word of power and makes off with it. The crocodiles are not turned back.",
 		"crocodile_escaped": "A crocodile slips past you to the wall and gleefully steals away with your word of power.",
-		"red_crocodile": "A red crocodile needs a red spear. The signs glowing above may say how.",
+		"red_crocodile": "A red crocodile needs a red spear. Look around for any clues.",
 		"tutorial_bite": "The crocodile reached you. Your spear is supposed to reach it first.",
-		"bitten": "A crocodile earns a snack."
+		"bitten": "The crocodile samples your flesh."
 	  },
 	  "hints": {
-		"find": {
-		  "default": "Look for crocodiles of spell 31 to your left.",
-		  "nearby": "Click the spear to fight.",
-		  "right": "Look for crocodiles of spell 31 to your right."
-		},
 		"phases": {
 		  "fight": [
 			{
@@ -107,14 +102,9 @@
 		"too_early": "Too early: your spear was already coming back up when it sprang. Wait for the snap.",
 		"too_late": "Too late: it was past the point of your spear.",
 		"bite_advice": "It bit you. When its tail waves and it squashes down, it is about to spring: thrust as it springs.",
-		"controls": "Press [space] to thrust the spear, just as the snake springs. You cannot step."
+		"controls": "Press [space] to thrust the spear, just as the snake springs."
 	  },
 	  "hints": {
-		"find": {
-		  "default": "Look for the lunging snake to your left.",
-		  "nearby": "Click the spear to fight.",
-		  "right": "Look for the lunging snake to your right."
-		},
 		"phases": {
 		  "fight": [
 			{

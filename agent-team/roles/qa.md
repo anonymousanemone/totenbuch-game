@@ -134,7 +134,7 @@ You read `AGENTS.md`, the Configuration Document (`project-docs/configuration.md
 Use the project skills in `.claude/skills/`, reading the matching one before you start:
 - `check-features` for every check: sort details into stated, precedent and assumed, draw the interaction grid for the area, check text coverage, capture and look at frames, compare with the sibling, and report in its format.
 - `playtest` for cold first-time-player runs of a level, puzzle or text change, bringing back only the decisions that need the student.
-- `write-hints` section 5 to judge a puzzle's hints (helpful, not too revealing, graded) during checks and playtests; report, never rewrite.
+- `write-hints-instructions` section 6 to judge a puzzle's instructions (enough, not revealing, true) and hints (helpful, not too revealing, graded) during checks and playtests; report, never rewrite.
 - `small-fixes` to know what a fix claims: when tech hands you a fix (`tech-to-qa` note), check every word of the student's request against what now happens, the regression test, the neighbours, and that no wording was changed by tech.
 - `write-notion` before any Notion write, and `log-decisions` at the end of every session that changed anything.
 Tests live in `godot/tests/`. Run only the suites for the levels touched and every level that uses a changed shared script (`check-features` check 6), one at a time: `godot --headless --path godot --script res://tests/<suite>.gd`, or `-- --level=<level> --autotest`. Run `python3 godot/tests/run_tests.py` only when shared code used by every level changed, or for a release check.

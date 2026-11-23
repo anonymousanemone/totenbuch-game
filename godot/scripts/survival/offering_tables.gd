@@ -15,11 +15,13 @@ const FALL_FROM := 190.0         ## strip y they start from (the top of the pict
 const COVER_NEED := 8            ## 52: pieces kept off the loaves to finish
 const FILTH_SHARE := 0.2         ## 53: share of excrement among what falls ...
 const FILTH_STEP := 0.1          ## ... raised by this for each part that drops past him
-const HAND_SPEED := 150.0        ## strip px/s his hand moves along its line
+const HAND_SPEED := 150.0        ## 52: strip px/s his hand moves along its line
+const HAND_SPEED_53 := 260.0     ## 53: the same, faster (the cup chases loaves that fall from anywhere in reach)
 const RETRACT := 50.0            ## his hand comes in this far from where it is drawn (strip px)
 const LEAN_MAX := 0.4            ## rad he leans at most ...
 const STRETCH_MAX := 14.0        ## ... and his torso stretches (strip px), once his arm is straight
-const ARM_HALF := 7.0            ## 52: half the arm's thickness that keeps a piece off
+const ARM_HALF := 7.0            ## 52: half the hand's thickness that keeps a piece off
+const HAND_LEN := 36.0           ## 52: the hand, the hooked end of the forearm up to the tip (strip px); the rest of the arm keeps nothing off
 const THIGH := Vector2(1.0, 0.12)  ## along his lap, from the hip
 const FLESH_GAP := 6.0           ## strip px between the flesh signs ...
 const FLESH_LIFT := 8.0          ## ... and from them to the top of his head
@@ -215,7 +217,7 @@ func process(delta: float) -> void:
 		return
 	var r: Dictionary = rigs[g.sp]
 	if g.playing:
-		pose(r, r.x + Input.get_axis("ui_left", "ui_right") * HAND_SPEED * delta)
+		pose(r, r.x + Input.get_axis("ui_left", "ui_right") * (HAND_SPEED if g.sp == 52 else HAND_SPEED_53) * delta)
 		g.timer -= delta
 		if g.timer <= 0.0 and _wants_more():
 			g.timer = FALL_EVERY
@@ -286,11 +288,10 @@ func _fall(delta: float) -> void:
 		var half := s.texture.get_size() / 2.0
 		if g.sp == 52:
 			var c := s.global_position
-			var S: Vector2 = r.shoulder.global_position
 			var E: Vector2 = r.elbow.global_position
 			var T: Vector2 = r.eff.global_position
 			var pr := _filth_radius()
-			var near := minf(_to_segment(c, S, E), _to_segment(c, E, T))
+			var near := _to_segment(c, T + (E - T).normalized() * minf(HAND_LEN, E.distance_to(T)), T)
 			if g.playing and near < ARM_HALF + pr:
 				f.done = true
 				g.blocked += 1

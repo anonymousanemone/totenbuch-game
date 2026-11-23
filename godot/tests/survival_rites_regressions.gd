@@ -56,16 +56,15 @@ func _run() -> void:
 	scene._sceptres[0].follow()
 	expect(scene._pick(scene._sceptres[0].sprite.global_transform * Vector2(4, 120)) in ["#sceptres", ""], "the carried sceptres can be clicked")
 
-	# 43|44: spliced at the line, both ways
+	# 43|44: he stays the adoring worshipper, whole, all the way to the gate
 	scene.avatar.position.x = scene.SPLICE_43_44 + 20.0
 	scene._process(0.016)
-	expect(scene._splice.visible and scene._look == "43", "at the 43|44 line he is drawn in two parts")
-	expect(is_equal_approx((scene._splice.material as ShaderMaterial).get_shader_parameter("clip_max"), scene.SPLICE_43_44), "the part past the line is the 44 man")
+	expect(not scene._splice.visible and scene._look == "43", "at the old 43|44 line he is not drawn in two parts")
 	walk(scene, scene.SPLICE_43_44 - 200.0)
-	expect(scene._look == "44" and not scene._splice.visible, "past the line he is the 44 man")
+	expect(scene._look == "43" and not scene._splice.visible, "past the old 43|44 line he is still the worshipper")
 	expect(scene.get_node("Figures/Spell44/DoorDark").visible, "in 44 the door turns black")
 	walk(scene, scene.SPLICE_43_44 + 200.0)
-	expect(scene._look == "43", "walking back he is the worshipper again")
+	expect(scene._look == "43", "walking back he is the worshipper still")
 
 	# 44: the door takes a sceptre; he becomes the mummy, then the 46 man
 	walk(scene, -10000.0)
@@ -134,6 +133,30 @@ func _run() -> void:
 	scene.upside = true
 	walk(scene, scene.LINE_51_52 - 100.0)
 	expect(scene._carried.size() == 1 and not scene.upside, "headlong into 52 costs a sceptre")
+
+	# facing: whichever way a look is drawn, he faces the way he walks (the 43, 50 look left as drawn;
+	# the 46 and 51 look right as drawn, and trail their staff and arm behind them)
+	for case in [["51", 5500.0], ["50", 5970.0], ["46", 7000.0]]:
+		scene.avatar.position.x = case[1]
+		scene._was_x = case[1]
+		for facing in [-1, 1]:
+			scene.avatar.facing = facing
+			scene._process(0.016)
+			scene.avatar._process(0.0)
+			scene._process(0.016)
+			expect(scene._look == case[0] and trail(scene.avatar.sprite) * -facing > 0.0, "%s: walking %s he faces %s" % [case[0], "left" if facing < 0 else "right", "left" if facing < 0 else "right"])
+	scene.avatar.facing = -1
+	for line in [[scene.SPLICE_49_50 + 20.0, "46", "50"], [scene.SPLICE_50_51 + 20.0, "50", "51"]]:
+		scene.avatar.position.x = line[0]
+		scene._was_x = line[0]
+		scene._process(0.016)
+		scene.avatar._process(0.0)
+		scene._process(0.016)
+		expect(scene._look == line[1] and scene._splice.visible and trail(scene.avatar.sprite) > 0.0 and trail(scene._splice) > 0.0,
+			"at the %s|%s change both halves of him face left" % [line[1], line[2]])
+	scene.avatar.position.x = scene.LINE_51_52 - 100.0
+	scene._was_x = scene.avatar.position.x
+	scene._process(0.016)
 
 	# 57: the stream is the target and the man stays drawn.
 	prior = scene.hud._text
@@ -263,6 +286,38 @@ func _run() -> void:
 	expect(scene._carried.is_empty() and not t.g.playing, "52: the last flesh sign loses the game and a sceptre")
 	await seconds(2.0)
 	expect(t.g.playing and t.g.flesh == t.FLESH and t.g.blocked == 0, "52: then the game begins again")
+	# 52: only his hand keeps excrement off the loaves, not the arm leading to it
+	t.g.timer = 99.0
+	var outcome := func(at: Vector2) -> String:
+		t.g.flesh = t.FLESH
+		t.g.blocked = 0
+		t._drop()
+		var f: Dictionary = t.g.falling[-1]
+		f.sprite.global_position = at
+		for i in 400:
+			t._fall(0.02)
+			if f.done:
+				break
+		return "blocked" if t.g.blocked == 1 else ("hurt" if t.g.flesh == t.FLESH - 1 else "none")
+	t.pose(r52, r52.x_max)
+	var shoulder_at: Vector2 = r52.shoulder.global_position
+	var elbow_at: Vector2 = r52.elbow.global_position
+	var hand_at: Vector2 = r52.eff.global_position
+	expect(outcome.call(shoulder_at.lerp(elbow_at, 0.5)) == "hurt", "52: excrement at his upper arm is not kept off the loaves")
+	expect(outcome.call(elbow_at) == "hurt", "52: excrement at his elbow is not kept off the loaves")
+	expect(outcome.call(elbow_at.lerp(hand_at, 0.25)) == "hurt", "52: excrement along his forearm is not kept off the loaves")
+	expect(outcome.call(hand_at) == "blocked", "52: excrement at his hand is kept off the loaves")
+	expect(outcome.call(Vector2(hand_at.x, t.FALL_FROM)) == "blocked", "52: excrement falling onto his hand is kept off")
+	expect(outcome.call(Vector2(r52.loaves.x + 4.0, t.FALL_FROM)) == "hurt", "52: his arm stretched out and still no longer shields the loaves")
+	t.g.flesh = t.FLESH
+	t.g.blocked = 0
+	t.pose(r52, r52.T0.x)
+	Input.action_press("ui_right")
+	t.process(0.1)
+	Input.action_release("ui_right")
+	var moved52: float = r52.x - r52.T0.x
+	expect(is_equal_approx(moved52, t.HAND_SPEED * 0.1), "52: his hand moves at HAND_SPEED")
+	t.pose(r52, r52.T0.x)
 	t.g.blocked = t.COVER_NEED - 1
 	t._drop()
 	t.g.falling[-1].sprite.global_position = r52.eff.global_position
@@ -275,6 +330,15 @@ func _run() -> void:
 	t.start(53)
 	await seconds(0.6)
 	var r53: Dictionary = t.rigs[53]
+	var speed53: float = t.get_script().get_script_constant_map().get("HAND_SPEED_53", 0.0)
+	t.g.timer = 99.0
+	t.pose(r53, r53.T0.x)
+	Input.action_press("ui_right")
+	t.process(0.1)
+	Input.action_release("ui_right")
+	var moved53: float = r53.x - r53.T0.x
+	expect(speed53 > t.HAND_SPEED and is_equal_approx(moved53, speed53 * 0.1) and moved53 > moved52, "53: his hand moves faster than in 52, at HAND_SPEED_53")
+	t.pose(r53, r53.T0.x)
 	var cup: Sprite2D = scene.pieces.spell53_hand
 	var in_cup := func(f: Dictionary) -> void:
 		var half: Vector2 = f.sprite.texture.get_size() / 2.0
@@ -347,11 +411,40 @@ func _run() -> void:
 		return Vector2.ZERO
 	var spot: Vector2 = ink_of.call(scene.pieces.breath_loc1)
 	expect(scene._pick(spot) == "#breath_loc1", "a hidden sail's spot can be clicked")
+	scene.gate_used = true
+	scene.avatar.min_x = scene.min_x()
+	var centre_of := func(s: Sprite2D) -> float: return s.global_position.x + s.texture.get_width() / 2.0
+	var prior_text: String = scene.hud._text
 	scene._use("#breath_loc1", spot)
+	expect(b.carried.is_empty() and scene.avatar.is_walking() and scene.hud._text == prior_text, "clicking a sail's sign sends him walking to it: no sail yet, no reading yet")
+	arrive(scene)
+	scene._was_x = scene.avatar.position.x   # (a walk of the test, no crossing of the lines on the way)
+	expect(is_equal_approx(scene.avatar.position.x, centre_of.call(scene.pieces.breath_loc1)), "arrived under the sign")
+	expect(scene.hud._text == scene._descriptions.text("breath_sign"), "the sail is described on arrival")
+	var flier: MoveableObject = b.flying[0] if b.flying.size() == 1 else null
+	expect(flier != null and b.carried.is_empty() and flier.sprite.global_position.is_equal_approx(scene.pieces.breath_loc1.global_position)
+		and flier.sprite.texture == scene.pieces.breath_loc1.texture and scene.pieces.breath_loc1.visible, "his sail first appears at the sign, which stays drawn")
+	expect(b.carried_at(flier.sprite.global_position + Vector2(20.0, 20.0)) == null and b.loc_at(spot) == "", "a sail in flight cannot be dragged, and the sign gives nothing a second time")
+	await seconds(b.FLIGHT / 2.0)
+	expect(flier.sprite.global_position.x != scene.pieces.breath_loc1.global_position.x or flier.sprite.global_position.y != scene.pieces.breath_loc1.global_position.y, "the sail moves towards him")
+	await seconds(b.FLIGHT)
+	expect(b.flying.is_empty() and b.carried == [flier] and flier.state == MoveableObject.State.WORN
+		and flier.sprite.global_position.is_equal_approx((scene.avatar.carrying_transform() * Transform2D(0.0, b.CARRY)).origin), "it lands as a sail he carries, held up in front of him")
 	var second_spot: Vector2 = ink_of.call(scene.pieces.breath_loc2)
 	expect(scene._pick(second_spot) == "#breath_loc2" and scene._click_rite(second_spot), "the sail remains clickable inside the foreground column")
-	await frames()
-	expect(b.carried.size() == 2 and scene._pick(spot) != "#breath_loc1", "clicked, the spot gives him a sail, once")
+	scene.walk_then(scene.avatar.position.x + 500.0)
+	arrive(scene)
+	scene._was_x = scene.avatar.position.x   # (a walk of the test, no crossing of the lines on the way)
+	expect(b.carried.size() == 1 and b.flying.is_empty() and not b.taken.has("breath_loc2") and scene._pick(second_spot) == "#breath_loc2", "walking elsewhere before he gets there gives no sail")
+	scene._click_rite(second_spot)
+	scene._click_rite(second_spot)
+	arrive(scene)
+	scene._was_x = scene.avatar.position.x   # (a walk of the test, no crossing of the lines on the way)
+	arrive(scene)
+	scene._was_x = scene.avatar.position.x   # (a walk of the test, no crossing of the lines on the way)
+	expect(b.flying.size() == 1, "two clicks on one sign send one sail")
+	await seconds(b.FLIGHT * 2.0)
+	expect(b.carried.size() == 2 and b.flying.is_empty() and scene._pick(spot) != "#breath_loc1", "clicked, the spot gives him a sail, once")
 	expect(b.carried[1].sprite.global_position.y < b.carried[0].sprite.global_position.y, "his sails are held up, stacked")
 	var hand: Sprite2D = scene.pieces.spell55_sail
 	var front: MoveableObject = b.carried[1]
@@ -370,6 +463,28 @@ func _run() -> void:
 	scene.reset()
 	await frames()
 	expect(b.carried.is_empty() and b.taken.is_empty() and not hand.visible, "starting over, the sails are hidden again")
+	scene.gate_used = true
+	scene.avatar.min_x = scene.min_x()
+	var loc3_texture: Texture2D = scene.pieces.breath_loc3.texture
+	var strays := func() -> int: return scene.find_children("*", "Sprite2D", true, false).filter(func(n): return n.texture == loc3_texture and not n.has_meta("piece_id")).size()
+	scene._use("#breath_loc3", Vector2.ZERO)
+	arrive(scene)
+	scene._was_x = scene.avatar.position.x   # (a walk of the test, no crossing of the lines on the way)
+	await seconds(b.FLIGHT / 3.0)
+	scene.reset()
+	await seconds(b.FLIGHT * 2.0)
+	expect(b.flying.is_empty() and b.carried.is_empty() and b.taken.is_empty() and strays.call() == 0, "starting over while a sail flies leaves no sail, carried or stray")
+	scene.gate_used = true
+	scene.avatar.min_x = scene.min_x()
+	scene._use("#breath_loc3", Vector2.ZERO)
+	arrive(scene)
+	scene._was_x = scene.avatar.position.x   # (a walk of the test, no crossing of the lines on the way)
+	await seconds(b.FLIGHT / 3.0)
+	b.to_pylon()
+	await seconds(b.FLIGHT * 2.0)
+	expect(b.flying.is_empty() and b.carried.is_empty() and b.on_pylon.size() == 1 and strays.call() == 1, "dead with a sail in flight, it lies on the pylon once with the others")
+	scene.reset()
+	await frames()
 
 	# 45: rocked too wide, the mummy falls and its head comes off; he is back at the door
 	scene.reset()
@@ -399,7 +514,7 @@ func _run() -> void:
 	expect(scene.pieces.spell45_mummy_head.position != scene._head_at or scene.mode == scene.Mode.WALK, "45: its head comes off")
 	await until_mode(scene, scene.Mode.WALK)
 	expect(scene.widen.amount == 0.0, "45: fallen, the vignette is back as drawn")
-	expect(not scene.gate_used and scene._look == "44" and scene._carried.size() == 2 and scene.get_node("Figures/Spell44/DoorDark").visible, "45: fallen, he is back at the black door with the sceptres left")
+	expect(not scene.gate_used and scene._look == "43" and scene._carried.size() == 2 and scene.get_node("Figures/Spell44/DoorDark").visible, "45: fallen, he is back at the black door as the worshipper, with the sceptres left")
 	expect(scene.get_node("Figures/Spell45/Mummy").rotation == 0.0 and scene.pieces.spell45_mummy_head.position == scene._head_at, "45: the mummy stands as drawn again")
 	# with no sceptre left once inside, the fall kills him
 	scene._carried.pop_back().sprite.visible = false
@@ -422,16 +537,27 @@ func _run() -> void:
 	await seconds(scene.DARK * 2.0)
 	expect(scene.mode == scene.Mode.WALK and scene._dark.modulate.a == 0.0, "45: Restart cancels the exit blackout")
 
-	# no sceptres left at the door: his head falls and the level begins again
+	# no sceptres left at the door: the worshipper reddens and crumbles whole, and the level begins again
 	scene.reset()
 	await frames()
 	walk(scene, scene.LINE_44_45 + scene.HALF)
 	scene.journal.append("spell43_osiris")
 	scene._enter_gate()
-	expect(scene.mode == scene.Mode.SCENE and not scene.avatar.visible, "without sceptres, the gate kills him")
-	await seconds(3.2)
-	expect(not scene.gate_used and scene._look == "43" and scene.avatar.position == scene._start and scene._sceptres.all(func(o): return o.state == MoveableObject.State.WORLD), "after his head falls the level begins again")
+	expect(scene.mode == scene.Mode.SCENE and not scene.avatar.visible and scene._dying != null, "without sceptres, the gate kills him: his picture, whole, takes his place")
+	await seconds(1.3)
+	var loose: Array = scene.get_children().filter(func(n): return n is Sprite2D and n.z_index == 4)
+	expect(loose == [scene._dying] and scene._dying.material.shader == scene.DISSOLVE and scene._dying.texture == scene.LOOKS["43"], "he crumbles whole, as the worshipper: no head falls from the 44 man")
+	await seconds(2.5)
+	expect(not scene.gate_used and scene._look == "43" and scene.avatar.position == scene._start and scene._sceptres.all(func(o): return o.state == MoveableObject.State.WORLD), "after he has crumbled the level begins again")
+	expect(scene.avatar.visible and scene._dying == null and scene.get_children().filter(func(n): return n is Sprite2D and n.z_index == 4).is_empty() and scene.hud._text == scene._hints.message("survival.died"), "he is whole again for the next run, after the death line")
 	expect(scene.journal.has("spell43_osiris"), "the Journal is kept")
+	# restart in the middle of the crumble leaves nothing behind
+	walk(scene, scene.LINE_44_45 + scene.HALF)
+	scene._enter_gate()
+	await seconds(1.3)
+	scene.reset()
+	await seconds(3.5)
+	expect(scene.mode == scene.Mode.WALK and scene.avatar.visible and scene._dying == null and scene.get_children().filter(func(n): return n is Sprite2D and n.z_index == 4).is_empty(), "restarting mid-crumble leaves him whole and nothing behind")
 	scene.gate_used = true
 	scene.avatar.min_x = scene.min_x()
 	var stream_on_return := target_ink(scene, scene.pieces.spell57_stream, "#water57")
@@ -446,9 +572,56 @@ func _run() -> void:
 	await seconds(0.4)
 	var man: Sprite2D = scene.pieces.spell57_man
 	expect(man.visible and man.material.get_shader_parameter("bend") == 0.0, "Restart clears the 57 bend and keeps the man drawn")
-	Engine.time_scale = 1.0
+	# a head cut from its figure is the figure: hit, glowed and read with it (the mummy; the seated men of 52, 53)
 	scene.free()
 	await frames()
+	var viewport := SubViewport.new()
+	viewport.size = Vector2i(1280, 720)
+	root.add_child(viewport)
+	var lv = load("res://scenes/survival.tscn").instantiate()
+	viewport.add_child(lv)
+	await frames(8)
+	lv.hud.dismiss_intro()
+	lv.avatar.set_process(false)
+	lv.gate_used = true
+	lv.avatar.min_x = lv.min_x()
+	var cases := [["spell45_mummy", [lv.pieces.spell45_mummy_head, lv.pieces.spell45_mummy_body]]]
+	for sp in [52, 53]:
+		lv._solved[sp] = true
+		lv.tables.reset()
+	for sp in [52, 53]:
+		cases.append(["spell%d_seated_man" % sp, [lv.pieces["spell%d_head" % sp], lv.pieces["spell%d_arm" % sp], lv.pieces["spell%d_forearm" % sp], lv.figures["spell%d_seated_man" % sp]]])
+	for case in cases:
+		var id: String = case[0]
+		var figure: Sprite2D = lv.figures[id]
+		var at: Vector2 = figure.global_position + figure.texture.get_size() / 2.0
+		lv.avatar.position.x = at.x
+		lv._was_x = at.x
+		lv._update_camera(1.0)
+		await frames(2)
+		for piece in case[1]:
+			var point := ink_point(piece)
+			var screen: Vector2 = lv.get_canvas_transform() * point
+			viewport.push_input(motion(screen))
+			var glows: Array = lv._special_glows.map(func(g): return g.get_parent())
+			var glowed_whole: bool = lv._hover == id and is_instance_valid(lv._glow) and lv._glow.get_parent() == figure \
+				and case[1].all(func(q): return q == figure or q in glows)
+			expect(glowed_whole, "%s: hovering %s lights the whole figure" % [id, piece.name])
+			viewport.push_input(motion(screen))
+			lv.avatar.stop()
+			viewport.push_input(click(screen))
+			arrive(lv)
+			expect(lv.journal.has(id) and lv.hud._text == lv._descriptions.text(id), "%s: clicking %s reads and records the figure" % [id, piece.name])
+			lv.journal.erase(id)
+			lv.hud.say("Scribe", "(blank)")
+			lv.avatar.position.x = at.x
+			lv._was_x = at.x
+		viewport.push_input(motion(lv.get_canvas_transform() * (at + Vector2(0.0, -400.0))))
+		expect(lv._hover == "" and lv._special_glows.is_empty() and not is_instance_valid(lv._glow), "%s: moving off the figure puts every glow out" % [id])
+	viewport.queue_free()
+	await frames()
+
+	Engine.time_scale = 1.0
 	print("SURVIVAL RITES REGRESSIONS ", "OK" if failures.is_empty() else "FAILED")
 	quit(0 if failures.is_empty() else 1)
 
@@ -482,3 +655,48 @@ func target_ink(scene, sprite: Sprite2D, id: String) -> Vector2:
 			if scene._pick(point) == id:
 				return point
 	return Vector2.INF
+
+## Which side of a drawing its ink trails to as it is shown (+: to the right, so it faces left): a walker's
+## staff and arm trail behind him.
+func trail(sprite: Sprite2D) -> float:
+	var image := sprite.texture.get_image()
+	var total := 0.0
+	var moment := 0.0
+	for y in image.get_height():
+		for x in image.get_width():
+			var ink := image.get_pixel(x, y).r
+			total += ink
+			moment += ink * (x + 0.5)
+	var offset := moment / maxf(total, 0.001) - image.get_width() / 2.0
+	return -offset if sprite.flip_h else offset
+
+## An ink pixel of a drawing nearest its ink's centre, in world coordinates.
+func ink_point(sprite: Sprite2D) -> Vector2:
+	var image := sprite.texture.get_image()
+	var sum := Vector2.ZERO
+	var count := 0
+	for y in image.get_height():
+		for x in image.get_width():
+			if image.get_pixel(x, y).a > 0.8:
+				sum += Vector2(x, y)
+				count += 1
+	var centre := sum / maxf(count, 1)
+	var best := Vector2.ZERO
+	var nearest := 1e9
+	for y in image.get_height():
+		for x in image.get_width():
+			if image.get_pixel(x, y).a > 0.8 and Vector2(x, y).distance_to(centre) < nearest:
+				nearest = Vector2(x, y).distance_to(centre)
+				best = Vector2(x, y)
+	return sprite.to_global(sprite.get_rect().position + best)
+
+
+func motion(at: Vector2) -> InputEventMouseMotion:
+	var e := InputEventMouseMotion.new()
+	e.position = at
+	e.global_position = at
+	return e
+
+
+func click(at: Vector2) -> InputEventMouseButton:
+	return _click(at)

@@ -1,30 +1,29 @@
 """Export the prologue (Guarding the Body, spells 151–154) from art/guardingbody151-154.mdp and write its one
 saved scene. The MDP is only read, and checked unchanged at the end.
 
-    python .claude/skills/build-levels/build_prologue.py [151ab 151c 151de 152 154] [--into DIR]
+    python .claude/skills/build-levels/build_prologue.py [--into DIR]
 
-Each top folder of the MDP is one stage of the prologue, a single vignette played on its own, in the order of
-STAGES. In a folder, the layer named like the folder is the drawing; its other layers are that stage's own scroll
-lines (drawn in blue, kept as ink). A stage's strip is both, cut from the canvas with a 30 px margin round its
-frame; rows keep their canvas numbers. Name folders to export only those; the others' data is kept.
+The drawing is the visible folder `Folder2067`; each folder in it is one stage, laid out as on the plate: 151ab,
+151c and 151de stacked in one column (top to bottom), and 152 and 154 to the left of 151de on its ground. In a stage
+folder every layer but `text`, `toptext`, `horizont` and `vertical` is a figure (one sprite, one registry entry);
+those four, and any folder inside (151de holds a copy of 151ab's text block), are the stage's strip. The hidden
+folders (`separated`, `guidelines`) and layers (`pl75`) stay out.
 
 Writes, under godot/ (or DIR/godot with --into, to check the tool without touching the repository):
 
-  assets/prologue/figures/strip<folder>.png   each stage's drawing and scroll lines
-  assets/prologue/figures/frame<folder>_left.png, _right.png
-                                              the strip from each wall outward: the end double lines, drawn
-                                              over the avatar on papyrus so his foot never shows past them
-  assets/prologue/level.json                  per stage: the source rectangle, size, ground, camera rows, start
+  assets/prologue/figures/strip<stage>.png    each stage's text and scroll lines, cut with a 30 px margin
+  assets/prologue/figures/<id>.png            each figure, cropped to its ink
+  assets/prologue/figures/rule<stage>_left.png, _right.png
+                                              the ink of each vertical double line (everything drawn there), laid
+                                              over the avatar on papyrus so he passes behind the rules
+  assets/prologue/level.json                  per stage: the source rectangle, ground, walls, camera rows; figures
   assets/prologue/registry.json               written only when it does not exist
-  assets/menu/prologue.png                    the map picture: stage 151ab from the top of its double rule
-                                              down past its ground rule, without the text below (when 151ab is exported)
+  assets/menu/prologue.png                    the map picture: 151ab from the top of its double rule down past its
+                                              ground rule
   scenes/prologue.tscn                        written only when it does not exist (placement edited in Godot survives)
 
-The scene is one walking lane (scripts/prologue/prologue.gd, on walk.gd): the stages lie edge to edge, the first
-played on the right as on the plate, each lowered or raised so that all stand on one ground line (GROUND). Each
-frame's vertical double lines are walls (`wall_left`, `wall_right`: the inner edges of its rules). The scene's node
-positions are where each stage is; level.json holds each stage's own geometry, in its strip's pixels.
-The avatar is the procession's (assets/procession/figures/avatar.png), drawn facing left.
+Scene coordinates are canvas pixels less ORIGIN. A stage's strip node sits at its source rectangle; level.json
+holds each stage's geometry in its strip's own pixels. The avatar is the procession's, drawn facing left.
 """
 import hashlib
 import json
@@ -42,21 +41,51 @@ from build_scene import save_menu_picture
 
 ROOT = Path(__file__).resolve().parents[3]
 SOURCE = 'art/guardingbody151-154.mdp'
+DRAWING = 'Folder2067'
 SCALE = 1.5
 MARGIN = 30
-GROUND = 907                 # the shared ground line in the scene: the lowest stage's, so no stage is lifted above 0
-# The procession's framing (procession.gd VIEW_TOP and level.json view_height): rows 36–701 of a frame whose ground
-# is row 526. Every stage shows the same number of rows, so the avatar and camera are the same size as there.
-ABOVE_GROUND = 526 - 36
-BELOW_GROUND = 701 - 526
+ORIGIN = (391, 509)          # canvas pixel at the scene's (0, 0): 30 px up and left of the drawing
+STRIP_LAYERS = ('text', 'toptext', 'horizont', 'vertical')
+# The procession's framing (procession.gd VIEW_TOP and level.json view_height): the rows from 490 above the ground to
+# 175 below it. Every stage shows as many, so the avatar and camera are the same size as there.
+ABOVE_GROUND = 490
+BELOW_GROUND = 175
 AVATAR = 'res://assets/procession/figures/avatar.png'
+AVATAR_WIDTH = 140
 AVATAR_HEIGHT = 296
-START_IN = 130               # the avatar starts this far in from a stage's right edge: inside the frame's double rule
-# The map picture, from the stage's strip widened by MENU_PAD of papyrus each side: from the top of its double rule
-# down past its ground rule, 814 x 518, the 440 x 280 shape
-MENU_STAGE, MENU_PAD, MENU_ROWS, MENU_COLS = '151ab', 20, (30, 548), (0, 814)
-# folder: ground row, the top of the double rule the vignette stands on; in playing order
-STAGES = {'151ab': 526, '151c': 907, '151de': 810, '152': 526, '154': 526}
+# Stages in playing order; the column stages are left by walking out past their left wall, the row is one walk.
+ORDER = ['151ab', '151c', '151de', '152', '154']
+COLUMN = ['151ab', '151c']
+ROW = ['151de', '152', '154']
+# Figures: stage, layer name -> (id thing, name, description). Ids read spell<stage>_<thing>.
+FIGURES = {
+    ('151ab', 'mummy left'): ('mummy_left', 'Mummiform figure',
+                              'A figure wrapped like a mummy stands upright at the left of the shrine, its face showing.'),
+    ('151ab', 'mummy right'): ('mummy_right', 'Mummiform figure',
+                               'A figure wrapped like a mummy stands upright at the right of the shrine, its face showing.'),
+    ('151ab', 'anubis'): ('anubis', 'Anubis', 'Anubis, as a jackal, lies on top of a shrine with his tail hanging down.'),
+    ('151ab', 'shrine'): ('shrine', 'Shrine', 'A low shrine with a panelled front stands on four legs.'),
+    ('151c', 'nepthys'): ('nephthys', 'Nephthys', 'A goddess kneels at one end of the bier, the sign of her name on her head.'),
+    ('151c', 'nepthys ball'): ('nephthys_ball', 'Round sign', 'A small round sign rests on the ground in front of Nephthys.'),
+    ('151c', 'isis'): ('isis', 'Isis', 'A goddess kneels at one end of the bier, the sign of her name on her head.'),
+    ('151c', 'isis ball'): ('isis_ball', 'Round sign', 'A small round sign rests on the ground in front of Isis.'),
+    ('151c', 'mummy'): ('mummy', 'Mummy', 'The wrapped body lies on its back on the bier.'),
+    ('151c', 'bier'): ('bier', 'Lion bier', 'A bier shaped like a lion, its head at one end and its tail curled up at the other.'),
+    ('151de', 'mummy left'): ('mummy_left', 'Mummiform figure',
+                              'A figure wrapped like a mummy stands upright at the left of the shrine, its face showing.'),
+    ('151de', 'mummy right'): ('mummy_right', 'Mummiform figure',
+                               'A figure wrapped like a mummy stands upright at the right of the shrine, its face showing.'),
+    ('151de', 'anubis'): ('anubis', 'Anubis', 'Anubis, as a jackal, lies on top of a shrine with his tail hanging down.'),
+    ('151de', 'shrine'): ('shrine', 'Shrine', 'A low shrine with a panelled front stands on four legs.'),
+    ('152', 'offering'): ('offering', 'Offering', 'An offering is held up between the two figures.'),
+    ('152', 'bowl'): ('bowl', 'Bowl', 'A shallow bowl at the kneeling woman\'s knees.'),
+    ('152', 'kneeling woman'): ('kneeling_woman', 'Kneeling woman', 'A woman kneels and reaches up toward the seated man.'),
+    ('152', 'seated man'): ('seated_man', 'Seated man', 'A man sits on a low seat, facing the kneeling woman.'),
+    ('154', 'sun disk'): ('sun_disc', 'Sun disc', 'The sun disc hangs above the body on a short stem.'),
+    ('154', 'sky'): ('sky', 'Sky', 'The sign of the sky stretches over the bier.'),
+    ('154', 'mummy'): ('mummy', 'Mummy', 'The wrapped body lies on its back on the bier.'),
+    ('154', 'bier'): ('bier', 'Lion bier', 'A bier shaped like a lion, its head at one end and its tail curled up at the other.'),
+}
 TITLE = 'Guarding the Body'
 INTRO_TITLE = 'Prologue: Guarding the Body'
 INTRO_BODY = ('The body is laid out in its burial chamber, and must be guarded before it is carried to the tomb.\n\n'
@@ -67,70 +96,117 @@ def sha(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def export(folder, out, w, h, layers, chunks):
-    ground = STAGES[folder]
-    top = next(l for l in layers if l['type'] == 'folder' and l['name'] == folder and l['parentId'] == '-1')
-    drawing = np.zeros((h, w), np.uint8)
-    lines = np.zeros((h, w), np.uint8)
-    for layer in layers:
-        if layer['parentId'] != top['id'] or layer['type'] != '32bpp' or layer['visible'] == 'false':
-            continue
-        if layer['name'] == folder:
-            drawing = np.maximum(drawing, canvas_of(layer, w, h, chunks, False))
+def runs(indices):
+    """Consecutive runs in a sorted index array, as (first, last) pairs."""
+    out = []
+    for i in indices:
+        if out and i == out[-1][1] + 1:
+            out[-1][1] = int(i)
         else:
-            lines = np.maximum(lines, canvas_of(layer, w, h, chunks, True))
-    assert drawing.any() and lines.any(), f'{folder}: needs its drawing layer and its scroll lines'
-    both = np.maximum(drawing, lines)
-    ys, xs = np.nonzero(both)
-    x0, x1 = max(0, int(xs.min()) - MARGIN), min(w, int(xs.max()) + 1 + MARGIN)
-    y1 = min(h, int(ys.max()) + 1 + MARGIN)
-    save_ink(both[:y1, x0:x1], out, f'strip{folder}')
-    if folder == MENU_STAGE:
-        wide = np.pad(both[:y1, x0:x1], ((0, 0), (MENU_PAD, MENU_PAD)))
-        save_menu_picture('prologue', wide, MENU_ROWS, MENU_COLS, out.parent / 'menu')
-    width, height = x1 - x0, y1
-    # the frame's vertical rules: columns inked down nearly all the rows from the top rule to the ground
-    inked = (lines[60:ground, x0:x1] > 0).mean(0) > 0.9
-    rules = np.nonzero(inked)[0]
-    assert len(rules), f'{folder}: no vertical rules'
-    middle = width / 2
-    wall_left = int(rules[rules < middle].max()) + 1
-    wall_right = int(rules[rules > middle].min())
-    save_ink(both[:y1, x0:x0 + wall_left], out, f'frame{folder}_left')
-    save_ink(both[:y1, x0 + wall_right:x1], out, f'frame{folder}_right')
-    print(f'{folder}: strip {width}x{height} from x {x0}; ground {ground}; walls {wall_left}–{wall_right}.')
-    return dict(source_rect=dict(x=x0, y=0, w=width, h=height), width=width, height=height, ground=ground,
-                wall_left=wall_left, wall_right=wall_right,
-                **view(ground, height))
+            out.append([int(i), int(i)])
+    return out
 
 
-def view(ground, height):
-    """The rows the camera shows: as many as in the procession, the ground as far up as there. Where the strip ends
-    sooner below the ground (151c, 151de), the view ends with it, its bottom rule just above the bottom bar, and the
-    rows it loses below are taken off the top (the top of the text there is cut off)."""
-    bottom = min(ground + BELOW_GROUND, height)
-    return dict(view_top=bottom - ABOVE_GROUND - BELOW_GROUND, view_height=bottom)
+class Source:
+    def __init__(self, path):
+        self.w, self.h, self.layers, self.chunks, _ = read_mdp(path)
+        self.kids = {}
+        for layer in self.layers:
+            self.kids.setdefault(layer['parentId'], []).append(layer)
+        root = next(l for l in self.layers if l['name'] == DRAWING and l['parentId'] == '-1')
+        self.stages = {l['name']: l for l in self.kids[root['id']] if l['type'] == 'folder'}
+        assert set(self.stages) == set(ORDER), f'stage folders: {sorted(self.stages)}'
+
+    def ink(self, layer, raw=False):
+        return canvas_of(layer, self.w, self.h, self.chunks, raw)
+
+    def visible(self, folder):
+        """Every visible pixel layer under `folder`, with whether it sits directly in it."""
+        for layer in self.kids.get(folder['id'], []):
+            if layer['visible'] == 'false':
+                continue
+            if layer['type'] == 'folder':
+                yield from ((l, False) for l, _ in self.visible(layer))
+            else:
+                yield layer, True
 
 
-def layout(stages):
-    """Each stage's position in the scene: edge to edge, the first played on the right, all on GROUND."""
-    places, x = {}, 0
-    for folder in reversed(list(STAGES)):
-        places[folder] = (x, GROUND - stages[folder]['ground'])
-        x += stages[folder]['width']
-    return places, x
+def bbox(alpha):
+    ys, xs = np.nonzero(alpha)
+    return int(xs.min()), int(ys.min()), int(xs.max()) + 1, int(ys.max()) + 1
 
 
-def write_scene(base, stages):
+def export(src, out):
+    everything = np.zeros((src.h, src.w), np.uint8)
+    stages, figures = {}, {}
+    for key in ORDER:
+        folder = src.stages[key]
+        strip = np.zeros_like(everything)
+        rules_h = np.zeros_like(everything, bool)
+        rules_v = np.zeros_like(everything, bool)
+        for layer, direct in src.visible(folder):
+            name = layer['name']
+            if direct and name not in STRIP_LAYERS:
+                assert (key, name) in FIGURES, f'{key}: no figure entry for layer {name!r}'
+                thing, title, text = FIGURES[key, name]
+                alpha = src.ink(layer)
+                x0, y0, x1, y1 = bbox(alpha)
+                fid = f'spell{key}_{thing}'
+                save_ink(alpha[y0:y1, x0:x1], out, fid)
+                figures[fid] = dict(stage=key, name=title, description=text, source_layer_id=layer['id'],
+                                    source_rect=dict(x=x0, y=y0, w=x1 - x0, h=y1 - y0))
+                everything = np.maximum(everything, alpha)
+                continue
+            raw = name in ('horizont', 'vertical')
+            alpha = src.ink(layer, raw)
+            strip = np.maximum(strip, alpha)
+            if direct and name == 'horizont':
+                rules_h |= alpha > 0
+            if direct and name == 'vertical':
+                rules_v |= alpha > 0
+        everything = np.maximum(everything, strip)
+        x0, y0, x1, y1 = bbox(strip)
+        x0, y0, x1, y1 = x0 - MARGIN, y0 - MARGIN, x1 + MARGIN, y1 + MARGIN
+        save_ink(strip[y0:y1, x0:x1], out, f'strip{key}')
+        # The frame: the vertical double lines (two runs each side), and the double rule each vignette stands on.
+        cols = runs(np.nonzero(rules_v.mean(0) > 0.1)[0])
+        rows = runs(np.nonzero(rules_h.mean(1) > 0.1)[0])
+        assert len(cols) == 4, f'{key}: vertical rules {cols}'
+        figure_bottom = max(f['source_rect']['y'] + f['source_rect']['h'] for f in figures.values() if f['stage'] == key)
+        ground = min(r[0] for r in rows if r[0] >= figure_bottom - 12)
+        stages[key] = dict(source_rect=dict(x=x0, y=y0, w=x1 - x0, h=y1 - y0), width=x1 - x0, height=y1 - y0,
+                           ground=ground - y0, top=rows[0][0] - y0, bottom=rows[-1][1] + 1 - y0,
+                           outer_left=cols[0][0] - x0, wall_left=cols[1][1] + 1 - x0,
+                           wall_right=cols[2][0] - x0, outer_right=cols[3][1] + 1 - x0,
+                           view_top=ground - ABOVE_GROUND - y0, view_height=ground + BELOW_GROUND - y0)
+        print(f'{key}: strip {x1 - x0}x{y1 - y0} at ({x0}, {y0}); ground row {ground}; '
+              f'walls {cols[1][1] + 1}–{cols[2][0]}.')
+    # menu picture: 151ab from the top of its double rule to a little past its ground rule, papyrus each side
+    s = stages['151ab']
+    r = s['source_rect']
+    pad = 20
+    rows = (r['y'] + s['top'], r['y'] + s['ground'] + 22)
+    wide = np.pad(everything[:, r['x']:r['x'] + r['w']], ((0, 0), (pad, pad)))
+    save_menu_picture('prologue', wide, rows, (0, r['w'] + 2 * pad), out.parent / 'menu')
+    for key in ORDER:
+        s, r = stages[key], stages[key]['source_rect']
+        for side, a, b in (('left', s['outer_left'], s['wall_left']), ('right', s['wall_right'], s['outer_right'])):
+            save_ink(everything[r['y'] + s['top']:r['y'] + s['bottom'], r['x'] + a:r['x'] + b], out, f'rule{key}_{side}')
+    return stages, figures
+
+
+def scene_xy(rect):
+    return rect['x'] - ORIGIN[0], rect['y'] - ORIGIN[1]
+
+
+def write_scene(base, level):
     scene = base / 'godot/scenes/prologue.tscn'
     if scene.exists():
         print('scenes/prologue.tscn exists and is kept; delete it to write it afresh.')
         return
-    places, total = layout(stages)
-    height = max(y + s['height'] for (_, y), s in zip(places.values(), (stages[f] for f in places)))
-    first = next(iter(STAGES))
-    fx, fy = places[first]
-    start_x = fx + stages[first]['wall_right'] - START_IN
+    stages, figures = level['stages'], level['figures']
+    first = stages[ORDER[0]]
+    fx, fy = scene_xy(first['source_rect'])
     body = INTRO_BODY.replace('\n', '\\n')
     parts = ['[gd_scene format=3]\n',
              '[ext_resource type="Script" path="res://scripts/prologue/prologue.gd" id="level"]',
@@ -138,12 +214,15 @@ def write_scene(base, stages):
              '[ext_resource type="Script" path="res://scripts/hud.gd" id="hud"]',
              '[ext_resource type="Shader" path="res://scripts/papyrus.gdshader" id="papyrus"]',
              f'[ext_resource type="Texture2D" path="{AVATAR}" id="avatar_texture"]']
-    for f in STAGES:
-        parts.append(f'[ext_resource type="Texture2D" path="res://assets/prologue/figures/strip{f}.png" id="strip{f}"]')
+    for k in ORDER:
+        parts.append(f'[ext_resource type="Texture2D" path="res://assets/prologue/figures/strip{k}.png" id="strip{k}"]')
         for side in ('left', 'right'):
-            parts.append(f'[ext_resource type="Texture2D" path="res://assets/prologue/figures/frame{f}_{side}.png" '
-                         f'id="frame{f}_{side}"]')
-    parts.append('\n[sub_resource type="ShaderMaterial" id="paper"]\nshader = ExtResource("papyrus")\n')
+            parts.append(f'[ext_resource type="Texture2D" path="res://assets/prologue/figures/rule{k}_{side}.png" '
+                         f'id="rule{k}_{side}"]')
+    for fid in figures:
+        parts.append(f'[ext_resource type="Texture2D" path="res://assets/prologue/figures/{fid}.png" id="{fid}"]')
+    parts.append('\n[sub_resource type="RectangleShape2D" id="box"]\nsize = Vector2(1, 1)\n')
+    parts.append('[sub_resource type="ShaderMaterial" id="paper"]\nshader = ExtResource("papyrus")\n')
     nodes = [f'''[node name="Prologue" type="Node2D"]
 script = ExtResource("level")
 level_key = "prologue"
@@ -154,45 +233,55 @@ intro_body = "{body}"''',
 material = SubResource("paper")
 offset_left = -1500.0
 offset_top = -1000.0
-offset_right = {total + 1500}.0
-offset_bottom = {height + 1000}.0
+offset_right = {level["width"] + 1500}.0
+offset_bottom = {level["height"] + 1000}.0
 mouse_filter = 2
 metadata/_edit_lock_ = true''',
              '[node name="Strip" type="Node2D" parent="."]']
-    for f in STAGES:
-        x, y = places[f]
-        nodes.append(f'''[node name="Strip{f}" type="Sprite2D" parent="Strip"]
+    for k in ORDER:
+        x, y = scene_xy(stages[k]['source_rect'])
+        nodes.append(f'''[node name="Strip{k}" type="Sprite2D" parent="Strip"]
 position = Vector2({x}, {y})
-texture = ExtResource("strip{f}")
+texture = ExtResource("strip{k}")
 centered = false
-metadata/stage = "{f}"
-metadata/source_x = {stages[f]["source_rect"]["x"]}''')
+metadata/stage = "{k}"''')
     nodes.append('[node name="Figures" type="Node2D" parent="."]')
-    for f in STAGES:
-        x, y = places[f]
-        nodes.append(f'[node name="Spell{f}" type="Node2D" parent="Figures"]\nposition = Vector2({x}, {y})\n'
-                     f'metadata/stage = "{f}"')
+    for k in ORDER:
+        nodes.append(f'[node name="Spell{k}" type="Node2D" parent="Figures"]\nmetadata/stage = "{k}"')
+    for fid, f in figures.items():
+        r = f['source_rect']
+        x, y = scene_xy(r)
+        nodes.append(f'''[node name="{fid}" type="Sprite2D" parent="Figures/Spell{f["stage"]}"]
+position = Vector2({x + r["w"] / 2:g}, {y + r["h"] / 2:g})
+texture = ExtResource("{fid}")
+metadata/registry_id = "{fid}"
+metadata/source_layer_id = "{f["source_layer_id"]}"''')
+    start_x = fx + first['wall_right'] - 130
     nodes.append(f'''[node name="Avatar" type="Node2D" parent="."]
-position = Vector2({start_x}, {GROUND})
+position = Vector2({start_x}, {fy + first["ground"]})
 script = ExtResource("avatar")''')
     nodes.append(f'''[node name="Sprite" type="Sprite2D" parent="Avatar"]
 texture = ExtResource("avatar_texture")
 offset = Vector2(0, {-AVATAR_HEIGHT / 2:g})''')
     nodes.append('[node name="Foreground" type="Node2D" parent="."]\nz_index = 6')
-    for f in STAGES:
-        x, y = places[f]
-        s = stages[f]
-        nodes.append(f'[node name="Frame{f}" type="Node2D" parent="Foreground"]\nposition = Vector2({x}, {y})\n'
-                     f'metadata/stage = "{f}"')
-        for side, left, width in (('Left', 0, s['wall_left']), ('Right', s['wall_right'], s['width'] - s['wall_right'])):
-            node = f'Foreground/Frame{f}/{side}'
-            nodes.append(f'[node name="{side}" type="Node2D" parent="Foreground/Frame{f}"]\nposition = Vector2({left}, 0)')
+    for k in ORDER:
+        s = stages[k]
+        x, y = scene_xy(s['source_rect'])
+        nodes.append(f'[node name="Frame{k}" type="Node2D" parent="Foreground"]\nposition = Vector2({x}, {y + s["top"]})\n'
+                     f'metadata/stage = "{k}"')
+        for side, a, b in (('Left', s['outer_left'], s['wall_left']), ('Right', s['wall_right'], s['outer_right'])):
+            node = f'Foreground/Frame{k}/{side}'
+            # a column stage is left past its left wall: the papyrus there runs an avatar's width further out,
+            # so he goes out of sight behind the frame as he leaves
+            extra = AVATAR_WIDTH + 10 if side == 'Left' and k in COLUMN else 0
+            nodes.append(f'[node name="{side}" type="Node2D" parent="Foreground/Frame{k}"]\nposition = Vector2({a}, 0)')
             nodes.append(f'[node name="Papyrus" type="ColorRect" parent="{node}"]\nmaterial = SubResource("paper")\n'
-                         f'offset_right = {width}.0\noffset_bottom = {s["height"]}.0\nmouse_filter = 2')
+                         f'offset_left = {-extra}.0\noffset_right = {b - a}.0\n'
+                         f'offset_bottom = {s["bottom"] - s["top"]}.0\nmouse_filter = 2')
             nodes.append(f'[node name="Ink" type="Sprite2D" parent="{node}"]\n'
-                         f'texture = ExtResource("frame{f}_{side.lower()}")\ncentered = false')
+                         f'texture = ExtResource("rule{k}_{side.lower()}")\ncentered = false')
     nodes.append(f'[node name="Camera" type="Camera2D" parent="."]\n'
-                 f'position = Vector2({fx + stages[first]["width"] / 2:g}, {GROUND - 108})')
+                 f'position = Vector2({fx + first["width"] / 2:g}, {fy + first["ground"] - 108})')
     nodes.append('[node name="HUD" type="CanvasLayer" parent="."]\nscript = ExtResource("hud")')
     nodes.append('[node name="Hitboxes" type="Node2D" parent="."]')
     scene.parent.mkdir(parents=True, exist_ok=True)
@@ -202,37 +291,34 @@ offset = Vector2(0, {-AVATAR_HEIGHT / 2:g})''')
 def main(argv):
     base = ROOT
     if '--into' in argv:
-        i = argv.index('--into')
-        base = Path(argv[i + 1]).resolve()
-        argv = argv[:i] + argv[i + 2:]
-    folders = argv or list(STAGES)
-    unknown = [f for f in folders if f not in STAGES]
-    if unknown:
-        raise SystemExit(f'unknown folder(s): {", ".join(unknown)}; one of {", ".join(STAGES)}')
+        base = Path(argv[argv.index('--into') + 1]).resolve()
     source = ROOT / SOURCE
     digest = sha(source)
-    w, h, layers, chunks, _ = read_mdp(source)
+    src = Source(source)
     out = base / 'godot/assets/prologue'
-    path = out / 'level.json'
-    level = json.loads(path.read_text()) if path.exists() else {}
-    stages = level.get('stages', {})
-    for folder in folders:
-        stages[folder] = export(folder, out, w, h, layers, chunks)
-    missing = [f for f in STAGES if f not in stages]
-    if missing:
-        raise SystemExit(f'not exported yet: {", ".join(missing)}; run without folder names first')
-    places, total = layout(stages)
-    # the defaults walk.gd reads: the whole lane on the shared ground (the prologue frames one stage at a time)
-    level = dict(source=SOURCE, sha256=digest, width=total, height=max(places[f][1] + stages[f]['height'] for f in STAGES),
-                 ground=GROUND, view_top=min(places[f][1] + stages[f]['view_top'] for f in STAGES),
-                 view_height=max(places[f][1] + stages[f]['view_height'] for f in STAGES), scale=SCALE,
-                 avatar='procession/avatar', order=list(STAGES), stages={f: stages[f] for f in STAGES},
-                 figures={}, columns={})
-    path.write_text(json.dumps(level, indent=1, ensure_ascii=False) + '\n')
+    stages, figures = export(src, out)
+    row = [stages[k] for k in ROW]
+    left = min(s['source_rect']['x'] + s['outer_left'] for s in row) - ORIGIN[0]
+    right = max(s['source_rect']['x'] + s['outer_right'] for s in row) - ORIGIN[0]
+    ground = stages[ROW[0]]['source_rect']['y'] + stages[ROW[0]]['ground'] - ORIGIN[1]
+    level = dict(source=SOURCE, sha256=digest, origin=list(ORIGIN),
+                 width=max(s['source_rect']['x'] + s['width'] for s in stages.values()) - ORIGIN[0],
+                 height=max(s['source_rect']['y'] + s['height'] for s in stages.values()) - ORIGIN[1],
+                 ground=ground, view_top=ground - ABOVE_GROUND, view_height=ground + BELOW_GROUND,
+                 view_left=left, view_right=right, scale=SCALE, avatar='procession/avatar',
+                 order=ORDER, column=COLUMN, row=ROW, stages=stages,
+                 figures={fid: dict(stage=f['stage'], source_layer_id=f['source_layer_id'], source_rect=f['source_rect'])
+                          for fid, f in figures.items()},
+                 columns={})
+    (out / 'level.json').write_text(json.dumps(level, indent=1, ensure_ascii=False) + '\n')
     registry = out / 'registry.json'
-    if not registry.exists():
-        registry.write_text(json.dumps(dict(references={}, entries={}), indent=1) + '\n')
-    write_scene(base, level['stages'])
+    if not registry.exists() or not json.loads(registry.read_text()).get('entries'):
+        entries = {fid: dict(name=f['name'], descriptions=dict(default=f['description']), journal=True,
+                             reference='as drawn') for fid, f in figures.items()}
+        old = json.loads(registry.read_text()) if registry.exists() else {}
+        registry.write_text(json.dumps(dict(references=old.get('references', {}), entries=entries),
+                                       indent=1, ensure_ascii=False) + '\n')
+    write_scene(base, level)
     assert sha(source) == digest
     print('MDP unchanged.')
 

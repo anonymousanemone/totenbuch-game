@@ -380,3 +380,12 @@ Who decided what, session by session: the author's decisions, what was made from
 - **Decided:** the Tech Lead never adds a Notion row mid-implementation: issues go to the main session, quick ones in a question box when the skill runs directly, the rest proposed as rows for approval after all the work.
 - **Made:** `godot/scripts/survival/survival.gd`, `breaths.gd`, `offering_tables.gd`, `godot/tests/survival_rites_regressions.gd`; `.claude/skills/small-fixes/SKILL.md` ("No new rows while working"), `agent-team/roles/tech.md`.
 - **Agent did:** chose `HAND_LEN` 36, `HAND_SPEED_53` 260, sail `FLIGHT` 0.5 s; crumbled the door death on a plain picture of the worshipper (the avatar's own texture dissolves as a box); mirrored looks 46 and 51 in the picture (`DRAWN_RIGHT`) so carried items stay on his back; the head group also takes the seated men's arm, forearm and cup and the mummy's body and forearm; the generated Tech Lead agent file lacks the new rule, because `python -m team render` is blocked by errors in the `tech-to-*` handoffs.
+
+## 2026-11-23 · Dangers text pass (instructions, hints, spell numbers)
+- **Decided:** Find deleted from Dangers (no TBD); no spell numbers in player-read text; fight instructions give controls ("Press [space] to attack") with strategy in hints; hints never echo the instruction; E32 synced to E31; "Better a bite than a stolen word" kept as a fight hint, not Heka; intro rewrites postponed.
+- **Made:** `godot/assets/dangers/puzzles.json`, `godot/assets/survival/puzzles.json` (`survival.mummy`).
+- **Agent did:** wrote E31/E32 Heka as notice, interpret, act from the author's ladder; wrote E33, E35 to E37, E39 to E41 strategy hints from the old instructions and feedback; changed "strike" and "thrust" to "attack" in control lines; left `dangers.heka_controls` and `dangers.click_to_fight` as they were.
+- **Agent did:** left `dangers.gd` and `hint_regressions.gd` for the Tech Lead; not run in the game, so fights without a hint may still break the hints suite.
+- **Decided:** Dangers fight hints offer only strategy ideas or edge-of-screen cues (heka signs, Merti signs), never the creature's visible behaviour; skill updated.
+- **Made:** `.claude/skills/write-hints-instructions/SKILL.md` (Fights rule, no Find in Dangers, relaxed ladder for fights).
+- **Corrected:** agent wrote hints describing visible cues (tail, coils, head, waves, shivering band); the player sees these, so they are not hints.

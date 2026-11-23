@@ -57,7 +57,7 @@ If the clue is missing, or the move cannot be read from the screen at all, the l
 | `interpret` | they've seen it but don't see what it means, or can't make the move work | gives the relationship the clue shows, or how the mechanic behaves (what to watch, when to press, what to ignore) | name the move or the exact target |
 | `act` | they understand but don't know the move | says what to do, with the control if needed | add a task or step from another phase |
 
-The Find line is a `notice`: it points to where the puzzle is. It lives under `find` because the game shows it before any phase has started; write and judge it as the first `notice` of the puzzle.
+The Find line is a `notice`: it points to where the puzzle is. It lives under `find` because the game shows it before any phase has started; write and judge it as the first `notice` of the puzzle. **Exception: Dangers has no Find lines** (the author deleted them); Hint shows nothing outside a fight there. Procession keeps its Find lines.
 
 ## 4. Choose the rungs
 
@@ -69,6 +69,8 @@ A phase gets **at most three hints**: `notice` → `interpret` → `act`, always
 
 Order is always from least revealing to most. The last hint must be something the player can act on.
 
+A fight is the exception to the full ladder (see **Fights** in section 5): its phase holds only the strategy or edge-of-screen hints that exist, may be one line or absent, and need not end with an `act`. This needs the Tech Lead to relax the script and `hint_regressions.gd`, which still require every phase to end with an `act`.
+
 ## 5. What each hint says
 
 **Notice.** Points the player to something visible: where the puzzle is (the Find line, in the game's directions: "walk left", "back", "right"), one detail to look at, or one figure to consult, named as the registry names it. It may be vague about what to do, or come at the clue sideways; what it must do is point at something the player can see, or a description or speech they can open there.
@@ -76,6 +78,13 @@ Order is always from least revealing to most. The last hint must be something th
 **Interpret.** The relationship the clue shows, or how the mechanic behaves: which thing belongs with which, what is out of order, what a figure lacks or wants, when the timing is right. The player should be able to work out the move from it, but the move itself is not stated. It may also be indirect, as long as it is tied to something visible. A fact from the sources (an identification, what an object is for) must be supported by the cited source, as for any other line; a claim about the mechanic must be true in the code, so check it there before writing.
 
 **Act.** The move: what to drag, click or press, and where, with the control names in brackets ([←], [space]). Only this phase's move. This is the only hint allowed to give the solution.
+
+**Fights.** In a fight (Dangers and any later action level) the player can see the creature, and what it does is obvious: a tail wiggling, coils tightening, a head lifting, a wave rising. A fight hint never describes these cues or what they mean. It offers only:
+
+- **a strategy idea** the player may not think of (move into a crocodile's path and let it bite you rather than let it steal past; a rule the mechanic has on purpose left unsaid), or
+- **something at the edge of the screen they may not have noticed** (the red signs above the crocodiles, the signs above the two Merti snakes), and what it is for.
+
+The first is an `interpret`, the second a `notice`; an `act` is added only when there is a move to name (hold [shift] for a red crocodile). A fight that has no strategy and nothing at the edge has **no hint**: Hint stays silent in it. Never write a hint to restate the controls or to say when to press; the instruction names the keys, and the creature's own movement shows the timing.
 
 All hints:
 
@@ -101,6 +110,7 @@ When asked to review a puzzle, or when a playtest shows a problem, judge its ins
 **Helpful.** Does each hint move the player on by pointing to something visible? A hint may be vague about what to do, or slightly tangential; that is not a fault. It fails when:
 - it points to nothing the player can see or open in that state;
 - it repeats the instructions, a description, feedback, or the hint before it;
+- in a fight, it describes what the creature visibly does or says when to press, rather than offering a strategy idea or pointing to something at the edge of the screen;
 - the last hint can't be acted on;
 - it uses a name that differs from the registry, or a direction that is wrong for where the player is.
 
@@ -128,8 +138,8 @@ Report per puzzle, in a table: instruction or phase (or Find), position, `level`
 
 1. Every puzzle has an instruction, and it says the task and the keys in general terms without the clue or the fix; any exception was agreed with the author.
 2. Every key, count and name in an instruction is true in the code and the registry.
-3. Every phase the script can reach has a ladder, and every puzzle has a Find line for every destination the script passes.
-4. Each phase has at most three hints in the order `notice`, `interpret`, `act`; any rung left out has a stated reason; no phase is `act` alone without the author's agreement.
+3. Every phase the script can reach has a ladder, and every puzzle has a Find line for every destination the script passes (except Dangers, which has none; a fight with no strategy has no ladder).
+4. Each phase has at most three hints in the order `notice`, `interpret`, `act`; any rung left out has a stated reason; no phase is `act` alone without the author's agreement. A fight's hints are only strategy ideas or edge-of-screen cues, never the creature's visible behaviour.
 5. Every hint points to something visible in that state; none gives away more than its kind allows; the last can be acted on.
 6. No hint repeats the instruction, a description, feedback or the hint before it, and none reaches into another phase or puzzle.
 7. Each `interpret` is true to the sources and, for technique, to the mechanic in the code.

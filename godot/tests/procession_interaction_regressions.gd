@@ -26,6 +26,84 @@ func on_figure(level: Node, h: Dictionary) -> Vector2:
 	return h.rect.get_center()
 
 
+## A point on the drawing that `finder` (a Callable taking a point) accepts, searched over `box`.
+func on_drawing(box: Rect2, finder: Callable) -> Vector2:
+	for y in 31:
+		for x in 31:
+			var point: Vector2 = box.position + box.size * Vector2((x + 0.5) / 31.0, (y + 0.5) / 31.0)
+			if finder.call(point):
+				return point
+	return Vector2.INF
+
+
+## Loose pieces glow alone; pieces locked into place belong to the whole table, and the goose locked in the
+## bearer's arms to the goose-man: they glow and answer as the whole does.
+func _locked_belong_to_whole() -> void:
+	var level = load("res://scenes/procession.tscn").instantiate()
+	root.add_child(level)
+	level.hud.dismiss_intro()
+	level.set_process(false)
+	level.avatar.set_process(false)
+	var offerings = level.offerings
+	level.enter_table(true)
+	arrive(level)
+	var table_point: Vector2 = on_figure(level, level._table)
+	var whole_in_table: Dictionary = level._table_pick(table_point)
+	var whole_walking: Dictionary = level._pick(table_point)
+	level._stack_table_but_frond()
+	var frond := ""
+	for id in offerings.pieces:
+		if not offerings.placed.has(id):
+			frond = id
+	expect(frond != "" and offerings.pieces[frond].kind == "frond" and offerings.placed.size() == offerings.pieces.size() - 1,
+		"table: every piece but the frond is locked in place")
+	var locked: String = offerings.placed.keys()[0]
+	var locked_point: Vector2 = on_drawing(level._descriptions.sprite_bounds(offerings.objects[locked].sprite), func(p): return offerings.placed_at(p) == locked)
+	var frond_point: Vector2 = on_drawing(level._descriptions.sprite_bounds(offerings.sprite_of(frond)), func(p): return offerings.pick(p) == frond)
+	expect(locked_point != Vector2.INF and frond_point != Vector2.INF, "table: a point on a locked piece and on the loose frond were found")
+	# in the minigame, the table is not rebuilt: the whole table is not pointed at, so neither is a locked piece
+	expect(whole_in_table.is_empty() and level._table_pick(locked_point).is_empty() and level._glow_targets(level._table_pick(locked_point)).is_empty(),
+		"in the minigame a locked piece glows nothing, as the unfinished table does")
+	var loose: Dictionary = level._table_pick(frond_point)
+	expect(loose.get("type") == "piece" and level._glow_targets(loose) == [offerings.sprite_of(frond)], "in the minigame a loose piece glows alone")
+	# the goose locked in the bearer's arms belongs to the goose-man, before the table is rebuilt too
+	offerings.take("goose")
+	level._act_bearer()
+	expect(offerings.bearer == "goose", "table: the goose is locked in the bearer's arms")
+	var goose_point: Vector2 = on_drawing(level._descriptions.sprite_bounds(offerings._bearer_sprite), func(p): return offerings.goose_at(p))
+	var goose_man: Dictionary = level._table_pick(goose_point)
+	expect(goose_point != Vector2.INF and goose_man.get("type") == "bearer"
+		and level._glow_targets(goose_man) == [level._bearer_rect] + offerings.bearer_sprites(),
+		"a locked goose glows the whole goose-man, drawing and goose")
+	level.leave_table()
+	# walking: the unfinished table glows as a whole, and a locked piece with it
+	var walking_locked: Dictionary = level._pick(locked_point)
+	expect(whole_walking.get("spot") == level._table and walking_locked.get("spot") == level._table
+		and level._glow_targets(walking_locked) == level._glow_targets(whole_walking) and not level._glow_targets(walking_locked).is_empty(),
+		"walking, a locked piece glows what the unfinished table glows")
+	# rebuilt: the whole table glows with everything on it, whichever piece is pointed at
+	level.enter_table(true)
+	level._place_table_piece(frond)
+	expect(level.solved.t3 and offerings.complete(), "table: placing the frond rebuilds the table")
+	var whole: Array = level._glow_targets(level._table_pick(table_point))
+	expect(whole.size() == offerings.pieces.size() + 1, "the rebuilt table glows with every piece on it")
+	var all_whole := true
+	for id in offerings.placed:
+		var point: Vector2 = on_drawing(level._descriptions.sprite_bounds(offerings.objects[id].sprite), func(p): return offerings.placed_at(p) == id)
+		all_whole = all_whole and point != Vector2.INF and level._glow_targets(level._pick(point)) == whole
+	expect(all_whole, "every locked piece of the rebuilt table glows the whole table")
+	# clicks follow the whole too
+	level.leave_table()
+	level.hud.say("Scribe", "Nothing yet.")
+	level._click_world(locked_point)
+	arrive(level)
+	expect(level.hud._text == level.PUZZLES.text("procession.offerings", "success"), "clicking a locked piece of the rebuilt table reads as the table")
+	level.hud.say("Scribe", "Nothing yet.")
+	level._click_world(goose_point)
+	arrive(level)
+	expect(level.hud._text == level.PUZZLES.text("procession.goose", "feedback", "success_carrying"), "clicking the locked goose reads as the goose-man")
+	level.free()
+
 func _run() -> void:
 	var level = load("res://scenes/procession.tscn").instantiate()
 	root.add_child(level)
@@ -192,9 +270,10 @@ func _run() -> void:
 	expect(goose_point != Vector2.INF, "returned goose has a readable hotspot")
 	if goose_point != Vector2.INF:
 		level._click_world(goose_point)
-		expect(level.hud._text == level.PUZZLES.text("procession.goose", "feedback", "goose_refuses")
+		arrive(level)
+		expect(level.hud._text == level.PUZZLES.text("procession.goose", "feedback", "success_carrying")
 			and offerings.placed.has(loaf) and loaf_drawing.is_visible_in_tree(),
-			"inspecting the returned goose leaves the bread visible on the table")
+			"inspecting the returned goose (as the goose-man) leaves the bread visible on the table")
 	level.in_standards = true
 	var original: Sprite2D = level._pieces[level.slot.pole1]
 	var original_scale: Vector2 = original.scale
@@ -288,5 +367,6 @@ func _run() -> void:
 	expect(debug_rules, "debug builds can play and view every built chapter")
 	scroll.restored.assign(saved_progress)
 	menu.free()
+	_locked_belong_to_whole()
 	print("PROCESSION INTERACTIONS ", "OK" if failures.is_empty() else "FAILED")
 	quit(0 if failures.is_empty() else 1)

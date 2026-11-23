@@ -1,23 +1,28 @@
 ---
 name: write-notion
-description: Rules for writing to the Totenbuch Tasks database in Notion: stay inside it, never delete without approval, sweep Done tasks into History only on explicit request and after confirming the exact list, set Roles, never reference gitignored files except `references/` source paths (turbo plans get their own row with full content), and write safely. Use before any Notion create, update, move or delete.
+description: Rules for writing to the project's Notion, the Final project tracker page and its three databases (Totenbuch Tasks, Weekly PPP, Risk Register): stay inside them, never delete without approval, sweep Done tasks into History only on explicit request and after confirming the exact list, set Roles, never reference gitignored files except `references/` source paths (turbo plans get their own row with full content), and write safely. Use before any Notion read of the tracker or any create, update, move or delete.
 ---
 
 # Writing to Notion
 
-The project's Notion lives in one place: the **Totenbuch Tasks** database.
+The project's Notion lives on one page, **Final project tracker** (`https://app.notion.com/p/a2767ab14ecf83f381a38164610eda05`). This skill covers three databases on it:
 
-- Database: `https://app.notion.com/p/41b67ab14ecf81048c25c441f4064b1d`
-- Data source: `collection://41b67ab1-4ecf-8198-b2f5-000b7d402646` (use it as `parent: {data_source_id}` when creating)
+| Database | Holds | Data source (use as `parent: {data_source_id}` when creating) |
+|---|---|---|
+| **Totenbuch Tasks** (`https://app.notion.com/p/41b67ab14ecf81048c25c441f4064b1d`) | the game's tasks, Plans, Docs and History pages | `collection://41b67ab1-4ecf-8198-b2f5-000b7d402646` |
+| **Weekly PPP** (`https://app.notion.com/p/08d67ab14ecf82829b4081d6d800e39f`) | Progress, Plans and Problems for each week | `collection://42667ab1-4ecf-8229-a518-87287f2da05b` |
+| **Risk Register** (`https://app.notion.com/p/b4c67ab14ecf83f096c301919dd7186f`) | the project's risks | `collection://53767ab1-4ecf-832e-9978-07bb7db8ffd0` |
 
 Read this file before any Notion write. These rules come from the user and outrank a tool's defaults.
 
-## 1. Scope: only Totenbuch Tasks
+## 1. Scope: the tracker page and its three databases
 
-- Read and write only that database, its views, and the pages inside it. Never read, edit, create, move or duplicate anything else in the workspace: other pages, databases, teamspaces, calendars, comments, files, memory.
-- Create pages only with the Totenbuch Tasks data source as parent. No drafts, no workspace-level pages, no other databases.
-- Never move a page out of the database (`notion-move-pages`), and never duplicate one outside it.
-- If a task seems to need something outside it, stop and ask.
+- Read and write only those three databases, their views, and the pages inside them. Read the Final project tracker page itself only to find them; do not edit its text. Never read, edit, create, move or duplicate anything else in the workspace: other pages, databases, teamspaces, calendars, comments, files, memory.
+- The course's template **Tasks** database was deleted from the page (2026-11-22); do not recreate it. Weekly PPP's **Tasks** relation points at Totenbuch Tasks.
+- Create pages only with one of the three data sources as parent. No drafts, no workspace-level pages, no other databases.
+- Never move a page out of its database (`notion-move-pages`), and never duplicate one outside it.
+- If a task seems to need something outside them, stop and ask.
+- Sections 2 and 5 and the general rules in Section 8 apply to all three databases. Sections 3, 4, 6 and 7, and the Categories and view rules in Section 8, are about Totenbuch Tasks only. Weekly PPP and Risk Register follow Section 9.
 
 ## 2. Deleting needs approval
 
@@ -194,3 +199,26 @@ Rows never go backwards into a Plan. If a task turns out to be undecided, ask th
 - **Privacy.** No personal details (name, email) in page text or properties.
 - **Repo vs Notion.** `TODO.md` in the repo is still the source for TODO text and line numbers. Do not edit it to match Notion unless asked.
 - **Git.** Writing to Notion never implies committing. Ask before any commit or push.
+
+## 9. Weekly PPP and Risk Register
+
+Both hold the student's own reporting to course staff, so a fact in them must be true and sourced. Fetch the data source before writing and copy the format of an existing row (date style, how a field is phrased).
+
+### Weekly PPP
+
+Properties: **Week** (title), **Date**, **Progress**, **Plans**, **Problems**, **Tasks** (relation).
+
+- One row per week. Before creating, check whether that week's row exists; if it does, add to it and keep what is written.
+- Write or change a row only when the user asks. Draft only from what the sources show: Totenbuch Tasks rows moved to Done or In progress that week, `project-docs/decision-log.md`, `git log`. Never invent progress. Text a person wrote is never overwritten (Section 5).
+- Progress is what was done, Plans what is next, Problems what blocked or worries the work. A problem the user has not decided how to handle is stated as a problem; do not turn it into a plan or a TBD (Section 6).
+- **Tasks** relates to Totenbuch Tasks: link the rows that week's text covers (usually those moved to Done that week).
+- **Date** is the week's Monday to Sunday.
+
+### Risk Register
+
+Properties: **Risk** (title), **Dimension**, **Likelihood**, **Impact**, **Mitigation**, **Status**, **Last reviewed**.
+
+- Use only the existing options: Dimension (IP / Concept, Business / Audience, Technology, Team, Genre / Mechanics, Timeline), Likelihood and Impact (Low, Medium, High), Status (Open, Watching, Closed). Adding or removing one is a schema change (Section 5).
+- Write the title as the risk (what could go wrong) and put the response in Mitigation.
+- Likelihood, Impact, Status and closing a risk are the user's judgement. Propose them in chat with a few words why, and set them after a yes. Set **Last reviewed** only to a date the user reviewed it.
+- Add a risk only when the user asks, or propose it in chat first.

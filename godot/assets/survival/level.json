@@ -5,6 +5,8 @@
  "height": 1500,
  "ground": 534,
  "view_height": 701,
+ "view_left": 30,
+ "view_right": 9064,
  "scale": 1.5,
  "figures": {
   "spell47_bird_shrine": {

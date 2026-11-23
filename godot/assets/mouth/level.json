@@ -6,6 +6,8 @@
  "ground": 526,
  "view_top": 20,
  "view_height": 741,
+ "view_left": 30,
+ "view_right": 4868,
  "scale": 1.5,
  "start": {
   "x": 4808,

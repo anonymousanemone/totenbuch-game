@@ -118,7 +118,10 @@ func _run() -> void:
 	expect(table.sprite_of(loaf) != null and table.objects.goose.locked_in_place, "displaced loaf has physics and accepted goose is locked")
 	expect(table.objects.goose.state == MoveableObject.State.PLACED and table.objects.goose.sprite.visible, "accepted goose uses its movable sprite and placed state")
 	scene._click_world(_ink_point(table.objects.goose.sprite))
-	expect(scene.hud._text == PUZZLES.text("procession.goose", "feedback", "goose_refuses"), "clicking accepted goose shows its own refusal description")
+	if scene.avatar._target != null:
+		scene.avatar.position.x = scene.avatar._target
+		scene.avatar._process(0.0)
+	expect(scene.hud._text == PUZZLES.text("procession.goose", "feedback", "success_carrying"), "clicking the accepted goose reads as the goose-man carrying it")
 	expect(table.bearer_act() == "has_goose" and table.holding() == "", "accepted goose cannot be taken back")
 	var body := table.sprite_of(loaf).get_parent() as RigidBody2D
 	expect(body.position.x >= table.floor_x.x and body.position.x <= table.floor_x.y, "displaced loaf spawns within expanded floor bounds")

@@ -106,16 +106,10 @@ size = Vector2(342, 323)
 size = Vector2(673, 308)
 
 [sub_resource type="RectangleShape2D" id="inspection_canopy_frame"]
-size = Vector2(142, 290)
-
-[sub_resource type="RectangleShape2D" id="inspection_man_hauling_the_canopy"]
-size = Vector2(230, 281)
+size = Vector2(372, 290)
 
 [sub_resource type="RectangleShape2D" id="inspection_anubis_on_a_chest"]
-size = Vector2(250, 270)
-
-[sub_resource type="RectangleShape2D" id="inspection_man_hauling_anubis"]
-size = Vector2(225, 272)
+size = Vector2(475, 272)
 
 [sub_resource type="RectangleShape2D" id="hit_pole1"]
 size = Vector2(142, 347)
@@ -265,33 +259,37 @@ centered = false
 metadata/source_layer_id = "121"
 metadata/registry_id = "women_mourners"
 
-[node name="canopy_frame" type="Sprite2D" parent="Figures" unique_id=1998625185]
+[node name="canopy_hauler" type="Node" parent="Figures" unique_id=1807610779]
+
+[node name="canopy_frame" type="Sprite2D" parent="Figures/canopy_hauler" unique_id=1998625185]
 position = Vector2(13527, 236)
 texture = ExtResource("layer_127")
 centered = false
 metadata/source_layer_id = "127"
 metadata/registry_id = "canopy_frame"
 
-[node name="man_hauling_the_canopy" type="Sprite2D" parent="Figures" unique_id=1977111158]
+[node name="man_hauling_the_canopy" type="Sprite2D" parent="Figures/canopy_hauler" unique_id=1977111158]
 position = Vector2(13297, 245)
 texture = ExtResource("layer_128")
 centered = false
 metadata/source_layer_id = "128"
-metadata/registry_id = "man_hauling_the_canopy"
+metadata/registry_id = "canopy_frame"
 
-[node name="anubis_on_a_chest" type="Sprite2D" parent="Figures" unique_id=1071921291]
+[node name="chest_hauler" type="Node" parent="Figures" unique_id=1521879629]
+
+[node name="anubis_on_a_chest" type="Sprite2D" parent="Figures/chest_hauler" unique_id=1071921291]
 position = Vector2(13032, 256)
 texture = ExtResource("layer_129")
 centered = false
 metadata/source_layer_id = "129"
 metadata/registry_id = "anubis_on_a_chest"
 
-[node name="man_hauling_anubis" type="Sprite2D" parent="Figures" unique_id=566533427]
+[node name="man_hauling_anubis" type="Sprite2D" parent="Figures/chest_hauler" unique_id=566533427]
 position = Vector2(12807, 254)
 texture = ExtResource("layer_130")
 centered = false
 metadata/source_layer_id = "130"
-metadata/registry_id = "man_hauling_anubis"
+metadata/registry_id = "anubis_on_a_chest"
 
 [node name="standard_bearers" type="Sprite2D" parent="Figures" unique_id=1452843401]
 position = Vector2(9006, 246)
@@ -919,7 +917,7 @@ shape = SubResource("inspection_women_mourners")
 debug_color = Color(0.35, 0.75, 0.9, 0.3)
 
 [node name="canopy_frame" type="Area2D" parent="Hitboxes" unique_id=1066007354]
-position = Vector2(13598, 381)
+position = Vector2(13483, 381)
 collision_layer = 0
 collision_mask = 0
 monitoring = false
@@ -930,20 +928,8 @@ metadata/registry_id = "canopy_frame"
 shape = SubResource("inspection_canopy_frame")
 debug_color = Color(0.35, 0.75, 0.9, 0.3)
 
-[node name="man_hauling_the_canopy" type="Area2D" parent="Hitboxes" unique_id=1409517334]
-position = Vector2(13412, 385.5)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/registry_id = "man_hauling_the_canopy"
-
-[node name="Shape" type="CollisionShape2D" parent="Hitboxes/man_hauling_the_canopy" unique_id=667579983]
-shape = SubResource("inspection_man_hauling_the_canopy")
-debug_color = Color(0.35, 0.75, 0.9, 0.3)
-
 [node name="anubis_on_a_chest" type="Area2D" parent="Hitboxes" unique_id=953190501]
-position = Vector2(13157, 391)
+position = Vector2(13044.5, 390)
 collision_layer = 0
 collision_mask = 0
 monitoring = false
@@ -952,18 +938,6 @@ metadata/registry_id = "anubis_on_a_chest"
 
 [node name="Shape" type="CollisionShape2D" parent="Hitboxes/anubis_on_a_chest" unique_id=821687529]
 shape = SubResource("inspection_anubis_on_a_chest")
-debug_color = Color(0.35, 0.75, 0.9, 0.3)
-
-[node name="man_hauling_anubis" type="Area2D" parent="Hitboxes" unique_id=155719445]
-position = Vector2(12919.5, 390)
-collision_layer = 0
-collision_mask = 0
-monitoring = false
-monitorable = false
-metadata/registry_id = "man_hauling_anubis"
-
-[node name="Shape" type="CollisionShape2D" parent="Hitboxes/man_hauling_anubis" unique_id=1540440979]
-shape = SubResource("inspection_man_hauling_anubis")
 debug_color = Color(0.35, 0.75, 0.9, 0.3)
 
 [node name="pole1" type="Area2D" parent="Hitboxes" unique_id=1391248116]

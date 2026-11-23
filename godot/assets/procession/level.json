@@ -2,6 +2,8 @@
  "width": 14954,
  "height": 1000,
  "view_height": 701,
+ "view_left": 30,
+ "view_right": 14924,
  "ground": 526,
  "scale": 1.5,
  "plates": {
@@ -292,36 +294,20 @@
    "id": "women_mourners"
   },
   {
-   "x": 13527,
+   "x": 13297,
    "y": 236,
-   "w": 142,
+   "w": 372,
    "h": 290,
    "plate": "I",
    "id": "canopy_frame"
   },
   {
-   "x": 13297,
-   "y": 245,
-   "w": 230,
-   "h": 281,
-   "plate": "I",
-   "id": "man_hauling_the_canopy"
-  },
-  {
-   "x": 13032,
-   "y": 256,
-   "w": 250,
-   "h": 270,
-   "plate": "I",
-   "id": "anubis_on_a_chest"
-  },
-  {
    "x": 12807,
    "y": 254,
-   "w": 225,
+   "w": 475,
    "h": 272,
    "plate": "I",
-   "id": "man_hauling_anubis"
+   "id": "anubis_on_a_chest"
   },
   {
    "x": 11783,

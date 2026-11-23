@@ -259,42 +259,434 @@
  "notes": [
   {
    "column": "prototype",
+   "file": "handoffs/2026-11-22-student-to-art.md",
+   "from": "student",
+   "kind": "origin",
+   "routed": false,
+   "to": "art"
+  },
+  {
+   "column": "prototype",
+   "file": "handoffs/2026-11-22-student-to-design.md",
+   "from": "student",
+   "kind": "origin",
+   "routed": false,
+   "to": "design"
+  },
+  {
+   "column": "prototype",
    "file": "handoffs/2026-11-22-student-to-narrative.md",
    "from": "student",
    "kind": "origin",
    "routed": false,
    "to": "narrative"
+  },
+  {
+   "column": "prototype",
+   "file": "handoffs/2026-11-22-tech-to-qa.md",
+   "from": "tech",
+   "kind": "",
+   "routed": false,
+   "to": "qa"
   }
  ],
  "others": [
   {
-   "covered_by": "unset",
+   "covered_by": "student",
    "id": "producer",
    "title": "Producer"
   },
   {
-   "covered_by": "unset",
-   "id": "design",
-   "title": "Design Lead"
-  },
-  {
-   "covered_by": "unset",
-   "id": "art",
-   "title": "Art Lead"
-  },
-  {
-   "covered_by": "unset",
+   "covered_by": "student",
    "id": "bi",
    "title": "Business Intelligence"
   },
   {
-   "covered_by": "unset",
+   "covered_by": "student",
    "id": "release",
    "title": "Publishing and Release"
   }
  ],
  "rendered_on": "2026-11-22",
  "roles": {
+  "art": {
+   "docs": [
+    "Art Direction Peer Review (GDF 5.3)",
+    "Style guide (`project-docs/style-guide.md`)",
+    "Asset list (`project-docs/asset-list.md`)"
+   ],
+   "editable": true,
+   "kind": "agent",
+   "lanes": {
+    "G1": {
+     "delivers": [
+      [
+       "producer",
+       "minimum asset list"
+      ]
+     ],
+     "does": "Name the minimum presentation that communicates the experience.",
+     "expects": [
+      [
+       "design",
+       "core loop"
+      ]
+     ],
+     "recommends": "What stays placeholder."
+    },
+    "G2": {
+     "delivers": [
+      [
+       "student",
+       "readability notes"
+      ]
+     ],
+     "does": "Review readability in the first playable.",
+     "expects": [],
+     "recommends": "Visual problems that skewed the test."
+    },
+    "G3": {
+     "delivers": [
+      [
+       "tech",
+       "style guide and asset list"
+      ]
+     ],
+     "does": "Lock the style guide and asset list.",
+     "expects": [],
+     "recommends": "Visual scope for production."
+    },
+    "G4": {
+     "delivers": [
+      [
+       "qa",
+       "visual defects with screenshots"
+      ]
+     ],
+     "does": "Check integrated readability and consistency.",
+     "expects": [
+      [
+       "tech",
+       "release build"
+      ]
+     ],
+     "recommends": "Whether the visuals block release."
+    },
+    "G5": {
+     "delivers": [
+      [
+       "student",
+       "art notes for the AAR"
+      ]
+     ],
+     "does": "Note what the visual choices did for players.",
+     "expects": [],
+     "recommends": "Readability lessons."
+    },
+    "ideation": {
+     "delivers": [
+      [
+       "student",
+       "mood references with attribution"
+      ]
+     ],
+     "does": "Collect visual references for the concepts.",
+     "expects": [
+      [
+       "design",
+       "concept options"
+      ]
+     ],
+     "recommends": "A visual style the schedule can carry."
+    },
+    "planning": {
+     "delivers": [
+      [
+       "producer",
+       "asset estimate"
+      ]
+     ],
+     "does": "Estimate asset work at the agreed quality.",
+     "expects": [],
+     "recommends": "Assets to reduce or cut."
+    },
+    "production": {
+     "delivers": [
+      [
+       "tech",
+       "final assets"
+      ]
+     ],
+     "does": "Make and fit final assets one named item at a time.",
+     "expects": [],
+     "recommends": "Visual defects to fix or accept."
+    },
+    "prototype": {
+     "delivers": [
+      [
+       "tech",
+       "Min's sprite and look, with sizes and file names"
+      ]
+     ],
+     "does": "Draw Min from plate 165 in the guide look (blue, transparent body, translucent outline) so the Procession test is fair; leave the built scroll art as it is.",
+     "expects": [
+      [
+       "design",
+       "design spec"
+      ]
+     ],
+     "recommends": "Readability fixes found in playtest."
+    },
+    "release": {
+     "delivers": [
+      [
+       "release",
+       "screenshots and key art"
+      ]
+     ],
+     "does": "Prepare screenshots and showcase images.",
+     "expects": [],
+     "recommends": "Images that show the core loop."
+    }
+   },
+   "primer": "The art lead sets the visual direction and makes it readable: what the player looks at first, what looks interactive, and how assets are made and named. In this game that means plates spliced and cut without redrawing them, scroll figures posed from the original drawing, and UI art that looks like the Old Fax font.",
+   "slots": {
+    "constraints": {
+     "label": "Visual constraints",
+     "value": "Scroll art is cut from the Lepsius plates and keeps the original drawing, never redrawn; UI art matches the Old Fax pixel font; approved animation sheets are never regenerated"
+    },
+    "readability": {
+     "label": "Readability rule",
+     "value": "Clickable things glow (UI.hover_glow); faint ink marks only where a piece is to be dragged; every colour comes from the style guide's list"
+    },
+    "references": {
+     "label": "Reference images",
+     "value": "Lepsius, Das Todtenbuch der Ägypter (1842), references/lepsius_todtenbuch.pdf; Old Fax font (George Blackwell, CC BY 4.0); project-docs/style-guide.md"
+    }
+   },
+   "subtitle": "Plate splicing and cutting, scroll and UI art, style guide",
+   "title": "Art Lead",
+   "worked": false
+  },
+  "design": {
+   "docs": [
+    "Game Design Document (GDF 5.2), `project-docs/gdd.md`",
+    "Puzzle and minigame ideas, `ideas.md`",
+    "Playtest questions (GDF 5.9)"
+   ],
+   "editable": true,
+   "kind": "agent",
+   "lanes": {
+    "G1": {
+     "delivers": [
+      [
+       "student",
+       "Initial GDD"
+      ],
+      [
+       "producer",
+       "core loop and playtest question"
+      ],
+      [
+       "tech",
+       "systems sketch and agent role"
+      ],
+      [
+       "art",
+       "core loop"
+      ],
+      [
+       "narrative",
+       "core loop"
+      ],
+      [
+       "qa",
+       "core loop"
+      ]
+     ],
+     "does": "Write the core loop, references, systems sketch, and playtest question.",
+     "expects": [],
+     "recommends": "The first experiment to run."
+    },
+    "G2": {
+     "delivers": [
+      [
+       "student",
+       "Update GDD"
+      ]
+     ],
+     "does": "Update the GDD with what changed and why.",
+     "expects": [
+      [
+       "student",
+       "direction after each finding"
+      ]
+     ],
+     "recommends": "Which claims the evidence supports."
+    },
+    "G3": {
+     "delivers": [
+      [
+       "tech",
+       "locked feature list"
+      ]
+     ],
+     "does": "Freeze the design scope in the GDD.",
+     "expects": [
+      [
+       "student",
+       "scope decision"
+      ]
+     ],
+     "recommends": "No new features after this without a change request."
+    },
+    "G4": {
+     "delivers": [
+      [
+       "student",
+       "Final GDD"
+      ]
+     ],
+     "does": "Finalize the GDD to match the release build.",
+     "expects": [
+      [
+       "tech",
+       "release build"
+      ]
+     ],
+     "recommends": "Whether the build delivers the X."
+    },
+    "G5": {
+     "delivers": [
+      [
+       "student",
+       "design section of the AAR"
+      ]
+     ],
+     "does": "Explain which design decisions held up.",
+     "expects": [],
+     "recommends": "What you would test first next time."
+    },
+    "ideation": {
+     "delivers": [
+      [
+       "student",
+       "two or three concept options, each with an X"
+      ],
+      [
+       "producer",
+       "concept options"
+      ],
+      [
+       "tech",
+       "concept options"
+      ],
+      [
+       "art",
+       "concept options"
+      ],
+      [
+       "narrative",
+       "concept options"
+      ],
+      [
+       "qa",
+       "concept options"
+      ]
+     ],
+     "does": "Draft two or three concepts, each with an X and a core loop.",
+     "expects": [
+      [
+       "student",
+       "intended experience and player"
+      ]
+     ],
+     "recommends": "The concept whose pleasure is easiest to test."
+    },
+    "planning": {
+     "delivers": [
+      [
+       "student",
+       "remaining design work"
+      ],
+      [
+       "producer",
+       "remaining design estimate"
+      ]
+     ],
+     "does": "Estimate the remaining design work at the agreed quality, and propose which built levels get puzzles.",
+     "expects": [],
+     "recommends": "Design features to exclude."
+    },
+    "production": {
+     "delivers": [
+      [
+       "tech",
+       "tuning changes"
+      ]
+     ],
+     "does": "Tune balance and pacing from playtests; check the intended experience.",
+     "expects": [],
+     "recommends": "Changes that serve the intended experience."
+    },
+    "prototype": {
+     "delivers": [
+      [
+       "student",
+       "playtest questions"
+      ],
+      [
+       "tech",
+       "design spec for the core interaction"
+      ],
+      [
+       "art",
+       "design spec"
+      ],
+      [
+       "narrative",
+       "design spec"
+      ],
+      [
+       "qa",
+       "intended behavior to check"
+      ]
+     ],
+     "does": "Specify what Procession with Min must reveal, sort every unstated detail with check-features, and write the playtest questions.",
+     "expects": [],
+     "recommends": "Design changes, each tied to an observation."
+    },
+    "release": {
+     "delivers": [
+      [
+       "student",
+       "design retrospective notes"
+      ]
+     ],
+     "does": "Compare the result with the original intent.",
+     "expects": [],
+     "recommends": "The next experiment for this game."
+    }
+   },
+   "primer": "The design lead specifies how the game plays: actions, rules, progression, balance, and the experience those are meant to produce. They write it down so engineering, art, and QA build and check the same thing.",
+   "slots": {
+    "loop": {
+     "label": "Core loop",
+     "value": "Walk the scroll and click a figure or caption; notice what is wrong or what a figure asks for; act (drag a piece, time a pull, fight, match); the scene reacts and shows progress; the next scene opens."
+    },
+    "motivation": {
+     "label": "Player motivation (Motivation Atlas)",
+     "value": "Mastery and understanding of an unfamiliar artefact: esteem and self-actualization, competence through a puzzle solved by spotting"
+    },
+    "x": {
+     "label": "The X, in one sentence",
+     "value": "A point-and-click walk along Lepsius's Todtenbuch papyrus (1842), where the player restores each scene by looking closely at its drawn figures and putting right what is wrong."
+    }
+   },
+   "subtitle": "Puzzle and minigame ideas, GDD, checking features, playtest questions",
+   "title": "Design Lead",
+   "worked": false
+  },
   "instructor": {
    "docs": [],
    "editable": false,
@@ -1309,15 +1701,11 @@
   }
  },
  "status": {
+  "art": "tailored",
+  "design": "tailored",
   "narrative": "tailored",
   "qa": "tailored",
   "tech": "tailored"
  },
- "warnings": [
-  "other-roles.md: producer is empty; write student, not needed, <reason>, or agent <path>",
-  "other-roles.md: design is empty; write student, not needed, <reason>, or agent <path>",
-  "other-roles.md: art is empty; write student, not needed, <reason>, or agent <path>",
-  "other-roles.md: bi is empty; write student, not needed, <reason>, or agent <path>",
-  "other-roles.md: release is empty; write student, not needed, <reason>, or agent <path>"
- ]
+ "warnings": []
 }

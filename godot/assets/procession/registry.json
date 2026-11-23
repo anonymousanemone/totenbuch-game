@@ -30,14 +30,6 @@
    "journal": true,
    "reference": "as drawn"
   },
-  "man_hauling_the_canopy": {
-   "name": "Man hauling the canopy",
-   "descriptions": {
-    "default": "A man hauls the canopy frame on its sledge by a rope."
-   },
-   "journal": true,
-   "reference": "as drawn"
-  },
   "anubis_on_a_chest": {
    "name": "Anubis on a chest",
    "descriptions": {
@@ -45,14 +37,6 @@
    },
    "journal": true,
    "reference": "Tawfik 2022 (the chest of the canopic jars)"
-  },
-  "man_hauling_anubis": {
-   "name": "Man hauling Anubis",
-   "descriptions": {
-    "default": "A man hauls Anubis's chest on its sledge by a rope."
-   },
-   "journal": true,
-   "reference": "as drawn"
   },
   "funerary_bier": {
    "name": "The funerary bier",

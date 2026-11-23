@@ -182,5 +182,5 @@ func _update_camera(delta: float) -> void:
 	var rows: Dictionary = level.lanes[lane]
 	var page: Dictionary = level.page
 	SCROLL_CAMERA.follow(camera, get_viewport_rect().size, hud.top_height(), hud.bottom_height(), delta, _unit,
-		{"left": float(page.x), "right": float(page.x) + float(page.w), "top": float(rows.top), "bottom": float(rows.bottom)},
+		{"left": float(level.get("view_left", page.x)), "right": float(level.get("view_right", page.x + page.w)), "top": float(rows.top), "bottom": float(rows.bottom)},
 		avatar.position.x, true)

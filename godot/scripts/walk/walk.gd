@@ -162,9 +162,10 @@ func _update_camera(delta: float) -> void:
 
 
 ## What the camera frames: columns `left` to `right` and rows `top` to `bottom` (by default the whole scroll,
-## from the level's `view_top`, or the shared first row where it names none).
+## from the level's `view_top`, or the shared first row where it names none; the columns run between the outer
+## lines of the double lines at its ends, where `level.json` has `view_left` and `view_right`).
 func view() -> Dictionary:
-	return {"left": 0.0, "right": float(level.width), "top": float(level.get("view_top", SCROLL_CAMERA.VIEW_TOP)),
+	return {"left": SCROLL_CAMERA.view_left(level), "right": SCROLL_CAMERA.view_right(level), "top": float(level.get("view_top", SCROLL_CAMERA.VIEW_TOP)),
 		"bottom": float(level.view_height)}
 
 

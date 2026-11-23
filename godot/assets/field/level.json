@@ -11,6 +11,8 @@
  },
  "scale": 1.5,
  "view_height": 710,
+ "view_left": 1045,
+ "view_right": 8615,
  "start": {
   "x": 7000,
   "y": 1230

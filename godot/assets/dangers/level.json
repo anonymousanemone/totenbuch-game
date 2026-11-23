@@ -73,6 +73,8 @@
   ]
  },
  "view_height": 666,
+ "view_left": 30,
+ "view_right": 6688,
  "plates": {},
  "sprites": {
   "c31a": {

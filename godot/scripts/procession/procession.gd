@@ -505,10 +505,6 @@ func _click_world(p: Vector2) -> void:
 		_begin_carried(ending.objects[h.id], p)
 	elif h.type == "worn_adze":
 		_begin_carried(mouth.adze_object, p)
-	elif h.type == "goose_locked":
-		say_game("Goose-bearer", PUZZLES.text("procession.goose", "feedback", "goose_refuses"))
-	elif h.type == "offering_placed":
-		offerings.objects[h.id].request_description()
 	elif h.type == "plumes_locked":
 		bulls.plumes_object.request_description()
 	elif h.type == "ending":
@@ -562,10 +558,8 @@ func _view_click(h: Dictionary, p: Vector2) -> void:
 			walk_then(avatar.reach(h.spot.rect), _view_record.bind(h.spot))
 		"caption":
 			_descriptions.show(h.id, hud)
-		"bearer", "goose_locked":
+		"bearer":
 			walk_then(avatar.reach(_bearer_rect), _describe_bearer)
-		"offering_placed":
-			offerings.objects[h.id].request_description()
 		"plumes_locked":
 			bulls.plumes_object.request_description()
 		"slot":
@@ -591,16 +585,16 @@ func _pick(p: Vector2) -> Dictionary:
 		return {"type": "worn_adze", "id": "mouth_adze"}
 	if in_table and offerings.loaf_at(p):
 		return {"type": "bearer_loaf", "id": offerings.bearer}
-	if offerings.goose_at(p):
-		return {"type": "goose_locked", "id": "goose"}
+	if offerings.goose_at(p):   # locked in his arms: part of the goose-man, which glows and answers as a whole
+		return {"type": "bearer", "rect": _bearer_rect}
 	if bulls.plumes_object.locked_in_place and bulls.plumes_object.contains_point(p):
 		return {"type": "plumes_locked", "id": "plumes"}
 	var off := offerings.pick(p)
 	if off != "":
 		return {"type": "piece", "id": off}
-	var placed_offering := offerings.placed_at(p)
-	if placed_offering != "":
-		return {"type": "offering_placed", "id": placed_offering}
+	if offerings.placed_at(p) != "":   # locked in place: part of the whole table, which glows and answers as a whole
+		_table.rect = _hot_rect(_table.id)
+		return {"type": "hot", "spot": _table, "rect": _table.rect}
 	var w := ending.worn_at(p)
 	if w != "":
 		return {"type": "worn", "id": w}
@@ -668,10 +662,6 @@ func _glow_targets(h: Dictionary) -> Array:
 			return [mouth.adze_object.sprite]
 		"bearer_loaf":
 			return [offerings._bearer_sprite]
-		"goose_locked":
-			return offerings.bearer_sprites()
-		"offering_placed":
-			return [offerings.objects[h.id].sprite]
 		"plumes_locked":
 			return [bulls.plumes_sprite()]
 		"ending":   # a hidden piece glows; the empty place glows with what already stands there
@@ -721,7 +711,9 @@ func _glow_targets(h: Dictionary) -> Array:
 				return [{"sprite": sprite, "region": sprite.global_transform.affine_inverse() * r}]
 			if h.spot.id == "priest_with_jar":   # he is a sprite now, his arm with him
 				return [water.priest_sprite(), water.arm_sprite()]
-			return [_inspection_sprites[h.spot.id]] if _inspection_sprites.has(h.spot.id) else [h.spot.rect]
+			if _inspection_sprites.has(h.spot.id):   # the drawings the scene keeps in one node share the entry and glow together
+				return _static_figures(h.spot.id)
+			return [h.spot.rect]
 	return []
 
 
@@ -945,10 +937,6 @@ func _table_input(event: InputEvent) -> void:
 			if offerings.holding() != "":
 				return
 			match h.get("type", ""):
-				"goose_locked":
-					say_game("Goose-bearer", PUZZLES.text("procession.goose", "feedback", "goose_refuses"))
-				"offering_placed":
-					offerings.objects[h.id].request_description()
 				"piece":
 					_take_offering(h.id)
 				"bearer_loaf":
@@ -1465,7 +1453,15 @@ func _add_journal(h: Dictionary) -> void:
 
 
 func _inspection_picture(h: Dictionary) -> Texture2D:
-	return _inspection_sprites[h.id].texture if _inspection_sprites.has(h.id) else _journal_picture(h.rect)
+	if _inspection_sprites.has(h.id) and _static_figures(h.id).size() == 1:
+		return _inspection_sprites[h.id].texture
+	return _journal_picture(h.rect)
+
+
+## The saved drawings of registry entry `id` (several where the scene keeps them together in a node: the canopy
+## and its hauler, Anubis's chest and its hauler).
+func _static_figures(id: String) -> Array:
+	return _figure_sprites.get(id, []).filter(func(n): return n.has_meta("source_layer_id"))
 
 
 ## The strip under `r`, with the figures that are sprites now (the hauling, the water priest,
@@ -1692,6 +1688,8 @@ func _update_camera(delta: float) -> void:
 		var face := mouth.face_view()
 		z = minf((vp.y - top - bottom - 20.0) / face.size.y, vp.x / (face.size.x + 80.0))
 		target_x = face.get_center().x
+	# walking: between the outer lines of the double lines at the ends; a hold keeps its own framing
+	var ends := Vector2(SCROLL_CAMERA.view_left(level), SCROLL_CAMERA.view_right(level)) if focus == "" else Vector2(0.0, level.width)
 	if focus != _focus:
 		var face_transition := focus == "mouth" or _focus == "mouth"
 		_focus = focus
@@ -1700,7 +1698,7 @@ func _update_camera(delta: float) -> void:
 		_refocus.t += delta
 		var s := smoothstep(0.0, REFOCUS, _refocus.t)
 		z = lerpf(_refocus.z, z, s)
-		target_x = SCROLL_CAMERA.clamp_horizontal(target_x, vp.x / z, level.width)
+		target_x = SCROLL_CAMERA.clamp_between(target_x, vp.x / z, ends.x, ends.y)
 		camera.zoom = Vector2(z, z)
 		camera.position.x = lerpf(_refocus.x, target_x, s)
 		if _refocus.t >= REFOCUS:
@@ -1709,7 +1707,7 @@ func _update_camera(delta: float) -> void:
 		var k := SCROLL_CAMERA.smoothing(delta)
 		z = lerpf(camera.zoom.x, z, k)
 		camera.zoom = Vector2(z, z)
-		target_x = SCROLL_CAMERA.clamp_horizontal(target_x, vp.x / z, level.width)
+		target_x = SCROLL_CAMERA.clamp_between(target_x, vp.x / z, ends.x, ends.y)
 		camera.position.x = lerpf(camera.position.x, target_x, k)
 	if mouth.active:
 		var face_y := mouth.face_view().get_center().y + (bottom - top) / 2.0 / z

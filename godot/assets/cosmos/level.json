@@ -5,6 +5,8 @@
  "height": 1000,
  "ground": 534,
  "view_height": 701,
+ "view_left": 30,
+ "view_right": 11956,
  "scale": 1.5,
  "plates": {
   "VII": {

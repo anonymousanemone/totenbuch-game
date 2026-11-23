@@ -24,7 +24,10 @@ already cut by hand in the `.mdp` as sprites and `level.json` data.
 Export named artwork into `godot/assets/<level>/figures/` and keep animation sheets, if
 needed, in `animation/`. Record stable IDs, source bounds, dimensions, scale, ground,
 and the camera's rows in `level.json`: `view_height`, and `view_top` only when the first row shown is
-not the shared one (`ScrollCamera.VIEW_TOP`, 36). Keep descriptions in the level's data catalog,
+not the shared one (`ScrollCamera.VIEW_TOP`, 36). Also record its columns, `view_left` and `view_right`: the
+outer line of the double line at each end of the strip (first and last inked column of the vertical double
+line); `camera_ends_regressions.gd` measures them from `strip.png`. A builder that rewrites `level.json` must keep
+them. Keep descriptions in the level's data catalog,
 following the shared `descriptions.gd` format.
 
 Export the complete scroll, including captions, frame lines, and lower inscriptions.

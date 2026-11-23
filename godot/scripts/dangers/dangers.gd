@@ -538,7 +538,17 @@ func _hover_at(p: Vector2) -> Array:
 	if it != "":
 		return [it]
 	var subject := _inspection_at(p)
-	return [subject] if subject != "" else []
+	return _group(subject) if subject != "" else []
+
+
+## The drawings the scene keeps together in a node of their own (a spell's crocodiles, the donkey and its snake,
+## the sheaf and its snake): one thing, glowing together, with one registry entry. A node that is only a
+## folder (`Pieces`, a spell's) does not group its actors.
+func _group(name: String) -> Array:
+	var parent: Node = actors[name].get_parent()
+	if parent == $Pieces or parent.get_parent() == $Pieces:
+		return [name]
+	return actors.keys().filter(func(n): return actors[n].get_parent() == parent)
 
 
 func _set_hover(names: Array) -> void:
@@ -1814,7 +1824,10 @@ func _update_camera(delta: float) -> void:
 	if not fight.is_empty():
 		var s := span(fight.e)
 		focus = (s.x + s.y) / 2.0
-	focus = SCROLL_CAMERA.clamp_horizontal(focus, vis_w, level.width)
+	if fight.is_empty():   # walking: between the outer lines of the double lines at the ends; a fight keeps its own framing
+		focus = SCROLL_CAMERA.clamp_between(focus, vis_w, SCROLL_CAMERA.view_left(level), SCROLL_CAMERA.view_right(level))
+	else:
+		focus = SCROLL_CAMERA.clamp_horizontal(focus, vis_w, level.width)
 	var k := SCROLL_CAMERA.smoothing(delta, 0.002)
 	var y := SCROLL_CAMERA.vertical_center(SCROLL_CAMERA.view_height(level), top, bottom, z, VIEW_TOP)
 	if not fight.is_empty() and fight.kind in ARENA_FIGHTS:
@@ -2094,7 +2107,7 @@ func _autotest() -> void:
 			"sheaf": sheaf.autotest(e, expect)
 		end_fight()  # the real game waits half a second first
 		expect.call(solved.has(e.id), e.id + " overcome")
-		var glows := func(n): return _picture(actors[n]).get_children().any(func(c): return c.material is ShaderMaterial and (c.material as ShaderMaterial).get_shader_parameter("level") == UI.Glow.SUCCESS)
+		var glows := func(n): return _picture(actors[n]).get_children().any(func(c): return c is CanvasItem and c.material is ShaderMaterial and (c.material as ShaderMaterial).get_shader_parameter("level") == UI.Glow.SUCCESS)
 		var glowers := _success_glowers(e)
 		expect.call(glowers.all(glows), e.id + " won: its creatures and bearer flash pale green")
 		expect.call(not _box_actors(e).any(func(n): return n not in glowers and glows.call(n)), e.id + " won: nothing else (heka word, signs) flashes")

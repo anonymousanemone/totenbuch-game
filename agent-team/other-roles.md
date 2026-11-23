@@ -1,6 +1,4 @@
 # Roles not added
-- producer: 
-- design: 
-- art: 
-- bi: 
-- release: 
+- producer: student
+- bi: student
+- release: student

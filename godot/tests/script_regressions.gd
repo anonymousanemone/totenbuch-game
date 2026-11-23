@@ -29,6 +29,8 @@ func _run() -> void:
 	_test_calf_turn_gestures()
 	_test_dangers_damage_shake()
 	_test_donkey_hover()
+	_test_grouped_hover()
+	_test_grouped_figures()
 	_test_hover_glow()
 	_test_ui_hover_glow()
 	_test_success_glow()
@@ -118,7 +120,7 @@ func _test_procession_hitboxes() -> void:
 		_expect(not shape.disabled and actual.size.x > 0.0 and actual.size.y > 0.0
 			and actual.position.is_finite() and actual.size.is_finite(),
 			"manually authored figure box is enabled and has valid bounds: " + id)
-	_expect(count == 40, "all 31 describable figures, eight bearers and the goose-bearer keep their saved boxes, under Hitboxes")
+	_expect(count == 38, "all 29 describable figures (the two haulers share their canopy's and chest's box), eight bearers and the goose-bearer keep their saved boxes, under Hitboxes")
 	scene.free()
 	var image := Image.create(20, 15, false, Image.FORMAT_RGBA8)
 	image.fill(Color.TRANSPARENT)
@@ -258,7 +260,7 @@ func _test_dangers_scene_actors() -> void:
 	var cam: Camera2D = scene.get_node("Camera")
 	_expect(absf(cam.position.x - scene.get_node("Avatar").position.x) < 1000.0 and cam.zoom.x < 1.0,
 		"the dangers camera is authored where the level starts")
-	_expect(scene.get_node("Pieces/Spell31/croc31a") == ids.c31a
+	_expect(scene.get_node("Pieces/Spell31/crocs31/croc31a") == ids.c31a
 		and scene.get_node("Pieces/Spell31/spear_bearer") == ids.spear31,
 		"actors have readable names and are organized beneath their spell")
 	var simple := true
@@ -383,7 +385,7 @@ func _test_donkey_hover() -> void:
 		for y in range(0, art.get_height(), 4):
 			for x in range(0, art.get_width(), 4):
 				var point := sprite.to_global(sprite.get_rect().position + Vector2(x, y))
-				if art.get_pixel(x, y).a > 0.8 and scene._hover_at(point) == [actor_id]:
+				if art.get_pixel(x, y).a > 0.8 and actor_id in scene._hover_at(point):
 					glows = true
 					break
 			if glows:
@@ -403,6 +405,75 @@ func _test_donkey_hover() -> void:
 		"donkey snake remains hoverable after the vignette opens")
 	scene._unhandled_input(InputEventMouseMotion.new())
 	scene.reset()
+	scene.free()
+
+
+func _test_grouped_hover() -> void:
+	# Sprites the scene keeps together in a node (the crocodiles of a spell, the donkey and its snake, the sheaf and its
+	# snake) are one thing: the pointer over any of them glows all of them, and they share one registry entry.
+	var scene = load("res://scenes/dangers.tscn").instantiate()
+	root.add_child(scene)
+	scene.process_mode = Node.PROCESS_MODE_DISABLED
+	scene.hud.dismiss_intro()
+	scene.gate = {}
+	var groups := {
+		"e31": ["c31a", "c31b", "c31c", "c31d"], "e32": ["c32a", "c32b", "c32c", "c32d"],
+		"e40": ["snake40", "donkey40"],
+		"e41": ["bundle41", "sheaf41_stalks", "sheaf41_band1", "sheaf41_band2", "sheaf41_band3", "sheaf41_band4", "snake41"],
+	}
+	for entry in groups:
+		var members: Array = groups[entry]
+		for hovered in members:
+			var actor: Node2D = scene.actors[hovered]
+			if not actor.has_meta("registry_id"):
+				continue
+			var sprite: Sprite2D = scene._picture(actor)
+			var art := sprite.texture.get_image()
+			var found := false
+			for y in range(0, art.get_height(), 4):
+				for x in range(0, art.get_width(), 4):
+					var point := sprite.to_global(sprite.get_rect().position + Vector2(x, y))
+					if art.get_pixel(x, y).a > 0.8 and scene._inspection_at(point) == hovered:
+						var names: Array = scene._hover_at(point)
+						var same := names.size() == members.size() and members.all(func(m): return m in names)
+						_expect(same, "spell %s: the pointer over %s glows the whole group %s (got %s)" % [entry, hovered, members, names])
+						scene._set_hover(names)
+						var lit := names.all(func(m): return scene._picture(scene.actors[m]).get_node_or_null("Glow") != null and scene._picture(scene.actors[m]).get_node("Glow").visible)
+						_expect(lit, "spell %s: every drawing of the group glows under %s" % [entry, hovered])
+						scene._set_hover([])
+						found = true
+						break
+				if found:
+					break
+			_expect(found, "spell %s: %s can be hovered" % [entry, hovered])
+		var ids := {}
+		for m in members:
+			if scene.actors[m].has_meta("registry_id"):
+				ids[scene.actors[m].get_meta("registry_id")] = true
+		_expect(ids.keys() == [entry], "spell %s: the group uses one registry entry" % entry)
+	scene.free()
+
+
+func _test_grouped_figures() -> void:
+	# Figures the Procession scene keeps together in a node (the canopy and its hauler, Anubis's chest and its
+	# hauler) are one thing: one registry entry, one hotspot, and the pointer over either glows both.
+	var entries: Dictionary = JSON.parse_string(FileAccess.get_file_as_string("res://assets/procession/registry.json")).entries
+	var scene = load("res://scenes/procession.tscn").instantiate()
+	root.add_child(scene)
+	scene.process_mode = Node.PROCESS_MODE_DISABLED
+	for group in [["canopy_hauler", "canopy_frame", "man_hauling_the_canopy"], ["chest_hauler", "anubis_on_a_chest", "man_hauling_anubis"]]:
+		var tag: String = group[0] + ": "
+		var sprites: Array = scene.get_node("Figures/" + group[0]).get_children().filter(func(n): return n is Sprite2D)
+		_expect(sprites.size() == 2 and sprites.all(func(s): return s.get_meta("registry_id", "") == group[1]),
+			tag + "both drawings carry the one registry entry " + group[1])
+		_expect(entries.has(group[1]) and not entries.has(group[2]), tag + "the registry holds one entry for the group")
+		var spots: Array = scene.hotspots.filter(func(h): return h.id == group[1] or h.id == group[2])
+		_expect(spots.size() == 1 and spots[0].id == group[1], tag + "the group has one hotspot")
+		if spots.size() == 1:
+			var spot: Dictionary = spots[0]
+			_expect(sprites.all(func(s): return spot.rect.grow(1.0).encloses(DESCRIPTIONS.sprite_bounds(s))), tag + "its hotspot covers both drawings")
+			var targets: Array = scene._glow_targets({"type": "hot", "spot": spot, "rect": spot.rect})
+			_expect(targets.size() == 2 and sprites.all(func(s): return s in targets), tag + "the pointer over the group glows both drawings")
 	scene.free()
 
 

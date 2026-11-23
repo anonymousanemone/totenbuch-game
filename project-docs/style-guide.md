@@ -62,6 +62,8 @@ The UI is the scroll's own furniture: papyrus bars, its frame band and a pixel f
 | Rule (`UI.RULE`) | `#8f7142` | Thin rules, unlit sound pips |
 | Ochre (`UI.OCHRE`) | `#62380e` | Secondary text: journal notes, menu values, sound pips |
 | Cream (`UI.CREAM`) | `#f1e7cd` | Type on tags, menu hover type, the Dangers' paper |
+| Button hover (`ui.gd`, `scroll.tscn`, `menu.tscn`) | `#efe0bb` | The fill of a button under the cursor; a lighter papyrus written out by hand, with no `UI.*` name |
+| Disabled button (`scroll.tscn`, `menu.tscn`) | dark papyrus `#cbb07c` at 50% | The fill of a disabled button; dark papyrus written out by hand |
 | Dim (`UI.DIM`) | `#1f140a` at 50% (72% behind modals) | Behind the journal, modals and menus |
 | Success flash (`UI.SUCCESS`) | multiplier (1.8, 1.4, 0.6) | A menu button flashes warm when it is pressed |
 | Band tint (`UI.VIEW`) | multiplier (1.7, 1.25, 0.45) | The frame band while only walking and reading a restored scroll |

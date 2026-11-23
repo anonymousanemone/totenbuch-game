@@ -38,8 +38,24 @@ static func fit_zoom(viewport: Vector2, top: float, bottom: float, view_height: 
 
 
 static func clamp_horizontal(target: float, visible_width: float, level_width: float) -> float:
-	return clampf(target, visible_width / 2.0,
-		maxf(visible_width / 2.0, level_width - visible_width / 2.0))
+	return clamp_between(target, visible_width, 0.0, level_width)
+
+
+## The first column the walking camera may show: the outer line of the left double line, where `level.json`
+## names it (`view_left`), else the left end of the scroll.
+static func view_left(level: Dictionary) -> float:
+	return float(level.get("view_left", 0.0))
+
+
+## The column after the last the walking camera may show (`view_right`), else the right end of the scroll.
+static func view_right(level: Dictionary) -> float:
+	return float(level.get("view_right", level.width))
+
+
+## Keeps a view `visible_width` wide between columns `left` and `right`. A view wider than that sits on `left`.
+static func clamp_between(target: float, visible_width: float, left: float, right: float) -> float:
+	return clampf(target, left + visible_width / 2.0,
+		maxf(left + visible_width / 2.0, right - visible_width / 2.0))
 
 
 ## A delta of one second or more is also used by reset and CLI helpers to snap into place.

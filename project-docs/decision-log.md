@@ -320,3 +320,8 @@ Who decided what, session by session: the author's decisions, what was made from
 - **Made:** `.claude/skills/write-hints/SKILL.md`; pointers in `AGENTS.md`, `write-game-text`, the Narrative and Audio and QA roles (re-rendered) and the configuration row.
 - **Agent did:** named the hint kinds notice, interpret, act (the existing labels) and added `tip` for skill phases; noted that `hint_regressions.gd` rejects `tip` until the test is extended.
 - Corrected (author): the Find line is a `notice`; there is no `tip` kind, technique is an `interpret`; a phase with only an `act` (or act plus tip) needs a very good reason and the author's agreement; a hint may be vague about what to do or tangential, but must point to something visible. `write-hints` and the Hints bullet in `write-game-text` updated; `hint_regressions.gd` needs no change.
+
+## 2026-11-22 · goose snap, plumed lector signs, Eater of the Ass speed
+- **Decided:** keep both priests' speech red (they already match); raise the double-plumed lector's signs a few pixels; the fake-out change is a faster snake crawl; goose only snaps now, the other drag-and-drop items become one audit task.
+- **Made:** `godot/scripts/procession/offering_table.gd` (`goose_in_reach`), `procession.gd` (`_snap_offering`, `RECITE_RAISE`), `godot/scripts/dangers/danger_encounters.gd` (e40 `crawl`), tests in `godot/tests/moveable_object_regressions.gd` and `procession_interaction_regressions.gd`, `agent-team/handoffs/2026-11-22-tech-to-qa.md`.
+- **Agent did:** goose snaps within the table pieces' 35 px radius of the bearer's arms, release over him still works; signs raised 6 plate px; crawl raised about 40% (39-59, hard 56-84), hard kept above normal; no test pins the speed.

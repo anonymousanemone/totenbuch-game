@@ -76,6 +76,8 @@ func _run() -> void:
 	expect(level.hud._text == level._descriptions.text("lector_with_plumes") + " " + level.PUZZLES.text("procession.standards", "feedback", "speaking"), "plumed lector click shows default description with speaking cue at the bottom")
 	expect(level._recital.get_child_count() == 8, "plumed lector still recites all eight standards")
 	expect(level._recital.get_children().all(func(glyph): return Color(glyph.modulate, 1.0).is_equal_approx(UI.inked(UI.RED))), "plumed lector's spoken signs use heka red")
+	expect(level._recital.get_children().all(func(glyph): return is_equal_approx(glyph.position.y + glyph.texture.get_size().y * glyph.scale.y, level.level.recital.bottom - level.RECITE_RAISE)),
+		"plumed lector's signs hang RECITE_RAISE higher than the recital's bottom row")
 	expect(level.journal.has("lector_with_plumes"), "plumed lector click records his default description")
 	expect(level._hints._steps == hints_before_recital, "plumed lector clue does not advance Hint-button hints")
 	level.enter_table(true)

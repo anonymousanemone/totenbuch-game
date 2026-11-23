@@ -112,14 +112,14 @@ const ENCOUNTERS := [
 		"tail_root": [1230, 529],                  # the donkey's tail pivot (strip px)
 		"caption": [581, 1437],
 		"need": 3,                 # strikes to win
-		"crawl": [28.0, 42.0],     # crawl speed (px/s)
+		"crawl": [35.0, 55.0],     # crawl speed (px/s)
 		"walk": 70.0,              # bearer's step speed (px/s)
 		"lift_every": [1.4, 0.95], # between lifts (about)
 		"warn": [0.4, 0.3],        # coils tighten before a lift
 		"up": [0.5, 0.35],         # head stays up
 		"half": [0.0, 0.3],        # share of half lifts (a strike then hits the donkey)
 		"lift": 9.0,               # how high the head lifts
-		"hard": {"crawl": [40.0, 60.0], "lift_every": [1.1, 0.75], "warn": [0.25, 0.18], "up": [0.36, 0.26], "half": [0.15, 0.4]}},
+		"hard": {"crawl": [56.0, 84.0], "lift_every": [1.1, 0.75], "warn": [0.25, 0.18], "up": [0.36, 0.26], "half": [0.15, 0.4]}},
 	# spell 41: the snake hides in the sheaf; strike the band that shivers
 	{"id": "e41", "tag": "Snake", "boxes": ["e41"], "kind": "sheaf", "spear": "spear41", "task": 5,
 		"foe": "snake41", "bundle": "bundle41",

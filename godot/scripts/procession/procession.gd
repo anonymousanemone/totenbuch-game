@@ -68,6 +68,7 @@ const WATER_FIGURES := ["priest_with_jar"]
 const RECITE_STEP := 1.1     ## s from one sign to the next
 const RECITE_FADE_IN := 0.25
 const RECITE_FADE_OUT := 0.25
+const RECITE_RAISE := 6.0    ## plate px the signs hang higher over his sheet than the recital's bottom row
 
 
 const INK := UI.INK
@@ -932,7 +933,7 @@ func _table_pick(p: Vector2) -> Dictionary:
 func _table_input(event: InputEvent) -> void:
 	var p := get_global_mouse_position()
 	if event is InputEventMouseMotion:
-		if offerings.snap_held(p):
+		if _snap_offering(p):
 			_drag_from = Vector2.INF
 		_set_hover(_table_pick(p))
 	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
@@ -965,6 +966,17 @@ func _table_input(event: InputEvent) -> void:
 			if offerings.holding() != "":
 				_table_drop(p)
 			_drag_from = Vector2.INF
+
+
+## A carried piece that reaches its place goes in without letting go: a table piece, or the goose
+## in the bearer's arms (with the bearer's own words).
+func _snap_offering(p: Vector2) -> bool:
+	if offerings.snap_held(p):
+		return true
+	if offerings.goose_in_reach(p):
+		_act_bearer()
+		return true
+	return false
 
 
 func _table_drop(p: Vector2) -> void:
@@ -1798,7 +1810,7 @@ func recite() -> void:
 		glyph.texture = _pieces[piece].texture
 		glyph.centered = false
 		glyph.scale = Vector2(s, s)
-		glyph.position = Vector2(r.centre - size.x / 2.0, r.bottom - size.y)   # over the top of his sheet
+		glyph.position = Vector2(r.centre - size.x / 2.0, r.bottom - RECITE_RAISE - size.y)   # over the top of his sheet
 		glyph.modulate = Color(UI.inked(UI.RED), 0.0)
 		_recital.add_child(glyph)
 		_recital_tween.tween_property(glyph, "modulate:a", 1.0, RECITE_FADE_IN)

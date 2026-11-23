@@ -678,7 +678,7 @@ position = Vector2(-35, -236)
 texture = ExtResource("4_avatar_tex")
 offset = Vector2(0, -133.5)
 
-[node name="Foreground" type="Node2D" parent="."]
+[node name="Foreground" type="Node2D" parent="." unique_id=1965182268]
 
 [node name="Column" type="Node2D" parent="Foreground" unique_id=429431950]
 z_index = 6

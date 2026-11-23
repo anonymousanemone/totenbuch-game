@@ -307,6 +307,11 @@ func snap_held(p: Vector2) -> bool:
 	return true
 
 
+## The carried goose is within reach of the bearer's arms: set it down there without waiting for release.
+func goose_in_reach(p: Vector2) -> bool:
+	return _held == "goose" and p.distance_to(_goose_rect.get_center()) <= SNAP
+
+
 ## Esc: back where it came from.
 func put_back() -> void:
 	var id := _held
